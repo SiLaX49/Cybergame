@@ -95,12 +95,25 @@ Objectif : conformité RGAA / WCAG 2.1 AA.
 ## 4. Architecture technique
 
 ### 4.1 Pile technique
-- **Vite + TypeScript (strict) + Preact**, routage par **hash** (compatible GitHub Pages)
-- Contenu en **YAML**, validé par **Zod** puis compilé en JSON **au build** (le build échoue si le contenu est invalide)
-- **vite-plugin-pwa** pour le mode hors ligne
-- **Vitest** pour les tests unitaires, **Playwright + @axe-core/playwright** pour les tests de bout en bout et l'accessibilité
-- CSS simple avec des variables (thème clair, contraste élevé), sans framework UI
-- Déploiement par **GitHub Actions vers GitHub Pages**
+Site 100 % statique hébergé sur GitHub Pages, sans back-end. Un back (Express, Supabase) pourra être ajouté plus tard si un besoin précis apparaît : contenu éditable en ligne, statistiques anonymes, classes.
+
+| Techno | Version | Rôle |
+|---|---|---|
+| **Vue 3** (Composition API, `<script setup>`) | 3.5 | Interface |
+| **Vue Router** en mode `createWebHashHistory` | 5.x | Navigation (`#/carte`, `#/mission/:id`), compatible GitHub Pages |
+| **TypeScript** (strict) + **vue-tsc** | 5.9 | Langage et vérification des types |
+| **Vite** + **@vitejs/plugin-vue** | 8.x | Serveur de dev et build |
+| **YAML** (`yaml`) + **Zod** | 2.9 / 4.x | Contenu des missions, validé au build (le build échoue si le contenu est invalide) |
+| **vite-plugin-pwa** | 1.x | Mode hors ligne |
+| **CSS natif** (variables) | – | Style, thème, contraste élevé, faux téléphone |
+| **@fontsource/atkinson-hyperlegible** | 5.x | Police lisible (élèves DYS), hébergée localement |
+| **lucide-vue-next** | 1.x | Icônes SVG |
+| **Vitest** + **@vue/test-utils** | 5.x / 2.x | Tests unitaires et de composants |
+| **Playwright** + **@axe-core/playwright** | 1.6x / 4.x | Tests de bout en bout (Chromium, Firefox, WebKit) et accessibilité |
+| **ESLint** (eslint-plugin-vue) + **Prettier** | 10 / 3 | Qualité du code |
+| **GitHub Actions** → **GitHub Pages** | – | CI et déploiement gratuit |
+
+TypeScript 7 (réécriture en Go) est volontairement écarté pour l'instant, faute de compatibilité assurée avec l'outillage.
 
 ### 4.2 Arborescence
 ```
@@ -111,20 +124,21 @@ src/
   content/   schema.ts (Zod), load.ts (import du JSON compilé), types
   engine/    logique pure, sans UI : mission-runner.ts, badges.ts, rappel.ts
   store/     progress.ts (localStorage versionné), settings.ts
-  phone/     faux téléphone : Phone.tsx + écrans (Sms, Chat, Social, Mail, Web, Notifs)
-  recovery/  un composant par action de récupération
+  phone/     faux téléphone : PhoneFrame.vue + écrans (SmsScreen, ChatScreen, SocialScreen, MailScreen, WebScreen, NotifScreen)
+  recovery/  un composant .vue par action de récupération
   minigames/ tri/, repere/, registry.ts
+  router/    index.ts (routes, hash history)
   pages/     Accueil, Carte, Mission, FinMission, Enseignants, FicheMission,
              Confidentialite, TestTechnique
   ui/        composants communs (Bouton, BandeauAide, Reglages…)
 scripts/
-  build-content.ts              # YAML → Zod → public JSON ; lancé par vite (plugin) et par le CI
+  build-content.ts              # YAML → Zod → JSON ; lancé par un plugin Vite et par le CI
 tests/
   unit/  e2e/
 ```
 
 Chaque unité a une responsabilité unique :
-- `engine/` ne connaît ni Preact ni le DOM : il reçoit une mission et des événements, et renvoie l'état suivant (testable seul)
+- `engine/` ne connaît ni Vue ni le DOM : il reçoit une mission et des événements, et renvoie l'état suivant (testable seul)
 - `phone/` affiche un écran décrit par des données
 - `minigames/` et `recovery/` sont des composants enregistrés par identifiant, qui renvoient un résultat standard `{ termine, reussites, erreurs }`
 
