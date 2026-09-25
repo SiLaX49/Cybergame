@@ -27,6 +27,15 @@ test('pages élève', async ({ page }) => {
   await verifierA11y(page, 'fin de mission')
 })
 
+test('mode classe entière (grands textes)', async ({ page }) => {
+  await commencer(page, '6e', 'Classe entière')
+  await page.getByRole('link', { name: 'Le colis mystère' }).click()
+  await verifierA11y(page, 'situation classe')
+  await page.locator('[data-qualite="aide"]').click()
+  await page.getByRole('button', { name: 'Valider le choix de la classe' }).click()
+  await verifierA11y(page, 'indices classe')
+})
+
 test('mission rappel (fil de notifications)', async ({ page }) => {
   await page.goto('/#/mission/r-6e')
   await verifierA11y(page, 'fil')

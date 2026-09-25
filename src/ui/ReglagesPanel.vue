@@ -19,7 +19,12 @@ const coche = (e: Event) => (e.target as HTMLInputElement).checked
 </script>
 
 <template>
-  <section id="panneau-reglages" class="reglages carte conteneur" aria-labelledby="titre-reglages">
+  <section
+    id="panneau-reglages"
+    class="reglages carte conteneur"
+    aria-labelledby="titre-reglages"
+    @keydown.esc="emit('fermer')"
+  >
     <h2 id="titre-reglages">Réglages</h2>
     <fieldset>
       <legend>Taille du texte</legend>

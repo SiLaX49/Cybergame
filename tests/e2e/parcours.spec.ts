@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { commencer, jouerMission, tabJusqua } from './helpers'
+import { commencer, focusConserve, jouerMission, tabJusqua } from './helpers'
 
 test('solo 6e : une mission complète, puis la carte la marque terminée', async ({ page }) => {
   await commencer(page, '6e', 'Solo')
@@ -25,13 +25,40 @@ test('un choix risqué mène à un geste de récupération', async ({ page }) =>
 test('un scénario complet au clavier', async ({ page, browserName }) => {
   test.skip(browserName === 'webkit', 'WebKit ne tabule pas vers les boutons par défaut')
   await page.goto('/#/mission/p-6e-colis')
-  await tabJusqua(page, 'Je demande de l’aide')
-  await page.keyboard.press('Enter')
-  await tabJusqua(page, 'Je ne sais pas')
-  await page.keyboard.press('Enter')
-  await tabJusqua(page, 'Continuer')
-  await page.keyboard.press('Enter')
+  const activer = async (texte: string, touche = 'Enter') => {
+    await tabJusqua(page, texte)
+    await page.keyboard.press(touche)
+    await focusConserve(page)
+  }
+  await activer('Je demande de l’aide')
+  await activer('Je ne sais pas')
+  await activer('Continuer')
   await expect(page.getByText('Étape 2 sur 4')).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2 })).toBeFocused()
+  // Étape 2 : un choix risqué, puis le geste de récupération « bloquer et signaler ».
+  await activer('J’envoie mes infos')
+  await activer('Je ne sais pas')
+  await activer('Continuer')
+  await expect(page.getByRole('heading', { name: 'Maintenant, limite les dégâts' })).toBeFocused()
+  await activer('Menu du contact')
+  await activer('Bloquer')
+  await activer('Arnaque ou fraude', 'Space')
+  await activer('Envoyer le signalement')
+  await activer('Continuer')
+  await expect(page.getByText('Étape 3 sur 4')).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2 })).toBeFocused()
+})
+
+test('débrief en grand : Échap ferme et rend le focus', async ({ page }) => {
+  await page.goto('/#/mission/r-6e')
+  await jouerMission(page)
+  await expect(page.getByRole('heading', { name: 'Mission terminée !' })).toBeFocused()
+  const ouvrir = page.getByRole('button', { name: 'Afficher les questions en grand' })
+  await ouvrir.click()
+  await expect(page.getByRole('dialog').getByRole('button', { name: 'Fermer' })).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('dialog')).toBeHidden()
+  await expect(ouvrir).toBeFocused()
 })
 
 test('classe entière : l’adulte valide le choix de la classe', async ({ page }) => {

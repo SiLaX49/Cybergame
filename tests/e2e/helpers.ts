@@ -42,8 +42,17 @@ export async function jouerMission(page: Page) {
 export async function tabJusqua(page: Page, texte: string) {
   for (let i = 0; i < 80; i++) {
     await page.keyboard.press('Tab')
-    const actif = await page.evaluate(() => document.activeElement?.textContent?.trim() ?? '')
+    const actif = await page.evaluate(() => {
+      const el = document.activeElement
+      // Pour une case ou un bouton radio, on lit le texte de son libellé.
+      return (el?.closest('label') ?? el)?.textContent?.trim() ?? ''
+    })
     if (actif.includes(texte)) return
   }
   throw new Error(`Élément introuvable au clavier : ${texte}`)
+}
+
+/** Vérifie que le focus n'est pas retombé sur <body> (WCAG 2.4.3). */
+export async function focusConserve(page: Page) {
+  await expect.poll(() => page.evaluate(() => document.activeElement?.tagName)).not.toBe('BODY')
 }

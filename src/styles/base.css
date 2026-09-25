@@ -9,7 +9,7 @@
   --risque: #b3261e;
   --aide: #7a4f00;
   --bord: #c9c9d9;
-  --focus: #ff9f1c;
+  --focus: #b35c00;
   --rayon: 12px;
   --taille-base: 1.125rem;
   --interligne: 1.5;
@@ -33,6 +33,7 @@ body {
 h1, h2, h3 { line-height: 1.2; }
 a { color: var(--primaire); }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+[tabindex='-1']:focus:not(:focus-visible) { outline: none; }
 
 .conteneur { max-width: 64rem; margin: 0 auto; padding: 1rem; }
 .carte { background: var(--surface); border: 1px solid var(--bord); border-radius: var(--rayon); padding: 1rem; }

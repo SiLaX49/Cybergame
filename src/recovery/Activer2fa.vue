@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { focusAuChangement } from '@/ui/focus'
 
 defineOptions({ name: 'ActiverDoubleAuthentification' })
 const emit = defineEmits<{ fait: [] }>()
@@ -8,11 +9,13 @@ const etape = ref<'parametres' | 'securite' | 'methode' | 'code' | 'fini'>('para
 const methode = ref<'appli' | 'sms' | null>(null)
 const code = ref('')
 const codeOk = computed(() => code.value.replace(/\s/g, '') === CODE)
+const titre = ref<HTMLElement | null>(null)
+focusAuChangement(etape, titre)
 </script>
 
 <template>
   <section class="recuperation carte">
-    <h3>Active la double authentification</h3>
+    <h3 ref="titre" tabindex="-1">Active la double authentification</h3>
     <template v-if="etape === 'parametres'">
       <p>Ouvre les paramètres de ton compte.</p>
       <button type="button" class="btn" @click="etape = 'securite'"><span aria-hidden="true">⚙️</span> Paramètres</button>

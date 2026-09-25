@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { focusAuChangement } from '@/ui/focus'
 
 const emit = defineEmits<{ fait: [] }>()
 const MESSAGES = [
@@ -22,6 +23,8 @@ const MESSAGES = [
 const choix = ref<string | null>(null)
 const retour = ref('')
 const envoye = ref(false)
+const titre = ref<HTMLElement | null>(null)
+focusAuChangement(envoye, titre)
 
 function envoyer() {
   const message = MESSAGES.find((m) => m.id === choix.value)
@@ -33,7 +36,7 @@ function envoyer() {
 
 <template>
   <section class="recuperation carte">
-    <h3>Préviens tes contacts</h3>
+    <h3 ref="titre" tabindex="-1">Préviens tes contacts</h3>
     <template v-if="!envoye">
       <fieldset>
         <legend>Quel message envoies-tu à tes amis ?</legend>

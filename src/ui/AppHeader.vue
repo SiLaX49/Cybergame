@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import { Settings, ShieldCheck } from '@lucide/vue'
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import ReglagesPanel from './ReglagesPanel.vue'
 
 const ouvert = ref(false)
+const boutonReglages = ref<HTMLButtonElement | null>(null)
+async function fermer() {
+  ouvert.value = false
+  await nextTick()
+  boutonReglages.value?.focus()
+}
 </script>
 
 <template>
@@ -13,6 +19,7 @@ const ouvert = ref(false)
     <nav aria-label="Navigation principale" class="nav">
       <RouterLink to="/enseignants">Enseignants</RouterLink>
       <button
+        ref="boutonReglages"
         type="button"
         class="btn"
         aria-controls="panneau-reglages"
@@ -23,7 +30,7 @@ const ouvert = ref(false)
       </button>
     </nav>
   </header>
-  <ReglagesPanel v-if="ouvert" @fermer="ouvert = false" />
+  <ReglagesPanel v-if="ouvert" @fermer="fermer" />
 </template>
 
 <style scoped>

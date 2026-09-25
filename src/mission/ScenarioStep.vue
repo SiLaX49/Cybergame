@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { nextTick, ref, watch } from 'vue'
+import { ref } from 'vue'
 import type { Scenario } from '@/content/schema'
 import type { PhaseScenario, RunEvent, ScenarioResultat } from '@/engine/mission-runner'
 import EcranTelephone from '@/phone/EcranTelephone.vue'
 import { RECUPERATIONS } from '@/recovery/registry'
 import type { Mode } from '@/store/progress'
+import { focusAuChangement, focusAuMontage } from '@/ui/focus'
 import ChoixList from './ChoixList.vue'
 import ConsequencePanel from './ConsequencePanel.vue'
 import IndicesForm from './IndicesForm.vue'
@@ -26,13 +27,8 @@ const TITRES: Record<Exclude<PhaseScenario, 'situation'>, string> = {
 const ROLES = { victime: 'la personne visée', temoin: 'un·e témoin', auteur: 'celui ou celle qui a dérapé' } as const
 
 const titre = ref<HTMLElement | null>(null)
-watch(
-  () => props.phase,
-  async () => {
-    await nextTick()
-    titre.value?.focus()
-  },
-)
+focusAuMontage(titre)
+focusAuChangement(() => props.phase, titre)
 </script>
 
 <template>
@@ -79,6 +75,4 @@ watch(
 .scenario-grille { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); align-items: start; }
 @media (max-width: 48rem) { .scenario-grille { grid-template-columns: minmax(0, 1fr); } }
 .role { font-weight: 700; color: var(--primaire); }
-h2:focus { outline: none; }
-h2:focus-visible { outline: 3px solid var(--focus); }
 </style>

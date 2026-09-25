@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { focusAuChangement } from '@/ui/focus'
 import { evaluerMotDePasse } from './motDePasse'
 
 const emit = defineEmits<{ fait: [] }>()
@@ -7,6 +8,8 @@ const etape = ref<'parametres' | 'securite' | 'formulaire' | 'fini'>('parametres
 const mdp = ref('')
 const deconnecter = ref(false)
 const problemes = computed(() => evaluerMotDePasse(mdp.value))
+const titre = ref<HTMLElement | null>(null)
+focusAuChangement(etape, titre)
 const valide = computed(() => mdp.value.length > 0 && problemes.value.length === 0 && deconnecter.value)
 
 function enregistrer() {
@@ -16,7 +19,7 @@ function enregistrer() {
 
 <template>
   <section class="recuperation carte">
-    <h3>Change ton mot de passe</h3>
+    <h3 ref="titre" tabindex="-1">Change ton mot de passe</h3>
     <template v-if="etape === 'parametres'">
       <p>Ouvre les paramètres de ton compte.</p>
       <button type="button" class="btn" @click="etape = 'securite'"><span aria-hidden="true">⚙️</span> Paramètres</button>

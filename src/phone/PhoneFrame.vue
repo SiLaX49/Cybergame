@@ -9,7 +9,8 @@ defineProps<{ appNom: string; contact: string }>()
       <span class="nom-app">{{ appNom }}</span>
       <strong class="contact">{{ contact }}</strong>
     </div>
-    <div class="ecran"><slot /></div>
+    <!-- Zone défilante (grands textes, mode classe) : focusable pour défiler au clavier. -->
+    <div class="ecran" tabindex="0" role="region" :aria-label="`Contenu de l’écran : ${appNom}`"><slot /></div>
   </figure>
 </template>
 
@@ -22,5 +23,5 @@ defineProps<{ appNom: string; contact: string }>()
 .entete-app { display: flex; flex-direction: column; padding: 0.5rem 1rem; border-bottom: 1px solid var(--bord); }
 .nom-app { font-size: 0.8em; color: var(--texte-doux); }
 .contact { overflow-wrap: anywhere; }
-.ecran { padding: 0.75rem; max-height: 30rem; overflow-y: auto; }
+.ecran { padding: 0.75rem; max-height: 28em; overflow-y: auto; }
 </style>

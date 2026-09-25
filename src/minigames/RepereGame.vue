@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import type { RepereConfig } from '@/content/schema'
 
 type Ligne = RepereConfig['lignes'][number]
@@ -20,11 +20,17 @@ function cliquer(l: Ligne) {
   if (fini.value || trouves.value.includes(l.id)) return
   if (l.indice) {
     trouves.value.push(l.id)
-    message.value = l.explication ?? ''
+    void annoncer(l.explication ?? '')
   } else {
     erreurs.value += 1
-    message.value = 'Rien de suspect ici.'
+    void annoncer('Rien de suspect ici.')
   }
+}
+/** Vide puis remplit la région : un même message répété est annoncé à nouveau par les lecteurs d'écran. */
+async function annoncer(texte: string) {
+  message.value = ''
+  await nextTick()
+  message.value = texte
 }
 function reveler() {
   erreurs.value += indices.value.length - trouves.value.length
@@ -48,7 +54,7 @@ function reveler() {
         </li>
       </ul>
     </div>
-    <p v-if="message" role="status">{{ message }}</p>
+    <p role="status">{{ message }}</p>
     <div class="actions">
       <button v-if="!fini" type="button" class="btn" @click="reveler">Voir la solution</button>
       <button v-else type="button" class="btn btn-primaire" @click="emit('termine', { reussites: trouves.length, erreurs })">

@@ -32,6 +32,14 @@ describe('EcranTelephone', () => {
     expect(bulles[1]!.text()).toBe('Toi : C’est quoi ?')
   })
 
+  it('la zone défilante de l’écran est atteignable au clavier', () => {
+    const w = mount(EcranTelephone, { props: { ecran: ecran({}) } })
+    const zone = w.find('.ecran')
+    expect(zone.attributes('tabindex')).toBe('0')
+    expect(zone.attributes('role')).toBe('region')
+    expect(zone.attributes('aria-label')).toBe('Contenu de l’écran : Messages')
+  })
+
   it('affiche un mail avec expéditeur et objet', () => {
     const w = mount(EcranTelephone, { props: { ecran: ecran({ app: 'mail', sujet: 'Compte suspendu' }) } })
     expect(w.text()).toContain('De : Colis Express')

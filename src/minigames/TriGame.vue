@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onUnmounted, ref } from 'vue'
 import type { TriConfig } from '@/content/schema'
 
 const props = defineProps<{ config: TriConfig; chrono: boolean }>()
@@ -14,6 +14,8 @@ const reussites = ref(0)
 const erreurs = ref(0)
 const restant = ref(DUREE)
 let minuteur: ReturnType<typeof setInterval> | undefined
+const carteTri = ref<HTMLElement | null>(null)
+const boutonSuivant = ref<HTMLElement | null>(null)
 
 const carte = computed(() => props.config.cartes[index.value]!)
 const categorieJuste = computed(() => props.config.categories.find((c) => c.id === carte.value.categorie)!)
@@ -38,6 +40,8 @@ function repondre(id: string) {
   reponse.value = id
   if (id === carte.value.categorie) reussites.value += 1
   else erreurs.value += 1
+  // Le bouton de catégorie cliqué devient inactif : le focus passe au bouton « Suivant ».
+  void nextTick(() => boutonSuivant.value?.focus())
 }
 function suivant() {
   if (derniere.value) {
@@ -47,6 +51,7 @@ function suivant() {
   index.value += 1
   reponse.value = null
   demarrerChrono()
+  void nextTick(() => carteTri.value?.focus())
 }
 
 demarrerChrono()
@@ -60,7 +65,7 @@ onUnmounted(arreterChrono)
     <p v-if="chrono && reponse === null" class="chrono" role="timer" aria-live="off">
       <span aria-hidden="true">⏱️</span> {{ restant }} s
     </p>
-    <blockquote class="carte carte-tri">{{ carte.texte }}</blockquote>
+    <blockquote ref="carteTri" class="carte carte-tri" tabindex="-1">{{ carte.texte }}</blockquote>
     <div class="tri-categories actions" role="group" aria-label="Choisis une catégorie">
       <button
         v-for="c in config.categories"
@@ -73,17 +78,19 @@ onUnmounted(arreterChrono)
         {{ c.libelle }}
       </button>
     </div>
-    <div v-if="reponse !== null" class="retour" role="status">
-      <p v-if="reponse === carte.categorie"><span aria-hidden="true">✅</span> Bien vu !</p>
-      <p v-else-if="reponse === TEMPS_ECOULE">
-        <span aria-hidden="true">⏱️</span> Temps écoulé : c’était « {{ categorieJuste.libelle }} ».
-      </p>
-      <p v-else><span aria-hidden="true">❌</span> Pas tout à fait : c’était « {{ categorieJuste.libelle }} ».</p>
-      <p>{{ carte.explication }}</p>
-      <button type="button" class="btn btn-primaire" @click="suivant">
-        {{ derniere ? 'Terminer le mini-jeu' : 'Suivant' }}
-      </button>
+    <div class="retour" role="status">
+      <template v-if="reponse !== null">
+        <p v-if="reponse === carte.categorie"><span aria-hidden="true">✅</span> Bien vu !</p>
+        <p v-else-if="reponse === TEMPS_ECOULE">
+          <span aria-hidden="true">⏱️</span> Temps écoulé : c’était « {{ categorieJuste.libelle }} ».
+        </p>
+        <p v-else><span aria-hidden="true">❌</span> Pas tout à fait : c’était « {{ categorieJuste.libelle }} ».</p>
+        <p>{{ carte.explication }}</p>
+      </template>
     </div>
+    <button v-if="reponse !== null" ref="boutonSuivant" type="button" class="btn btn-primaire" @click="suivant">
+      {{ derniere ? 'Terminer le mini-jeu' : 'Suivant' }}
+    </button>
   </div>
 </template>
 

@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { FIL_ACTIONS, type Fil, type FilAction } from '@/content/schema'
 import type { RunEvent } from '@/engine/mission-runner'
+import { focusAuMontage } from '@/ui/focus'
 
 const props = defineProps<{ fil: Fil }>()
 const emit = defineEmits<{ evenement: [evenement: RunEvent] }>()
+const titre = ref<HTMLElement | null>(null)
+focusAuMontage(titre)
 
 const LIBELLES: Record<FilAction, string> = {
   ouvrir: 'J’ouvre / je clique',
@@ -22,7 +25,7 @@ function valider() {
 
 <template>
   <section class="fil">
-    <h2>{{ fil.consigne }}</h2>
+    <h2 ref="titre" tabindex="-1">{{ fil.consigne }}</h2>
     <form @submit.prevent="valider">
       <fieldset v-for="n in fil.notifications" :key="n.id" class="carte notification">
         <legend><span class="app">{{ n.appNom }}</span> &middot; <strong>{{ n.de }}</strong></legend>

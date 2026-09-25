@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { focusAuChangement } from '@/ui/focus'
 
 const emit = defineEmits<{ fait: [] }>()
 const etape = ref<'menu' | 'options' | 'signaler' | 'fini'>('menu')
 const motif = ref<string | null>(null)
 const MOTIFS = ['Arnaque ou fraude', 'Harcèlement', 'Faux compte', 'Autre']
+const titre = ref<HTMLElement | null>(null)
+focusAuChangement(etape, titre)
 </script>
 
 <template>
   <section class="recuperation carte">
-    <h3>Bloque et signale ce compte</h3>
+    <h3 ref="titre" tabindex="-1">Bloque et signale ce compte</h3>
     <template v-if="etape === 'menu'">
       <p>Ouvre le menu du contact.</p>
       <button type="button" class="btn" @click="etape = 'options'"><span aria-hidden="true">⋮</span> Menu du contact</button>
