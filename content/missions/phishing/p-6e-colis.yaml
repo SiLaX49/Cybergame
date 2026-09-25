@@ -1,0 +1,153 @@
+id: p-6e-colis
+theme: phishing
+tranches: ['6e']
+titre: Le colis mystère
+resume: Un SMS, un message privé et un mail te promettent un cadeau ou te menacent. Arnaque ou pas ?
+duree: 15
+objectifs:
+  - Reconnaître un message d’hameçonnage (faux colis, faux concours, fausse alerte)
+  - Vérifier une information par un autre moyen avant d’agir
+  - Savoir quoi faire après une erreur
+competences:
+  crcn: ['4.1', '1.1']
+  programmes: ['EMI cycle 3', 'Référentiel données personnelles cycle 3']
+etapes:
+  - type: scenario
+    id: sms-colis
+    ecran:
+      app: sms
+      appNom: Messages
+      contact: '+33 7 56 12 48 90'
+      messages:
+        - de: contact
+          texte: 'Colis Express : votre colis n°FR4471 est bloqué. Réglez 1,99 € de frais sous 24 h : colis-expres-suivi.info'
+          texteSimple: 'Colis Express : ton colis est bloqué. Paie 1,99 € tout de suite sur colis-expres-suivi.info'
+    question: Tu n’attends pas de colis, mais tes parents peut-être… Que fais-tu ?
+    choix:
+      - id: clic
+        texte: Je clique et je paie avec la carte de mes parents, ce n’est que 1,99 €.
+        qualite: risque
+        consequence: 'Le site ressemble à celui d’un transporteur. Tu tapes les numéros de la carte… Deux jours plus tard, la banque bloque la carte : quelqu’un a essayé de payer 450 € en ligne. Les 1,99 € servaient à voler les numéros. Bonne nouvelle : en prévenant vite, on peut limiter les dégâts.'
+        consequenceSimple: 'Le faux site a volé les numéros de la carte. Quelqu’un essaie de payer 450 € avec. Il faut vite prévenir un adulte.'
+      - id: verif
+        texte: Je demande à mes parents s’ils attendent un colis, sans cliquer sur le lien.
+        qualite: bon
+        consequence: 'Ta mère n’attend rien. Elle vérifie dans l’appli officielle du transporteur : aucun colis bloqué. C’était une arnaque, et personne n’a cliqué.'
+      - id: aide
+        texte: Je demande de l’aide à quelqu’un avant de faire quoi que ce soit.
+        qualite: aide
+        consequence: 'Ton grand frère regarde le message : « C’est une arnaque, tout le monde la reçoit. » Vous supprimez le SMS et vous bloquez le numéro.'
+    indices:
+      - { id: url, libelle: 'L’adresse du site est bizarre (colis-expres-suivi.info)', pertinent: true }
+      - { id: urgence, libelle: 'On me presse : « sous 24 h »', pertinent: true }
+      - { id: numero, libelle: 'Le SMS vient d’un numéro de portable inconnu', pertinent: true }
+      - { id: montant, libelle: 'Le montant est très petit', pertinent: false }
+    explicationIndices: 'Les arnaqueurs imitent les transporteurs avec des adresses qui ressemblent aux vraies et te pressent pour que tu ne réfléchisses pas. Le petit montant n’est pas un signe de sécurité : c’est un appât pour récupérer les numéros de carte.'
+    aRetenir: 'Un vrai transporteur ne te demande jamais de payer par un lien reçu par SMS. En cas de doute, on vérifie sur l’appli ou le site officiel, en le tapant soi-même.'
+    aRetenirSimple: 'Ne clique jamais sur un lien de colis reçu par SMS. Vérifie sur l’appli officielle.'
+    recuperation: { action: demander-aide, siChoix: [clic] }
+
+  - type: scenario
+    id: concours-streamtube
+    ecran:
+      app: social
+      appNom: StreamTube
+      contact: 'NoaGaming_Officiel'
+      messages:
+        - de: contact
+          texte: 'BRAVO 🎉 Tu fais partie des 10 gagnants de la console NovaStation ! Pour la recevoir, envoie ton nom, ton adresse et 2 € de frais de port ici : noagaming-cadeaux.shop'
+          texteSimple: 'Bravo, tu as gagné une console ! Envoie ton adresse et 2 € sur noagaming-cadeaux.shop'
+    question: Ce message privé vient d’un compte qui ressemble à celui de ton youtubeur préféré. Que fais-tu ?
+    choix:
+      - id: donne
+        texte: J’envoie mes infos et je paie les 2 €, c’est une chance unique !
+        qualite: risque
+        consequence: 'Aucune console n’arrive. Par contre, ton nom et ton adresse circulent maintenant : tu reçois d’autres faux messages qui les citent pour paraître vrais.'
+        consequenceSimple: 'Pas de console. Mais ton nom et ton adresse sont partis chez des arnaqueurs.'
+      - id: verifie
+        texte: Je vais sur la vraie chaîne du youtubeur pour voir s’il a annoncé un concours.
+        qualite: bon
+        consequence: 'Sur sa vraie chaîne, NoaGaming a épinglé un message : « Des faux comptes se font passer pour moi. Je ne demande JAMAIS d’argent. » Le compte qui t’a écrit était un imposteur.'
+      - id: aide
+        texte: Je demande de l’aide à quelqu’un avant de répondre.
+        qualite: aide
+        consequence: 'Ton prof de techno t’explique que c’est une arnaque très courante et te montre comment signaler le faux compte.'
+    indices:
+      - { id: frais, libelle: 'On me demande de l’argent pour recevoir un cadeau', pertinent: true }
+      - { id: nom-compte, libelle: 'Le nom du compte a « _Officiel » en plus', pertinent: true }
+      - { id: lien, libelle: 'Le lien n’est pas celui de la plateforme', pertinent: true }
+      - { id: emoji, libelle: 'Il y a un emoji fête dans le message', pertinent: false }
+    explicationIndices: 'Un faux compte peut copier le nom et la photo d’une personne connue. Le vrai signal, c’est la demande d’argent et le lien vers un autre site. L’emoji, lui, ne prouve rien.'
+    aRetenir: 'Un vrai concours ne te demande jamais de payer pour recevoir ton lot. Vérifie sur le compte officiel de la personne.'
+    aRetenirSimple: 'Un vrai cadeau ne se paie pas. Vérifie sur le vrai compte.'
+    recuperation: { action: bloquer-signaler, siChoix: [donne] }
+
+  - type: scenario
+    id: mail-gamebox
+    ecran:
+      app: mail
+      appNom: Mail
+      contact: 'GameBox Sécurité <securite@gamebox-verif.com>'
+      sujet: 'Ton compte sera supprimé dans 24 h'
+      messages:
+        - de: contact
+          texte: 'Bonjour, une activité anormale a été détectée sur ton compte GameBox. Pour éviter sa suppression, confirme ton identifiant et ton mot de passe dans les 24 h en cliquant sur « Sauver mon compte ».'
+          texteSimple: 'Ton compte GameBox va être supprimé. Donne ton mot de passe ici pour le sauver.'
+    question: Tu as passé des heures sur ce jeu. Que fais-tu ?
+    choix:
+      - id: clique
+        texte: Je clique sur « Sauver mon compte » et je me connecte.
+        qualite: risque
+        consequence: 'Le faux site enregistre ton mot de passe. Le soir même, quelqu’un se connecte, change ton pseudo et dépense tes Coins. Tu peux encore reprendre la main.'
+        consequenceSimple: 'Le faux site a volé ton mot de passe. Quelqu’un utilise ton compte. Tu peux encore le récupérer.'
+      - id: appli
+        texte: J’ouvre moi-même l’appli GameBox pour voir si j’ai une alerte.
+        qualite: bon
+        consequence: 'Dans l’appli officielle : aucune alerte, ton compte va très bien. Le mail était faux.'
+      - id: aide
+        texte: Je demande de l’aide à quelqu’un avant de cliquer.
+        qualite: aide
+        consequence: 'Ta cousine regarde l’adresse de l’expéditeur : « gamebox-verif.com, ce n’est pas GameBox ! » Vous signalez le mail comme hameçonnage.'
+    indices:
+      - { id: expediteur, libelle: 'L’adresse de l’expéditeur n’est pas celle de GameBox', pertinent: true }
+      - { id: menace, libelle: 'On me menace de supprimer mon compte', pertinent: true }
+      - { id: mdp, libelle: 'On me demande mon mot de passe', pertinent: true }
+      - { id: bonjour, libelle: 'Le message commence par « Bonjour »', pertinent: false }
+    explicationIndices: 'Aucun service sérieux ne te demande ton mot de passe par mail. La menace et le délai très court servent à te faire paniquer.'
+    aRetenir: 'On ne donne jamais son mot de passe suite à un mail. Pour vérifier, on ouvre soi-même l’appli ou le site officiel.'
+    aRetenirSimple: 'Ne donne jamais ton mot de passe dans un mail. Ouvre toi-même l’appli.'
+    recuperation: { action: changer-mdp, siChoix: [clique] }
+
+  - type: minijeu
+    id: tri-messages
+    jeu: tri
+    config:
+      consigne: Pour chaque message, arnaque, message normal, ou il faut vérifier d’abord ?
+      categories:
+        - { id: arnaque, libelle: Arnaque }
+        - { id: legitime, libelle: Légitime }
+        - { id: verifier, libelle: Je vérifie d’abord }
+      cartes:
+        - { id: c1, texte: 'Colis Express : livraison impossible, payez 2,49 € sur colisexpress-livraison.top', categorie: arnaque, explication: 'Lien bizarre et paiement demandé par SMS : arnaque au faux colis.' }
+        - { id: c2, texte: 'Maman : je rentre vers 19 h, pense à sortir le chien 🐶', categorie: legitime, explication: 'Un message normal d’une personne que tu connais.' }
+        - { id: c3, texte: 'Félicitations ! Tu as gagné un smartphone dernier cri, clique vite pour le réclamer !', categorie: arnaque, explication: 'Tu n’as participé à rien : faux concours.' }
+        - { id: c4, texte: 'GameBox : ta commande de 500 Coins est confirmée (tu n’as rien acheté)', categorie: verifier, explication: 'Ne clique pas dans le message : ouvre toi-même l’appli pour vérifier ton historique.' }
+        - { id: c5, texte: 'Mon Collège : les cours de demain sont annulés, consulte l’ENT', categorie: verifier, explication: 'Ça peut être vrai : vérifie directement sur l’ENT, sans passer par un lien.' }
+        - { id: c6, texte: 'Léo : trop drôle cette vidéo de toi 😂 regarde : vid-eo-partage.xyz', categorie: arnaque, explication: 'Le compte de Léo a sûrement été piraté : le lien sert à voler ton compte.' }
+debrief:
+  questions:
+    - Quel était le piège ?
+    - Quel indice pourras-tu réutiliser la prochaine fois ?
+    - Que faire si ça t’est déjà arrivé ?
+  reponses: 'Le piège commun : pousser à agir vite (urgence, menace ou cadeau) sur un lien qui n’est pas celui du vrai service. Indices réutilisables : adresse du site ou de l’expéditeur, demande d’argent ou de mot de passe, pression du temps. Si c’est déjà arrivé : prévenir un adulte tout de suite, changer le mot de passe, faire opposition sur la carte si elle a été donnée. Ce n’est pas grave d’avoir été piégé, c’est grave de le cacher.'
+  erreursFrequentes:
+    - 'Croire qu’un petit montant est sans risque (c’est un appât pour voler la carte).'
+    - 'Penser qu’un compte avec le bon nom et la bonne photo est forcément le vrai.'
+    - 'Croire que les fautes d’orthographe sont le seul indice : les arnaques récentes sont souvent bien écrites.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qui a déjà reçu un SMS bizarre ? (sans obligation de raconter)
+    15 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, puis retour sur le mini-jeu (cartes « Je vérifie d’abord »).
+    5 min : où trouver de l’aide (adulte de confiance, cybermalveillance.gouv.fr pour les parents).
+    5 min : engagement. Ce soir, je montre à un adulte de ma famille comment repérer un faux SMS de colis.

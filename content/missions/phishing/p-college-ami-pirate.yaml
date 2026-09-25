@@ -1,0 +1,142 @@
+id: p-college-ami-pirate
+theme: phishing
+tranches: ['5e-3e']
+titre: Mon ami a changé
+resume: 'Une amie qui te réclame un code, un mail de l’ENT, un camarade qui veut ton vote : et si quelqu’un cherchait à entrer dans ton compte ?'
+duree: 18
+objectifs:
+  - Reconnaître une demande de code ou de mot de passe venant d’un compte piraté
+  - Vérifier l’adresse d’un site avant d’y taper son mot de passe
+  - Savoir reprendre la main sur un compte volé et le protéger
+competences:
+  crcn: ['4.1', '2.1']
+  programmes: ['EMI cycle 4']
+etapes:
+  - type: scenario
+    id: code-ami
+    ecran:
+      app: chat
+      appNom: SnapTalk
+      contact: 'Inès'
+      messages:
+        - de: contact
+          texte: 'Coucou ! Oups, je t’ai envoyé un code par erreur 😅 Tu peux me le renvoyer vite stp ? J’en ai besoin pour me reconnecter.'
+    question: 'Au même moment, tu reçois un SMS : « SnapTalk : ton code de connexion est 482 913. Ne le partage avec personne. » Que fais-tu ?'
+    choix:
+      - id: renvoie
+        texte: Je lui renvoie le code, c’est mon amie et elle a l’air embêtée.
+        qualite: risque
+        consequence: 'Ce code servait à se connecter à TON compte. Quelques minutes plus tard, SnapTalk te déconnecte : quelqu’un d’autre est dans ton compte et envoie le même message à tous tes contacts. Ce n’était pas Inès : son compte avait été piraté juste avant le tien. Tu peux encore récupérer ton compte et prévenir tes amis.'
+      - id: verifie
+        texte: J’appelle Inès ou je lui en parle au collège pour savoir si c’est bien elle.
+        qualite: bon
+        consequence: 'Inès tombe des nues : elle n’a rien envoyé et elle n’arrive plus à se connecter depuis hier soir. Son compte a été piraté. Tu gardes ton code pour toi et tu l’aides à récupérer son compte.'
+      - id: aide
+        texte: Je demande de l’aide à quelqu’un avant de répondre.
+        qualite: aide
+        consequence: 'Ta sœur lit le SMS : « Il est écrit de ne partager ce code avec personne. Celui qui te le réclame veut entrer dans ton compte. » Tu ne réponds pas, tu signales le message et tu préviens Inès par un autre moyen.'
+    indices:
+      - { id: code-non-demande, libelle: 'J’ai reçu un code de connexion sans l’avoir demandé', pertinent: true }
+      - { id: erreur-impossible, libelle: 'Une amie ne peut pas m’envoyer un code de connexion « par erreur » : c’est l’appli qui me l’envoie', pertinent: true }
+      - { id: presse, libelle: 'Elle me presse : « vite stp »', pertinent: true }
+      - { id: emoji, libelle: 'Inès utilise des emojis', pertinent: false }
+    explicationIndices: 'Un code de connexion est envoyé par l’appli, à toi seul, quand quelqu’un essaie d’entrer dans ton compte. Si on te le réclame, c’est que quelqu’un tente de se connecter à ta place. Les emojis ne prouvent rien : un pirate imite facilement la façon d’écrire de ton amie.'
+    aRetenir: 'Un code reçu par SMS ne se partage jamais, même avec un ami. Si un proche te le demande, vérifie par un autre moyen (appel, en vrai) : son compte a sans doute été piraté.'
+    recuperation: { action: changer-mdp, siChoix: [renvoie] }
+
+  - type: scenario
+    id: faux-ent
+    ecran:
+      app: mail
+      appNom: Mail
+      contact: 'Mon Collège <support@moncollege-ent.net>'
+      sujet: 'Votre mot de passe expire aujourd’hui'
+      messages:
+        - de: contact
+          texte: 'Bonjour, votre mot de passe ENT Mon Collège expire aujourd’hui à minuit. Sans renouvellement, vous perdrez l’accès à vos notes, vos devoirs et votre messagerie. Cliquez sur « Renouveler mon mot de passe » puis saisissez votre identifiant et votre mot de passe actuel.'
+    question: Le mail porte le logo de ton collège, et tu as un devoir à rendre sur l’ENT demain. Que fais-tu ?
+    choix:
+      - id: connecte
+        texte: Je clique sur le bouton et je tape mon identifiant et mon mot de passe.
+        qualite: risque
+        consequence: 'La page ressemble à l’ENT, mais elle enregistre ce que tu tapes. Le lendemain, des camarades reçoivent de ta messagerie des messages que tu n’as jamais écrits, et quelqu’un a lu tes conversations. Tu peux encore changer ton mot de passe et prévenir le collège.'
+      - id: ent-habituel
+        texte: J’ouvre moi-même l’ENT comme d’habitude, sans passer par le lien du mail.
+        qualite: bon
+        consequence: 'Sur le vrai ENT, aucune alerte : ton mot de passe n’expire pas. Tu montres le mail à ton professeur principal, qui prévient toute la classe.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte du collège avant de cliquer.
+        qualite: aide
+        consequence: 'Le professeur documentaliste regarde l’adresse : « Notre ENT n’est pas sur moncollege-ent.net, c’est un faux. » Il prévient le référent numérique, qui alerte tout le collège.'
+    indices:
+      - { id: domaine, libelle: 'L’adresse de l’expéditeur (moncollege-ent.net) n’est pas celle de l’ENT habituel', pertinent: true }
+      - { id: urgence, libelle: 'On me presse : le mot de passe expire « aujourd’hui »', pertinent: true }
+      - { id: mdp, libelle: 'On me demande mon mot de passe actuel', pertinent: true }
+      - { id: logo, libelle: 'Le logo du collège est présent dans le mail', pertinent: false }
+    explicationIndices: 'N’importe qui peut copier un logo : ce n’est pas une preuve. Ce qui compte, c’est l’adresse de l’expéditeur et du site, et le fait qu’on te réclame ton mot de passe dans l’urgence.'
+    aRetenir: 'Pour une alerte sur un compte, on ne passe jamais par le lien du mail : on ouvre soi-même le site ou l’appli habituelle. Un vrai service ne demande jamais ton mot de passe par mail.'
+    recuperation: { action: changer-mdp, siChoix: [connecte] }
+
+  - type: scenario
+    id: vote-concours
+    ecran:
+      app: chat
+      appNom: SnapTalk
+      contact: 'Tom (3e A)'
+      messages:
+        - de: contact
+          texte: 'Salut ! Vote pour moi au concours de dessin stp 🙏 Faut juste te connecter avec ton SnapTalk ici : snaptalk-vote.xyz'
+    question: Le concours de dessin du collège existe vraiment. Sur le groupe de la classe, deux copains disent avoir reçu exactement le même message de Tom. Que fais-tu ?
+    choix:
+      - id: vote
+        texte: Je clique et je me connecte avec mon compte SnapTalk pour voter.
+        qualite: risque
+        consequence: 'Il n’y avait pas de vote : la page a enregistré ton identifiant et ton mot de passe. Ton compte envoie maintenant le même message à tous tes contacts, comme celui de Tom avant toi. Tu peux reprendre ton compte et le protéger pour que ça ne recommence pas.'
+      - id: demande-tom
+        texte: Je demande à Tom, en vrai ou par téléphone, s’il m’a bien envoyé ce lien.
+        qualite: bon
+        consequence: 'Tom n’a rien envoyé : son compte a été piraté. Grâce à toi, il le découvre et peut le récupérer. Et pour voter, il suffit de passer au CDI.'
+      - id: aide
+        texte: Je demande de l’aide à quelqu’un avant de cliquer.
+        qualite: aide
+        consequence: 'Ton père regarde le lien : « snaptalk-vote.xyz, ce n’est pas SnapTalk. Pour voter, on n’a pas besoin de ton mot de passe. » Vous prévenez Tom par téléphone.'
+    indices:
+      - { id: lien-externe, libelle: 'Le lien sort de l’appli et me demande de me reconnecter', pertinent: true }
+      - { id: message-identique, libelle: 'Le même message a été envoyé à toute la classe', pertinent: true }
+      - { id: adresse, libelle: 'L’adresse (snaptalk-vote.xyz) n’est pas celle de SnapTalk', pertinent: true }
+      - { id: concours-reel, libelle: 'Le concours de dessin existe vraiment au collège', pertinent: false }
+    explicationIndices: 'Les pirates s’appuient souvent sur un vrai événement pour paraître crédibles. Mais un vote n’a jamais besoin de ton mot de passe, et un message identique envoyé à tout le monde montre que quelqu’un écrit à la place de Tom.'
+    aRetenir: 'Ne te connecte jamais à ton compte depuis un lien reçu en message. Active la double authentification : même avec ton mot de passe, un pirate aura beaucoup plus de mal à entrer.'
+    recuperation: { action: activer-2fa, siChoix: [vote] }
+
+  - type: minijeu
+    id: repere-faux-ent
+    jeu: repere
+    config:
+      consigne: Cette page de connexion s’est ouverte depuis un lien reçu par mail. Repère les éléments qui doivent t’alerter.
+      titre: 'Mon Collège : connexion'
+      lignes:
+        - { id: adresse, texte: 'moncollege-ent.net/login', indice: true, explication: 'Ce n’est pas l’adresse habituelle de l’ENT. Regarde toujours la barre d’adresse avant de taper ton mot de passe.' }
+        - { id: session, texte: 'Votre session expire dans 5 min', indice: true, explication: 'Le compte à rebours sert à te presser pour que tu ne prennes pas le temps de vérifier.' }
+        - { id: identifiant, texte: 'Identifiant' }
+        - { id: mot-de-passe, texte: 'Mot de passe' }
+        - { id: code-sms, texte: 'Code de vérification reçu par SMS', indice: true, explication: 'Ce code protège ton compte : on ne le donne jamais sur une page ouverte depuis un lien. Avec lui, un pirate passe même la double authentification.' }
+        - { id: mentions, texte: 'Mentions légales' }
+        - { id: souvenir, texte: 'Se souvenir de moi' }
+debrief:
+  questions:
+    - Quel était le piège ?
+    - Quel indice pourras-tu réutiliser la prochaine fois ?
+    - Que faire si ça t’est déjà arrivé ?
+  reponses: 'Le piège commun : se faire passer pour quelqu’un de confiance (une amie, le collège, un camarade) pour obtenir ton code ou ton mot de passe. Indices réutilisables : un code reçu sans l’avoir demandé, une adresse qui n’est pas celle du vrai site, un lien qui demande de se reconnecter, l’urgence. Si c’est déjà arrivé : changer le mot de passe tout de suite, activer la double authentification, prévenir ses contacts que le compte a été piraté et en parler à un adulte. Se faire pirater arrive à tout le monde, même aux adultes : l’important, c’est de réagir vite et de ne pas rester seul.'
+  erreursFrequentes:
+    - 'Croire qu’un message est sûr parce qu’il vient d’un ami : son compte a peut-être été piraté.'
+    - 'Penser qu’un logo ou un vrai événement prouve que le message est authentique.'
+    - 'Croire que la double authentification protège même quand on donne le code reçu par SMS.'
+fiche:
+  deroulement: |
+    5 min : cadre. Un ami vous a-t-il déjà envoyé un message qui ne lui ressemblait pas ? (sans obligation de raconter)
+    18 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, puis retour sur le mini-jeu (le code reçu par SMS).
+    5 min : où trouver de l’aide (adulte de confiance, référent numérique du collège, cybermalveillance.gouv.fr).
+    5 min : engagement. Cette semaine, j’active la double authentification sur le compte auquel je tiens le plus.
