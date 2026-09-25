@@ -3,6 +3,7 @@ import { RouterView } from 'vue-router'
 import { useProgress } from '@/store/useProgress'
 import AppHeader from '@/ui/AppHeader.vue'
 import { appliquerReglages } from '@/ui/appliquerReglages'
+import UpdatePrompt from '@/ui/UpdatePrompt.vue'
 
 const store = useProgress()
 appliquerReglages(store)
@@ -18,6 +19,7 @@ function allerAuContenu() {
 <template>
   <button type="button" class="lien-evitement" @click="allerAuContenu">Aller au contenu</button>
   <AppHeader />
+  <UpdatePrompt />
   <p v-if="!store.persistant.value" class="alerte-stockage conteneur" role="status">
     Ta progression ne pourra pas être enregistrée sur cet appareil. Tu peux jouer quand même !
   </p>
