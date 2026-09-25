@@ -18,7 +18,7 @@ etapes:
     notifications:
       - { id: mamie, appNom: Messages, de: Mamie, texte: 'Coucou ! On mange ensemble dimanche ? Bisous', explication: 'Un message normal de quelqu’un que tu connais.' }
       - { id: saison, appNom: GameBox, de: GameBox, texte: 'La saison 12 commence aujourd’hui ! Ouvre le jeu pour découvrir les nouveautés.', explication: 'Notification normale de l’appli officielle : elle ne demande ni lien, ni mot de passe, ni argent.' }
-      - { id: douane, appNom: Messages, de: '+33 6 44 81 20 37', texte: 'Colis Express : 2,99 € de frais de douane à régler avant demain pour recevoir votre colis : colis-exp-douane.com', surprise: true, explication: 'Le piège ! Numéro inconnu, urgence, lien bizarre et petit montant : la même arnaque qu’au début.' }
+      - { id: douane, appNom: Messages, de: '+33 6 39 98 81 37', texte: 'Colis Express : 2,99 € de frais de douane à régler avant demain pour recevoir votre colis : colis-exp-douane.com', surprise: true, explication: 'Le piège ! Numéro inconnu, urgence, lien bizarre et petit montant : la même arnaque que le faux colis.' }
       - { id: classe, appNom: SnapTalk, de: 'Groupe 6e B', texte: 'Quelqu’un a les devoirs de maths pour jeudi ?', explication: 'Message normal de ta classe.' }
       - { id: meteo, appNom: Météo, de: Météo, texte: 'Alerte pluie cet après-midi : prends un parapluie ☔', explication: 'Notification normale d’une appli installée.' }
   - type: scenario

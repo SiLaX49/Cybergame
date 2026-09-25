@@ -17,7 +17,7 @@ etapes:
     ecran:
       app: sms
       appNom: Messages
-      contact: '+33 6 41 87 20 35'
+      contact: '+33 6 39 98 20 35'
       messages:
         - de: contact
           texte: 'Salut ! Job étudiant 100 % à distance : 30 €/h pour liker des vidéos depuis ton téléphone, 1 h par jour. Rejoins l’équipe ici : team-likes-job.net'
@@ -58,7 +58,7 @@ etapes:
       messages:
         - de: contact
           texte: 'Bonjour, mon studio de 25 m² en plein centre-ville est libre dès le mois prochain, 350 € charges comprises. Je vis à l’étranger pour mon travail, les visites ne sont donc pas possibles. Pour le réserver, il suffit de virer la caution de 700 € : je vous envoie les clés par courrier dès réception. Plusieurs étudiants sont intéressés, merci de répondre rapidement. Photos en pièce jointe.'
-    question: Tu cherches un logement pour tes études l’an prochain, et les photos sont superbes. Que fais-tu ?
+    question: Tu cherches un logement pour tes études l’an prochain, et les photos sont superbes. Dans ce quartier, les studios se louent plutôt 600 €. Que fais-tu ?
     choix:
       - id: vire
         texte: Je vire la caution tout de suite pour ne pas laisser passer l’occasion.
@@ -90,7 +90,7 @@ etapes:
       url: 'banquenova-securite.com/confirmation'
       messages:
         - de: contact
-          texte: 'Bonjour Camille.Un paiement de 600 € vers un compte inconnu est en attente sur votre compte. Pour l’annuler, saisissez votre code personnel ci-dessous. Un conseiller va vous appeler dans quelques instants pour vous accompagner.'
+          texte: 'Bonjour Camille. Un paiement de 600 € vers un compte inconnu est en attente sur votre compte. Pour l’annuler, saisissez votre code personnel ci-dessous. Un conseiller va vous appeler dans quelques instants pour vous accompagner.'
     question: 'Tu as ouvert cette page depuis un SMS « BanqueNova : opération suspecte ». Dans ce scénario, tu t’appelles Camille, et la page connaît ton prénom. Juste après, ton téléphone sonne : un « conseiller » te demande de valider dans ton appli l’opération qui va s’afficher, « pour la bloquer ». Que fais-tu ?'
     choix:
       - id: valide

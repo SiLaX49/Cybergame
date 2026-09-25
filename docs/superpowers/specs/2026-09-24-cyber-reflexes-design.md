@@ -45,7 +45,7 @@ Le moteur de l'étape 1 prend déjà en charge les fonctions requises par les é
 4. **Fin de mission** : les réflexes retenus, les badges obtenus et 3 questions de débrief affichables en plein écran.
 
 ### 3.2 Scénario (4 temps)
-1. **Situation** : faux téléphone ou faux écran (SMS, messagerie, réseau social, mail, page web, notification de jeu) aux **marques fictives** (SnapTalk, GameBox, Colis Express, Vestiaire…).
+1. **Situation** : faux téléphone ou faux écran (SMS, messagerie, réseau social, mail, page web, notification de jeu) aux **marques fictives** (SnapTalk, GameBox, Colis Express, Revendo…).
 2. **Choix** : 2 à 4 options, dont toujours « Je demande de l'aide à quelqu'un ».
 3. **Indice** : « Quel indice t'a décidé ? ». L'élève sélectionne un ou plusieurs indices dans une liste (ou « Je ne sais pas »), avant toute correction.
 4. **Conséquence et récupération** : une conséquence réaliste mais non catastrophique, l'explication des vrais indices, un « À retenir » (2-3 phrases), puis, si le scénario le prévoit, une **action de récupération pratiquée** dans le faux téléphone.
@@ -251,6 +251,6 @@ Aucun cookie, analytics, compte ou ressource externe (polices, scripts et images
 |---|---|---|---|
 | 6e | SMS « colis bloqué », faux concours YouTube (+ `tri`) | Générateur de Robux (GameBox Coins), faux échange d'objet rare (+ `repere`) | 1 mission mixte |
 | 5e-3e | Ami piraté qui réclame un code, faux mail de l'ENT (+ `repere` sur URL) | Faux modérateur Discord (« ChatCord »), skin ou mod piégé (+ `tri`) | 1 mission mixte |
-| Lycée | Fausse offre d'emploi ou de logement, phishing bancaire personnalisé (+ `repere`) | QR code sur l'appli de vente (« Vestiaire »), paiement hors plateforme (+ `tri`) | 1 mission mixte |
+| Lycée | Fausse offre d'emploi ou de logement, phishing bancaire personnalisé (+ `repere`) | QR code sur l'appli de vente (« Revendo »), paiement hors plateforme (+ `tri`) | 1 mission mixte |
 
 Chaque mission compte 3 ou 4 scénarios et 1 mini-jeu. Les situations reprennent les modes opératoires documentés (Cybermalveillance.gouv.fr, pages de sécurité des plateformes) sous des marques fictives.

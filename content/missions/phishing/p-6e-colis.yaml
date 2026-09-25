@@ -17,7 +17,7 @@ etapes:
     ecran:
       app: sms
       appNom: Messages
-      contact: '+33 7 56 12 48 90'
+      contact: '+33 6 39 98 12 48'
       messages:
         - de: contact
           texte: 'Colis Express : votre colis n°FR4471 est bloqué. Réglez 1,99 € de frais sous 24 h : colis-expres-suivi.info'
@@ -42,7 +42,7 @@ etapes:
       - { id: urgence, libelle: 'On me presse : « sous 24 h »', pertinent: true }
       - { id: numero, libelle: 'Le SMS vient d’un numéro de portable inconnu', pertinent: true }
       - { id: montant, libelle: 'Le montant est très petit', pertinent: false }
-    explicationIndices: 'Les arnaqueurs imitent les transporteurs avec des adresses qui ressemblent aux vraies et te pressent pour que tu ne réfléchisses pas. Le petit montant n’est pas un signe de sécurité : c’est un appât pour récupérer les numéros de carte.'
+    explicationIndices: 'Les arnaqueurs imitent les transporteurs avec des adresses qui ressemblent aux vraies. Ils te pressent pour que tu ne réfléchisses pas. Le petit montant n’est pas un signe de sécurité : c’est un appât pour récupérer les numéros de carte.'
     aRetenir: 'Un vrai transporteur ne te demande jamais de payer par un lien reçu par SMS. En cas de doute, on vérifie sur l’appli ou le site officiel, en le tapant soi-même.'
     aRetenirSimple: 'Ne clique jamais sur un lien de colis reçu par SMS. Vérifie sur l’appli officielle.'
     recuperation: { action: demander-aide, siChoix: [clic] }

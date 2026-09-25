@@ -91,7 +91,7 @@ etapes:
     ecran:
       app: sms
       appNom: Messages
-      contact: '+33 6 58 03 17 42'
+      contact: '+33 6 39 98 17 42'
       messages:
         - de: contact
           texte: 'GameBox Support : ton compte Kaelan_17 est suspendu pour fraude (achats de Coins suspects). Pour le débloquer, règle une amende de 100 € sous 24 h.'
