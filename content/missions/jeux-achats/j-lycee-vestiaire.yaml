@@ -2,10 +2,10 @@ id: j-lycee-vestiaire
 theme: jeux-achats
 tranches: ['lycee']
 titre: Vente entre particuliers
-resume: 'Un acheteur qui t’envoie un QR code, une console à −40 %, un appel de ta banque : acheter et vendre en ligne, oui, mais sans sortir des règles.'
+resume: 'Un acheteur qui t’envoie un QR code, une console à −40 %, une « amende » à payer en cartes cadeaux : acheter et vendre en ligne, oui, mais sans sortir des règles.'
 duree: 20
 objectifs:
-  - Repérer les arnaques de la vente entre particuliers (faux paiement, paiement hors plateforme)
+  - Repérer les arnaques de la vente entre particuliers (faux paiement, paiement hors plateforme, cartes cadeaux)
   - Rester dans le système de paiement de la plateforme et vérifier par un canal indépendant
   - Réagir après une fraude (garder les preuves, faire opposition, signaler, porter plainte)
 competences:
@@ -32,7 +32,7 @@ etapes:
       - id: scanne
         texte: Je scanne le QR code et je saisis ma carte pour recevoir l’argent.
         qualite: risque
-        consequence: 'La page, aux couleurs de Revendo, demande aussi le cryptogramme puis un code reçu par SMS. Quelques minutes plus tard, 450 € sont débités de ton compte. Appelle vite ta banque au numéro officiel pour faire opposition, et garde les captures de la conversation et de la page : elles serviront à contester le paiement et à porter plainte.'
+        consequence: 'La page, aux couleurs de Revendo, demande aussi le cryptogramme, puis un code reçu par SMS. Ce SMS de ta banque disait pourtant « Code pour valider un paiement de 380 € » : tu l’as tapé sans le lire. Quelques minutes plus tard, 380 € sont débités de ton compte. Appelle vite ta banque au numéro officiel pour faire opposition, et garde les captures de la conversation et de la page : elles serviront à contester le paiement et à porter plainte.'
       - id: reste-appli
         texte: Je réponds que tout se fait dans l’appli Revendo, et j’attends que la vente y apparaisse.
         qualite: bon
@@ -47,7 +47,7 @@ etapes:
       - { id: carte-recevoir, libelle: 'On me demande ma carte bancaire pour recevoir de l’argent', pertinent: true }
       - { id: note, libelle: 'L’acheteur a une note de 4,8 étoiles', pertinent: false }
     explicationIndices: 'Ta carte sert à payer, jamais à recevoir un paiement. Une vente conclue apparaît dans l’appli, pas dans un QR code envoyé en message. Quant à la bonne note, elle peut venir de faux avis ou d’un compte piraté.'
-    aRetenir: 'Sur une plateforme de vente, reste dans l’appli du début à la fin : discussion, paiement, envoi. Pour recevoir de l’argent, on ne saisit jamais sa carte bancaire.'
+    aRetenir: 'Sur une plateforme de vente, reste dans l’appli du début à la fin : discussion, paiement, envoi. Pour recevoir de l’argent, on ne saisit jamais sa carte bancaire. Et avant de taper un code reçu par SMS, lis le message : il dit ce que tu valides.'
     recuperation: { action: capture-preuve, siChoix: [scanne] }
 
   - type: scenario
@@ -87,36 +87,38 @@ etapes:
     recuperation: { action: bloquer-signaler, siChoix: [vire] }
 
   - type: scenario
-    id: faux-conseiller
+    id: cartes-cadeaux
     ecran:
       app: sms
       appNom: Messages
-      contact: 'BanqueNova'
+      contact: '+33 6 58 03 17 42'
       messages:
         - de: contact
-          texte: 'BanqueNova : opération suspecte de 480 € sur votre carte. Si vous n’en êtes pas à l’origine, un conseiller va vous contacter.'
-    question: 'Tu as acheté un article en ligne hier, alors tu t’inquiètes. Deux minutes après le SMS, ton téléphone sonne : le numéro affiché ressemble à celui de BanqueNova. Le « conseiller » te demande de valider dans ton appli bancaire la notification qui va arriver, « pour bloquer l’opération ». Que fais-tu ?'
+          texte: 'GameBox Support : ton compte Kaelan_17 est suspendu pour fraude (achats de Coins suspects). Pour le débloquer, règle une amende de 100 € sous 24 h.'
+        - de: contact
+          texte: 'Paiement uniquement en cartes cadeaux : 2 cartes de 50 €, en vente dans les bureaux de tabac et les supermarchés. Envoie-nous par SMS les codes inscrits au dos. Sans paiement, ton compte et tous tes achats seront supprimés.'
+    question: 'Kaelan_17, c’est bien ton pseudo : trois ans de parties et des skins achetés avec ton argent de poche. Que fais-tu ?'
     choix:
-      - id: valide
-        texte: Je valide la notification, comme le conseiller me le demande.
+      - id: paie
+        texte: J’achète les cartes cadeaux et j’envoie les codes pour sauver mon compte.
         qualite: risque
-        consequence: 'La notification disait « Paiement de 480 € » : en validant, tu l’as autorisé toi-même. Le « conseiller » raccroche aussitôt. Parles-en tout de suite à un adulte et appelle ta banque au numéro officiel pour faire opposition : plus tu agis vite, plus tu as de chances de récupérer l’argent.'
-      - id: raccroche
-        texte: Je raccroche et j’appelle moi-même ma banque au numéro inscrit au dos de ma carte.
+        consequence: 'Une heure plus tard, nouveau SMS : « Paiement incomplet, envoie 150 € de plus. » Ton compte GameBox, lui, n’a jamais été suspendu. Arrête de payer maintenant. Garde les tickets de caisse et les captures, bloque ce numéro et signale-le en transférant le SMS au 33700. Contacte aussi vite l’émetteur des cartes : si les codes n’ont pas encore servi, il peut parfois les bloquer. Tu peux ensuite porter plainte.'
+      - id: verifie-appli
+        texte: Je ne réponds pas et j’ouvre moi-même l’appli GameBox pour voir l’état de mon compte.
         qualite: bon
-        consequence: 'La vraie conseillère de BanqueNova confirme : aucune opération suspecte, et personne de la banque ne t’a appelé. Le SMS et l’appel étaient faux. Tu n’as rien validé, ton argent est en sécurité.'
+        consequence: 'Ton compte fonctionne normalement, sans aucune sanction. La page d’aide officielle de GameBox le dit clairement : le jeu n’exige jamais d’amende, et encore moins en cartes cadeaux. Tu signales le SMS au 33700, puis tu bloques le numéro.'
       - id: aide
-        texte: Je demande de l’aide à un parent avant de valider quoi que ce soit.
+        texte: Je demande de l’aide à un adulte de confiance avant d’acheter quoi que ce soit.
         qualite: aide
-        consequence: 'Ta mère prend le téléphone et le « conseiller » raccroche aussitôt. Elle appelle la banque au numéro officiel : c’était une tentative de fraude. Aucun argent n’est parti.'
+        consequence: 'Ton beau-père n’hésite pas une seconde : « Une amende en cartes cadeaux ? Aucune entreprise ne fait ça. Ces codes, c’est de l’argent liquide pour l’escroc. » Vous signalez le SMS ensemble.'
     indices:
-      - { id: valider-pour-annuler, libelle: 'On me demande de valider une opération pour l’annuler', pertinent: true }
-      - { id: appel-apres-sms, libelle: 'L’appel arrive juste après le SMS, comme s’il était prévu', pertinent: true }
-      - { id: urgence, libelle: 'Le conseiller me presse', pertinent: true }
-      - { id: numero, libelle: 'Le numéro affiché ressemble à celui de ma banque', pertinent: false }
-    explicationIndices: 'Un numéro affiché peut être usurpé, comme le nom d’expéditeur d’un SMS : ça ne prouve rien. Le SMS prépare le terrain pour que l’appel paraisse crédible. Et valider une notification autorise toujours une opération, jamais ne l’annule.'
-    aRetenir: 'Ta banque ne te demandera jamais de valider une opération pour l’annuler, ni de lui donner un code. En cas de doute, raccroche et rappelle-la toi-même au numéro officiel.'
-    recuperation: { action: demander-aide, siChoix: [valide] }
+      - { id: cartes-cadeaux, libelle: 'On exige d’être payé en cartes cadeaux', pertinent: true }
+      - { id: menace, libelle: 'On menace de supprimer mon compte si je ne paie pas sous 24 h', pertinent: true }
+      - { id: hors-appli, libelle: 'Le message arrive par SMS depuis un numéro de portable, pas dans l’appli GameBox', pertinent: true }
+      - { id: pseudo, libelle: 'Le message connaît mon pseudo', pertinent: false }
+    explicationIndices: 'Aucun service sérieux ne se fait payer en cartes cadeaux : une fois les codes envoyés, l’argent est dépensé en quelques minutes et presque impossible à récupérer. La menace de suppression sert à t’empêcher de vérifier. Quant à ton pseudo, il est public : n’importe qui peut le lire sur ton profil ou dans une partie.'
+    aRetenir: 'Une carte cadeau sert à offrir, pas à payer une amende ou un service : quelqu’un qui te réclame des codes de cartes cadeaux est un escroc. Pour toute alerte sur un compte, vérifie toi-même dans l’appli officielle.'
+    recuperation: { action: bloquer-signaler, siChoix: [paie] }
 
   - type: minijeu
     id: tri-achat-vente
@@ -139,15 +141,15 @@ debrief:
     - Quel était le piège ?
     - Quel indice pourras-tu réutiliser la prochaine fois ?
     - Que faire si ça t’est déjà arrivé ?
-  reponses: 'Le piège commun : te faire sortir du cadre protégé (le paiement de la plateforme, le vrai numéro de ta banque) pour te faire payer, saisir ta carte ou valider une opération. Indices réutilisables : paiement ou confirmation hors de l’appli, carte demandée pour recevoir de l’argent, prix très bas, urgence, validation demandée « pour annuler ». Si c’est déjà arrivé : faire opposition auprès de sa banque au numéro officiel, garder les preuves (captures, échanges, références du paiement), signaler le profil sur la plateforme, puis porter plainte et se faire aider sur cybermalveillance.gouv.fr. Se faire avoir n’a rien de honteux : ces arnaques sont montées par des professionnels et piègent aussi des adultes.'
+  reponses: 'Le piège commun : te faire sortir du cadre protégé (l’appli de la plateforme ou du jeu) pour te faire payer par un moyen sans retour (virement, carte saisie sur un faux site, codes de cartes cadeaux). Indices réutilisables : paiement ou confirmation hors de l’appli, carte demandée pour recevoir de l’argent, prix très bas, paiement exigé en cartes cadeaux, menace et urgence, code SMS tapé sans lire ce qu’il valide. Si c’est déjà arrivé : arrêter de payer, faire opposition auprès de sa banque au numéro officiel, contacter l’émetteur des cartes cadeaux, garder les preuves (captures, échanges, tickets, références du paiement), signaler le profil sur la plateforme et les SMS au 33700, puis porter plainte et se faire aider sur cybermalveillance.gouv.fr. Se faire avoir n’a rien de honteux : ces arnaques sont montées par des professionnels et piègent aussi des adultes.'
   erreursFrequentes:
     - 'Croire qu’une bonne note ou de belles photos garantissent l’honnêteté d’un acheteur ou d’un vendeur.'
     - 'Penser qu’il faut saisir sa carte bancaire pour recevoir un paiement.'
-    - 'Croire qu’un numéro qui s’affiche comme celui de sa banque prouve que c’est bien elle.'
+    - 'Croire qu’un message qui connaît ton pseudo vient forcément du vrai service, ou qu’on peut régler une « amende » en cartes cadeaux.'
 fiche:
   deroulement: |
     5 min : cadre. Qui a déjà acheté ou vendu entre particuliers en ligne ? Qu’est-ce qui vous a mis en confiance ? (sans obligation de raconter)
     20 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (les deux cartes « Je vérifie d’abord »).
-    5 min : où trouver de l’aide (adulte de confiance, banque au numéro officiel, signalement sur la plateforme, cybermalveillance.gouv.fr, plainte au commissariat ou à la gendarmerie).
+    5 min : où trouver de l’aide (adulte de confiance, banque au numéro officiel, signalement sur la plateforme, 33700 pour les SMS, cybermalveillance.gouv.fr pour se faire aider, plainte au commissariat ou à la gendarmerie).
     5 min : engagement. Cette semaine, j’explique à un proche qui vend en ligne la règle « pour recevoir de l’argent, on ne donne jamais sa carte ».

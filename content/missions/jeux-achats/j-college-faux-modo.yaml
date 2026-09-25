@@ -28,15 +28,15 @@ etapes:
       - id: donne-code
         texte: J’envoie le code au support pour éviter le bannissement.
         qualite: risque
-        consequence: 'Ce code servait à te connecter à ton compte… depuis l’appareil du pirate. Ton appli te déconnecte, ton pseudo change et ton compte envoie la même arnaque à tes amis. Grâce à « Mot de passe oublié » et à ton adresse mail, tu changes ton mot de passe et tu reprends la main. Reste à fermer la porte pour de bon.'
+        consequence: 'C’était un code de connexion : il a permis au pirate d’entrer dans ton compte depuis son propre appareil. Ton appli te déconnecte, ton pseudo change et ton compte envoie la même arnaque à tes amis. Grâce à « Mot de passe oublié » et à ton adresse mail, tu changes ton mot de passe et tu reprends la main. Reste à fermer la porte pour de bon.'
       - id: verifie
         texte: Je n’envoie rien et je regarde moi-même dans les paramètres de mon compte s’il y a un avertissement.
         qualite: bon
         consequence: 'Aucun avertissement dans ton compte. En vocal, Lucas tombe des nues : il n’a jamais écrit ce message, son compte a été piraté hier. Vous signalez le faux support.'
       - id: aide
-        texte: Je demande de l’aide à un adulte ou à un modérateur de confiance de mon serveur.
+        texte: Je demande de l’aide à un adulte de confiance avant de répondre.
         qualite: aide
-        consequence: 'L’administratrice de ton serveur est formelle : « Le vrai support ne t’écrit jamais en message privé et ne demande jamais de code. » Elle bannit le faux compte du serveur et prévient tout le monde.'
+        consequence: 'Ta tante lit la conversation et est formelle : « Le vrai support ne t’écrit jamais en message privé et ne demande jamais de code. N’importe qui peut s’appeler Support. » Tu ne réponds pas et tu signales le faux compte aux modérateurs du serveur.'
     indices:
       - { id: message-prive, libelle: 'Le « support » m’écrit en message privé, comme n’importe quel utilisateur', pertinent: true }
       - { id: code, libelle: 'On me demande le code reçu par SMS', pertinent: true }
@@ -66,7 +66,7 @@ etapes:
       - id: refuse
         texte: 'Je refuse poliment : je n’ouvre pas un programme envoyé par un inconnu.'
         qualite: bon
-        consequence: 'Nova_Dev insiste, puis quitte le serveur. Quelques jours plus tard, un modérateur annonce que ce compte a piraté plusieurs membres avec un faux jeu.'
+        consequence: 'Nova_Dev insiste, puis quitte le serveur. Quelques jours plus tard, une annonce dans le salon officiel du serveur prévient que ce compte a piraté plusieurs membres avec un faux jeu.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant d’ouvrir le fichier.
         qualite: aide
@@ -148,5 +148,5 @@ fiche:
     5 min : cadre. Avez-vous déjà reçu un message d’un « support » ou d’un « modo » sur un serveur de jeu ? (sans obligation de raconter)
     18 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (le .exe envoyé par une amie).
-    5 min : où trouver de l’aide (adulte de confiance, modérateurs du serveur, support officiel depuis l’appli, cybermalveillance.gouv.fr).
+    5 min : où trouver de l’aide (adulte de confiance, signaler aux modérateurs, support officiel joint depuis l’appli elle-même, cybermalveillance.gouv.fr pour se faire aider).
     5 min : engagement. Cette semaine, je vérifie que mon compte de jeu principal a un mot de passe que je n’utilise nulle part ailleurs.

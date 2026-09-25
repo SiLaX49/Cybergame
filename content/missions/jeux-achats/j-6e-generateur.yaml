@@ -82,16 +82,16 @@ etapes:
         qualite: bon
         consequence: 'DarkWolf_77 ne répond plus. Dans la fenêtre d’échange, les deux objets partent en même temps : personne ne peut tricher.'
       - id: aide
-        texte: Je demande de l’aide à un copain qui connaît bien le jeu.
+        texte: Je demande de l’aide à un adulte ou à un copain qui connaît bien le jeu.
         qualite: aide
-        consequence: 'Ton copain rigole : « Le coup de la fenêtre qui bugue, c’est une arnaque connue ! » Vous signalez DarkWolf_77 au jeu.'
+        consequence: 'Ton copain Malik rigole : « Le coup de la fenêtre qui bugue, c’est une arnaque connue ! » Vous signalez DarkWolf_77 au jeu.'
     indices:
       - { id: premier, libelle: 'Il veut que je donne mon objet en premier', pertinent: true }
       - { id: hors-echange, libelle: 'Il veut éviter la fenêtre d’échange du jeu', pertinent: true }
       - { id: trop-beau, libelle: 'Son offre est trop belle : une épée légendaire contre mon dragon', pertinent: true }
       - { id: niveau, libelle: 'Il est niveau 80, c’est un très bon joueur', pertinent: false }
     explicationIndices: 'La fenêtre d’échange protège les deux joueurs. Celui qui veut l’éviter et être servi en premier prépare souvent une arnaque. Un bon niveau ne prouve pas qu’on est honnête.'
-    aRetenir: 'Pour échanger un objet, utilise toujours la fenêtre d’échange du jeu. Ne donne jamais en premier à quelqu’un que tu ne connais pas.'
+    aRetenir: 'Pour échanger un objet, utilise toujours la fenêtre d’échange du jeu. Ne donne jamais en premier.'
     aRetenirSimple: 'Échange seulement avec la fenêtre d’échange du jeu. Ne donne jamais en premier.'
     recuperation: { action: bloquer-signaler, siChoix: [donne-premier] }
 
@@ -148,7 +148,7 @@ debrief:
     - Quel était le piège ?
     - Quel indice pourras-tu réutiliser la prochaine fois ?
     - Que faire si ça t’est déjà arrivé ?
-  reponses: 'Le piège commun : te faire envie (Coins gratuits, objet rare, niveau 50) pour obtenir ton mot de passe ou tes objets. Indices réutilisables : un cadeau impossible, un mot de passe demandé en dehors du jeu, une appli à télécharger, un échange hors de la fenêtre du jeu. Si c’est déjà arrivé : prévenir un adulte, changer le mot de passe, signaler le compte au jeu. Ce n’est pas grave d’avoir été piégé, c’est grave de le cacher.'
+  reponses: 'Le piège commun : te faire envie (Coins gratuits, objet rare, niveau 50) pour obtenir ton mot de passe ou tes objets. Indices réutilisables : un cadeau impossible, un mot de passe demandé en dehors du jeu, une appli à télécharger, un échange hors de la fenêtre du jeu. Si c’est déjà arrivé : prévenir un adulte, changer le mot de passe, signaler le compte au jeu. Ce n’est pas grave d’avoir été piégé : l’important, c’est d’en parler vite.'
   erreursFrequentes:
     - 'Croire qu’un site est sérieux parce qu’il affiche beaucoup de joueurs connectés ou une vidéo qui en parle.'
     - 'Penser qu’on peut prêter son mot de passe à un ami « juste une fois ».'
