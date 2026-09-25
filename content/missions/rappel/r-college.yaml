@@ -1,0 +1,70 @@
+id: r-college
+type: rappel
+themesCouverts: [phishing, jeux-achats]
+tranches: ['5e-3e']
+titre: Rappel express
+resume: Cinq minutes, quelques notifications… et peut-être un piège. Tes réflexes sont-ils toujours là ?
+duree: 5
+objectifs:
+  - Réutiliser les bons réflexes appris plus tôt
+  - Repérer un piège glissé parmi des notifications normales
+competences:
+  crcn: ['4.1', '4.2']
+  programmes: ['EMI cycle 4']
+etapes:
+  - type: fil
+    id: fil-notifs
+    consigne: Ton téléphone vibre plusieurs fois de suite. Pour chaque notification, que fais-tu ?
+    notifications:
+      - { id: salon-classe, appNom: ChatCord, de: 'Salon #4e-C', texte: 'Léa : rappel, l’exposé d’histoire est à rendre lundi. J’ai épinglé le plan dans le salon 📌', explication: 'Message normal de ton salon de classe : une info, sans lien extérieur ni demande.' }
+      - { id: sortie, appNom: Mon Collège, de: Mon Collège, texte: 'Rappel : sortie au musée vendredi. Pense à rendre l’autorisation signée à ton professeur principal.', explication: 'Vrai rappel de l’ENT : il ne demande ni mot de passe, ni argent, ni clic sur un lien. Juste un papier à rendre.' }
+      - { id: ami, appNom: SnapTalk, de: Yanis, texte: 'T’as vu le match hier soir ?? Je te raconte demain en perm 😂', explication: 'Message normal d’un ami, qui te parle comme d’habitude et ne te demande rien.' }
+      - { id: support, appNom: ChatCord, de: ChatCord Support, texte: 'Ton compte sera désactivé dans 1 h. Confirme ton identité : chatcord-verify.net', surprise: true, explication: 'Le piège ! Menace, délai d’une heure et lien vers un site qui n’est pas l’appli : c’est de l’hameçonnage pour voler ton mot de passe. En cas de doute, ouvre toi-même l’appli : un vrai problème de compte s’y affiche.' }
+      - { id: meteo, appNom: Météo, de: Météo, texte: 'Vent fort prévu demain matin : pense à ton coupe-vent 🌬️', explication: 'Notification normale d’une appli installée.' }
+  - type: scenario
+    id: code-tournoi
+    ecran:
+      app: chat
+      appNom: ChatCord
+      contact: 'Hugo (ta classe)'
+      messages:
+        - de: contact
+          texte: 'Salut ! Je t’inscris au tournoi GameBox de la classe 🏆 Tu vas recevoir un code par SMS, tu peux me l’envoyer ? Faut valider avant 18 h !'
+    question: 'Une minute après, tu reçois un SMS : « GameBox : ton code de connexion est 731 204. Ne le communique à personne. » Que fais-tu ?'
+    choix:
+      - id: envoie
+        texte: J’envoie le code à Hugo, c’est juste pour le tournoi.
+        qualite: risque
+        consequence: 'Aucune inscription au tournoi : le code ouvrait ton compte GameBox à quelqu’un d’autre. Le soir, tes Coins ont disparu et tes amis reçoivent en ton nom la même histoire de tournoi. Le vrai Hugo n’y était pour rien : un pirate utilisait son compte. Tu peux encore reprendre ton compte avec « mot de passe oublié », puis le protéger.'
+      - id: verifie
+        texte: Je garde le code pour moi et je demande à Hugo, en vrai ou par appel, s’il m’a bien écrit.
+        qualite: bon
+        consequence: 'À la récré, Hugo est étonné : il n’a jamais parlé de tournoi, et son ChatCord le déconnecte sans arrêt depuis ce matin. Quelqu’un s’en sert à sa place. Ton code n’a servi à personne, et vous prévenez la classe ensemble.'
+      - id: aide
+        texte: Je demande de l’aide à quelqu’un avant de répondre.
+        qualite: aide
+        consequence: 'Ta prof principale regarde les deux messages : « On ne s’inscrit pas à un tournoi avec un code de connexion. Ce code ouvre ton compte. » Tu ne réponds rien sur ChatCord et tu parles à Hugo en face.'
+    indices:
+      - { id: code-connexion, libelle: 'Le SMS parle d’un code de connexion, pas d’une inscription à un tournoi', pertinent: true }
+      - { id: ne-pas-partager, libelle: 'Le SMS dit de ne communiquer ce code à personne', pertinent: true }
+      - { id: presse, libelle: 'On me presse : « avant 18 h »', pertinent: true }
+      - { id: camarade, libelle: 'Le message vient d’un camarade de classe', pertinent: false }
+    explicationIndices: 'Un code de connexion est envoyé à toi seul, quand quelqu’un essaie d’entrer dans ton compte. Si on te le réclame, c’est pour se connecter à ta place. Qu’il vienne d’un camarade ne prouve rien : son compte a pu être piraté.'
+    aRetenir: 'Un code reçu par SMS ne se donne jamais, même à un ami. Si un proche te le réclame, vérifie en vrai ou par appel : son compte a sans doute été piraté. La double authentification protège ton compte, tant que tu ne donnes pas le code.'
+    recuperation: { action: activer-2fa, siChoix: [envoie] }
+debrief:
+  questions:
+    - Quel était le piège caché dans les notifications ?
+    - Quel indice pourras-tu réutiliser la prochaine fois ?
+    - Que faire si tu as déjà donné un code ou ton mot de passe ?
+  reponses: 'Le faux message « ChatCord Support » reprend les indices de l’hameçonnage : menace, délai très court, lien vers un site qui n’est pas celui de l’appli. Un code reçu par SMS sert à entrer dans ton compte : on ne le donne à personne, même à un ami, dont le compte a pu être piraté. Si c’est déjà arrivé : récupérer le compte (« mot de passe oublié »), changer le mot de passe, activer la double authentification, prévenir ses contacts et en parler à un adulte.'
+  erreursFrequentes:
+    - 'Penser qu’un message d’ami est forcément écrit par cet ami.'
+    - 'Croire qu’un message qui porte le nom de l’appli vient forcément du vrai support.'
+    - 'Donner un code « juste pour rendre service ».'
+fiche:
+  deroulement: |
+    À lancer 7 jours puis 30 jours après une mission (la carte le propose aux élèves).
+    5 min : jeu, sans prévenir qu’un piège est caché.
+    10 min : débrief. Qui a repéré le piège ? Quel indice ?
+    Engagement : ne jamais transmettre un code reçu par SMS, et activer la double authentification sur un de ses comptes cette semaine.

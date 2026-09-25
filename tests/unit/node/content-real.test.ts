@@ -62,4 +62,18 @@ describe('contenu réel', () => {
   it.each(TRANCHES)('jeux et achats : au moins une mission pour la tranche %s', (t) => {
     expect(missionsDuTheme('jeux-achats').some((m) => m.tranches.includes(t))).toBe(true)
   })
+
+  it.each(TRANCHES)('rappel : exactement une mission rappel pour la tranche %s', (t) => {
+    expect(bundle.missions.filter((m) => m.type === 'rappel' && m.tranches.includes(t))).toHaveLength(1)
+  })
+
+  it('les rappels sont courts et contiennent un fil d’au moins 4 notifications', () => {
+    const rappels = bundle.missions.filter((m) => m.type === 'rappel')
+    expect(rappels.length).toBeGreaterThan(0)
+    for (const r of rappels) {
+      expect(r.duree, r.id).toBeLessThanOrEqual(8)
+      const fil = r.etapes.find((e) => e.type === 'fil')
+      expect(fil?.type === 'fil' ? fil.notifications.length : 0, r.id).toBeGreaterThanOrEqual(4)
+    }
+  })
 })
