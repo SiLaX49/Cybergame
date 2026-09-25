@@ -32,3 +32,14 @@ Règles principales :
 - Ton : tutoiement, jamais culpabilisant, une conséquence réaliste et toujours une action possible.
 
 Exemple de référence : `content/missions/phishing/p-6e-colis.yaml`.
+
+## Déploiement
+
+Le site est publié sur GitHub Pages par `.github/workflows/ci.yml` à chaque push sur `main`, une fois lint,
+types, tests unitaires, tests du contenu et tests E2E passés.
+
+Première mise en place :
+1. Créer le dépôt sur GitHub et pousser la branche `main`.
+2. Dans *Settings → Pages*, choisir *Source : GitHub Actions*.
+3. (Optionnel) Dans *Settings → Secrets and variables → Actions → Variables*, ajouter `VITE_CONTACT_URL`
+   (par exemple l’URL des issues du dépôt), puis l’exposer au build dans le workflow si besoin.
