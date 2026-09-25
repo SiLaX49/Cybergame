@@ -59,6 +59,10 @@ describe('contenu réel', () => {
     expect(missionsDuTheme('phishing').some((m) => m.tranches.includes(t))).toBe(true)
   })
 
+  it.each(TRANCHES)('jeux et achats : au moins une mission pour la tranche %s', (t) => {
+    expect(missionsDuTheme('jeux-achats').some((m) => m.tranches.includes(t))).toBe(true)
+  })
+
   it.each(TRANCHES)('rappel : exactement une mission rappel pour la tranche %s', (t) => {
     expect(bundle.missions.filter((m) => m.type === 'rappel' && m.tranches.includes(t))).toHaveLength(1)
   })
