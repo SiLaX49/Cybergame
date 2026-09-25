@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { routerTest } from './router-test'
 
 describe('routeur', () => {
-  it(`résout l'accueil`, async () => {
+  it('résout l’accueil', async () => {
     const router = await routerTest('/')
     expect(router.currentRoute.value.name).toBe('accueil')
   })
