@@ -1,0 +1,71 @@
+id: r-6e
+type: rappel
+themesCouverts: [phishing, jeux-achats]
+tranches: ['6e']
+titre: Rappel express
+resume: Cinq minutes, quelques notifications… et peut-être un piège. Tes réflexes sont-ils toujours là ?
+duree: 5
+objectifs:
+  - Réutiliser les bons réflexes appris plus tôt
+  - Repérer un piège glissé parmi des messages normaux
+competences:
+  crcn: ['4.1']
+  programmes: ['EMI cycle 3']
+etapes:
+  - type: fil
+    id: fil-notifs
+    consigne: Ton téléphone vibre. Pour chaque notification, que fais-tu ?
+    notifications:
+      - { id: mamie, appNom: Messages, de: Mamie, texte: 'Coucou ! On mange ensemble dimanche ? Bisous', explication: 'Un message normal de quelqu’un que tu connais.' }
+      - { id: saison, appNom: GameBox, de: GameBox, texte: 'La saison 12 commence aujourd’hui ! Ouvre le jeu pour découvrir les nouveautés.', explication: 'Notification normale de l’appli officielle : elle ne demande ni lien, ni mot de passe, ni argent.' }
+      - { id: douane, appNom: Messages, de: '+33 6 39 98 81 37', texte: 'Colis Express : 2,99 € de frais de douane à régler avant demain pour recevoir votre colis : colis-exp-douane.com', surprise: true, explication: 'Le piège ! Numéro inconnu, urgence, lien bizarre et petit montant : la même arnaque que le faux colis.' }
+      - { id: classe, appNom: SnapTalk, de: 'Groupe 6e B', texte: 'Quelqu’un a les devoirs de maths pour jeudi ?', explication: 'Message normal de ta classe.' }
+      - { id: meteo, appNom: Météo, de: Météo, texte: 'Alerte pluie cet après-midi : prends un parapluie ☔', explication: 'Notification normale d’une appli installée.' }
+  - type: scenario
+    id: ami-coins
+    ecran:
+      app: chat
+      appNom: GameBox Chat
+      contact: 'Maxime (ta classe)'
+      messages:
+        - de: contact
+          texte: 'Trop fort, j’ai eu 5 000 Coins gratuits sur coins-gratuits-gamebox.net !! Mets ton pseudo et ton mot de passe et c’est bon 😎'
+          texteSimple: 'J’ai eu 5 000 Coins gratuits ! Mets ton pseudo et ton mot de passe sur ce site.'
+    question: C’est un copain de classe qui t’envoie ça. Que fais-tu ?
+    choix:
+      - id: essaie
+        texte: Je mets mon pseudo et mon mot de passe, Maxime l’a bien fait.
+        qualite: risque
+        consequence: 'Pas de Coins. Le lendemain, ton compte envoie le même message à tous tes amis : il a été piraté, comme celui de Maxime. Tu peux encore le reprendre.'
+        consequenceSimple: 'Ton compte est piraté et envoie le message à tes amis. Tu peux encore le reprendre.'
+      - id: demande-maxime
+        texte: Je demande à Maxime en vrai, au collège, s’il a vraiment envoyé ce message.
+        qualite: bon
+        consequence: 'Maxime n’a rien envoyé : son compte a été piraté, et le pirate écrit à tous ses contacts. Grâce à toi, il change vite son mot de passe.'
+      - id: aide
+        texte: Je demande de l’aide à quelqu’un avant de faire quoi que ce soit.
+        qualite: aide
+        consequence: 'Ta prof principale reconnaît l’arnaque et prévient la classe : plusieurs élèves avaient reçu le même message.'
+    indices:
+      - { id: mdp, libelle: 'On me demande mon mot de passe sur un autre site', pertinent: true }
+      - { id: gratuit, libelle: 'Des Coins gratuits, c’est trop beau pour être vrai', pertinent: true }
+      - { id: ami, libelle: 'Le message vient d’un ami', pertinent: false }
+    explicationIndices: 'Un message d’ami n’est pas forcément écrit par ton ami : son compte a pu être piraté. La demande de mot de passe sur un site extérieur au jeu est le vrai signal.'
+    aRetenir: 'Même venant d’un ami, une offre de Coins gratuits qui demande ton mot de passe est une arnaque. Vérifie en vrai avec ton ami.'
+    aRetenirSimple: 'Même si c’est un ami, ne donne jamais ton mot de passe. Demande-lui en vrai.'
+    recuperation: { action: changer-mdp, siChoix: [essaie] }
+debrief:
+  questions:
+    - Quel était le piège caché dans les notifications ?
+    - Quel indice t’a permis de le repérer (ou t’aurait permis) ?
+    - Que faire si un ami t’envoie un message qui ne lui ressemble pas ?
+  reponses: 'Le SMS de frais de douane reprend les indices du faux colis : numéro inconnu, urgence, lien, petit montant. Un message d’ami peut venir d’un compte piraté : on vérifie autrement (en vrai, par appel).'
+  erreursFrequentes:
+    - 'Penser qu’un message d’ami est forcément sûr.'
+    - 'Traiter toutes les notifications de la même façon, sans lire l’expéditeur.'
+fiche:
+  deroulement: |
+    À lancer 7 jours puis 30 jours après une mission (la carte le propose aux élèves).
+    5 min : jeu, sans prévenir qu’un piège est caché.
+    10 min : débrief. Qui a repéré le piège ? Quel indice ?
+    Engagement : reconnaître un message « pas comme d’habitude » d’un ami et vérifier en vrai.

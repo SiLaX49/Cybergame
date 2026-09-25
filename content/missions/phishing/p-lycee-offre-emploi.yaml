@@ -1,0 +1,148 @@
+id: p-lycee-offre-emploi
+theme: phishing
+tranches: ['lycee']
+titre: Trop beau pour être vrai
+resume: 'Un job payé 30 €/h, un studio à 350 €, un appel de ta banque : quand une offre est trop belle ou une alerte trop pressante, prends le temps de vérifier.'
+duree: 20
+objectifs:
+  - Repérer les arnaques qui visent ton argent et tes documents (faux job, faux logement, faux conseiller bancaire)
+  - Vérifier une offre ou une alerte par un canal indépendant avant de payer ou de valider
+  - Réagir après une fraude (garder les preuves, faire opposition, porter plainte)
+competences:
+  crcn: ['4.1', '1.1', '4.2']
+  programmes: ['SNT 2de', 'EMC lycée']
+etapes:
+  - type: scenario
+    id: job-likes
+    ecran:
+      app: sms
+      appNom: Messages
+      contact: '+33 6 39 98 20 35'
+      messages:
+        - de: contact
+          texte: 'Salut ! Job étudiant 100 % à distance : 30 €/h pour liker des vidéos depuis ton téléphone, 1 h par jour. Rejoins l’équipe ici : team-likes-job.net'
+        - de: moi
+          texte: 'Ça m’intéresse, c’est quoi le principe ?'
+        - de: contact
+          texte: 'Super ! Pour activer ton compte, il y a juste 25 € de frais d’inscription, remboursés dès ta première mission. Les places partent vite 😉'
+    question: Tu cherches justement un petit job pour financer ton permis. Que fais-tu ?
+    choix:
+      - id: inscrit
+        texte: Je paie les 25 €, ils seront remboursés dès la première mission.
+        qualite: risque
+        consequence: 'Ton espace affiche vite 60 € de « gains ». Pour les retirer, on te réclame 80 € de « frais de déblocage », puis encore davantage. Tu ne récupères rien. Arrête de payer maintenant : en gardant les preuves, tu peux signaler l’arnaque et porter plainte.'
+      - id: recherche
+        texte: Je ne paie rien et je cherche le nom de l’offre suivi du mot « arnaque » sur un moteur de recherche.
+        qualite: bon
+        consequence: 'Des dizaines de témoignages décrivent exactement la même offre : on paie des frais, puis des « déblocages », et on ne touche jamais rien. Tu bloques le numéro et tu transfères le SMS au 33700, le service de signalement des SMS indésirables.'
+      - id: aide
+        texte: Je demande de l’aide à quelqu’un avant de répondre.
+        qualite: aide
+        consequence: 'Ta tante, qui recrute dans son entreprise, est catégorique : « Un employeur ne te fait jamais payer pour travailler. Et 30 €/h pour liker des vidéos, ça n’existe pas. » Tu bloques le numéro.'
+    indices:
+      - { id: salaire, libelle: 'Le salaire est irréaliste pour une tâche aussi simple', pertinent: true }
+      - { id: payer, libelle: 'On me demande de payer pour pouvoir travailler', pertinent: true }
+      - { id: inconnu, libelle: 'L’offre arrive d’un numéro inconnu, sans nom d’entreprise', pertinent: true }
+      - { id: poli, libelle: 'Le message est poli et sympathique', pertinent: false }
+    explicationIndices: 'Un vrai employeur te paie, il ne te fait jamais payer. Un salaire très élevé pour une tâche simple, c’est l’appât. Le ton amical ne prouve rien : c’est justement une technique pour gagner ta confiance.'
+    aRetenir: 'Un vrai job ne demande jamais de frais d’inscription. Avant de payer quoi que ce soit, fais une recherche sur l’offre. Si tu as déjà payé, arrête tout de suite et garde les preuves.'
+    recuperation: { action: capture-preuve, siChoix: [inscrit] }
+
+  - type: scenario
+    id: logement
+    ecran:
+      app: mail
+      appNom: Mail
+      contact: 'Julie Martin <julie.location75@mail-perso.com>'
+      sujet: 'Studio 350 €/mois centre-ville'
+      messages:
+        - de: contact
+          texte: 'Bonjour, mon studio de 25 m² en plein centre-ville est libre dès le mois prochain, 350 € charges comprises. Je vis à l’étranger pour mon travail, les visites ne sont donc pas possibles. Pour le réserver, il suffit de virer la caution de 700 € : je vous envoie les clés par courrier dès réception. Plusieurs étudiants sont intéressés, merci de répondre rapidement. Photos en pièce jointe.'
+    question: Tu cherches un logement pour tes études l’an prochain, et les photos sont superbes. Dans ce quartier, les studios se louent plutôt 600 €. Que fais-tu ?
+    choix:
+      - id: vire
+        texte: Je vire la caution tout de suite pour ne pas laisser passer l’occasion.
+        qualite: risque
+        consequence: 'Julie ne répond plus et l’annonce a disparu : les photos avaient été copiées sur un autre site. La caution n’est pas forcément perdue : avec les preuves, ta banque peut tenter de récupérer le virement, et tu peux porter plainte.'
+      - id: visite
+        texte: Je réponds que je ne verse rien sans visite et sans bail signé.
+        qualite: bon
+        consequence: 'Julie insiste, puis ne répond plus. En cherchant les photos en ligne, tu les retrouves sur une annonce dans une autre ville. C’était une arnaque, et tu n’as rien perdu.'
+      - id: aide
+        texte: Je demande de l’aide à mes parents avant de répondre.
+        qualite: aide
+        consequence: 'Ton père compare avec les autres annonces du quartier : les studios y sont plutôt à 600 €. « Pas de visite et virement d’abord : c’est une arnaque classique. » Vous signalez l’annonce.'
+    indices:
+      - { id: prix, libelle: 'Le loyer est très en dessous des prix du quartier', pertinent: true }
+      - { id: pas-de-visite, libelle: 'Aucune visite n’est possible', pertinent: true }
+      - { id: paiement-avant, libelle: 'On me demande de payer avant toute visite et tout contrat', pertinent: true }
+      - { id: photos, libelle: 'L’annonce contient des photos de l’appartement', pertinent: false }
+    explicationIndices: 'Des photos se copient en deux clics depuis n’importe quelle annonce. Le signal, c’est l’ensemble : prix trop bas, propriétaire injoignable, pression et paiement avant la visite. Un vrai propriétaire fait visiter et signe un bail avant de demander une caution.'
+    aRetenir: 'On ne paie jamais un logement avant de l’avoir visité (soi-même ou par une personne de confiance) et d’avoir signé un bail. Un prix trop bas associé à l’urgence est un signal d’alerte.'
+    recuperation: { action: capture-preuve, siChoix: [vire] }
+
+  - type: scenario
+    id: banque-perso
+    ecran:
+      app: web
+      appNom: BanqueNova
+      contact: 'Espace client BanqueNova'
+      url: 'banquenova-securite.com/confirmation'
+      messages:
+        - de: contact
+          texte: 'Bonjour Camille. Un paiement de 600 € vers un compte inconnu est en attente sur votre compte. Pour l’annuler, saisissez votre code personnel ci-dessous. Un conseiller va vous appeler dans quelques instants pour vous accompagner.'
+    question: 'Tu as ouvert cette page depuis un SMS « BanqueNova : opération suspecte ». Dans ce scénario, tu t’appelles Camille, et la page connaît ton prénom. Juste après, ton téléphone sonne : un « conseiller » te demande de valider dans ton appli l’opération qui va s’afficher, « pour la bloquer ». Que fais-tu ?'
+    choix:
+      - id: valide
+        texte: Je valide l’opération dans mon appli, comme le conseiller me le demande.
+        qualite: risque
+        consequence: 'Valider une opération ne l’annule jamais : tu viens d’autoriser le paiement. 600 € partent vers un compte inconnu et le « conseiller » raccroche. Préviens tout de suite un parent et appelle ta banque au numéro officiel pour faire opposition : plus tu agis vite, plus tu as de chances de récupérer l’argent.'
+      - id: rappelle
+        texte: Je raccroche et j’appelle moi-même ma banque au numéro inscrit au dos de ma carte.
+        qualite: bon
+        consequence: 'La vraie conseillère de BanqueNova confirme : aucune opération suspecte sur ton compte, et personne de la banque ne t’a appelé. La page et l’appel étaient faux. Tu n’as rien validé, ton argent est en sécurité.'
+      - id: aide
+        texte: Je demande de l’aide à un parent avant de faire quoi que ce soit.
+        qualite: aide
+        consequence: 'Ta mère prend le téléphone et le « conseiller » raccroche aussitôt. Elle appelle la banque au numéro officiel : c’était une tentative de fraude. Aucun argent n’est parti.'
+    indices:
+      - { id: adresse, libelle: 'L’adresse (banquenova-securite.com) n’est pas celle du site de ma banque', pertinent: true }
+      - { id: valider-pour-annuler, libelle: 'On me demande de valider une opération pour l’annuler', pertinent: true }
+      - { id: pression, libelle: 'Le conseiller me presse au téléphone', pertinent: true }
+      - { id: prenom, libelle: 'La page connaît mon prénom', pertinent: false }
+    explicationIndices: 'Ton prénom, ton numéro ou le nom de ta banque se trouvent facilement (fuites de données, réseaux sociaux) : ça ne prouve pas que c’est ta banque. Une validation dans l’appli sert toujours à autoriser un paiement, jamais à l’annuler. Le faux conseiller joue sur l’urgence pour t’empêcher de réfléchir.'
+    aRetenir: 'Ta banque ne te demandera jamais ton code ni de valider une opération pour l’annuler. En cas de doute, raccroche et rappelle-la toi-même au numéro officiel.'
+    recuperation: { action: demander-aide, siChoix: [valide] }
+
+  - type: minijeu
+    id: repere-offre-stage
+    jeu: repere
+    config:
+      consigne: Tu as reçu ce mail après avoir publié ton CV en ligne. Repère les éléments qui doivent t’alerter.
+      titre: 'Mail : Offre de stage rémunéré'
+      lignes:
+        - { id: expediteur, texte: 'De : recrutement.novaconseil@mail-gratuit.com', indice: true, explication: 'Une entreprise écrit depuis sa propre adresse (nom de l’entreprise après le @), pas depuis une messagerie gratuite que n’importe qui peut créer.' }
+        - { id: bonjour, texte: 'Bonjour,' }
+        - { id: entreprise, texte: 'Entreprise : Nova Conseil' }
+        - { id: lieu, texte: 'Lieu : télétravail' }
+        - { id: remuneration, texte: 'Rémunération : 2 500 €/mois pour 10 h/semaine', indice: true, explication: 'Environ 60 € de l’heure pour un stage : c’est irréaliste. Un salaire trop beau, c’est l’appât.' }
+        - { id: documents, texte: 'Envoie une copie de ta carte d’identité et ton RIB', indice: true, explication: 'Avec ces deux documents, un escroc peut usurper ton identité. On ne les transmet qu’après avoir vérifié l’entreprise, et jamais dès le premier message.' }
+        - { id: delai, texte: 'Réponds sous 2 heures pour garder ta place', indice: true, explication: 'Un délai aussi court sert à t’empêcher de vérifier que l’entreprise existe.' }
+        - { id: signature, texte: 'Marc Lefèvre, responsable du recrutement' }
+debrief:
+  questions:
+    - Quel était le piège ?
+    - Quel indice pourras-tu réutiliser la prochaine fois ?
+    - Que faire si ça t’est déjà arrivé ?
+  reponses: 'Le piège commun : une offre trop belle (salaire, loyer) ou une alerte trop pressante (fraude bancaire) pour te pousser à payer, valider ou envoyer tes documents avant d’avoir vérifié. Indices réutilisables : payer pour obtenir quelque chose, prix ou salaire irréaliste, interlocuteur impossible à vérifier, urgence, demande de code ou de pièces d’identité. Si c’est déjà arrivé : arrêter de payer, garder les preuves (captures, échanges, références du virement), prévenir un adulte et sa banque pour faire opposition, puis porter plainte et signaler sur cybermalveillance.gouv.fr. Se faire avoir n’a rien de honteux : ces arnaques sont montées par des professionnels et piègent aussi des adultes.'
+  erreursFrequentes:
+    - 'Croire qu’un interlocuteur qui connaît ton prénom ou le nom de ta banque est forcément légitime.'
+    - 'Penser qu’il est normal de « payer un peu » pour décrocher un job ou un logement.'
+    - 'Continuer à payer pour récupérer l’argent déjà versé : les « frais de déblocage » ne débloquent jamais rien.'
+fiche:
+  deroulement: |
+    5 min : cadre. Quelles offres « trop belles » avez-vous déjà vues passer ? (sans obligation de raconter)
+    20 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, puis retour sur le mini-jeu (carte d’identité et RIB).
+    5 min : où trouver de l’aide (adulte de confiance, banque au numéro officiel, 33700 pour les SMS, cybermalveillance.gouv.fr).
+    5 min : engagement. Ce soir, j’enregistre dans mon téléphone le numéro officiel de ma banque (ou de celle de mes parents) pour pouvoir la rappeler moi-même en cas de doute.

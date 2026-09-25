@@ -1,0 +1,59 @@
+import { createRouter, createWebHashHistory, type RouteLocationNormalized, type RouteRecordRaw } from 'vue-router'
+import { getMission } from '@/content'
+import AccueilPage from '@/pages/AccueilPage.vue'
+import CartePage from '@/pages/CartePage.vue'
+import ConfidentialitePage from '@/pages/ConfidentialitePage.vue'
+import EnseignantsPage from '@/pages/EnseignantsPage.vue'
+import FicheMissionPage from '@/pages/FicheMissionPage.vue'
+import IntrouvablePage from '@/pages/IntrouvablePage.vue'
+import MissionPage from '@/pages/MissionPage.vue'
+import PlanBPage from '@/pages/PlanBPage.vue'
+import TestTechniquePage from '@/pages/TestTechniquePage.vue'
+import { useProgress } from '@/store/useProgress'
+
+declare module 'vue-router' {
+  interface RouteMeta {
+    /** Titre de l'onglet ; `{mission}` est remplacé par le titre de la mission de l'URL. */
+    titre?: string
+  }
+}
+
+export const routes: RouteRecordRaw[] = [
+  { path: '/', name: 'accueil', component: AccueilPage },
+  {
+    path: '/carte',
+    name: 'carte',
+    component: CartePage,
+    beforeEnter: () => (useProgress().etat.tranche ? true : { name: 'accueil' }),
+    meta: { titre: 'Choisis un thème' },
+  },
+  { path: '/mission/:id', name: 'mission', component: MissionPage, meta: { titre: '{mission}' } },
+  { path: '/enseignants', name: 'enseignants', component: EnseignantsPage, meta: { titre: 'Espace enseignants' } },
+  { path: '/enseignants/:id', name: 'fiche', component: FicheMissionPage, meta: { titre: '{mission} : fiche enseignant' } },
+  { path: '/enseignants/:id/plan-b', name: 'plan-b', component: PlanBPage, meta: { titre: '{mission} : version papier' } },
+  { path: '/confidentialite', name: 'confidentialite', component: ConfidentialitePage, meta: { titre: 'Confidentialité' } },
+  { path: '/test', name: 'test-technique', component: TestTechniquePage, meta: { titre: 'Test technique du poste' } },
+  { path: '/:chemin(.*)*', name: 'introuvable', component: IntrouvablePage, meta: { titre: 'Page introuvable' } },
+]
+
+/** Titre de l'onglet pour une route : « <titre> · Cyber Réflexes » (WCAG 2.4.2). */
+export function titrePage(route: RouteLocationNormalized): string {
+  const modele = route.meta.titre
+  if (!modele) return 'Cyber Réflexes'
+  let titre = modele
+  if (modele.includes('{mission}')) {
+    const mission = getMission(String(route.params.id))
+    titre = mission ? modele.replace('{mission}', mission.titre) : 'Mission introuvable'
+  }
+  return `${titre} · Cyber Réflexes`
+}
+
+export const router = createRouter({
+  history: createWebHashHistory(),
+  routes,
+  scrollBehavior: () => ({ top: 0 }),
+})
+
+router.afterEach((to) => {
+  document.title = titrePage(to)
+})

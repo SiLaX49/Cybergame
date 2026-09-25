@@ -1,0 +1,24 @@
+import type { FilResultat, RunState, ScenarioResultat } from './mission-runner'
+
+export const BADGES = {
+  'mission-accomplie': { titre: 'Mission accomplie', description: 'Tu es allé·e jusqu’au bout de la mission.' },
+  'oeil-de-lynx': { titre: 'Œil de lynx', description: 'Tu as repéré de vrais indices sans te laisser piéger par les faux.' },
+  'reflexe-verif': { titre: 'Réflexe vérif', description: 'À chaque fois, tu as vérifié ou demandé de l’aide avant d’agir.' },
+  reparateur: { titre: 'Réparateur·rice', description: 'Tu as appliqué les bons gestes pour limiter les dégâts.' },
+  vigilant: { titre: 'Vigilant·e', description: 'Tu n’es pas tombé·e dans le piège glissé parmi tes notifications.' },
+} as const
+
+export type BadgeId = keyof typeof BADGES
+
+export function calculerBadges(etat: RunState): BadgeId[] {
+  if (!etat.termine) return []
+  const badges: BadgeId[] = ['mission-accomplie']
+  const resultats = Object.values(etat.resultats)
+  const scenarios = resultats.filter((r): r is ScenarioResultat => r.type === 'scenario' && !r.passe)
+  if (scenarios.length && scenarios.every((r) => r.indicesJustes > 0 && r.indicesFaux === 0)) badges.push('oeil-de-lynx')
+  if (scenarios.length && scenarios.every((r) => r.qualite !== 'risque')) badges.push('reflexe-verif')
+  if (scenarios.some((r) => r.recuperationFaite === true)) badges.push('reparateur')
+  const fils = resultats.filter((r): r is FilResultat => r.type === 'fil' && r.surprise !== null)
+  if (fils.length && fils.every((r) => r.surprise !== 'piege')) badges.push('vigilant')
+  return badges
+}

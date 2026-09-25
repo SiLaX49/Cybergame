@@ -1,0 +1,46 @@
+- id: phishing
+  titre: Phishing et arnaques
+  description: Faux SMS, faux mails, faux concours. Apprends à repérer les pièges avant de cliquer.
+  icone: Fish
+- id: comptes
+  titre: Mots de passe et comptes
+  description: Protéger ses comptes, créer un bon mot de passe, activer la double authentification.
+  icone: KeyRound
+- id: vie-privee
+  titre: Réseaux sociaux et vie privée
+  description: Ce que révèlent tes photos et ton profil, et comment garder le contrôle.
+  icone: Eye
+- id: harcelement
+  titre: Cyberharcèlement
+  description: Que faire quand on est visé, témoin, ou quand on a dérapé.
+  icone: Users
+  sensible: true
+  aides:
+    - { numero: '3018', libelle: 'Harcèlement, chantage, photo diffusée : appel, tchat ou appli, gratuit et confidentiel, 7 j/7 de 9 h à 23 h', type: humaine }
+    - { numero: '119', libelle: 'Enfance en danger : si un mineur est en danger ou risque de l’être', type: humaine }
+    - { numero: '17 ou 112', libelle: 'Danger immédiat : police ou gendarmerie', type: urgence }
+    - { numero: '114', libelle: 'Urgence par SMS (personnes sourdes ou malentendantes)', type: urgence }
+    - { numero: 'PHAROS', libelle: 'Signaler un contenu illégal en ligne : internet-signalement.gouv.fr', type: signalement }
+- id: jeux-achats
+  titre: Jeux vidéo et achats en ligne
+  description: Faux générateurs, vols de comptes, arnaques entre particuliers.
+  icone: Gamepad2
+- id: rencontres
+  titre: Rencontres en ligne
+  description: Inconnus trop gentils, demandes de photos, chantage. Savoir dire stop et demander de l’aide.
+  icone: HeartHandshake
+  sensible: true
+  aides:
+    - { numero: '3018', libelle: 'Chantage, photo intime diffusée, contact inquiétant : gratuit et confidentiel, 7 j/7 de 9 h à 23 h', type: humaine }
+    - { numero: '119', libelle: 'Enfance en danger : si un mineur est en danger ou risque de l’être', type: humaine }
+    - { numero: '17 ou 112', libelle: 'Danger immédiat : police ou gendarmerie', type: urgence }
+    - { numero: '114', libelle: 'Urgence par SMS (personnes sourdes ou malentendantes)', type: urgence }
+    - { numero: 'PHAROS', libelle: 'Signaler un contenu illégal en ligne : internet-signalement.gouv.fr', type: signalement }
+- id: desinformation
+  titre: Fake news et deepfakes
+  description: Vérifier une info, repérer une image truquée ou générée par IA.
+  icone: Newspaper
+- id: appareils
+  titre: Wi-Fi, applis et mises à jour
+  description: Wi-Fi public, permissions des applis, logiciels piratés.
+  icone: Wifi

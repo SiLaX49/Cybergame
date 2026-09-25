@@ -1,0 +1,155 @@
+id: j-lycee-vestiaire
+theme: jeux-achats
+tranches: ['lycee']
+titre: Vente entre particuliers
+resume: 'Un acheteur qui t’envoie un QR code, une console à −40 %, une « amende » à payer en cartes cadeaux : acheter et vendre en ligne, oui, mais sans sortir des règles.'
+duree: 20
+objectifs:
+  - Repérer les arnaques de la vente entre particuliers (faux paiement, paiement hors plateforme, cartes cadeaux)
+  - Rester dans le système de paiement de la plateforme et vérifier par un canal indépendant
+  - Réagir après une fraude (garder les preuves, faire opposition, signaler, porter plainte)
+competences:
+  crcn: ['4.1', '1.1']
+  programmes: ['SNT 2de']
+etapes:
+  - type: scenario
+    id: qr-paiement
+    ecran:
+      app: chat
+      appNom: Revendo
+      contact: 'Camille_B ★ 4,8'
+      messages:
+        - de: contact
+          texte: 'Bonjour ! Je prends la veste à 45 €. J’ai déjà payé, mais Revendo demande que tu confirmes la réception du paiement.'
+        - de: contact
+          texte: 'Scanne ce QR code, il ouvre la page de confirmation. Il faudra juste entrer ta carte bancaire pour que l’argent arrive sur ton compte. [QR code]'
+        - de: moi
+          texte: 'Ah bon ? D’habitude, tout se passe dans l’appli…'
+        - de: contact
+          texte: 'Oui, c’est la nouvelle procédure sécurisée 👍 Fais-le vite stp, je voudrais la porter samedi.'
+    question: 'Tu vends ta veste 45 € sur Revendo. Camille_B a une note de 4,8 étoiles. Dans ton appli, aucune vente n’apparaît pour l’instant. Que fais-tu ?'
+    choix:
+      - id: scanne
+        texte: Je scanne le QR code et je saisis ma carte pour recevoir l’argent.
+        qualite: risque
+        consequence: 'La page, aux couleurs de Revendo, demande aussi le cryptogramme, puis un code reçu par SMS. Ce SMS de ta banque disait pourtant « Code pour valider un paiement de 380 € » : tu l’as tapé sans le lire. Quelques minutes plus tard, 380 € sont débités de ton compte. Appelle vite ta banque au numéro officiel pour faire opposition, et garde les captures de la conversation et de la page : elles serviront à contester le paiement et à porter plainte.'
+      - id: reste-appli
+        texte: Je réponds que tout se fait dans l’appli Revendo, et j’attends que la vente y apparaisse.
+        qualite: bon
+        consequence: 'Camille_B insiste, puis disparaît. Aucune vente n’apparaît jamais. Tu signales le profil depuis l’appli, et ta veste est toujours en vente.'
+      - id: aide
+        texte: Je demande de l’aide à un proche avant de scanner quoi que ce soit.
+        qualite: aide
+        consequence: 'Ta sœur, qui vend souvent en ligne, est catégorique : « Pour recevoir de l’argent, on ne donne jamais sa carte. Et une vente n’est jamais confirmée par un QR code envoyé par l’acheteur. » Tu signales le profil.'
+    indices:
+      - { id: hors-plateforme, libelle: 'On me fait sortir de l’appli Revendo', pertinent: true }
+      - { id: qr-acheteur, libelle: 'Le QR code est envoyé par l’acheteur, pas par l’appli', pertinent: true }
+      - { id: carte-recevoir, libelle: 'On me demande ma carte bancaire pour recevoir de l’argent', pertinent: true }
+      - { id: note, libelle: 'L’acheteur a une note de 4,8 étoiles', pertinent: false }
+    explicationIndices: 'Ta carte sert à payer, jamais à recevoir un paiement. Une vente conclue apparaît dans l’appli, pas dans un QR code envoyé en message. Quant à la bonne note, elle peut venir de faux avis ou d’un compte piraté.'
+    aRetenir: 'Sur une plateforme de vente, reste dans l’appli du début à la fin : discussion, paiement, envoi. Pour recevoir de l’argent, on ne saisit jamais sa carte bancaire. Et avant de taper un code reçu par SMS, lis le message : il dit ce que tu valides.'
+    recuperation: { action: capture-preuve, siChoix: [scanne] }
+
+  - type: scenario
+    id: console-virement
+    ecran:
+      app: chat
+      appNom: Revendo
+      contact: 'GamerShop'
+      messages:
+        - de: moi
+          texte: 'Bonjour, la NovaStation est toujours disponible ?'
+        - de: contact
+          texte: 'Oui ! Neuve sous blister, 270 € au lieu de 450 €. Paiement par virement direct : c’est plus rapide et tu n’as pas de frais de protection 😉'
+        - de: contact
+          texte: 'D’autres acheteurs attendent, je te la garde jusqu’à ce soir seulement.'
+    question: 'En magasin, la NovaStation neuve coûte 450 €. Les photos de l’annonce sont superbes. Que fais-tu ?'
+    choix:
+      - id: vire
+        texte: Je fais le virement tout de suite pour ne pas rater l’occasion.
+        qualite: risque
+        consequence: 'Aucun colis n’arrive. Le compte GamerShop a disparu de Revendo et ne répond plus. Comme tu as payé hors de la plateforme, la protection acheteur ne s’applique pas. Garde les preuves, signale le profil et préviens ta banque : elle peut tenter de récupérer le virement, et tu peux porter plainte.'
+      - id: paie-appli
+        texte: J’accepte d’acheter seulement avec le paiement de l’appli, protection comprise.
+        qualite: bon
+        consequence: 'GamerShop refuse, insiste, puis ne répond plus. Tu signales l’annonce. Deux jours plus tard, elle a disparu de Revendo.'
+      - id: aide
+        texte: Je demande de l’aide à un proche avant de payer.
+        qualite: aide
+        consequence: 'Ton oncle compare les prix : « −40 % sur une console neuve, un virement direct et de l’urgence : c’est la recette de l’arnaque. » Vous signalez l’annonce.'
+    indices:
+      - { id: prix, libelle: 'Le prix est 40 % sous celui du neuf en magasin', pertinent: true }
+      - { id: virement, libelle: 'Le vendeur veut un paiement hors de la plateforme', pertinent: true }
+      - { id: pression, libelle: 'Il me presse : « d’autres acheteurs attendent »', pertinent: true }
+      - { id: photos, libelle: 'Les photos de l’annonce sont belles', pertinent: false }
+    explicationIndices: 'Le paiement dans l’appli protège l’acheteur : le vendeur n’est payé qu’une fois l’objet reçu et conforme. Un virement direct supprime cette protection. Les photos, elles, se copient en deux clics depuis un autre site.'
+    aRetenir: 'Paie toujours avec le système de paiement de la plateforme : c’est lui qui te protège. Un prix très bas associé à un virement direct et à l’urgence, c’est le signal d’alarme.'
+    recuperation: { action: bloquer-signaler, siChoix: [vire] }
+
+  - type: scenario
+    id: cartes-cadeaux
+    ecran:
+      app: sms
+      appNom: Messages
+      contact: '+33 6 39 98 17 42'
+      messages:
+        - de: contact
+          texte: 'GameBox Support : ton compte Kaelan_17 est suspendu pour fraude (achats de Coins suspects). Pour le débloquer, règle une amende de 100 € sous 24 h.'
+        - de: contact
+          texte: 'Paiement uniquement en cartes cadeaux : 2 cartes de 50 €, en vente dans les bureaux de tabac et les supermarchés. Envoie-nous par SMS les codes inscrits au dos. Sans paiement, ton compte et tous tes achats seront supprimés.'
+    question: 'Kaelan_17, c’est bien ton pseudo : trois ans de parties et des skins achetés avec ton argent de poche. Que fais-tu ?'
+    choix:
+      - id: paie
+        texte: J’achète les cartes cadeaux et j’envoie les codes pour sauver mon compte.
+        qualite: risque
+        consequence: 'Une heure plus tard, nouveau SMS : « Paiement incomplet, envoie 150 € de plus. » Ton compte GameBox, lui, n’a jamais été suspendu. Arrête de payer maintenant. Garde les tickets de caisse et les captures, bloque ce numéro et signale-le en transférant le SMS au 33700. Contacte aussi vite l’émetteur des cartes : si les codes n’ont pas encore servi, il peut parfois les bloquer. Tu peux ensuite porter plainte.'
+      - id: verifie-appli
+        texte: Je ne réponds pas et j’ouvre moi-même l’appli GameBox pour voir l’état de mon compte.
+        qualite: bon
+        consequence: 'Ton compte fonctionne normalement, sans aucune sanction. La page d’aide officielle de GameBox le dit clairement : le jeu n’exige jamais d’amende, et encore moins en cartes cadeaux. Tu signales le SMS au 33700, puis tu bloques le numéro.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte de confiance avant d’acheter quoi que ce soit.
+        qualite: aide
+        consequence: 'Ton beau-père n’hésite pas une seconde : « Une amende en cartes cadeaux ? Aucune entreprise ne fait ça. Ces codes, c’est de l’argent liquide pour l’escroc. » Vous signalez le SMS ensemble.'
+    indices:
+      - { id: cartes-cadeaux, libelle: 'On exige d’être payé en cartes cadeaux', pertinent: true }
+      - { id: menace, libelle: 'On menace de supprimer mon compte si je ne paie pas sous 24 h', pertinent: true }
+      - { id: hors-appli, libelle: 'Le message arrive par SMS depuis un numéro de portable, pas dans l’appli GameBox', pertinent: true }
+      - { id: pseudo, libelle: 'Le message connaît mon pseudo', pertinent: false }
+    explicationIndices: 'Aucun service sérieux ne se fait payer en cartes cadeaux : une fois les codes envoyés, l’argent est dépensé en quelques minutes et presque impossible à récupérer. La menace de suppression sert à t’empêcher de vérifier. Quant à ton pseudo, il est public : n’importe qui peut le lire sur ton profil ou dans une partie.'
+    aRetenir: 'Une carte cadeau sert à offrir, pas à payer une amende ou un service : quelqu’un qui te réclame des codes de cartes cadeaux est un escroc. Pour toute alerte sur un compte, vérifie toi-même dans l’appli officielle.'
+    recuperation: { action: bloquer-signaler, siChoix: [paie] }
+
+  - type: minijeu
+    id: tri-achat-vente
+    jeu: tri
+    config:
+      consigne: Pour chaque situation d’achat ou de vente entre particuliers, arnaque, situation normale, ou il faut vérifier d’abord ?
+      categories:
+        - { id: arnaque, libelle: Arnaque }
+        - { id: legitime, libelle: Légitime }
+        - { id: verifier, libelle: Je vérifie d’abord }
+      cartes:
+        - { id: c1, texte: 'Une acheteuse paie ton jean avec le bouton « Acheter » de l’appli Revendo.', categorie: legitime, explication: 'Le paiement passe par la plateforme : c’est le fonctionnement normal et protégé.' }
+        - { id: c2, texte: 'Un acheteur t’envoie un QR code « pour recevoir l’argent » de ta vente.', categorie: arnaque, explication: 'Pour recevoir de l’argent, on n’a rien à scanner ni de carte à saisir : faux paiement.' }
+        - { id: c3, texte: 'Un vendeur te demande un virement direct « pour éviter les frais ».', categorie: arnaque, explication: 'Hors de la plateforme, tu perds toute protection : si le colis n’arrive pas, personne ne te rembourse.' }
+        - { id: c4, texte: 'Une acheteuse te demande si ta veste taille grand avant d’acheter.', categorie: legitime, explication: 'Une question normale, qui ne te fait pas sortir de l’appli.' }
+        - { id: c5, texte: 'Mail signé « Revendo », d’une adresse que tu ne connais pas : « Action requise sur ta vente ».', categorie: verifier, explication: 'Ne clique pas dans le mail : ouvre toi-même l’appli pour voir s’il y a vraiment un problème.' }
+        - { id: c6, texte: 'Des baskets neuves vendues 60 % moins cher que partout ailleurs.', categorie: verifier, explication: 'Contrefaçon ou arnaque possible : regarde le profil et les avis du vendeur, et paie seulement dans l’appli.' }
+debrief:
+  questions:
+    - Quel était le piège ?
+    - Quel indice pourras-tu réutiliser la prochaine fois ?
+    - Que faire si ça t’est déjà arrivé ?
+  reponses: 'Le piège commun : te faire sortir du cadre protégé (l’appli de la plateforme ou du jeu) pour te faire payer par un moyen sans retour (virement, carte saisie sur un faux site, codes de cartes cadeaux). Indices réutilisables : paiement ou confirmation hors de l’appli, carte demandée pour recevoir de l’argent, prix très bas, paiement exigé en cartes cadeaux, menace et urgence, code SMS tapé sans lire ce qu’il valide. Si c’est déjà arrivé : arrêter de payer, faire opposition auprès de sa banque au numéro officiel, contacter l’émetteur des cartes cadeaux, garder les preuves (captures, échanges, tickets, références du paiement), signaler le profil sur la plateforme et les SMS au 33700, puis porter plainte et se faire aider sur cybermalveillance.gouv.fr. Se faire avoir n’a rien de honteux : ces arnaques sont montées par des professionnels et piègent aussi des adultes.'
+  erreursFrequentes:
+    - 'Croire qu’une bonne note ou de belles photos garantissent l’honnêteté d’un acheteur ou d’un vendeur.'
+    - 'Penser qu’il faut saisir sa carte bancaire pour recevoir un paiement.'
+    - 'Croire qu’un message qui connaît ton pseudo vient forcément du vrai service, ou qu’on peut régler une « amende » en cartes cadeaux.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qui a déjà acheté ou vendu entre particuliers en ligne ? Qu’est-ce qui vous a mis en confiance ? (sans obligation de raconter)
+    20 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, puis retour sur le mini-jeu (les deux cartes « Je vérifie d’abord »).
+    5 min : où trouver de l’aide (adulte de confiance, banque au numéro officiel, signalement sur la plateforme, 33700 pour les SMS, cybermalveillance.gouv.fr pour se faire aider, plainte au commissariat ou à la gendarmerie).
+    5 min : engagement. Cette semaine, j’explique à un proche qui vend en ligne la règle « pour recevoir de l’argent, on ne donne jamais sa carte ».

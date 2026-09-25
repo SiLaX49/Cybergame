@@ -1,0 +1,162 @@
+id: j-6e-generateur
+theme: jeux-achats
+tranches: ['6e']
+titre: Coins gratuits ?
+resume: 'Un générateur de Coins, un échange d’objets, un copain qui veut ton mot de passe : qui cherche à te piéger ?'
+duree: 15
+objectifs:
+  - Reconnaître un faux générateur de monnaie de jeu et une arnaque à l’échange d’objets
+  - Garder son mot de passe pour soi, même face à un ami
+  - Savoir quoi faire après une erreur
+competences:
+  crcn: ['4.1', '1.1']
+  programmes: ['EMI cycle 3']
+etapes:
+  - type: scenario
+    id: generateur
+    ecran:
+      app: web
+      appNom: Navigateur
+      contact: 'Générateur de GameBox Coins'
+      url: 'gamebox-coins-gratuits.net'
+      messages:
+        - de: contact
+          texte: 'Générateur de GameBox Coins : reçois 10 000 Coins gratuits en 2 minutes ! 2 847 joueurs connectés en ce moment.'
+          texteSimple: '10 000 GameBox Coins gratuits en 2 minutes ! 2 847 joueurs connectés.'
+        - de: contact
+          texte: 'Étape 1 : entre ton pseudo et ton mot de passe GameBox.'
+          texteSimple: 'Étape 1 : écris ton pseudo et ton mot de passe GameBox.'
+        - de: contact
+          texte: 'Étape 2 : vérification humaine. Télécharge l’appli « VerifPlay » pour débloquer tes Coins.'
+          texteSimple: 'Étape 2 : télécharge l’appli « VerifPlay » pour recevoir tes Coins.'
+    question: 'Une vidéo t’a montré ce site. D’habitude, les Coins se gagnent en jouant ou s’achètent dans la boutique du jeu. Que fais-tu ?'
+    choix:
+      - id: genere
+        texte: Je donne mon pseudo et mon mot de passe, puis je télécharge l’appli.
+        qualite: risque
+        consequence: 'Aucun Coin n’arrive. Le soir, ton mot de passe ne marche plus : quelqu’un a pris ton compte. L’appli, elle, remplit la tablette de pubs. Avec un adulte, tu peux la supprimer et récupérer ton compte.'
+        consequenceSimple: 'Pas de Coins. Quelqu’un a volé ton compte GameBox. Avec un adulte, tu peux le récupérer.'
+      - id: ferme
+        texte: Je ferme le site. Les Coins, ça se gagne en jouant ou ça s’achète dans le jeu.
+        qualite: bon
+        consequence: 'Ton compte et ton mot de passe restent à toi. Personne ne peut « générer » des Coins : ce site était un piège.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte avant de taper quoi que ce soit.
+        qualite: aide
+        consequence: 'Ton oncle regarde la page : « Un site qui veut ton mot de passe et une appli, c’est un piège. » Vous fermez la page.'
+    indices:
+      - { id: impossible, libelle: 'Personne ne peut « générer » des Coins gratuitement', pertinent: true }
+      - { id: mdp, libelle: 'Le site demande mon mot de passe GameBox, en dehors du jeu', pertinent: true }
+      - { id: telechargement, libelle: 'On me demande de télécharger une appli', pertinent: true }
+      - { id: compteur, libelle: 'Le site affiche 2 847 joueurs connectés', pertinent: false }
+    explicationIndices: 'Les Coins viennent seulement du jeu : un générateur, ça n’existe pas. Ton mot de passe se tape uniquement dans GameBox. Le compteur de joueurs ne prouve rien : n’importe qui peut afficher un faux chiffre.'
+    aRetenir: 'Les générateurs de Coins gratuits sont toujours des pièges. Ton mot de passe se tape seulement dans l’appli ou le site officiel du jeu.'
+    aRetenirSimple: 'Les Coins gratuits, c’est un piège. Ton mot de passe se tape seulement dans le jeu.'
+    recuperation: { action: changer-mdp, siChoix: [genere] }
+
+  - type: scenario
+    id: echange-objet
+    ecran:
+      app: chat
+      appNom: GameBox Chat
+      contact: 'DarkWolf_77'
+      messages:
+        - de: contact
+          texte: 'Salut ! Je te donne mon épée légendaire contre ton dragon. Mais tu me donnes le tien en premier, ok ?'
+          texteSimple: 'Je te donne mon épée légendaire contre ton dragon. Mais donne-moi le tien d’abord !'
+        - de: moi
+          texte: 'Pourquoi pas avec la fenêtre d’échange du jeu ?'
+          texteSimple: 'Pourquoi pas avec la fenêtre d’échange du jeu ?'
+        - de: contact
+          texte: 'Elle bugue en ce moment. Envoie-moi ton dragon en cadeau, je t’envoie l’épée juste après 😉'
+          texteSimple: 'Elle bugue. Envoie-moi ton dragon en cadeau, je t’envoie l’épée après 😉'
+    question: 'Une épée légendaire vaut bien plus que ton dragon. DarkWolf_77 est niveau 80, un très bon joueur. Que fais-tu ?'
+    choix:
+      - id: donne-premier
+        texte: J’envoie mon dragon en cadeau d’abord, il a promis.
+        qualite: risque
+        consequence: 'DarkWolf_77 reçoit ton dragon… puis te bloque. Pas d’épée. Tu peux encore signaler son compte au jeu, avec une capture de la conversation. Ça protège les autres joueurs.'
+        consequenceSimple: 'Il garde ton dragon et te bloque. Pas d’épée. Tu peux encore le signaler au jeu.'
+      - id: echange-officiel
+        texte: 'Je réponds : « Seulement avec la fenêtre d’échange du jeu, sinon non. »'
+        qualite: bon
+        consequence: 'DarkWolf_77 ne répond plus. Dans la fenêtre d’échange, les deux objets partent en même temps : personne ne peut tricher.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte ou à un copain qui connaît bien le jeu.
+        qualite: aide
+        consequence: 'Ton copain Malik rigole : « Le coup de la fenêtre qui bugue, c’est une arnaque connue ! » Vous signalez DarkWolf_77 au jeu.'
+    indices:
+      - { id: premier, libelle: 'Il veut que je donne mon objet en premier', pertinent: true }
+      - { id: hors-echange, libelle: 'Il veut éviter la fenêtre d’échange du jeu', pertinent: true }
+      - { id: trop-beau, libelle: 'Son offre est trop belle : une épée légendaire contre mon dragon', pertinent: true }
+      - { id: niveau, libelle: 'Il est niveau 80, c’est un très bon joueur', pertinent: false }
+    explicationIndices: 'La fenêtre d’échange protège les deux joueurs. Celui qui veut l’éviter et être servi en premier prépare souvent une arnaque. Un bon niveau ne prouve pas qu’on est honnête.'
+    aRetenir: 'Pour échanger un objet, utilise toujours la fenêtre d’échange du jeu. Ne donne jamais en premier.'
+    aRetenirSimple: 'Échange seulement avec la fenêtre d’échange du jeu. Ne donne jamais en premier.'
+    recuperation: { action: bloquer-signaler, siChoix: [donne-premier] }
+
+  - type: scenario
+    id: copain-mdp
+    ecran:
+      app: chat
+      appNom: SnapTalk
+      contact: 'Sacha (6e C)'
+      messages:
+        - de: contact
+          texte: 'File-moi ton mot de passe GameBox, je te monte niveau 50 ce soir, promis 🙏'
+          texteSimple: 'Donne-moi ton mot de passe GameBox. Je te monte niveau 50 ce soir, promis 🙏'
+    question: 'Sacha est vraiment dans ta classe. Ton personnage, lui, est bloqué au niveau 12 depuis une semaine. Que fais-tu ?'
+    choix:
+      - id: partage
+        texte: Je lui donne mon mot de passe, c’est un copain.
+        qualite: risque
+        consequence: 'Le lendemain, tes Coins ont disparu et ton mot de passe ne marche plus. Sacha l’a changé « pour rire ». Avec un adulte, tu peux récupérer ton compte et choisir un nouveau mot de passe.'
+        consequenceSimple: 'Sacha a dépensé tes Coins et changé ton mot de passe. Avec un adulte, tu peux récupérer ton compte.'
+      - id: refuse
+        texte: 'Je lui dis non gentiment : mon mot de passe, je le garde pour moi.'
+        qualite: bon
+        consequence: 'Sacha boude cinq minutes, puis te propose de jouer ensemble en ligne. Tu progresses, et ton compte reste à toi.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte avant de répondre.
+        qualite: aide
+        consequence: 'Ta mère t’explique : « Un mot de passe, c’est comme une brosse à dents : ça ne se prête pas. » Tu réponds non à Sacha.'
+    indices:
+      - { id: demande-mdp, libelle: 'On me demande mon mot de passe', pertinent: true }
+      - { id: pas-besoin, libelle: 'Pour m’aider à progresser, Sacha n’a pas besoin de mon mot de passe', pertinent: true }
+      - { id: classe, libelle: 'Sacha est vraiment dans ma classe', pertinent: false }
+    explicationIndices: 'Avec ton mot de passe, on peut dépenser tes Coins et changer ton mot de passe. Même un vrai ami ne doit pas l’avoir. Qu’il soit dans ta classe ne change rien.'
+    aRetenir: 'Un mot de passe ne se partage pas, même avec un ami. Vous pouvez jouer ensemble sans que tu le donnes.'
+    aRetenirSimple: 'Ton mot de passe, c’est pour toi seul. Même pas pour un ami.'
+    recuperation: { action: changer-mdp, siChoix: [partage] }
+
+  - type: minijeu
+    id: repere-generateur
+    jeu: repere
+    config:
+      consigne: Cette page s’est ouverte depuis une vidéo. Repère les éléments qui doivent t’alerter.
+      titre: 'GameBox Coins GRATUITS'
+      lignes:
+        - { id: adresse, texte: 'gamebox-coins-gratuits.net', indice: true, explication: 'Ce n’est pas le site officiel de GameBox. N’importe qui peut créer une adresse avec « gamebox » dedans.' }
+        - { id: offre, texte: '10 000 Coins offerts à tous !', indice: true, explication: 'Personne ne peut offrir des Coins à tout le monde. C’est l’appât pour te faire venir.' }
+        - { id: plateforme, texte: 'Choisis ta plateforme' }
+        - { id: mot-de-passe, texte: 'Entre ton mot de passe', indice: true, explication: 'Ton mot de passe se tape seulement dans le jeu officiel, jamais sur un autre site.' }
+        - { id: joueurs, texte: '2 847 joueurs connectés' }
+        - { id: appli, texte: 'Télécharge l’appli de vérification', indice: true, explication: 'Une appli inconnue peut être dangereuse. N’installe une appli qu’avec l’accord d’un adulte.' }
+        - { id: conditions, texte: 'Conditions d’utilisation' }
+debrief:
+  questions:
+    - Quel était le piège ?
+    - Quel indice pourras-tu réutiliser la prochaine fois ?
+    - Que faire si ça t’est déjà arrivé ?
+  reponses: 'Le piège commun : te faire envie (Coins gratuits, objet rare, niveau 50) pour obtenir ton mot de passe ou tes objets. Indices réutilisables : un cadeau impossible, un mot de passe demandé en dehors du jeu, une appli à télécharger, un échange hors de la fenêtre du jeu. Si c’est déjà arrivé : prévenir un adulte, changer le mot de passe, signaler le compte au jeu. Ce n’est pas grave d’avoir été piégé : l’important, c’est d’en parler vite.'
+  erreursFrequentes:
+    - 'Croire qu’un site est sérieux parce qu’il affiche beaucoup de joueurs connectés ou une vidéo qui en parle.'
+    - 'Penser qu’on peut prêter son mot de passe à un ami « juste une fois ».'
+    - 'Croire qu’un joueur de haut niveau est forcément honnête.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qui a déjà vu une vidéo promettant des Coins ou des skins gratuits ? (sans obligation de raconter)
+    15 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, puis retour sur le mini-jeu (le mot de passe et l’appli à télécharger).
+    5 min : où trouver de l’aide (adulte de confiance, signalement dans le jeu, cybermalveillance.gouv.fr pour les parents).
+    5 min : engagement. Ce soir, si un copain connaît mon mot de passe de jeu, je le change avec un adulte.
