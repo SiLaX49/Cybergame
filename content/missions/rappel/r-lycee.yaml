@@ -16,10 +16,10 @@ etapes:
     id: fil-notifs
     consigne: Ton téléphone vibre plusieurs fois de suite. Pour chaque notification, que fais-tu ?
     notifications:
-      - { id: vues, appNom: Vestiaire, de: Vestiaire, texte: 'Ton article « Veste en jean, taille M » a été vu 12 fois aujourd’hui 👀', explication: 'Vraie notification de l’appli : une simple info, sans lien ni demande.' }
-      - { id: releve, appNom: BanqueNova, de: BanqueNova, texte: 'Ton relevé de compte de septembre est disponible dans l’appli, rubrique Documents.', explication: 'Vraie notification de ton appli bancaire : pas de lien, pas de code demandé. Le relevé se consulte dans l’appli elle-même.' }
+      - { id: vues, appNom: Revendo, de: Revendo, texte: 'Ton article « Veste en jean, taille M » a été vu 12 fois aujourd’hui 👀', explication: 'Vraie notification de l’appli : une simple info, sans lien ni demande.' }
+      - { id: releve, appNom: BanqueNova, de: BanqueNova, texte: 'Ton relevé mensuel est disponible dans l’appli, rubrique Documents.', explication: 'Vraie notification de ton appli bancaire : pas de lien, pas de code demandé. Le relevé se consulte dans l’appli elle-même.' }
       - { id: lycee, appNom: Mon Lycée, de: Mon Lycée, texte: 'Nouveau message de M. Bernard (SES) : le contrôle de jeudi est décalé à vendredi.', explication: 'Message normal de l’ENT, qui ne demande rien.' }
-      - { id: paiement, appNom: Vestiaire, de: Vestiaire, texte: 'Ton acheteur a payé ! Confirme la réception en scannant le QR code sur vestiaire-paiement-securise.com', surprise: true, explication: 'Le piège ! Ta veste n’est pas vendue (elle vient juste d’être vue), c’est à l’acheteur, pas au vendeur, de confirmer la réception, et un vrai paiement apparaît directement dans l’appli, pas sur un site extérieur. Ce faux site sert à voler tes coordonnées bancaires.' }
+      - { id: paiement, appNom: Revendo, de: Revendo, texte: 'Ton acheteur a payé ! Confirme la réception ici pour recevoir ton argent : revendo-paiement-securise.com', surprise: true, explication: 'Le piège ! Un vrai paiement apparaît directement dans l’appli : tu n’as jamais besoin d’aller sur un autre site ni de scanner un code pour être payé. Ce faux site sert à voler tes coordonnées bancaires.' }
       - { id: chloe, appNom: SnapTalk, de: Chloé, texte: 'On se retrouve à 14 h devant le ciné ? 🍿', explication: 'Message normal d’une amie.' }
   - type: scenario
     id: likes-payes
@@ -39,7 +39,7 @@ etapes:
       - id: parle-emma
         texte: 'Je ne verse rien et j’en parle à Emma en vrai : payer pour gagner de l’argent, c’est louche.'
         qualite: bon
-        consequence: 'Emma t’explique qu’elle a bien reçu 20 €, mais qu’elle ne peut pas récupérer ses 80 € de dépôt : le site invente toujours de nouveaux frais. Vous gardez des captures et vous signalez le groupe ensemble.'
+        consequence: 'Emma t’explique qu’elle a bien reçu 20 €, mais qu’elle ne peut récupérer ni ses 50 € de dépôt, ni les 30 € de « frais » qu’on lui a demandés ensuite : le site en invente toujours de nouveaux. Vous gardez des captures et vous signalez le groupe ensemble.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de m’inscrire.
         qualite: aide
@@ -57,7 +57,7 @@ debrief:
     - Quel était le piège caché dans les notifications ?
     - Quel indice pourras-tu réutiliser la prochaine fois ?
     - Que faire si tu as déjà payé ou donné tes coordonnées bancaires ?
-  reponses: 'Le faux « acheteur a payé » reprend les indices de l’hameçonnage : un lien vers un site qui n’est pas celui de l’appli, pour une vente qui n’a pas eu lieu. Un vrai paiement se voit dans l’appli. L’offre de likes payés, elle, fait payer pour gagner : c’est toujours une arnaque. Si c’est déjà arrivé : prévenir tout de suite un adulte et la banque (opposition sur la carte), garder des captures, bloquer et signaler (cybermalveillance.gouv.fr).'
+  reponses: 'Le faux « acheteur a payé » reprend les indices de l’hameçonnage : un lien vers un site qui n’est pas celui de l’appli. Un vrai paiement se voit directement dans l’appli, sans autre site ni code à scanner. L’offre de likes payés, elle, fait payer pour gagner : c’est toujours une arnaque. Si c’est déjà arrivé : prévenir tout de suite un adulte et la banque (opposition sur la carte), garder des captures, bloquer et signaler (cybermalveillance.gouv.fr).'
   erreursFrequentes:
     - 'Croire qu’une notification qui porte le nom de l’appli vient forcément de l’appli.'
     - 'Penser qu’une offre est sérieuse parce qu’un camarade a déjà reçu un peu d’argent.'

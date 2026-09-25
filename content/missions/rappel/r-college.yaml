@@ -35,22 +35,22 @@ etapes:
       - id: envoie
         texte: J’envoie le code à Hugo, c’est juste pour le tournoi.
         qualite: risque
-        consequence: 'Ce code servait à se connecter à TON compte GameBox. Le soir, tu es déconnecté : quelqu’un est entré dans ton compte et demande leur code à tous tes amis. Ce n’était pas Hugo : son compte avait été piraté juste avant. Tu peux encore récupérer ton compte avec « mot de passe oublié », puis mieux le protéger.'
+        consequence: 'Aucune inscription au tournoi : le code ouvrait ton compte GameBox à quelqu’un d’autre. Le soir, tes Coins ont disparu et tes amis reçoivent en ton nom la même histoire de tournoi. Le vrai Hugo n’y était pour rien : un pirate utilisait son compte. Tu peux encore reprendre ton compte avec « mot de passe oublié », puis le protéger.'
       - id: verifie
         texte: Je garde le code pour moi et je demande à Hugo, en vrai ou par appel, s’il m’a bien écrit.
         qualite: bon
-        consequence: 'Hugo n’a rien envoyé : il n’arrive plus à se connecter à ChatCord depuis ce matin. Son compte a été piraté. Ton compte GameBox reste à toi, et tu aides Hugo à prévenir la classe.'
+        consequence: 'À la récré, Hugo est étonné : il n’a jamais parlé de tournoi, et son ChatCord le déconnecte sans arrêt depuis ce matin. Quelqu’un s’en sert à sa place. Ton code n’a servi à personne, et vous prévenez la classe ensemble.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un avant de répondre.
         qualite: aide
-        consequence: 'Ton grand frère lit le SMS : « C’est un code de connexion, pas d’inscription. Celui qui le demande veut entrer dans ton compte. » Tu ne réponds pas et tu préviens Hugo par un autre moyen.'
+        consequence: 'Ta prof principale regarde les deux messages : « On ne s’inscrit pas à un tournoi avec un code de connexion. Ce code ouvre ton compte. » Tu ne réponds rien sur ChatCord et tu parles à Hugo en face.'
     indices:
       - { id: code-connexion, libelle: 'Le SMS parle d’un code de connexion, pas d’une inscription à un tournoi', pertinent: true }
       - { id: ne-pas-partager, libelle: 'Le SMS dit de ne communiquer ce code à personne', pertinent: true }
       - { id: presse, libelle: 'On me presse : « avant 18 h »', pertinent: true }
       - { id: camarade, libelle: 'Le message vient d’un camarade de classe', pertinent: false }
     explicationIndices: 'Un code de connexion est envoyé à toi seul, quand quelqu’un essaie d’entrer dans ton compte. Si on te le réclame, c’est pour se connecter à ta place. Qu’il vienne d’un camarade ne prouve rien : son compte a pu être piraté.'
-    aRetenir: 'Un code reçu par SMS ne se donne jamais, même à un ami. Si un proche te le réclame, vérifie en vrai ou par appel : son compte a sans doute été piraté.'
+    aRetenir: 'Un code reçu par SMS ne se donne jamais, même à un ami. Si un proche te le réclame, vérifie en vrai ou par appel : son compte a sans doute été piraté. La double authentification protège ton compte, tant que tu ne donnes pas le code.'
     recuperation: { action: activer-2fa, siChoix: [envoie] }
 debrief:
   questions:
