@@ -41,12 +41,14 @@ focusAuChangement(() => props.phase, titre)
         <ChoixList
           v-if="phase === 'situation'"
           :choix="scenario.choix"
+          :graine="scenario.id"
           :mode="mode"
           @choisir="(id) => emit('evenement', { type: 'choisir', choixId: id })"
         />
         <IndicesForm
           v-else-if="phase === 'indices'"
           :indices="scenario.indices"
+          :graine="scenario.id"
           @valider="(ids) => emit('evenement', { type: 'valider-indices', indices: ids })"
         />
         <ConsequencePanel

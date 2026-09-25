@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { Scenario } from '@/content/schema'
+import { ordreAffichage } from '@/engine/ordre'
 import type { Mode } from '@/store/progress'
 
-const props = defineProps<{ choix: Scenario['choix']; mode: Mode }>()
+const props = defineProps<{ choix: Scenario['choix']; graine: string; mode: Mode }>()
 const emit = defineEmits<{ choisir: [choixId: string] }>()
 const selection = ref<string | null>(null)
+const choixAffiches = computed(() => ordreAffichage(props.choix, props.graine))
 
 function cliquer(id: string) {
   if (props.mode === 'classe') selection.value = id
@@ -23,7 +25,7 @@ function validerClasse() {
       <span aria-hidden="true">✋</span> Votez à main levée, puis l’adulte valide le choix de la classe.
     </p>
     <ol class="liste-choix">
-      <li v-for="c in choix" :key="c.id">
+      <li v-for="c in choixAffiches" :key="c.id">
         <button
           type="button"
           class="btn choix-btn"

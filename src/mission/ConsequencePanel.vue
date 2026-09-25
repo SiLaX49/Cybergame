@@ -2,12 +2,14 @@
 import { computed } from 'vue'
 import type { Qualite, Scenario } from '@/content/schema'
 import type { ScenarioResultat } from '@/engine/mission-runner'
+import { ordreAffichage } from '@/engine/ordre'
 import { useTexte } from '@/ui/useTexte'
 
 const props = defineProps<{ scenario: Scenario; resultat: ScenarioResultat }>()
 const emit = defineEmits<{ continuer: []; rejouer: [] }>()
 const t = useTexte()
 
+const indices = computed(() => ordreAffichage(props.scenario.indices, props.scenario.id))
 const choix = computed(() => props.scenario.choix.find((c) => c.id === props.resultat.choixId))
 const VERDICTS: Record<Qualite, { icone: string; titre: string }> = {
   bon: { icone: '✅', titre: 'Bon réflexe !' },
@@ -25,7 +27,7 @@ const VERDICTS: Record<Qualite, { icone: string; titre: string }> = {
     <p>{{ t(choix.consequence, choix.consequenceSimple) }}</p>
     <h3>Les indices</h3>
     <ul class="liste-indices">
-      <li v-for="i in scenario.indices" :key="i.id">
+      <li v-for="i in indices" :key="i.id">
         <strong>{{ i.pertinent ? 'Vrai indice' : 'Pas un indice' }} :</strong> {{ i.libelle }}
         <span v-if="resultat.indicesChoisis.includes(i.id)" class="coche"> (tu l’avais coché)</span>
       </li>

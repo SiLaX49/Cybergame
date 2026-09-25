@@ -2,6 +2,7 @@
 import { RouterLink, useRoute } from 'vue-router'
 import { getMission } from '@/content'
 import { FIL_ACTIONS } from '@/content/schema'
+import { ordreAffichage } from '@/engine/ordre'
 
 const route = useRoute()
 const mission = getMission(String(route.params.id))
@@ -38,9 +39,9 @@ const ACTIONS_PAPIER: Record<(typeof FIL_ACTIONS)[number], string> = {
             <p v-for="(m, j) in e.ecran.messages" :key="j">{{ m.de === 'moi' ? 'Moi' : e.ecran.contact }} : {{ m.texte }}</p>
           </div>
           <p><strong>{{ e.question }}</strong></p>
-          <ul class="cases"><li v-for="c in e.choix" :key="c.id">☐ {{ c.texte }}</li></ul>
+          <ul class="cases"><li v-for="c in ordreAffichage(e.choix, e.id)" :key="c.id">☐ {{ c.texte }}</li></ul>
           <p>Quel indice t’a décidé ?</p>
-          <ul class="cases"><li v-for="ind in e.indices" :key="ind.id">☐ {{ ind.libelle }}</li></ul>
+          <ul class="cases"><li v-for="ind in ordreAffichage(e.indices, e.id)" :key="ind.id">☐ {{ ind.libelle }}</li></ul>
         </template>
         <template v-else-if="e.type === 'minijeu' && e.jeu === 'tri'">
           <h2>Mini-jeu {{ i + 1 }} : {{ e.config.consigne }}</h2>

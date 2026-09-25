@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it } from 'vitest'
 import type { Scenario } from '@/content/schema'
 import type { ScenarioResultat } from '@/engine/mission-runner'
+import { ordreAffichage } from '@/engine/ordre'
 import ScenarioStep from '@/mission/ScenarioStep.vue'
 import { creerStore, definirStore, type ProgressStore } from '@/store/useProgress'
 import { missionFixture } from './fixtures'
@@ -34,6 +35,16 @@ describe('ScenarioStep', () => {
     expect(w.find('h2').text()).toBe('Que fais-tu ?')
     await w.find('[data-choix="aide"]').trigger('click')
     expect(w.emitted('evenement')).toEqual([[{ type: 'choisir', choixId: 'aide' }]])
+  })
+
+  it('choix et indices s’affichent dans l’ordre mélangé propre au scénario', async () => {
+    const s = scenario()
+    const w = monter()
+    expect(w.findAll('[data-choix]').map((b) => b.attributes('data-choix'))).toEqual(ordreAffichage(s.choix, s.id).map((c) => c.id))
+    await w.setProps({ phase: 'indices' })
+    expect(w.findAll('input[type="checkbox"]').map((i) => i.attributes('value'))).toEqual(
+      ordreAffichage(s.indices, s.id).map((i) => i.id),
+    )
   })
 
   it('binôme : invite à discuter', () => {
