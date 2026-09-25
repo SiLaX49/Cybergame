@@ -16,25 +16,25 @@ etapes:
     id: qr-paiement
     ecran:
       app: chat
-      appNom: Vestiaire
+      appNom: Revendo
       contact: 'Camille_B ★ 4,8'
       messages:
         - de: contact
-          texte: 'Bonjour ! Je prends la veste à 45 €. J’ai déjà payé, mais Vestiaire demande que tu confirmes la réception du paiement.'
+          texte: 'Bonjour ! Je prends la veste à 45 €. J’ai déjà payé, mais Revendo demande que tu confirmes la réception du paiement.'
         - de: contact
           texte: 'Scanne ce QR code, il ouvre la page de confirmation. Il faudra juste entrer ta carte bancaire pour que l’argent arrive sur ton compte. [QR code]'
         - de: moi
           texte: 'Ah bon ? D’habitude, tout se passe dans l’appli…'
         - de: contact
           texte: 'Oui, c’est la nouvelle procédure sécurisée 👍 Fais-le vite stp, je voudrais la porter samedi.'
-    question: 'Tu vends ta veste 45 € sur Vestiaire. Camille_B a une note de 4,8 étoiles. Dans ton appli, aucune vente n’apparaît pour l’instant. Que fais-tu ?'
+    question: 'Tu vends ta veste 45 € sur Revendo. Camille_B a une note de 4,8 étoiles. Dans ton appli, aucune vente n’apparaît pour l’instant. Que fais-tu ?'
     choix:
       - id: scanne
         texte: Je scanne le QR code et je saisis ma carte pour recevoir l’argent.
         qualite: risque
-        consequence: 'La page, aux couleurs de Vestiaire, demande aussi le cryptogramme puis un code reçu par SMS. Quelques minutes plus tard, 450 € sont débités de ton compte. Appelle vite ta banque au numéro officiel pour faire opposition, et garde les captures de la conversation et de la page : elles serviront à contester le paiement et à porter plainte.'
+        consequence: 'La page, aux couleurs de Revendo, demande aussi le cryptogramme puis un code reçu par SMS. Quelques minutes plus tard, 450 € sont débités de ton compte. Appelle vite ta banque au numéro officiel pour faire opposition, et garde les captures de la conversation et de la page : elles serviront à contester le paiement et à porter plainte.'
       - id: reste-appli
-        texte: Je réponds que tout se fait dans l’appli Vestiaire, et j’attends que la vente y apparaisse.
+        texte: Je réponds que tout se fait dans l’appli Revendo, et j’attends que la vente y apparaisse.
         qualite: bon
         consequence: 'Camille_B insiste, puis disparaît. Aucune vente n’apparaît jamais. Tu signales le profil depuis l’appli, et ta veste est toujours en vente.'
       - id: aide
@@ -42,7 +42,7 @@ etapes:
         qualite: aide
         consequence: 'Ta sœur, qui vend souvent en ligne, est catégorique : « Pour recevoir de l’argent, on ne donne jamais sa carte. Et une vente n’est jamais confirmée par un QR code envoyé par l’acheteur. » Tu signales le profil.'
     indices:
-      - { id: hors-plateforme, libelle: 'On me fait sortir de l’appli Vestiaire', pertinent: true }
+      - { id: hors-plateforme, libelle: 'On me fait sortir de l’appli Revendo', pertinent: true }
       - { id: qr-acheteur, libelle: 'Le QR code est envoyé par l’acheteur, pas par l’appli', pertinent: true }
       - { id: carte-recevoir, libelle: 'On me demande ma carte bancaire pour recevoir de l’argent', pertinent: true }
       - { id: note, libelle: 'L’acheteur a une note de 4,8 étoiles', pertinent: false }
@@ -54,7 +54,7 @@ etapes:
     id: console-virement
     ecran:
       app: chat
-      appNom: Vestiaire
+      appNom: Revendo
       contact: 'GamerShop'
       messages:
         - de: moi
@@ -68,11 +68,11 @@ etapes:
       - id: vire
         texte: Je fais le virement tout de suite pour ne pas rater l’occasion.
         qualite: risque
-        consequence: 'Aucun colis n’arrive. Le compte GamerShop a disparu de Vestiaire et ne répond plus. Comme tu as payé hors de la plateforme, la protection acheteur ne s’applique pas. Garde les preuves, signale le profil et préviens ta banque : elle peut tenter de récupérer le virement, et tu peux porter plainte.'
+        consequence: 'Aucun colis n’arrive. Le compte GamerShop a disparu de Revendo et ne répond plus. Comme tu as payé hors de la plateforme, la protection acheteur ne s’applique pas. Garde les preuves, signale le profil et préviens ta banque : elle peut tenter de récupérer le virement, et tu peux porter plainte.'
       - id: paie-appli
         texte: J’accepte d’acheter seulement avec le paiement de l’appli, protection comprise.
         qualite: bon
-        consequence: 'GamerShop refuse, insiste, puis ne répond plus. Tu signales l’annonce. Deux jours plus tard, elle a disparu de Vestiaire.'
+        consequence: 'GamerShop refuse, insiste, puis ne répond plus. Tu signales l’annonce. Deux jours plus tard, elle a disparu de Revendo.'
       - id: aide
         texte: Je demande de l’aide à un proche avant de payer.
         qualite: aide
@@ -128,11 +128,11 @@ etapes:
         - { id: legitime, libelle: Légitime }
         - { id: verifier, libelle: Je vérifie d’abord }
       cartes:
-        - { id: c1, texte: 'Une acheteuse paie ton jean avec le bouton « Acheter » de l’appli Vestiaire.', categorie: legitime, explication: 'Le paiement passe par la plateforme : c’est le fonctionnement normal et protégé.' }
+        - { id: c1, texte: 'Une acheteuse paie ton jean avec le bouton « Acheter » de l’appli Revendo.', categorie: legitime, explication: 'Le paiement passe par la plateforme : c’est le fonctionnement normal et protégé.' }
         - { id: c2, texte: 'Un acheteur t’envoie un QR code « pour recevoir l’argent » de ta vente.', categorie: arnaque, explication: 'Pour recevoir de l’argent, on n’a rien à scanner ni de carte à saisir : faux paiement.' }
         - { id: c3, texte: 'Un vendeur te demande un virement direct « pour éviter les frais ».', categorie: arnaque, explication: 'Hors de la plateforme, tu perds toute protection : si le colis n’arrive pas, personne ne te rembourse.' }
         - { id: c4, texte: 'Une acheteuse te demande si ta veste taille grand avant d’acheter.', categorie: legitime, explication: 'Une question normale, qui ne te fait pas sortir de l’appli.' }
-        - { id: c5, texte: 'Mail signé « Vestiaire », d’une adresse que tu ne connais pas : « Action requise sur ta vente ».', categorie: verifier, explication: 'Ne clique pas dans le mail : ouvre toi-même l’appli pour voir s’il y a vraiment un problème.' }
+        - { id: c5, texte: 'Mail signé « Revendo », d’une adresse que tu ne connais pas : « Action requise sur ta vente ».', categorie: verifier, explication: 'Ne clique pas dans le mail : ouvre toi-même l’appli pour voir s’il y a vraiment un problème.' }
         - { id: c6, texte: 'Des baskets neuves vendues 60 % moins cher que partout ailleurs.', categorie: verifier, explication: 'Contrefaçon ou arnaque possible : regarde le profil et les avis du vendeur, et paie seulement dans l’appli.' }
 debrief:
   questions:

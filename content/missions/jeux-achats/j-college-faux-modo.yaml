@@ -138,7 +138,7 @@ debrief:
     - Quel était le piège ?
     - Quel indice pourras-tu réutiliser la prochaine fois ?
     - Que faire si ça t’est déjà arrivé ?
-  reponses: 'Le piège commun : se faire passer pour quelqu’un qui aide (support, développeur, site de mods) pour obtenir ton code, installer un programme ou couper ta protection. Indices réutilisables : un « support » en message privé, une demande de code, un fichier .exe, une demande de désactiver l’antivirus, une menace de bannissement. Si c’est déjà arrivé : changer ses mots de passe depuis un appareil sain, activer la double authentification, faire analyser l’ordinateur, prévenir ses amis et un adulte. Se faire avoir arrive aussi aux joueurs expérimentés : l’important, c’est de réagir vite.'
+  reponses: 'Le piège commun : se faire passer pour quelqu’un qui aide (support, développeur, site de mods) pour obtenir ton code, installer un programme ou couper ta protection. Indices réutilisables : un « support » en message privé, une demande de code, un fichier .exe, une demande de désactiver l’antivirus, une menace de bannissement. Si c’est déjà arrivé : changer ses mots de passe depuis un appareil sain, activer la double authentification (elle ne protège que tant qu’on ne donne pas ses codes), faire analyser l’ordinateur, prévenir ses amis et un adulte. Se faire avoir arrive aussi aux joueurs expérimentés : l’important, c’est de réagir vite.'
   erreursFrequentes:
     - 'Croire qu’un compte qui s’appelle « Support » ou « Modo » fait vraiment partie de l’équipe du jeu.'
     - 'Penser qu’un fichier envoyé par un ami est forcément sûr : son compte a peut-être été piraté.'
