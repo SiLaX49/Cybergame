@@ -18,7 +18,7 @@ const rappel = computed(() => rappelPour(tranche.value))
 const echeance = computed(() =>
   rappelDu(
     Object.values(store.etat.missions).map((m) => m.termineeLe),
-    Object.values(store.etat.rappels).reduce((total, r) => total + r.fois, 0),
+    Object.values(store.etat.rappels),
     new Date(),
   ),
 )

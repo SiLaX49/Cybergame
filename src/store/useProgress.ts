@@ -37,7 +37,13 @@ export function creerStore(storage: Storage | null) {
       Object.assign(etat.reglages, reglages)
     },
     enregistrerMission(id: string, badges: string[], choix: Record<string, string>, maintenant = new Date()) {
-      etat.missions[id] = { termineeLe: maintenant.toISOString(), badges, choix }
+      // Une mission rejouée garde sa première date (point de départ des rappels) et tous ses badges.
+      const avant = etat.missions[id]
+      etat.missions[id] = {
+        termineeLe: avant?.termineeLe ?? maintenant.toISOString(),
+        badges: [...new Set([...(avant?.badges ?? []), ...badges])],
+        choix,
+      }
     },
     enregistrerRappel(id: string, resultatSurprise: SurpriseResultat | null, maintenant = new Date()) {
       const fois = (etat.rappels[id]?.fois ?? 0) + 1

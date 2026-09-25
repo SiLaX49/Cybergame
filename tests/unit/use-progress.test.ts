@@ -27,6 +27,17 @@ describe('store de progression', () => {
     })
   })
 
+  it('rejouer une mission garde la première date, cumule les badges et garde les derniers choix', () => {
+    const store = creerStore(new MemoryStorage())
+    store.enregistrerMission('m-test', ['mission-accomplie', 'reflexe-verif'], { 'sc-1': 'aide' }, new Date('2026-09-01T10:00:00Z'))
+    store.enregistrerMission('m-test', ['mission-accomplie', 'oeil-de-lynx'], { 'sc-1': 'verif' }, new Date('2026-09-05T10:00:00Z'))
+    expect(store.etat.missions['m-test']).toEqual({
+      termineeLe: '2026-09-01T10:00:00.000Z',
+      badges: ['mission-accomplie', 'reflexe-verif', 'oeil-de-lynx'],
+      choix: { 'sc-1': 'verif' },
+    })
+  })
+
   it('compte les rappels faits', () => {
     const store = creerStore(new MemoryStorage())
     store.enregistrerRappel('r-6e', 'piege', new Date('2026-09-08T10:00:00Z'))
