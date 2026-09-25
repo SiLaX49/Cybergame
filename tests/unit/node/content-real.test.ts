@@ -58,4 +58,8 @@ describe('contenu réel', () => {
   it.each(TRANCHES)('phishing : au moins une mission pour la tranche %s', (t) => {
     expect(missionsDuTheme('phishing').some((m) => m.tranches.includes(t))).toBe(true)
   })
+
+  it.each(TRANCHES)('jeux et achats : au moins une mission pour la tranche %s', (t) => {
+    expect(missionsDuTheme('jeux-achats').some((m) => m.tranches.includes(t))).toBe(true)
+  })
 })

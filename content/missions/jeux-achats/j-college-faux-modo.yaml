@@ -1,0 +1,152 @@
+id: j-college-faux-modo
+theme: jeux-achats
+tranches: ['5e-3e']
+titre: Le faux modérateur
+resume: 'Un faux support qui menace de bannir ton compte, un « jeu à tester », un mod gratuit : sur les serveurs de jeu, les pièges se déguisent en coups de main.'
+duree: 18
+objectifs:
+  - Reconnaître un faux support ou un faux modérateur qui réclame un code
+  - Refuser d’ouvrir un programme envoyé par un inconnu ou de désactiver son antivirus
+  - Reprendre la main sur un compte volé et le protéger
+competences:
+  crcn: ['4.1', '5.1']
+  programmes: ['EMI cycle 4']
+etapes:
+  - type: scenario
+    id: signale-erreur
+    ecran:
+      app: chat
+      appNom: ChatCord
+      contact: 'Lucas'
+      messages:
+        - de: contact
+          texte: 'Oups, j’ai signalé ton compte par erreur 😬 Il va être banni sous 24 h ! Écris vite à @Support_ChatCord pour annuler, ils sont super rapides.'
+        - de: moi
+          texte: 'Sérieux ?! Ok je leur écris.'
+    question: 'Lucas, tu joues avec lui depuis des mois sur ton serveur. Tu écris à @Support_ChatCord, qui te répond en message privé : « Pour annuler le bannissement, envoie-moi le code à 6 chiffres que tu vas recevoir par SMS. » Le SMS arrive. Que fais-tu ?'
+    choix:
+      - id: donne-code
+        texte: J’envoie le code au support pour éviter le bannissement.
+        qualite: risque
+        consequence: 'Ce code servait à te connecter à ton compte… depuis l’appareil du pirate. Ton appli te déconnecte, ton pseudo change et ton compte envoie la même arnaque à tes amis. Grâce à « Mot de passe oublié » et à ton adresse mail, tu changes ton mot de passe et tu reprends la main. Reste à fermer la porte pour de bon.'
+      - id: verifie
+        texte: Je n’envoie rien et je regarde moi-même dans les paramètres de mon compte s’il y a un avertissement.
+        qualite: bon
+        consequence: 'Aucun avertissement dans ton compte. En vocal, Lucas tombe des nues : il n’a jamais écrit ce message, son compte a été piraté hier. Vous signalez le faux support.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte ou à un modérateur de confiance de mon serveur.
+        qualite: aide
+        consequence: 'L’administratrice de ton serveur est formelle : « Le vrai support ne t’écrit jamais en message privé et ne demande jamais de code. » Elle bannit le faux compte du serveur et prévient tout le monde.'
+    indices:
+      - { id: message-prive, libelle: 'Le « support » m’écrit en message privé, comme n’importe quel utilisateur', pertinent: true }
+      - { id: code, libelle: 'On me demande le code reçu par SMS', pertinent: true }
+      - { id: urgence, libelle: 'On me menace d’un bannissement sous 24 h', pertinent: true }
+      - { id: ami, libelle: 'Lucas est vraiment mon ami', pertinent: false }
+    explicationIndices: 'N’importe qui peut créer un compte nommé « Support_ChatCord ». Un vrai support ne demande jamais ton code ni ton mot de passe, et la peur du bannissement sert à te faire agir vite. Le message de Lucas ne prouve rien : son compte a pu être piraté.'
+    aRetenir: 'Un code reçu par SMS ne se donne à personne, même au « support ». Pour vérifier une menace sur ton compte, regarde toi-même dans l’appli. La double authentification protège ton compte tant que tu gardes ses codes pour toi.'
+    recuperation: { action: activer-2fa, siChoix: [donne-code] }
+
+  - type: scenario
+    id: teste-jeu
+    ecran:
+      app: chat
+      appNom: ChatCord
+      contact: 'Nova_Dev'
+      messages:
+        - de: contact
+          texte: 'Salut ! J’ai vu tes parties, t’as un vrai talent 🔥 J’ai codé un jeu, tu veux bien le tester ? Ton avis m’aiderait trop.'
+        - de: contact
+          texte: '📎 NovaQuest_beta.exe (48 Mo)'
+    question: 'Nova_Dev t’a ajouté hier sur un serveur de jeux, tu ne le connais pas. Et « NovaQuest », ça a l’air stylé. Que fais-tu ?'
+    choix:
+      - id: lance
+        texte: Je télécharge le fichier et je lance le jeu sur mon ordinateur.
+        qualite: risque
+        consequence: 'Le « jeu » affiche un écran noir puis se ferme. En silence, il a copié les mots de passe enregistrés dans ton navigateur et tes connexions ouvertes. Le soir, tes comptes ChatCord et GameBox sont piratés. Tu peux encore reprendre la main : fais analyser l’ordinateur avec un adulte, puis change tes mots de passe.'
+      - id: refuse
+        texte: 'Je refuse poliment : je n’ouvre pas un programme envoyé par un inconnu.'
+        qualite: bon
+        consequence: 'Nova_Dev insiste, puis quitte le serveur. Quelques jours plus tard, un modérateur annonce que ce compte a piraté plusieurs membres avec un faux jeu.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte avant d’ouvrir le fichier.
+        qualite: aide
+        consequence: 'Ton grand frère voit « .exe » : « C’est un programme, il peut faire ce qu’il veut sur l’ordi. » Vous ne l’ouvrez pas et vous signalez le compte.'
+    indices:
+      - { id: exe, libelle: 'Le fichier est un programme (.exe)', pertinent: true }
+      - { id: inconnu, libelle: 'Il vient d’une personne rencontrée hier', pertinent: true }
+      - { id: flatterie, libelle: 'Il me flatte (« t’as un vrai talent »)', pertinent: true }
+      - { id: nom, libelle: 'Le nom du jeu est stylé', pertinent: false }
+    explicationIndices: 'Un fichier .exe est un programme : l’ouvrir, c’est le laisser agir sur ton ordinateur. La flatterie sert à baisser ta garde. Un nom stylé ne dit rien de ce que fait vraiment le programme.'
+    aRetenir: 'N’ouvre jamais un programme envoyé par un inconnu, même présenté comme un jeu à tester. Les vrais jeux s’installent depuis des boutiques officielles.'
+    recuperation: { action: changer-mdp, siChoix: [lance] }
+
+  - type: scenario
+    id: mod-gratuit
+    ecran:
+      app: web
+      appNom: Navigateur
+      contact: 'GameBox Mods Free'
+      url: 'gamebox-mods-free.xyz'
+      messages:
+        - de: contact
+          texte: 'SKINS ILLIMITÉS pour GameBox : tous les skins débloqués, 100 % gratuit, 100 % indétectable !'
+        - de: contact
+          texte: 'Installation : 1. Désactive ton antivirus (il bloque le mod par erreur). 2. Lance SkinUnlocker.exe. 3. Redémarre le jeu.'
+        - de: contact
+          texte: '★★★★★ 1 243 avis : « Ça marche trop bien !! » « Merci frérot » « Enfin tous les skins »'
+    question: 'Tu as trouvé ce site en cherchant « skins gratuits ». GameBox ne parle de ce mod nulle part, et tu joues sur l’ordinateur familial. Que fais-tu ?'
+    choix:
+      - id: desactive
+        texte: Je désactive l’antivirus juste le temps d’installer le mod.
+        qualite: risque
+        consequence: 'Le mod ne débloque rien. Mais l’ordinateur devient très lent, des pubs s’ouvrent partout et l’antivirus refuse de se réactiver. Ce n’est pas trop tard : préviens un adulte pour faire nettoyer l’ordinateur, puis changer les mots de passe de la famille.'
+      - id: ferme
+        texte: 'Je ferme le site : un vrai mod n’a jamais besoin qu’on coupe l’antivirus.'
+        qualite: bon
+        consequence: 'L’ordinateur reste sain. Sur le forum officiel de GameBox, un message épinglé prévient justement : « Les sites de skins gratuits installent des virus. »'
+      - id: aide
+        texte: Je demande de l’aide à un adulte avant d’installer quoi que ce soit.
+        qualite: aide
+        consequence: 'Ton père lit la ligne sur l’antivirus : « S’il bloque, c’est justement parce que c’est dangereux ! » Vous fermez le site.'
+    indices:
+      - { id: antivirus, libelle: 'On me demande de désactiver l’antivirus', pertinent: true }
+      - { id: non-officiel, libelle: 'Le site n’est pas celui de GameBox, qui ne parle pas de ce mod', pertinent: true }
+      - { id: illimite, libelle: 'Tout est « gratuit et illimité »', pertinent: true }
+      - { id: avis, libelle: 'Il y a beaucoup d’avis positifs', pertinent: false }
+    explicationIndices: 'Un antivirus qui bloque un fichier a souvent une bonne raison. Des avis se fabriquent en quelques minutes. Et un mod de triche peut aussi faire bannir ton compte du jeu.'
+    aRetenir: 'Ne désactive jamais ton antivirus pour installer quelque chose. Pour les mods et les skins, reste sur la boutique du jeu ou les plateformes qu’il reconnaît officiellement.'
+    recuperation: { action: demander-aide, siChoix: [desactive] }
+
+  - type: minijeu
+    id: tri-chatcord
+    jeu: tri
+    config:
+      consigne: Pour chaque message reçu sur ChatCord, arnaque, message normal, ou il faut vérifier d’abord ?
+      categories:
+        - { id: arnaque, libelle: Arnaque }
+        - { id: legitime, libelle: Légitime }
+        - { id: verifier, libelle: Je vérifie d’abord }
+      cartes:
+        - { id: c1, texte: '@Support_ChatCord (message privé) : ton compte a été signalé. Envoie le code reçu par SMS pour éviter le bannissement.', categorie: arnaque, explication: 'Le vrai support n’écrit pas en message privé et ne demande jamais de code.' }
+        - { id: c2, texte: 'Yanis : on lance une partie à 18 h, tu viens ? 🎮', categorie: legitime, explication: 'Une invitation normale d’un ami, sans lien ni demande bizarre.' }
+        - { id: c3, texte: 'SkinsDrop : skin légendaire GRATUIT pour les 100 premiers 👉 free-skins-gamebox.shop', categorie: arnaque, explication: 'Skin gratuit et lien vers un site inconnu : c’est un appât pour voler ton compte.' }
+        - { id: c4, texte: '#annonces (salon officiel du serveur) : maintenance du jeu ce soir de 22 h à minuit.', categorie: legitime, explication: 'Une info publiée dans le salon officiel, qui ne te demande rien.' }
+        - { id: c5, texte: 'Emma : regarde le jeu que j’ai fait 😄 📎 EmmaGame.exe', categorie: verifier, explication: 'Même venant d’une amie, un .exe peut être dangereux : son compte a peut-être été piraté. Demande-lui en vrai avant d’ouvrir.' }
+        - { id: c6, texte: 'Ton compte sera banni dans 1 h. Clique ici pour faire appel : chatcord-appel.net', categorie: arnaque, explication: 'Menace, délai très court et lien vers un faux site : arnaque classique.' }
+debrief:
+  questions:
+    - Quel était le piège ?
+    - Quel indice pourras-tu réutiliser la prochaine fois ?
+    - Que faire si ça t’est déjà arrivé ?
+  reponses: 'Le piège commun : se faire passer pour quelqu’un qui aide (support, développeur, site de mods) pour obtenir ton code, installer un programme ou couper ta protection. Indices réutilisables : un « support » en message privé, une demande de code, un fichier .exe, une demande de désactiver l’antivirus, une menace de bannissement. Si c’est déjà arrivé : changer ses mots de passe depuis un appareil sain, activer la double authentification, faire analyser l’ordinateur, prévenir ses amis et un adulte. Se faire avoir arrive aussi aux joueurs expérimentés : l’important, c’est de réagir vite.'
+  erreursFrequentes:
+    - 'Croire qu’un compte qui s’appelle « Support » ou « Modo » fait vraiment partie de l’équipe du jeu.'
+    - 'Penser qu’un fichier envoyé par un ami est forcément sûr : son compte a peut-être été piraté.'
+    - 'Croire qu’un antivirus bloque « par erreur » dès qu’il gêne.'
+fiche:
+  deroulement: |
+    5 min : cadre. Avez-vous déjà reçu un message d’un « support » ou d’un « modo » sur un serveur de jeu ? (sans obligation de raconter)
+    18 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, puis retour sur le mini-jeu (le .exe envoyé par une amie).
+    5 min : où trouver de l’aide (adulte de confiance, modérateurs du serveur, support officiel depuis l’appli, cybermalveillance.gouv.fr).
+    5 min : engagement. Cette semaine, je vérifie que mon compte de jeu principal a un mot de passe que je n’utilise nulle part ailleurs.
