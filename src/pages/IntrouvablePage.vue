@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router'
 <template>
   <main class="conteneur">
     <h1>Page introuvable</h1>
-    <p>Cette page n\'existe pas ou plus.</p>
-    <RouterLink class="btn" to="/">Retour à l\'accueil</RouterLink>
+    <p>Cette page n'existe pas ou plus.</p>
+    <RouterLink class="btn" to="/">Retour à l'accueil</RouterLink>
   </main>
 </template>
