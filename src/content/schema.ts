@@ -1,0 +1,232 @@
+import { z } from 'zod'
+
+export const TRANCHES = ['6e', '5e-3e', 'lycee'] as const
+export const trancheSchema = z.enum(TRANCHES)
+export type Tranche = z.infer<typeof trancheSchema>
+export const TRANCHE_LIBELLES: Record<Tranche, string> = { '6e': '6e', '5e-3e': '5e – 3e', lycee: 'Lycée' }
+
+export const RECOVERY_ACTIONS = [
+  'bloquer-signaler',
+  'changer-mdp',
+  'activer-2fa',
+  'capture-preuve',
+  'prevenir-contacts',
+  'demander-aide',
+] as const
+export type RecoveryAction = (typeof RECOVERY_ACTIONS)[number]
+
+export const ICONES = ['Fish', 'KeyRound', 'Eye', 'Users', 'Gamepad2', 'HeartHandshake', 'Newspaper', 'Wifi'] as const
+
+export const FIL_ACTIONS = ['ouvrir', 'verifier', 'signaler', 'ignorer'] as const
+export type FilAction = (typeof FIL_ACTIONS)[number]
+
+const slug = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'identifiant attendu en minuscules-avec-tirets')
+const texte = z.string().trim().min(1, 'texte vide')
+
+function idsUniques<T>(ids: string[], ctx: z.RefinementCtx<T>, chemin: (string | number)[], quoi: string) {
+  const vus = new Set<string>()
+  ids.forEach((id, i) => {
+    if (vus.has(id)) ctx.addIssue({ code: 'custom', message: `${quoi} en double : ${id}`, path: [...chemin, i, 'id'] })
+    vus.add(id)
+  })
+}
+
+export const aideSchema = z.object({
+  numero: texte,
+  libelle: texte,
+  type: z.enum(['humaine', 'urgence', 'signalement', 'technique']),
+})
+
+export const themeSchema = z.object({
+  id: slug,
+  titre: texte,
+  description: texte,
+  icone: z.enum(ICONES),
+  sensible: z.boolean().default(false),
+  aides: z.array(aideSchema).default([]),
+})
+
+export const themesFileSchema = z
+  .array(themeSchema)
+  .min(1)
+  .superRefine((themes, ctx) => idsUniques(themes.map((t) => t.id), ctx, [], 'thème'))
+
+const messageSchema = z.object({
+  de: z.enum(['contact', 'moi']),
+  texte,
+  texteSimple: texte.optional(),
+})
+
+export const ecranSchema = z.object({
+  app: z.enum(['sms', 'chat', 'social', 'mail', 'web']),
+  appNom: texte,
+  contact: texte,
+  sujet: texte.optional(),
+  url: texte.optional(),
+  messages: z.array(messageSchema).min(1),
+})
+
+const choixSchema = z.object({
+  id: slug,
+  texte,
+  qualite: z.enum(['bon', 'risque', 'aide']),
+  consequence: texte,
+  consequenceSimple: texte.optional(),
+})
+
+const indiceSchema = z.object({ id: slug, libelle: texte, pertinent: z.boolean() })
+
+export const scenarioSchema = z
+  .object({
+    type: z.literal('scenario'),
+    id: slug,
+    role: z.enum(['victime', 'temoin', 'auteur']).nullable().default(null),
+    ecran: ecranSchema,
+    question: texte,
+    choix: z.array(choixSchema).min(2).max(4),
+    indices: z.array(indiceSchema).min(2),
+    explicationIndices: texte,
+    aRetenir: texte,
+    aRetenirSimple: texte.optional(),
+    recuperation: z.object({ action: z.enum(RECOVERY_ACTIONS), siChoix: z.array(slug).min(1) }).optional(),
+  })
+  .superRefine((s, ctx) => {
+    idsUniques(s.choix.map((c) => c.id), ctx, ['choix'], 'choix')
+    idsUniques(s.indices.map((i) => i.id), ctx, ['indices'], 'indice')
+    if (!s.choix.some((c) => c.qualite === 'aide')) {
+      ctx.addIssue({ code: 'custom', path: ['choix'], message: 'il faut un choix de qualité "aide" (Je demande de l’aide…)' })
+    }
+    if (!s.indices.some((i) => i.pertinent)) {
+      ctx.addIssue({ code: 'custom', path: ['indices'], message: 'il faut au moins un indice pertinent' })
+    }
+    s.recuperation?.siChoix.forEach((id, i) => {
+      const choix = s.choix.find((c) => c.id === id)
+      if (!choix) {
+        ctx.addIssue({ code: 'custom', path: ['recuperation', 'siChoix', i], message: `choix inconnu : ${id}` })
+      } else if (choix.qualite === 'aide') {
+        ctx.addIssue({ code: 'custom', path: ['recuperation', 'siChoix', i], message: 'la récupération ne peut pas suivre le choix "aide"' })
+      }
+    })
+  })
+
+export const triConfigSchema = z
+  .object({
+    consigne: texte,
+    categories: z.array(z.object({ id: slug, libelle: texte })).min(2).max(3),
+    cartes: z.array(z.object({ id: slug, texte, categorie: slug, explication: texte })).min(4),
+  })
+  .superRefine((c, ctx) => {
+    idsUniques(c.cartes.map((x) => x.id), ctx, ['cartes'], 'carte')
+    c.cartes.forEach((carte, i) => {
+      if (!c.categories.some((cat) => cat.id === carte.categorie)) {
+        ctx.addIssue({ code: 'custom', path: ['cartes', i, 'categorie'], message: `catégorie inconnue : ${carte.categorie}` })
+      }
+    })
+  })
+
+export const repereConfigSchema = z
+  .object({
+    consigne: texte,
+    titre: texte,
+    lignes: z
+      .array(z.object({ id: slug, texte, indice: z.boolean().default(false), explication: texte.optional() }))
+      .min(3),
+  })
+  .superRefine((c, ctx) => {
+    idsUniques(c.lignes.map((l) => l.id), ctx, ['lignes'], 'ligne')
+    if (!c.lignes.some((l) => l.indice)) {
+      ctx.addIssue({ code: 'custom', path: ['lignes'], message: 'il faut au moins une ligne indice' })
+    }
+    c.lignes.forEach((l, i) => {
+      if (l.indice && !l.explication) {
+        ctx.addIssue({ code: 'custom', path: ['lignes', i, 'explication'], message: 'une ligne indice doit avoir une explication' })
+      }
+    })
+  })
+
+export const minijeuSchema = z.discriminatedUnion('jeu', [
+  z.object({ type: z.literal('minijeu'), id: slug, jeu: z.literal('tri'), config: triConfigSchema }),
+  z.object({ type: z.literal('minijeu'), id: slug, jeu: z.literal('repere'), config: repereConfigSchema }),
+])
+
+export const filSchema = z
+  .object({
+    type: z.literal('fil'),
+    id: slug,
+    consigne: texte,
+    notifications: z
+      .array(
+        z.object({
+          id: slug,
+          appNom: texte,
+          de: texte,
+          texte,
+          surprise: z.boolean().default(false),
+          explication: texte,
+        }),
+      )
+      .min(3),
+  })
+  .superRefine((f, ctx) => idsUniques(f.notifications.map((n) => n.id), ctx, ['notifications'], 'notification'))
+
+export const etapeSchema = z.discriminatedUnion('type', [scenarioSchema, minijeuSchema, filSchema])
+
+export const missionSchema = z
+  .object({
+    id: slug,
+    type: z.enum(['mission', 'rappel']).default('mission'),
+    theme: slug.optional(),
+    themesCouverts: z.array(slug).optional(),
+    tranches: z.array(trancheSchema).min(1),
+    titre: texte,
+    resume: texte,
+    duree: z.number().int().min(3).max(25),
+    objectifs: z.array(texte).min(1).max(3, '3 objectifs maximum par mission'),
+    competences: z.object({
+      crcn: z.array(z.string().regex(/^[1-5]\.[1-4]$/, 'compétence CRCN attendue, ex. "4.1"')).min(1),
+      programmes: z.array(texte).default([]),
+      phare: z.boolean().default(false),
+    }),
+    etapes: z.array(etapeSchema).min(1),
+    debrief: z.object({
+      questions: z.array(texte).length(3),
+      reponses: texte,
+      erreursFrequentes: z.array(texte).min(1),
+    }),
+    fiche: z.object({ deroulement: texte, siRevelation: texte.optional() }),
+  })
+  .superRefine((m, ctx) => {
+    idsUniques(m.etapes.map((e) => e.id), ctx, ['etapes'], 'étape')
+    if (m.type === 'mission') {
+      if (!m.theme) ctx.addIssue({ code: 'custom', path: ['theme'], message: 'une mission doit avoir un thème' })
+      return
+    }
+    if (!m.themesCouverts?.length) {
+      ctx.addIssue({ code: 'custom', path: ['themesCouverts'], message: 'une mission rappel doit lister les thèmes couverts' })
+    }
+    const surprises = m.etapes.flatMap((e) => (e.type === 'fil' ? e.notifications.filter((n) => n.surprise) : []))
+    if (surprises.length !== 1) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['etapes'],
+        message: `une mission rappel doit contenir exactement une notification surprise (trouvé : ${surprises.length})`,
+      })
+    }
+  })
+
+export type Aide = z.infer<typeof aideSchema>
+export type Theme = z.infer<typeof themeSchema>
+export type Scenario = z.infer<typeof scenarioSchema>
+export type TriConfig = z.infer<typeof triConfigSchema>
+export type RepereConfig = z.infer<typeof repereConfigSchema>
+export type Minijeu = z.infer<typeof minijeuSchema>
+export type Fil = z.infer<typeof filSchema>
+export type Etape = z.infer<typeof etapeSchema>
+export type Mission = z.infer<typeof missionSchema>
+export type Qualite = Scenario['choix'][number]['qualite']
+
+export interface ContentBundle {
+  generatedAt: string
+  themes: Theme[]
+  missions: Mission[]
+}
