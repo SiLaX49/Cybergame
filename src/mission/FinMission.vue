@@ -2,19 +2,27 @@
 import { Award } from '@lucide/vue'
 import { computed, nextTick, ref } from 'vue'
 import { RouterLink } from 'vue-router'
-import type { Mission, Scenario } from '@/content/schema'
+import type { Leviers, Mission, Scenario } from '@/content/schema'
 import { BADGES, calculerBadges } from '@/engine/badges'
-import type { RunState, SurpriseResultat } from '@/engine/mission-runner'
+import { leviersDeLaMission, leviersDuRun, type RunState, type SurpriseResultat } from '@/engine/mission-runner'
 import { focusAuMontage } from '@/ui/focus'
 import { useTexte } from '@/ui/useTexte'
 
-const props = defineProps<{ mission: Mission; etat: RunState }>()
+const props = defineProps<{ mission: Mission; etat: RunState; leviers: Leviers }>()
 const emit = defineEmits<{ rejouer: [] }>()
 const t = useTexte()
 const titre = ref<HTMLElement | null>(null)
 focusAuMontage(titre)
 
 const badges = computed(() => calculerBadges(props.etat))
+const leviersChoisis = computed(() =>
+  leviersDuRun(props.mission, props.etat).map((id) =>
+    id === 'autre'
+      ? { id, libelle: props.leviers.autre.libelle, parade: props.leviers.autre.parade }
+      : { id, libelle: props.leviers.leviers[id].libelle, parade: props.leviers.leviers[id].parade },
+  ),
+)
+const aSurveiller = computed(() => leviersDeLaMission(props.mission).map((id) => props.leviers.leviers[id].libelle))
 const aRetenir = computed(() =>
   props.mission.etapes
     .filter((e): e is Scenario => e.type === 'scenario')
@@ -70,6 +78,19 @@ async function fermerPleinEcran() {
       </li>
     </ul>
 
+    <section v-if="leviersChoisis.length || aSurveiller.length" class="carte craquer">
+      <h3>Ce qui t’a fait craquer</h3>
+      <ul v-if="leviersChoisis.length">
+        <li v-for="l in leviersChoisis" :key="l.id"><strong>{{ l.libelle }}</strong> : {{ l.parade }}</li>
+      </ul>
+      <template v-else>
+        <p>Aucun piège n’a marché sur toi cette fois. Les leviers à surveiller :</p>
+        <ul>
+          <li v-for="l in aSurveiller" :key="l">{{ l }}</li>
+        </ul>
+      </template>
+    </section>
+
     <section v-if="surprise" class="carte surprise">
       <h3>Le message piège était…</h3>
       <p><strong>{{ surprise.notification.de }}</strong> : « {{ surprise.notification.texte }} »</p>
@@ -117,6 +138,7 @@ async function fermerPleinEcran() {
 .badges { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
 .badge { display: flex; align-items: center; gap: 0.5rem; }
 .surprise { margin: 1rem 0; border-left: 6px solid var(--aide); }
+.craquer { margin: 1rem 0; border-left: 6px solid var(--aide); }
 .plein-ecran {
   position: fixed; inset: 0; z-index: 20; background: var(--surface);
   width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; border: 0; color: var(--texte);

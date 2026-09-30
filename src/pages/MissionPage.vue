@@ -79,7 +79,7 @@ function recommencer() {
       </header>
 
       <SensibleAvertissement v-if="sensible && !avertissementLu" @commencer="avertissementLu = true" />
-      <FinMission v-else-if="etat.termine" :mission="mission" :etat="etat" @rejouer="recommencer" />
+      <FinMission v-else-if="etat.termine" :mission="mission" :etat="etat" :leviers="leviers" @rejouer="recommencer" />
       <template v-else-if="etape">
         <ScenarioStep
           v-if="etape.type === 'scenario'"
