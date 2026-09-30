@@ -1,6 +1,6 @@
-import type { Etape, FilAction, Mission, Qualite } from '@/content/schema'
+import type { Etape, FilAction, LevierId, Mission, Qualite, ReponseLevier } from '@/content/schema'
 
-export type PhaseScenario = 'situation' | 'indices' | 'consequence' | 'recuperation'
+export type PhaseScenario = 'situation' | 'pourquoi' | 'indices' | 'consequence' | 'recuperation'
 export type SurpriseResultat = 'verifie' | 'ignore' | 'signale' | 'piege'
 
 export interface ScenarioResultat {
@@ -10,6 +10,7 @@ export interface ScenarioResultat {
   indicesChoisis: string[]
   indicesJustes: number
   indicesFaux: number
+  levier: ReponseLevier | null
   recuperationFaite: boolean | null
   passe: boolean
 }
@@ -40,6 +41,7 @@ export type RunEvent =
   | { type: 'recuperation-faite' }
   | { type: 'rejouer' }
   | { type: 'passer' }
+  | { type: 'expliquer'; levier: ReponseLevier }
   | { type: 'minijeu-termine'; reussites: number; erreurs: number }
   | { type: 'fil-termine'; actions: Record<string, FilAction> }
 
@@ -85,8 +87,30 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
   switch (evenement.type) {
     case 'choisir': {
       if (etape.type !== 'scenario' || etat.phase !== 'situation') return refuser()
-      if (!etape.choix.some((c) => c.id === evenement.choixId)) throw new RunError(`choix inconnu : ${evenement.choixId}`)
-      return { ...etat, phase: 'indices', choixId: evenement.choixId }
+      const choix = etape.choix.find((c) => c.id === evenement.choixId)
+      if (!choix) throw new RunError(`choix inconnu : ${evenement.choixId}`)
+      const phase: PhaseScenario = choix.qualite === 'risque' && etape.pourquoi ? 'pourquoi' : 'indices'
+      return { ...etat, phase, choixId: choix.id }
+    }
+    case 'expliquer': {
+      if (etape.type !== 'scenario' || etat.phase !== 'pourquoi') return refuser()
+      const choix = etape.choix.find((c) => c.id === etat.choixId)
+      if (!choix) return refuser()
+      if (evenement.levier !== 'autre' && !etape.pourquoi?.some((p) => p.levier === evenement.levier)) {
+        throw new RunError(`levier inconnu : ${evenement.levier}`)
+      }
+      const resultat: ScenarioResultat = {
+        type: 'scenario',
+        choixId: choix.id,
+        qualite: choix.qualite,
+        indicesChoisis: [],
+        indicesJustes: 0,
+        indicesFaux: 0,
+        levier: evenement.levier,
+        recuperationFaite: null,
+        passe: false,
+      }
+      return { ...etat, phase: 'consequence', resultats: { ...etat.resultats, [etape.id]: resultat } }
     }
     case 'valider-indices': {
       if (etape.type !== 'scenario' || etat.phase !== 'indices') return refuser()
@@ -102,6 +126,7 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
         indicesChoisis: indices,
         indicesJustes: indices.filter((id) => pertinents.has(id)).length,
         indicesFaux: indices.filter((id) => !pertinents.has(id)).length,
+        levier: null,
         recuperationFaite: null,
         passe: false,
       }
@@ -139,6 +164,7 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
         indicesChoisis: [],
         indicesJustes: 0,
         indicesFaux: 0,
+        levier: null,
         recuperationFaite: null,
         passe: true,
       }
@@ -179,4 +205,25 @@ export function choixDuRun(etat: RunState): Record<string, string> {
   const choix: Record<string, string> = {}
   for (const [id, r] of Object.entries(etat.resultats)) if (r.type === 'scenario' && r.choixId) choix[id] = r.choixId
   return choix
+}
+
+/** Leviers choisis pendant la mission, dans l'ordre des scénarios, sans doublon. */
+export function leviersDuRun(mission: Mission, etat: RunState): ReponseLevier[] {
+  const leviers: ReponseLevier[] = []
+  for (const e of mission.etapes) {
+    if (e.type !== 'scenario') continue
+    const r = etat.resultats[e.id]
+    if (r?.type === 'scenario' && r.levier && !leviers.includes(r.levier)) leviers.push(r.levier)
+  }
+  return leviers
+}
+
+/** Leviers travaillés par la mission (blocs « pourquoi »), dans l'ordre d'apparition, sans doublon. */
+export function leviersDeLaMission(mission: Mission): LevierId[] {
+  const leviers: LevierId[] = []
+  for (const e of mission.etapes) {
+    if (e.type !== 'scenario') continue
+    for (const p of e.pourquoi ?? []) if (!leviers.includes(p.levier)) leviers.push(p.levier)
+  }
+  return leviers
 }

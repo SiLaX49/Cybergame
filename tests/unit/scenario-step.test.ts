@@ -23,6 +23,7 @@ const resultatClic: ScenarioResultat = {
   indicesChoisis: ['url'],
   indicesJustes: 1,
   indicesFaux: 0,
+  levier: null,
   recuperationFaite: null,
   passe: false,
 }
