@@ -23,6 +23,21 @@ export type FilAction = (typeof FIL_ACTIONS)[number]
 const slug = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'identifiant attendu en minuscules-avec-tirets')
 const texte = z.string().trim().min(1, 'texte vide')
 
+export const LEVIERS = ['urgence', 'peur', 'gain', 'confiance', 'petit-montant', 'autorite', 'groupe', 'reflexe'] as const
+export type LevierId = (typeof LEVIERS)[number]
+export type ReponseLevier = LevierId | 'autre'
+
+const levierInfoSchema = z.object({ libelle: texte, parade: texte, questionDebrief: texte })
+
+/** content/leviers.yaml : les 8 leviers (tous obligatoires, aucun autre) et la réponse « Autre chose ». */
+export const leviersFileSchema = z.object({
+  leviers: z.record(z.enum(LEVIERS), levierInfoSchema),
+  autre: z.object({ libelle: texte, truc: texte, parade: texte }),
+})
+export type Leviers = z.infer<typeof leviersFileSchema>
+
+const pourquoiSchema = z.array(z.object({ levier: z.enum(LEVIERS), truc: texte, parade: texte })).min(3).max(4)
+
 function idsUniques<T>(ids: string[], ctx: z.RefinementCtx<T>, chemin: (string | number)[], quoi: string) {
   const vus = new Set<string>()
   ids.forEach((id, i) => {
@@ -89,6 +104,7 @@ export const scenarioSchema = z
     aRetenir: texte,
     aRetenirSimple: texte.optional(),
     recuperation: z.object({ action: z.enum(RECOVERY_ACTIONS), siChoix: z.array(slug).min(1) }).optional(),
+    pourquoi: pourquoiSchema.optional(),
   })
   .superRefine((s, ctx) => {
     idsUniques(s.choix.map((c) => c.id), ctx, ['choix'], 'choix')
@@ -107,6 +123,16 @@ export const scenarioSchema = z
         ctx.addIssue({ code: 'custom', path: ['recuperation', 'siChoix', i], message: 'la récupération ne peut pas suivre le choix "aide"' })
       }
     })
+    const leviersVus = new Set<string>()
+    s.pourquoi?.forEach((p, i) => {
+      if (leviersVus.has(p.levier)) {
+        ctx.addIssue({ code: 'custom', path: ['pourquoi', i, 'levier'], message: `levier en double : ${p.levier}` })
+      }
+      leviersVus.add(p.levier)
+    })
+    if (s.pourquoi && !s.choix.some((c) => c.qualite === 'risque')) {
+      ctx.addIssue({ code: 'custom', path: ['pourquoi'], message: 'le bloc pourquoi suppose un choix de qualité "risque"' })
+    }
   })
 
 export const triConfigSchema = z
@@ -228,5 +254,6 @@ export type Qualite = Scenario['choix'][number]['qualite']
 export interface ContentBundle {
   generatedAt: string
   themes: Theme[]
+  leviers: Leviers
   missions: Mission[]
 }

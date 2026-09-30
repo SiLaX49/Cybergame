@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { creerAcces } from '@/content/acces'
-import { missionFixture, rappelFixture, themesFixture } from './fixtures'
+import { leviersFixture, missionFixture, rappelFixture, themesFixture } from './fixtures'
 
 const acces = creerAcces({
   generatedAt: '2026-09-01T10:00:00.000Z',
   themes: themesFixture(),
+  leviers: leviersFixture(),
   missions: [missionFixture(), missionFixture({ id: 'm-lycee', tranches: ['lycee'] }), rappelFixture()],
 })
 
@@ -24,5 +25,9 @@ describe('creerAcces', () => {
     expect(acces.getMission('m-test')?.titre).toBe('Mission test')
     expect(acces.getMission('absente')).toBeUndefined()
     expect(acces.getTheme('harcelement')?.sensible).toBe(true)
+  })
+
+  it('expose les leviers', () => {
+    expect(acces.getLeviers().leviers.urgence.libelle).toBe('Il fallait faire vite')
   })
 })

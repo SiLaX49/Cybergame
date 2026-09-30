@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import { parse } from 'yaml'
-import { missionSchema, themesFileSchema, type ContentBundle, type Mission } from '../src/content/schema'
+import { leviersFileSchema, missionSchema, themesFileSchema, type ContentBundle, type Leviers, type Mission } from '../src/content/schema'
 import { formatIssue, validateCross, zodIssues, type ContentIssue } from '../src/content/validate'
 
 export class ContentError extends Error {
@@ -23,7 +23,7 @@ function listerYaml(dossier: string): string[] {
 
 export function listContentFiles(racine: string): string[] {
   const missions = join(racine, 'missions')
-  return [join(racine, 'themes.yaml'), ...(existsSync(missions) ? listerYaml(missions) : [])]
+  return [join(racine, 'themes.yaml'), join(racine, 'leviers.yaml'), ...(existsSync(missions) ? listerYaml(missions) : [])]
 }
 
 const nomRelatif = (racine: string, chemin: string) => relative(racine, chemin).replaceAll('\\', '/')
@@ -39,7 +39,7 @@ function lireYaml(racine: string, chemin: string, issues: ContentIssue[]): { ok:
 
 export function buildContent(racine: string, maintenant: Date = new Date()): ContentBundle {
   const issues: ContentIssue[] = []
-  const [cheminThemes, ...cheminsMissions] = listContentFiles(racine)
+  const [cheminThemes, cheminLeviers, ...cheminsMissions] = listContentFiles(racine)
 
   let themes: ContentBundle['themes'] = []
   const lecture = lireYaml(racine, cheminThemes!, issues)
@@ -47,6 +47,14 @@ export function buildContent(racine: string, maintenant: Date = new Date()): Con
     const res = themesFileSchema.safeParse(lecture.data)
     if (res.success) themes = res.data
     else issues.push(...zodIssues('themes.yaml', res.error))
+  }
+
+  let leviers: Leviers | null = null
+  const lectureLeviers = lireYaml(racine, cheminLeviers!, issues)
+  if (lectureLeviers.ok) {
+    const res = leviersFileSchema.safeParse(lectureLeviers.data)
+    if (res.success) leviers = res.data
+    else issues.push(...zodIssues('leviers.yaml', res.error))
   }
 
   const missions: { fichier: string; mission: Mission }[] = []
@@ -61,5 +69,5 @@ export function buildContent(racine: string, maintenant: Date = new Date()): Con
 
   if (themes.length) issues.push(...validateCross(themes, missions))
   if (issues.length) throw new ContentError(issues)
-  return { generatedAt: maintenant.toISOString(), themes, missions: missions.map((m) => m.mission) }
+  return { generatedAt: maintenant.toISOString(), themes, leviers: leviers!, missions: missions.map((m) => m.mission) }
 }

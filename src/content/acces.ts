@@ -5,6 +5,7 @@ export function creerAcces(bundle: ContentBundle) {
     contenu: bundle,
     getThemes: () => bundle.themes,
     getTheme: (id: string) => bundle.themes.find((t) => t.id === id),
+    getLeviers: () => bundle.leviers,
     getMission: (id: string) => bundle.missions.find((m) => m.id === id),
     missionsPour: (tranche: Tranche, themeId: string) =>
       bundle.missions.filter((m) => m.type === 'mission' && m.theme === themeId && m.tranches.includes(tranche)),

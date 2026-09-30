@@ -1,0 +1,37 @@
+leviers:
+  urgence:
+    libelle: Il fallait faire vite
+    parade: Plus on te presse, plus tu ralentis. Un vrai service te laisse toujours le temps de vérifier.
+    questionDebrief: Pourquoi a-t-on envie de se dépêcher quand un message fixe un délai ?
+  peur:
+    libelle: J’avais peur de perdre mon compte ou d’avoir des problèmes
+    parade: Quand un message te fait peur, c’est le moment d’en parler à quelqu’un, pas d’obéir.
+    questionDebrief: Qu’est-ce qui fait peur dans ce message, et qui a intérêt à ce qu’on ait peur ?
+  gain:
+    libelle: C’était trop tentant
+    parade: Si c’est trop beau pour être vrai, c’est que ce n’est pas vrai.
+    questionDebrief: Pourquoi les arnaqueurs promettent-ils des cadeaux plutôt que de demander directement de l’argent ?
+  confiance:
+    libelle: Ça venait de quelqu’un que je connais
+    parade: Un compte peut être piraté. Si un proche demande quelque chose d’inhabituel, vérifie avec lui en vrai.
+    questionDebrief: Comment vérifier qu’un message d’ami vient vraiment de lui ?
+  petit-montant:
+    libelle: C’était pas cher, pas grave
+    parade: Le petit montant est un appât. Ce qu’on veut, c’est ta carte ou ton compte.
+    questionDebrief: Pourquoi un arnaqueur demanderait-il seulement quelques euros ?
+  autorite:
+    libelle: Ça avait l’air officiel
+    parade: Un logo ou un nom officiel se copie en deux secondes. Passe toi-même par l’appli ou le site officiel.
+    questionDebrief: Qu’est-ce qui donne l’air « officiel » à un message, et est-ce facile à copier ?
+  groupe:
+    libelle: Les autres le font aussi
+    parade: Que beaucoup de gens le fassent ne prouve rien. Les arnaques circulent justement de groupe en groupe.
+    questionDebrief: Est-ce que « tout le monde le fait » rend une chose plus sûre ?
+  reflexe:
+    libelle: Je n’ai pas vraiment réfléchi
+    parade: Avant de cliquer, payer ou donner un code, prends trois secondes pour te demander qui t’écrit vraiment.
+    questionDebrief: Dans quelles situations est-ce qu’on clique sans réfléchir ?
+autre:
+  libelle: Autre chose / je ne sais pas
+  truc: Les arnaqueurs mélangent souvent plusieurs pièges pour qu’on agisse sans réfléchir.
+  parade: Au moindre doute, fais une pause et demande à quelqu’un de confiance avant d’agir.
