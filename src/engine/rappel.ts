@@ -3,9 +3,9 @@ export type Echeance = 'J+7' | 'J+30'
 const JOUR_MS = 86_400_000
 
 /**
- * Rappel à proposer : J+7 après la première mission terminée, puis J+30 une fois le premier rappel fait.
- * Seuls comptent les rappels faits après la première mission : un rappel joué « pour voir » avant
- * n'annule pas le J+7.
+ * Rappel à proposer : J+7 après la première mission terminée tant qu'aucun rappel n'a été fait
+ * depuis ; puis J+30 tant qu'aucun rappel n'a été fait à partir de J+30. Un rappel joué avant la
+ * première mission ne compte pas.
  */
 export function rappelDu(
   datesTerminees: string[],
@@ -15,11 +15,11 @@ export function rappelDu(
   const dates = datesTerminees.map((d) => Date.parse(d)).filter(Number.isFinite)
   if (!dates.length) return null
   const debut = Math.min(...dates)
-  const rappelsFaits = rappels
-    .filter((r) => Date.parse(r.faitLe) >= debut)
-    .reduce((total, r) => total + r.fois, 0)
   const jours = (maintenant.getTime() - debut) / JOUR_MS
-  if (rappelsFaits === 0 && jours >= 7) return 'J+7'
-  if (rappelsFaits === 1 && jours >= 30) return 'J+30'
+  const faitsDepuis = rappels.map((r) => Date.parse(r.faitLe)).filter((t) => Number.isFinite(t) && t >= debut)
+  if (!faitsDepuis.length) return jours >= 7 ? 'J+7' : null
+  // Le J+30 est dû tant qu'aucun rappel n'a été fait à partir de J+30.
+  const dernier = Math.max(...faitsDepuis)
+  if (jours >= 30 && dernier < debut + 30 * JOUR_MS) return 'J+30'
   return null
 }

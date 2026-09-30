@@ -25,6 +25,11 @@ describe('rappelDu', () => {
     expect(rappelDu([iso(2)], [fait(0)], jour(9))).toBe('J+7')
     expect(rappelDu([iso(2)], [fait(0)], jour(8))).toBeNull()
   })
+  it('un rappel joué avant la première mission puis à J+7 laisse venir le J+30', () => {
+    // Un seul enregistrement par rappel : dernière date + nombre total de fois.
+    expect(rappelDu([iso(2)], [{ faitLe: iso(10), fois: 2 }], jour(31))).toBeNull()
+    expect(rappelDu([iso(2)], [{ faitLe: iso(10), fois: 2 }], jour(32))).toBe('J+30')
+  })
   it('ignore les dates illisibles', () => {
     expect(rappelDu(['pas une date'], [], jour(40))).toBeNull()
     expect(rappelDu([iso(0)], [{ faitLe: 'pas une date', fois: 1 }], jour(8))).toBe('J+7')
