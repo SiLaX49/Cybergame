@@ -25,7 +25,7 @@ etapes:
     question: Tu n’attends pas de colis, mais tes parents peut-être… Que fais-tu ?
     choix:
       - id: clic
-        texte: Je clique et je paie avec la carte de mes parents, ce n’est que 1,99 €.
+        texte: '1,99 €, c’est rien. Et si c’est un colis de mes parents, ce serait bête de le perdre : je paie avec leur carte.'
         qualite: risque
         consequence: 'Le site ressemble à celui d’un transporteur. Tu tapes les numéros de la carte… Deux jours plus tard, la banque bloque la carte : quelqu’un a essayé de payer 450 € en ligne. Les 1,99 € servaient à voler les numéros. Bonne nouvelle : en prévenant vite, on peut limiter les dégâts.'
         consequenceSimple: 'Le faux site a volé les numéros de la carte. Quelqu’un essaie de payer 450 € avec. Il faut vite prévenir un adulte.'
@@ -46,6 +46,19 @@ etapes:
     aRetenir: 'Un vrai transporteur ne te demande jamais de payer par un lien reçu par SMS. En cas de doute, on vérifie sur l’appli ou le site officiel, en le tapant soi-même.'
     aRetenirSimple: 'Ne clique jamais sur un lien de colis reçu par SMS. Vérifie sur l’appli officielle.'
     recuperation: { action: demander-aide, siChoix: [clic] }
+    pourquoi:
+      - levier: petit-montant
+        truc: '1,99 €, ça paraît rien. Mais le faux site veut surtout les numéros de la carte.'
+        parade: 'Ne tape jamais les numéros d’une carte sur un site reçu par SMS, même pour 1 €.'
+      - levier: urgence
+        truc: 'Le SMS dit « sous 24 h ». Ce délai est là pour que tu paies sans vérifier.'
+        parade: 'Un vrai transporteur te laisse le temps. Demande d’abord à tes parents s’ils attendent un colis.'
+      - levier: autorite
+        truc: 'Le nom « Colis Express » et le numéro FR4471 font sérieux. Mais n’importe qui peut les inventer.'
+        parade: 'Montre le SMS à tes parents. Ils vérifieront dans l’appli du transporteur, sans passer par le lien.'
+      - levier: reflexe
+        truc: 'Le message ressemble aux vrais SMS de livraison qu’on reçoit souvent à la maison.'
+        parade: 'Avant de cliquer, demande-toi : est-ce que quelqu’un attend vraiment un colis ?'
 
   - type: scenario
     id: concours-streamtube
@@ -60,7 +73,7 @@ etapes:
     question: Ce message privé vient d’un compte qui ressemble à celui de ton youtubeur préféré. Que fais-tu ?
     choix:
       - id: donne
-        texte: J’envoie mes infos et je paie les 2 €, c’est une chance unique !
+        texte: 'J’envoie mes infos et les 2 €. C’est NoaGaming, et une console pour 2 €, je ne peux pas rater ça !'
         qualite: risque
         consequence: 'Aucune console n’arrive. Par contre, ton nom et ton adresse circulent maintenant : tu reçois d’autres faux messages qui les citent pour paraître vrais.'
         consequenceSimple: 'Pas de console. Mais ton nom et ton adresse sont partis chez des arnaqueurs.'
@@ -81,6 +94,19 @@ etapes:
     aRetenir: 'Un vrai concours ne te demande jamais de payer pour recevoir ton lot. Vérifie sur le compte officiel de la personne.'
     aRetenirSimple: 'Un vrai cadeau ne se paie pas. Vérifie sur le vrai compte.'
     recuperation: { action: bloquer-signaler, siChoix: [donne] }
+    pourquoi:
+      - levier: gain
+        truc: 'Une console NovaStation, c’est un énorme cadeau. Il est là pour te faire oublier de vérifier.'
+        parade: 'Demande-toi : ai-je vraiment participé à ce concours ? Un vrai lot ne se paie jamais.'
+      - levier: petit-montant
+        truc: '2 € de frais de port, ça semble normal. Mais on veut surtout ton nom, ton adresse et ta carte.'
+        parade: 'Un vrai concours paie lui-même l’envoi du lot. Si on te demande même 2 €, n’envoie rien.'
+      - levier: confiance
+        truc: 'Le compte s’appelle NoaGaming, comme ton youtubeur préféré. Tu as l’impression de le connaître.'
+        parade: 'Va voir sa vraie chaîne sur StreamTube. S’il organise un concours, il l’annonce là.'
+      - levier: autorite
+        truc: 'Le mot « _Officiel » ajouté au nom sert à faire vrai. Un vrai compte n’a pas besoin de le préciser.'
+        parade: 'Cherche toi-même la chaîne dans StreamTube et compare les noms. Si ce n’est pas le même, signale le faux compte.'
 
   - type: scenario
     id: mail-gamebox
@@ -96,9 +122,9 @@ etapes:
     question: Tu as passé des heures sur ce jeu. Que fais-tu ?
     choix:
       - id: clique
-        texte: Je clique sur « Sauver mon compte » et je me connecte.
+        texte: 'J’ai passé des heures sur ce jeu, je ne veux pas tout perdre : je clique pour sauver mon compte.'
         qualite: risque
-        consequence: 'Le faux site enregistre ton mot de passe. Le soir même, quelqu’un se connecte, change ton pseudo et dépense tes Coins. Tu peux encore reprendre la main.'
+        consequence: 'Tu tapes ton identifiant et ton mot de passe, et le faux site les enregistre. Le soir même, quelqu’un se connecte, change ton pseudo et dépense tes Coins. Tu peux encore reprendre la main.'
         consequenceSimple: 'Le faux site a volé ton mot de passe. Quelqu’un utilise ton compte. Tu peux encore le récupérer.'
       - id: appli
         texte: J’ouvre moi-même l’appli GameBox pour voir si j’ai une alerte.
@@ -117,6 +143,19 @@ etapes:
     aRetenir: 'On ne donne jamais son mot de passe suite à un mail. Pour vérifier, on ouvre soi-même l’appli ou le site officiel.'
     aRetenirSimple: 'Ne donne jamais ton mot de passe dans un mail. Ouvre toi-même l’appli.'
     recuperation: { action: changer-mdp, siChoix: [clique] }
+    pourquoi:
+      - levier: peur
+        truc: 'Le mail menace de supprimer ton compte GameBox. La peur de tout perdre te pousse à obéir.'
+        parade: 'Quand un mail te fait peur, respire et montre-le à un adulte avant de cliquer.'
+      - levier: urgence
+        truc: 'Le sujet dit « supprimé dans 24 h ». Ce délai court t’empêche de prendre le temps de vérifier.'
+        parade: 'Un jeu ne supprime pas ton compte par un simple mail. Prends le temps de vérifier avant de cliquer.'
+      - levier: autorite
+        truc: 'L’expéditeur s’appelle « GameBox Sécurité ». Ce nom se copie facilement : regarde l’adresse, gamebox-verif.com.'
+        parade: 'Ne clique pas dans le mail. Ouvre toi-même l’appli GameBox : si ton compte a un souci, elle te le dira.'
+      - levier: reflexe
+        truc: 'Le gros bouton « Sauver mon compte » invite à cliquer tout de suite, sans lire.'
+        parade: 'Avant de taper ton mot de passe, rappelle-toi : aucun jeu ne le demande par mail.'
 
   - type: minijeu
     id: tri-messages

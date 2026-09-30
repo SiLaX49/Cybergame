@@ -28,7 +28,7 @@ etapes:
     question: Tu cherches justement un petit job pour financer ton permis. Que fais-tu ?
     choix:
       - id: inscrit
-        texte: Je paie les 25 €, ils seront remboursés dès la première mission.
+        texte: 'J’ai besoin d’argent pour le permis, et 25 € remboursés dès la première mission, c’est vite rattrapé : je paie avant qu’il n’y ait plus de place.'
         qualite: risque
         consequence: 'Ton espace affiche vite 60 € de « gains ». Pour les retirer, on te réclame 80 € de « frais de déblocage », puis encore davantage. Tu ne récupères rien. Arrête de payer maintenant : en gardant les preuves, tu peux signaler l’arnaque et porter plainte.'
       - id: recherche
@@ -47,6 +47,19 @@ etapes:
     explicationIndices: 'Un vrai employeur te paie, il ne te fait jamais payer. Un salaire très élevé pour une tâche simple, c’est l’appât. Le ton amical ne prouve rien : c’est justement une technique pour gagner ta confiance.'
     aRetenir: 'Un vrai job ne demande jamais de frais d’inscription. Avant de payer quoi que ce soit, fais une recherche sur l’offre. Si tu as déjà payé, arrête tout de suite et garde les preuves.'
     recuperation: { action: capture-preuve, siChoix: [inscrit] }
+    pourquoi:
+      - levier: gain
+        truc: '30 €/h pour liker des vidéos 1 h par jour : l’offre est taillée pour quelqu’un qui cherche à financer un projet.'
+        parade: 'Compare avec les vrais jobs étudiants, payés autour du SMIC. Puis cherche le nom de l’offre suivi du mot « arnaque ».'
+      - levier: petit-montant
+        truc: '25 € « remboursés dès ta première mission » : la somme paraît faible et sans risque. C’est le premier d’une série de paiements.'
+        parade: 'Un employeur te paie, il ne te fait jamais payer. Au premier euro demandé, arrête la conversation.'
+      - levier: urgence
+        truc: '« Les places partent vite 😉 » : on te presse pour que tu paies avant de te renseigner.'
+        parade: 'Une vraie offre peut attendre un jour ou deux. Prends ce temps pour chercher l’entreprise et en parler à un proche.'
+      - levier: groupe
+        truc: '« Rejoins l’équipe » laisse croire que plein de jeunes font déjà ce job et sont payés.'
+        parade: 'Cherche des avis sur l’offre en dehors de la conversation, pas les témoignages que le recruteur te montre.'
 
   - type: scenario
     id: logement
@@ -61,7 +74,7 @@ etapes:
     question: Tu cherches un logement pour tes études l’an prochain, et les photos sont superbes. Dans ce quartier, les studios se louent plutôt 600 €. Que fais-tu ?
     choix:
       - id: vire
-        texte: Je vire la caution tout de suite pour ne pas laisser passer l’occasion.
+        texte: 'Un studio à 350 € en plein centre, je n’en retrouverai jamais : je vire la caution avant qu’un autre étudiant ne le prenne.'
         qualite: risque
         consequence: 'Julie ne répond plus et l’annonce a disparu : les photos avaient été copiées sur un autre site. La caution n’est pas forcément perdue : avec les preuves, ta banque peut tenter de récupérer le virement, et tu peux porter plainte.'
       - id: visite
@@ -80,6 +93,16 @@ etapes:
     explicationIndices: 'Des photos se copient en deux clics depuis n’importe quelle annonce. Le signal, c’est l’ensemble : prix trop bas, propriétaire injoignable, pression et paiement avant la visite. Un vrai propriétaire fait visiter et signe un bail avant de demander une caution.'
     aRetenir: 'On ne paie jamais un logement avant de l’avoir visité (soi-même ou par une personne de confiance) et d’avoir signé un bail. Un prix trop bas associé à l’urgence est un signal d’alerte.'
     recuperation: { action: capture-preuve, siChoix: [vire] }
+    pourquoi:
+      - levier: gain
+        truc: '350 € charges comprises, quand le quartier se loue plutôt 600 € : ce prix est l’appât.'
+        parade: 'Compare avec d’autres annonces du quartier. Un prix bien plus bas doit te faire vérifier, pas te précipiter.'
+      - levier: urgence
+        truc: '« Merci de répondre rapidement » : on te presse pour que tu vires avant d’exiger une visite.'
+        parade: 'Ne verse rien avant d’avoir visité et signé un bail. Un vrai propriétaire accepte d’attendre.'
+      - levier: groupe
+        truc: '« Plusieurs étudiants sont intéressés » : l’idée que d’autres vont te le prendre pousse à payer tout de suite.'
+        parade: 'Fais une recherche d’image avec les photos de l’annonce : si elles apparaissent ailleurs, l’annonce est fausse.'
 
   - type: scenario
     id: banque-perso
@@ -94,7 +117,7 @@ etapes:
     question: 'Tu as ouvert cette page depuis un SMS « BanqueNova : opération suspecte ». Dans ce scénario, tu t’appelles Camille, et la page connaît ton prénom. Juste après, ton téléphone sonne : un « conseiller » te demande de valider dans ton appli l’opération qui va s’afficher, « pour la bloquer ». Que fais-tu ?'
     choix:
       - id: valide
-        texte: Je valide l’opération dans mon appli, comme le conseiller me le demande.
+        texte: 'La page connaît mon prénom et le conseiller veut bloquer ces 600 € : je valide dans mon appli, comme il me le demande.'
         qualite: risque
         consequence: 'Valider une opération ne l’annule jamais : tu viens d’autoriser le paiement. 600 € partent vers un compte inconnu et le « conseiller » raccroche. Préviens tout de suite un parent et appelle ta banque au numéro officiel pour faire opposition : plus tu agis vite, plus tu as de chances de récupérer l’argent.'
       - id: rappelle
@@ -113,6 +136,19 @@ etapes:
     explicationIndices: 'Ton prénom, ton numéro ou le nom de ta banque se trouvent facilement (fuites de données, réseaux sociaux) : ça ne prouve pas que c’est ta banque. Une validation dans l’appli sert toujours à autoriser un paiement, jamais à l’annuler. Le faux conseiller joue sur l’urgence pour t’empêcher de réfléchir.'
     aRetenir: 'Ta banque ne te demandera jamais ton code ni de valider une opération pour l’annuler. En cas de doute, raccroche et rappelle-la toi-même au numéro officiel.'
     recuperation: { action: demander-aide, siChoix: [valide] }
+    pourquoi:
+      - levier: autorite
+        truc: 'Une page aux couleurs de BanqueNova, ton prénom, un « conseiller » au téléphone : tout imite ta banque.'
+        parade: 'Raccroche et appelle toi-même le numéro inscrit au dos de ta carte. La vraie banque te dira ce qu’il en est.'
+      - levier: peur
+        truc: '« Un paiement de 600 € vers un compte inconnu » : la peur de perdre cet argent pousse à obéir vite.'
+        parade: 'Avant de toucher à ton appli, préviens un parent. À deux, on garde la tête froide.'
+      - levier: urgence
+        truc: 'Le conseiller appelle « dans quelques instants » et te presse de valider pendant l’appel.'
+        parade: 'Personne ne peut t’obliger à agir pendant un appel. Dis « je rappelle ma banque » et raccroche.'
+      - levier: reflexe
+        truc: 'Valider dans l’appli, c’est le geste habituel des paiements en ligne. Le fraudeur compte sur cet automatisme.'
+        parade: 'Lis toujours l’écran de validation : valider, c’est autoriser un paiement, jamais l’annuler.'
 
   - type: minijeu
     id: repere-offre-stage
