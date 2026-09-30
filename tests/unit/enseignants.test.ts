@@ -60,6 +60,12 @@ describe('FicheMissionPage', () => {
     await cliquer(w, 'Imprimer la fiche')
     expect(imprimer).toHaveBeenCalled()
   })
+
+  it('liste les leviers travaillés avec leur question de débrief', async () => {
+    const w = await monter(FicheMissionPage, '/enseignants/m-test')
+    expect(w.text()).toContain('Leviers travaillés')
+    expect(w.text()).toContain('Il fallait faire vite : Question Il fallait faire vite ?')
+  })
 })
 
 describe('PlanBPage', () => {
@@ -69,6 +75,14 @@ describe('PlanBPage', () => {
     expect(w.text()).toContain('Corrigé (pour l’adulte)')
     expect(w.text()).toContain('Vrais indices : L’adresse est bizarre / On me presse')
     expect(w.findAll('table tbody tr')).toHaveLength(4)
+  })
+
+  it('ajoute la question « pourquoi » et son corrigé', async () => {
+    const w = await monter(PlanBPage, '/enseignants/m-test/plan-b')
+    expect(w.text()).toContain('Si tu as choisi le piège, pourquoi ?')
+    expect(w.text()).toContain('☐ Il fallait faire vite')
+    expect(w.text()).toContain('☐ Autre chose / je ne sais pas')
+    expect(w.text()).toContain('Le délai de 24 h est là exprès.')
   })
 })
 
