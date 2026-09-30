@@ -30,7 +30,7 @@ etapes:
     question: 'Tu vends ta veste 45 € sur Revendo. Camille_B a une note de 4,8 étoiles. Dans ton appli, aucune vente n’apparaît pour l’instant. Que fais-tu ?'
     choix:
       - id: scanne
-        texte: Je scanne le QR code et je saisis ma carte pour recevoir l’argent.
+        texte: 'Camille_B a 4,8 étoiles et veut la veste pour samedi. Ça doit être une nouvelle procédure de Revendo : je scanne et je saisis ma carte.'
         qualite: risque
         consequence: 'La page, aux couleurs de Revendo, demande aussi le cryptogramme, puis un code reçu par SMS. Ce SMS de ta banque disait pourtant « Code pour valider un paiement de 380 € » : tu l’as tapé sans le lire. Quelques minutes plus tard, 380 € sont débités de ton compte. Appelle vite ta banque au numéro officiel pour faire opposition, et garde les captures de la conversation et de la page : elles serviront à contester le paiement et à porter plainte.'
       - id: reste-appli
@@ -49,6 +49,19 @@ etapes:
     explicationIndices: 'Ta carte sert à payer, jamais à recevoir un paiement. Une vente conclue apparaît dans l’appli, pas dans un QR code envoyé en message. Quant à la bonne note, elle peut venir de faux avis ou d’un compte piraté.'
     aRetenir: 'Sur une plateforme de vente, reste dans l’appli du début à la fin : discussion, paiement, envoi. Pour recevoir de l’argent, on ne saisit jamais sa carte bancaire. Et avant de taper un code reçu par SMS, lis le message : il dit ce que tu valides.'
     recuperation: { action: capture-preuve, siChoix: [scanne] }
+    pourquoi:
+      - levier: autorite
+        truc: '« Revendo demande », « nouvelle procédure sécurisée » : l’acheteur parle au nom de la plateforme. Revendo ne passe jamais par lui.'
+        parade: 'Une procédure officielle s’affiche dans l’appli Revendo, pas dans un message de l’acheteur. Et pour recevoir de l’argent, on ne donne jamais sa carte.'
+      - levier: groupe
+        truc: 'La note de 4,8 étoiles laisse croire que beaucoup de vendeurs lui ont fait confiance. Une note peut venir de faux avis ou d’un compte piraté.'
+        parade: 'Une note ne remplace pas une vérification : regarde dans ton appli si la vente apparaît vraiment.'
+      - levier: urgence
+        truc: '« Fais-le vite stp, je voudrais la porter samedi » : la hâte paraît normale, et elle t’empêche de vérifier.'
+        parade: 'Un vrai acheteur peut attendre dix minutes. Prends-les pour vérifier la vente dans l’appli.'
+      - levier: reflexe
+        truc: 'Scanner un QR code est devenu banal : menus, billets, tickets. Ici, il t’emmène hors de Revendo.'
+        parade: 'Avant de scanner, demande-toi qui a créé ce QR code. S’il vient de l’acheteur et pas de l’appli, tu ne le scannes pas.'
 
   - type: scenario
     id: console-virement
@@ -66,7 +79,7 @@ etapes:
     question: 'En magasin, la NovaStation neuve coûte 450 €. Les photos de l’annonce sont superbes. Que fais-tu ?'
     choix:
       - id: vire
-        texte: Je fais le virement tout de suite pour ne pas rater l’occasion.
+        texte: '180 € d’économie sur une console neuve, et sans frais en plus. D’autres attendent : je fais le virement avant ce soir.'
         qualite: risque
         consequence: 'Aucun colis n’arrive. Le compte GamerShop a disparu de Revendo et ne répond plus. Comme tu as payé hors de la plateforme, la protection acheteur ne s’applique pas. Garde les preuves, signale le profil et préviens ta banque : elle peut tenter de récupérer le virement, et tu peux porter plainte.'
       - id: paie-appli
@@ -85,6 +98,16 @@ etapes:
     explicationIndices: 'Le paiement dans l’appli protège l’acheteur : le vendeur n’est payé qu’une fois l’objet reçu et conforme. Un virement direct supprime cette protection. Les photos, elles, se copient en deux clics depuis un autre site.'
     aRetenir: 'Paie toujours avec le système de paiement de la plateforme : c’est lui qui te protège. Un prix très bas associé à un virement direct et à l’urgence, c’est le signal d’alarme.'
     recuperation: { action: bloquer-signaler, siChoix: [vire] }
+    pourquoi:
+      - levier: gain
+        truc: '270 € au lieu de 450 €, sans frais de protection : le prix est choisi pour te faire rêver. La console n’existe sans doute pas.'
+        parade: '−40 % sur du neuf, c’est un signal d’alarme, pas une affaire. Et les frais de protection servent à te rembourser si rien n’arrive.'
+      - levier: urgence
+        truc: '« Je te la garde jusqu’à ce soir seulement » : le délai t’empêche de réfléchir ou de demander un avis.'
+        parade: 'Si l’affaire ne tient pas une nuit, laisse-la passer. Un vendeur honnête accepte d’attendre ou d’être payé dans l’appli.'
+      - levier: groupe
+        truc: '« D’autres acheteurs attendent » : tu crains qu’un autre te la prenne. Ces acheteurs n’existent sans doute pas.'
+        parade: 'Ne te laisse pas mettre en concurrence : tu paies dans l’appli Revendo, ou tu n’achètes pas.'
 
   - type: scenario
     id: cartes-cadeaux
@@ -100,7 +123,7 @@ etapes:
     question: 'Kaelan_17, c’est bien ton pseudo : trois ans de parties et des skins achetés avec ton argent de poche. Que fais-tu ?'
     choix:
       - id: paie
-        texte: J’achète les cartes cadeaux et j’envoie les codes pour sauver mon compte.
+        texte: 'Trois ans de parties et tous mes skins, ça vaut plus que 100 €. J’achète les cartes et j’envoie les codes avant la fin du délai.'
         qualite: risque
         consequence: 'Une heure plus tard, nouveau SMS : « Paiement incomplet, envoie 150 € de plus. » Ton compte GameBox, lui, n’a jamais été suspendu. Arrête de payer maintenant. Garde les tickets de caisse et les captures, bloque ce numéro et signale-le en transférant le SMS au 33700. Contacte aussi vite l’émetteur des cartes : si les codes n’ont pas encore servi, il peut parfois les bloquer. Tu peux ensuite porter plainte.'
       - id: verifie-appli
@@ -119,6 +142,19 @@ etapes:
     explicationIndices: 'Aucun service sérieux ne se fait payer en cartes cadeaux : une fois les codes envoyés, l’argent est dépensé en quelques minutes et presque impossible à récupérer. La menace de suppression sert à t’empêcher de vérifier. Quant à ton pseudo, il est public : n’importe qui peut le lire sur ton profil ou dans une partie.'
     aRetenir: 'Une carte cadeau sert à offrir, pas à payer une amende ou un service : quelqu’un qui te réclame des codes de cartes cadeaux est un escroc. Pour toute alerte sur un compte, vérifie toi-même dans l’appli officielle.'
     recuperation: { action: bloquer-signaler, siChoix: [paie] }
+    pourquoi:
+      - levier: peur
+        truc: '« Ton compte et tous tes achats seront supprimés » : on vise ce qui compte pour toi, trois ans de parties.'
+        parade: 'Ouvre toi-même l’appli GameBox : si ton compte fonctionne, la menace est fausse. Et parles-en à un adulte.'
+      - levier: urgence
+        truc: '« Sous 24 h » : le délai te pousse à courir acheter les cartes avant de vérifier quoi que ce soit.'
+        parade: 'Aucun délai ne t’oblige à payer tout de suite. Vérifier dans l’appli prend une minute.'
+      - levier: autorite
+        truc: 'Le SMS signe « GameBox Support » et parle de « fraude » et d’« amende ». Ce vocabulaire se copie, et l’expéditeur est un simple portable.'
+        parade: 'Aucune entreprise ne se fait payer en cartes cadeaux, GameBox pas plus qu’une autre. Signale le SMS au 33700.'
+      - levier: petit-montant
+        truc: '100 € pour sauver trois ans de parties, ça paraît peu. Mais une fois payé, l’escroc revient avec une nouvelle demande.'
+        parade: 'Quelqu’un qui exige des cartes cadeaux n’a rien à débloquer. Ne paie pas le premier euro, il y en aurait d’autres.'
 
   - type: minijeu
     id: tri-achat-vente
