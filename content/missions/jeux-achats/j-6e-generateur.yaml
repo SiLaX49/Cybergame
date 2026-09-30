@@ -32,7 +32,7 @@ etapes:
     question: 'Une vidéo t’a montré ce site. D’habitude, les Coins se gagnent en jouant ou s’achètent dans la boutique du jeu. Que fais-tu ?'
     choix:
       - id: genere
-        texte: Je donne mon pseudo et mon mot de passe, puis je télécharge l’appli.
+        texte: '10 000 Coins gratuits, et la vidéo disait que ça marche ! Je tape mon pseudo et mon mot de passe, puis j’installe l’appli.'
         qualite: risque
         consequence: 'Aucun Coin n’arrive. Le soir, ton mot de passe ne marche plus : quelqu’un a pris ton compte. L’appli, elle, remplit la tablette de pubs. Avec un adulte, tu peux la supprimer et récupérer ton compte.'
         consequenceSimple: 'Pas de Coins. Quelqu’un a volé ton compte GameBox. Avec un adulte, tu peux le récupérer.'
@@ -53,6 +53,19 @@ etapes:
     aRetenir: 'Les générateurs de Coins gratuits sont toujours des pièges. Ton mot de passe se tape seulement dans l’appli ou le site officiel du jeu.'
     aRetenirSimple: 'Les Coins gratuits, c’est un piège. Ton mot de passe se tape seulement dans le jeu.'
     recuperation: { action: changer-mdp, siChoix: [genere] }
+    pourquoi:
+      - levier: gain
+        truc: '10 000 Coins gratuits en 2 minutes : l’offre est faite pour que tu oublies tout le reste.'
+        parade: 'Les Coins se gagnent en jouant ou s’achètent dans la boutique du jeu. Personne ne peut en « générer ».'
+      - levier: groupe
+        truc: 'Une vidéo et « 2 847 joueurs connectés » : tout est fait pour que tu croies que tout le monde en profite.'
+        parade: 'Ce compteur, n’importe qui peut l’inventer. Avant de croire une vidéo, montre le site à un adulte.'
+      - levier: autorite
+        truc: 'Le site s’appelle « Générateur de GameBox Coins » et l’adresse contient « gamebox ». Pourtant, ce n’est pas GameBox.'
+        parade: 'Pour tes Coins, ouvre toi-même l’appli GameBox. Jamais un site trouvé dans une vidéo.'
+      - levier: reflexe
+        truc: 'Étape 1, étape 2 : le site te guide pas à pas pour que tu obéisses sans réfléchir.'
+        parade: 'Quand une page demande ton mot de passe, arrête-toi. Si ce n’est pas l’appli du jeu, tu fermes.'
 
   - type: scenario
     id: echange-objet
@@ -73,7 +86,7 @@ etapes:
     question: 'Une épée légendaire vaut bien plus que ton dragon. DarkWolf_77 est niveau 80, un très bon joueur. Que fais-tu ?'
     choix:
       - id: donne-premier
-        texte: J’envoie mon dragon en cadeau d’abord, il a promis.
+        texte: 'Il est niveau 80, il n’a pas besoin de m’arnaquer. Et une épée légendaire, je n’en aurai jamais d’autre : j’envoie mon dragon.'
         qualite: risque
         consequence: 'DarkWolf_77 reçoit ton dragon… puis te bloque. Pas d’épée. Tu peux encore signaler son compte au jeu, avec une capture de la conversation. Ça protège les autres joueurs.'
         consequenceSimple: 'Il garde ton dragon et te bloque. Pas d’épée. Tu peux encore le signaler au jeu.'
@@ -94,6 +107,16 @@ etapes:
     aRetenir: 'Pour échanger un objet, utilise toujours la fenêtre d’échange du jeu. Ne donne jamais en premier.'
     aRetenirSimple: 'Échange seulement avec la fenêtre d’échange du jeu. Ne donne jamais en premier.'
     recuperation: { action: bloquer-signaler, siChoix: [donne-premier] }
+    pourquoi:
+      - levier: gain
+        truc: 'Une épée légendaire contre ton dragon : l’offre est trop belle. C’est l’appât pour que tu donnes en premier.'
+        parade: 'Si un échange est trop beau, fais-le seulement dans la fenêtre d’échange du jeu. Sinon, refuse.'
+      - levier: autorite
+        truc: 'Son niveau 80 lui donne l’air d’un joueur sérieux. Mais un bon niveau ne dit rien de son honnêteté.'
+        parade: 'Niveau 1 ou niveau 80, même règle : les deux objets partent en même temps, dans la fenêtre d’échange.'
+      - levier: reflexe
+        truc: 'Il a une excuse toute prête : « elle bugue ». Il compte sur toi pour ne pas vérifier.'
+        parade: 'Ouvre toi-même la fenêtre d’échange pour voir si elle marche. Si elle bugue, attends qu’elle soit réparée.'
 
   - type: scenario
     id: copain-mdp
@@ -108,7 +131,7 @@ etapes:
     question: 'Sacha est vraiment dans ta classe. Ton personnage, lui, est bloqué au niveau 12 depuis une semaine. Que fais-tu ?'
     choix:
       - id: partage
-        texte: Je lui donne mon mot de passe, c’est un copain.
+        texte: 'Sacha est dans ma classe, je le vois tous les jours. Et mon perso est bloqué au niveau 12 : je lui donne mon mot de passe.'
         qualite: risque
         consequence: 'Le lendemain, tes Coins ont disparu et ton mot de passe ne marche plus. Sacha l’a changé « pour rire ». Avec un adulte, tu peux récupérer ton compte et choisir un nouveau mot de passe.'
         consequenceSimple: 'Sacha a dépensé tes Coins et changé ton mot de passe. Avec un adulte, tu peux récupérer ton compte.'
@@ -128,6 +151,16 @@ etapes:
     aRetenir: 'Un mot de passe ne se partage pas, même avec un ami. Vous pouvez jouer ensemble sans que tu le donnes.'
     aRetenirSimple: 'Ton mot de passe, c’est pour toi seul. Même pas pour un ami.'
     recuperation: { action: changer-mdp, siChoix: [partage] }
+    pourquoi:
+      - levier: confiance
+        truc: 'Sacha est vraiment dans ta classe, alors dire non paraît méchant. Mais avec ton mot de passe, on peut tout faire.'
+        parade: 'Tu peux faire confiance à Sacha et garder ton mot de passe. Propose-lui plutôt de jouer ensemble.'
+      - levier: gain
+        truc: 'Niveau 50 ce soir, alors que tu bloques au niveau 12 depuis une semaine : c’est très tentant.'
+        parade: 'Pour progresser, joue avec Sacha en ligne ou demande-lui ses astuces. Il n’a pas besoin de ton mot de passe.'
+      - levier: reflexe
+        truc: 'Le message est court, avec « promis 🙏 ». Entre copains, on répond vite sans penser à la suite.'
+        parade: 'Avant de donner ton mot de passe, demande-toi ce qu’il pourrait en faire : dépenser tes Coins, le changer…'
 
   - type: minijeu
     id: repere-generateur
