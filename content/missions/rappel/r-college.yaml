@@ -33,7 +33,7 @@ etapes:
     question: 'Une minute après, tu reçois un SMS : « GameBox : ton code de connexion est 731 204. Ne le communique à personne. » Que fais-tu ?'
     choix:
       - id: envoie
-        texte: J’envoie le code à Hugo, c’est juste pour le tournoi.
+        texte: 'Hugo est dans ma classe et il faut valider avant 18 h. Je lui envoie le code pour ne pas rater le tournoi.'
         qualite: risque
         consequence: 'Aucune inscription au tournoi : le code ouvrait ton compte GameBox à quelqu’un d’autre. Le soir, tes Coins ont disparu et tes amis reçoivent en ton nom la même histoire de tournoi. Le vrai Hugo n’y était pour rien : un pirate utilisait son compte. Tu peux encore reprendre ton compte avec « mot de passe oublié », puis le protéger.'
       - id: verifie
@@ -52,6 +52,19 @@ etapes:
     explicationIndices: 'Un code de connexion est envoyé à toi seul, quand quelqu’un essaie d’entrer dans ton compte. Si on te le réclame, c’est pour se connecter à ta place. Qu’il vienne d’un camarade ne prouve rien : son compte a pu être piraté.'
     aRetenir: 'Un code reçu par SMS ne se donne jamais, même à un ami. Si un proche te le réclame, vérifie en vrai ou par appel : son compte a sans doute été piraté. La double authentification protège ton compte, tant que tu ne donnes pas le code.'
     recuperation: { action: activer-2fa, siChoix: [envoie] }
+    pourquoi:
+      - levier: confiance
+        truc: 'Le message vient du compte d’Hugo, de ta classe. Mais un pirate peut écrire depuis son compte.'
+        parade: 'Appelle Hugo ou parle-lui en vrai avant d’envoyer quoi que ce soit.'
+      - levier: urgence
+        truc: '« Faut valider avant 18 h ! » : ce délai te pousse à répondre avant de lire le SMS en entier.'
+        parade: 'Un vrai tournoi ne se joue pas à la minute près. Lis le SMS jusqu’au bout avant de répondre.'
+      - levier: groupe
+        truc: '« Le tournoi de la classe » : on imagine que les autres sont déjà inscrits, et on ne veut pas rester à part.'
+        parade: 'Demande à d’autres élèves de la classe s’ils ont entendu parler de ce tournoi.'
+      - levier: reflexe
+        truc: 'Copier un code qu’on vient de recevoir et l’envoyer, ça prend deux secondes. On saute alors la ligne « Ne le communique à personne ».'
+        parade: 'Un code reçu par SMS ouvre ton compte : garde-le pour toi, même face à un ami. La double authentification te protège tant que tu ne le donnes pas.'
 debrief:
   questions:
     - Quel était le piège caché dans les notifications ?
