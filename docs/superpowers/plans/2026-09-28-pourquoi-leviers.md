@@ -1151,3 +1151,107 @@ Expected : tout passe (E2E : aucun échec ; les tests volontairement ignorés re
 git add src/content/schema.ts tests README.md
 git commit -m "feat: bloc « pourquoi » obligatoire, tests de contenu et E2E du parcours risqué"
 ```
+
+---
+
+## Corrections reportées de l'étape 1 (ajoutées au plan le 2026-09-30)
+
+Les deux limites connues de l'étape 1, décrites dans le cahier des charges (section 9), sont corrigées sur la même branche.
+
+### Task 10 : le lecteur d'écran commence par la situation
+
+**Files :**
+- Modify : `src/mission/ScenarioStep.vue`, `tests/unit/focus.test.ts`, `tests/e2e/parcours.spec.ts`
+
+**Interfaces :**
+- Consumes : `focusAuMontage`, `focusAuChangement` (`src/ui/focus.ts`, existants) ; prop `leviers` de `ScenarioStep` (tâche 3).
+- Produces : à l'affichage d'un nouveau scénario, le focus va sur l'`<article class="scenario">` (placé avant la ligne de rôle et le faux téléphone), `tabindex="-1"`, nommé par `aria-label` ; à chaque changement de phase, le focus va toujours sur le titre `h2` de la phase.
+
+- [ ] **Step 1 : adapter le test (qui doit échouer)**
+
+Dans `tests/unit/focus.test.ts`, remplacer le test « ScenarioStep : le titre de la phase reçoit le focus dès l’affichage, puis à chaque phase » par :
+```ts
+  it('ScenarioStep : la situation reçoit le focus à l’affichage, puis le titre à chaque phase', async () => {
+    const scenario = missionFixture().etapes[0] as Scenario
+    const w = monter(ScenarioStep, {
+      props: { scenario, phase: 'situation', mode: 'solo', sensible: false, leviers: leviersFixture() },
+    })
+    await flushPromises()
+    expect(actif()?.tagName).toBe('ARTICLE')
+    expect(actif()?.getAttribute('aria-label')).toBe('Situation : message de Colis Express dans Messages')
+    await w.setProps({ phase: 'indices' })
+    await flushPromises()
+    expect(actif()?.textContent).toBe('Qu’est-ce qui t’a décidé ?')
+  })
+```
+(ajouter `leviersFixture` à l'import depuis `./fixtures`).
+
+- [ ] **Step 2 : vérifier l'échec** — Run : `npx vitest run tests/unit/focus.test.ts` → FAIL (le focus est sur le `H2`).
+
+- [ ] **Step 3 : implémenter**
+
+Dans `src/mission/ScenarioStep.vue` :
+- script : `const situation = ref<HTMLElement | null>(null)` ; remplacer `focusAuMontage(titre)` par `focusAuMontage(situation)` (garder `focusAuChangement(() => props.phase, titre)`) ;
+- template : la balise ouvrante de l'article devient
+```vue
+  <article
+    ref="situation"
+    class="scenario"
+    tabindex="-1"
+    :aria-label="`Situation : message de ${scenario.ecran.contact} dans ${scenario.ecran.appNom}`"
+  >
+```
+- style : `.scenario:focus { outline: none; } .scenario:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }`.
+
+Dans `tests/e2e/parcours.spec.ts`, test « un scénario complet au clavier » : les deux lignes `await expect(page.getByRole('heading', { level: 2 })).toBeFocused()` qui suivent l'arrivée sur une nouvelle étape (« Étape 2 sur 4 », « Étape 3 sur 4 ») deviennent `await expect(page.locator('article.scenario')).toBeFocused()`.
+
+- [ ] **Step 4 : vérifier** — Run : `npx vitest run && npm run typecheck && npm run lint && npm run test:e2e` → tout passe.
+
+- [ ] **Step 5 : commit**
+```bash
+git add src/mission/ScenarioStep.vue tests/unit/focus.test.ts tests/e2e/parcours.spec.ts
+git commit -m "fix(a11y): le focus arrive sur la situation d’un nouveau scénario"
+```
+
+### Task 11 : un rappel joué avant la première mission ne fait plus sauter le J+30
+
+**Files :**
+- Modify : `src/engine/rappel.ts`, `tests/unit/rappel.test.ts`
+
+**Interfaces :**
+- Consumes / Produces : `rappelDu(datesTerminees: string[], rappels: { faitLe: string; fois: number }[], maintenant: Date): Echeance | null` — signature inchangée.
+
+- [ ] **Step 1 : écrire le test (qui doit échouer)**
+
+Dans `tests/unit/rappel.test.ts`, ajouter :
+```ts
+  it('un rappel joué avant la première mission puis à J+7 laisse venir le J+30', () => {
+    // Un seul enregistrement par rappel : dernière date + nombre total de fois.
+    expect(rappelDu([iso(2)], [{ faitLe: iso(10), fois: 2 }], jour(31))).toBeNull()
+    expect(rappelDu([iso(2)], [{ faitLe: iso(10), fois: 2 }], jour(32))).toBe('J+30')
+  })
+```
+
+- [ ] **Step 2 : vérifier l'échec** — Run : `npx vitest run tests/unit/rappel.test.ts` → FAIL (`fois = 2` fait renvoyer `null`).
+
+- [ ] **Step 3 : implémenter**
+
+Dans `src/engine/rappel.ts`, remplacer le corps de `rappelDu` après le calcul de `debut` par :
+```ts
+  const jours = (maintenant.getTime() - debut) / JOUR_MS
+  const faitsDepuis = rappels.map((r) => Date.parse(r.faitLe)).filter((t) => Number.isFinite(t) && t >= debut)
+  if (!faitsDepuis.length) return jours >= 7 ? 'J+7' : null
+  // Le J+30 est dû tant qu'aucun rappel n'a été fait à partir de J+30.
+  const dernier = Math.max(...faitsDepuis)
+  if (jours >= 30 && dernier < debut + 30 * JOUR_MS) return 'J+30'
+  return null
+```
+et mettre à jour le commentaire de la fonction : « J+7 après la première mission terminée tant qu'aucun rappel n'a été fait depuis ; puis J+30 tant qu'aucun rappel n'a été fait à partir de J+30. Un rappel joué avant la première mission ne compte pas. »
+
+- [ ] **Step 4 : vérifier** — Run : `npx vitest run && npm run typecheck` → tous PASS (les tests existants de `rappel.test.ts` restent valables).
+
+- [ ] **Step 5 : commit**
+```bash
+git add src/engine/rappel.ts tests/unit/rappel.test.ts
+git commit -m "fix(rappel): un rappel joué avant la première mission ne fait plus sauter le J+30"
+```
