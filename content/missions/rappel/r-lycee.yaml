@@ -33,7 +33,7 @@ etapes:
     question: Emma est dans ta classe et elle a l’air sûre d’elle. Que fais-tu ?
     choix:
       - id: depot
-        texte: Je m’inscris et je fais le dépôt de 50 €, Emma a bien été payée.
+        texte: 'Emma a vraiment touché 20 €, elle me l’a dit. Les 50 € de dépôt, je les récupère en dix vidéos : je m’inscris et je paie.'
         qualite: risque
         consequence: 'Tu reçois 10 € pour tes deux premières vidéos likées. Puis le « manager » du groupe te réclame 150 € de plus « pour débloquer tes gains ». Tu ne peux jamais retirer ton argent, et il insiste pour que tu recrutes d’autres élèves. C’est une arnaque au faux job. Tu peux encore agir : garder des preuves, bloquer, prévenir un adulte et ta banque.'
       - id: parle-emma
@@ -52,6 +52,19 @@ etapes:
     explicationIndices: 'Un vrai travail ne demande jamais de payer pour commencer. Les premiers petits gains sont un appât : ils rendent l’offre crédible pour réclamer ensuite des dépôts plus gros. Qu’Emma ait touché 20 € ne prouve donc rien.'
     aRetenir: 'Une offre qui te paie pour liker mais te demande un dépôt est une arnaque, même relayée par un camarade. Si tu as payé : garde des preuves, bloque, préviens un adulte et ta banque.'
     recuperation: { action: capture-preuve, siChoix: [depot] }
+    pourquoi:
+      - levier: gain
+        truc: '5 € par like, 20 € déjà touchés : le calcul paraît facile. Ces premiers petits gains sont l’appât pour obtenir ton dépôt.'
+        parade: 'Demande-toi qui paierait 5 € pour un simple like. Un vrai job ne te fait jamais payer pour commencer.'
+      - levier: confiance
+        truc: 'L’offre arrive par Emma, de ta classe. Le site pousse ses membres à recruter : « dis que tu viens de ma part ».'
+        parade: 'Parle à Emma en vrai et demande-lui si elle a pu récupérer ses 50 € de dépôt.'
+      - levier: groupe
+        truc: '« Un groupe trop bien » : on imagine plein de gens qui gagnent déjà. Ces arnaques grossissent justement en faisant recruter leurs membres.'
+        parade: 'Avant de rejoindre un groupe qui promet de l’argent, cherche le nom du site suivi du mot « arnaque », ou montre-le à un adulte.'
+      - levier: petit-montant
+        truc: '« Il faut juste un dépôt de 50 € au début. » Le mot « juste » fait passer la somme pour un détail, puis d’autres frais arrivent.'
+        parade: 'Payer pour pouvoir gagner de l’argent, c’est le signal de l’arnaque. Ne verse rien, même un petit dépôt.'
 debrief:
   questions:
     - Quel était le piège caché dans les notifications ?
