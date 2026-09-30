@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { Scenario } from '@/content/schema'
+import type { Leviers, Scenario } from '@/content/schema'
 import type { PhaseScenario, RunEvent, ScenarioResultat } from '@/engine/mission-runner'
 import EcranTelephone from '@/phone/EcranTelephone.vue'
 import { RECUPERATIONS } from '@/recovery/registry'
@@ -9,6 +9,7 @@ import { focusAuChangement, focusAuMontage } from '@/ui/focus'
 import ChoixList from './ChoixList.vue'
 import ConsequencePanel from './ConsequencePanel.vue'
 import IndicesForm from './IndicesForm.vue'
+import PourquoiForm from './PourquoiForm.vue'
 
 const props = defineProps<{
   scenario: Scenario
@@ -16,10 +17,12 @@ const props = defineProps<{
   resultat?: ScenarioResultat
   mode: Mode
   sensible: boolean
+  leviers: Leviers
 }>()
 const emit = defineEmits<{ evenement: [evenement: RunEvent] }>()
 
 const TITRES: Record<Exclude<PhaseScenario, 'situation'>, string> = {
+  pourquoi: 'Qu’est-ce qui t’a donné envie de le faire ?',
   indices: 'Qu’est-ce qui t’a décidé ?',
   consequence: 'Et alors, que se passe-t-il ?',
   recuperation: 'Maintenant, limite les dégâts',
@@ -45,6 +48,14 @@ focusAuChangement(() => props.phase, titre)
           :mode="mode"
           @choisir="(id) => emit('evenement', { type: 'choisir', choixId: id })"
         />
+        <PourquoiForm
+          v-else-if="phase === 'pourquoi' && scenario.pourquoi"
+          :pourquoi="scenario.pourquoi"
+          :leviers="leviers"
+          :graine="scenario.id"
+          :mode="mode"
+          @expliquer="(levier) => emit('evenement', { type: 'expliquer', levier })"
+        />
         <IndicesForm
           v-else-if="phase === 'indices'"
           :indices="scenario.indices"
@@ -55,6 +66,7 @@ focusAuChangement(() => props.phase, titre)
           v-else-if="phase === 'consequence' && resultat"
           :scenario="scenario"
           :resultat="resultat"
+          :leviers="leviers"
           @continuer="emit('evenement', { type: 'continuer' })"
           @rejouer="emit('evenement', { type: 'rejouer' })"
         />

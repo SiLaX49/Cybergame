@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
-import { getMission, getTheme } from '@/content'
+import { getLeviers, getMission, getTheme } from '@/content'
 import { calculerBadges } from '@/engine/badges'
 import {
   choixDuRun,
@@ -28,6 +28,7 @@ const store = useProgress()
 const mission = getMission(String(route.params.id))
 const theme = mission?.theme ? getTheme(mission.theme) : undefined
 const sensible = theme?.sensible ?? false
+const leviers = getLeviers()
 
 const mode = computed(() => store.etat.mode ?? 'solo')
 const avertissementLu = ref(false)
@@ -88,6 +89,7 @@ function recommencer() {
           :resultat="resultatCourant"
           :mode="mode"
           :sensible="sensible"
+          :leviers="leviers"
           @evenement="envoyer"
         />
         <MinijeuStep

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Qualite, Scenario } from '@/content/schema'
+import type { Leviers, Qualite, Scenario } from '@/content/schema'
 import type { ScenarioResultat } from '@/engine/mission-runner'
 import { ordreAffichage } from '@/engine/ordre'
 import { useTexte } from '@/ui/useTexte'
 
-const props = defineProps<{ scenario: Scenario; resultat: ScenarioResultat }>()
+const props = defineProps<{ scenario: Scenario; resultat: ScenarioResultat; leviers: Leviers }>()
 const emit = defineEmits<{ continuer: []; rejouer: [] }>()
 const t = useTexte()
 
@@ -16,6 +16,14 @@ const VERDICTS: Record<Qualite, { icone: string; titre: string }> = {
   aide: { icone: '🤝', titre: 'Demander de l’aide, c’est toujours une bonne idée.' },
   risque: { icone: '⚠️', titre: 'C’était risqué. Voyons ce qui se passe.' },
 }
+
+const reponse = computed(() => {
+  const levier = props.resultat.levier
+  if (!levier) return null
+  if (levier === 'autre') return { libelle: props.leviers.autre.libelle, truc: props.leviers.autre.truc, parade: props.leviers.autre.parade }
+  const p = props.scenario.pourquoi?.find((x) => x.levier === levier)
+  return p ? { libelle: props.leviers.leviers[levier].libelle, truc: p.truc, parade: p.parade } : null
+})
 </script>
 
 <template>
@@ -25,6 +33,12 @@ const VERDICTS: Record<Qualite, { icone: string; titre: string }> = {
     </p>
     <p><strong>Ton choix :</strong> {{ choix.texte }}</p>
     <p>{{ t(choix.consequence, choix.consequenceSimple) }}</p>
+    <div v-if="reponse" class="ce-qui-a-marche" role="note">
+      <h3>Ce qui a marché sur toi</h3>
+      <p>Tu as répondu : « {{ reponse.libelle }} »</p>
+      <p>{{ reponse.truc }}</p>
+      <p><strong>Ta parade :</strong> {{ reponse.parade }}</p>
+    </div>
     <h3>Les indices</h3>
     <ul class="liste-indices">
       <li v-for="i in indices" :key="i.id">
@@ -51,4 +65,5 @@ const VERDICTS: Record<Qualite, { icone: string; titre: string }> = {
 .verdict.aide { color: var(--aide); }
 .coche { color: var(--texte-doux); }
 .a-retenir { background: #eef0ff; border-left: 6px solid var(--primaire); padding: 0.5rem 1rem; border-radius: var(--rayon); }
+.ce-qui-a-marche { background: #fff8e6; border-left: 6px solid var(--aide); padding: 0.5rem 1rem; border-radius: var(--rayon); }
 </style>

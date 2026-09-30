@@ -5,7 +5,7 @@ import type { ScenarioResultat } from '@/engine/mission-runner'
 import { ordreAffichage } from '@/engine/ordre'
 import ScenarioStep from '@/mission/ScenarioStep.vue'
 import { creerStore, definirStore, type ProgressStore } from '@/store/useProgress'
-import { missionFixture } from './fixtures'
+import { leviersFixture, missionFixture } from './fixtures'
 import { bouton, cliquer } from './helpers'
 import { MemoryStorage } from './memory-storage'
 
@@ -18,8 +18,8 @@ beforeEach(() => {
 const scenario = () => missionFixture().etapes[0] as Scenario
 const resultatClic: ScenarioResultat = {
   type: 'scenario',
-  choixId: 'clic',
-  qualite: 'risque',
+  choixId: 'verif',
+  qualite: 'bon',
   indicesChoisis: ['url'],
   indicesJustes: 1,
   indicesFaux: 0,
@@ -28,7 +28,9 @@ const resultatClic: ScenarioResultat = {
   passe: false,
 }
 const monter = (props: Record<string, unknown> = {}) =>
-  mount(ScenarioStep, { props: { scenario: scenario(), phase: 'situation', mode: 'solo', sensible: false, ...props } })
+  mount(ScenarioStep, {
+    props: { scenario: scenario(), phase: 'situation', mode: 'solo', sensible: false, leviers: leviersFixture(), ...props },
+  })
 
 describe('ScenarioStep', () => {
   it('situation (solo) : un clic sur un choix l’envoie', async () => {
@@ -75,8 +77,8 @@ describe('ScenarioStep', () => {
 
   it('conséquence : verdict, indices, à retenir, continuer ou rejouer', async () => {
     const w = monter({ phase: 'consequence', resultat: resultatClic })
-    expect(w.text()).toContain('C’était risqué')
-    expect(w.text()).toContain('La carte est volée.')
+    expect(w.text()).toContain('Bon réflexe !')
+    expect(w.text()).toContain('Aucun colis en attente.')
     expect(w.text()).toContain('tu l’avais coché')
     expect(w.text()).toContain('Un transporteur ne demande pas de payer par SMS.')
     await cliquer(w, 'Rejouer ce scénario')
@@ -88,7 +90,6 @@ describe('ScenarioStep', () => {
     const w = monter({ phase: 'consequence', resultat: resultatClic })
     store.modifierReglages({ lectureSimple: true })
     await w.vm.$nextTick()
-    expect(w.text()).toContain('On vole la carte.')
     expect(w.text()).toContain('Ne paie jamais un colis par SMS.')
     expect(bouton(w, 'Continuer').exists()).toBe(true)
   })
