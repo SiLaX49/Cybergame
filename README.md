@@ -1,5 +1,7 @@
 # Cyber Réflexes
 
+**Jouer : [silax49.github.io/Cybergame](https://silax49.github.io/Cybergame/)**
+
 Jeu web gratuit de sensibilisation aux risques numériques, de la 6e à la Terminale. Sans compte ni installation,
 jouable hors ligne. Aucune donnée ne quitte l’appareil.
 
@@ -25,6 +27,9 @@ Après avoir ajouté un fichier, relancer `npm run dev`.
 Règles principales :
 - 3 objectifs maximum ; 3 ou 4 scénarios et 1 mini-jeu (`tri` ou `repere`) par mission.
 - Chaque scénario a un choix `aide` (« Je demande de l’aide… »), au moins un indice pertinent et un `aRetenir`.
+- Chaque scénario avec un choix `risque` a un bloc `pourquoi` : 3 ou 4 leviers (`content/leviers.yaml`), chacun avec
+  `truc` (comment l’arnaqueur a joué sur ce levier ici) et `parade` (le geste à faire la prochaine fois).
+- Le texte du choix `risque` est la vraie pensée d’un ado, qui tente vraiment : jamais une évidence.
 - `recuperation.siChoix` ne cite que des choix `risque` ou `bon`, jamais le choix `aide`.
 - Marques **fictives** uniquement dans les faux écrans (un test le vérifie).
 - 6e : `texteSimple`, `consequenceSimple` (choix risqués) et `aRetenirSimple` obligatoires.

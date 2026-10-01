@@ -1,9 +1,10 @@
 import { creerAcces } from '@/content/acces'
-import { missionFixture, rappelFixture, themesFixture } from './fixtures'
+import { leviersFixture, missionFixture, rappelFixture, themesFixture } from './fixtures'
 
 export const contentMock = creerAcces({
   generatedAt: '2026-09-01T10:00:00.000Z',
   themes: themesFixture(),
+  leviers: leviersFixture(),
   missions: [
     missionFixture(),
     missionFixture({

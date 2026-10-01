@@ -1,8 +1,10 @@
 import {
+  leviersFileSchema,
   missionSchema,
   repereConfigSchema,
   themesFileSchema,
   triConfigSchema,
+  type Leviers,
   type Mission,
   type RepereConfig,
   type Theme,
@@ -40,6 +42,11 @@ export function rawScenario(id = 'sc-1') {
     aRetenir: 'Un transporteur ne demande pas de payer par SMS.',
     aRetenirSimple: 'Ne paie jamais un colis par SMS.',
     recuperation: { action: 'bloquer-signaler', siChoix: ['clic'] },
+    pourquoi: [
+      { levier: 'urgence', truc: 'Le délai de 24 h est là exprès.', parade: 'Plus on te presse, plus tu ralentis.' },
+      { levier: 'petit-montant', truc: 'Le petit montant est un appât.', parade: 'C’est ta carte qu’on veut, pas les 1,99 €.' },
+      { levier: 'reflexe', truc: 'Le message imite un vrai SMS.', parade: 'Prends trois secondes avant de cliquer.' },
+    ],
   }
 }
 
@@ -140,3 +147,21 @@ export const rappelFixture = (overrides: Record<string, unknown> = {}): Mission 
 export const themesFixture = (): Theme[] => themesFileSchema.parse(rawThemes())
 export const triFixture = (): TriConfig => triConfigSchema.parse(rawTri())
 export const repereFixture = (): RepereConfig => repereConfigSchema.parse(rawRepere())
+
+export function rawLeviers() {
+  const info = (libelle: string) => ({ libelle, parade: `Parade ${libelle}.`, questionDebrief: `Question ${libelle} ?` })
+  return {
+    leviers: {
+      urgence: info('Il fallait faire vite'),
+      peur: info('J’avais peur de perdre mon compte'),
+      gain: info('C’était trop tentant'),
+      confiance: info('Ça venait de quelqu’un que je connais'),
+      'petit-montant': info('C’était pas cher, pas grave'),
+      autorite: info('Ça avait l’air officiel'),
+      groupe: info('Les autres le font aussi'),
+      reflexe: info('Je n’ai pas vraiment réfléchi'),
+    },
+    autre: { libelle: 'Autre chose / je ne sais pas', truc: 'Truc générique.', parade: 'Parade générique.' },
+  }
+}
+export const leviersFixture = (): Leviers => leviersFileSchema.parse(rawLeviers())

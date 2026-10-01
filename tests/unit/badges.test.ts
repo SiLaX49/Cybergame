@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { calculerBadges } from '@/engine/badges'
 import { demarrer, reduire, type RunEvent } from '@/engine/mission-runner'
-import type { Mission } from '@/content/schema'
-import { missionFixture, rappelFixture } from './fixtures'
+import type { Mission, Scenario } from '@/content/schema'
+import { missionFixture, rappelFixture, rawScenario, rawTri } from './fixtures'
 
 const jouer = (m: Mission, ...evs: RunEvent[]) => evs.reduce((e, ev) => reduire(m, e, ev), demarrer(m))
 const finTri: RunEvent = { type: 'minijeu-termine', reussites: 4, erreurs: 0 }
@@ -29,12 +29,45 @@ describe('calculerBadges', () => {
     const etat = jouer(
       m,
       { type: 'choisir', choixId: 'clic' },
-      { type: 'valider-indices', indices: ['montant'] },
+      { type: 'expliquer', levier: 'urgence' },
       { type: 'continuer' },
       { type: 'recuperation-faite' },
       finTri,
     )
     expect(calculerBadges(etat)).toEqual(['mission-accomplie', 'reparateur'])
+  })
+
+  it('« Œil de lynx » ne compte que les scénarios où l’on a désigné des indices', () => {
+    const deux = missionFixture({
+      etapes: [rawScenario('sc-1'), rawScenario('sc-2'), { type: 'minijeu', id: 'mj-1', jeu: 'tri', config: rawTri() }],
+    })
+    const etat = jouer(
+      deux,
+      { type: 'choisir', choixId: 'verif' },
+      { type: 'valider-indices', indices: ['url'] },
+      { type: 'continuer' },
+      { type: 'choisir', choixId: 'clic' },
+      { type: 'expliquer', levier: 'urgence' },
+      { type: 'continuer' },
+      { type: 'recuperation-faite' },
+      finTri,
+    )
+    expect(calculerBadges(etat)).toEqual(['mission-accomplie', 'oeil-de-lynx', 'reparateur'])
+  })
+
+  it('« Œil de lynx » compte un choix risqué passé par les indices (scénario sans bloc pourquoi)', () => {
+    const sc = { ...(m.etapes[0] as Scenario) }
+    delete sc.pourquoi
+    const sansPourquoi = { ...m, etapes: [sc, ...m.etapes.slice(1)] }
+    const etat = jouer(
+      sansPourquoi,
+      { type: 'choisir', choixId: 'clic' },
+      { type: 'valider-indices', indices: ['url', 'urgence'] },
+      { type: 'continuer' },
+      { type: 'recuperation-faite' },
+      finTri,
+    )
+    expect(calculerBadges(etat)).toEqual(['mission-accomplie', 'oeil-de-lynx', 'reparateur'])
   })
 
   it('ne donne pas les badges de processus si tous les scénarios sont passés', () => {

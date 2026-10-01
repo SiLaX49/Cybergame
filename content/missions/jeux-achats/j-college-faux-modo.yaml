@@ -26,7 +26,7 @@ etapes:
     question: 'Lucas, tu joues avec lui depuis des mois sur ton serveur. Tu écris à @Support_ChatCord, qui te répond en message privé : « Pour annuler le bannissement, envoie-moi le code à 6 chiffres que tu vas recevoir par SMS. » Le SMS arrive. Que fais-tu ?'
     choix:
       - id: donne-code
-        texte: J’envoie le code au support pour éviter le bannissement.
+        texte: 'C’est le support, et je ne veux pas perdre des mois de parties : j’envoie le code.'
         qualite: risque
         consequence: 'C’était un code de connexion : il a permis au pirate d’entrer dans ton compte depuis son propre appareil. Ton appli te déconnecte, ton pseudo change et ton compte envoie la même arnaque à tes amis. Grâce à « Mot de passe oublié » et à ton adresse mail, tu changes ton mot de passe et tu reprends la main. Reste à fermer la porte pour de bon.'
       - id: verifie
@@ -45,6 +45,19 @@ etapes:
     explicationIndices: 'N’importe qui peut créer un compte nommé « Support_ChatCord ». Un vrai support ne demande jamais ton code ni ton mot de passe, et la peur du bannissement sert à te faire agir vite. Le message de Lucas ne prouve rien : son compte a pu être piraté.'
     aRetenir: 'Un code reçu par SMS ne se donne à personne, même au « support ». Pour vérifier une menace sur ton compte, regarde toi-même dans l’appli. La double authentification protège ton compte tant que tu gardes ses codes pour toi.'
     recuperation: { action: activer-2fa, siChoix: [donne-code] }
+    pourquoi:
+      - levier: peur
+        truc: 'Le mot « banni » fait peur : tu imagines perdre ton compte et tes amis. Cette peur te pousse à obéir sans vérifier.'
+        parade: 'Une menace de bannissement ? Va voir toi-même dans les paramètres de ton compte : un vrai avertissement y apparaît.'
+      - levier: urgence
+        truc: '« Sous 24 h », « écris vite », « super rapides » : tout est fait pour que tu agisses avant de réfléchir.'
+        parade: 'Prends le temps de vérifier dans l’appli. Une vraie sanction se conteste depuis l’aide officielle, pas en message privé.'
+      - levier: confiance
+        truc: 'L’alerte vient de Lucas, avec qui tu joues depuis des mois. Mais son compte a pu être piraté.'
+        parade: 'Appelle Lucas ou parle-lui en vocal pour vérifier qu’il a bien écrit ce message.'
+      - levier: autorite
+        truc: 'Le pseudo « @Support_ChatCord » a l’air officiel. N’importe qui peut créer un compte avec ce nom.'
+        parade: 'Le vrai support ne t’écrit pas en message privé et ne demande jamais de code. Passe par l’aide intégrée à l’appli.'
 
   - type: scenario
     id: teste-jeu
@@ -60,11 +73,11 @@ etapes:
     question: 'Nova_Dev t’a ajouté hier sur un serveur de jeux, tu ne le connais pas. Et « NovaQuest », ça a l’air stylé. Que fais-tu ?'
     choix:
       - id: lance
-        texte: Je télécharge le fichier et je lance le jeu sur mon ordinateur.
+        texte: 'Il trouve que j’ai du talent, et tester un jeu en avant-première, c’est trop bien : je le lance.'
         qualite: risque
         consequence: 'Le « jeu » affiche un écran noir puis se ferme. En silence, il a copié les mots de passe enregistrés dans ton navigateur et tes connexions ouvertes. Le soir, tes comptes ChatCord et GameBox sont piratés. Tu peux encore reprendre la main : fais analyser l’ordinateur avec un adulte, puis change tes mots de passe.'
       - id: refuse
-        texte: 'Je refuse poliment : je n’ouvre pas un programme envoyé par un inconnu.'
+        texte: 'Je refuse poliment : je ne lance jamais un programme envoyé par quelqu’un que je connais depuis hier.'
         qualite: bon
         consequence: 'Nova_Dev insiste, puis quitte le serveur. Quelques jours plus tard, une annonce dans le salon officiel du serveur prévient que ce compte a piraté plusieurs membres avec un faux jeu.'
       - id: aide
@@ -79,6 +92,16 @@ etapes:
     explicationIndices: 'Un fichier .exe est un programme : l’ouvrir, c’est le laisser agir sur ton ordinateur. La flatterie sert à baisser ta garde. Un nom stylé ne dit rien de ce que fait vraiment le programme.'
     aRetenir: 'N’ouvre jamais un programme envoyé par un inconnu, même présenté comme un jeu à tester. Les vrais jeux s’installent depuis des boutiques officielles.'
     recuperation: { action: changer-mdp, siChoix: [lance] }
+    pourquoi:
+      - levier: gain
+        truc: '« T’as un vrai talent 🔥 » et un jeu à tester avant tout le monde : le compliment et l’exclusivité baissent ta garde.'
+        parade: 'Plus on te flatte, plus tu vérifies. Un vrai jeu s’installe depuis une boutique officielle, pas depuis un message.'
+      - levier: confiance
+        truc: 'Nova_Dev est sur ton serveur de jeux, alors il semble faire partie de la bande. Tu ne le connais pourtant que depuis hier.'
+        parade: 'Quelqu’un rencontré en ligne hier reste un inconnu. N’ouvre aucun fichier qu’il t’envoie.'
+      - levier: reflexe
+        truc: 'Un fichier arrive, on le télécharge et on double-clique : c’est un geste automatique. Ici, c’est un programme « .exe ».'
+        parade: 'Avant d’ouvrir un fichier, regarde la fin de son nom. Un « .exe » envoyé par un inconnu, tu ne l’ouvres pas.'
 
   - type: scenario
     id: mod-gratuit
@@ -97,7 +120,7 @@ etapes:
     question: 'Tu as trouvé ce site en cherchant « skins gratuits ». GameBox ne parle de ce mod nulle part, et tu joues sur l’ordinateur familial. Que fais-tu ?'
     choix:
       - id: desactive
-        texte: Je désactive l’antivirus juste le temps d’installer le mod.
+        texte: '1 243 avis, ils ne peuvent pas tous mentir : je coupe l’antivirus cinq minutes pour installer le mod.'
         qualite: risque
         consequence: 'Le mod ne débloque rien. Mais l’ordinateur devient très lent, des pubs s’ouvrent partout et l’antivirus refuse de se réactiver. Ce n’est pas trop tard : préviens un adulte pour faire nettoyer l’ordinateur, puis changer les mots de passe de la famille.'
       - id: ferme
@@ -105,9 +128,9 @@ etapes:
         qualite: bon
         consequence: 'L’ordinateur reste sain. Sur le forum officiel de GameBox, un message épinglé prévient justement : « Les sites de skins gratuits installent des virus. »'
       - id: aide
-        texte: Je demande de l’aide à un adulte avant d’installer quoi que ce soit.
+        texte: 'Je demande de l’aide à un adulte avant d’installer quoi que ce soit : c’est l’ordinateur de toute la famille.'
         qualite: aide
-        consequence: 'Ton père lit la ligne sur l’antivirus : « S’il bloque, c’est justement parce que c’est dangereux ! » Vous fermez le site.'
+        consequence: 'Ton père lit la ligne sur l’antivirus : « Si l’antivirus bloque, c’est justement parce que c’est dangereux ! » Vous fermez le site.'
     indices:
       - { id: antivirus, libelle: 'On me demande de désactiver l’antivirus', pertinent: true }
       - { id: non-officiel, libelle: 'Le site n’est pas celui de GameBox, qui ne parle pas de ce mod', pertinent: true }
@@ -116,6 +139,16 @@ etapes:
     explicationIndices: 'Un antivirus qui bloque un fichier a souvent une bonne raison. Des avis se fabriquent en quelques minutes. Et un mod de triche peut aussi faire bannir ton compte du jeu.'
     aRetenir: 'Ne désactive jamais ton antivirus pour installer quelque chose. Pour les mods et les skins, reste sur la boutique du jeu ou les plateformes qu’il reconnaît officiellement.'
     recuperation: { action: demander-aide, siChoix: [desactive] }
+    pourquoi:
+      - levier: groupe
+        truc: '« 1 243 avis », « Merci frérot » : on dirait que tout le monde l’a installé sans souci. Ces avis se fabriquent en quelques minutes.'
+        parade: 'Cherche le mod sur le forum officiel de GameBox. S’il n’en parle pas, ou s’il met en garde, tu n’installes rien.'
+      - levier: gain
+        truc: 'Tous les skins débloqués, 100 % gratuit : l’offre est faite pour que tu acceptes n’importe quelle condition.'
+        parade: 'Si c’est gratuit et illimité, demande-toi qui y gagne. Ici, c’est celui qui veut entrer dans l’ordinateur.'
+      - levier: autorite
+        truc: 'Le site porte le nom de GameBox et affirme que l’antivirus bloque « par erreur ». Ça sonne technique et sérieux.'
+        parade: 'Un logiciel honnête ne demande jamais de couper l’antivirus. Si l’antivirus bloque, fais-lui confiance et ferme le site.'
 
   - type: minijeu
     id: tri-chatcord

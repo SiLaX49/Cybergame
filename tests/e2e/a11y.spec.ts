@@ -54,3 +54,11 @@ for (const [nom, chemin] of [
     await verifierA11y(page, nom)
   })
 }
+
+test('étape « pourquoi » et réponse personnalisée', async ({ page }) => {
+  await page.goto('/#/mission/p-6e-colis')
+  await page.locator('[data-choix="clic"]').click()
+  await verifierA11y(page, 'pourquoi')
+  await page.locator('[data-levier="autre"]').click()
+  await verifierA11y(page, 'conséquence après piège')
+})

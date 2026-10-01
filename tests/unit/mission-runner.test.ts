@@ -3,14 +3,16 @@ import {
   choixDuRun,
   demarrer,
   etapeCourante,
+  leviersDeLaMission,
+  leviersDuRun,
   reduire,
   resultatSurprise,
   RunError,
   type RunEvent,
   type RunState,
 } from '@/engine/mission-runner'
-import type { Mission } from '@/content/schema'
-import { missionFixture, rappelFixture } from './fixtures'
+import type { Mission, Scenario } from '@/content/schema'
+import { missionFixture, rappelFixture, rawScenario, rawTri } from './fixtures'
 
 const jouer = (m: Mission, ...evenements: RunEvent[]): RunState =>
   evenements.reduce((etat, ev) => reduire(m, etat, ev), demarrer(m))
@@ -38,6 +40,7 @@ describe('mission-runner', () => {
       indicesChoisis: ['url', 'montant'],
       indicesJustes: 1,
       indicesFaux: 1,
+      levier: null,
       recuperationFaite: null,
       passe: false,
     })
@@ -46,18 +49,44 @@ describe('mission-runner', () => {
     expect(etapeCourante(m, suite)?.type).toBe('minijeu')
   })
 
-  it('impose la récupération après un choix risqué qui la prévoit', () => {
-    const etat = jouer(
-      m,
-      { type: 'choisir', choixId: 'clic' },
-      { type: 'valider-indices', indices: [] },
-      { type: 'continuer' },
-    )
-    expect(etat.phase).toBe('recuperation')
-    expect(etat.resultats['sc-1']).toMatchObject({ recuperationFaite: false })
-    const suite = reduire(m, etat, { type: 'recuperation-faite' })
+  it('après un choix risqué, demande pourquoi puis impose la récupération', () => {
+    const apresChoix = jouer(m, { type: 'choisir', choixId: 'clic' })
+    expect(apresChoix.phase).toBe('pourquoi')
+    const etat = reduire(m, apresChoix, { type: 'expliquer', levier: 'urgence' })
+    expect(etat.phase).toBe('consequence')
+    expect(etat.resultats['sc-1']).toMatchObject({ qualite: 'risque', levier: 'urgence', indicesChoisis: [], indicesJustes: 0 })
+    const recup = reduire(m, etat, { type: 'continuer' })
+    expect(recup.phase).toBe('recuperation')
+    expect(recup.resultats['sc-1']).toMatchObject({ recuperationFaite: false })
+    const suite = reduire(m, recup, { type: 'recuperation-faite' })
     expect(suite.index).toBe(1)
-    expect(suite.resultats['sc-1']).toMatchObject({ recuperationFaite: true })
+    expect(suite.resultats['sc-1']).toMatchObject({ recuperationFaite: true, levier: 'urgence' })
+  })
+
+  it('accepte « autre » et refuse un levier absent du scénario', () => {
+    const apresChoix = jouer(m, { type: 'choisir', choixId: 'clic' })
+    expect(reduire(m, apresChoix, { type: 'expliquer', levier: 'autre' }).resultats['sc-1']).toMatchObject({ levier: 'autre' })
+    expect(() => reduire(m, apresChoix, { type: 'expliquer', levier: 'groupe' })).toThrow('levier inconnu : groupe')
+  })
+
+  it('refuse les événements hors phase autour de « pourquoi »', () => {
+    const apresChoix = jouer(m, { type: 'choisir', choixId: 'clic' })
+    expect(() => reduire(m, apresChoix, { type: 'valider-indices', indices: [] })).toThrow(RunError)
+    const indices = jouer(m, { type: 'choisir', choixId: 'verif' })
+    expect(() => reduire(m, indices, { type: 'expliquer', levier: 'urgence' })).toThrow(RunError)
+  })
+
+  it('sans bloc pourquoi, un choix risqué passe par les indices', () => {
+    const sc = { ...(m.etapes[0] as Scenario) }
+    delete sc.pourquoi
+    const sansPourquoi = { ...m, etapes: [sc, ...m.etapes.slice(1)] }
+    expect(jouer(sansPourquoi, { type: 'choisir', choixId: 'clic' }).phase).toBe('indices')
+  })
+
+  it('permet de passer un scénario pendant « pourquoi »', () => {
+    const etat = jouer(m, { type: 'choisir', choixId: 'clic' }, { type: 'passer' })
+    expect(etat.index).toBe(1)
+    expect(etat.resultats['sc-1']).toMatchObject({ passe: true, levier: null })
   })
 
   it('ignore les indices inconnus', () => {
@@ -65,14 +94,15 @@ describe('mission-runner', () => {
     expect(etat.resultats['sc-1']).toMatchObject({ indicesChoisis: ['url'], indicesJustes: 1, indicesFaux: 0 })
   })
 
-  it('permet de rejouer un scénario depuis la conséquence', () => {
+  it('rejouer après le chemin risqué revient à la situation, puis un bon choix mène aux indices', () => {
     const etat = jouer(
       m,
       { type: 'choisir', choixId: 'clic' },
-      { type: 'valider-indices', indices: [] },
+      { type: 'expliquer', levier: 'reflexe' },
       { type: 'rejouer' },
     )
     expect(etat).toMatchObject({ index: 0, phase: 'situation', choixId: null, resultats: {} })
+    expect(reduire(m, etat, { type: 'choisir', choixId: 'verif' }).phase).toBe('indices')
   })
 
   it('permet de passer un scénario', () => {
@@ -99,6 +129,55 @@ describe('mission-runner', () => {
   it('résume les choix du run', () => {
     const etat = jouer(m, { type: 'choisir', choixId: 'verif' }, { type: 'valider-indices', indices: [] })
     expect(choixDuRun(etat)).toEqual({ 'sc-1': 'verif' })
+  })
+
+  it('liste les leviers du run et ceux de la mission', () => {
+    const etat = jouer(m, { type: 'choisir', choixId: 'clic' }, { type: 'expliquer', levier: 'urgence' })
+    expect(leviersDuRun(m, etat)).toEqual(['urgence'])
+    expect(leviersDuRun(m, jouer(m, { type: 'choisir', choixId: 'aide' }, { type: 'valider-indices', indices: [] }))).toEqual([])
+    expect(leviersDeLaMission(m)).toEqual(['urgence', 'petit-montant', 'reflexe'])
+  })
+
+  it('garde le levier dans le récapitulatif même après « rejouer »', () => {
+    const etat = jouer(
+      m,
+      { type: 'choisir', choixId: 'clic' },
+      { type: 'expliquer', levier: 'urgence' },
+      { type: 'rejouer' },
+      { type: 'choisir', choixId: 'verif' },
+      { type: 'valider-indices', indices: ['url'] },
+      { type: 'continuer' },
+      { type: 'minijeu-termine', reussites: 3, erreurs: 0 },
+    )
+    expect(etat.termine).toBe(true)
+    expect(etat.resultats['sc-1']).toMatchObject({ qualite: 'bon', levier: null })
+    expect(leviersDuRun(m, etat)).toEqual(['urgence'])
+  })
+
+  it('liste les leviers cédés dans l’ordre, sans doublon, sur plusieurs scénarios', () => {
+    const deux = missionFixture({
+      etapes: [rawScenario('sc-1'), rawScenario('sc-2'), { type: 'minijeu', id: 'mj-1', jeu: 'tri', config: rawTri() }],
+    })
+    const etat = jouer(
+      deux,
+      { type: 'choisir', choixId: 'clic' },
+      { type: 'expliquer', levier: 'reflexe' },
+      { type: 'rejouer' },
+      { type: 'choisir', choixId: 'clic' },
+      { type: 'expliquer', levier: 'urgence' },
+      { type: 'continuer' },
+      { type: 'recuperation-faite' },
+      { type: 'choisir', choixId: 'clic' },
+      { type: 'expliquer', levier: 'reflexe' },
+      { type: 'passer' },
+      { type: 'minijeu-termine', reussites: 3, erreurs: 0 },
+    )
+    expect(etat.leviersCedes).toEqual(['reflexe', 'urgence'])
+    expect(leviersDuRun(deux, etat)).toEqual(['reflexe', 'urgence'])
+  })
+
+  it('démarre sans levier cédé', () => {
+    expect(demarrer(m).leviersCedes).toEqual([])
   })
 
   describe('fil de notifications', () => {

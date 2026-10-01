@@ -14,7 +14,7 @@ import ChangerMdp from '@/recovery/ChangerMdp.vue'
 import PrevenirContacts from '@/recovery/PrevenirContacts.vue'
 import { creerStore, definirStore } from '@/store/useProgress'
 import AppHeader from '@/ui/AppHeader.vue'
-import { missionFixture, rappelFixture, repereFixture, triFixture } from './fixtures'
+import { leviersFixture, missionFixture, rappelFixture, repereFixture, triFixture } from './fixtures'
 import { bouton, cliquer } from './helpers'
 import { MemoryStorage } from './memory-storage'
 import { routerTest } from './router-test'
@@ -38,12 +38,14 @@ function monter<T>(composant: T, options: Record<string, unknown> = {}): VueWrap
 const actif = () => document.activeElement as HTMLElement | null
 
 describe('gestion du focus', () => {
-  it('ScenarioStep : le titre de la phase reçoit le focus dès l’affichage, puis à chaque phase', async () => {
+  it('ScenarioStep : la situation reçoit le focus à l’affichage, puis le titre à chaque phase', async () => {
     const scenario = missionFixture().etapes[0] as Scenario
-    const w = monter(ScenarioStep, { props: { scenario, phase: 'situation', mode: 'solo', sensible: false } })
+    const w = monter(ScenarioStep, {
+      props: { scenario, phase: 'situation', mode: 'solo', sensible: false, leviers: leviersFixture() },
+    })
     await flushPromises()
-    expect(actif()?.tagName).toBe('H2')
-    expect(actif()?.textContent).toBe('Que fais-tu ?')
+    expect(actif()?.tagName).toBe('ARTICLE')
+    expect(actif()?.getAttribute('aria-label')).toBe('Situation : message de Colis Express dans Messages')
     await w.setProps({ phase: 'indices' })
     await flushPromises()
     expect(actif()?.textContent).toBe('Qu’est-ce qui t’a décidé ?')

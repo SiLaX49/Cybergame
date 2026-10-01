@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { Scenario } from '@/content/schema'
+import { computed, ref } from 'vue'
+import type { Leviers, Scenario } from '@/content/schema'
 import type { PhaseScenario, RunEvent, ScenarioResultat } from '@/engine/mission-runner'
 import EcranTelephone from '@/phone/EcranTelephone.vue'
 import { RECUPERATIONS } from '@/recovery/registry'
@@ -9,6 +9,7 @@ import { focusAuChangement, focusAuMontage } from '@/ui/focus'
 import ChoixList from './ChoixList.vue'
 import ConsequencePanel from './ConsequencePanel.vue'
 import IndicesForm from './IndicesForm.vue'
+import PourquoiForm from './PourquoiForm.vue'
 
 const props = defineProps<{
   scenario: Scenario
@@ -16,23 +17,39 @@ const props = defineProps<{
   resultat?: ScenarioResultat
   mode: Mode
   sensible: boolean
+  leviers: Leviers
 }>()
 const emit = defineEmits<{ evenement: [evenement: RunEvent] }>()
 
 const TITRES: Record<Exclude<PhaseScenario, 'situation'>, string> = {
+  pourquoi: 'Qu’est-ce qui t’a donné envie de le faire ?',
   indices: 'Qu’est-ce qui t’a décidé ?',
   consequence: 'Et alors, que se passe-t-il ?',
   recuperation: 'Maintenant, limite les dégâts',
 }
 const ROLES = { victime: 'la personne visée', temoin: 'un·e témoin', auteur: 'celui ou celle qui a dérapé' } as const
 
+/** Nom accessible de la situation, selon le type d’écran simulé. */
+const nomSituation = computed(() => {
+  const { app, contact, appNom } = props.scenario.ecran
+  if (app === 'mail') return `Situation : mail de ${contact}`
+  if (app === 'web') return `Situation : page ${contact}`
+  return `Situation : message de ${contact} dans ${appNom}`
+})
+
+const situation = ref<HTMLElement | null>(null)
 const titre = ref<HTMLElement | null>(null)
-focusAuMontage(titre)
+focusAuMontage(situation)
 focusAuChangement(() => props.phase, titre)
 </script>
 
 <template>
-  <article class="scenario">
+  <article
+    ref="situation"
+    class="scenario"
+    tabindex="-1"
+    :aria-label="nomSituation"
+  >
     <p v-if="scenario.role" class="role">Dans ce scénario, tu joues {{ ROLES[scenario.role] }}.</p>
     <div class="scenario-grille">
       <EcranTelephone :ecran="scenario.ecran" />
@@ -45,6 +62,14 @@ focusAuChangement(() => props.phase, titre)
           :mode="mode"
           @choisir="(id) => emit('evenement', { type: 'choisir', choixId: id })"
         />
+        <PourquoiForm
+          v-else-if="phase === 'pourquoi' && scenario.pourquoi"
+          :pourquoi="scenario.pourquoi"
+          :leviers="leviers"
+          :graine="scenario.id"
+          :mode="mode"
+          @expliquer="(levier) => emit('evenement', { type: 'expliquer', levier })"
+        />
         <IndicesForm
           v-else-if="phase === 'indices'"
           :indices="scenario.indices"
@@ -55,6 +80,7 @@ focusAuChangement(() => props.phase, titre)
           v-else-if="phase === 'consequence' && resultat"
           :scenario="scenario"
           :resultat="resultat"
+          :leviers="leviers"
           @continuer="emit('evenement', { type: 'continuer' })"
           @rejouer="emit('evenement', { type: 'rejouer' })"
         />
@@ -74,6 +100,8 @@ focusAuChangement(() => props.phase, titre)
 </template>
 
 <style scoped>
+.scenario:focus { outline: none; }
+.scenario:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
 .scenario-grille { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); align-items: start; }
 @media (max-width: 48rem) { .scenario-grille { grid-template-columns: minmax(0, 1fr); } }
 .role { font-weight: 700; color: var(--primaire); }

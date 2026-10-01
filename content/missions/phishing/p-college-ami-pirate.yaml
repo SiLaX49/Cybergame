@@ -24,11 +24,11 @@ etapes:
     question: 'Au même moment, tu reçois un SMS : « SnapTalk : ton code de connexion est 482 913. Ne le partage avec personne. » Que fais-tu ?'
     choix:
       - id: renvoie
-        texte: Je lui renvoie le code, c’est mon amie et elle a l’air embêtée.
+        texte: 'C’est Inès, mon amie, et elle a l’air embêtée : je lui renvoie vite le code.'
         qualite: risque
         consequence: 'Ce code servait à se connecter à TON compte. Quelques minutes plus tard, SnapTalk te déconnecte : quelqu’un d’autre est dans ton compte et envoie le même message à tous tes contacts. Ce n’était pas Inès : son compte avait été piraté juste avant le tien. Tu peux encore récupérer ton compte et prévenir tes amis.'
       - id: verifie
-        texte: J’appelle Inès ou je lui en parle au collège pour savoir si c’est bien elle.
+        texte: J’appelle Inès ou je lui en parle au collège pour vérifier que c’est bien elle qui écrit.
         qualite: bon
         consequence: 'Inès tombe des nues : elle n’a rien envoyé et elle n’arrive plus à se connecter depuis hier soir. Son compte a été piraté. Tu gardes ton code pour toi et tu l’aides à récupérer son compte.'
       - id: aide
@@ -43,6 +43,16 @@ etapes:
     explicationIndices: 'Un code de connexion est envoyé par l’appli, à toi seul, quand quelqu’un essaie d’entrer dans ton compte. Si on te le réclame, c’est que quelqu’un tente de se connecter à ta place. Les emojis ne prouvent rien : un pirate imite facilement la façon d’écrire de ton amie.'
     aRetenir: 'Un code reçu par SMS ne se partage jamais, même avec un ami. Si un proche te le demande, vérifie par un autre moyen (appel, en vrai) : son compte a sans doute été piraté.'
     recuperation: { action: changer-mdp, siChoix: [renvoie] }
+    pourquoi:
+      - levier: confiance
+        truc: 'Le message vient du compte d’Inès, avec ses emojis et sa façon d’écrire. Le pirate se cache derrière ton amie.'
+        parade: 'Appelle Inès ou parle-lui au collège avant de répondre. Si ce n’est pas elle, préviens-la que son compte est piraté.'
+      - levier: urgence
+        truc: '« Vite stp » : on te presse pour que tu envoies le code avant de lire le SMS jusqu’au bout.'
+        parade: 'Relis le SMS de SnapTalk : « Ne le partage avec personne. » Personne, ça inclut aussi tes amis.'
+      - levier: reflexe
+        truc: 'Le code arrive juste au moment où Inès parle d’une « erreur ». Tout semble logique, alors on le renvoie sans y penser.'
+        parade: 'Un code reçu sans l’avoir demandé veut dire que quelqu’un essaie d’entrer dans ton compte. Garde-le et change ton mot de passe.'
 
   - type: scenario
     id: faux-ent
@@ -57,11 +67,11 @@ etapes:
     question: Le mail porte le logo de ton collège, et tu as un devoir à rendre sur l’ENT demain. Que fais-tu ?
     choix:
       - id: connecte
-        texte: Je clique sur le bouton et je tape mon identifiant et mon mot de passe.
+        texte: 'C’est le logo du collège et j’ai un devoir demain : je renouvelle mon mot de passe.'
         qualite: risque
-        consequence: 'La page ressemble à l’ENT, mais elle enregistre ce que tu tapes. Le lendemain, des camarades reçoivent de ta messagerie des messages que tu n’as jamais écrits, et quelqu’un a lu tes conversations. Tu peux encore changer ton mot de passe et prévenir le collège.'
+        consequence: 'La page ressemble à l’ENT, mais elle enregistre l’identifiant et le mot de passe que tu tapes. Le lendemain, des camarades reçoivent de ta messagerie des messages que tu n’as jamais écrits, et quelqu’un a lu tes conversations. Tu peux encore changer ton mot de passe et prévenir le collège.'
       - id: ent-habituel
-        texte: J’ouvre moi-même l’ENT comme d’habitude, sans passer par le lien du mail.
+        texte: J’ouvre moi-même l’ENT comme d’habitude, sans passer par le lien du mail, et je regarde s’il y a une alerte.
         qualite: bon
         consequence: 'Sur le vrai ENT, aucune alerte : ton mot de passe n’expire pas. Tu montres le mail à ton professeur principal, qui prévient toute la classe.'
       - id: aide
@@ -76,6 +86,19 @@ etapes:
     explicationIndices: 'N’importe qui peut copier un logo : ce n’est pas une preuve. Ce qui compte, c’est l’adresse de l’expéditeur et du site, et le fait qu’on te réclame ton mot de passe dans l’urgence.'
     aRetenir: 'Pour une alerte sur un compte, on ne passe jamais par le lien du mail : on ouvre soi-même le site ou l’appli habituelle. Un vrai service ne demande jamais ton mot de passe par mail.'
     recuperation: { action: changer-mdp, siChoix: [connecte] }
+    pourquoi:
+      - levier: autorite
+        truc: 'Le logo et le nom « Mon Collège » donnent l’air officiel. Mais le mail vient de moncollege-ent.net.'
+        parade: 'Regarde l’adresse après le @, pas le logo. Si ce n’est pas celle de ton ENT, montre le mail à un professeur.'
+      - levier: urgence
+        truc: '« Expire aujourd’hui à minuit » : ce délai te pousse à cliquer tout de suite, sans vérifier.'
+        parade: 'Même pressé, ouvre l’ENT par ton chemin habituel (favori ou appli) et regarde s’il y a vraiment une alerte.'
+      - levier: peur
+        truc: 'Le mail parle de perdre tes notes, tes devoirs et ta messagerie. Avec un devoir à rendre demain, ça fait peur.'
+        parade: 'Si tu as peur de ne pas pouvoir rendre ton devoir, préviens ton professeur : il trouvera une solution.'
+      - levier: reflexe
+        truc: 'Taper ton identifiant et ton mot de passe, tu le fais tous les jours. Le faux site compte sur cette habitude.'
+        parade: 'Avant de taper ton mot de passe, regarde la barre d’adresse : est-ce bien celle de ton ENT ?'
 
   - type: scenario
     id: vote-concours
@@ -89,15 +112,15 @@ etapes:
     question: Le concours de dessin du collège existe vraiment. Sur le groupe de la classe, deux copains disent avoir reçu exactement le même message de Tom. Que fais-tu ?
     choix:
       - id: vote
-        texte: Je clique et je me connecte avec mon compte SnapTalk pour voter.
+        texte: 'Le concours existe et les copains ont reçu le même message de Tom : je me connecte pour voter.'
         qualite: risque
         consequence: 'Il n’y avait pas de vote : la page a enregistré ton identifiant et ton mot de passe. Ton compte envoie maintenant le même message à tous tes contacts, comme celui de Tom avant toi. Tu peux reprendre ton compte et le protéger pour que ça ne recommence pas.'
       - id: demande-tom
-        texte: Je demande à Tom, en vrai ou par téléphone, s’il m’a bien envoyé ce lien.
+        texte: Avant de cliquer, je demande à Tom, en vrai ou par téléphone, s’il m’a bien envoyé ce lien.
         qualite: bon
         consequence: 'Tom n’a rien envoyé : son compte a été piraté. Grâce à toi, il le découvre et peut le récupérer. Et pour voter, il suffit de passer au CDI.'
       - id: aide
-        texte: Je demande de l’aide à quelqu’un avant de cliquer.
+        texte: 'Je demande de l’aide à un adulte avant de cliquer : il saura si ce vote est normal.'
         qualite: aide
         consequence: 'Ton père regarde le lien : « snaptalk-vote.xyz, ce n’est pas SnapTalk. Pour voter, on n’a pas besoin de ton mot de passe. » Vous prévenez Tom par téléphone.'
     indices:
@@ -108,6 +131,19 @@ etapes:
     explicationIndices: 'Les pirates s’appuient souvent sur un vrai événement pour paraître crédibles. Mais un vote n’a jamais besoin de ton mot de passe, et un message identique envoyé à tout le monde montre que quelqu’un écrit à la place de Tom.'
     aRetenir: 'Ne te connecte jamais à ton compte depuis un lien reçu en message. Active la double authentification : même avec ton mot de passe, un pirate aura beaucoup plus de mal à entrer.'
     recuperation: { action: activer-2fa, siChoix: [vote] }
+    pourquoi:
+      - levier: confiance
+        truc: 'Le message vient du compte de Tom (3e A) et parle d’un vrai concours du collège. Tout inspire confiance.'
+        parade: 'Demande à Tom, en vrai ou par téléphone, s’il t’a bien envoyé ce lien.'
+      - levier: groupe
+        truc: 'Deux copains ont reçu le même message : ça rassure. En fait, c’est le signe que le compte de Tom l’envoie à tout le monde.'
+        parade: 'Quand toute la classe reçoit le même lien, préviens le groupe : le compte qui l’envoie est sans doute piraté.'
+      - levier: autorite
+        truc: 'L’adresse snaptalk-vote.xyz contient le nom de l’appli. Mais ce n’est pas SnapTalk : n’importe qui peut créer ce nom.'
+        parade: 'Connecte-toi à SnapTalk seulement dans l’appli elle-même, jamais depuis un lien reçu en message.'
+      - levier: reflexe
+        truc: '« Faut juste te connecter » : se connecter paraît banal, on le fait tout le temps.'
+        parade: 'Un vote n’a jamais besoin de ton mot de passe. Si une page te le demande, ferme-la.'
 
   - type: minijeu
     id: repere-faux-ent

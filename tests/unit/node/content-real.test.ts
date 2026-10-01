@@ -27,6 +27,10 @@ function textesSansVersionSimple(m: Mission): [string, string][] {
         ...e.choix.map((c): [string, string] => [`${e.id}.${c.id}.texte`, c.texte]),
         ...e.choix.filter((c) => !c.consequenceSimple).map((c): [string, string] => [`${e.id}.${c.id}.consequence`, c.consequence]),
         ...e.indices.map((i): [string, string] => [`${e.id}.${i.id}`, i.libelle]),
+        ...(e.pourquoi ?? []).flatMap((p): [string, string][] => [
+          [`${e.id}.pourquoi.${p.levier}.truc`, p.truc],
+          [`${e.id}.pourquoi.${p.levier}.parade`, p.parade],
+        ]),
       ]
     }
     if (e.type === 'fil') return e.notifications.map((n): [string, string] => [`${e.id}.${n.id}.explication`, n.explication])
@@ -49,12 +53,83 @@ function textesDesFauxEcrans(m: Mission): string[] {
   })
 }
 
+/** Comparaison des citations : casse et espaces (dont insécables) ignorées. */
+const aplatir = (t: string) => t.toLowerCase().replace(/\s+/gu, ' ')
+
 const missionsDuTheme = (theme: string) => missions.filter((m) => m.theme === theme)
 
 describe('contenu réel', () => {
   it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : aucune marque réelle dans les faux écrans', (_id, m) => {
     const texte = textesDesFauxEcrans(m).join(' ').toLowerCase()
     expect(MARQUES_REELLES.filter((marque) => new RegExp(`\\b${marque}\\b`).test(texte))).toEqual([])
+  })
+
+  it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : chaque scénario a son bloc « pourquoi »', (_id, m) => {
+    for (const e of m.etapes) {
+      if (e.type !== 'scenario') continue
+      expect(e.pourquoi?.length ?? 0, e.id).toBeGreaterThanOrEqual(3)
+    }
+  })
+
+  it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : aucune marque réelle dans les réponses « pourquoi »', (_id, m) => {
+    const texte = m.etapes
+      .flatMap((e) => (e.type === 'scenario' ? (e.pourquoi ?? []).flatMap((p) => [p.truc, p.parade]) : []))
+      .join(' ')
+      .toLowerCase()
+    expect(MARQUES_REELLES.filter((marque) => new RegExp(`\\b${marque}\\b`).test(texte))).toEqual([])
+  })
+
+  it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : aucune marque réelle dans les questions et les choix', (_id, m) => {
+    const texte = m.etapes
+      .flatMap((e) => (e.type === 'scenario' ? [e.question, ...e.choix.map((c) => c.texte)] : []))
+      .join(' ')
+      .toLowerCase()
+    expect(MARQUES_REELLES.filter((marque) => new RegExp(`\\b${marque}\\b`).test(texte))).toEqual([])
+  })
+
+  it.each(bundle.missions.map((m) => [m.id, m] as const))(
+    '%s : chaque citation « … » d’un « truc » figure à l’écran (et dans la lecture simplifiée en 6e)',
+    (_id, m) => {
+      const absentes: string[] = []
+      for (const e of m.etapes) {
+        if (e.type !== 'scenario') continue
+        const { appNom, contact, sujet, url, messages } = e.ecran
+        const commun = [appNom, contact, sujet ?? '', url ?? '', e.question]
+        const normal = aplatir([...commun, ...messages.map((x) => x.texte)].join(' '))
+        const simple = aplatir([...commun, ...messages.map((x) => x.texteSimple ?? x.texte)].join(' '))
+        for (const p of e.pourquoi ?? []) {
+          for (const [, citation] of p.truc.matchAll(/«\s*([^»]+?)\s*»/g)) {
+            const c = aplatir(citation!)
+            if (!normal.includes(c)) absentes.push(`${e.id}.${p.levier} : « ${citation} » absent de l’écran`)
+            else if (m.tranches.includes('6e') && !simple.includes(c)) {
+              absentes.push(`${e.id}.${p.levier} : « ${citation} » absent de la lecture simplifiée`)
+            }
+          }
+        }
+      }
+      expect(absentes).toEqual([])
+    },
+  )
+
+  it('le choix risqué n’est pas le plus long dans plus d’un tiers des scénarios', () => {
+    const scenarios = bundle.missions.flatMap((m) => m.etapes.filter((e) => e.type === 'scenario'))
+    const plusLong = scenarios.filter((s) => {
+      const risque = s.choix.find((c) => c.qualite === 'risque')
+      if (!risque) return false
+      const n = mots(risque.texte).length
+      return s.choix.every((c) => c === risque || mots(c.texte).length < n)
+    })
+    expect(plusLong.length, plusLong.map((s) => s.id).join(', ')).toBeLessThanOrEqual(Math.floor(scenarios.length / 3))
+  })
+
+  it('leviers.yaml : phrases de 20 mots maximum', () => {
+    const textes = [
+      ...Object.values(bundle.leviers.leviers).flatMap((l) => [l.libelle, l.parade]),
+      bundle.leviers.autre.libelle,
+      bundle.leviers.autre.truc,
+      bundle.leviers.autre.parade,
+    ]
+    expect(textes.flatMap(phrases).filter((p) => mots(p).length > 20)).toEqual([])
   })
 
   it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : numéros de téléphone fictifs (ARCEP)', (_id, m) => {
