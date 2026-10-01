@@ -1,0 +1,181 @@
+id: c-6e-mot-de-passe
+theme: comptes
+tranches: ['6e']
+titre: Mon mot de passe à moi
+resume: 'Une amie qui veut ton mot de passe, un site de jeu qui se fait voler, un code qui arrive sans raison : à qui sont tes comptes ?'
+duree: 15
+objectifs:
+  - Garder son mot de passe pour soi, même avec un ami proche
+  - Utiliser un mot de passe différent pour chaque compte et réagir après une fuite
+  - Ne jamais donner un code reçu par SMS, et savoir qui prévenir
+competences:
+  crcn: ['4.1', '4.2']
+  programmes: ['EMI cycle 3', 'Référentiel données personnelles cycle 3']
+etapes:
+  - type: scenario
+    id: pret
+    ecran:
+      app: chat
+      appNom: ChatCord
+      contact: 'Jade 💜'
+      messages:
+        - de: contact
+          texte: 'Ton perso est encore niveau 8 😅 Donne-moi ton mot de passe GameBox, je te le monte niveau 20 ce soir !'
+          texteSimple: 'Donne-moi ton mot de passe GameBox. Je monte ton perso niveau 20 ce soir !'
+        - de: contact
+          texte: 'Moi je te donne le mien si tu veux. Entre meilleurs amis, on se fait confiance, non ?'
+          texteSimple: 'Je te donne le mien aussi. Entre meilleurs amis, on se fait confiance, non ?'
+    question: 'Jade est ta meilleure amie depuis le CM1. Elle joue super bien à GameBox. Que fais-tu ?'
+    choix:
+      - id: donne
+        texte: 'Si je dis non, Jade va croire que je n’ai pas confiance : je lui donne mon mot de passe.'
+        qualite: risque
+        consequence: 'Jade monte bien ton niveau. Trois semaines plus tard, vous vous disputez pour une histoire de récré. Le soir, ton pseudo devient « PersoNul » et tes Coins ont disparu. Même entre meilleurs amis, une dispute peut arriver. Avec un adulte, change ton mot de passe : plus personne ne pourra entrer.'
+        consequenceSimple: 'Après une dispute, quelqu’un change ton pseudo et dépense tes Coins. Avec un adulte, change ton mot de passe.'
+      - id: refuse
+        texte: 'Je lui réponds que je l’adore, mais que mon mot de passe reste à moi. Je lui propose qu’on joue ensemble ce soir.'
+        qualite: bon
+        consequence: 'Jade répond « ok 😕 », puis elle t’invite dans sa partie. Elle te montre ses astuces et tu gagnes deux niveaux. Ton compte reste à toi.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte pour savoir comment dire non à Jade sans la vexer.
+        qualite: aide
+        consequence: 'Ton père t’aide à trouver les mots : « Je te fais confiance, mais mon mot de passe reste à moi. » Jade comprend.'
+    indices:
+      - { id: demande-mdp, libelle: 'Jade me demande mon mot de passe', pertinent: true }
+      - { id: preuve, libelle: 'Elle fait du mot de passe une preuve d’amitié', pertinent: true }
+      - { id: pas-besoin, libelle: 'Pour jouer ensemble, elle n’a pas besoin de mon mot de passe', pertinent: true }
+      - { id: forte, libelle: 'Jade joue super bien à GameBox', pertinent: false }
+    explicationIndices: 'Garder son mot de passe, ce n’est pas manquer de confiance. Une amitié peut changer, et un mot de passe peut être noté ou vu par d’autres. Que Jade joue bien ne change rien.'
+    aRetenir: 'Ton mot de passe est à toi seul, et à tes parents tant que tu es jeune. Même entre meilleurs amis, on ne se l’échange pas. Pour progresser ensemble, on joue dans la même partie.'
+    aRetenirSimple: 'Ton mot de passe est à toi seul. Même pas pour ton meilleur ami.'
+    recuperation: { action: changer-mdp, siChoix: [donne] }
+    pourquoi:
+      - levier: confiance
+        truc: '« Entre meilleurs amis, on se fait confiance, non ? » Dire non te semble presque méchant.'
+        parade: 'Tu peux avoir confiance en Jade et garder ton mot de passe. Les deux vont très bien ensemble.'
+      - levier: gain
+        truc: 'Passer du niveau 8 au niveau 20 en une soirée, sans effort : c’est très tentant.'
+        parade: 'Un niveau gagné ne vaut pas un compte perdu. Propose plutôt de jouer ensemble dans la même partie.'
+      - levier: groupe
+        truc: 'Jade propose de t’échanger son mot de passe aussi. Comme elle le fait, ça paraît normal.'
+        parade: 'Même si une amie donne son mot de passe, tu peux garder le tien. Et conseille-lui de garder le sien.'
+
+  - type: scenario
+    id: fuite
+    ecran:
+      app: mail
+      appNom: Mail
+      contact: 'Cubopolis <info@cubopolis.fr>'
+      sujet: 'Important : fuite de données sur Cubopolis'
+      messages:
+        - de: contact
+          texte: 'Bonjour. Cubopolis a été victime d’un vol de données. Des pseudos, des adresses mail et des mots de passe ont été volés. Change ton mot de passe dans l’appli Cubopolis. Change-le aussi partout où tu utilises le même.'
+          texteSimple: 'Des mots de passe de Cubopolis ont été volés. Change le tien dans l’appli. Change-le aussi partout où tu utilises le même.'
+    question: 'Cubopolis, c’est un jeu de construction où tu ne vas presque plus. Ton mot de passe est le même pour GameBox et ta boîte mail. Que fais-tu ?'
+    choix:
+      - id: cubopolis-seul
+        texte: 'Je change juste celui de Cubopolis. GameBox et ma boîte mail n’ont pas été volés, eux.'
+        qualite: risque
+        consequence: 'Les voleurs essaient ton mot de passe sur d’autres sites, c’est très facile pour eux. Il marche sur ta boîte mail. Ils s’en servent pour prendre aussi ton compte GameBox. Tu peux encore reprendre la main : change vite le mot de passe de ta boîte mail, puis celui de GameBox.'
+        consequenceSimple: 'Les voleurs essaient ton mot de passe ailleurs. Il marche sur ta boîte mail. Change vite tes autres mots de passe.'
+      - id: partout
+        texte: 'Je change le mot de passe de Cubopolis, puis celui de chaque compte qui avait le même. Je commence par ma boîte mail.'
+        qualite: bon
+        consequence: 'Ça prend vingt minutes avec ta mère. Chaque compte a maintenant son propre mot de passe. Le mot de passe volé n’ouvre plus rien.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte pour changer mes mots de passe sans en oublier.
+        qualite: aide
+        consequence: 'Ta grande sœur fait la liste de tes comptes avec toi. Vous changez chaque mot de passe, en commençant par la boîte mail.'
+    indices:
+      - { id: vol, libelle: 'Le mail dit que des mots de passe ont été volés', pertinent: true }
+      - { id: meme, libelle: 'J’utilise le même mot de passe pour plusieurs comptes', pertinent: true }
+      - { id: boite-mail, libelle: 'Ma boîte mail sert à récupérer mes autres comptes', pertinent: true }
+      - { id: vieux-jeu, libelle: 'Je ne joue presque plus à Cubopolis', pertinent: false }
+    explicationIndices: 'Les voleurs testent un mot de passe volé sur plein de sites. S’il est partout le même, il ouvre tout. Qu’on joue encore ou non à Cubopolis ne change rien.'
+    aRetenir: 'Un mot de passe différent pour chaque compte : si un site se fait voler, les autres restent protégés. Après une fuite, change ton mot de passe partout où tu utilisais le même, en commençant par ta boîte mail.'
+    aRetenirSimple: 'Un mot de passe différent pour chaque compte. Après une fuite, change-le partout, en commençant par ta boîte mail.'
+    recuperation: { action: changer-mdp, siChoix: [cubopolis-seul] }
+    pourquoi:
+      - levier: reflexe
+        truc: 'Changer un seul mot de passe, c’est rapide. Les changer tous prend du temps, alors on remet à plus tard.'
+        parade: 'Fais la liste des comptes qui ont le même mot de passe. Change-les tous, la boîte mail d’abord.'
+      - levier: confiance
+        truc: 'GameBox et ta boîte mail n’ont rien annoncé. On croit qu’ils sont à l’abri.'
+        parade: 'Le mail le dit : change ton mot de passe « partout où tu utilises le même ». Ce sont tes autres comptes qui sont menacés.'
+      - levier: petit-montant
+        truc: 'Cubopolis est un vieux jeu où tu ne vas plus. On se dit que ce n’est pas grave.'
+        parade: 'Un petit site oublié peut ouvrir tes comptes importants. Chaque compte mérite son propre mot de passe.'
+
+  - type: scenario
+    id: code-sms
+    ecran:
+      app: sms
+      appNom: Messages
+      contact: '+33 6 39 98 23 51'
+      messages:
+        - de: contact
+          texte: 'Coucou, c’est moi, Inès ! J’ai changé de numéro. J’ai mis le tien par erreur pour mon code GameBox 🙈'
+          texteSimple: 'Coucou, c’est moi, Inès ! J’ai mis ton numéro par erreur pour mon code GameBox 🙈'
+        - de: contact
+          texte: 'Tu vas recevoir un code par SMS. Renvoie-le-moi vite stp, je suis bloquée !'
+          texteSimple: 'Tu vas recevoir un code. Renvoie-le-moi vite stp !'
+    question: 'Juste avant, un SMS de GameBox est arrivé : « Ton code de connexion : 482 913. Ne le donne à personne. » Tu n’avais rien demandé. Que fais-tu ?'
+    choix:
+      - id: renvoie
+        texte: 'Inès est dans ma classe et elle est bloquée. Un code, c’est juste des chiffres : je lui renvoie.'
+        qualite: risque
+        consequence: 'Le code n’était pas pour Inès : il ouvrait TON compte GameBox. Quelqu’un s’y connecte, change ton mot de passe et ton pseudo. Le lendemain, Inès te dit qu’elle n’a jamais changé de numéro. Préviens vite un adulte : avec lui, tu peux demander à GameBox de te rendre ton compte.'
+        consequenceSimple: 'Ce code ouvrait ton compte. Un pirate est entré dedans. Préviens vite un adulte pour le récupérer.'
+      - id: garde
+        texte: 'Je ne renvoie pas le code, il ouvre mon compte à moi. Demain, je demande à Inès en vrai si c’est bien elle.'
+        qualite: bon
+        consequence: 'Personne n’entre dans ton compte. Le lendemain, Inès n’est au courant de rien : c’était un pirate. Avec tes parents, tu changes ton mot de passe GameBox.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte avant de répondre quoi que ce soit.
+        qualite: aide
+        consequence: 'Ta mère lit les deux SMS : « Ce code est pour ton compte, pas pour Inès. » Vous bloquez le numéro et changez ton mot de passe.'
+    indices:
+      - { id: rien-demande, libelle: 'Je reçois un code alors que je n’ai rien demandé', pertinent: true }
+      - { id: numero-inconnu, libelle: 'Le message vient d’un numéro que je ne connais pas', pertinent: true }
+      - { id: personne, libelle: 'Le SMS de GameBox dit « Ne le donne à personne »', pertinent: true }
+      - { id: emoji, libelle: 'Le message utilise un emoji, comme Inès', pertinent: false }
+    explicationIndices: 'Un code de connexion ouvre ton compte à toi. Si tu le reçois sans rien demander, quelqu’un essaie d’entrer. N’importe qui peut écrire avec des emojis.'
+    aRetenir: 'Un code reçu par SMS ouvre TON compte : on ne le donne jamais, même à un ami. Si un code arrive sans que tu aies rien demandé, quelqu’un essaie d’entrer : préviens un adulte et change ton mot de passe.'
+    aRetenirSimple: 'Un code reçu par SMS ne se donne jamais. Si tu n’as rien demandé, préviens un adulte.'
+    recuperation: { action: demander-aide, siChoix: [renvoie] }
+    pourquoi:
+      - levier: confiance
+        truc: '« C’est moi, Inès » : le pirate prend le prénom d’une amie. Tu crois l’aider.'
+        parade: 'Un nouveau numéro qui dit être un ami, ça se vérifie. Demande-lui en vrai ou appelle son ancien numéro.'
+      - levier: urgence
+        truc: '« Renvoie-le-moi vite stp » : le pirate te presse pour que tu ne lises pas le SMS de GameBox.'
+        parade: 'Avant de renvoyer un code, lis le SMS qui le contient. Ici, il dit « Ne le donne à personne ».'
+      - levier: reflexe
+        truc: 'Un code, ça ressemble à de simples chiffres sans importance. En fait, c’est la clé de ton compte.'
+        parade: 'Un code reçu par SMS, c’est comme une clé. Tu le gardes pour toi, toujours.'
+
+  - type: minijeu
+    id: mj-mot-de-passe
+    jeu: motdepasse
+    config:
+      consigne: 'Invente un mot de passe solide pour le nouveau compte de Lina. Astuce : assemble plusieurs mots qui n’ont rien à voir entre eux.'
+      contexte: 'Lina est née en 2014. Son chat s’appelle Biscotte. Elle crée son compte GameBox.'
+      objectif: solide
+      interdits: ['Lina', '2014', 'Biscotte', 'GameBox']
+debrief:
+  questions:
+    - Quel était le piège ?
+    - Quel indice pourras-tu réutiliser la prochaine fois ?
+    - Que faire si ça t’est déjà arrivé ?
+  reponses: 'Le piège commun : faire sortir ton mot de passe ou ton code de ta tête, par amitié, par oubli ou par la ruse. Indices réutilisables : quelqu’un demande ton mot de passe ou un code, un code arrive sans que tu aies rien demandé, un même mot de passe sert à plusieurs comptes. Si c’est déjà arrivé : prévenir un adulte, changer le mot de passe du compte touché et de tous ceux qui avaient le même, en commençant par la boîte mail. Ce n’est pas grave d’avoir prêté son mot de passe ou donné un code : c’est réparable, et il vaut mieux en parler vite.'
+  erreursFrequentes:
+    - 'Croire que refuser de donner son mot de passe à un ami, c’est ne pas lui faire confiance.'
+    - 'Penser qu’une fuite sur un petit site sans importance ne touche que ce site.'
+    - 'Croire qu’un code reçu par SMS n’est qu’une suite de chiffres sans valeur.'
+fiche:
+  deroulement: |
+    5 min : cadre. À quoi sert un mot de passe ? Qui a le droit de le connaître ? (sans obligation de raconter)
+    15 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, puis retour sur le mini-jeu (pourquoi le prénom, l’année et le nom du chat sont interdits).
+    5 min : où trouver de l’aide (adulte de confiance, aide officielle du jeu, cybermalveillance.gouv.fr pour les parents).
+    5 min : engagement. Ce soir, avec un adulte, je vérifie que ma boîte mail a un mot de passe que je n’utilise nulle part ailleurs.
