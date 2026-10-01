@@ -36,7 +36,7 @@ test('un scénario complet au clavier', async ({ page, browserName }) => {
   await activer('Je ne sais pas')
   await activer('Continuer')
   await expect(page.getByText('Étape 2 sur 4')).toBeVisible()
-  await expect(page.getByRole('heading', { level: 2 })).toBeFocused()
+  await expect(page.locator('article.scenario')).toBeFocused()
   // Étape 2 : un choix risqué, puis le geste de récupération « bloquer et signaler ».
   await tabJusquaSelecteur(page, '[data-choix="donne"]')
   await page.keyboard.press('Enter')
@@ -53,7 +53,7 @@ test('un scénario complet au clavier', async ({ page, browserName }) => {
   await activer('Envoyer le signalement')
   await activer('Continuer')
   await expect(page.getByText('Étape 3 sur 4')).toBeVisible()
-  await expect(page.getByRole('heading', { level: 2 })).toBeFocused()
+  await expect(page.locator('article.scenario')).toBeFocused()
 })
 
 test('débrief en grand : Échap ferme et rend le focus', async ({ page }) => {
