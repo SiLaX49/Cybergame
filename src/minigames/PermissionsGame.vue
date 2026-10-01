@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, nextTick, reactive, ref, watch } from 'vue'
 import type { PermissionsConfig } from '@/content/schema'
-import { focusAuChangement } from '@/ui/focus'
 
 type Decision = 'autoriser' | 'refuser'
 type Permission = PermissionsConfig['apps'][number]['permissions'][number]
@@ -16,8 +15,11 @@ const reussites = ref(0)
 const erreurs = ref(0)
 const titre = ref<HTMLElement | null>(null)
 const bilan = ref<HTMLElement | null>(null)
-focusAuChangement(() => index.value, titre)
-focusAuChangement(() => valide.value, bilan)
+// Un seul observateur : « Appli suivante » change index et valide dans le même tick.
+watch([index, valide], async ([, estValide]) => {
+  await nextTick()
+  ;(estValide ? bilan : titre).value?.focus()
+})
 
 const app = computed(() => props.config.apps[index.value]!)
 const derniere = computed(() => index.value === props.config.apps.length - 1)

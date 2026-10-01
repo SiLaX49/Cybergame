@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import PermissionsGame from '@/minigames/PermissionsGame.vue'
 import { permissionsFixture } from './fixtures'
@@ -34,5 +34,18 @@ describe('PermissionsGame', () => {
     await cliquer(w, 'Valider les permissions')
     await cliquer(w, 'Terminer le mini-jeu')
     expect(w.emitted('termine')).toEqual([[{ reussites: 3, erreurs: 1 }]])
+  })
+
+  it('le focus va au bilan après « Valider », puis au titre de la nouvelle appli', async () => {
+    const w = mount(PermissionsGame, { props: { config: permissionsFixture() }, attachTo: document.body })
+    await decider(w, 'perm-lampe-flash', 'autoriser')
+    await decider(w, 'perm-lampe-contacts', 'refuser')
+    await cliquer(w, 'Valider les permissions')
+    await flushPromises()
+    expect(document.activeElement).toBe(w.find('[role="status"]').element)
+    await cliquer(w, 'Appli suivante')
+    await flushPromises()
+    expect(document.activeElement?.textContent).toBe('Appli 2 sur 2 : Mon Trajet')
+    w.unmount()
   })
 })
