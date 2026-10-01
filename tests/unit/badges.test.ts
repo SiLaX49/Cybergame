@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { calculerBadges } from '@/engine/badges'
 import { demarrer, reduire, type RunEvent } from '@/engine/mission-runner'
-import type { Mission } from '@/content/schema'
+import type { Mission, Scenario } from '@/content/schema'
 import { missionFixture, rappelFixture, rawScenario, rawTri } from './fixtures'
 
 const jouer = (m: Mission, ...evs: RunEvent[]) => evs.reduce((e, ev) => reduire(m, e, ev), demarrer(m))
@@ -48,6 +48,21 @@ describe('calculerBadges', () => {
       { type: 'continuer' },
       { type: 'choisir', choixId: 'clic' },
       { type: 'expliquer', levier: 'urgence' },
+      { type: 'continuer' },
+      { type: 'recuperation-faite' },
+      finTri,
+    )
+    expect(calculerBadges(etat)).toEqual(['mission-accomplie', 'oeil-de-lynx', 'reparateur'])
+  })
+
+  it('« Œil de lynx » compte un choix risqué passé par les indices (scénario sans bloc pourquoi)', () => {
+    const sc = { ...(m.etapes[0] as Scenario) }
+    delete sc.pourquoi
+    const sansPourquoi = { ...m, etapes: [sc, ...m.etapes.slice(1)] }
+    const etat = jouer(
+      sansPourquoi,
+      { type: 'choisir', choixId: 'clic' },
+      { type: 'valider-indices', indices: ['url', 'urgence'] },
       { type: 'continuer' },
       { type: 'recuperation-faite' },
       finTri,

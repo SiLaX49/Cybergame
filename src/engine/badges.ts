@@ -15,7 +15,7 @@ export function calculerBadges(etat: RunState): BadgeId[] {
   const badges: BadgeId[] = ['mission-accomplie']
   const resultats = Object.values(etat.resultats)
   const scenarios = resultats.filter((r): r is ScenarioResultat => r.type === 'scenario' && !r.passe)
-  const avecIndices = scenarios.filter((r) => r.qualite !== 'risque')
+  const avecIndices = scenarios.filter((r) => r.levier === null)
   if (avecIndices.length && avecIndices.every((r) => r.indicesJustes > 0 && r.indicesFaux === 0)) badges.push('oeil-de-lynx')
   if (scenarios.length && scenarios.every((r) => r.qualite !== 'risque')) badges.push('reflexe-verif')
   if (scenarios.some((r) => r.recuperationFaite === true)) badges.push('reparateur')
