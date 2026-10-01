@@ -40,6 +40,13 @@ describe('bloc pourquoi d’un scénario', () => {
     sc.pourquoi = sc.pourquoi.slice(0, 2)
     expect(chemins(rawMission({ etapes: [sc] }))).toContainEqual(expect.stringMatching(/^etapes\.0\.pourquoi/))
   })
+  it('est obligatoire dès qu’un choix est risqué', () => {
+    const sc = rawScenario()
+    delete (sc as { pourquoi?: unknown }).pourquoi
+    expect(chemins(rawMission({ etapes: [sc] }))).toContainEqual(
+      'etapes.0.pourquoi : il faut un bloc pourquoi : un choix risqué est suivi de la question « pourquoi ? »',
+    )
+  })
   it('refuse un bloc pourquoi sans choix risqué', () => {
     const sc = rawScenario()
     sc.choix = sc.choix.filter((c) => c.qualite !== 'risque')

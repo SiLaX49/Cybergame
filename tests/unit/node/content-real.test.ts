@@ -27,6 +27,10 @@ function textesSansVersionSimple(m: Mission): [string, string][] {
         ...e.choix.map((c): [string, string] => [`${e.id}.${c.id}.texte`, c.texte]),
         ...e.choix.filter((c) => !c.consequenceSimple).map((c): [string, string] => [`${e.id}.${c.id}.consequence`, c.consequence]),
         ...e.indices.map((i): [string, string] => [`${e.id}.${i.id}`, i.libelle]),
+        ...(e.pourquoi ?? []).flatMap((p): [string, string][] => [
+          [`${e.id}.pourquoi.${p.levier}.truc`, p.truc],
+          [`${e.id}.pourquoi.${p.levier}.parade`, p.parade],
+        ]),
       ]
     }
     if (e.type === 'fil') return e.notifications.map((n): [string, string] => [`${e.id}.${n.id}.explication`, n.explication])
@@ -55,6 +59,31 @@ describe('contenu réel', () => {
   it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : aucune marque réelle dans les faux écrans', (_id, m) => {
     const texte = textesDesFauxEcrans(m).join(' ').toLowerCase()
     expect(MARQUES_REELLES.filter((marque) => new RegExp(`\\b${marque}\\b`).test(texte))).toEqual([])
+  })
+
+  it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : chaque scénario a son bloc « pourquoi »', (_id, m) => {
+    for (const e of m.etapes) {
+      if (e.type !== 'scenario') continue
+      expect(e.pourquoi?.length ?? 0, e.id).toBeGreaterThanOrEqual(3)
+    }
+  })
+
+  it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : aucune marque réelle dans les réponses « pourquoi »', (_id, m) => {
+    const texte = m.etapes
+      .flatMap((e) => (e.type === 'scenario' ? (e.pourquoi ?? []).flatMap((p) => [p.truc, p.parade]) : []))
+      .join(' ')
+      .toLowerCase()
+    expect(MARQUES_REELLES.filter((marque) => new RegExp(`\b${marque}\b`).test(texte))).toEqual([])
+  })
+
+  it('leviers.yaml : phrases de 20 mots maximum', () => {
+    const textes = [
+      ...Object.values(bundle.leviers.leviers).flatMap((l) => [l.libelle, l.parade]),
+      bundle.leviers.autre.libelle,
+      bundle.leviers.autre.truc,
+      bundle.leviers.autre.parade,
+    ]
+    expect(textes.flatMap(phrases).filter((p) => mots(p).length > 20)).toEqual([])
   })
 
   it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : numéros de téléphone fictifs (ARCEP)', (_id, m) => {

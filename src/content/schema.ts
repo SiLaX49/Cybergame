@@ -133,6 +133,13 @@ export const scenarioSchema = z
     if (s.pourquoi && !s.choix.some((c) => c.qualite === 'risque')) {
       ctx.addIssue({ code: 'custom', path: ['pourquoi'], message: 'le bloc pourquoi suppose un choix de qualité "risque"' })
     }
+    if (!s.pourquoi && s.choix.some((c) => c.qualite === 'risque')) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['pourquoi'],
+        message: 'il faut un bloc pourquoi : un choix risqué est suivi de la question « pourquoi ? »',
+      })
+    }
   })
 
 export const triConfigSchema = z

@@ -26,6 +26,7 @@ export async function jouerMission(page: Page) {
     if (await suivant.isVisible()) await suivant.click()
     else if ((await validerClasse.isVisible()) && (await validerClasse.isEnabled())) await validerClasse.click()
     else if (await aide.isVisible()) await aide.click()
+    else if (await page.locator('[data-levier="autre"]').isVisible()) await page.locator('[data-levier="autre"]').click()
     else if (await jeNeSaisPas.isVisible()) await jeNeSaisPas.click()
     else if (await continuer.isVisible()) await continuer.click()
     else if (await categorie.isVisible()) await categorie.click()
@@ -50,6 +51,15 @@ export async function tabJusqua(page: Page, texte: string) {
     if (actif.includes(texte)) return
   }
   throw new Error(`Élément introuvable au clavier : ${texte}`)
+}
+
+/** Tabule jusqu'à l'élément qui correspond au sélecteur CSS (indépendant du texte, qui peut évoluer). */
+export async function tabJusquaSelecteur(page: Page, selecteur: string) {
+  for (let i = 0; i < 80; i++) {
+    await page.keyboard.press('Tab')
+    if (await page.evaluate((s) => document.activeElement?.matches(s) ?? false, selecteur)) return
+  }
+  throw new Error(`Élément introuvable au clavier : ${selecteur}`)
 }
 
 /** Vérifie que le focus n'est pas retombé sur <body> (WCAG 2.4.3). */

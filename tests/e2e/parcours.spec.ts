@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { commencer, focusConserve, jouerMission, tabJusqua } from './helpers'
+import { commencer, focusConserve, jouerMission, tabJusqua, tabJusquaSelecteur } from './helpers'
 
 test('solo 6e : une mission complète, puis la carte la marque terminée', async ({ page }) => {
   await commencer(page, '6e', 'Solo')
@@ -13,7 +13,9 @@ test('solo 6e : une mission complète, puis la carte la marque terminée', async
 test('un choix risqué mène à un geste de récupération', async ({ page }) => {
   await page.goto('/#/mission/p-6e-colis')
   await page.locator('[data-choix="clic"]').click()
-  await page.getByRole('button', { name: 'Je ne sais pas' }).click()
+  await expect(page.getByRole('heading', { name: 'Qu’est-ce qui t’a donné envie de le faire ?' })).toBeFocused()
+  await page.locator('[data-levier="urgence"]').click()
+  await expect(page.getByRole('heading', { name: 'Ce qui a marché sur toi' })).toBeVisible()
   await expect(page.getByText('C’était risqué')).toBeVisible()
   await page.getByRole('button', { name: 'Continuer', exact: true }).click()
   await expect(page.getByRole('heading', { name: 'À qui en parler ?' })).toBeVisible()
@@ -36,8 +38,13 @@ test('un scénario complet au clavier', async ({ page, browserName }) => {
   await expect(page.getByText('Étape 2 sur 4')).toBeVisible()
   await expect(page.getByRole('heading', { level: 2 })).toBeFocused()
   // Étape 2 : un choix risqué, puis le geste de récupération « bloquer et signaler ».
-  await activer('J’envoie mes infos')
-  await activer('Je ne sais pas')
+  await tabJusquaSelecteur(page, '[data-choix="donne"]')
+  await page.keyboard.press('Enter')
+  await focusConserve(page)
+  await expect(page.getByRole('heading', { name: 'Qu’est-ce qui t’a donné envie de le faire ?' })).toBeFocused()
+  await tabJusquaSelecteur(page, '[data-levier="autre"]')
+  await page.keyboard.press('Enter')
+  await focusConserve(page)
   await activer('Continuer')
   await expect(page.getByRole('heading', { name: 'Maintenant, limite les dégâts' })).toBeFocused()
   await activer('Menu du contact')
