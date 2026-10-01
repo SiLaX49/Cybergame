@@ -1,0 +1,204 @@
+id: a-lycee-wifi-gare
+theme: appareils
+tranches: ['lycee']
+titre: Connecté partout
+resume: 'Un Wi-Fi de gare au signal parfait, un logiciel de montage à 300 € offert, un VPN gratuit qui promet de te protéger : être connecté partout, oui, mais pas à n’importe quel prix.'
+duree: 20
+objectifs:
+  - Utiliser un Wi-Fi public sans jamais livrer le mot de passe d’un compte
+  - Comprendre ce que risque un appareil avec un logiciel piraté ou une appli gratuite douteuse
+  - Juger les permissions d’une appli et la confiance qu’on accorde à son éditeur
+competences:
+  crcn: ['4.1', '4.2', '5.1']
+  programmes: ['SNT 2de']
+etapes:
+  - type: scenario
+    id: wifi-gare
+    ecran:
+      app: web
+      appNom: Navigateur
+      contact: 'Wi-Fi Gare Libre'
+      url: 'gare-libre-wifi.com/connexion'
+      messages:
+        - de: contact
+          texte: 'Bienvenue sur Wi-Fi Gare Libre. Connexion gratuite et illimitée.'
+        - de: contact
+          texte: 'Pour continuer, connecte-toi avec ton compte mail : adresse et mot de passe. Ton accès sera activé instantanément.'
+    question: 'Ton train a 40 minutes de retard et ton forfait est presque vide. Les affiches de la gare annoncent un réseau « WiFi-Gare ». Dans la liste, tu vois aussi « Wi-Fi Gare Libre », au signal plus fort. Tu t’y connectes, et cette page s’ouvre. Que fais-tu ?'
+    choix:
+      - id: connecte
+        texte: 'Quarante minutes sans réseau, c’est long : je tape mon adresse mail et mon mot de passe.'
+        qualite: risque
+        consequence: 'La page affiche « Connexion réussie » et Internet fonctionne. Mais ton mot de passe est parti chez la personne qui a créé ce faux réseau, depuis un ordinateur portable dans la salle d’attente. Le soir, une alerte : connexion inconnue à ta boîte mail. Or ta boîte mail permet de réinitialiser la plupart de tes autres comptes. Change ton mot de passe tout de suite, active la double authentification et vérifie qu’aucun transfert automatique n’a été ajouté.'
+      - id: vrai-reseau
+        texte: 'Je ne donne aucun mot de passe : je me déconnecte et je cherche le réseau « WiFi-Gare » des affiches, ou je patiente avec mes données.'
+        qualite: bon
+        consequence: 'Le vrai « WiFi-Gare » demande seulement d’accepter les conditions d’utilisation. Tu te connectes. Les sites en HTTPS (le cadenas) chiffrent déjà ce que tu envoies ; tu gardes quand même tes paiements et tes démarches importantes pour plus tard.'
+      - id: aide
+        texte: Je demande de l’aide au guichet de la gare pour savoir quel est le vrai Wi-Fi.
+        qualite: aide
+        consequence: 'L’agent confirme : le seul Wi-Fi de la gare est « WiFi-Gare », et il ne demande jamais de mot de passe. Il prévient la sécurité de la gare pour le faux réseau.'
+    indices:
+      - { id: mdp-mail, libelle: 'Le portail demande le mot de passe de ma boîte mail', pertinent: true }
+      - { id: nom-reseau, libelle: 'Le nom du réseau n’est pas celui des affiches', pertinent: true }
+      - { id: adresse, libelle: 'L’adresse de la page n’a rien à voir avec ma messagerie', pertinent: true }
+      - { id: gratuit, libelle: 'Le Wi-Fi est gratuit', pertinent: false }
+    explicationIndices: 'Un Wi-Fi public gratuit n’est pas dangereux en soi : beaucoup de gares en proposent un. Le vrai signal, c’est un portail qui réclame le mot de passe d’un compte personnel. N’importe qui peut créer un point d’accès avec un nom qui sonne officiel. La gratuité, elle, ne distingue pas le vrai réseau du faux.'
+    aRetenir: 'Un Wi-Fi public peut s’utiliser, mais aucun portail de connexion ne doit obtenir le mot de passe d’un de tes comptes. Vérifie le nom du réseau sur les affiches ou au guichet. Et pour les opérations sensibles, préfère tes données mobiles.'
+    recuperation: { action: changer-mdp, siChoix: [connecte] }
+    pourquoi:
+      - levier: autorite
+        truc: '« Wi-Fi Gare Libre » sonne comme un service officiel de la gare. Un nom de réseau se choisit librement, en deux secondes.'
+        parade: 'Compare avec le nom affiché dans la gare ou donné au guichet. Un nom proche ne suffit pas.'
+      - levier: gain
+        truc: '« Connexion gratuite et illimitée », avec un meilleur signal que le réseau officiel : exactement ce qu’il te faut pour patienter.'
+        parade: 'Un bon signal veut juste dire que le point d’accès est tout près. Ce qui compte, c’est qui l’a installé.'
+      - levier: reflexe
+        truc: '« Ton accès sera activé instantanément » : remplir un portail Wi-Fi est un geste banal, on le fait sans lire ce qu’il demande.'
+        parade: 'Un portail peut te demander d’accepter des conditions, voire une adresse mail. Jamais le mot de passe d’un compte.'
+
+  - type: scenario
+    id: logiciel-pirate
+    ecran:
+      app: chat
+      appNom: ChatCord
+      contact: 'Yanis'
+      messages:
+        - de: contact
+          texte: 'Tu cherchais un logiciel de montage ? J’ai trouvé MontaPro cracké, version complète, normalement 300 €.'
+        - de: contact
+          texte: 'Lien : montapro-full-crack.zip. Ton antivirus va le bloquer, mais c’est un faux positif : tu le désactives 5 minutes et c’est bon.'
+        - de: contact
+          texte: 'Je l’ai depuis une semaine, aucun souci 👌'
+    question: 'Tu dois rendre un court-métrage pour l’option cinéma dans dix jours. Les logiciels gratuits que tu as essayés t’agacent. Que fais-tu ?'
+    choix:
+      - id: installe
+        texte: 'Yanis l’utilise sans souci et 300 €, je ne les ai pas : je coupe l’antivirus et j’installe.'
+        qualite: risque
+        consequence: 'MontaPro s’installe et fonctionne. Mais le fichier contenait aussi un voleur de mots de passe : il a copié les identifiants enregistrés dans ton navigateur et tes sessions ouvertes. Deux jours plus tard, ton compte GameBox est vidé et ta messagerie envoie le même lien à tes contacts. Reprends la main : désinstalle, réactive l’antivirus et lance une analyse, puis change tes mots de passe depuis un appareil sain, en commençant par ta boîte mail.'
+      - id: alternative
+        texte: 'Je refuse : je demande si le lycée fournit un logiciel de montage, ou j’en prends un libre et gratuit, même s’il faut un temps d’adaptation.'
+        qualite: bon
+        consequence: 'Ta prof d’option t’indique un logiciel de montage libre, installé au lycée et gratuit chez toi aussi. Tu le télécharges sur son site officiel. Après une soirée de tutoriels, tu t’y retrouves.'
+      - id: aide
+        texte: Je demande de l’aide à quelqu’un qui s’y connaît avant d’installer quoi que ce soit.
+        qualite: aide
+        consequence: 'Ta cousine, qui travaille en informatique : « Un logiciel cracké, plus un antivirus à couper, c’est le scénario classique du vol de mots de passe. » Vous trouvez ensemble une alternative gratuite.'
+    indices:
+      - { id: antivirus, libelle: 'On me demande de désactiver l’antivirus', pertinent: true }
+      - { id: crack, libelle: 'C’est une version piratée d’un logiciel payant', pertinent: true }
+      - { id: source, libelle: 'Le lien ne vient pas du site de l’éditeur', pertinent: true }
+      - { id: aucun-souci, libelle: 'Yanis l’utilise depuis une semaine sans souci', pertinent: false }
+    explicationIndices: 'Un logiciel cracké a été modifié par un inconnu, et personne ne sait ce qu’il y a ajouté. Demander de couper l’antivirus est le signal le plus net. Que Yanis n’ait rien remarqué ne prouve rien : un voleur de mots de passe agit en silence.'
+    aRetenir: 'Un logiciel piraté est l’une des façons les plus courantes d’installer un voleur de mots de passe. Télécharge les logiciels sur le site de leur éditeur, cherche une alternative libre ou une offre éducation, et ne désactive jamais ton antivirus pour installer quelque chose.'
+    recuperation: { action: changer-mdp, siChoix: [installe] }
+    pourquoi:
+      - levier: gain
+        truc: '« Version complète, normalement 300 € » : un logiciel professionnel gratuit, juste quand tu en as besoin.'
+        parade: 'Un logiciel payant offert par un inconnu se paie autrement. Cherche plutôt une alternative libre ou une offre éducation.'
+      - levier: confiance
+        truc: 'C’est Yanis, un ami, et il dit « aucun souci ». Il est sincère, mais il ne peut pas voir ce que le fichier fait en silence.'
+        parade: 'Remercie-le, et dis-lui que ces fichiers cachent souvent des voleurs de mots de passe. Il voudra peut-être vérifier son ordinateur.'
+      - levier: autorite
+        truc: '« C’est un faux positif » : le vocabulaire technique rassure. En réalité, l’antivirus a sans doute raison.'
+        parade: 'Si on te demande de couper ta protection pour installer quelque chose, c’est que ce quelque chose ne la passerait pas.'
+      - levier: urgence
+        truc: 'Le court-métrage est à rendre dans dix jours : la pression du délai fait passer la prudence au second plan.'
+        parade: 'Dix jours suffisent pour apprendre un logiciel libre. Un compte volé, lui, peut prendre des semaines à récupérer.'
+
+  - type: scenario
+    id: vpn-gratuit
+    ecran:
+      app: web
+      appNom: Magasin d’applis
+      contact: 'LibreTunnel VPN'
+      messages:
+        - de: contact
+          texte: 'LibreTunnel VPN : 100 % gratuit, illimité, sans inscription. Débloque tous les sites et protège ta vie privée !'
+        - de: contact
+          texte: 'LibreTunnel a besoin de : tes contacts, ta position précise, tes photos et vidéos, et la création d’une connexion VPN (tout ton trafic).'
+        - de: contact
+          texte: 'Éditeur : Lab Alpha Ltd. Politique de confidentialité : « Nous pouvons partager certaines données avec nos partenaires. »'
+    question: 'Tu utilises souvent le Wi-Fi des cafés et des transports. Une vidéo t’a convaincu qu’il faut un VPN pour être protégé. Cette appli est la première proposée. Que fais-tu ?'
+    choix:
+      - id: installe
+        texte: 'La vidéo dit qu’il faut un VPN, et celui-ci est gratuit et sans inscription : j’installe et j’accepte tout.'
+        qualite: risque
+        consequence: 'Le VPN fonctionne. Mais tout ton trafic passe maintenant par les serveurs d’une entreprise que tu ne connais pas. Elle revend ton historique de navigation et ta position à des annonceurs : c’est ce qu’annonçait sa politique de confidentialité. Tu peux couper ce flux dès maintenant : supprime l’appli, retire ses autorisations et vérifie dans les réglages qu’aucun profil VPN ne reste installé.'
+      - id: sans-vpn
+        texte: 'J’évite ce VPN inconnu : sur un Wi-Fi public, je vérifie le cadenas des sites et je garde mes données mobiles pour les opérations sensibles.'
+        qualite: bon
+        consequence: 'Tu découvres que la plupart des sites chiffrent déjà les échanges (le cadenas, HTTPS). Un VPN cache ton trafic au réseau local, mais lui voit tout à son tour : il faut pouvoir lui faire confiance. Pour l’instant, tu t’en passes.'
+      - id: aide
+        texte: Je demande de l’aide à quelqu’un qui s’y connaît avant d’installer un VPN.
+        qualite: aide
+        consequence: 'Ton prof de SNT t’explique : « Un VPN voit passer tout ton trafic. S’il est gratuit, demande-toi qui le paie. Un VPN sérieux dit qui le gère et ne demande ni tes contacts ni tes photos. »'
+    indices:
+      - { id: permissions, libelle: 'Il demande mes contacts, ma position et mes photos', pertinent: true }
+      - { id: partenaires, libelle: 'Sa politique prévoit de partager des données avec des « partenaires »', pertinent: true }
+      - { id: editeur, libelle: 'Je ne sais rien de l’éditeur, Lab Alpha Ltd', pertinent: true }
+      - { id: premier, libelle: 'C’est le premier résultat du magasin d’applis', pertinent: false }
+    explicationIndices: 'Un VPN a besoin de créer une connexion VPN, c’est son rôle. Il n’a besoin ni de tes contacts, ni de ta position, ni de tes photos. Un service gratuit doit gagner de l’argent : ici, la politique de confidentialité dit comment. Être premier dans les résultats ne dit rien de sa fiabilité.'
+    aRetenir: 'Un VPN voit passer tout ton trafic : il déplace la confiance, il ne la supprime pas. Un VPN gratuit d’un éditeur inconnu peut revendre tes données. Sur un Wi-Fi public, le cadenas HTTPS protège déjà l’essentiel ; si tu prends un VPN, choisis un éditeur identifié qui demande le minimum.'
+    recuperation: { action: demander-aide, siChoix: [installe] }
+    pourquoi:
+      - levier: gain
+        truc: '« 100 % gratuit, illimité, sans inscription » : tout ce qu’on attend, sans rien payer. Mais un serveur VPN coûte cher à faire tourner.'
+        parade: 'Quand un service coûteux est gratuit, cherche dans la politique de confidentialité comment il gagne de l’argent.'
+      - levier: peur
+        truc: 'La peur des Wi-Fi publics te pousse vers une solution, et l’appli promet qu’elle « protège ta vie privée ».'
+        parade: 'Une promesse de protection ne vaut que si l’éditeur est identifié. Vérifie qui il est avant de lui confier ton trafic.'
+      - levier: groupe
+        truc: 'Une vidéo t’a dit que tout le monde devrait avoir un VPN. Alors on prend le premier venu.'
+        parade: 'Un conseil général ne te dit pas quel VPN choisir. Renseigne-toi sur l’éditeur, pas seulement sur l’idée.'
+      - levier: reflexe
+        truc: '« LibreTunnel a besoin de » : la liste ressemble à toutes les demandes d’autorisation, et on accepte sans la lire.'
+        parade: 'Lis chaque permission et demande-toi si elle sert vraiment au service. Contacts et photos, pour un VPN : non.'
+
+  - type: minijeu
+    id: mj-permissions-lycee
+    jeu: permissions
+    config:
+      consigne: Pour chaque appli, autorise seulement les permissions dont elle a vraiment besoin pour fonctionner.
+      apps:
+        - id: rail-nova
+          nom: RailNova
+          description: L’appli pour acheter tes billets de train et suivre ton trajet.
+          permissions:
+            - { id: position, libelle: 'Position, seulement pendant l’utilisation', necessaire: true, explication: 'Utile pour trouver la gare la plus proche et suivre ton trajet. Pendant l’utilisation, c’est suffisant.' }
+            - { id: notifications, libelle: Notifications, necessaire: true, explication: 'Elles te préviennent d’un retard ou d’un changement de voie.' }
+            - { id: contacts, libelle: Contacts, necessaire: false, explication: 'Acheter un billet ne demande pas ton répertoire. Tu peux saisir à la main le nom d’un autre voyageur.' }
+            - { id: micro, libelle: Micro, necessaire: false, explication: 'Rien à écouter pour afficher des horaires.' }
+        - id: scan-doc
+          nom: ScanDoc
+          description: Scanne tes documents et les transforme en fichiers PDF.
+          permissions:
+            - { id: camera, libelle: Appareil photo, necessaire: true, explication: 'C’est avec l’appareil photo qu’elle scanne la feuille.' }
+            - { id: photos, libelle: Accès à toutes tes photos et vidéos, necessaire: false, explication: 'Elle crée ses propres fichiers. Pour importer une image, un accès limité aux photos choisies suffit.' }
+            - { id: position, libelle: Position précise, necessaire: false, explication: 'Scanner une feuille ne demande pas de savoir où tu es, et la position pourrait être enregistrée dans les fichiers.' }
+            - { id: contacts, libelle: Contacts, necessaire: false, explication: 'Pour partager un PDF, le menu de partage du téléphone suffit, sans lui donner ton répertoire.' }
+        - id: clavier-moji
+          nom: ClavierMoji
+          description: Un clavier de remplacement avec des emojis animés.
+          permissions:
+            - { id: clavier, libelle: 'Être utilisé comme clavier (voit ce que tu tapes)', necessaire: true, explication: 'Un clavier voit forcément ce que tu tapes, c’est son rôle. Raison de plus pour ne choisir qu’un clavier de confiance.' }
+            - { id: reseau, libelle: 'Accès complet (envoi sur Internet de ce que tu tapes)', necessaire: false, explication: 'Les emojis peuvent être intégrés au clavier. L’accès complet permettrait d’envoyer tes frappes, mots de passe compris.' }
+            - { id: contacts, libelle: Contacts, necessaire: false, explication: 'Des emojis animés n’ont pas besoin de ton répertoire.' }
+            - { id: position, libelle: Position, necessaire: false, explication: 'Taper un message ne demande pas de savoir où tu es.' }
+debrief:
+  questions:
+    - Quel était le piège ?
+    - Quel indice pourras-tu réutiliser la prochaine fois ?
+    - Que faire si ça t’est déjà arrivé ?
+  reponses: 'Le piège commun : un service gratuit et pratique (Wi-Fi, logiciel, VPN) qui se paie en accès à tes comptes ou à tes données. Indices réutilisables : un portail Wi-Fi qui réclame le mot de passe d’un compte, un nom de réseau différent de celui affiché, un antivirus à désactiver, un logiciel payant offert hors du site de l’éditeur, des permissions sans rapport avec le service, une politique de confidentialité qui parle de « partenaires ». Si c’est déjà arrivé : désinstaller, réactiver l’antivirus et lancer une analyse, changer ses mots de passe depuis un appareil sain en commençant par la boîte mail, activer la double authentification, retirer les profils VPN et les autorisations inutiles, puis se faire aider sur cybermalveillance.gouv.fr. Se faire avoir n’a rien de honteux : ces pièges visent justement des besoins réels.'
+  erreursFrequentes:
+    - 'Croire qu’un Wi-Fi public est dangereux par nature, ou au contraire qu’un réseau au nom officiel est forcément le vrai.'
+    - 'Penser qu’un logiciel piraté qui « marche » chez un ami est donc sans danger.'
+    - 'Croire qu’un VPN gratuit protège la vie privée, alors qu’il voit passer tout le trafic.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qui se connecte au Wi-Fi des gares, des cafés ou des fast-foods ? Qu’est-ce qu’on vous y a déjà demandé ? (sans obligation de raconter)
+    20 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, puis retour sur le mini-jeu (le clavier qui voit forcément ce qu’on tape, et l’accès complet qu’on peut refuser).
+    5 min : où trouver de l’aide (adulte de confiance, agent ou accueil du lieu pour le vrai Wi-Fi, référent numérique du lycée, cybermalveillance.gouv.fr pour se faire aider).
+    5 min : engagement. Cette semaine, je vérifie les permissions de mes trois applis les plus utilisées et je retire celles qui ne servent pas.
