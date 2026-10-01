@@ -24,11 +24,11 @@ etapes:
     question: 'Au même moment, tu reçois un SMS : « SnapTalk : ton code de connexion est 482 913. Ne le partage avec personne. » Que fais-tu ?'
     choix:
       - id: renvoie
-        texte: 'C’est Inès, on se voit tous les jours, et elle a l’air embêtée : je lui renvoie vite le code.'
+        texte: 'C’est Inès, mon amie, et elle a l’air embêtée : je lui renvoie vite le code.'
         qualite: risque
         consequence: 'Ce code servait à se connecter à TON compte. Quelques minutes plus tard, SnapTalk te déconnecte : quelqu’un d’autre est dans ton compte et envoie le même message à tous tes contacts. Ce n’était pas Inès : son compte avait été piraté juste avant le tien. Tu peux encore récupérer ton compte et prévenir tes amis.'
       - id: verifie
-        texte: J’appelle Inès ou je lui en parle au collège pour savoir si c’est bien elle.
+        texte: J’appelle Inès ou je lui en parle au collège pour vérifier que c’est bien elle qui écrit.
         qualite: bon
         consequence: 'Inès tombe des nues : elle n’a rien envoyé et elle n’arrive plus à se connecter depuis hier soir. Son compte a été piraté. Tu gardes ton code pour toi et tu l’aides à récupérer son compte.'
       - id: aide
@@ -67,11 +67,11 @@ etapes:
     question: Le mail porte le logo de ton collège, et tu as un devoir à rendre sur l’ENT demain. Que fais-tu ?
     choix:
       - id: connecte
-        texte: 'Il y a le logo du collège et j’ai un devoir à rendre demain : je renouvelle vite mon mot de passe.'
+        texte: 'C’est le logo du collège et j’ai un devoir demain : je renouvelle mon mot de passe.'
         qualite: risque
         consequence: 'La page ressemble à l’ENT, mais elle enregistre l’identifiant et le mot de passe que tu tapes. Le lendemain, des camarades reçoivent de ta messagerie des messages que tu n’as jamais écrits, et quelqu’un a lu tes conversations. Tu peux encore changer ton mot de passe et prévenir le collège.'
       - id: ent-habituel
-        texte: J’ouvre moi-même l’ENT comme d’habitude, sans passer par le lien du mail.
+        texte: J’ouvre moi-même l’ENT comme d’habitude, sans passer par le lien du mail, et je regarde s’il y a une alerte.
         qualite: bon
         consequence: 'Sur le vrai ENT, aucune alerte : ton mot de passe n’expire pas. Tu montres le mail à ton professeur principal, qui prévient toute la classe.'
       - id: aide
@@ -112,15 +112,15 @@ etapes:
     question: Le concours de dessin du collège existe vraiment. Sur le groupe de la classe, deux copains disent avoir reçu exactement le même message de Tom. Que fais-tu ?
     choix:
       - id: vote
-        texte: 'C’est Tom, le concours existe vraiment et les copains ont reçu le même message : je me connecte pour voter.'
+        texte: 'Le concours existe et les copains ont reçu le même message de Tom : je me connecte pour voter.'
         qualite: risque
         consequence: 'Il n’y avait pas de vote : la page a enregistré ton identifiant et ton mot de passe. Ton compte envoie maintenant le même message à tous tes contacts, comme celui de Tom avant toi. Tu peux reprendre ton compte et le protéger pour que ça ne recommence pas.'
       - id: demande-tom
-        texte: Je demande à Tom, en vrai ou par téléphone, s’il m’a bien envoyé ce lien.
+        texte: Avant de cliquer, je demande à Tom, en vrai ou par téléphone, s’il m’a bien envoyé ce lien.
         qualite: bon
         consequence: 'Tom n’a rien envoyé : son compte a été piraté. Grâce à toi, il le découvre et peut le récupérer. Et pour voter, il suffit de passer au CDI.'
       - id: aide
-        texte: Je demande de l’aide à quelqu’un avant de cliquer.
+        texte: 'Je demande de l’aide à un adulte avant de cliquer : il saura si ce vote est normal.'
         qualite: aide
         consequence: 'Ton père regarde le lien : « snaptalk-vote.xyz, ce n’est pas SnapTalk. Pour voter, on n’a pas besoin de ton mot de passe. » Vous prévenez Tom par téléphone.'
     indices:

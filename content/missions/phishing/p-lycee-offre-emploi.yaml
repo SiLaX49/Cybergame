@@ -28,7 +28,7 @@ etapes:
     question: Tu cherches justement un petit job pour financer ton permis. Que fais-tu ?
     choix:
       - id: inscrit
-        texte: 'J’ai besoin d’argent pour le permis, et 25 € remboursés dès la première mission, c’est vite rattrapé : je paie avant qu’il n’y ait plus de place.'
+        texte: 'Il me faut de l’argent pour le permis, et les 25 € sont remboursés dès la première mission : je m’inscris.'
         qualite: risque
         consequence: 'Ton espace affiche vite 60 € de « gains ». Pour les retirer, on te réclame 80 € de « frais de déblocage », puis encore davantage. Tu ne récupères rien. Arrête de payer maintenant : en gardant les preuves, tu peux signaler l’arnaque et porter plainte.'
       - id: recherche
@@ -36,7 +36,7 @@ etapes:
         qualite: bon
         consequence: 'Des dizaines de témoignages décrivent exactement la même offre : on paie des frais, puis des « déblocages », et on ne touche jamais rien. Tu bloques le numéro et tu transfères le SMS au 33700, le service de signalement des SMS indésirables.'
       - id: aide
-        texte: Je demande de l’aide à quelqu’un avant de répondre.
+        texte: Je demande de l’aide à quelqu’un qui travaille déjà, avant de payer quoi que ce soit.
         qualite: aide
         consequence: 'Ta tante, qui recrute dans son entreprise, est catégorique : « Un employeur ne te fait jamais payer pour travailler. Et 30 €/h pour liker des vidéos, ça n’existe pas. » Tu bloques le numéro.'
     indices:
@@ -56,10 +56,10 @@ etapes:
         parade: 'Un employeur te paie, il ne te fait jamais payer. Au premier euro demandé, arrête la conversation.'
       - levier: urgence
         truc: '« Les places partent vite 😉 » : on te presse pour que tu paies avant de te renseigner.'
-        parade: 'Une vraie offre peut attendre un jour ou deux. Prends ce temps pour chercher l’entreprise et en parler à un proche.'
+        parade: 'Une vraie offre peut attendre un jour ou deux. Prends ce temps pour chercher le nom de l’offre et en parler à un proche.'
       - levier: groupe
         truc: '« Rejoins l’équipe » laisse croire que plein de jeunes font déjà ce job et sont payés.'
-        parade: 'Cherche des avis sur l’offre en dehors de la conversation, pas les témoignages que le recruteur te montre.'
+        parade: 'Cherche des avis sur l’offre en dehors de la conversation.'
 
   - type: scenario
     id: logement
@@ -74,11 +74,11 @@ etapes:
     question: Tu cherches un logement pour tes études l’an prochain, et les photos sont superbes. Dans ce quartier, les studios se louent plutôt 600 €. Que fais-tu ?
     choix:
       - id: vire
-        texte: 'Un studio à 350 € en plein centre, je n’en retrouverai jamais : je vire la caution avant qu’un autre étudiant ne le prenne.'
+        texte: 'Un studio à 350 € en plein centre, je n’en retrouverai pas : je vire la caution avant les autres.'
         qualite: risque
         consequence: 'Julie ne répond plus et l’annonce a disparu : les photos avaient été copiées sur un autre site. La caution n’est pas forcément perdue : avec les preuves, ta banque peut tenter de récupérer le virement, et tu peux porter plainte.'
       - id: visite
-        texte: Je réponds que je ne verse rien sans visite et sans bail signé.
+        texte: Je réponds que je ne verse rien sans avoir visité le studio, moi ou un proche, et signé un bail.
         qualite: bon
         consequence: 'Julie insiste, puis ne répond plus. En cherchant les photos en ligne, tu les retrouves sur une annonce dans une autre ville. C’était une arnaque, et tu n’as rien perdu.'
       - id: aide
@@ -101,8 +101,8 @@ etapes:
         truc: '« Merci de répondre rapidement » : on te presse pour que tu vires avant d’exiger une visite.'
         parade: 'Ne verse rien avant d’avoir visité et signé un bail. Un vrai propriétaire accepte d’attendre.'
       - levier: groupe
-        truc: '« Plusieurs étudiants sont intéressés » : l’idée que d’autres vont te le prendre pousse à payer tout de suite.'
-        parade: 'Fais une recherche d’image avec les photos de l’annonce : si elles apparaissent ailleurs, l’annonce est fausse.'
+        truc: '« Plusieurs étudiants sont intéressés » : presque toutes les fausses annonces utilisent cette phrase, pour que tu paies avant d’avoir vérifié.'
+        parade: 'Que d’autres soient intéressés ou non, on ne paie rien avant la visite. Fais aussi une recherche d’image avec les photos de l’annonce : si elles apparaissent ailleurs, l’annonce est fausse.'
 
   - type: scenario
     id: banque-perso
@@ -117,7 +117,7 @@ etapes:
     question: 'Tu as ouvert cette page depuis un SMS « BanqueNova : opération suspecte ». Dans ce scénario, tu t’appelles Camille, et la page connaît ton prénom. Juste après, ton téléphone sonne : un « conseiller » te demande de valider dans ton appli l’opération qui va s’afficher, « pour la bloquer ». Que fais-tu ?'
     choix:
       - id: valide
-        texte: 'La page connaît mon prénom et le conseiller veut bloquer ces 600 € : je valide dans mon appli, comme il me le demande.'
+        texte: 'La page connaît mon prénom et le conseiller veut bloquer les 600 € : je valide dans mon appli.'
         qualite: risque
         consequence: 'Valider une opération ne l’annule jamais : tu viens d’autoriser le paiement. 600 € partent vers un compte inconnu et le « conseiller » raccroche. Préviens tout de suite un parent et appelle ta banque au numéro officiel pour faire opposition : plus tu agis vite, plus tu as de chances de récupérer l’argent.'
       - id: rappelle
@@ -125,7 +125,7 @@ etapes:
         qualite: bon
         consequence: 'La vraie conseillère de BanqueNova confirme : aucune opération suspecte sur ton compte, et personne de la banque ne t’a appelé. La page et l’appel étaient faux. Tu n’as rien validé, ton argent est en sécurité.'
       - id: aide
-        texte: Je demande de l’aide à un parent avant de faire quoi que ce soit.
+        texte: Je demande de l’aide à un parent avant de faire quoi que ce soit, même si le conseiller insiste.
         qualite: aide
         consequence: 'Ta mère prend le téléphone et le « conseiller » raccroche aussitôt. Elle appelle la banque au numéro officiel : c’était une tentative de fraude. Aucun argent n’est parti.'
     indices:
