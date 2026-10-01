@@ -112,6 +112,28 @@ describe('ScenarioStep', () => {
     expect(w.emitted('evenement')).toEqual([[{ type: 'passer' }]])
   })
 
+  it.each([
+    ['sms', 'Situation : message de Colis Express dans Messages'],
+    ['chat', 'Situation : message de Colis Express dans Messages'],
+    ['social', 'Situation : message de Colis Express dans Messages'],
+    ['mail', 'Situation : mail de Colis Express'],
+    ['web', 'Situation : page Colis Express'],
+  ] as const)('nom accessible de la situation adapté à l’écran %s', (app, attendu) => {
+    const s = scenario()
+    const w = monter({ scenario: { ...s, ecran: { ...s.ecran, app } } })
+    expect(w.find('article.scenario').attributes('aria-label')).toBe(attendu)
+  })
+
+  it('lecture simplifiée : la conséquence du choix risqué est simplifiée', () => {
+    store.modifierReglages({ lectureSimple: true })
+    const w = monter({
+      phase: 'consequence',
+      resultat: { ...resultatClic, choixId: 'clic', qualite: 'risque', indicesChoisis: [], indicesJustes: 0, levier: 'urgence' },
+    })
+    expect(w.text()).toContain('On vole la carte.')
+    expect(w.text()).not.toContain('La carte est volée.')
+  })
+
   it('annonce le rôle joué', () => {
     const w = monter({ scenario: { ...scenario(), role: 'temoin' } })
     expect(w.text()).toContain('Dans ce scénario, tu joues un·e témoin.')

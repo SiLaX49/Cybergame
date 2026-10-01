@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { Leviers, Scenario } from '@/content/schema'
 import type { PhaseScenario, RunEvent, ScenarioResultat } from '@/engine/mission-runner'
 import EcranTelephone from '@/phone/EcranTelephone.vue'
@@ -29,6 +29,14 @@ const TITRES: Record<Exclude<PhaseScenario, 'situation'>, string> = {
 }
 const ROLES = { victime: 'la personne visée', temoin: 'un·e témoin', auteur: 'celui ou celle qui a dérapé' } as const
 
+/** Nom accessible de la situation, selon le type d’écran simulé. */
+const nomSituation = computed(() => {
+  const { app, contact, appNom } = props.scenario.ecran
+  if (app === 'mail') return `Situation : mail de ${contact}`
+  if (app === 'web') return `Situation : page ${contact}`
+  return `Situation : message de ${contact} dans ${appNom}`
+})
+
 const situation = ref<HTMLElement | null>(null)
 const titre = ref<HTMLElement | null>(null)
 focusAuMontage(situation)
@@ -40,7 +48,7 @@ focusAuChangement(() => props.phase, titre)
     ref="situation"
     class="scenario"
     tabindex="-1"
-    :aria-label="`Situation : message de ${scenario.ecran.contact} dans ${scenario.ecran.appNom}`"
+    :aria-label="nomSituation"
   >
     <p v-if="scenario.role" class="role">Dans ce scénario, tu joues {{ ROLES[scenario.role] }}.</p>
     <div class="scenario-grille">
