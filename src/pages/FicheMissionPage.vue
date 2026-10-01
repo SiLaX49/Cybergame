@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { RouterLink, useRoute } from 'vue-router'
-import { getMission, getTheme } from '@/content'
+import { getLeviers, getMission, getTheme } from '@/content'
 import { TRANCHE_LIBELLES } from '@/content/schema'
 import BandeauAide from '@/ui/BandeauAide.vue'
 
 const route = useRoute()
 const mission = getMission(String(route.params.id))
 const theme = mission?.theme ? getTheme(mission.theme) : undefined
+const leviers = getLeviers()
+const scenariosAvecLeviers = (mission?.etapes ?? []).flatMap((e, i) =>
+  e.type === 'scenario' && e.pourquoi ? [{ id: e.id, numero: i + 1, question: e.question, pourquoi: e.pourquoi }] : [],
+)
 const imprimer = () => window.print()
 </script>
 
@@ -43,6 +47,17 @@ const imprimer = () => window.print()
       <p class="pre">{{ mission.debrief.reponses }}</p>
       <h3>Erreurs fréquentes</h3>
       <ul><li v-for="e in mission.debrief.erreursFrequentes" :key="e">{{ e }}</li></ul>
+      <template v-if="scenariosAvecLeviers.length">
+        <h2>Leviers travaillés</h2>
+        <section v-for="s in scenariosAvecLeviers" :key="s.id">
+          <h3>Situation {{ s.numero }} : {{ s.question }}</h3>
+          <ul>
+            <li v-for="p in s.pourquoi" :key="p.levier">
+              <strong>{{ leviers.leviers[p.levier].libelle }}</strong> : {{ leviers.leviers[p.levier].questionDebrief }}
+            </li>
+          </ul>
+        </section>
+      </template>
       <template v-if="mission.fiche.siRevelation">
         <h2>Si un élève révèle une situation réelle</h2>
         <p class="pre">{{ mission.fiche.siRevelation }}</p>

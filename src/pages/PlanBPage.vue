@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { RouterLink, useRoute } from 'vue-router'
-import { getMission } from '@/content'
+import { getLeviers, getMission } from '@/content'
 import { FIL_ACTIONS } from '@/content/schema'
 import { ordreAffichage } from '@/engine/ordre'
 
 const route = useRoute()
 const mission = getMission(String(route.params.id))
+const leviers = getLeviers()
 const imprimer = () => window.print()
 const ACTIONS_PAPIER: Record<(typeof FIL_ACTIONS)[number], string> = {
   ouvrir: 'J’ouvre',
@@ -42,6 +43,15 @@ const ACTIONS_PAPIER: Record<(typeof FIL_ACTIONS)[number], string> = {
           <ul class="cases"><li v-for="c in ordreAffichage(e.choix, e.id)" :key="c.id">☐ {{ c.texte }}</li></ul>
           <p>Quel indice t’a décidé ?</p>
           <ul class="cases"><li v-for="ind in ordreAffichage(e.indices, e.id)" :key="ind.id">☐ {{ ind.libelle }}</li></ul>
+          <template v-if="e.pourquoi">
+            <p>Si tu as choisi le piège, pourquoi ?</p>
+            <ul class="cases">
+              <li v-for="p in ordreAffichage(e.pourquoi.map((x) => ({ id: x.levier })), `${e.id}:pourquoi`)" :key="p.id">
+                ☐ {{ leviers.leviers[p.id].libelle }}
+              </li>
+              <li>☐ {{ leviers.autre.libelle }}</li>
+            </ul>
+          </template>
         </template>
         <template v-else-if="e.type === 'minijeu' && e.jeu === 'tri'">
           <h2>Mini-jeu {{ i + 1 }} : {{ e.config.consigne }}</h2>
@@ -85,6 +95,14 @@ const ACTIONS_PAPIER: Record<(typeof FIL_ACTIONS)[number], string> = {
             <p>Bons choix : {{ e.choix.filter((c) => c.qualite !== 'risque').map((c) => c.texte).join(' / ') }}</p>
             <p>Vrais indices : {{ e.indices.filter((x) => x.pertinent).map((x) => x.libelle).join(' / ') }}</p>
             <p>À retenir : {{ e.aRetenir }}</p>
+            <template v-if="e.pourquoi">
+              <p>Si l’élève a choisi le piège :</p>
+              <ul>
+                <li v-for="p in e.pourquoi" :key="p.levier">
+                  <strong>{{ leviers.leviers[p.levier].libelle }}</strong> : {{ p.truc }} Parade : {{ p.parade }}
+                </li>
+              </ul>
+            </template>
           </template>
           <template v-else-if="e.type === 'minijeu' && e.jeu === 'tri'">
             <h3>Mini-jeu {{ i + 1 }}</h3>
