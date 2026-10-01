@@ -32,12 +32,12 @@ etapes:
     question: 'Une vidéo t’a montré ce site. D’habitude, les Coins se gagnent en jouant ou s’achètent dans la boutique du jeu. Que fais-tu ?'
     choix:
       - id: genere
-        texte: '10 000 Coins gratuits, et la vidéo disait que ça marche ! Je tape mon pseudo et mon mot de passe, puis j’installe l’appli.'
+        texte: '10 000 Coins gratuits, la vidéo disait que ça marche : je tape mon mot de passe et j’installe l’appli.'
         qualite: risque
         consequence: 'Aucun Coin n’arrive. Le soir, ton mot de passe ne marche plus : quelqu’un a pris ton compte. L’appli, elle, remplit la tablette de pubs. Avec un adulte, tu peux la supprimer et récupérer ton compte.'
         consequenceSimple: 'Pas de Coins. Quelqu’un a volé ton compte GameBox. Avec un adulte, tu peux le récupérer.'
       - id: ferme
-        texte: Je ferme le site. Les Coins, ça se gagne en jouant ou ça s’achète dans le jeu.
+        texte: 'Je ferme le site : les Coins, ça se gagne en jouant ou ça s’achète dans la boutique du jeu.'
         qualite: bon
         consequence: 'Ton compte et ton mot de passe restent à toi. Personne ne peut « générer » des Coins : ce site était un piège.'
       - id: aide
@@ -86,7 +86,7 @@ etapes:
     question: 'Une épée légendaire vaut bien plus que ton dragon. DarkWolf_77 est niveau 80, un très bon joueur. Que fais-tu ?'
     choix:
       - id: donne-premier
-        texte: 'Il est niveau 80, il n’a pas besoin de m’arnaquer. Et une épée légendaire, je n’en aurai jamais d’autre : j’envoie mon dragon.'
+        texte: 'Il est niveau 80, il n’a pas besoin de m’arnaquer : j’envoie mon dragon pour avoir l’épée.'
         qualite: risque
         consequence: 'DarkWolf_77 reçoit ton dragon… puis te bloque. Pas d’épée. Tu peux encore signaler son compte au jeu, avec une capture de la conversation. Ça protège les autres joueurs.'
         consequenceSimple: 'Il garde ton dragon et te bloque. Pas d’épée. Tu peux encore le signaler au jeu.'
@@ -131,7 +131,7 @@ etapes:
     question: 'Sacha est vraiment dans ta classe. Ton personnage, lui, est bloqué au niveau 12 depuis une semaine. Que fais-tu ?'
     choix:
       - id: partage
-        texte: 'Sacha est dans ma classe, je le vois tous les jours. Et mon perso est bloqué au niveau 12 : je lui donne mon mot de passe.'
+        texte: 'Sacha est dans ma classe et mon perso est bloqué au niveau 12 : je lui donne mon mot de passe.'
         qualite: risque
         consequence: 'Le lendemain, tes Coins ont disparu et ton mot de passe ne marche plus. Sacha l’a changé « pour rire ». Avec un adulte, tu peux récupérer ton compte et choisir un nouveau mot de passe.'
         consequenceSimple: 'Sacha a dépensé tes Coins et changé ton mot de passe. Avec un adulte, tu peux récupérer ton compte.'

@@ -30,11 +30,11 @@ etapes:
     question: 'Tu vends ta veste 45 € sur Revendo. Camille_B a une note de 4,8 étoiles. Dans ton appli, aucune vente n’apparaît pour l’instant. Que fais-tu ?'
     choix:
       - id: scanne
-        texte: 'Camille_B a 4,8 étoiles et veut la veste pour samedi. Ça doit être une nouvelle procédure de Revendo : je scanne et je saisis ma carte.'
+        texte: 'Camille_B a 4,8 étoiles, ça doit être une nouvelle procédure de Revendo : je scanne et je saisis ma carte.'
         qualite: risque
         consequence: 'La page, aux couleurs de Revendo, demande aussi le cryptogramme, puis un code reçu par SMS. Ce SMS de ta banque disait pourtant « Code pour valider un paiement de 380 € » : tu l’as tapé sans le lire. Quelques minutes plus tard, 380 € sont débités de ton compte. Appelle vite ta banque au numéro officiel pour faire opposition, et garde les captures de la conversation et de la page : elles serviront à contester le paiement et à porter plainte.'
       - id: reste-appli
-        texte: Je réponds que tout se fait dans l’appli Revendo, et j’attends que la vente y apparaisse.
+        texte: Je réponds que tout se fait dans l’appli Revendo, et j’attends que la vente y apparaisse avant d’envoyer quoi que ce soit.
         qualite: bon
         consequence: 'Camille_B insiste, puis disparaît. Aucune vente n’apparaît jamais. Tu signales le profil depuis l’appli, et ta veste est toujours en vente.'
       - id: aide
@@ -123,11 +123,11 @@ etapes:
     question: 'Kaelan_17, c’est bien ton pseudo : trois ans de parties et des skins achetés avec ton argent de poche. Que fais-tu ?'
     choix:
       - id: paie
-        texte: 'Trois ans de parties et tous mes skins, ça vaut plus que 100 €. J’achète les cartes et j’envoie les codes avant la fin du délai.'
+        texte: 'Trois ans de parties, ça vaut bien 100 € : j’achète les cartes et j’envoie les codes.'
         qualite: risque
         consequence: 'Une heure plus tard, nouveau SMS : « Paiement incomplet, envoie 150 € de plus. » Ton compte GameBox, lui, n’a jamais été suspendu. Arrête de payer maintenant. Garde les tickets de caisse et les captures, bloque ce numéro et signale-le en transférant le SMS au 33700. Contacte aussi vite l’émetteur des cartes : si les codes n’ont pas encore servi, il peut parfois les bloquer. Tu peux ensuite porter plainte.'
       - id: verifie-appli
-        texte: Je ne réponds pas et j’ouvre moi-même l’appli GameBox pour voir l’état de mon compte.
+        texte: Je ne réponds pas et j’ouvre moi-même l’appli GameBox pour voir si mon compte est vraiment suspendu.
         qualite: bon
         consequence: 'Ton compte fonctionne normalement, sans aucune sanction. La page d’aide officielle de GameBox le dit clairement : le jeu n’exige jamais d’amende, et encore moins en cartes cadeaux. Tu signales le SMS au 33700, puis tu bloques le numéro.'
       - id: aide
