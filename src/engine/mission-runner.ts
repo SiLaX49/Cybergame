@@ -32,6 +32,8 @@ export interface RunState {
   choixId: string | null
   resultats: Record<string, EtapeResultat>
   termine: boolean
+  /** Leviers choisis pendant le run, dans l'ordre, sans doublon ; conservés même après « rejouer ». En mémoire seulement. */
+  leviersCedes: ReponseLevier[]
 }
 
 export type RunEvent =
@@ -56,7 +58,7 @@ const phaseInitiale = (etape: Etape | undefined): PhaseScenario | null =>
   etape?.type === 'scenario' ? 'situation' : null
 
 export function demarrer(mission: Mission): RunState {
-  return { index: 0, phase: phaseInitiale(mission.etapes[0]), choixId: null, resultats: {}, termine: false }
+  return { index: 0, phase: phaseInitiale(mission.etapes[0]), choixId: null, resultats: {}, termine: false, leviersCedes: [] }
 }
 
 export function etapeCourante(mission: Mission, etat: RunState): Etape | null {
@@ -66,7 +68,7 @@ export function etapeCourante(mission: Mission, etat: RunState): Etape | null {
 function suivante(mission: Mission, etat: RunState, resultats: Record<string, EtapeResultat>): RunState {
   const index = etat.index + 1
   const termine = index >= mission.etapes.length
-  return { index, phase: termine ? null : phaseInitiale(mission.etapes[index]), choixId: null, resultats, termine }
+  return { ...etat, index, phase: termine ? null : phaseInitiale(mission.etapes[index]), choixId: null, resultats, termine }
 }
 
 const SURPRISES: Record<FilAction, SurpriseResultat> = {
@@ -110,7 +112,10 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
         recuperationFaite: null,
         passe: false,
       }
-      return { ...etat, phase: 'consequence', resultats: { ...etat.resultats, [etape.id]: resultat } }
+      const leviersCedes = etat.leviersCedes.includes(evenement.levier)
+        ? etat.leviersCedes
+        : [...etat.leviersCedes, evenement.levier]
+      return { ...etat, phase: 'consequence', resultats: { ...etat.resultats, [etape.id]: resultat }, leviersCedes }
     }
     case 'valider-indices': {
       if (etape.type !== 'scenario' || etat.phase !== 'indices') return refuser()
@@ -207,15 +212,9 @@ export function choixDuRun(etat: RunState): Record<string, string> {
   return choix
 }
 
-/** Leviers choisis pendant la mission, dans l'ordre des scénarios, sans doublon. */
-export function leviersDuRun(mission: Mission, etat: RunState): ReponseLevier[] {
-  const leviers: ReponseLevier[] = []
-  for (const e of mission.etapes) {
-    if (e.type !== 'scenario') continue
-    const r = etat.resultats[e.id]
-    if (r?.type === 'scenario' && r.levier && !leviers.includes(r.levier)) leviers.push(r.levier)
-  }
-  return leviers
+/** Leviers choisis pendant la mission, dans l'ordre où ils ont été choisis, sans doublon (même après « rejouer »). */
+export function leviersDuRun(_mission: Mission, etat: RunState): ReponseLevier[] {
+  return [...etat.leviersCedes]
 }
 
 /** Leviers travaillés par la mission (blocs « pourquoi »), dans l'ordre d'apparition, sans doublon. */

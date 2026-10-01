@@ -23,6 +23,18 @@ const leviersChoisis = computed(() =>
   ),
 )
 const aSurveiller = computed(() => leviersDeLaMission(props.mission).map((id) => props.leviers.leviers[id].libelle))
+/** Tous les scénarios ont été passés : on ne peut rien dire de ce qui a marché ou non. */
+const toutPasse = computed(() =>
+  props.mission.etapes
+    .filter((e): e is Scenario => e.type === 'scenario')
+    .every((s) => {
+      const r = props.etat.resultats[s.id]
+      return r?.type === 'scenario' && r.passe
+    }),
+)
+const afficherCraquer = computed(
+  () => leviersChoisis.value.length > 0 || (aSurveiller.value.length > 0 && !toutPasse.value),
+)
 const aRetenir = computed(() =>
   props.mission.etapes
     .filter((e): e is Scenario => e.type === 'scenario')
@@ -78,7 +90,7 @@ async function fermerPleinEcran() {
       </li>
     </ul>
 
-    <section v-if="leviersChoisis.length || aSurveiller.length" class="carte craquer">
+    <section v-if="afficherCraquer" class="carte craquer">
       <h3>Ce qui t’a fait craquer</h3>
       <ul v-if="leviersChoisis.length">
         <li v-for="l in leviersChoisis" :key="l.id"><strong>{{ l.libelle }}</strong> : {{ l.parade }}</li>

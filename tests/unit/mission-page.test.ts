@@ -158,6 +158,30 @@ describe('MissionPage', () => {
     expect(bloc.text()).toContain('C’était pas cher, pas grave')
   })
 
+  it('« Rejouer ce scénario » n’efface pas le levier du récapitulatif', async () => {
+    const w = await monter('m-test')
+    await w.find('[data-choix="clic"]').trigger('click')
+    await w.find('[data-levier="urgence"]').trigger('click')
+    await cliquer(w, 'Rejouer ce scénario')
+    await w.find('[data-choix="aide"]').trigger('click')
+    await cliquer(w, 'Je ne sais pas')
+    await cliquer(w, 'Continuer')
+    await finirTri(w)
+    const bloc = w.find('.craquer')
+    expect(bloc.text()).toContain('Il fallait faire vite')
+    expect(bloc.text()).not.toContain('Aucun piège n’a marché sur toi cette fois.')
+  })
+
+  it('tous les scénarios passés : pas de « Aucun piège n’a marché sur toi »', async () => {
+    const w = await monter('m-sensible')
+    await cliquer(w, 'Commencer')
+    await cliquer(w, 'Passer ce scénario')
+    await finirTri(w)
+    expect(w.text()).toContain('Mission terminée !')
+    expect(w.text()).not.toContain('Aucun piège n’a marché sur toi cette fois.')
+    expect(w.find('.craquer').exists()).toBe(false)
+  })
+
   it('mission sans bloc pourquoi : pas de bloc « Ce qui t’a fait craquer »', async () => {
     const w = await monter('r-test')
     for (const n of ['n1', 'n2', 'n3']) await w.find(`input[name="notif-${n}"][value="ignorer"]`).setValue()

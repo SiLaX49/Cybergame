@@ -12,7 +12,7 @@ import {
   type RunState,
 } from '@/engine/mission-runner'
 import type { Mission, Scenario } from '@/content/schema'
-import { missionFixture, rappelFixture } from './fixtures'
+import { missionFixture, rappelFixture, rawScenario, rawTri } from './fixtures'
 
 const jouer = (m: Mission, ...evenements: RunEvent[]): RunState =>
   evenements.reduce((etat, ev) => reduire(m, etat, ev), demarrer(m))
@@ -136,6 +136,48 @@ describe('mission-runner', () => {
     expect(leviersDuRun(m, etat)).toEqual(['urgence'])
     expect(leviersDuRun(m, jouer(m, { type: 'choisir', choixId: 'aide' }, { type: 'valider-indices', indices: [] }))).toEqual([])
     expect(leviersDeLaMission(m)).toEqual(['urgence', 'petit-montant', 'reflexe'])
+  })
+
+  it('garde le levier dans le récapitulatif même après « rejouer »', () => {
+    const etat = jouer(
+      m,
+      { type: 'choisir', choixId: 'clic' },
+      { type: 'expliquer', levier: 'urgence' },
+      { type: 'rejouer' },
+      { type: 'choisir', choixId: 'verif' },
+      { type: 'valider-indices', indices: ['url'] },
+      { type: 'continuer' },
+      { type: 'minijeu-termine', reussites: 3, erreurs: 0 },
+    )
+    expect(etat.termine).toBe(true)
+    expect(etat.resultats['sc-1']).toMatchObject({ qualite: 'bon', levier: null })
+    expect(leviersDuRun(m, etat)).toEqual(['urgence'])
+  })
+
+  it('liste les leviers cédés dans l’ordre, sans doublon, sur plusieurs scénarios', () => {
+    const deux = missionFixture({
+      etapes: [rawScenario('sc-1'), rawScenario('sc-2'), { type: 'minijeu', id: 'mj-1', jeu: 'tri', config: rawTri() }],
+    })
+    const etat = jouer(
+      deux,
+      { type: 'choisir', choixId: 'clic' },
+      { type: 'expliquer', levier: 'reflexe' },
+      { type: 'rejouer' },
+      { type: 'choisir', choixId: 'clic' },
+      { type: 'expliquer', levier: 'urgence' },
+      { type: 'continuer' },
+      { type: 'recuperation-faite' },
+      { type: 'choisir', choixId: 'clic' },
+      { type: 'expliquer', levier: 'reflexe' },
+      { type: 'passer' },
+      { type: 'minijeu-termine', reussites: 3, erreurs: 0 },
+    )
+    expect(etat.leviersCedes).toEqual(['reflexe', 'urgence'])
+    expect(leviersDuRun(deux, etat)).toEqual(['reflexe', 'urgence'])
+  })
+
+  it('démarre sans levier cédé', () => {
+    expect(demarrer(m).leviersCedes).toEqual([])
   })
 
   describe('fil de notifications', () => {
