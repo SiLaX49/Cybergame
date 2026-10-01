@@ -1,0 +1,189 @@
+id: d-college-hors-contexte
+theme: desinformation
+tranches: ['5e-3e']
+titre: Coupé au montage
+resume: 'Une vidéo de prof coupée au mauvais moment, une capture « officielle » du collège, un compte qui imite un média : ce que tu vois n’est pas toujours ce qui s’est passé.'
+duree: 18
+objectifs:
+  - Repérer une vidéo sortie de son contexte, une capture trafiquée et un compte qui imite un média
+  - Remonter à la source d’une information avant de la partager
+  - Réagir après avoir relayé une fausse information (retirer, corriger, signaler)
+competences:
+  crcn: ['1.1', '2.2']
+  programmes: ['EMI cycle 4']
+etapes:
+  - type: scenario
+    id: video-prof
+    role: temoin
+    ecran:
+      app: social
+      appNom: StreamTube
+      contact: 'drole_de_college_42'
+      messages:
+        - de: contact
+          texte: 'Le prof de français qui craque en plein cours 😂😂 « Vous êtes tous des incapables ! » [Vidéo de 5 secondes : M. Durand crie cette phrase devant le tableau. La vidéo coupe juste après.] 1 200 vues · 87 partages'
+    question: 'Ce compte anonyme publie des vidéos filmées au collège. Plusieurs de tes amis ont déjà partagé celle-ci. Que fais-tu ?'
+    choix:
+      - id: repartage
+        texte: 'Elle tourne déjà partout et elle est trop drôle : je la repartage avec un 😂.'
+        qualite: risque
+        consequence: 'La vidéo fait le tour du collège, et les commentaires moqueurs visent M. Durand. Le lendemain, un élève de sa classe raconte la scène entière : il lisait la réplique d’un roi grincheux, dans la pièce étudiée en cours, et toute la classe riait. Retire ton partage, garde une capture du compte qui a publié la vidéo et montre-la à un adulte du collège.'
+      - id: contexte
+        texte: 'Je ne partage pas une vidéo coupée sans savoir ce qui s’est passé avant et après.'
+        qualite: bon
+        consequence: 'Un élève de sa classe t’explique : M. Durand lisait la réplique d’un roi grincheux, dans la pièce étudiée en cours. Tout le monde riait. La vidéo coupée faisait croire l’inverse.'
+      - id: aide
+        texte: 'Je demande de l’aide à un adulte du collège, parce que cette vidéo peut faire du tort au prof.'
+        qualite: aide
+        consequence: 'La CPE regarde la vidéo et prévient M. Durand. Le compte est signalé, et la vidéo est retirée dans la journée.'
+    indices:
+      - { id: duree, libelle: 'La vidéo dure 5 secondes et coupe juste après la phrase', pertinent: true }
+      - { id: anonyme, libelle: 'Le compte qui publie est anonyme', pertinent: true }
+      - { id: legende, libelle: 'La légende m’impose déjà quoi penser (« craque »)', pertinent: true }
+      - { id: vues, libelle: 'La vidéo a 1 200 vues', pertinent: false }
+    explicationIndices: 'Un extrait très court, coupé au bon moment, peut faire dire n’importe quoi à quelqu’un. La légende t’impose une interprétation avant même que tu regardes. Le nombre de vues, lui, ne dit rien du contexte.'
+    aRetenir: 'Une vidéo coupée peut changer complètement le sens d’une scène. Avant de partager, demande-toi ce qui s’est passé avant et après. Et publier la vidéo de quelqu’un sans son accord peut être puni par la loi.'
+    recuperation: { action: capture-preuve, siChoix: [repartage] }
+    pourquoi:
+      - levier: groupe
+        truc: '« 87 partages », et tes amis la font déjà tourner : la partager à ton tour paraît normal.'
+        parade: 'Que beaucoup de gens partagent ne dit rien du contexte. Demande-toi d’abord ce qui s’est passé avant et après.'
+      - levier: reflexe
+        truc: 'Les 😂 et le mot « craque » te font rire avant même de réfléchir.'
+        parade: 'Avant de partager une vidéo, demande-toi si elle montre toute la scène ou seulement 5 secondes.'
+      - levier: gain
+        truc: 'Une vidéo drôle d’un prof, c’est exactement le genre de contenu qu’on adore faire tourner.'
+        parade: 'Avant de rire d’une vidéo, demande-toi si tu aimerais être filmé et coupé comme ça.'
+
+  - type: scenario
+    id: fausse-capture
+    ecran:
+      app: chat
+      appNom: ChatCord
+      contact: 'Groupe des 4e · Yanis'
+      messages:
+        - de: contact
+          texte: 'Regardez ce que le collège a envoyé aux parents 😱 [Capture d’écran : « Message du principal : à partir de lundi, les téléphones seront confisqués toute l’année, sans exception. » Le logo du collège est un peu flou. La date indique « 31 septembre ».]'
+        - de: contact
+          texte: 'Faites tourner à tout le monde !'
+    question: 'Cette règle te paraît injuste, et tout le groupe est en colère. Que fais-tu ?'
+    choix:
+      - id: fait-tourner
+        texte: 'C’est scandaleux, il faut que tout le monde le sache : je fais tourner dans mes autres groupes.'
+        qualite: risque
+        consequence: 'La capture arrive jusqu’aux parents, qui appellent le collège. Le principal publie un démenti sur l’ENT : ce message n’a jamais existé. Quelqu’un l’avait fabriqué avec un générateur de fausses captures. Préviens les groupes où tu l’as envoyée que c’était faux.'
+      - id: ent
+        texte: 'Je regarde sur l’ENT et je demande à mes parents s’ils ont vraiment reçu ce message du collège.'
+        qualite: bon
+        consequence: 'Sur l’ENT, aucun message de ce genre. Tes parents n’ont rien reçu. Et un « 31 septembre », ça n’existe pas : la capture est fausse.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte pour savoir si ce message vient vraiment du collège.
+        qualite: aide
+        consequence: 'Ton grand frère remarque tout de suite la date : « Le 31 septembre n’existe pas. » Sur l’ENT, aucune annonce. Tu ne fais rien tourner.'
+    indices:
+      - { id: date, libelle: 'La date indique « 31 septembre »', pertinent: true }
+      - { id: logo, libelle: 'Le logo du collège est flou', pertinent: true }
+      - { id: sans-source, libelle: 'C’est une capture, sans lien vers le message d’origine', pertinent: true }
+      - { id: colere, libelle: 'Tout le groupe est en colère', pertinent: false }
+    explicationIndices: 'Une capture d’écran se fabrique en quelques minutes, logo compris. Un détail impossible, comme un 31 septembre, trahit le montage. La colère du groupe, elle, ne prouve rien : elle pousse surtout à partager vite.'
+    aRetenir: 'Une capture d’écran n’est pas une preuve. Une annonce du collège se vérifie à la source : sur l’ENT ou dans les messages reçus par tes parents.'
+    recuperation: { action: prevenir-contacts, siChoix: [fait-tourner] }
+    pourquoi:
+      - levier: autorite
+        truc: '« Message du principal » et le logo du collège : la capture a l’air officielle. Un logo se copie en deux secondes.'
+        parade: 'Une annonce officielle se vérifie à la source : l’ENT, ou les messages reçus par tes parents.'
+      - levier: groupe
+        truc: '« Faites tourner à tout le monde ! » : tout le groupe s’indigne, alors tu suis le mouvement.'
+        parade: 'Quand tout un groupe s’emballe, sois celui qui vérifie avant de transférer.'
+      - levier: peur
+        truc: 'Ton téléphone confisqué toute l’année : la menace touche quelque chose qui compte pour toi.'
+        parade: 'Quand une info te fait peur ou te met en colère, c’est le moment de vérifier, pas de partager.'
+      - levier: reflexe
+        truc: 'Une capture d’écran ressemble à une preuve, alors on la croit sans chercher plus loin.'
+        parade: 'Cherche le message d’origine. Une capture sans source se traite comme une rumeur.'
+
+  - type: scenario
+    id: compte-parodie
+    ecran:
+      app: social
+      appNom: SnapTalk
+      contact: 'InfoFIash'
+      messages:
+        - de: contact
+          texte: '⚡ ALERTE : NoaGaming arrête StreamTube pour toujours. Sa dernière vidéo sortira ce soir 💔 [Profil : InfoFIash · 2 400 abonnés · Bio : « Parodie. Rien n’est vrai 😜 »]'
+    question: 'Le logo est le même que celui du média InfoFlash, que tu suis depuis longtemps. Tes amis adorent NoaGaming. Que fais-tu ?'
+    choix:
+      - id: partage-info
+        texte: 'C’est InfoFlash, un vrai média : je partage direct, mes potes fans de NoaGaming doivent savoir.'
+        qualite: risque
+        consequence: 'Tes amis paniquent et commentent en masse. Une heure plus tard, NoaGaming publie une vidéo : « J’arrête rien du tout ! » Le compte imitait InfoFlash, avec un i majuscule à la place du l. Retire ton partage. Comme ce compte se fait passer pour un vrai média, bloque-le et signale-le comme faux compte.'
+      - id: verifie-compte
+        texte: Je regarde le profil du compte, puis je vérifie si le vrai InfoFlash ou NoaGaming en parlent.
+        qualite: bon
+        consequence: 'La bio dit « Parodie » et le compte n’a que 2 400 abonnés. Le vrai InfoFlash, écrit avec un l, n’a rien publié de tel. NoaGaming non plus.'
+      - id: aide
+        texte: Je demande de l’aide à quelqu’un pour vérifier si ce compte est bien celui d’InfoFlash.
+        qualite: aide
+        consequence: 'Ta sœur zoome sur le nom : « InfoFIash, avec un i majuscule ! Ce n’est pas le vrai compte. » Vous le signalez comme faux compte.'
+    indices:
+      - { id: nom, libelle: 'Le nom s’écrit avec un i majuscule à la place du l', pertinent: true }
+      - { id: bio, libelle: 'La bio dit « Parodie »', pertinent: true }
+      - { id: abonnes, libelle: 'Le compte n’a que 2 400 abonnés pour un grand média', pertinent: true }
+      - { id: logo, libelle: 'Le logo est le même que celui d’InfoFlash', pertinent: false }
+    explicationIndices: 'Un compte parodie ou un faux compte copie le logo d’un média : ça ne prouve rien. Ce qui compte, c’est le nom exact, lettre par lettre, la bio et le nombre d’abonnés. Ici, « InfoFIash » s’écrit avec un i majuscule.'
+    aRetenir: 'Avant de croire un compte qui ressemble à un média, vérifie son nom exact, sa bio et son nombre d’abonnés. Une info importante se retrouve aussi sur le vrai compte du média.'
+    recuperation: { action: bloquer-signaler, siChoix: [partage-info] }
+    pourquoi:
+      - levier: autorite
+        truc: 'Le compte « InfoFIash » reprend le logo et presque le nom d’un vrai média. Les deux se copient facilement.'
+        parade: 'Lis le nom lettre par lettre et regarde la bio. Ou va directement sur le vrai compte du média.'
+      - levier: confiance
+        truc: 'Tu suis InfoFlash depuis longtemps : tu fais confiance à ce nom sans regarder qui publie vraiment.'
+        parade: 'Même pour un média que tu connais, vérifie le nom exact et le nombre d’abonnés du compte.'
+      - levier: urgence
+        truc: '« ALERTE » et « ce soir » : on te pousse à réagir tout de suite.'
+        parade: 'Une vraie info importante sera encore là dans dix minutes. Prends-les pour vérifier.'
+
+  - type: minijeu
+    id: mj-capture
+    jeu: verification
+    config:
+      consigne: Enquête sur cette publication avant de décider. Est-elle fiable, douteuse ou fausse ?
+      publication:
+        auteur: 'ActuStars_Officiel'
+        texte: 'Capture exclusive 😱 La chanteuse Lyna Vox écrit qu’elle annule toute sa tournée à cause de ses fans !'
+        date: 'Hier, 23 h 10'
+        image:
+          description: 'Capture d’écran d’une discussion privée. Le nom « Lyna Vox » n’est pas écrit avec la même police que le message. L’heure en haut de l’écran indique 25:14.'
+      actions:
+        - id: source
+          libelle: Chercher la source
+          resultat: 'Le compte ne donne aucun lien vers la discussion d’origine. Il a été créé la semaine dernière.'
+        - id: officiel
+          libelle: Consulter le compte officiel de Lyna Vox
+          resultat: 'Hier soir, elle a publié les dates de sa tournée, avec un message pour remercier ses fans. Aucune annulation.'
+        - id: details
+          libelle: Regarder les détails de la capture
+          resultat: 'L’heure affichée est 25:14, une heure qui n’existe pas. Deux polices d’écriture différentes se mélangent.'
+        - id: medias
+          libelle: Chercher dans d’autres médias
+          resultat: 'Aucun média ne parle d’annulation. Un site de vérification explique que la capture a été fabriquée avec un générateur en ligne.'
+      verdict: faux
+      explication: 'La capture est trafiquée : une heure impossible, deux polices différentes, et aucune source. Le compte officiel de la chanteuse annonce le contraire. Une capture d’écran se fabrique en quelques minutes : ce n’est jamais une preuve à elle seule.'
+debrief:
+  questions:
+    - Quel était le piège ?
+    - Quel indice pourras-tu réutiliser la prochaine fois ?
+    - Que faire si ça t’est déjà arrivé ?
+  reponses: 'Le piège commun : faire croire qu’on montre une preuve (une vidéo, une capture, un logo de média) alors qu’on montre un morceau choisi ou un montage. Indices réutilisables : un extrait très court, une légende qui dit quoi penser, un détail impossible (date, heure), un logo flou, un nom de compte presque identique, une bio « parodie », peu d’abonnés. Le bon réflexe : remonter à la source (l’ENT, le compte officiel, la scène entière). Si c’est déjà arrivé : retirer son partage, prévenir ceux qui l’ont reçu que c’était faux, signaler le compte, et parler à un adulte si une personne est visée. Tout le monde se fait avoir un jour : corriger, c’est ce qui compte.'
+  erreursFrequentes:
+    - 'Croire qu’une vidéo ou une capture d’écran est forcément une preuve.'
+    - 'Penser qu’un compte avec le bon logo est forcément le vrai média.'
+    - 'Croire que partager une vidéo moqueuse « pour rire » ne fait de mal à personne.'
+fiche:
+  deroulement: |
+    5 min : cadre. Avez-vous déjà vu une vidéo ou une capture qui racontait autre chose que la réalité ? (sans obligation de raconter, et sans nommer personne)
+    18 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, puis retour sur le mini-jeu (quelle piste d’enquête a tout fait basculer ?).
+    5 min : où trouver de l’aide (adulte de confiance, CPE si une personne est visée, professeur documentaliste pour vérifier une info).
+    5 min : engagement. La prochaine fois qu’une capture ou une vidéo coupée circule dans mon groupe, je demande « d’où ça vient ? » avant de la faire tourner.

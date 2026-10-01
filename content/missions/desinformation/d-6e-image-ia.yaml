@@ -1,0 +1,204 @@
+id: d-6e-image-ia
+theme: desinformation
+tranches: ['6e']
+titre: Vrai ou faux ?
+resume: 'Un chat géant, une fermeture du collège, une astuce miracle : avant de partager, tu enquêtes ?'
+duree: 15
+objectifs:
+  - Repérer une image fabriquée par une IA et une rumeur qui circule en chaîne
+  - Vérifier une information à la source avant de la partager
+  - Savoir quoi faire après avoir partagé une fausse information
+competences:
+  crcn: ['1.1', '2.2']
+  programmes: ['EMI cycle 3']
+etapes:
+  - type: scenario
+    id: animal-ia
+    ecran:
+      app: social
+      appNom: SnapTalk
+      contact: 'Planète_Insolite'
+      messages:
+        - de: contact
+          texte: 'INCROYABLE 😱 Un chat géant de 2 mètres photographié dans une forêt du Jura ! [Photo : un chat tigré aussi grand qu’un homme, assis entre des sapins. Ses moustaches sont floues. Une de ses pattes a six doigts.]'
+          texteSimple: 'Incroyable : un chat géant de 2 mètres dans une forêt ! [Photo : un chat aussi grand qu’un homme. Une patte a six doigts.]'
+    question: 'La photo a déjà 30 000 « j’aime ». Tu as envie de la montrer au groupe de ta classe. Que fais-tu ?'
+    choix:
+      - id: partage
+        texte: 'Trop drôle, tout le monde va halluciner : je la partage tout de suite dans le groupe.'
+        qualite: risque
+        consequence: 'Toute la classe partage la photo, et plusieurs élèves y croient vraiment. Le lendemain, ta prof de SVT explique qu’elle a été fabriquée par une IA. Un chat ne peut pas mesurer 2 mètres. Tu peux encore prévenir le groupe que c’était faux.'
+        consequenceSimple: 'Toute la classe y a cru. Mais la photo a été fabriquée par une IA. Tu peux prévenir le groupe que c’était faux.'
+      - id: verifie
+        texte: 'Avant de partager, je regarde les détails de la photo et je cherche si un vrai site en parle.'
+        qualite: bon
+        consequence: 'En zoomant, tu vois une patte à six doigts et des moustaches floues. Aucun site sérieux ne parle de ce chat. C’est une image fabriquée par une IA.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte pour savoir si cette photo est vraie.
+        qualite: aide
+        consequence: 'Ta mère regarde la photo : « Six doigts à une patte ? C’est une image faite par une IA. » Vous en riez ensemble, sans la partager.'
+    indices:
+      - { id: six-doigts, libelle: 'Une patte du chat a six doigts', pertinent: true }
+      - { id: taille, libelle: 'Un chat de 2 mètres, ça n’existe pas', pertinent: true }
+      - { id: flou, libelle: 'Les moustaches sont floues', pertinent: true }
+      - { id: jaime, libelle: 'La photo a beaucoup de « j’aime »', pertinent: false }
+    explicationIndices: 'Les images faites par une IA ont souvent des détails ratés : des doigts en trop, des contours flous. Un chat de 2 mètres n’existe pas. Les « j’aime », eux, ne prouvent rien : on aime une photo surprenante, vraie ou fausse.'
+    aRetenir: 'Une image peut être fabriquée par une IA. Avant de partager une photo surprenante, regarde les détails et cherche si un site sérieux en parle.'
+    aRetenirSimple: 'Une photo peut être fabriquée par une IA. Regarde bien les détails avant de partager.'
+    recuperation: { action: prevenir-contacts, siChoix: [partage] }
+    pourquoi:
+      - levier: groupe
+        truc: 'La photo a déjà 30 000 « j’aime ». Tu te dis que tant de gens ne peuvent pas se tromper.'
+        parade: 'Les « j’aime » ne prouvent rien. Regarde toi-même les détails de la photo avant de partager.'
+      - levier: reflexe
+        truc: 'Le mot « incroyable » et l’emoji te donnent envie de réagir tout de suite.'
+        parade: 'Avant de partager, prends trois secondes pour regarder la photo de près.'
+      - levier: gain
+        truc: 'Être le premier à montrer ce chat géant à la classe, c’est très tentant.'
+        parade: 'Une fausse info fait rire une minute. Vérifier d’abord, c’est garder la confiance de tes amis.'
+
+  - type: scenario
+    id: rumeur-college
+    ecran:
+      app: chat
+      appNom: SnapTalk
+      contact: 'Groupe 6e B · Lina'
+      messages:
+        - de: contact
+          texte: 'URGENT !!! Le collège est fermé demain à cause d’une fuite de gaz. C’est ma cousine qui l’a dit. Partage à 10 personnes sinon ils ne seront pas au courant !!!'
+          texteSimple: 'Urgent : le collège est fermé demain, fuite de gaz. C’est ma cousine qui l’a dit. Partage à 10 personnes !'
+        - de: moi
+          texte: 'C’est vrai ? 😮'
+          texteSimple: 'C’est vrai ? 😮'
+        - de: contact
+          texte: 'Oui ! Partage vite, tout le monde le fait déjà.'
+          texteSimple: 'Oui ! Partage vite, tout le monde le fait déjà.'
+    question: 'Tu as un contrôle de maths demain, et tu aimerais bien que ce soit vrai. Que fais-tu ?'
+    choix:
+      - id: transfere
+        texte: 'Pas de contrôle demain, trop bien ! Je transfère vite à 10 copains pour les prévenir.'
+        qualite: risque
+        consequence: 'Le message fait le tour du collège. Le lendemain, le collège est bien ouvert. Plusieurs élèves sont restés chez eux et ont raté le contrôle. Tu n’as pas inventé la rumeur, mais tu peux aider à l’arrêter : préviens ceux à qui tu l’as envoyée que c’était faux.'
+        consequenceSimple: 'C’était faux : le collège était ouvert. Des élèves sont restés chez eux. Préviens ceux à qui tu l’as envoyé que c’était faux.'
+      - id: ent
+        texte: 'Je regarde l’ENT du collège et je demande à mes parents s’ils ont reçu un message officiel.'
+        qualite: bon
+        consequence: 'Sur l’ENT, aucune fermeture n’est annoncée. Tes parents n’ont reçu aucun message du collège. C’était une rumeur : tu ne la transfères pas.'
+      - id: aide
+        texte: Je demande de l’aide à mes parents pour vérifier avant de transférer.
+        qualite: aide
+        consequence: 'Ta mère regarde l’ENT : aucune fermeture. « Une vraie fermeture, le collège l’annonce lui-même aux familles. » Tu ne transfères rien.'
+    indices:
+      - { id: chaine, libelle: 'On me demande de partager à 10 personnes', pertinent: true }
+      - { id: source, libelle: 'L’info vient de « ma cousine », pas du collège', pertinent: true }
+      - { id: majuscules, libelle: 'Le message crie « URGENT » avec plein de points d’exclamation', pertinent: true }
+      - { id: raison, libelle: 'Le message donne une raison précise (une fuite de gaz)', pertinent: false }
+    explicationIndices: 'Une vraie fermeture est annoncée par le collège, sur l’ENT ou par message aux familles. « Partage à 10 personnes » est typique des rumeurs en chaîne. Une raison précise ne rend pas une info vraie.'
+    aRetenir: 'Une info sur le collège se vérifie à la source : l’ENT ou un message officiel aux familles. Un message qui demande de partager à 10 personnes est souvent une rumeur.'
+    aRetenirSimple: 'Vérifie sur l’ENT avant de croire une info sur le collège. Ne transfère pas les messages en chaîne.'
+    recuperation: { action: prevenir-contacts, siChoix: [transfere] }
+    pourquoi:
+      - levier: urgence
+        truc: '« Urgent » et « Partage vite » : on te pousse à transférer avant de réfléchir.'
+        parade: 'Une vraie info du collège ne disparaît pas en cinq minutes. Prends le temps de regarder l’ENT.'
+      - levier: groupe
+        truc: '« Tout le monde le fait déjà » : tu ne veux pas être le seul à ne pas partager.'
+        parade: 'Que tout le monde partage ne rend pas une info vraie. Les rumeurs circulent justement comme ça.'
+      - levier: gain
+        truc: 'Pas de contrôle de maths demain : tu as très envie que ce soit vrai.'
+        parade: 'Quand une info t’arrange beaucoup, vérifie-la deux fois.'
+      - levier: confiance
+        truc: '« C’est ma cousine qui l’a dit » : ça sonne vrai, mais personne n’a vérifié.'
+        parade: 'Même une amie peut se tromper ou transférer une rumeur. Vérifie à la source : l’ENT du collège.'
+
+  - type: scenario
+    id: astuce-sante
+    ecran:
+      app: social
+      appNom: StreamTube
+      contact: 'Astuces de Mamie Rose'
+      messages:
+        - de: contact
+          texte: '🔥 Brûlure ? Oublie l’eau froide ! Un mélange de 3 ingrédients de cuisine la fait disparaître en 5 minutes. Les médecins ne veulent pas que tu le saches. Partage pour sauver des vies ! (48 000 partages)'
+          texteSimple: 'Brûlure ? Oublie l’eau froide ! Un mélange de cuisine la soigne en 5 minutes. Les médecins ne veulent pas que tu le saches. Partage pour sauver des vies ! (48 000 partages)'
+    question: 'Ta grand-mère se brûle souvent les doigts en cuisinant. Que fais-tu de cette vidéo ?'
+    choix:
+      - id: partage-famille
+        texte: 'Si ça peut aider mamie, je partage tout de suite dans le groupe de la famille.'
+        qualite: risque
+        consequence: 'Ta tante répond qu’elle va essayer. Ta cousine, qui est infirmière, réagit vite : « C’est faux ! Sur une brûlure, on met de l’eau fraîche du robinet, pas un mélange de cuisine. » Pour une question de santé, demande conseil à un adulte ou à un professionnel.'
+        consequenceSimple: 'Ta cousine infirmière dit que c’est faux. Sur une brûlure, on met de l’eau fraîche. Demande conseil à un adulte.'
+      - id: verifie-site
+        texte: 'Je ne partage rien avant d’avoir vérifié cette astuce sur un site de santé officiel.'
+        qualite: bon
+        consequence: 'Sur un site de santé officiel, tu lis : sur une brûlure, on met de l’eau fraîche du robinet, pas glacée. Puis on prévient un adulte. L’astuce de la vidéo était fausse.'
+      - id: aide
+        texte: Je demande de l’aide à l’infirmière du collège pour savoir si l’astuce est vraie.
+        qualite: aide
+        consequence: 'L’infirmière est claire : « Cette astuce est fausse. Sur une brûlure, on met de l’eau fraîche et on prévient un adulte. »'
+    indices:
+      - { id: medecins, libelle: 'La vidéo dit que les médecins cachent la vérité', pertinent: true }
+      - { id: miracle, libelle: 'L’astuce promet un résultat miracle en 5 minutes', pertinent: true }
+      - { id: auteur, libelle: 'Le compte n’est pas un professionnel de santé', pertinent: true }
+      - { id: partages, libelle: 'La vidéo a 48 000 partages', pertinent: false }
+    explicationIndices: 'Une astuce miracle qui dit que les médecins cachent la vérité, c’est un signal d’alarme. Le compte n’est pas un professionnel de santé. Le nombre de partages ne prouve rien.'
+    aRetenir: 'Pour ta santé, ne crois pas une astuce qui circule sur les réseaux. Demande à un adulte, un pharmacien, l’infirmière ou un médecin.'
+    aRetenirSimple: 'Une astuce santé sur les réseaux peut être fausse. Demande à un adulte ou à l’infirmière.'
+    recuperation: { action: demander-aide, siChoix: [partage-famille] }
+    pourquoi:
+      - levier: confiance
+        truc: 'Le nom « Mamie Rose » fait penser à une gentille grand-mère qui veut aider.'
+        parade: 'Un nom gentil ne dit pas si l’astuce est vraie. Pour la santé, demande à un professionnel.'
+      - levier: groupe
+        truc: '« 48 000 partages » : tu te dis que tant de gens ne peuvent pas se tromper.'
+        parade: 'Une fausse astuce peut être partagée des milliers de fois. Le nombre ne dit pas si c’est vrai.'
+      - levier: urgence
+        truc: '« Partage pour sauver des vies » : on te fait croire que chaque minute compte.'
+        parade: 'Partager une fausse astuce ne sauve personne. Demande d’abord à un adulte ou à l’infirmière.'
+      - levier: reflexe
+        truc: 'Tu veux aider ta grand-mère, alors tu partages sans te demander qui a fait la vidéo.'
+        parade: 'Pour la santé, la bonne source est un professionnel : pharmacien, infirmière ou médecin.'
+
+  - type: minijeu
+    id: mj-hibou
+    jeu: verification
+    config:
+      consigne: Enquête sur cette publication avant de décider. Est-elle fiable, douteuse ou fausse ?
+      publication:
+        auteur: 'Monde_Animal_Wow'
+        texte: 'Découverte en Bretagne : un hibou aux plumes arc-en-ciel ! Personne ne l’avait jamais vu.'
+        date: 'Il y a 2 heures'
+        image:
+          description: 'Un hibou aux plumes rouges, jaunes et bleues, posé sur une branche. Ses deux yeux n’ont pas la même taille. Derrière lui, les feuilles se mélangent en taches floues.'
+      actions:
+        - id: source
+          libelle: Chercher la source
+          resultat: 'Le compte a été créé il y a un mois. Il publie des animaux étonnants sans jamais dire d’où viennent les photos.'
+        - id: image-inversee
+          libelle: Recherche d’image inversée
+          resultat: 'La même image apparaît sur un site de dessins faits par IA. Elle est rangée dans « Animaux imaginaires ».'
+        - id: details
+          libelle: Regarder les détails de l’image
+          resultat: 'Les deux yeux n’ont pas la même taille. Les feuilles se mélangent en taches. Ce sont des erreurs fréquentes des images d’IA.'
+        - id: medias
+          libelle: Chercher dans d’autres médias
+          resultat: 'Aucun site de science ou de nature ne parle de ce hibou. Une vraie découverte serait reprise partout.'
+      verdict: faux
+      explication: 'Cette image a été fabriquée par une IA. La recherche d’image inversée la retrouve sur un site d’images d’IA. Les détails ratés le confirment, et aucun média sérieux n’en parle.'
+debrief:
+  questions:
+    - Quel était le piège ?
+    - Quel indice pourras-tu réutiliser la prochaine fois ?
+    - Que faire si ça t’est déjà arrivé ?
+  reponses: 'Le piège commun : une info surprenante, drôle ou rassurante, qui donne envie de partager tout de suite, sans vérifier. Indices réutilisables : des détails ratés sur une image (doigts en trop, flou), une source vague (« ma cousine »), une demande de partager en chaîne, une promesse miracle, des « médecins qui cachent la vérité ». Les « j’aime » et les partages ne prouvent rien. Si c’est déjà arrivé : prévenir ceux à qui on a envoyé l’info qu’elle était fausse, et demander conseil à un adulte, surtout pour une question de santé. Tout le monde a déjà partagé une fausse info, même les adultes : l’important, c’est de corriger.'
+  erreursFrequentes:
+    - 'Croire qu’une photo très réaliste est forcément vraie : les IA fabriquent des images en quelques secondes.'
+    - 'Penser qu’une info partagée par beaucoup de monde est forcément vraie.'
+    - 'Croire qu’une astuce santé est sans danger parce qu’elle vient d’un compte sympathique.'
+fiche:
+  deroulement: |
+    5 min : cadre. Avez-vous déjà vu une image ou une info qui s’est révélée fausse ? (sans obligation de raconter)
+    15 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, puis retour sur le mini-jeu (quelles pistes d’enquête ont été les plus utiles ?).
+    5 min : où trouver de l’aide (adulte de confiance, professeur documentaliste, infirmière scolaire pour la santé).
+    5 min : engagement. Cette semaine, avant de partager une image surprenante, je regarde ses détails et je cherche qui l’a publiée en premier.
