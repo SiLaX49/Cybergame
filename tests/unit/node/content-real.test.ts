@@ -35,6 +35,12 @@ function textesSansVersionSimple(m: Mission): [string, string][] {
     }
     if (e.type === 'fil') return e.notifications.map((n): [string, string] => [`${e.id}.${n.id}.explication`, n.explication])
     if (e.jeu === 'tri') return e.config.cartes.map((c): [string, string] => [`${e.id}.${c.id}.explication`, c.explication])
+    if (e.jeu === 'motdepasse') return [[`${e.id}.contexte`, e.config.contexte]]
+    if (e.jeu === 'confidentialite') return e.config.reglages.map((r): [string, string] => [`${e.id}.${r.id}`, r.explication])
+    if (e.jeu === 'verification')
+      return [[`${e.id}.explication`, e.config.explication], ...e.config.actions.map((a): [string, string] => [`${e.id}.${a.id}`, a.resultat])]
+    if (e.jeu === 'permissions')
+      return e.config.apps.flatMap((a) => a.permissions.map((p): [string, string] => [`${e.id}.${a.id}.${p.id}`, p.explication]))
     return e.config.lignes.map((l): [string, string] => [`${e.id}.${l.id}.explication`, l.explication ?? ''])
   })
 }
@@ -49,6 +55,10 @@ function textesDesFauxEcrans(m: Mission): string[] {
     }
     if (e.type === 'fil') return e.notifications.flatMap((n) => [n.appNom, n.de, n.texte])
     if (e.jeu === 'tri') return e.config.cartes.map((c) => c.texte)
+    if (e.jeu === 'motdepasse') return [e.config.contexte]
+    if (e.jeu === 'confidentialite') return [e.config.appNom, ...e.config.reglages.flatMap((r) => [r.libelle, ...r.options.map((o) => o.libelle)])]
+    if (e.jeu === 'verification') return [e.config.publication.auteur, e.config.publication.texte, e.config.publication.image?.description ?? '']
+    if (e.jeu === 'permissions') return e.config.apps.flatMap((a) => [a.nom, a.description, ...a.permissions.map((p) => p.libelle)])
     return [e.config.titre, ...e.config.lignes.map((l) => l.texte)]
   })
 }

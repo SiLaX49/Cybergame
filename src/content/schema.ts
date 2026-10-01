@@ -177,9 +177,92 @@ export const repereConfigSchema = z
     })
   })
 
+export const motdepasseConfigSchema = z.object({
+  consigne: texte,
+  contexte: texte,
+  objectif: z.enum(['solide', 'tres-solide']),
+  interdits: z.array(texte).default([]),
+})
+
+export const confidentialiteConfigSchema = z
+  .object({
+    consigne: texte,
+    appNom: texte,
+    reglages: z
+      .array(
+        z.object({
+          id: slug,
+          libelle: texte,
+          options: z.array(z.object({ id: slug, libelle: texte })).min(2),
+          initial: slug,
+          conseille: slug,
+          explication: texte,
+        }),
+      )
+      .min(3)
+      .max(8),
+  })
+  .superRefine((c, ctx) => {
+    idsUniques(c.reglages.map((r) => r.id), ctx, ['reglages'], 'réglage')
+    c.reglages.forEach((r, i) => {
+      idsUniques(r.options.map((o) => o.id), ctx, ['reglages', i, 'options'], 'option')
+      for (const champ of ['initial', 'conseille'] as const) {
+        if (!r.options.some((o) => o.id === r[champ])) {
+          ctx.addIssue({ code: 'custom', path: ['reglages', i, champ], message: `option inconnue : ${r[champ]}` })
+        }
+      }
+    })
+    if (c.reglages.every((r) => r.initial === r.conseille)) {
+      ctx.addIssue({ code: 'custom', path: ['reglages'], message: 'au moins un réglage doit être à changer (initial différent du conseillé)' })
+    }
+  })
+
+export const VERDICTS = ['fiable', 'douteux', 'faux'] as const
+export const verificationConfigSchema = z
+  .object({
+    consigne: texte,
+    publication: z.object({
+      auteur: texte,
+      texte,
+      date: texte.optional(),
+      image: z.object({ description: texte }).optional(),
+    }),
+    actions: z.array(z.object({ id: slug, libelle: texte, resultat: texte })).min(2).max(5),
+    verdict: z.enum(VERDICTS),
+    explication: texte,
+  })
+  .superRefine((c, ctx) => idsUniques(c.actions.map((a) => a.id), ctx, ['actions'], 'action'))
+
+export const permissionsConfigSchema = z
+  .object({
+    consigne: texte,
+    apps: z
+      .array(
+        z.object({
+          id: slug,
+          nom: texte,
+          description: texte,
+          permissions: z
+            .array(z.object({ id: slug, libelle: texte, necessaire: z.boolean(), explication: texte }))
+            .min(2)
+            .max(5),
+        }),
+      )
+      .min(1)
+      .max(3),
+  })
+  .superRefine((c, ctx) => {
+    idsUniques(c.apps.map((a) => a.id), ctx, ['apps'], 'appli')
+    c.apps.forEach((a, i) => idsUniques(a.permissions.map((p) => p.id), ctx, ['apps', i, 'permissions'], 'permission'))
+  })
+
 export const minijeuSchema = z.discriminatedUnion('jeu', [
   z.object({ type: z.literal('minijeu'), id: slug, jeu: z.literal('tri'), config: triConfigSchema }),
   z.object({ type: z.literal('minijeu'), id: slug, jeu: z.literal('repere'), config: repereConfigSchema }),
+  z.object({ type: z.literal('minijeu'), id: slug, jeu: z.literal('motdepasse'), config: motdepasseConfigSchema }),
+  z.object({ type: z.literal('minijeu'), id: slug, jeu: z.literal('confidentialite'), config: confidentialiteConfigSchema }),
+  z.object({ type: z.literal('minijeu'), id: slug, jeu: z.literal('verification'), config: verificationConfigSchema }),
+  z.object({ type: z.literal('minijeu'), id: slug, jeu: z.literal('permissions'), config: permissionsConfigSchema }),
 ])
 
 export const filSchema = z
@@ -252,6 +335,11 @@ export type Theme = z.infer<typeof themeSchema>
 export type Scenario = z.infer<typeof scenarioSchema>
 export type TriConfig = z.infer<typeof triConfigSchema>
 export type RepereConfig = z.infer<typeof repereConfigSchema>
+export type MotdepasseConfig = z.infer<typeof motdepasseConfigSchema>
+export type ConfidentialiteConfig = z.infer<typeof confidentialiteConfigSchema>
+export type VerificationConfig = z.infer<typeof verificationConfigSchema>
+export type PermissionsConfig = z.infer<typeof permissionsConfigSchema>
+export type Verdict = (typeof VERDICTS)[number]
 export type Minijeu = z.infer<typeof minijeuSchema>
 export type Fil = z.infer<typeof filSchema>
 export type Etape = z.infer<typeof etapeSchema>

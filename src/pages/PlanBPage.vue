@@ -65,7 +65,7 @@ const ACTIONS_PAPIER: Record<(typeof FIL_ACTIONS)[number], string> = {
             </tbody>
           </table>
         </template>
-        <template v-else-if="e.type === 'minijeu'">
+        <template v-else-if="e.type === 'minijeu' && e.jeu === 'repere'">
           <h2>Mini-jeu {{ i + 1 }} : {{ e.config.consigne }}</h2>
           <p>Entoure les lignes suspectes.</p>
           <div class="carte">
@@ -73,7 +73,7 @@ const ACTIONS_PAPIER: Record<(typeof FIL_ACTIONS)[number], string> = {
             <p v-for="l in e.config.lignes" :key="l.id">{{ l.texte }}</p>
           </div>
         </template>
-        <template v-else>
+        <template v-else-if="e.type === 'fil'">
           <h2>Notifications {{ i + 1 }} : {{ e.consigne }}</h2>
           <table>
             <thead><tr><th scope="col">Notification</th><th v-for="a in FIL_ACTIONS" :key="a" scope="col">{{ ACTIONS_PAPIER[a] }}</th></tr></thead>
@@ -112,11 +112,11 @@ const ACTIONS_PAPIER: Record<(typeof FIL_ACTIONS)[number], string> = {
               </li>
             </ul>
           </template>
-          <template v-else-if="e.type === 'minijeu'">
+          <template v-else-if="e.type === 'minijeu' && e.jeu === 'repere'">
             <h3>Mini-jeu {{ i + 1 }}</h3>
             <ul><li v-for="l in e.config.lignes.filter((x) => x.indice)" :key="l.id">{{ l.texte }} : {{ l.explication }}</li></ul>
           </template>
-          <template v-else>
+          <template v-else-if="e.type === 'fil'">
             <h3>Notifications {{ i + 1 }}</h3>
             <ul>
               <li v-for="n in e.notifications" :key="n.id">

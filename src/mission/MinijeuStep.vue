@@ -20,6 +20,6 @@ function terminer(resultat: { reussites: number; erreurs: number }) {
   <section class="minijeu">
     <h2 ref="titre" tabindex="-1">Mini-jeu</h2>
     <TriGame v-if="etape.jeu === 'tri'" :config="etape.config" :chrono="chrono" @termine="terminer" />
-    <RepereGame v-else :config="etape.config" @termine="terminer" />
+    <RepereGame v-else-if="etape.jeu === 'repere'" :config="etape.config" @termine="terminer" />
   </section>
 </template>
