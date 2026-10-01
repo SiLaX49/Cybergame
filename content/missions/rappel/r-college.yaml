@@ -33,7 +33,7 @@ etapes:
     question: 'Une minute après, tu reçois un SMS : « GameBox : ton code de connexion est 731 204. Ne le communique à personne. » Que fais-tu ?'
     choix:
       - id: envoie
-        texte: 'Hugo est dans ma classe et il faut valider avant 18 h. Je lui envoie le code pour ne pas rater le tournoi.'
+        texte: 'Hugo est dans ma classe et il faut valider avant 18 h : je lui envoie le code.'
         qualite: risque
         consequence: 'Aucune inscription au tournoi : le code ouvrait ton compte GameBox à quelqu’un d’autre. Le soir, tes Coins ont disparu et tes amis reçoivent en ton nom la même histoire de tournoi. Le vrai Hugo n’y était pour rien : un pirate utilisait son compte. Tu peux encore reprendre ton compte avec « mot de passe oublié », puis le protéger.'
       - id: verifie
@@ -58,10 +58,10 @@ etapes:
         parade: 'Appelle Hugo ou parle-lui en vrai avant d’envoyer quoi que ce soit.'
       - levier: urgence
         truc: '« Faut valider avant 18 h ! » : ce délai te pousse à répondre avant de lire le SMS en entier.'
-        parade: 'Un vrai tournoi ne se joue pas à la minute près. Lis le SMS jusqu’au bout avant de répondre.'
+        parade: 'Plus on te presse, plus tu prends le temps. Lis le SMS jusqu’au bout avant de répondre.'
       - levier: groupe
-        truc: '« Le tournoi de la classe » : on imagine que les autres sont déjà inscrits, et on ne veut pas rester à part.'
-        parade: 'Demande à d’autres élèves de la classe s’ils ont entendu parler de ce tournoi.'
+        truc: 'Le message parle du « tournoi GameBox de la classe » : on imagine que les autres sont déjà inscrits, et on ne veut pas rester à part.'
+        parade: 'Que d’autres soient inscrits ou pas, un code de connexion ne s’envoie à personne. Demande à Hugo en vrai.'
       - levier: reflexe
         truc: 'Copier un code qu’on vient de recevoir et l’envoyer, ça prend deux secondes. On saute alors la ligne « Ne le communique à personne ».'
         parade: 'Un code reçu par SMS ouvre ton compte : garde-le pour toi, même face à un ami. La double authentification te protège tant que tu ne le donnes pas.'

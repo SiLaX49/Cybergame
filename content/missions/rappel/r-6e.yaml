@@ -30,16 +30,16 @@ etapes:
       messages:
         - de: contact
           texte: 'Trop fort, j’ai eu 5 000 Coins gratuits sur coins-gratuits-gamebox.net !! Mets ton pseudo et ton mot de passe et c’est bon 😎'
-          texteSimple: 'J’ai eu 5 000 Coins gratuits ! Mets ton pseudo et ton mot de passe sur ce site.'
+          texteSimple: 'J’ai eu 5 000 Coins gratuits ! Mets ton pseudo et ton mot de passe sur coins-gratuits-gamebox.net'
     question: C’est un copain de classe qui t’envoie ça. Que fais-tu ?
     choix:
       - id: essaie
-        texte: 'C’est Maxime, de ma classe, et il a eu ses 5 000 Coins. Je mets mon pseudo et mon mot de passe.'
+        texte: 'Maxime a eu ses 5 000 Coins : je mets mon pseudo et mon mot de passe.'
         qualite: risque
         consequence: 'Pas de Coins. Le lendemain, ton compte envoie le même message à tous tes amis : il a été piraté, comme celui de Maxime. Tu peux encore le reprendre.'
         consequenceSimple: 'Ton compte est piraté et envoie le message à tes amis. Tu peux encore le reprendre.'
       - id: demande-maxime
-        texte: Je demande à Maxime en vrai, au collège, s’il a vraiment envoyé ce message.
+        texte: Avant de taper quoi que ce soit, je demande à Maxime, au collège, s’il a envoyé ce message.
         qualite: bon
         consequence: 'Maxime n’a rien envoyé : son compte a été piraté, et le pirate écrit à tous ses contacts. Grâce à toi, il change vite son mot de passe.'
       - id: aide
@@ -56,7 +56,7 @@ etapes:
     recuperation: { action: changer-mdp, siChoix: [essaie] }
     pourquoi:
       - levier: confiance
-        truc: 'Le message vient du compte de Maxime. Le pirate se sert de son compte pour que tu lui fasses confiance.'
+        truc: 'Le message vient du compte de Maxime. Le pirate se sert de son compte pour que tu croies que c’est Maxime qui écrit.'
         parade: 'Demande à Maxime en vrai, au collège, s’il a vraiment écrit ce message.'
       - levier: gain
         truc: '5 000 Coins gratuits, c’est énorme. Ce cadeau sert à te faire donner ton mot de passe.'
@@ -65,7 +65,7 @@ etapes:
         truc: 'Le site s’appelle coins-gratuits-gamebox.net. Le mot « gamebox » est là pour faire croire au vrai jeu.'
         parade: 'Ton mot de passe GameBox se tape seulement dans l’appli GameBox, jamais sur un autre site.'
       - levier: reflexe
-        truc: 'Le message est court et joyeux, avec un 😎. On a envie de faire pareil tout de suite.'
+        truc: 'Le message est court et joyeux, comme ceux d’un copain. On a envie de faire pareil tout de suite.'
         parade: 'Avant de taper ton mot de passe, prends trois secondes pour regarder sur quel site tu es.'
 debrief:
   questions:

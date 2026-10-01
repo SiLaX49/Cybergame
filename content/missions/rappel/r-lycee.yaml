@@ -33,7 +33,7 @@ etapes:
     question: Emma est dans ta classe et elle a l’air sûre d’elle. Que fais-tu ?
     choix:
       - id: depot
-        texte: 'Emma a vraiment touché 20 €, elle me l’a dit. Les 50 € de dépôt, je les récupère en dix vidéos : je m’inscris et je paie.'
+        texte: 'Emma a déjà touché 20 €, et les 50 € de dépôt, je les récupère en dix vidéos : je m’inscris.'
         qualite: risque
         consequence: 'Tu reçois 10 € pour tes deux premières vidéos likées. Puis le « manager » du groupe te réclame 150 € de plus « pour débloquer tes gains ». Tu ne peux jamais retirer ton argent, et il insiste pour que tu recrutes d’autres élèves. C’est une arnaque au faux job. Tu peux encore agir : garder des preuves, bloquer, prévenir un adulte et ta banque.'
       - id: parle-emma
@@ -41,7 +41,7 @@ etapes:
         qualite: bon
         consequence: 'Emma t’explique qu’elle a bien reçu 20 €, mais qu’elle ne peut récupérer ni ses 50 € de dépôt, ni les 30 € de « frais » qu’on lui a demandés ensuite : le site en invente toujours de nouveaux. Vous gardez des captures et vous signalez le groupe ensemble.'
       - id: aide
-        texte: Je demande de l’aide à un adulte avant de m’inscrire.
+        texte: Je demande de l’aide à un adulte avant de m’inscrire ou de verser quoi que ce soit.
         qualite: aide
         consequence: 'Ta CPE reconnaît l’arnaque aux « likes payés » : les premiers petits gains servent d’appât pour obtenir des dépôts plus gros. Elle prévient les autres classes et aide Emma, qui avait déjà versé de l’argent, à faire le point avec ses parents et sa banque.'
     indices:
