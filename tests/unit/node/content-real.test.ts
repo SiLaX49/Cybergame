@@ -73,7 +73,7 @@ describe('contenu réel', () => {
       .flatMap((e) => (e.type === 'scenario' ? (e.pourquoi ?? []).flatMap((p) => [p.truc, p.parade]) : []))
       .join(' ')
       .toLowerCase()
-    expect(MARQUES_REELLES.filter((marque) => new RegExp(`\b${marque}\b`).test(texte))).toEqual([])
+    expect(MARQUES_REELLES.filter((marque) => new RegExp(`\\b${marque}\\b`).test(texte))).toEqual([])
   })
 
   it('leviers.yaml : phrases de 20 mots maximum', () => {
