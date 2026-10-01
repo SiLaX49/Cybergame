@@ -53,6 +53,9 @@ function textesDesFauxEcrans(m: Mission): string[] {
   })
 }
 
+/** Comparaison des citations : casse et espaces (dont insécables) ignorées. */
+const aplatir = (t: string) => t.toLowerCase().replace(/\s+/gu, ' ')
+
 const missionsDuTheme = (theme: string) => missions.filter((m) => m.theme === theme)
 
 describe('contenu réel', () => {
@@ -74,6 +77,49 @@ describe('contenu réel', () => {
       .join(' ')
       .toLowerCase()
     expect(MARQUES_REELLES.filter((marque) => new RegExp(`\\b${marque}\\b`).test(texte))).toEqual([])
+  })
+
+  it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : aucune marque réelle dans les questions et les choix', (_id, m) => {
+    const texte = m.etapes
+      .flatMap((e) => (e.type === 'scenario' ? [e.question, ...e.choix.map((c) => c.texte)] : []))
+      .join(' ')
+      .toLowerCase()
+    expect(MARQUES_REELLES.filter((marque) => new RegExp(`\\b${marque}\\b`).test(texte))).toEqual([])
+  })
+
+  it.each(bundle.missions.map((m) => [m.id, m] as const))(
+    '%s : chaque citation « … » d’un « truc » figure à l’écran (et dans la lecture simplifiée en 6e)',
+    (_id, m) => {
+      const absentes: string[] = []
+      for (const e of m.etapes) {
+        if (e.type !== 'scenario') continue
+        const { appNom, contact, sujet, url, messages } = e.ecran
+        const commun = [appNom, contact, sujet ?? '', url ?? '', e.question]
+        const normal = aplatir([...commun, ...messages.map((x) => x.texte)].join(' '))
+        const simple = aplatir([...commun, ...messages.map((x) => x.texteSimple ?? x.texte)].join(' '))
+        for (const p of e.pourquoi ?? []) {
+          for (const [, citation] of p.truc.matchAll(/«\s*([^»]+?)\s*»/g)) {
+            const c = aplatir(citation!)
+            if (!normal.includes(c)) absentes.push(`${e.id}.${p.levier} : « ${citation} » absent de l’écran`)
+            else if (m.tranches.includes('6e') && !simple.includes(c)) {
+              absentes.push(`${e.id}.${p.levier} : « ${citation} » absent de la lecture simplifiée`)
+            }
+          }
+        }
+      }
+      expect(absentes).toEqual([])
+    },
+  )
+
+  it('le choix risqué n’est pas le plus long dans plus d’un tiers des scénarios', () => {
+    const scenarios = bundle.missions.flatMap((m) => m.etapes.filter((e) => e.type === 'scenario'))
+    const plusLong = scenarios.filter((s) => {
+      const risque = s.choix.find((c) => c.qualite === 'risque')
+      if (!risque) return false
+      const n = mots(risque.texte).length
+      return s.choix.every((c) => c === risque || mots(c.texte).length < n)
+    })
+    expect(plusLong.length, plusLong.map((s) => s.id).join(', ')).toBeLessThanOrEqual(Math.floor(scenarios.length / 3))
   })
 
   it('leviers.yaml : phrases de 20 mots maximum', () => {
