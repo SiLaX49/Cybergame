@@ -1,5 +1,7 @@
 # Cyber Réflexes
 
+**Jouer : [silax49.github.io/Cybergame](https://silax49.github.io/Cybergame/)**
+
 Jeu web gratuit de sensibilisation aux risques numériques, de la 6e à la Terminale. Sans compte ni installation,
 jouable hors ligne. Aucune donnée ne quitte l’appareil.
 
