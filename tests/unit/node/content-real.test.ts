@@ -12,6 +12,8 @@ const MARQUES_REELLES = [
   'snapchat', 'instagram', 'tiktok', 'roblox', 'robux', 'discord', 'fortnite', 'v-bucks', 'vinted', 'leboncoin',
   'la poste', 'colissimo', 'chronopost', 'amazon', 'whatsapp', 'facebook', 'youtube', 'paypal', 'iphone',
   'playstation', 'xbox', 'nintendo', 'telegram', 'vestiaire', 'steam', 'twitch', 'google', 'apple', 'pronote',
+  'nordvpn', 'protonvpn', 'bitwarden', 'lastpass', 'dashlane', '1password', 'keepass', 'orange', 'sfr', 'bouygues',
+  'play store', 'app store', 'google play', 'chatgpt', 'midjourney', 'sncf', 'ouigo', 'android', 'windows',
 ]
 
 /** Numéros réservés à la fiction par l’ARCEP : mobile 06 39 98 xx xx, fixe 01 99 00 xx xx. */
@@ -36,12 +38,41 @@ function textesSansVersionSimple(m: Mission): [string, string][] {
     }
     if (e.type === 'fil') return e.notifications.map((n): [string, string] => [`${e.id}.${n.id}.explication`, n.explication])
     if (e.jeu === 'tri') return e.config.cartes.map((c): [string, string] => [`${e.id}.${c.id}.explication`, c.explication])
-    if (e.jeu === 'motdepasse') return [[`${e.id}.contexte`, e.config.contexte]]
-    if (e.jeu === 'confidentialite') return e.config.reglages.map((r): [string, string] => [`${e.id}.${r.id}`, r.explication])
-    if (e.jeu === 'verification')
-      return [[`${e.id}.explication`, e.config.explication], ...e.config.actions.map((a): [string, string] => [`${e.id}.${a.id}`, a.resultat])]
+    const consigne: [string, string] = [`${e.id}.consigne`, e.config.consigne]
+    if (e.jeu === 'motdepasse') return [consigne, [`${e.id}.contexte`, e.config.contexte]]
+    if (e.jeu === 'confidentialite')
+      return [
+        consigne,
+        ...e.config.reglages.flatMap((r): [string, string][] => [
+          [`${e.id}.${r.id}.libelle`, r.libelle],
+          [`${e.id}.${r.id}.explication`, r.explication],
+          ...r.options.map((o): [string, string] => [`${e.id}.${r.id}.${o.id}`, o.libelle]),
+        ]),
+      ]
+    if (e.jeu === 'verification') {
+      const { publication } = e.config
+      return [
+        consigne,
+        [`${e.id}.publication.texte`, publication.texte],
+        [`${e.id}.publication.image`, publication.image?.description ?? ''],
+        [`${e.id}.explication`, e.config.explication],
+        ...e.config.actions.flatMap((a): [string, string][] => [
+          [`${e.id}.${a.id}.libelle`, a.libelle],
+          [`${e.id}.${a.id}.resultat`, a.resultat],
+        ]),
+      ]
+    }
     if (e.jeu === 'permissions')
-      return e.config.apps.flatMap((a) => a.permissions.map((p): [string, string] => [`${e.id}.${a.id}.${p.id}`, p.explication]))
+      return [
+        consigne,
+        ...e.config.apps.flatMap((a): [string, string][] => [
+          [`${e.id}.${a.id}.description`, a.description],
+          ...a.permissions.flatMap((p): [string, string][] => [
+            [`${e.id}.${a.id}.${p.id}.libelle`, p.libelle],
+            [`${e.id}.${a.id}.${p.id}.explication`, p.explication],
+          ]),
+        ]),
+      ]
     return e.config.lignes.map((l): [string, string] => [`${e.id}.${l.id}.explication`, l.explication ?? ''])
   })
 }
@@ -57,8 +88,12 @@ function textesDesFauxEcrans(m: Mission): string[] {
     if (e.type === 'fil') return e.notifications.flatMap((n) => [n.appNom, n.de, n.texte])
     if (e.jeu === 'tri') return e.config.cartes.map((c) => c.texte)
     if (e.jeu === 'motdepasse') return [e.config.contexte]
-    if (e.jeu === 'confidentialite') return [e.config.appNom, ...e.config.reglages.flatMap((r) => [r.libelle, ...r.options.map((o) => o.libelle)])]
-    if (e.jeu === 'verification') return [e.config.publication.auteur, e.config.publication.texte, e.config.publication.image?.description ?? '']
+    if (e.jeu === 'confidentialite')
+      return [e.config.appNom, ...e.config.reglages.flatMap((r) => [r.libelle, r.explication, ...r.options.map((o) => o.libelle)])]
+    if (e.jeu === 'verification') {
+      const { auteur, texte, date, image } = e.config.publication
+      return [auteur, texte, date ?? '', image?.description ?? '', ...e.config.actions.flatMap((a) => [a.libelle, a.resultat])]
+    }
     if (e.jeu === 'permissions') return e.config.apps.flatMap((a) => [a.nom, a.description, ...a.permissions.map((p) => p.libelle)])
     return [e.config.titre, ...e.config.lignes.map((l) => l.texte)]
   })
