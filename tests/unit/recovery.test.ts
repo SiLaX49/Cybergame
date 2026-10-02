@@ -7,6 +7,7 @@ import CapturePreuve from '@/recovery/CapturePreuve.vue'
 import ChangerMdp from '@/recovery/ChangerMdp.vue'
 import DemanderAide from '@/recovery/DemanderAide.vue'
 import PrevenirContacts from '@/recovery/PrevenirContacts.vue'
+import CorrigerPartage from '@/recovery/CorrigerPartage.vue'
 import { evaluerMotDePasse } from '@/recovery/motDePasse'
 import { RECUPERATIONS } from '@/recovery/registry'
 import { bouton, cliquer } from './helpers'
@@ -85,6 +86,23 @@ describe('actions de récupération', () => {
     expect(w.emitted('fait')).toBeUndefined()
     await w.find('input[value="bon"]').setValue()
     await cliquer(w, 'Envoyer')
+    await cliquer(w, 'Continuer')
+    expect(w.emitted('fait')).toHaveLength(1)
+  })
+
+  it('corriger-partage : un message qui ne corrige rien est expliqué sans blâmer', async () => {
+    const w = mount(CorrigerPartage)
+    await w.find('input[value="supprimer"]').setValue()
+    await cliquer(w, 'Envoyer')
+    expect(w.text()).toContain('ceux qui l’ont déjà vu croient encore que c’est vrai')
+    expect(w.emitted('fait')).toBeUndefined()
+    await w.find('input[value="rien"]').setValue()
+    await cliquer(w, 'Envoyer')
+    expect(w.text()).toContain('ils risquent de le partager à leur tour')
+    expect(w.emitted('fait')).toBeUndefined()
+    await w.find('input[value="bon"]').setValue()
+    await cliquer(w, 'Envoyer')
+    expect(w.text()).toContain('Tu as arrêté la rumeur de ton côté')
     await cliquer(w, 'Continuer')
     expect(w.emitted('fait')).toHaveLength(1)
   })

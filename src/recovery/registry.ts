@@ -5,6 +5,7 @@ import BloquerSignaler from './BloquerSignaler.vue'
 import CapturePreuve from './CapturePreuve.vue'
 import ChangerMdp from './ChangerMdp.vue'
 import DemanderAide from './DemanderAide.vue'
+import CorrigerPartage from './CorrigerPartage.vue'
 import PrevenirContacts from './PrevenirContacts.vue'
 
 export const RECUPERATIONS: Record<RecoveryAction, Component> = {
@@ -13,5 +14,6 @@ export const RECUPERATIONS: Record<RecoveryAction, Component> = {
   'activer-2fa': Activer2fa,
   'capture-preuve': CapturePreuve,
   'prevenir-contacts': PrevenirContacts,
+  'corriger-partage': CorrigerPartage,
   'demander-aide': DemanderAide,
 }

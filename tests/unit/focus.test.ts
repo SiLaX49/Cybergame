@@ -12,6 +12,7 @@ import BloquerSignaler from '@/recovery/BloquerSignaler.vue'
 import CapturePreuve from '@/recovery/CapturePreuve.vue'
 import ChangerMdp from '@/recovery/ChangerMdp.vue'
 import PrevenirContacts from '@/recovery/PrevenirContacts.vue'
+import CorrigerPartage from '@/recovery/CorrigerPartage.vue'
 import { creerStore, definirStore } from '@/store/useProgress'
 import AppHeader from '@/ui/AppHeader.vue'
 import { leviersFixture, missionFixture, rappelFixture, repereFixture, triFixture } from './fixtures'
@@ -95,7 +96,7 @@ describe('gestion du focus', () => {
     expect(actif()?.tagName).toBe('H3')
   })
 
-  it('capture-preuve et prevenir-contacts : le focus ne retombe jamais sur la page', async () => {
+  it('capture-preuve, prevenir-contacts et corriger-partage : le focus ne retombe jamais sur la page', async () => {
     const w = monter(CapturePreuve)
     await cliquer(w, 'Faire une capture d’écran')
     await flushPromises()
@@ -106,6 +107,11 @@ describe('gestion du focus', () => {
     const p = monter(PrevenirContacts)
     await p.find('input[value="bon"]').setValue()
     await cliquer(p, 'Envoyer')
+    await flushPromises()
+    expect(actif()?.tagName).toBe('H3')
+    const c = monter(CorrigerPartage)
+    await c.find('input[value="bon"]').setValue()
+    await cliquer(c, 'Envoyer')
     await flushPromises()
     expect(actif()?.tagName).toBe('H3')
   })
