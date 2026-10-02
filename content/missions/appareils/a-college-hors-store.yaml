@@ -80,7 +80,7 @@ etapes:
         qualite: risque
         consequence: 'Internet ne marche même pas. Mais ton identifiant et ton mot de passe sont partis chez un inconnu : le QR code était un autocollant collé par-dessus le vrai. Le lendemain, ton compte SnapTalk envoie des liens d’arnaque à tes amis. Change vite ton mot de passe SnapTalk et active la double authentification.'
       - id: accueil
-        texte: 'Je demande le vrai Wi-Fi au stand d’accueil, ou je posterai ce soir.'
+        texte: 'Je demande le vrai Wi-Fi à l’accueil, ou je poste ce soir.'
         qualite: bon
         consequence: 'À l’accueil, on t’explique que le vrai Wi-Fi du festival demande seulement d’accepter les conditions d’utilisation. Le QR code de l’affiche était un autocollant collé par-dessus l’original. L’équipe le retire.'
       - id: aide
