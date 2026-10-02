@@ -20,8 +20,8 @@ etapes:
       contact: 'Inès'
       messages:
         - de: contact
-          texte: 'Poste la photo de nous deux devant le collège ! On voit trop bien « Collège Jean-Moulin » derrière, c’est stylé 😍'
-          texteSimple: 'Poste notre photo devant le collège ! On voit bien « Collège Jean-Moulin » derrière 😍'
+          texte: 'Poste la photo de nous deux devant le collège ! On voit trop bien « Collège des Tilleuls » derrière, c’est stylé 😍'
+          texteSimple: 'Poste notre photo devant le collège ! On voit bien « Collège des Tilleuls » derrière 😍'
         - de: contact
           texte: 'Tout le monde poste sa photo de rentrée en public, fais pareil !'
           texteSimple: 'Tout le monde poste sa photo de rentrée en public !'
@@ -30,7 +30,7 @@ etapes:
       - id: publie
         texte: 'Inès a raison, tout le monde le fait : je la publie en public.'
         qualite: risque
-        consequence: 'La photo plaît. Mais un compte inconnu la commente : « Ah, tu es à Jean-Moulin ! Tu sors à quelle heure ? » Avec le nom du collège, n’importe qui sait où te trouver en semaine. Tu peux encore modifier la publication.'
+        consequence: 'La photo plaît. Mais un compte inconnu la commente : « Ah, tu es aux Tilleuls ! Tu sors à quelle heure ? » Avec le nom du collège, n’importe qui sait où te trouver en semaine. Tu peux encore modifier la publication.'
         consequenceSimple: 'Un inconnu écrit : « Tu sors à quelle heure ? » Il sait où est ton collège. Tu peux encore changer la photo.'
       - id: recadre
         texte: 'Je recadre la photo pour cacher le nom du collège, et je la partage seulement avec mes amis.'
@@ -68,8 +68,8 @@ etapes:
       contact: 'Max_du_31'
       messages:
         - de: contact
-          texte: 'Joyeux anniversaire 🎂 ! 11 ans, comme ma petite sœur. Elle cherche des copines de son âge.'
-          texteSimple: 'Joyeux anniversaire 🎂 ! Ma petite sœur a 11 ans aussi. Elle cherche des copines.'
+          texte: 'Joyeux anniversaire 🎂 ! Ma petite sœur a ton âge. Elle cherche des copines pour discuter.'
+          texteSimple: 'Joyeux anniversaire 🎂 ! Ma petite sœur a ton âge. Elle cherche des copines.'
         - de: contact
           texte: 'T’es dans quel collège ? Comme ça vous pourrez vous voir 😊'
           texteSimple: 'T’es dans quel collège ? Comme ça vous pourrez vous voir 😊'
@@ -81,9 +81,9 @@ etapes:
         consequence: 'Max_du_31 répond tout de suite. Il demande ta classe, puis l’heure où tu sors. Il pose beaucoup de questions pour quelqu’un que tu ne connais pas. Tu peux arrêter de répondre maintenant.'
         consequenceSimple: 'Max_du_31 demande ta classe, puis l’heure où tu sors. Arrête de répondre et parles-en à un adulte.'
       - id: bloque
-        texte: 'Je ne réponds pas. Je bloque et je signale ce compte, puis je cache ma date d’anniversaire.'
+        texte: 'Je ne réponds pas, je bloque et je signale ce compte.'
         qualite: bon
-        consequence: 'Max_du_31 ne peut plus t’écrire. Ta date d’anniversaire n’est plus visible. Tu en parles quand même à tes parents ce soir.'
+        consequence: 'Max_du_31 ne peut plus t’écrire. Tu caches aussi ta date d’anniversaire, et tu en parles à tes parents ce soir.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de répondre quoi que ce soit.
         qualite: aide
@@ -127,9 +127,9 @@ etapes:
         consequence: 'Aucune trottinette n’arrive. Par contre, tu reçois des pubs et des messages bizarres qui citent ton nom. Ton adresse et ta photo sont maintenant chez des inconnus. Un adulte peut t’aider à limiter les dégâts.'
         consequenceSimple: 'Pas de trottinette. Mais ton nom, ton adresse et ta photo sont chez des inconnus. Parles-en à un adulte.'
       - id: ferme
-        texte: 'Je ne remplis rien, et je montre le site à un parent.'
+        texte: 'Je ne remplis rien : un concours n’a pas besoin de ma photo.'
         qualite: bon
-        consequence: 'Ta mère cherche « Méga Jouets » : aucune vraie boutique ne porte ce nom. Le concours servait à récolter des adresses et des photos.'
+        consequence: 'Tu fermes la page. Le soir, tu montres le site à ta mère : aucune vraie boutique ne s’appelle « Méga Jouets ». Le concours servait à récolter des adresses et des photos.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de donner la moindre information.
         qualite: aide
@@ -206,7 +206,7 @@ debrief:
     - 'Croire qu’un compte « Amis seulement » empêche tout : un ami peut faire une capture d’écran.'
 fiche:
   deroulement: |
-    5 min : cadre. Qu’est-ce qu’on peut apprendre sur quelqu’un avec une seule photo ? (sans montrer de vraie photo d’élève)
+    5 min : cadre. Qu’est-ce qu’on peut apprendre sur quelqu’un avec une seule photo ? (sans montrer de vraie photo d’élève) Sans juger personne, rappeler que la plupart des réseaux sociaux fixent un âge minimum de 13 ans, et que ces réflexes valent aussi pour les comptes de jeux et de messagerie.
     15 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (pourquoi chaque réglage conseillé protège).
     5 min : où trouver de l’aide (adulte de confiance, CPE, signalement dans l’appli).

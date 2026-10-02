@@ -21,9 +21,9 @@ etapes:
       url: 'revendo.fr/vendre'
       messages:
         - de: contact
-          texte: 'Aperçu de ton annonce : Lampe de bureau, 15 €. Photo : IMG_4821.jpg, prise dans ta chambre, la fenêtre en arrière-plan.'
+          texte: 'Aperçu de ton annonce : Lampe de bureau, 15 €. Photo : IMG_4821.jpg, prise dans ta chambre, avec la fenêtre et la rue en arrière-plan.'
         - de: contact
-          texte: 'Informations du fichier (EXIF) : Appareil : smartphone · Date : 14/09, 21 h 12 · Position GPS : 47,4739 N ; 0,5518 O. Ces informations restent jointes à l’image téléchargée.'
+          texte: 'Informations du fichier (EXIF) : Appareil : smartphone · Date : 14/09, 21 h 12 · Position GPS : 45,1234 N ; 15,4321 O. Ces informations restent jointes à l’image envoyée.'
     question: 'Tu ne savais pas que ton téléphone enregistrait ça. Ces coordonnées, ce sont celles de chez toi. Que fais-tu ?'
     choix:
       - id: publie
@@ -48,7 +48,7 @@ etapes:
     recuperation: { action: demander-aide, siChoix: [publie] }
     pourquoi:
       - levier: reflexe
-        truc: '« Position GPS : 47,4739 N ; 0,5518 O » : des chiffres qu’on survole sans comprendre qu’ils donnent une adresse.'
+        truc: '« Position GPS : 45,1234 N ; 15,4321 O » : des chiffres qu’on survole sans comprendre qu’ils donnent une adresse.'
         parade: 'Avant de publier une photo prise chez toi, regarde ses informations. S’il y a une position, supprime-la.'
       - levier: urgence
         truc: 'Refaire la photo prend du temps, et on veut que l’annonce soit en ligne tout de suite.'
@@ -62,7 +62,7 @@ etapes:
     ecran:
       app: mail
       appNom: Mail
-      contact: 'Claire Moreau <recrutement@bistrotdeshalles-recrute.fr>'
+      contact: 'Claire Moreau <recrutement@bistrot-nova.fr>'
       sujet: 'Ta candidature pour le job d’été'
       messages:
         - de: contact
@@ -76,9 +76,9 @@ etapes:
         qualite: risque
         consequence: 'Claire Moreau te remercie, puis choisit un autre candidat. Et tes vieilles publications sont toujours publiques : le prochain recruteur, ou l’école où tu postules, les trouvera aussi. Tu peux encore faire le tri, et demander l’effacement de ce qui t’échappe.'
       - id: assume
-        texte: 'Je réponds honnêtement que je regrette ces messages et que j’ai changé. Puis je supprime les vieilles publications et je passe mon compte en privé.'
+        texte: 'Je réponds que je regrette ces messages, puis je fais le ménage dans mon compte.'
         qualite: bon
-        consequence: 'À l’entretien, Claire Moreau apprécie ta franchise : « On a tous fait des erreurs à 14 ans. Ce qui compte, c’est ce qu’on en fait. » Tu décroches le job. Depuis, tu cherches ton nom en ligne une fois par an.'
+        consequence: 'Tu supprimes les vieilles publications et tu passes ton compte en privé. À l’entretien, Claire Moreau apprécie ta franchise : « On a tous fait des erreurs à 14 ans. Ce qui compte, c’est ce qu’on en fait. » Tu décroches le job. Depuis, tu cherches ton nom en ligne une fois par an.'
       - id: aide
         texte: Je demande de l’aide à un adulte de confiance pour savoir quoi répondre et comment faire le ménage.
         qualite: aide
@@ -120,9 +120,9 @@ etapes:
         qualite: risque
         consequence: 'Léo_R arrive dix minutes plus tard et insiste pour avoir ton numéro. Sarah, elle, ne le connaît que de loin : il l’avait ajoutée après une soirée. Lui sait où tu es, toi tu ne sais rien de lui. Coupe ta position, bloque et signale son compte, et parles-en.'
       - id: coupe
-        texte: 'Je passe en mode fantôme, je bloque et signale Léo_R, puis je demande à Sarah qui c’est.'
+        texte: 'Je passe en mode fantôme, puis je bloque et signale Léo_R.'
         qualite: bon
-        consequence: 'Sarah répond : « Pas du tout, il m’a ajoutée après une soirée. » Léo_R ne voit plus ta position et ne peut plus t’écrire.'
+        consequence: 'Tu demandes ensuite à Sarah qui c’est. Elle répond : « Je le connais à peine, il m’a ajoutée après une soirée. » Léo_R ne voit plus ta position et ne peut plus t’écrire.'
       - id: aide
         texte: Je demande de l’aide à un proche avant de répondre quoi que ce soit.
         qualite: aide
@@ -131,8 +131,8 @@ etapes:
       - { id: amis-amis, libelle: 'Ma position est visible par les amis de mes amis', pertinent: true }
       - { id: inconnu, libelle: 'Je ne connais pas Léo_R', pertinent: true }
       - { id: precise, libelle: 'Il sait dans quel café je suis', pertinent: true }
-      - { id: sarah, libelle: 'Il cite le prénom de mon amie', pertinent: false }
-    explicationIndices: '« Amis de tes amis », ce sont des centaines de gens que tu ne connais pas. Citer un ami commun ne prouve rien : son prénom est visible sur ton profil. Ce qui compte, c’est qu’un inconnu sait où tu es.'
+      - { id: pseudo, libelle: 'Son pseudo commence par « Léo »', pertinent: false }
+    explicationIndices: '« Amis de tes amis », ce sont des centaines de gens que tu ne connais pas. Citer Sarah ne prouve rien : il est dans sa liste d’amis, et c’est justement comme ça qu’il voit ta position. Ce qui compte, c’est qu’un inconnu sait où tu es. Son pseudo, lui, ne dit rien.'
     aRetenir: 'Ne partage jamais ta position avec « les amis de tes amis ». Garde le mode fantôme par défaut, et partage ta position seulement avec quelques proches choisis, quand c’est utile.'
     recuperation: { action: bloquer-signaler, siChoix: [repond] }
     pourquoi:
@@ -201,7 +201,7 @@ etapes:
             - { id: masque, libelle: Masqué }
           initial: visible
           conseille: masque
-          explication: 'Masqué, ton profil ne sort plus quand quelqu’un tape ton nom dans un moteur de recherche.'
+          explication: 'Masqué, ton profil finit par ne plus sortir quand quelqu’un tape ton nom dans un moteur de recherche.'
         - id: anciennes
           libelle: Mes anciennes publications
           options:

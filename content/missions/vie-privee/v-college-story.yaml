@@ -120,7 +120,7 @@ etapes:
       - id: commente
         texte: 'Tous mes amis ont joué et c’est trop drôle : j’écris mon nom de héros en commentaire.'
         qualite: risque
-        consequence: 'Le nom de ton premier animal, c’est la réponse à la « question secrète » de ton compte GameBox. Une semaine plus tard, tu reçois un mail : « Ta question secrète a été utilisée pour changer ton mot de passe. » Quelqu’un a lu ton commentaire. Tu peux encore reprendre ton compte.'
+        consequence: 'Le nom de ton premier animal, c’est la réponse à la « question secrète » de ton compte GameBox. Une semaine plus tard, GameBox t’écrit : « Quelqu’un a demandé à réinitialiser ton mot de passe avec ta question secrète. » Quelqu’un a lu ton commentaire. Ton compte est encore ouvert sur ton téléphone : change vite ton mot de passe, puis ta question secrète.'
       - id: passe
         texte: 'Je ne réponds pas : premier animal et nom de rue, ce sont des réponses à des questions secrètes. Je préviens Léa.'
         qualite: bon
