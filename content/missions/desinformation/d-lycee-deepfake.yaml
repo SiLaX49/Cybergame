@@ -176,9 +176,9 @@ etapes:
           resultat: 'Une image de la vidéo correspond à une interview de mars dernier. Hugo Lemaire y parlait des pistes cyclables, pas du lycée.'
         - id: medias
           libelle: Consulter d’autres médias
-          resultat: 'Le Courrier de Valbourg a publié un démenti samedi matin. Sa cellule de vérification a comparé les deux vidéos : la voix a été générée par IA.'
+          resultat: 'Le Courrier de Valbourg a publié un démenti samedi matin. Sa cellule de vérification a comparé les deux vidéos : le visage et la voix ont été retouchés par IA.'
       verdict: faux
-      explication: 'C’est un deepfake : une vraie interview, sur laquelle on a plaqué une voix générée par IA. La recherche d’image inversée retrouve la vidéo d’origine, et un média reconnu a publié un démenti. Le compte, récent et sans source, publie en série juste avant le vote : c’est une tentative de manipulation.'
+      explication: 'C’est un deepfake : une vraie interview, dont le visage et la voix ont été retouchés par IA. La recherche d’image inversée retrouve la vidéo d’origine, et un média reconnu a publié un démenti. Le compte, récent et sans source, publie en série juste avant le vote : c’est une tentative de manipulation.'
 debrief:
   questions:
     - Quel était le piège ?

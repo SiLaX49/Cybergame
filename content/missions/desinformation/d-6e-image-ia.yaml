@@ -131,11 +131,11 @@ etapes:
       - id: verifie-site
         texte: 'Je ne partage rien avant d’avoir vérifié cette astuce sur un site de santé officiel.'
         qualite: bon
-        consequence: 'Sur un site de santé officiel, tu lis que l’astuce est fausse. Sur une brûlure, on met de l’eau fraîche du robinet, pas glacée, pendant plusieurs minutes. Puis on prévient un adulte.'
+        consequence: 'Sur un site de santé officiel, tu lis que l’astuce est fausse. Sur une brûlure, on met de l’eau fraîche du robinet, pas glacée, pendant au moins 10 minutes. Puis on prévient un adulte.'
       - id: aide
         texte: Je demande de l’aide à l’infirmière du collège pour savoir si l’astuce est vraie.
         qualite: aide
-        consequence: 'L’infirmière est claire : « Cette astuce est fausse. Sur une brûlure, on met de l’eau fraîche pendant plusieurs minutes. Puis on prévient un adulte. »'
+        consequence: 'L’infirmière est claire : « Cette astuce est fausse. Sur une brûlure, on met de l’eau fraîche pendant au moins 10 minutes. Puis on prévient un adulte. »'
     indices:
       - { id: medecins, libelle: 'La vidéo dit que les médecins cachent la vérité', pertinent: true }
       - { id: miracle, libelle: 'L’astuce promet un résultat miracle en 5 minutes', pertinent: true }

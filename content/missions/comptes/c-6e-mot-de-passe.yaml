@@ -55,7 +55,7 @@ etapes:
         parade: 'Réponds simplement : « J’ai confiance en toi, mais mon mot de passe ne sort jamais de ma tête. »'
       - levier: gain
         truc: 'Ta série de 90 jours compte beaucoup pour toi. Pouvoir la garder intacte est très tentant.'
-        parade: 'Compare : une série se recommence en quelques semaines, un compte perdu peut ne jamais revenir.'
+        parade: 'Compare : une série se recommence, un compte perdu peut ne jamais revenir.'
       - levier: urgence
         truc: 'Tu pars bientôt, sans téléphone. Il faut décider avant le départ, donc vite.'
         parade: 'Un départ n’est pas une raison de prêter un mot de passe. Prends le temps d’en parler à un adulte.'
@@ -81,7 +81,7 @@ etapes:
       - id: partout
         texte: 'Je change tous mes mots de passe identiques, la boîte mail d’abord.'
         qualite: bon
-        consequence: 'Tu commences par Cubopolis, puis ta boîte mail, puis GameBox. Ça prend vingt minutes avec ta mère. Chaque compte a maintenant son propre mot de passe. Le mot de passe volé n’ouvre plus rien.'
+        consequence: 'Tu commences par ta boîte mail, puis GameBox, puis Cubopolis. Ça prend vingt minutes avec ta mère. Chaque compte a maintenant son propre mot de passe. Le mot de passe volé n’ouvre plus rien.'
       - id: aide
         texte: 'Je demande de l’aide à un adulte : on fait ensemble la liste de mes comptes pour n’en oublier aucun.'
         qualite: aide
