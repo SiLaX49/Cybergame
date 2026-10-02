@@ -57,8 +57,8 @@ const rang = computed(() => NIVEAUX.indexOf(evaluation.value.niveau))
     </template>
     <template v-else>
       <p>
-        Un exemple de phrase de passe très solide : <strong>{{ EXEMPLE_PHRASE }}</strong>. Plusieurs mots au hasard, faciles à
-        retenir, difficiles à deviner.
+        Un exemple de phrase de passe très solide : <strong>{{ EXEMPLE_PHRASE }}</strong> (ne la réutilise pas : elle est publique).
+        Plusieurs mots au hasard, faciles à retenir, difficiles à deviner.
       </p>
       <button ref="boutonTerminer" type="button" class="btn btn-primaire" @click="emit('termine', { reussites: 0, erreurs: 1 })">
         Terminer le mini-jeu

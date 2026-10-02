@@ -64,7 +64,7 @@ describe('PlanBPage', () => {
   it('mot de passe : critères à cocher et exemple au corrigé', async () => {
     const w = await papier('m-mdp')
     expect(w.text()).toContain('☐ Au moins 12 caractères')
-    expect(w.text()).toContain('girafe-violette-sous-la-pluie')
+    expect(w.text()).toContain('girafe-violette-sous-la-pluie (ne la réutilise pas : elle est publique)')
   })
   it('confidentialité : options à cocher et réglage conseillé au corrigé', async () => {
     const w = await papier('m-conf')
@@ -73,6 +73,7 @@ describe('PlanBPage', () => {
   })
   it('vérification : verdict à cocher et réponse au corrigé', async () => {
     const w = await papier('m-verif')
+    expect(w.text()).toContain('InfosChoc · Aujourd’hui')
     expect(w.text()).toContain('☐ Fiable ☐ Douteux ☐ Faux')
     expect(w.text()).toContain('Verdict : Faux')
   })

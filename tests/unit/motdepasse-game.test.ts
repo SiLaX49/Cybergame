@@ -48,7 +48,7 @@ describe('MotDePasseGame', () => {
   it('« Je passe » montre un exemple puis permet de terminer', async () => {
     const w = monter()
     await cliquer(w, 'Je passe')
-    expect(w.text()).toContain('girafe-violette-sous-la-pluie')
+    expect(w.text()).toContain('girafe-violette-sous-la-pluie (ne la réutilise pas : elle est publique)')
     await cliquer(w, 'Terminer le mini-jeu')
     expect(w.emitted('termine')).toEqual([[{ reussites: 0, erreurs: 1 }]])
   })

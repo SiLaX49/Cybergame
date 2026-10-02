@@ -92,7 +92,10 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
         <template v-else-if="e.type === 'minijeu' && e.jeu === 'verification'">
           <h2>Mini-jeu {{ i + 1 }} : {{ e.config.consigne }}</h2>
           <div class="carte">
-            <p><strong>{{ e.config.publication.auteur }}</strong></p>
+            <p>
+              <strong>{{ e.config.publication.auteur }}</strong>
+              <span v-if="e.config.publication.date"> · {{ e.config.publication.date }}</span>
+            </p>
             <p>{{ e.config.publication.texte }}</p>
             <p v-if="e.config.publication.image">Image (décrite) : {{ e.config.publication.image.description }}</p>
           </div>
@@ -152,7 +155,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
           </template>
           <template v-else-if="e.type === 'minijeu' && e.jeu === 'motdepasse'">
             <h3>Mini-jeu {{ i + 1 }}</h3>
-            <p>Objectif : {{ LIBELLES_NIVEAU[e.config.objectif].toLowerCase() }}. Exemple : {{ EXEMPLE_PHRASE }}.</p>
+            <p>Objectif : {{ LIBELLES_NIVEAU[e.config.objectif].toLowerCase() }}. Exemple : {{ EXEMPLE_PHRASE }} (ne la réutilise pas : elle est publique).</p>
             <p v-if="e.config.interdits.length">À éviter : {{ e.config.interdits.join(', ') }}.</p>
           </template>
           <template v-else-if="e.type === 'minijeu' && e.jeu === 'confidentialite'">
