@@ -30,15 +30,15 @@ etapes:
     question: 'Quelques secondes plus tard, un SMS arrive : « SnapTalk : ton code est 739 204. Ne le communique à personne. » Que fais-tu ?'
     choix:
       - id: envoie-code
-        texte: 'Le compte a le badge ✔ et je ne veux pas perdre mes séries de 300 jours : j’envoie le code.'
+        texte: 'Il a le badge ✔, et je ne veux pas perdre mon compte : j’envoie le code.'
         qualite: risque
-        consequence: 'Ce code ne servait pas à te vérifier, mais à te connecter. Le faux support connaissait déjà ton mot de passe, sans doute volé lors d’une fuite : le code était la dernière serrure. En deux minutes, il change ton mot de passe et écrit à tes amis pour leur voler leur code à leur tour. Lance vite la récupération officielle depuis l’appli, puis réactive la double authentification avec un nouveau mot de passe.'
+        consequence: 'Ce code ne servait pas à te vérifier, mais à te connecter. Le faux support connaissait déjà ton mot de passe, sans doute volé lors d’une fuite : le code était la dernière serrure. Il entre dans ton compte, désactive la double authentification et écrit à tes amis pour leur voler leur code. Ton téléphone est encore connecté : réactive vite la double authentification, puis change ton mot de passe.'
       - id: ignore
-        texte: 'Je n’envoie rien. Je vais moi-même dans les paramètres de SnapTalk voir si mon compte a un problème, et je signale ce faux support.'
+        texte: 'Je n’envoie rien et je vérifie moi-même dans les paramètres de SnapTalk.'
         qualite: bon
-        consequence: 'Aucune alerte dans tes paramètres : ton compte va bien. Mais si quelqu’un a déclenché un code, c’est sans doute qu’il a ton mot de passe. Tu le changes tout de suite, et la double authentification continue de te protéger.'
+        consequence: 'Aucune alerte dans tes paramètres : ton compte va bien. Tu signales ce faux support. Mais si quelqu’un a déclenché un code, c’est sans doute qu’il a ton mot de passe. Tu le changes tout de suite, et la double authentification continue de te protéger.'
       - id: aide
-        texte: Je demande de l’aide à un adulte avant de répondre au support.
+        texte: Je demande de l’aide à un adulte avant de répondre à ce support qui me presse.
         qualite: aide
         consequence: 'Ton oncle est formel : « Aucun support ne demande ce code. Il sert à entrer dans ton compte. » Vous signalez le compte et changez ton mot de passe.'
     indices:
@@ -47,7 +47,7 @@ etapes:
       - { id: delai, libelle: 'On me menace d’une désactivation dans 10 minutes', pertinent: true }
       - { id: badge, libelle: 'Le compte affiche un badge ✔ à côté de son nom', pertinent: false }
     explicationIndices: 'Le code de double authentification sert à se connecter : celui qui l’a entre dans ton compte. Aucun vrai support ne le demande, jamais. Le badge, lui, peut être un simple emoji ajouté au nom.'
-    aRetenir: 'Un code de double authentification ne se donne à personne, même pas au « support » : un vrai support ne le demande jamais. Si tu reçois un code sans l’avoir demandé, quelqu’un a ton mot de passe : change-le tout de suite.'
+    aRetenir: 'Un code de double authentification ne se donne à personne, même pas au « support » : un vrai support ne le demande jamais. Si tu reçois un code sans l’avoir demandé, quelqu’un essaie d’entrer, peut-être avec ton mot de passe : change-le tout de suite.'
     recuperation: { action: activer-2fa, siChoix: [envoie-code] }
     pourquoi:
       - levier: autorite
@@ -57,7 +57,7 @@ etapes:
         truc: '« Sans réponse dans 10 minutes, la désactivation sera automatique » : tu n’as pas le temps de lire le SMS.'
         parade: 'Plus on te presse, plus tu ralentis. Lis toujours le SMS avant de donner un code : ici, il dit de ne pas le communiquer.'
       - levier: peur
-        truc: 'Le message annonce que ton compte « sera désactivé ce soir ». Perdre tes séries et tes photos fait peur.'
+        truc: 'Le message annonce que ton compte « sera désactivé ce soir ». Perdre tes photos et tes conversations fait peur.'
         parade: 'Une menace de désactivation se vérifie dans l’appli, pas dans la conversation. Et si tu as peur, parles-en à un adulte.'
 
   - type: scenario
@@ -78,15 +78,15 @@ etapes:
     question: 'Ça fait deux jours que le pirate publie sur ton compte. Le formulaire officiel de SnapTalk ne t’a pas encore répondu. Que fais-tu ?'
     choix:
       - id: paie
-        texte: 'Deux jours que j’attends pour rien. 20 € pour retrouver mes photos, je paie.'
+        texte: '20 €, c’est rien pour retrouver mes photos : je paie.'
         qualite: risque
         consequence: 'Après le paiement, l’« expert » réclame 30 € de plus « pour finir », puis il disparaît. Ton compte n’est pas récupéré, et il connaît maintenant ton mail et ta date de naissance. Ce n’est pas trop tard : un adulte peut t’aider à relancer la procédure officielle et à signaler ce compte.'
       - id: officiel
-        texte: 'Je ne paie personne. Je relance la récupération officielle depuis l’appli SnapTalk, et je préviens mes amis que mon compte a été piraté.'
+        texte: 'Je ne paie pas. Je relance le formulaire officiel de SnapTalk.'
         qualite: bon
-        consequence: 'La récupération officielle est gratuite, mais elle prend parfois quelques jours. Le troisième jour, tu reçois un lien sur ta boîte mail et tu récupères ton compte. Tes amis, prévenus, n’ont pas répondu au pirate.'
+        consequence: 'La récupération officielle est gratuite, mais elle prend parfois quelques jours. En attendant, tu préviens tes amis que ton compte a été piraté. Le troisième jour, tu reçois un lien sur ta boîte mail et tu récupères ton compte. Tes amis, prévenus, n’ont pas répondu au pirate.'
       - id: aide
-        texte: Je demande de l’aide à un adulte avant de répondre à cet expert.
+        texte: 'Je demande de l’aide à un adulte : il saura peut-être si cet expert est sérieux.'
         qualite: aide
         consequence: 'Ta tante t’explique : « Personne ne peut récupérer ton compte à ta place, à part SnapTalk. » Elle t’aide à remplir à nouveau le formulaire officiel.'
     indices:
@@ -123,18 +123,18 @@ etapes:
           texte: 'Appareils connectés à ton compte : ce téléphone (maintenant) ; ordinateur « PC-CDI-04 », navigateur web (actif il y a 3 minutes).'
         - de: contact
           texte: 'Dernier message envoyé depuis « PC-CDI-04 » dans le groupe « 4eB officiel » : « Demain tout le monde sèche la perm 😂 »'
-    question: 'Tu es rentré chez toi. Ce midi, tu as ouvert ChatCord sur un ordinateur du CDI, et tu es parti en courant à la sonnerie. Que fais-tu ?'
+    question: 'Le soir, chez toi, tu ouvres cette page. Ce midi, tu as utilisé ChatCord sur un ordinateur du CDI, puis la sonnerie a retenti. Que fais-tu ?'
     choix:
       - id: demain
         texte: 'C’est sûrement un copain qui fait une blague. Je fermerai la session demain au CDI.'
         qualite: risque
         consequence: 'Le soir, d’autres messages partent de ton compte, dont une moquerie sur un élève de la classe. Le lendemain, tu dois expliquer à la CPE que ce n’était pas toi. Tant qu’une session reste ouverte, quelqu’un peut parler en ton nom. Déconnecte l’appareil à distance et change ton mot de passe : tu peux le faire maintenant, depuis ton téléphone.'
       - id: deconnecte
-        texte: 'Je clique tout de suite sur « Déconnecter cet appareil », je change mon mot de passe et j’écris au groupe que ce message n’est pas de moi.'
+        texte: 'Je déconnecte le PC du CDI tout de suite, depuis mon téléphone.'
         qualite: bon
-        consequence: 'La session du CDI se ferme à distance. Ton message au groupe arrive à temps : personne ne sèche la perm. Le lendemain, la documentaliste te rappelle de toujours cliquer sur « Se déconnecter ».'
+        consequence: 'Un clic sur « Déconnecter cet appareil », et la session du CDI se ferme à distance. Tu changes ton mot de passe et tu écris au groupe que ce message n’est pas de toi. Ton message arrive à temps : personne ne sèche la perm. Le lendemain, la documentaliste te rappelle de toujours cliquer sur « Se déconnecter ».'
       - id: aide
-        texte: Je demande de l’aide à un adulte pour fermer cette session à distance.
+        texte: Je demande de l’aide à mes parents tout de suite.
         qualite: aide
         consequence: 'Ton père te montre la page des appareils connectés. Vous déconnectez le PC du CDI et changez ton mot de passe ensemble.'
     indices:

@@ -20,22 +20,22 @@ etapes:
       contact: 'Jade 💜'
       messages:
         - de: contact
-          texte: 'Ton perso est encore niveau 8 😅 Donne-moi ton mot de passe GameBox, je te le monte niveau 20 ce soir !'
-          texteSimple: 'Donne-moi ton mot de passe GameBox. Je monte ton perso niveau 20 ce soir !'
+          texte: 'Tu pars en classe de neige sans téléphone ? Donne-moi ton mot de passe GameBox, je garde ta série de 90 jours !'
+          texteSimple: 'Tu pars sans téléphone ? Donne-moi ton mot de passe GameBox, je garde ta série de 90 jours !'
         - de: contact
           texte: 'Moi je te donne le mien si tu veux. Entre meilleurs amis, on se fait confiance, non ?'
           texteSimple: 'Je te donne le mien aussi. Entre meilleurs amis, on se fait confiance, non ?'
-    question: 'Jade est ta meilleure amie depuis le CM1. Elle joue super bien à GameBox. Que fais-tu ?'
+    question: 'Jade est ta meilleure amie depuis le CM1. Tu pars une semaine sans téléphone, et ta série risque de s’arrêter. Que fais-tu ?'
     choix:
       - id: donne
-        texte: 'Si je dis non, Jade va croire que je n’ai pas confiance : je lui donne mon mot de passe.'
+        texte: 'Une série de 90 jours, ça ne se perd pas ! Jade est ma meilleure amie, je lui donne.'
         qualite: risque
-        consequence: 'Jade monte bien ton niveau. Trois semaines plus tard, vous vous disputez pour une histoire de récré. Le soir, ton pseudo devient « PersoNul » et tes Coins ont disparu. Même entre meilleurs amis, une dispute peut arriver. Avec un adulte, change ton mot de passe : plus personne ne pourra entrer.'
-        consequenceSimple: 'Après une dispute, quelqu’un change ton pseudo et dépense tes Coins. Avec un adulte, change ton mot de passe.'
+        consequence: 'Jade garde bien ta série. Mais elle a noté ton mot de passe dans son téléphone, et son grand frère l’a vu. Pendant ton séjour, il joue avec ton perso et écrit des messages en ton nom. Personne ne voulait te nuire, mais ton compte t’a échappé. Avec un adulte, change ton mot de passe : plus personne ne pourra entrer.'
+        consequenceSimple: 'Le grand frère de Jade a vu ton mot de passe. Il joue avec ton compte. Avec un adulte, change ton mot de passe.'
       - id: refuse
-        texte: 'Je lui réponds que je l’adore, mais que mon mot de passe reste à moi. Je lui propose qu’on joue ensemble ce soir.'
+        texte: 'Non merci : je préfère perdre ma série que mon compte.'
         qualite: bon
-        consequence: 'Jade répond « ok 😕 », puis elle t’invite dans sa partie. Elle te montre ses astuces et tu gagnes deux niveaux. Ton compte reste à toi.'
+        consequence: 'Jade répond « ok 😕 ». Ta série s’arrête pendant la classe de neige. À ton retour, tu en commences une nouvelle, et ton compte est resté à toi seul.'
       - id: aide
         texte: Je demande de l’aide à un adulte pour savoir comment dire non à Jade sans la vexer.
         qualite: aide
@@ -43,22 +43,22 @@ etapes:
     indices:
       - { id: demande-mdp, libelle: 'Jade me demande mon mot de passe', pertinent: true }
       - { id: preuve, libelle: 'Elle fait du mot de passe une preuve d’amitié', pertinent: true }
-      - { id: pas-besoin, libelle: 'Pour jouer ensemble, elle n’a pas besoin de mon mot de passe', pertinent: true }
-      - { id: forte, libelle: 'Jade joue super bien à GameBox', pertinent: false }
-    explicationIndices: 'Garder son mot de passe, ce n’est pas manquer de confiance. Une amitié peut changer, et un mot de passe peut être noté ou vu par d’autres. Que Jade joue bien ne change rien.'
-    aRetenir: 'Ton mot de passe est à toi seul, et à tes parents tant que tu es jeune. Même entre meilleurs amis, on ne se l’échange pas. Pour progresser ensemble, on joue dans la même partie.'
-    aRetenirSimple: 'Ton mot de passe est à toi seul. Même pas pour ton meilleur ami.'
+      - { id: absent, libelle: 'Pendant une semaine, je ne pourrai pas surveiller mon compte', pertinent: true }
+      - { id: classe-neige, libelle: 'La classe de neige est organisée par le collège', pertinent: false }
+    explicationIndices: 'Garder son mot de passe, ce n’est pas manquer de confiance. Un mot de passe prêté peut être noté, vu ou répété. Et pendant ton absence, tu ne peux rien surveiller.'
+    aRetenir: 'Un mot de passe ne se prête pas, même pour quelques jours et même à quelqu’un de très proche. Une série perdue se recommence. Un compte qui t’échappe est bien plus long à récupérer.'
+    aRetenirSimple: 'Une série perdue, ça se recommence. Un compte perdu, non : garde ton mot de passe.'
     recuperation: { action: changer-mdp, siChoix: [donne] }
     pourquoi:
       - levier: confiance
-        truc: '« Entre meilleurs amis, on se fait confiance, non ? » Dire non te semble presque méchant.'
-        parade: 'Tu peux avoir confiance en Jade et garder ton mot de passe. Les deux vont très bien ensemble.'
+        truc: '« Entre meilleurs amis, on se fait confiance, non ? » Garder ton mot de passe semble vexant.'
+        parade: 'Réponds simplement : « J’ai confiance en toi, mais mon mot de passe ne sort jamais de ma tête. »'
       - levier: gain
-        truc: 'Passer du niveau 8 au niveau 20 en une soirée, sans effort : c’est très tentant.'
-        parade: 'Un niveau gagné ne vaut pas un compte perdu. Propose plutôt de jouer ensemble dans la même partie.'
-      - levier: groupe
-        truc: 'Jade propose de t’échanger son mot de passe aussi. Comme elle le fait, ça paraît normal.'
-        parade: 'Même si une amie donne son mot de passe, tu peux garder le tien. Et conseille-lui de garder le sien.'
+        truc: 'Ta série de 90 jours compte beaucoup pour toi. Pouvoir la garder intacte est très tentant.'
+        parade: 'Compare : une série se recommence en quelques semaines, un compte perdu peut ne jamais revenir.'
+      - levier: urgence
+        truc: 'Tu pars bientôt, sans téléphone. Il faut décider avant le départ, donc vite.'
+        parade: 'Un départ n’est pas une raison de prêter un mot de passe. Prends le temps d’en parler à un adulte.'
 
   - type: scenario
     id: fuite
@@ -79,11 +79,11 @@ etapes:
         consequence: 'Les voleurs essaient ton mot de passe sur d’autres sites, c’est très facile pour eux. Il marche sur ta boîte mail. Ils s’en servent pour prendre aussi ton compte GameBox. Tu peux encore reprendre la main : change vite le mot de passe de ta boîte mail, puis celui de GameBox.'
         consequenceSimple: 'Les voleurs essaient ton mot de passe ailleurs. Il marche sur ta boîte mail. Change vite tes autres mots de passe.'
       - id: partout
-        texte: 'Je change le mot de passe de Cubopolis, puis celui de chaque compte qui avait le même. Je commence par ma boîte mail.'
+        texte: 'Je change tous mes mots de passe identiques, la boîte mail d’abord.'
         qualite: bon
-        consequence: 'Ça prend vingt minutes avec ta mère. Chaque compte a maintenant son propre mot de passe. Le mot de passe volé n’ouvre plus rien.'
+        consequence: 'Tu commences par Cubopolis, puis ta boîte mail, puis GameBox. Ça prend vingt minutes avec ta mère. Chaque compte a maintenant son propre mot de passe. Le mot de passe volé n’ouvre plus rien.'
       - id: aide
-        texte: Je demande de l’aide à un adulte pour changer mes mots de passe sans en oublier.
+        texte: 'Je demande de l’aide à un adulte : on fait ensemble la liste de mes comptes pour n’en oublier aucun.'
         qualite: aide
         consequence: 'Ta grande sœur fait la liste de tes comptes avec toi. Vous changez chaque mot de passe, en commençant par la boîte mail.'
     indices:
@@ -115,21 +115,21 @@ etapes:
       messages:
         - de: contact
           texte: 'Coucou, c’est moi, Inès ! J’ai changé de numéro. J’ai mis le tien par erreur pour mon code GameBox 🙈'
-          texteSimple: 'Coucou, c’est moi, Inès ! J’ai mis ton numéro par erreur pour mon code GameBox 🙈'
+          texteSimple: 'Coucou, c’est moi, Inès ! J’ai changé de numéro. J’ai mis le tien par erreur pour mon code GameBox 🙈'
         - de: contact
           texte: 'Tu vas recevoir un code par SMS. Renvoie-le-moi vite stp, je suis bloquée !'
           texteSimple: 'Tu vas recevoir un code. Renvoie-le-moi vite stp !'
     question: 'Juste avant, un SMS de GameBox est arrivé : « Ton code de connexion : 482 913. Ne le donne à personne. » Tu n’avais rien demandé. Que fais-tu ?'
     choix:
       - id: renvoie
-        texte: 'Inès est dans ma classe et elle est bloquée. Un code, c’est juste des chiffres : je lui renvoie.'
+        texte: 'C’est Inès, elle est bloquée. Un code, c’est juste des chiffres : je lui renvoie.'
         qualite: risque
         consequence: 'Le code n’était pas pour Inès : il ouvrait TON compte GameBox. Quelqu’un s’y connecte, change ton mot de passe et ton pseudo. Le lendemain, Inès te dit qu’elle n’a jamais changé de numéro. Préviens vite un adulte : avec lui, tu peux demander à GameBox de te rendre ton compte.'
         consequenceSimple: 'Ce code ouvrait ton compte. Un pirate est entré dedans. Préviens vite un adulte pour le récupérer.'
       - id: garde
-        texte: 'Je ne renvoie pas le code, il ouvre mon compte à moi. Demain, je demande à Inès en vrai si c’est bien elle.'
+        texte: 'Je ne renvoie pas le code. Demain, je demande à Inès en vrai si c’est bien elle.'
         qualite: bon
-        consequence: 'Personne n’entre dans ton compte. Le lendemain, Inès n’est au courant de rien : c’était un pirate. Avec tes parents, tu changes ton mot de passe GameBox.'
+        consequence: 'Ce code ouvrait ton compte à toi : en le gardant, personne n’y entre. Le lendemain, Inès n’est au courant de rien : c’était un pirate. Avec tes parents, tu changes ton mot de passe GameBox.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de répondre quoi que ce soit.
         qualite: aide

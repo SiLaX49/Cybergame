@@ -33,7 +33,7 @@ etapes:
       - id: coffrefort
         texte: 'J’accepte la proposition de CoffreFort : un mot de passe unique pour ce site, enregistré, que je n’ai pas à retenir.'
         qualite: bon
-        consequence: 'Ta place est réservée. Le jour où Revendo subit une fuite, seul ce compte est concerné : tu changes un mot de passe, et c’est fini. Tu n’as qu’un seul mot de passe à retenir, celui de CoffreFort, long et protégé par la double authentification.'
+        consequence: 'Ta place est réservée. Dans la foulée, CoffreFort t’aide à remplacer tes autres variantes par des mots de passe uniques, la boîte mail d’abord. Le jour où Revendo subit une fuite, seul ton compte Revendo est concerné : tu changes un mot de passe, et c’est fini. Tu n’as qu’un seul mot de passe à retenir, celui de CoffreFort, long et protégé par la double authentification.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un qui utilise déjà un gestionnaire de mots de passe.
         qualite: aide
@@ -73,23 +73,23 @@ etapes:
     question: 'À 3 h 12, tu dormais, et tu n’as jamais mis les pieds à Lyon. Mais tu as déjà reçu ce genre d’alerte « pour rien », un jour où tu étais en 4G. Ta chaîne a 800 abonnés. Que fais-tu ?'
     choix:
       - id: ignore
-        texte: 'Ces alertes se trompent tout le temps sur la ville. C’est sûrement encore une fausse alerte : je supprime le mail.'
+        texte: 'Encore une fausse alerte : je supprime.'
         qualite: risque
-        consequence: 'Deux jours plus tard, ta chaîne publie une vidéo pour une fausse cryptomonnaie, et l’adresse de récupération de ton compte a changé. Quelqu’un avait ton mot de passe. Lance vite la récupération officielle de StreamTube, puis active la double authentification : avec elle, un mot de passe volé ne suffit plus.'
+        consequence: 'Deux jours plus tard, ta chaîne publie une vidéo pour une fausse cryptomonnaie, et l’adresse de récupération de ton compte a changé. Quelqu’un avait ton mot de passe. Lance vite la récupération officielle de StreamTube, change ton mot de passe, puis active la double authentification : avec elle, un mot de passe volé ne suffit plus.'
       - id: securise
-        texte: 'Sans cliquer dans le mail, j’ouvre l’appli StreamTube : je déconnecte l’appareil inconnu, je change mon mot de passe et j’active la double authentification.'
+        texte: 'J’ouvre moi-même l’appli StreamTube pour vérifier, sans cliquer dans le mail.'
         qualite: bon
         consequence: 'Dans l’appli, l’ordinateur inconnu apparaît bien. Tu le déconnectes, tu changes ton mot de passe et tu actives la double authentification. Le lendemain, une nouvelle tentative échoue : il manque le code.'
       - id: aide
-        texte: Je demande de l’aide à un proche avant de faire quoi que ce soit.
+        texte: Je demande de l’aide à un proche qui s’y connaît avant de faire quoi que ce soit.
         qualite: aide
         consequence: 'Ton frère te conseille de ne pas cliquer dans le mail et d’ouvrir toi-même l’appli. Vous y trouvez l’appareil inconnu et sécurisez le compte ensemble.'
     indices:
       - { id: heure, libelle: 'La connexion a eu lieu à 3 h 12, pendant que je dormais', pertinent: true }
       - { id: appareil, libelle: 'L’appareil est inconnu', pertinent: true }
       - { id: mdp-connu, libelle: 'Une connexion a réussi : quelqu’un connaît sans doute mon mot de passe', pertinent: true }
-      - { id: adresse, libelle: 'Le mail vient d’une adresse qui ressemble à celle de StreamTube', pertinent: false }
-    explicationIndices: 'L’heure et l’appareil inconnu suffisent : ce n’était pas toi, même si la ville est approximative. Que l’adresse semble officielle ou non, la bonne réaction reste la même : ouvrir soi-même l’appli, sans cliquer dans le mail.'
+      - { id: abonnes, libelle: 'Ma chaîne a 800 abonnés', pertinent: false }
+    explicationIndices: 'L’heure et l’appareil inconnu suffisent : ce n’était pas toi, même si la ville est approximative. La bonne réaction : ouvrir soi-même l’appli, sans cliquer dans le mail. Le nombre d’abonnés ne change rien : petit ou gros, tout compte peut être visé.'
     aRetenir: 'Une alerte de connexion qui ne vient pas de toi se prend au sérieux. Ouvre toi-même l’appli (jamais le lien du mail), déconnecte les appareils inconnus, change ton mot de passe et active la double authentification.'
     recuperation: { action: activer-2fa, siChoix: [ignore] }
     pourquoi:
@@ -115,12 +115,12 @@ etapes:
           texte: 'Identifiant et mot de passe acceptés ✔'
         - de: contact
           texte: 'Double authentification : saisis le code à 6 chiffres que nous venons de t’envoyer par SMS.'
-    question: 'Tu es arrivé ici par un lien « Vote pour ma photo au concours ! » envoyé par une amie. Tu as tapé ton mot de passe. Ton téléphone vibre : c’est un vrai SMS de SnapTalk, avec un code. Que fais-tu ?'
+    question: 'Cette page s’est ouverte depuis un lien « Vote pour ma photo au concours ! » envoyé par une amie. Tu as tapé ton mot de passe. Ton téléphone vibre : c’est un vrai SMS de SnapTalk, avec un code. Que fais-tu ?'
     choix:
       - id: tape-code
         texte: 'Le SMS vient vraiment de SnapTalk, donc la page est la bonne : je tape le code.'
         qualite: risque
-        consequence: 'Le code part en direct chez le pirate, qui le tape sur le vrai SnapTalk en quelques secondes. Il est dans ton compte, change le mot de passe et envoie le même lien à tes amis. La double authentification n’arrête pas un code qu’on donne soi-même. Si tu as encore accès, change ton mot de passe et déconnecte les autres appareils ; sinon, lance la récupération officielle.'
+        consequence: 'Le code part en direct chez le pirate, qui le tape sur le vrai SnapTalk en quelques secondes. Il est dans ton compte et envoie déjà le même lien à tes amis, mais il ne t’a pas encore mis dehors. La double authentification n’arrête pas un code qu’on donne soi-même. Tu as encore la main : change vite ton mot de passe et déconnecte tous les autres appareils.'
       - id: stop
         texte: 'Je ne tape pas le code. Je ferme la page, j’ouvre moi-même l’appli SnapTalk et je change tout de suite mon mot de passe.'
         qualite: bon
@@ -131,7 +131,7 @@ etapes:
         consequence: 'Ton prof de SNT regarde l’adresse : « snaptalk-connexion.co, ce n’est pas SnapTalk. » Tu changes ton mot de passe depuis l’appli officielle.'
     indices:
       - { id: url, libelle: 'L’adresse de la page est snaptalk-connexion.co, pas celle de SnapTalk', pertinent: true }
-      - { id: lien, libelle: 'Je suis arrivé sur cette page par un lien reçu en message', pertinent: true }
+      - { id: lien, libelle: 'Cette page s’est ouverte depuis un lien reçu en message', pertinent: true }
       - { id: vrai-sms, libelle: 'Le vrai SMS arrive parce que quelqu’un tape mon mot de passe sur le vrai site, en ce moment', pertinent: true }
       - { id: logo, libelle: 'La page a le logo et les couleurs de SnapTalk', pertinent: false }
     explicationIndices: 'La fausse page relaie ce que tu tapes vers le vrai site : c’est pour ça que le vrai SMS arrive. Le code est authentique, mais la page ne l’est pas. Un logo et des couleurs se copient en quelques secondes.'
