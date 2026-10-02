@@ -27,7 +27,7 @@ etapes:
     question: 'Ton train a 40 minutes de retard et ton forfait est presque vide. Les affiches de la gare annoncent un réseau « WiFi-Gare ». Dans la liste, tu vois aussi « Wi-Fi Gare Libre », au signal plus fort. Tu t’y connectes, et cette page s’ouvre. Que fais-tu ?'
     choix:
       - id: connecte
-        texte: 'Quarante minutes sans réseau, c’est long : je tape mon adresse mail et mon mot de passe.'
+        texte: 'Quarante minutes sans réseau ? Je tape mon mail et mon mot de passe.'
         qualite: risque
         consequence: 'La page affiche « Connexion réussie » et Internet fonctionne. Mais ton mot de passe est parti chez la personne qui a créé ce faux réseau, depuis un ordinateur portable dans la salle d’attente. Le soir, une alerte : connexion inconnue à ta boîte mail. Or ta boîte mail permet de réinitialiser la plupart de tes autres comptes. Change ton mot de passe tout de suite, active la double authentification et vérifie qu’aucun transfert automatique n’a été ajouté.'
       - id: vrai-reseau

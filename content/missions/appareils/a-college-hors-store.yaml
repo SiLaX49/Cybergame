@@ -76,7 +76,7 @@ etapes:
     question: 'Au festival, le réseau ne passe presque pas. Une affiche montre un QR code « Wi-Fi gratuit du festival ». Tu l’as scanné, et cette page s’ouvre. Tu veux poster tes vidéos du concert. Que fais-tu ?'
     choix:
       - id: connecte
-        texte: 'Je veux juste poster mes vidéos du concert : je tape mon compte SnapTalk, ça prend dix secondes.'
+        texte: 'Je veux poster mes vidéos du concert : je tape mon compte SnapTalk.'
         qualite: risque
         consequence: 'Internet ne marche même pas. Mais ton identifiant et ton mot de passe sont partis chez un inconnu : le QR code était un autocollant collé par-dessus le vrai. Le lendemain, ton compte SnapTalk envoie des liens d’arnaque à tes amis. Change vite ton mot de passe SnapTalk et active la double authentification.'
       - id: accueil
