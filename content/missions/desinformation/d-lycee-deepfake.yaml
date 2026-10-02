@@ -22,17 +22,17 @@ etapes:
         - de: contact
           texte: 'EXCLU 🔴 Claire Morand, tête de liste « Valbourg Demain », avoue tout : « J’ai truqué les comptes de la ville. » L’élection, c’est dimanche. Partagez avant qu’elle soit censurée !'
         - de: contact
-          texte: '[Vidéo de 20 secondes : Claire Morand parle face caméra. Sa bouche bouge parfois en décalage avec le son. Elle ne cligne presque jamais des yeux. Son collier disparaît puis réapparaît.]'
+          texte: '[Vidéo de 20 secondes : Claire Morand parle face caméra. Sa bouche bouge parfois en décalage avec le son. Ses dents paraissent floues quand elle parle. Son collier disparaît puis réapparaît.]'
     question: 'L’élection municipale de Valbourg a lieu dimanche. La vidéo circule partout depuis une heure. Que fais-tu ?'
     choix:
       - id: partage-vite
         texte: 'Si elle risque d’être censurée, autant la partager maintenant : les gens doivent savoir avant dimanche.'
         qualite: risque
-        consequence: 'La vidéo est vue des milliers de fois. Le lendemain, Le Courrier de Valbourg publie une enquête : c’est un deepfake, fabriqué à partir d’un discours de la candidate datant de l’an dernier, avec une voix générée par IA. À deux jours du vote, le faux a déjà circulé partout. Préviens ceux à qui tu l’as envoyée que c’était un faux, et signale la vidéo sur StreamTube.'
+        consequence: 'La vidéo est vue des milliers de fois. Le lendemain, Le Courrier de Valbourg publie une enquête : c’est un deepfake, fabriqué à partir d’un discours de la candidate datant de l’an dernier, avec le visage et la voix retouchés par IA. À deux jours du vote, le faux a déjà circulé partout. Préviens ceux à qui tu l’as envoyée que c’était un faux, et signale la vidéo sur StreamTube.'
       - id: croise
         texte: 'Avant de partager quoi que ce soit, je cherche si des médias reconnus ou la candidate elle-même ont réagi.'
         qualite: bon
-        consequence: 'Aucun média reconnu ne reprend la vidéo. Sur son compte officiel, la candidate dénonce un faux. Le Courrier de Valbourg retrouve la vidéo d’origine : un discours de l’an dernier, sur lequel on a plaqué une voix générée par IA.'
+        consequence: 'Aucun média reconnu ne reprend la vidéo. Sur son compte officiel, la candidate dénonce un faux. Le Courrier de Valbourg retrouve la vidéo d’origine : un discours de l’an dernier, dont le visage et la voix ont été retouchés par IA.'
       - id: aide
         texte: Je demande de l’aide à ma prof d’histoire-géo pour analyser la vidéo avec moi.
         qualite: aide
@@ -42,16 +42,16 @@ etapes:
       - { id: censure, libelle: 'On me dit de partager « avant qu’elle soit censurée »', pertinent: true }
       - { id: compte, libelle: 'Le compte qui publie n’est pas un média et ne cite aucune source', pertinent: true }
       - { id: visage, libelle: 'On voit bien le visage de la candidate', pertinent: false }
-    explicationIndices: 'Un deepfake laisse souvent des traces : lèvres décalées, clignements rares, objets qui apparaissent et disparaissent. L’appel à partager « avant la censure » sert à te faire agir avant les vérifications. Voir un visage ne prouve rien : c’est justement ce que l’IA sait imiter.'
+    explicationIndices: 'Un deepfake laisse parfois des traces : lèvres décalées, dents floues, objets qui apparaissent et disparaissent. Mais les plus réussis n’en laissent aucune visible : c’est la vérification des sources qui tranche. L’appel à partager « avant la censure » sert à te faire agir avant les vérifications. Voir un visage ne prouve rien : c’est justement ce que l’IA sait imiter.'
     aRetenir: 'Une vidéo peut être entièrement truquée par IA, visage et voix compris. Avant de relayer, croise avec des médias reconnus et la réaction de la personne concernée. En France, diffuser le montage ou le deepfake d’une personne sans son accord, sans dire qu’il est truqué, est puni par la loi.'
-    recuperation: { action: prevenir-contacts, siChoix: [partage-vite] }
+    recuperation: { action: corriger-partage, siChoix: [partage-vite] }
     pourquoi:
       - levier: urgence
         truc: '« Partagez avant qu’elle soit censurée » : la peur que l’info disparaisse te pousse à partager avant de vérifier.'
         parade: 'Une vraie révélation ne disparaît pas en une heure : les médias la reprennent et l’analysent. Attends leur vérification.'
       - levier: reflexe
         truc: 'Tu vois son visage et tu entends sa voix : on prend spontanément une vidéo pour une preuve.'
-        parade: 'Aujourd’hui, une vidéo se truque avec l’IA. Regarde la synchronisation des lèvres, les clignements, les objets qui disparaissent.'
+        parade: 'Aujourd’hui, visage et voix se truquent avec l’IA. Commence par la source : qui publie, et des médias reconnus en parlent-ils ? Les défauts visibles ne sont qu’un indice en plus.'
       - levier: groupe
         truc: 'La vidéo circule partout depuis une heure : ça donne l’impression que l’affaire est établie.'
         parade: 'Une vidéo très partagée n’est pas une vidéo vérifiée. Cherche ce qu’en disent des médias reconnus.'
@@ -75,11 +75,11 @@ etapes:
         qualite: risque
         consequence: 'Ta famille file au supermarché, déjà pris d’assaut : les rayons d’eau sont vides. Le soir, la mairie dément : aucune coupure n’est prévue. Les 63 comptes étaient des faux, coordonnés pour semer la panique. Préviens ta famille que c’était faux, puis bloque et signale ces comptes.'
       - id: source-officielle
-        texte: 'Je vérifie sur le site de la mairie et sur celui du service des eaux avant de faire quoi que ce soit.'
+        texte: 'Je vérifie d’abord sur le site de la mairie.'
         qualite: bon
         consequence: 'Ni la mairie ni le service des eaux n’annoncent de coupure. Dans la soirée, la préfecture publie un démenti. L’alerte était fausse, et tu n’as rien relayé.'
       - id: aide
-        texte: Je demande de l’aide à mes parents pour vérifier l’info auprès de la mairie.
+        texte: Je demande de l’aide à mes parents pour qu’on vérifie ensemble auprès de la mairie et de la préfecture.
         qualite: aide
         consequence: 'Ta mère consulte le site de la mairie : aucune coupure prévue. « Si c’était vrai, on aurait reçu une alerte officielle. » Vous ne relayez rien.'
     indices:
@@ -109,36 +109,36 @@ etapes:
     ecran:
       app: web
       appNom: Navigateur
-      contact: 'Le Journal du Soir'
-      url: 'www.lejournal-du-soir.info/aide-permis'
+      contact: 'La Vigie du Soir'
+      url: 'www.la-vigie-du-soir.info/aide-permis'
       messages:
         - de: contact
-          texte: 'LE JOURNAL DU SOIR · Société. Bonne nouvelle pour les lycéens : une aide de 300 € pour le permis est versée à tous les jeunes de 16 à 18 ans. Inscription avant vendredi : remplis le formulaire ci-dessous avec ton nom, ton adresse et ton numéro de sécurité sociale. [Bouton : « Je m’inscris »]'
-    question: 'Ton ami Sacha t’a envoyé ce lien. Le logo et la mise en page sont ceux du Journal du Soir, que tes parents lisent. Que fais-tu ?'
+          texte: 'LA VIGIE DU SOIR · Société. Bonne nouvelle pour les lycéens : une aide de 300 € pour le permis est versée à tous les jeunes de 16 à 18 ans. Inscription avant vendredi : remplis le formulaire ci-dessous avec ton nom, ton adresse et ton numéro de sécurité sociale. [Bouton : « Je m’inscris »]'
+    question: 'Ton ami Sacha t’a envoyé ce lien. Le logo et la mise en page sont ceux de La Vigie du Soir, que tes parents lisent. Que fais-tu ?'
     choix:
       - id: partage-classe
-        texte: 'C’est Le Journal du Soir, c’est sérieux : je m’inscris et j’envoie le lien au groupe de la classe.'
+        texte: 'C’est La Vigie du Soir, c’est sérieux : je m’inscris et j’envoie le lien au groupe de la classe.'
         qualite: risque
-        consequence: 'Le formulaire enregistre ton nom, ton adresse et ton numéro de sécurité sociale. Aucune aide n’existe : le site lejournal-du-soir.info imite le vrai journal pour récolter des données. Dix élèves de ta classe ont rempli le formulaire eux aussi. Préviens-les vite que c’était faux, et parlez-en à vos parents : ces données peuvent servir à d’autres arnaques.'
+        consequence: 'Le formulaire enregistre ton nom, ton adresse et ton numéro de sécurité sociale. Aucune aide n’existe : le site la-vigie-du-soir.info imite le vrai journal pour récolter des données. Dix élèves de ta classe ont rempli le formulaire eux aussi. Préviens-les vite que c’était faux, et parlez-en à vos parents : ces données peuvent servir à d’autres arnaques.'
       - id: tape-adresse
-        texte: 'Je tape moi-même l’adresse du Journal du Soir, puis je cherche cette aide sur le site officiel de l’administration.'
+        texte: 'Je tape moi-même l’adresse du journal pour retrouver l’article.'
         qualite: bon
-        consequence: 'Sur le vrai site du Journal du Soir, aucun article de ce genre. Le site officiel de l’administration ne mentionne aucune aide de 300 € pour tous. Le lien était une imitation.'
+        consequence: 'Sur le vrai site de La Vigie du Soir, aucun article de ce genre. Le site officiel de l’administration ne mentionne aucune aide de 300 € pour tous. Le lien était une imitation.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de remplir le formulaire.
         qualite: aide
-        consequence: 'Ton père compare les adresses : « Le vrai journal, c’est lejournaldusoir.fr. Celui-ci finit en .info, avec des tirets. » Vous ne remplissez rien, et tu préviens Sacha.'
+        consequence: 'Ton père compare les adresses : « Le vrai journal, c’est lavigiedusoir.fr. Celui-ci finit en .info, avec des tirets. » Vous ne remplissez rien, et tu préviens Sacha.'
     indices:
-      - { id: adresse, libelle: 'L’adresse est lejournal-du-soir.info, pas celle du journal', pertinent: true }
+      - { id: adresse, libelle: 'L’adresse est la-vigie-du-soir.info, pas celle du journal', pertinent: true }
       - { id: secu, libelle: 'On me demande mon numéro de sécurité sociale', pertinent: true }
       - { id: delai, libelle: 'Il faut s’inscrire « avant vendredi »', pertinent: true }
-      - { id: logo, libelle: 'Le logo est celui du Journal du Soir', pertinent: false }
+      - { id: logo, libelle: 'Le logo est celui de La Vigie du Soir', pertinent: false }
     explicationIndices: 'Un faux site copie le logo et la mise en page d’un média en quelques minutes : seule l’adresse trahit l’imitation. Un journal informe, il ne collecte pas ton numéro de sécurité sociale. Le délai court sert à t’empêcher de vérifier.'
-    aRetenir: 'Pour lire un média, tape toi-même son adresse ou passe par son appli. Une aide publique s’annonce sur les sites officiels de l’administration, et un article ne te demande jamais tes données personnelles.'
-    recuperation: { action: prevenir-contacts, siChoix: [partage-classe] }
+    aRetenir: 'Pour lire un média, tape toi-même son adresse ou passe par son appli. Une aide publique s’annonce sur les sites officiels de l’administration, et un article ne te demande jamais ton numéro de sécurité sociale.'
+    recuperation: { action: demander-aide, siChoix: [partage-classe] }
     pourquoi:
       - levier: autorite
-        truc: 'Le logo et la mise en page du « Journal du Soir » donnent l’air sérieux. Ils se copient en quelques minutes.'
+        truc: 'Le logo et la mise en page de « La Vigie du Soir » donnent l’air sérieux. Ils se copient en quelques minutes.'
         parade: 'Tape toi-même l’adresse du média et compare-la lettre par lettre avec celle du lien.'
       - levier: confiance
         truc: 'Le lien vient de Sacha, ton ami : tu ne penses pas à te méfier.'
@@ -157,8 +157,8 @@ etapes:
       consigne: Enquête sur cette vidéo avant de décider. Est-elle fiable, douteuse ou fausse ?
       publication:
         auteur: 'InfoVérité_24'
-        texte: 'SCANDALE : Hugo Lemaire, candidat de la liste « Ensemble pour Valbourg », promet de fermer le lycée de la ville s’il est élu. Regardez avant que ce soit supprimé !'
-        date: 'Vendredi, 23 h 40, deux jours avant le vote'
+        texte: 'SCANDALE : Hugo Lemaire, candidat de la liste « Cap sur Valbourg », promet de fermer le lycée de la ville s’il est élu. Regardez avant que ce soit supprimé !'
+        date: 'Vendredi, 23 h 40'
         image:
           description: 'Vidéo de 15 secondes. Hugo Lemaire parle face caméra devant un mur blanc. Ses lèvres sont parfois en décalage avec la voix. Le contour de ses oreilles se déforme quand il tourne la tête.'
       actions:
@@ -184,7 +184,7 @@ debrief:
     - Quel était le piège ?
     - Quel indice pourras-tu réutiliser la prochaine fois ?
     - Que faire si ça t’est déjà arrivé ?
-  reponses: 'Le piège commun : te faire relayer une info avant qu’elle soit vérifiée, en jouant sur ce que tu vois (une vidéo, un logo), sur le nombre (des dizaines de comptes) et sur l’urgence (« avant la censure », « maintenant », « avant vendredi »). Indices réutilisables : lèvres décalées et détails qui bougent dans une vidéo, comptes récents qui copient le même texte, source vague ou absente, adresse de site qui imite celle d’un média, données personnelles demandées. Le bon réflexe : croiser les sources (médias reconnus, sources officielles, recherche d’image inversée, réaction de la personne concernée). Si c’est déjà arrivé : supprimer son partage, prévenir ceux qui l’ont reçu que c’était faux, signaler le contenu ou les comptes, et en parler à un adulte si des données ont été données. Se faire avoir par un deepfake bien fait n’a rien de honteux : ils trompent aussi des adultes et des journalistes.'
+  reponses: 'Le piège commun : te faire relayer une info avant qu’elle soit vérifiée, en jouant sur ce que tu vois (une vidéo, un logo), sur le nombre (des dizaines de comptes) et sur l’urgence (« avant la censure », « maintenant », « avant vendredi »). Indices réutilisables : lèvres décalées et détails qui bougent dans une vidéo (les deepfakes les plus réussis n’en montrent aucun, d’où l’importance de la source), comptes récents qui copient le même texte, source vague ou absente, adresse de site qui imite celle d’un média, données personnelles demandées. Le bon réflexe : croiser les sources (médias reconnus, sources officielles, recherche d’image inversée, réaction de la personne concernée). Si c’est déjà arrivé : supprimer son partage, prévenir ceux qui l’ont reçu que c’était faux, signaler le contenu ou les comptes, et en parler à un adulte si des données ont été données. Se faire avoir par un deepfake bien fait n’a rien de honteux : ils trompent aussi des adultes et des journalistes.'
   erreursFrequentes:
     - 'Croire qu’une vidéo où l’on voit et entend une personne est forcément authentique.'
     - 'Penser qu’une info reprise par des dizaines de comptes est confirmée.'

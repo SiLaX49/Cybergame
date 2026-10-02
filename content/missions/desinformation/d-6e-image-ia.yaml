@@ -20,8 +20,8 @@ etapes:
       contact: 'Planète_Insolite'
       messages:
         - de: contact
-          texte: 'INCROYABLE 😱 Un chat géant de 2 mètres photographié dans une forêt du Jura ! [Photo : un chat tigré aussi grand qu’un homme, assis entre des sapins. Ses moustaches sont floues. Une de ses pattes a six doigts.]'
-          texteSimple: 'Incroyable : un chat géant de 2 mètres dans une forêt ! [Photo : un chat aussi grand qu’un homme. Une patte a six doigts.]'
+          texte: 'INCROYABLE 😱 Un chat géant de 2 mètres photographié dans une forêt du Jura ! [Photo : un chat tigré aussi grand qu’un homme, assis entre des sapins. Derrière lui, les troncs des sapins se tordent et se mélangent les uns aux autres.]'
+          texteSimple: 'Incroyable 😱 Un chat géant de 2 mètres dans une forêt ! [Photo : un chat aussi grand qu’un homme. Derrière lui, les sapins se tordent et se mélangent.]'
     question: 'La photo a déjà 30 000 « j’aime ». Tu as envie de la montrer au groupe de ta classe. Que fais-tu ?'
     choix:
       - id: partage
@@ -30,22 +30,22 @@ etapes:
         consequence: 'Toute la classe partage la photo, et plusieurs élèves y croient vraiment. Le lendemain, ta prof de SVT explique qu’elle a été fabriquée par une IA. Un chat ne peut pas mesurer 2 mètres. Tu peux encore prévenir le groupe que c’était faux.'
         consequenceSimple: 'Toute la classe y a cru. Mais la photo a été fabriquée par une IA. Tu peux prévenir le groupe que c’était faux.'
       - id: verifie
-        texte: 'Avant de partager, je regarde les détails de la photo et je cherche si un vrai site en parle.'
+        texte: 'Je zoome sur la photo et je cherche si un vrai site en parle.'
         qualite: bon
-        consequence: 'En zoomant, tu vois une patte à six doigts et des moustaches floues. Aucun site sérieux ne parle de ce chat. C’est une image fabriquée par une IA.'
+        consequence: 'En zoomant, tu vois des sapins qui se tordent et se mélangent : impossible dans une vraie forêt. Aucun site sérieux ne parle de ce chat. C’est une image fabriquée par une IA.'
       - id: aide
-        texte: Je demande de l’aide à un adulte pour savoir si cette photo est vraie.
+        texte: Je demande de l’aide à un adulte de ma famille pour savoir si cette photo est vraie.
         qualite: aide
-        consequence: 'Ta mère regarde la photo : « Six doigts à une patte ? C’est une image faite par une IA. » Vous en riez ensemble, sans la partager.'
+        consequence: 'Ta mère regarde la photo : « Des sapins tout tordus qui se mélangent ? C’est une image faite par une IA. » Vous en riez ensemble, sans la partager.'
     indices:
-      - { id: six-doigts, libelle: 'Une patte du chat a six doigts', pertinent: true }
+      - { id: sapins-tordus, libelle: 'Les sapins derrière le chat se tordent et se mélangent', pertinent: true }
       - { id: taille, libelle: 'Un chat de 2 mètres, ça n’existe pas', pertinent: true }
-      - { id: flou, libelle: 'Les moustaches sont floues', pertinent: true }
+      - { id: compte, libelle: 'Le compte Planète_Insolite n’est pas un média connu', pertinent: true }
       - { id: jaime, libelle: 'La photo a beaucoup de « j’aime »', pertinent: false }
-    explicationIndices: 'Les images faites par une IA ont souvent des détails ratés : des doigts en trop, des contours flous. Un chat de 2 mètres n’existe pas. Les « j’aime », eux, ne prouvent rien : on aime une photo surprenante, vraie ou fausse.'
-    aRetenir: 'Une image peut être fabriquée par une IA. Avant de partager une photo surprenante, regarde les détails et cherche si un site sérieux en parle.'
-    aRetenirSimple: 'Une photo peut être fabriquée par une IA. Regarde bien les détails avant de partager.'
-    recuperation: { action: prevenir-contacts, siChoix: [partage] }
+    explicationIndices: 'Les images faites par une IA ont parfois des détails impossibles, comme des arbres qui se tordent et se mélangent. Un chat de 2 mètres n’existe pas. Les « j’aime », eux, ne prouvent rien : on aime une photo surprenante, vraie ou fausse.'
+    aRetenir: 'Une image peut être fabriquée par une IA. Regarde les détails, mais si tu ne vois pas d’erreur, ça ne prouve pas que c’est vrai. Chercher qui en parle reste le meilleur test.'
+    aRetenirSimple: 'Une photo peut être fabriquée par une IA. Avant de partager, cherche si un vrai site en parle.'
+    recuperation: { action: corriger-partage, siChoix: [partage] }
     pourquoi:
       - levier: groupe
         truc: 'La photo a déjà 30 000 « j’aime ». Tu te dis que tant de gens ne peuvent pas se tromper.'
@@ -81,11 +81,11 @@ etapes:
         consequence: 'Le message fait le tour du collège. Le lendemain, le collège est bien ouvert. Plusieurs élèves sont restés chez eux et ont raté le contrôle. Tu n’as pas inventé la rumeur, mais tu peux aider à l’arrêter : préviens ceux à qui tu l’as envoyée que c’était faux.'
         consequenceSimple: 'C’était faux : le collège était ouvert. Des élèves sont restés chez eux. Préviens ceux à qui tu l’as envoyé que c’était faux.'
       - id: ent
-        texte: 'Je regarde l’ENT du collège et je demande à mes parents s’ils ont reçu un message officiel.'
+        texte: 'Je vérifie sur l’ENT du collège avant de transférer quoi que ce soit.'
         qualite: bon
-        consequence: 'Sur l’ENT, aucune fermeture n’est annoncée. Tes parents n’ont reçu aucun message du collège. C’était une rumeur : tu ne la transfères pas.'
+        consequence: 'Sur l’ENT, aucune fermeture n’est annoncée. Le collège aurait prévenu les familles. C’était une rumeur : tu ne la transfères pas.'
       - id: aide
-        texte: Je demande de l’aide à mes parents pour vérifier avant de transférer.
+        texte: Je demande de l’aide à mes parents pour savoir si le collège a vraiment envoyé un message.
         qualite: aide
         consequence: 'Ta mère regarde l’ENT : aucune fermeture. « Une vraie fermeture, le collège l’annonce lui-même aux familles. » Tu ne transfères rien.'
     indices:
@@ -96,7 +96,7 @@ etapes:
     explicationIndices: 'Une vraie fermeture est annoncée par le collège, sur l’ENT ou par message aux familles. « Partage à 10 personnes » est typique des rumeurs en chaîne. Une raison précise ne rend pas une info vraie.'
     aRetenir: 'Une info sur le collège se vérifie à la source : l’ENT ou un message officiel aux familles. Un message qui demande de partager à 10 personnes est souvent une rumeur.'
     aRetenirSimple: 'Vérifie sur l’ENT avant de croire une info sur le collège. Ne transfère pas les messages en chaîne.'
-    recuperation: { action: prevenir-contacts, siChoix: [transfere] }
+    recuperation: { action: corriger-partage, siChoix: [transfere] }
     pourquoi:
       - levier: urgence
         truc: '« Urgent » et « Partage vite » : on te pousse à transférer avant de réfléchir.'
@@ -126,16 +126,16 @@ etapes:
       - id: partage-famille
         texte: 'Si ça peut aider mamie, je partage tout de suite dans le groupe de la famille.'
         qualite: risque
-        consequence: 'Ta tante répond qu’elle va essayer. Ta cousine, qui est infirmière, réagit vite : « C’est faux ! Sur une brûlure, on met de l’eau fraîche du robinet, pas un mélange de cuisine. » Pour une question de santé, demande conseil à un adulte ou à un professionnel.'
-        consequenceSimple: 'Ta cousine infirmière dit que c’est faux. Sur une brûlure, on met de l’eau fraîche. Demande conseil à un adulte.'
+        consequence: 'Ta tante répond qu’elle va essayer. Ta cousine, qui est infirmière, réagit vite : « C’est faux ! Sur une brûlure, on met de l’eau fraîche du robinet, pas un mélange de cuisine. » Préviens le groupe de la famille que l’astuce était fausse. Pour une question de santé, demande conseil à un adulte ou à un professionnel.'
+        consequenceSimple: 'Ta cousine infirmière dit que c’est faux. Sur une brûlure, on met de l’eau fraîche. Préviens le groupe de la famille que c’était faux.'
       - id: verifie-site
         texte: 'Je ne partage rien avant d’avoir vérifié cette astuce sur un site de santé officiel.'
         qualite: bon
-        consequence: 'Sur un site de santé officiel, tu lis : sur une brûlure, on met de l’eau fraîche du robinet, pas glacée. Puis on prévient un adulte. L’astuce de la vidéo était fausse.'
+        consequence: 'Sur un site de santé officiel, tu lis que l’astuce est fausse. Sur une brûlure, on met de l’eau fraîche du robinet, pas glacée, pendant plusieurs minutes. Puis on prévient un adulte.'
       - id: aide
         texte: Je demande de l’aide à l’infirmière du collège pour savoir si l’astuce est vraie.
         qualite: aide
-        consequence: 'L’infirmière est claire : « Cette astuce est fausse. Sur une brûlure, on met de l’eau fraîche et on prévient un adulte. »'
+        consequence: 'L’infirmière est claire : « Cette astuce est fausse. Sur une brûlure, on met de l’eau fraîche pendant plusieurs minutes. Puis on prévient un adulte. »'
     indices:
       - { id: medecins, libelle: 'La vidéo dit que les médecins cachent la vérité', pertinent: true }
       - { id: miracle, libelle: 'L’astuce promet un résultat miracle en 5 minutes', pertinent: true }
@@ -144,7 +144,7 @@ etapes:
     explicationIndices: 'Une astuce miracle qui dit que les médecins cachent la vérité, c’est un signal d’alarme. Le compte n’est pas un professionnel de santé. Le nombre de partages ne prouve rien.'
     aRetenir: 'Pour ta santé, ne crois pas une astuce qui circule sur les réseaux. Demande à un adulte, un pharmacien, l’infirmière ou un médecin.'
     aRetenirSimple: 'Une astuce santé sur les réseaux peut être fausse. Demande à un adulte ou à l’infirmière.'
-    recuperation: { action: demander-aide, siChoix: [partage-famille] }
+    recuperation: { action: corriger-partage, siChoix: [partage-famille] }
     pourquoi:
       - levier: confiance
         truc: 'Le nom « Mamie Rose » fait penser à une gentille grand-mère qui veut aider.'
@@ -190,7 +190,7 @@ debrief:
     - Quel était le piège ?
     - Quel indice pourras-tu réutiliser la prochaine fois ?
     - Que faire si ça t’est déjà arrivé ?
-  reponses: 'Le piège commun : une info surprenante, drôle ou rassurante, qui donne envie de partager tout de suite, sans vérifier. Indices réutilisables : des détails ratés sur une image (doigts en trop, flou), une source vague (« ma cousine »), une demande de partager en chaîne, une promesse miracle, des « médecins qui cachent la vérité ». Les « j’aime » et les partages ne prouvent rien. Si c’est déjà arrivé : prévenir ceux à qui on a envoyé l’info qu’elle était fausse, et demander conseil à un adulte, surtout pour une question de santé. Tout le monde a déjà partagé une fausse info, même les adultes : l’important, c’est de corriger.'
+  reponses: 'Le piège commun : une info surprenante, drôle ou rassurante, qui donne envie de partager tout de suite, sans vérifier. Indices réutilisables : des détails impossibles sur une image (des arbres qui se tordent et se mélangent), en sachant qu’une image sans erreur visible n’est pas forcément vraie, une source vague (« ma cousine »), une demande de partager en chaîne, une promesse miracle, des « médecins qui cachent la vérité ». Les « j’aime » et les partages ne prouvent rien. Si c’est déjà arrivé : prévenir ceux à qui on a envoyé l’info qu’elle était fausse, et demander conseil à un adulte, surtout pour une question de santé. Tout le monde a déjà partagé une fausse info, même les adultes : l’important, c’est de corriger.'
   erreursFrequentes:
     - 'Croire qu’une photo très réaliste est forcément vraie : les IA fabriquent des images en quelques secondes.'
     - 'Penser qu’une info partagée par beaucoup de monde est forcément vraie.'

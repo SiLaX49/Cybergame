@@ -27,7 +27,7 @@ etapes:
       - id: repartage
         texte: 'Elle tourne déjà partout et elle est trop drôle : je la repartage avec un 😂.'
         qualite: risque
-        consequence: 'La vidéo fait le tour du collège, et les commentaires moqueurs visent M. Durand. Le lendemain, un élève de sa classe raconte la scène entière : il lisait la réplique d’un roi grincheux, dans la pièce étudiée en cours, et toute la classe riait. Retire ton partage, garde une capture du compte qui a publié la vidéo et montre-la à un adulte du collège.'
+        consequence: 'La vidéo fait le tour du collège, et les commentaires moqueurs visent M. Durand. Le lendemain, un élève de sa classe raconte la scène entière : il lisait la réplique d’un roi grincheux, dans la pièce étudiée en cours, et toute la classe riait. Retire ton partage. Garde une capture du compte qui a publié la vidéo, bloque-le et montre la capture à un adulte du collège.'
       - id: contexte
         texte: 'Je ne partage pas une vidéo coupée sans savoir ce qui s’est passé avant et après.'
         qualite: bon
@@ -77,7 +77,7 @@ etapes:
         qualite: bon
         consequence: 'Sur l’ENT, aucun message de ce genre. Tes parents n’ont rien reçu. Et un « 31 septembre », ça n’existe pas : la capture est fausse.'
       - id: aide
-        texte: Je demande de l’aide à un adulte pour savoir si ce message vient vraiment du collège.
+        texte: Je demande de l’aide à un adulte de confiance pour savoir si ce message vient vraiment du collège.
         qualite: aide
         consequence: 'Ton grand frère remarque tout de suite la date : « Le 31 septembre n’existe pas. » Sur l’ENT, aucune annonce. Tu ne fais rien tourner.'
     indices:
@@ -87,7 +87,7 @@ etapes:
       - { id: colere, libelle: 'Tout le groupe est en colère', pertinent: false }
     explicationIndices: 'Une capture d’écran se fabrique en quelques minutes, logo compris. Un détail impossible, comme un 31 septembre, trahit le montage. La colère du groupe, elle, ne prouve rien : elle pousse surtout à partager vite.'
     aRetenir: 'Une capture d’écran n’est pas une preuve. Une annonce du collège se vérifie à la source : sur l’ENT ou dans les messages reçus par tes parents.'
-    recuperation: { action: prevenir-contacts, siChoix: [fait-tourner] }
+    recuperation: { action: corriger-partage, siChoix: [fait-tourner] }
     pourquoi:
       - levier: autorite
         truc: '« Message du principal » et le logo du collège : la capture a l’air officielle. Un logo se copie en deux secondes.'
@@ -107,38 +107,38 @@ etapes:
     ecran:
       app: social
       appNom: SnapTalk
-      contact: 'InfoFIash'
+      contact: 'InfoÉcIair · 2 400 abonnés · bio : Parodie, rien n’est vrai'
       messages:
         - de: contact
-          texte: '⚡ ALERTE : NoaGaming arrête StreamTube pour toujours. Sa dernière vidéo sortira ce soir 💔 [Profil : InfoFIash · 2 400 abonnés · Bio : « Parodie. Rien n’est vrai 😜 »]'
-    question: 'Le logo est le même que celui du média InfoFlash, que tu suis depuis longtemps. Tes amis adorent NoaGaming. Que fais-tu ?'
+          texte: '⚡ ALERTE : Pixelnoé arrête StreamTube pour toujours. Sa dernière vidéo sortira ce soir 💔'
+    question: 'Le logo est le même que celui du média InfoÉclair, que tu suis depuis longtemps. Tes amis adorent Pixelnoé. Que fais-tu ?'
     choix:
       - id: partage-info
-        texte: 'C’est InfoFlash, un vrai média : je partage direct, mes potes fans de NoaGaming doivent savoir.'
+        texte: 'C’est InfoÉclair, un vrai média : je partage direct, mes potes fans de Pixelnoé doivent savoir.'
         qualite: risque
-        consequence: 'Tes amis paniquent et commentent en masse. Une heure plus tard, NoaGaming publie une vidéo : « J’arrête rien du tout ! » Le compte imitait InfoFlash, avec un i majuscule à la place du l. Retire ton partage. Comme ce compte se fait passer pour un vrai média, bloque-le et signale-le comme faux compte.'
+        consequence: 'Tes amis paniquent et commentent en masse. Une heure plus tard, Pixelnoé publie une vidéo : « J’arrête rien du tout ! » Le compte imitait InfoÉclair, avec un i majuscule à la place du l. Retire ton partage. Comme ce compte se fait passer pour un vrai média, bloque-le et signale-le comme faux compte.'
       - id: verifie-compte
-        texte: Je regarde le profil du compte, puis je vérifie si le vrai InfoFlash ou NoaGaming en parlent.
+        texte: Je regarde d’abord le profil du compte qui publie.
         qualite: bon
-        consequence: 'La bio dit « Parodie » et le compte n’a que 2 400 abonnés. Le vrai InfoFlash, écrit avec un l, n’a rien publié de tel. NoaGaming non plus.'
+        consequence: 'La bio dit « Parodie » et le compte n’a que 2 400 abonnés. Le vrai InfoÉclair, écrit avec un l, n’a rien publié de tel. Pixelnoé non plus.'
       - id: aide
-        texte: Je demande de l’aide à quelqu’un pour vérifier si ce compte est bien celui d’InfoFlash.
+        texte: Je demande de l’aide à quelqu’un pour vérifier si ce compte est bien celui d’InfoÉclair.
         qualite: aide
-        consequence: 'Ta sœur zoome sur le nom : « InfoFIash, avec un i majuscule ! Ce n’est pas le vrai compte. » Vous le signalez comme faux compte.'
+        consequence: 'Ta sœur zoome sur le nom : « InfoÉcIair, avec un i majuscule ! Ce n’est pas le vrai compte. » Vous le signalez comme faux compte.'
     indices:
       - { id: nom, libelle: 'Le nom s’écrit avec un i majuscule à la place du l', pertinent: true }
       - { id: bio, libelle: 'La bio dit « Parodie »', pertinent: true }
       - { id: abonnes, libelle: 'Le compte n’a que 2 400 abonnés pour un grand média', pertinent: true }
-      - { id: logo, libelle: 'Le logo est le même que celui d’InfoFlash', pertinent: false }
-    explicationIndices: 'Un compte parodie ou un faux compte copie le logo d’un média : ça ne prouve rien. Ce qui compte, c’est le nom exact, lettre par lettre, la bio et le nombre d’abonnés. Ici, « InfoFIash » s’écrit avec un i majuscule.'
+      - { id: logo, libelle: 'Le logo est le même que celui d’InfoÉclair', pertinent: false }
+    explicationIndices: 'Un compte parodie ou un faux compte copie le logo d’un média : ça ne prouve rien. Ce qui compte, c’est le nom exact, lettre par lettre, la bio et le nombre d’abonnés. Ici, « InfoÉcIair » s’écrit avec un i majuscule.'
     aRetenir: 'Avant de croire un compte qui ressemble à un média, vérifie son nom exact, sa bio et son nombre d’abonnés. Une info importante se retrouve aussi sur le vrai compte du média.'
     recuperation: { action: bloquer-signaler, siChoix: [partage-info] }
     pourquoi:
       - levier: autorite
-        truc: 'Le compte « InfoFIash » reprend le logo et presque le nom d’un vrai média. Les deux se copient facilement.'
+        truc: 'Le compte « InfoÉcIair » reprend le logo et presque le nom d’un vrai média. Les deux se copient facilement.'
         parade: 'Lis le nom lettre par lettre et regarde la bio. Ou va directement sur le vrai compte du média.'
       - levier: confiance
-        truc: 'Tu suis InfoFlash depuis longtemps : tu fais confiance à ce nom sans regarder qui publie vraiment.'
+        truc: 'Tu suis InfoÉclair depuis longtemps : tu fais confiance à ce nom sans regarder qui publie vraiment.'
         parade: 'Même pour un média que tu connais, vérifie le nom exact et le nombre d’abonnés du compte.'
       - levier: urgence
         truc: '« ALERTE » et « ce soir » : on te pousse à réagir tout de suite.'
@@ -151,16 +151,16 @@ etapes:
       consigne: Enquête sur cette publication avant de décider. Est-elle fiable, douteuse ou fausse ?
       publication:
         auteur: 'ActuStars_Officiel'
-        texte: 'Capture exclusive 😱 La chanteuse Lyna Vox écrit qu’elle annule toute sa tournée à cause de ses fans !'
+        texte: 'Capture exclusive 😱 La chanteuse Lyna Solvo écrit qu’elle annule toute sa tournée à cause de ses fans !'
         date: 'Hier, 23 h 10'
         image:
-          description: 'Capture d’écran d’une discussion privée. Le nom « Lyna Vox » n’est pas écrit avec la même police que le message. L’heure en haut de l’écran indique 25:14.'
+          description: 'Capture d’écran d’une discussion privée. Le nom « Lyna Solvo » n’est pas écrit avec la même police que le message. L’heure en haut de l’écran indique 25:14.'
       actions:
         - id: source
           libelle: Chercher la source
           resultat: 'Le compte ne donne aucun lien vers la discussion d’origine. Il a été créé la semaine dernière.'
         - id: officiel
-          libelle: Consulter le compte officiel de Lyna Vox
+          libelle: Consulter le compte officiel de Lyna Solvo
           resultat: 'Hier soir, elle a publié les dates de sa tournée, avec un message pour remercier ses fans. Aucune annulation.'
         - id: details
           libelle: Regarder les détails de la capture
