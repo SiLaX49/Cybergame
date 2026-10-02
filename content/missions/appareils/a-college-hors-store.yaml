@@ -17,21 +17,21 @@ etapes:
     ecran:
       app: web
       appNom: Navigateur
-      contact: 'SonoBox Premium Gratuit'
-      url: 'sonobox-premium-free.xyz'
+      contact: 'MélodiBox Premium Gratuit'
+      url: 'melodibox-premium-free.xyz'
       messages:
         - de: contact
-          texte: 'SonoBox Premium DÉBLOQUÉ : musique sans pub, écoute hors ligne, morceaux illimités. 100 % gratuit, à vie !'
+          texte: 'MélodiBox Premium DÉBLOQUÉ : musique sans pub, écoute hors ligne, morceaux illimités. 100 % gratuit, à vie !'
         - de: contact
-          texte: 'Télécharge le fichier SonoBox_Premium_Mod (38 Mo). Avant l’installation, autorise « Installer des applis inconnues » dans tes réglages.'
+          texte: 'Télécharge le fichier MélodiBox_Premium_Mod (38 Mo). Avant l’installation, autorise « Installer des applis inconnues » dans tes réglages.'
         - de: contact
-          texte: 'Au premier lancement, connecte-toi avec ton compte SonoBox habituel pour retrouver tes playlists.'
-    question: 'L’abonnement SonoBox Premium coûte 10 € par mois. Ce site est arrivé en tête quand tu as cherché « sonobox premium gratuit ». Que fais-tu ?'
+          texte: 'Au premier lancement, connecte-toi avec ton compte MélodiBox habituel pour retrouver tes playlists.'
+    question: 'L’abonnement MélodiBox Premium coûte 10 € par mois. Ce site est arrivé en tête quand tu as cherché « mélodibox premium gratuit ». Que fais-tu ?'
     choix:
       - id: installe
         texte: '10 € par mois, c’est tout mon argent de poche. Là, c’est gratuit à vie : j’installe.'
         qualite: risque
-        consequence: 'L’appli fonctionne… quelques jours. Mais elle t’a fait taper ton identifiant et ton mot de passe SonoBox, et ils sont partis chez les pirates. Ton compte est repris, et des pubs plein écran s’ouvrent toutes seules sur ton téléphone. Tu peux reprendre la main : supprime l’appli, puis change ton mot de passe SonoBox, et partout où tu utilises le même.'
+        consequence: 'L’appli fonctionne… quelques jours. Mais elle t’a fait taper ton identifiant et ton mot de passe MélodiBox, et ils sont partis chez les pirates. Ton compte est repris, et des pubs plein écran s’ouvrent toutes seules sur ton téléphone. Tu peux reprendre la main : supprime l’appli, puis change ton mot de passe MélodiBox, et partout où tu utilises le même.'
       - id: officiel
         texte: 'Je garde la version gratuite officielle, avec ses pubs, ou je regarde s’il existe une offre famille à partager à la maison.'
         qualite: bon
@@ -53,8 +53,8 @@ etapes:
         truc: '« 100 % gratuit, à vie ! » : un abonnement à 10 € par mois offert pour toujours. C’est trop beau, et c’est fait pour.'
         parade: 'Personne ne débloque gratuitement une appli payante. Si c’est gratuit hors du magasin d’applis, demande-toi ce que tu paies à la place.'
       - levier: autorite
-        truc: 'Le site reprend le nom « SonoBox Premium » pour faire officiel. Il n’a pourtant rien à voir avec SonoBox.'
-        parade: 'La vraie appli SonoBox s’installe uniquement depuis le magasin d’applis. Tout autre fichier n’est pas le sien.'
+        truc: 'Le site reprend le nom « MélodiBox Premium » pour faire officiel. Il n’a pourtant rien à voir avec MélodiBox.'
+        parade: 'La vraie appli MélodiBox s’installe uniquement depuis le magasin d’applis. Tout autre fichier n’est pas le sien.'
       - levier: reflexe
         truc: 'Le site te guide pas à pas : « télécharge », « autorise », « connecte-toi ». On suit les étapes sans se demander pourquoi.'
         parade: 'Si une installation te demande de changer un réglage de sécurité, arrête-toi : c’est le signal d’alarme.'
@@ -64,11 +64,11 @@ etapes:
     ecran:
       app: web
       appNom: Navigateur
-      contact: 'Wi-Fi gratuit du Festival Sonik'
-      url: 'wifi-festival-sonik.net/login'
+      contact: 'Wi-Fi gratuit du Festival Basszik'
+      url: 'wifi-festival-basszik.net/login'
       messages:
         - de: contact
-          texte: 'Bienvenue sur le Wi-Fi gratuit du Festival Sonik ! 🎶 Connexion rapide, sans inscription.'
+          texte: 'Bienvenue sur le Wi-Fi gratuit du Festival Basszik ! 🎶 Connexion rapide, sans inscription.'
         - de: contact
           texte: 'Pour accéder à Internet, connecte-toi avec ton compte SnapTalk : identifiant et mot de passe.'
         - de: contact
@@ -80,7 +80,7 @@ etapes:
         qualite: risque
         consequence: 'Internet ne marche même pas. Mais ton identifiant et ton mot de passe sont partis chez un inconnu : le QR code était un autocollant collé par-dessus le vrai. Le lendemain, ton compte SnapTalk envoie des liens d’arnaque à tes amis. Change vite ton mot de passe SnapTalk et active la double authentification.'
       - id: accueil
-        texte: 'Je ne donne pas mon mot de passe : je demande au stand d’accueil quel est le vrai Wi-Fi, ou je poste en rentrant chez moi.'
+        texte: 'Je demande le vrai Wi-Fi au stand d’accueil, ou je posterai ce soir.'
         qualite: bon
         consequence: 'À l’accueil, on t’explique que le vrai Wi-Fi du festival demande seulement d’accepter les conditions d’utilisation. Le QR code de l’affiche était un autocollant collé par-dessus l’original. L’équipe le retire.'
       - id: aide
@@ -103,7 +103,7 @@ etapes:
         truc: '« Plus que 2 h de Wi-Fi offert aujourd’hui ! » : tu as peur de rater l’occasion de poster pendant le concert.'
         parade: 'Tes vidéos peuvent attendre ce soir. Ton compte, lui, est difficile à récupérer.'
       - levier: autorite
-        truc: 'La page affiche le nom « Festival Sonik », et le QR code est sur une affiche du festival. Tout a l’air organisé par l’équipe.'
+        truc: 'La page affiche le nom « Festival Basszik », et le QR code est sur une affiche du festival. Tout a l’air organisé par l’équipe.'
         parade: 'Un nom et une affiche se copient facilement. Demande le nom du vrai réseau au stand d’accueil.'
       - levier: reflexe
         truc: '« Connexion rapide, sans inscription » : se connecter avec un compte qu’on a déjà paraît pratique et habituel.'
@@ -125,11 +125,11 @@ etapes:
       - id: ajoute
         texte: 'Elle a 80 000 utilisateurs et j’ai mal aux yeux : j’ajoute l’extension.'
         qualite: risque
-        consequence: 'Le mode sombre marche très bien. Trois mois plus tard, l’extension change de propriétaire et reçoit une mise à jour. Elle se met à enregistrer ce qui est tapé sur les sites, y compris des mots de passe de ta famille. Rien n’est perdu : supprime l’extension et demande à un adulte de changer les mots de passe importants.'
+        consequence: 'Le mode sombre marche très bien. Trois mois plus tard, l’extension change de propriétaire et reçoit une mise à jour. Elle se met à enregistrer ce qui est tapé sur les sites, y compris des mots de passe de ta famille. Tu peux reprendre la main : supprime l’extension et demande à un adulte de changer les mots de passe importants.'
       - id: reglages
         texte: 'J’essaie plutôt le mode sombre déjà prévu dans les réglages.'
         qualite: bon
-        consequence: 'Le navigateur et l’ordinateur ont déjà un mode sombre. Beaucoup de sites le suivent automatiquement. Tes yeux vont mieux, sans rien installer.'
+        consequence: 'Le navigateur et l’ordinateur ont déjà un mode sombre. Certains sites le suivent automatiquement, d’autres ont leur propre bouton de mode sombre. Tes yeux vont mieux, sans rien installer.'
       - id: aide
         texte: Je demande de l’aide à un adulte, puisque c’est l’ordinateur de toute la famille.
         qualite: aide
@@ -161,15 +161,15 @@ etapes:
       apps:
         - id: trajet-bus
           nom: TrajetBus
-          description: Les horaires et le trajet du bus jusqu’au collège.
+          description: Te guide à pied jusqu’à l’arrêt de bus le plus proche de là où tu es.
           permissions:
-            - { id: position, libelle: 'Position, seulement pendant l’utilisation', necessaire: true, explication: 'Elle trouve ainsi l’arrêt le plus proche. Seulement pendant l’utilisation, c’est suffisant.' }
-            - { id: notifications, libelle: Notifications, necessaire: true, explication: 'Utile pour être prévenu d’un bus en retard ou supprimé.' }
+            - { id: position, libelle: 'Position, seulement pendant l’utilisation', necessaire: true, explication: 'Pour te guider depuis là où tu es, elle doit connaître ta position. Pendant l’utilisation, c’est suffisant.' }
+            - { id: position-permanente, libelle: Position en permanence, necessaire: false, explication: 'Quand l’appli est fermée, elle n’a aucune raison de savoir où tu es.' }
             - { id: contacts, libelle: Contacts, necessaire: false, explication: 'Les horaires de bus ne dépendent pas des gens que tu connais.' }
             - { id: micro, libelle: Micro, necessaire: false, explication: 'Rien à écouter pour afficher un trajet.' }
         - id: chatcord
           nom: ChatCord
-          description: Une messagerie pour discuter et envoyer des photos à tes amis.
+          description: Une messagerie pour discuter avec tes amis, envoyer des photos et des messages vocaux.
           permissions:
             - { id: micro, libelle: Micro, necessaire: true, explication: 'Il sert aux messages vocaux et aux appels.' }
             - { id: camera, libelle: Appareil photo, necessaire: true, explication: 'Il sert à prendre une photo pour l’envoyer.' }

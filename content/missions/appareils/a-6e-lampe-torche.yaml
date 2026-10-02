@@ -30,8 +30,8 @@ etapes:
       - id: tout-autoriser
         texte: 'Un million de gens l’ont, et je veux juste ma lampe : j’appuie sur « Tout autoriser ».'
         qualite: risque
-        consequence: 'La lampe marche bien. Mais l’appli envoie la liste de tes contacts à une entreprise de publicité. Bientôt, des amis à toi reçoivent des SMS de pub bizarres. Tu peux arrêter ça : avec un adulte, supprime l’appli et préviens tes amis de ne pas répondre.'
-        consequenceSimple: 'L’appli a copié tes contacts. Tes amis reçoivent des pubs bizarres. Avec un adulte, supprime l’appli pour que ça s’arrête.'
+        consequence: 'La lampe marche bien. Mais l’appli envoie la liste de tes contacts à une entreprise de publicité. Bientôt, des amis à toi reçoivent des SMS de pub bizarres. Tu peux limiter les dégâts : avec un adulte, supprime l’appli. Elle ne prendra plus rien. Dis à tes amis de ne pas répondre.'
+        consequenceSimple: 'L’appli a copié tes contacts. Tes amis reçoivent des pubs bizarres. Avec un adulte, supprime l’appli : elle ne prendra plus rien.'
       - id: lampe-telephone
         texte: 'Une lampe n’a pas besoin de mes contacts : je refuse, et j’utilise la lampe déjà prévue dans mon téléphone.'
         qualite: bon
@@ -78,7 +78,7 @@ etapes:
       - id: plus-tard
         texte: 'Je suis en pleine partie et mon téléphone marche très bien : j’appuie encore sur « Plus tard ».'
         qualite: risque
-        consequence: 'Ton téléphone marche, mais la faille reste ouverte. Les pirates connaissent les failles déjà réparées. Ils visent les téléphones qui ne sont pas à jour. Un jour, un site piégé en profite pour remplir ton écran de pubs. La mise à jour l’aurait bloqué. Tu peux encore la faire ce soir.'
+        consequence: 'Ton téléphone marche, mais la faille reste ouverte. Quand une faille est réparée, les pirates l’apprennent aussi. Ils visent alors les téléphones pas à jour. Un jour, un site piégé en profite pour remplir ton écran de pubs. La mise à jour l’aurait bloqué. Tu peux encore la faire ce soir.'
         consequenceSimple: 'La faille reste ouverte. Un site piégé en profite pour mettre des pubs partout. Tu peux encore faire la mise à jour ce soir.'
       - id: cette-nuit
         texte: 'Je finis ma partie, puis je choisis « Installer cette nuit », téléphone branché.'
@@ -116,11 +116,11 @@ etapes:
       contact: 'Malik'
       messages:
         - de: contact
-          texte: 'Trop bien ce jeu, Dino Rush ! Dans le magasin d’applis, il coûte 4,99 €. Mais là, il est gratuit 😎'
-          texteSimple: 'Le jeu Dino Rush coûte 4,99 € dans le magasin d’applis. Mais là, il est gratuit 😎'
+          texte: 'Trop bien ce jeu, Dino Galop ! Dans le magasin d’applis, il coûte 4,99 €. Mais là, il est gratuit 😎'
+          texteSimple: 'Le jeu Dino Galop coûte 4,99 € dans le magasin d’applis. Mais là, il est gratuit 😎'
         - de: contact
-          texte: 'Télécharge-le ici : dinorush-gratuit.net. Ton téléphone va dire « source inconnue », tu acceptes, c’est normal.'
-          texteSimple: 'Télécharge-le sur dinorush-gratuit.net. Le téléphone dira « source inconnue ». Accepte, c’est normal.'
+          texte: 'Télécharge-le ici : dinogalop-gratuit.net. Ton téléphone va dire « source inconnue », tu acceptes, c’est normal.'
+          texteSimple: 'Télécharge-le sur dinogalop-gratuit.net. Le téléphone dira « source inconnue ». Accepte, c’est normal.'
     question: Malik est dans ta classe. Il a installé le jeu et dit qu’il marche très bien. Que fais-tu ?
     choix:
       - id: installe
@@ -170,8 +170,8 @@ etapes:
             - { id: contacts, libelle: Contacts, necessaire: false, explication: 'Une lampe n’a pas besoin de savoir qui tu connais.' }
             - { id: position, libelle: Position, necessaire: false, explication: 'Pour éclairer, pas besoin de savoir où tu es.' }
             - { id: micro, libelle: Micro, necessaire: false, explication: 'Une lampe n’a rien à écouter.' }
-        - id: photo-fun
-          nom: PhotoFun
+        - id: chapeau-clic
+          nom: ChapeauClic
           description: Une appli pour prendre des photos et ajouter des chapeaux rigolos.
           permissions:
             - { id: camera, libelle: Appareil photo, necessaire: true, explication: 'Il faut l’appareil photo pour prendre la photo.' }
