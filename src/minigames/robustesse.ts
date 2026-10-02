@@ -20,8 +20,8 @@ const TEMPS: Record<NiveauRobustesse, string> = {
 export const CONSEILS = [
   { id: 'longueur', libelle: 'Au moins 12 caractères' },
   { id: 'mots', libelle: 'Plusieurs mots (au moins 3)' },
-  { id: 'suite', libelle: 'Pas de suite connue (1234, azerty…)' },
-  { id: 'interdit', libelle: 'Pas de prénom, de pseudo ni de date' },
+  { id: 'suite', libelle: 'Pas de suite ni de mot de passe courant (1234, azerty, soleil…)' },
+  { id: 'interdit', libelle: 'Aucun mot tiré de l’énoncé (prénom, date, nom du site…)' },
   { id: 'repetition', libelle: 'Pas le même caractère trois fois de suite' },
 ] as const
 
@@ -34,26 +34,28 @@ const sansAccent = (t: string) => t.normalize('NFD').replace(/\p{Diacritic}/gu, 
 export function evaluerRobustesse(mdp: string, interdits: readonly string[] = []) {
   const caracteres = [...mdp]
   const longueur = caracteres.length
-  const mots = mdp.split(/[\s\-_.]+/).filter((m) => [...m].length >= 3).length
+  const listeMots = mdp.split(/[\s\-_.]+/).filter((m) => [...m].length >= 3)
+  const mots = listeMots.length
+  // Une longue phrase faite d’un seul mot répété n’est pas une phrase de passe.
+  const motsDistincts = new Set(listeMots.map(sansAccent)).size
   const normalise = sansAccent(mdp)
   const ok = {
     longueur: longueur >= 12,
-    mots: mots >= 3,
+    mots: mots >= 3 && motsDistincts >= 3,
     suite: !SUITES.test(mdp),
     interdit: !interdits.some((i) => sansAccent(i).trim() !== '' && normalise.includes(sansAccent(i).trim())),
     repetition: !/(.)\1\1/u.test(mdp),
   }
   const classes = [/[a-z]/, /[A-Z]/, /\d/, /[^a-zA-Z\d\s]/].filter((r) => r.test(mdp)).length
-  const variee = ok.mots || classes >= 3
-  // Une longue phrase faite d'un seul mot répété n'est pas une phrase de passe.
-  const motsDistincts = new Set(mdp.toLowerCase().split(/[\s\-_.]+/).filter(Boolean)).size
 
   let niveau: NiveauRobustesse
   if (longueur < 8) niveau = 'tres-faible'
   else if (!ok.suite || !ok.interdit || !ok.repetition || (mots >= 3 && motsDistincts < 3)) niveau = 'faible'
   else if (longueur < 12) niveau = classes >= 2 ? 'moyen' : 'faible'
-  else if (longueur < 16) niveau = variee ? 'solide' : 'moyen'
-  else niveau = variee ? 'tres-solide' : 'solide'
+  // Seule une vraie phrase de passe (3 mots différents) atteint « solide » puis « très solide » :
+  // mélanger majuscules, chiffres et symboles dans un seul mot fait seulement monter d’un cran.
+  else if (longueur < 16) niveau = ok.mots ? 'solide' : classes >= 3 ? 'moyen' : 'faible'
+  else niveau = ok.mots ? 'tres-solide' : classes >= 3 ? 'solide' : 'moyen'
 
   return {
     niveau,

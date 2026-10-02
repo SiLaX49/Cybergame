@@ -3,6 +3,7 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { buildContent } from '../../../scripts/build-content'
 import { TRANCHES, type Mission } from '../../../src/content/schema'
+import { atteint, evaluerRobustesse } from '../../../src/minigames/robustesse'
 
 const bundle = buildContent(join(process.cwd(), 'content'))
 const missions = bundle.missions.filter((m) => m.type === 'mission')
@@ -226,6 +227,16 @@ describe('contenu réel', () => {
       expect(plusLong.length, `${qualite} : ${plusLong.map((s) => s.id).join(', ')}`).toBeLessThanOrEqual(Math.floor(scenarios.length / 3))
     }
   })
+
+  it.each(missionsDuTheme('comptes').map((m) => [m.id, m] as const))(
+    '%s : l’objectif du mot de passe est atteignable avec une phrase de passe de 3 mots ou plus',
+    (_id, m) => {
+      const e = m.etapes.find((x) => x.type === 'minijeu' && x.jeu === 'motdepasse')
+      if (e?.type !== 'minijeu' || e.jeu !== 'motdepasse') throw new Error('mini-jeu motdepasse absent')
+      const { niveau } = evaluerRobustesse('tortue-rouge-sous-nuage', e.config.interdits)
+      expect(atteint(niveau, e.config.objectif), niveau).toBe(true)
+    },
+  )
 
   it('les rappels sont courts et contiennent un fil d’au moins 4 notifications', () => {
     const rappels = bundle.missions.filter((m) => m.type === 'rappel')

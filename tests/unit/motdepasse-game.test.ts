@@ -36,7 +36,13 @@ describe('MotDePasseGame', () => {
   it('signale un mot interdit', async () => {
     const w = monter()
     await w.find('input#phrase-de-passe').setValue('lea-mange-une-pizza')
-    expect(w.text()).toContain('Pas de prénom, de pseudo ni de date (à faire)')
+    expect(w.text()).toContain('Aucun mot tiré de l’énoncé (prénom, date, nom du site…) (à faire)')
+  })
+
+  it('nomme les suites et mots de passe courants', async () => {
+    const w = monter()
+    await w.find('input#phrase-de-passe').setValue('soleil-girafe-violette')
+    expect(w.text()).toContain('Pas de suite ni de mot de passe courant (1234, azerty, soleil…) (à faire)')
   })
 
   it('« Je passe » montre un exemple puis permet de terminer', async () => {
