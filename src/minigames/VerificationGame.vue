@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { VERDICTS, type Verdict, type VerificationConfig } from '@/content/schema'
 import { focusAuChangement } from '@/ui/focus'
 
@@ -14,8 +14,17 @@ focusAuChangement(() => choisi.value, resultat)
 
 const juste = computed(() => choisi.value === props.config.verdict)
 
+const annonce = ref('')
+
 function enqueter(id: string) {
   if (!revelees.value.includes(id)) revelees.value.push(id)
+  void annoncer(props.config.actions.find((a) => a.id === id)?.resultat ?? '')
+}
+/** Vide puis remplit la région : un même résultat redemandé est annoncé à nouveau par les lecteurs d’écran. */
+async function annoncer(texte: string) {
+  annonce.value = ''
+  await nextTick()
+  annonce.value = texte
 }
 function decider(v: Verdict) {
   if (choisi.value === null) choisi.value = v
@@ -35,10 +44,18 @@ function decider(v: Verdict) {
     <h3>Enquête</h3>
     <ul class="actions-enquete">
       <li v-for="a in config.actions" :key="a.id">
-        <button type="button" class="btn" :aria-pressed="revelees.includes(a.id)" @click="enqueter(a.id)">{{ a.libelle }}</button>
-        <p v-if="revelees.includes(a.id)" class="resultat-enquete">{{ a.resultat }}</p>
+        <button
+          type="button"
+          class="btn"
+          :aria-describedby="revelees.includes(a.id) ? `res-${a.id}` : undefined"
+          @click="enqueter(a.id)"
+        >
+          {{ a.libelle }}
+        </button>
+        <p v-if="revelees.includes(a.id)" :id="`res-${a.id}`" class="resultat-enquete">{{ a.resultat }}</p>
       </li>
     </ul>
+    <p class="visually-hidden annonce-enquete" role="status">{{ annonce }}</p>
     <h3>Ton verdict</h3>
     <div class="actions" role="group" aria-label="Ton verdict">
       <button
@@ -53,13 +70,12 @@ function decider(v: Verdict) {
         {{ LIBELLES[v] }}
       </button>
     </div>
-    <div ref="resultat" role="status" tabindex="-1">
-      <template v-if="choisi !== null">
-        <p v-if="juste"><span aria-hidden="true">✅</span> Bien vu : {{ LIBELLES[config.verdict].toLowerCase() }}.</p>
-        <p v-else><span aria-hidden="true">❌</span> La bonne réponse : {{ LIBELLES[config.verdict] }}.</p>
-        <p>{{ config.explication }}</p>
-        <p v-if="revelees.length === 0">Astuce : enquête avant de décider, c’est comme ça qu’on repère les fausses infos.</p>
-      </template>
+    <!-- Reçoit le focus : pas de role="status", sinon le résultat serait annoncé deux fois. -->
+    <div v-if="choisi !== null" ref="resultat" class="resultat-verdict" tabindex="-1">
+      <p v-if="juste"><span aria-hidden="true">✅</span> Bien vu : {{ LIBELLES[config.verdict].toLowerCase() }}.</p>
+      <p v-else><span aria-hidden="true">❌</span> La bonne réponse : {{ LIBELLES[config.verdict] }}.</p>
+      <p>{{ config.explication }}</p>
+      <p v-if="revelees.length === 0">Astuce : enquête avant de décider, c’est comme ça qu’on repère les fausses infos.</p>
     </div>
     <button
       v-if="choisi !== null"
