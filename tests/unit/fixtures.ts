@@ -1,14 +1,22 @@
 import {
+  confidentialiteConfigSchema,
   leviersFileSchema,
   missionSchema,
+  motdepasseConfigSchema,
+  permissionsConfigSchema,
   repereConfigSchema,
   themesFileSchema,
   triConfigSchema,
+  verificationConfigSchema,
+  type ConfidentialiteConfig,
   type Leviers,
   type Mission,
+  type MotdepasseConfig,
+  type PermissionsConfig,
   type RepereConfig,
   type Theme,
   type TriConfig,
+  type VerificationConfig,
 } from '@/content/schema'
 
 export function rawScenario(id = 'sc-1') {
@@ -165,3 +173,59 @@ export function rawLeviers() {
   }
 }
 export const leviersFixture = (): Leviers => leviersFileSchema.parse(rawLeviers())
+
+export function rawMotdepasse() {
+  return {
+    consigne: 'Crée une phrase de passe solide.',
+    contexte: 'Tu crées ton compte GameBox. Ton pseudo est Léa2012.',
+    objectif: 'solide',
+    interdits: ['Léa', '2012'],
+  }
+}
+export function rawConfidentialite() {
+  return {
+    consigne: 'Rends ce profil plus sûr.',
+    appNom: 'SnapTalk',
+    reglages: [
+      { id: 'profil', libelle: 'Qui peut voir mon profil', options: [{ id: 'tous', libelle: 'Tout le monde' }, { id: 'amis', libelle: 'Mes amis' }], initial: 'tous', conseille: 'amis', explication: 'Un profil public est visible par des inconnus.' },
+      { id: 'position', libelle: 'Partager ma position', options: [{ id: 'oui', libelle: 'Oui' }, { id: 'non', libelle: 'Non' }], initial: 'oui', conseille: 'non', explication: 'Ta position dit où tu habites et où tu vas.' },
+      { id: 'anniv', libelle: 'Afficher ma date d’anniversaire', options: [{ id: 'oui', libelle: 'Oui' }, { id: 'non', libelle: 'Non' }], initial: 'non', conseille: 'non', explication: 'Ta date de naissance sert à deviner tes mots de passe.' },
+    ],
+  }
+}
+export function rawVerification() {
+  return {
+    consigne: 'Cette photo est-elle vraie ?',
+    publication: {
+      auteur: 'InfosChoc',
+      texte: 'Un requin nage dans une rue de la ville après l’orage !',
+      date: 'Aujourd’hui',
+      image: { description: 'Un requin dans une rue inondée, devant une boulangerie.' },
+    },
+    actions: [
+      { id: 'source', libelle: 'Chercher la source', resultat: 'Aucun média ne parle de ce requin.' },
+      { id: 'image', libelle: 'Recherche d’image inversée', resultat: 'La même image circule depuis 2017, dans d’autres villes.' },
+    ],
+    verdict: 'faux',
+    explication: 'C’est un montage ancien, partagé à chaque orage.',
+  }
+}
+export function rawPermissions() {
+  return {
+    consigne: 'Accepte seulement ce dont l’appli a besoin.',
+    apps: [
+      { id: 'lampe', nom: 'Super Lampe', description: 'Une lampe torche.', permissions: [
+        { id: 'flash', libelle: 'Utiliser le flash', necessaire: true, explication: 'Une lampe a besoin du flash.' },
+        { id: 'contacts', libelle: 'Lire tes contacts', necessaire: false, explication: 'Une lampe n’a aucune raison de lire tes contacts.' },
+      ] },
+      { id: 'carte', nom: 'Mon Trajet', description: 'Un GPS pour le vélo.', permissions: [
+        { id: 'position', libelle: 'Connaître ta position', necessaire: true, explication: 'Un GPS a besoin de ta position.' },
+        { id: 'micro', libelle: 'Utiliser le micro', necessaire: false, explication: 'Un GPS n’a pas besoin du micro.' },
+      ] },
+    ],
+  }
+}
+export const motdepasseFixture = (): MotdepasseConfig => motdepasseConfigSchema.parse(rawMotdepasse())
+export const confidentialiteFixture = (): ConfidentialiteConfig => confidentialiteConfigSchema.parse(rawConfidentialite())
+export const verificationFixture = (): VerificationConfig => verificationConfigSchema.parse(rawVerification())
+export const permissionsFixture = (): PermissionsConfig => permissionsConfigSchema.parse(rawPermissions())

@@ -1,0 +1,183 @@
+id: c-college-compte-vole
+theme: comptes
+tranches: ['5e-3e']
+titre: Compte volé
+resume: 'Un faux support qui veut ton code, un « expert » qui promet de récupérer ton compte, une session oubliée au CDI : garde la main sur tes comptes.'
+duree: 20
+objectifs:
+  - Comprendre que le code de double authentification ne se donne jamais, même à un « support »
+  - Récupérer un compte volé par la procédure officielle, sans payer personne
+  - Se déconnecter des appareils partagés et réagir si une session est restée ouverte
+competences:
+  crcn: ['4.1', '4.2']
+  programmes: ['EMI cycle 4']
+etapes:
+  - type: scenario
+    id: faux-support
+    ecran:
+      app: chat
+      appNom: SnapTalk
+      contact: 'SnapTalk Support ✔'
+      messages:
+        - de: contact
+          texte: 'Bonjour, ici l’équipe SnapTalk Support. Ton compte a été signalé pour activité suspecte et sera désactivé ce soir.'
+        - de: contact
+          texte: 'Pour prouver que tu es bien le propriétaire, tu vas recevoir un code à 6 chiffres. Envoie-le ici et ton compte restera actif.'
+        - de: moi
+          texte: 'Pourquoi vous avez besoin de mon code ?'
+        - de: contact
+          texte: 'C’est la procédure de vérification officielle. Sans réponse dans 10 minutes, la désactivation sera automatique.'
+    question: 'Quelques secondes plus tard, un SMS arrive : « SnapTalk : ton code est 739 204. Ne le communique à personne. » Que fais-tu ?'
+    choix:
+      - id: envoie-code
+        texte: 'Il a le badge ✔, et je ne veux pas perdre mon compte : j’envoie le code.'
+        qualite: risque
+        consequence: 'Ce code ne servait pas à te vérifier, mais à te connecter. Le faux support connaissait déjà ton mot de passe, sans doute volé lors d’une fuite : le code était la dernière serrure. Il entre dans ton compte, désactive la double authentification et écrit à tes amis pour leur voler leur code. Ton téléphone est encore connecté : réactive vite la double authentification, puis change ton mot de passe.'
+      - id: ignore
+        texte: 'Je n’envoie rien et je vérifie moi-même dans les paramètres de SnapTalk.'
+        qualite: bon
+        consequence: 'Aucune alerte dans tes paramètres : ton compte va bien. Tu signales ce faux support. Mais si quelqu’un a déclenché un code, c’est sans doute qu’il a ton mot de passe. Tu le changes tout de suite, et la double authentification continue de te protéger.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte avant de répondre à ce support qui me presse.
+        qualite: aide
+        consequence: 'Ton oncle est formel : « Aucun support ne demande ce code. Il sert à entrer dans ton compte. » Vous signalez le compte et changez ton mot de passe.'
+    indices:
+      - { id: demande-code, libelle: 'On me demande le code reçu par SMS', pertinent: true }
+      - { id: sms-personne, libelle: 'Le SMS dit « Ne le communique à personne »', pertinent: true }
+      - { id: delai, libelle: 'On me menace d’une désactivation dans 10 minutes', pertinent: true }
+      - { id: badge, libelle: 'Le compte affiche un badge ✔ à côté de son nom', pertinent: false }
+    explicationIndices: 'Le code de double authentification sert à se connecter : celui qui l’a entre dans ton compte. Aucun vrai support ne le demande, jamais. Le badge, lui, peut être un simple emoji ajouté au nom.'
+    aRetenir: 'Un code de double authentification ne se donne à personne, même pas au « support » : un vrai support ne le demande jamais. Si tu reçois un code sans l’avoir demandé, quelqu’un essaie d’entrer, peut-être avec ton mot de passe : change-le tout de suite.'
+    recuperation: { action: activer-2fa, siChoix: [envoie-code] }
+    pourquoi:
+      - levier: autorite
+        truc: '« SnapTalk Support » avec un badge ✔ : tout a l’air officiel. Mais ce nom et ce badge se tapent en deux secondes.'
+        parade: 'Le vrai support ne t’écrit pas en message privé pour un code. Vérifie toi-même dans les paramètres de l’appli.'
+      - levier: urgence
+        truc: '« Sans réponse dans 10 minutes, la désactivation sera automatique » : tu n’as pas le temps de lire le SMS.'
+        parade: 'Plus on te presse, plus tu ralentis. Lis toujours le SMS avant de donner un code : ici, il dit de ne pas le communiquer.'
+      - levier: peur
+        truc: 'Le message annonce que ton compte « sera désactivé ce soir ». Perdre tes photos et tes conversations fait peur.'
+        parade: 'Une menace de désactivation se vérifie dans l’appli, pas dans la conversation. Et si tu as peur, parles-en à un adulte.'
+
+  - type: scenario
+    id: recuperateur
+    ecran:
+      app: social
+      appNom: StreamTube
+      contact: 'RecupCompte_Expert'
+      messages:
+        - de: moi
+          texte: 'Mon compte SnapTalk s’est fait pirater, quelqu’un sait comment le récupérer ? 😭'
+        - de: contact
+          texte: 'Salut ! Je récupère les comptes piratés, plus de 2 000 comptes sauvés ✅ Ton compte est récupéré en 1 h, garanti.'
+        - de: contact
+          texte: 'C’est 20 € en carte prépayée. J’ai juste besoin de ton pseudo, de ton mail et de ta date de naissance.'
+        - de: contact
+          texte: 'Regarde les commentaires sous ma vidéo : « Merci, il m’a sauvé ! » 👇'
+    question: 'Ça fait deux jours que le pirate publie sur ton compte. Le formulaire officiel de SnapTalk ne t’a pas encore répondu. Que fais-tu ?'
+    choix:
+      - id: paie
+        texte: '20 €, c’est rien pour retrouver mes photos : je paie.'
+        qualite: risque
+        consequence: 'Après le paiement, l’« expert » réclame 30 € de plus « pour finir », puis il disparaît. Ton compte n’est pas récupéré, et il connaît maintenant ton mail et ta date de naissance. Ce n’est pas trop tard : un adulte peut t’aider à relancer la procédure officielle et à signaler ce compte.'
+      - id: officiel
+        texte: 'Je ne paie pas. Je relance le formulaire officiel de SnapTalk.'
+        qualite: bon
+        consequence: 'La récupération officielle est gratuite, mais elle prend parfois quelques jours. En attendant, tu préviens tes amis que ton compte a été piraté. Le troisième jour, tu reçois un lien sur ta boîte mail et tu récupères ton compte. Tes amis, prévenus, n’ont pas répondu au pirate.'
+      - id: aide
+        texte: 'Je demande de l’aide à un adulte : il saura peut-être si cet expert est sérieux.'
+        qualite: aide
+        consequence: 'Ta tante t’explique : « Personne ne peut récupérer ton compte à ta place, à part SnapTalk. » Elle t’aide à remplir à nouveau le formulaire officiel.'
+    indices:
+      - { id: paiement, libelle: 'Il demande de l’argent en carte prépayée', pertinent: true }
+      - { id: garanti, libelle: 'Il promet un résultat garanti en 1 h', pertinent: true }
+      - { id: infos, libelle: 'Il veut mon mail et ma date de naissance', pertinent: true }
+      - { id: emoji, libelle: 'Il met un emoji ✅ dans son message', pertinent: false }
+    explicationIndices: 'Seule l’appli peut te rendre ton compte, et c’est gratuit. Un « récupérateur » payant ne peut rien faire : il veut ton argent et tes informations. Les emojis ne disent rien de son honnêteté.'
+    aRetenir: 'La récupération d’un compte piraté passe uniquement par la procédure officielle de l’appli, et elle est gratuite. Quelqu’un qui propose de récupérer ton compte contre de l’argent est un escroc, même avec de bons commentaires.'
+    recuperation: { action: demander-aide, siChoix: [paie] }
+    pourquoi:
+      - levier: petit-montant
+        truc: '20 €, ça semble peu pour retrouver ton compte. Une fois payé, l’« expert » en réclame toujours plus.'
+        parade: 'La vraie récupération est gratuite. Si quelqu’un te demande de l’argent pour ton compte, tu ne paies pas un centime.'
+      - levier: groupe
+        truc: '« Merci, il m’a sauvé ! » : ces commentaires te font croire que tout le monde lui fait confiance. Ils sont souvent écrits par de faux comptes.'
+        parade: 'Des commentaires ne prouvent rien. Passe uniquement par la procédure officielle de l’appli.'
+      - levier: gain
+        truc: '« Récupéré en 1 h, garanti » : c’est exactement ce que tu as envie d’entendre après deux jours d’attente.'
+        parade: 'Personne ne peut garantir de récupérer un compte à la place de l’appli. Une promesse trop belle est un signal d’alarme.'
+      - levier: peur
+        truc: 'Le pirate publie sur ton compte depuis deux jours. La peur de tout perdre pousse à accepter n’importe quelle aide.'
+        parade: 'Quand tu as peur pour ton compte, parles-en à un adulte. Ensemble, prévenez vos contacts et relancez la procédure officielle.'
+
+  - type: scenario
+    id: session-cdi
+    ecran:
+      app: web
+      appNom: Navigateur
+      contact: 'ChatCord · Appareils connectés'
+      url: 'chatcord.fr/parametres/appareils'
+      messages:
+        - de: contact
+          texte: 'Appareils connectés à ton compte : ce téléphone (maintenant) ; ordinateur « PC-CDI-04 », navigateur web (actif il y a 3 minutes).'
+        - de: contact
+          texte: 'Dernier message envoyé depuis « PC-CDI-04 » dans le groupe « 4eB officiel » : « Demain tout le monde sèche la perm 😂 »'
+    question: 'Le soir, chez toi, tu ouvres cette page. Ce midi, tu as utilisé ChatCord sur un ordinateur du CDI, puis la sonnerie a retenti. Que fais-tu ?'
+    choix:
+      - id: demain
+        texte: 'C’est sûrement un copain qui fait une blague. Je fermerai la session demain au CDI.'
+        qualite: risque
+        consequence: 'Le soir, d’autres messages partent de ton compte, dont une moquerie sur un élève de la classe. Le lendemain, tu dois expliquer à la CPE que ce n’était pas toi. Tant qu’une session reste ouverte, quelqu’un peut parler en ton nom. Déconnecte l’appareil à distance et change ton mot de passe : tu peux le faire maintenant, depuis ton téléphone.'
+      - id: deconnecte
+        texte: 'Je déconnecte le PC du CDI tout de suite, depuis mon téléphone.'
+        qualite: bon
+        consequence: 'Un clic sur « Déconnecter cet appareil », et la session du CDI se ferme à distance. Tu changes ton mot de passe et tu écris au groupe que ce message n’est pas de toi. Ton message arrive à temps : personne ne sèche la perm. Le lendemain, la documentaliste te rappelle de toujours cliquer sur « Se déconnecter ».'
+      - id: aide
+        texte: Je demande de l’aide à mes parents tout de suite.
+        qualite: aide
+        consequence: 'Ton père te montre la page des appareils connectés. Vous déconnectez le PC du CDI et changez ton mot de passe ensemble.'
+    indices:
+      - { id: actif, libelle: 'L’ordinateur du CDI est encore connecté, actif il y a 3 minutes', pertinent: true }
+      - { id: message, libelle: 'Un message est parti de mon compte sans moi', pertinent: true }
+      - { id: enregistre, libelle: 'Le navigateur du CDI a peut-être enregistré mon mot de passe', pertinent: true }
+      - { id: nom-pc, libelle: 'L’ordinateur s’appelle « PC-CDI-04 »', pertinent: false }
+    explicationIndices: 'Une session ouverte, c’est une porte laissée ouverte : n’importe qui peut écrire en ton nom. Le navigateur peut aussi avoir gardé ton mot de passe. Le nom de l’ordinateur, lui, ne change rien au problème.'
+    aRetenir: 'Sur un ordinateur partagé, on se déconnecte toujours et on refuse « Enregistrer le mot de passe ». Si tu as oublié, déconnecte l’appareil à distance depuis les paramètres de ton compte, puis change ton mot de passe.'
+    recuperation: { action: changer-mdp, siChoix: [demain] }
+    pourquoi:
+      - levier: confiance
+        truc: 'On pense tout de suite à un copain qui blague. Mais n’importe qui au CDI peut utiliser ton compte.'
+        parade: 'Même si c’est une blague, ce sont tes messages. Déconnecte l’appareil à distance tout de suite.'
+      - levier: reflexe
+        truc: '« Demain tout le monde sèche la perm » : un message bête, et on se dit que ça peut attendre.'
+        parade: 'Une session ouverte se ferme dès que tu le vois. Depuis ton téléphone, ça prend une minute.'
+      - levier: groupe
+        truc: 'Au CDI, tout le monde se connecte vite fait entre deux cours, et presque personne ne se déconnecte.'
+        parade: 'Prends l’habitude : avant de partir, « Se déconnecter », et jamais « Enregistrer le mot de passe ».'
+
+  - type: minijeu
+    id: mj-mot-de-passe
+    jeu: motdepasse
+    config:
+      consigne: 'Crée un mot de passe solide pour le nouveau compte de Yanis. Astuce : une phrase de passe de plusieurs mots sans lien entre eux est longue et facile à retenir.'
+      contexte: 'Yanis est né en 2011 et il est fan de l’équipe des Faucons. Il crée son nouveau compte SnapTalk.'
+      objectif: solide
+      interdits: ['Yanis', '2011', 'Faucons', 'SnapTalk']
+debrief:
+  questions:
+    - Quel était le piège ?
+    - Quel indice pourras-tu réutiliser la prochaine fois ?
+    - Que faire si ça t’est déjà arrivé ?
+  reponses: 'Le piège commun : quelqu’un cherche à entrer dans ton compte ou à profiter de sa perte, en se faisant passer pour le support, pour un « expert », ou en utilisant une session oubliée. Indices réutilisables : un code demandé par quelqu’un d’autre, un code reçu sans rien avoir demandé, une récupération payante, un appareil inconnu dans la liste des appareils connectés. Si c’est déjà arrivé : passer par la procédure officielle de l’appli (gratuite), changer le mot de passe, activer la double authentification, déconnecter les appareils inconnus et prévenir ses contacts. Se faire voler un compte arrive à tout le monde : le plus important est de réagir vite et d’en parler.'
+  erreursFrequentes:
+    - 'Croire qu’un compte avec un badge ✔ ou le mot « Support » vient forcément de l’appli.'
+    - 'Penser que la double authentification protège même si l’on donne son code.'
+    - 'Croire qu’il suffit de fermer la fenêtre du navigateur pour se déconnecter.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qui connaît la double authentification ? À quoi sert le code reçu par SMS ? (sans obligation de raconter)
+    20 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, puis retour sur le mini-jeu (pourquoi une phrase de passe est à la fois longue et facile à retenir).
+    5 min : où trouver de l’aide (adulte de confiance, procédure officielle de récupération de chaque appli, cybermalveillance.gouv.fr).
+    5 min : engagement. Cette semaine, j’active la double authentification sur mon compte le plus important et je vérifie la liste de mes appareils connectés.

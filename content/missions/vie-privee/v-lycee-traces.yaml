@@ -1,0 +1,229 @@
+id: v-lycee-traces
+theme: vie-privee
+tranches: ['lycee']
+titre: Mes traces en ligne
+resume: 'Une photo qui donne ton adresse sans que tu le saches, de vieilles publications qui ressortent au mauvais moment, une position visible par 1 200 personnes : reprends la main sur tes traces.'
+duree: 20
+objectifs:
+  - Comprendre ce que révèlent les métadonnées d’une photo et les réglages par défaut (amis d’amis, recherche par numéro)
+  - Faire le tri dans ses anciennes publications et connaître son droit à l’effacement
+  - Régler finement la visibilité de son profil et de sa position
+competences:
+  crcn: ['4.2', '2.2', '2.4']
+  programmes: ['SNT 2de']
+etapes:
+  - type: scenario
+    id: exif
+    ecran:
+      app: web
+      appNom: Revendo
+      contact: 'Revendo : nouvelle annonce'
+      url: 'revendo.fr/vendre'
+      messages:
+        - de: contact
+          texte: 'Aperçu de ton annonce : Lampe de bureau, 15 €. Photo : IMG_4821.jpg, prise dans ta chambre, avec la fenêtre et la rue en arrière-plan.'
+        - de: contact
+          texte: 'Informations du fichier (EXIF) : Appareil : smartphone · Date : 14/09, 21 h 12 · Position GPS : 45,1234 N ; 15,4321 O. Ces informations restent jointes à l’image envoyée.'
+    question: 'Tu ne savais pas que ton téléphone enregistrait ça. Ces coordonnées, ce sont celles de chez toi. Que fais-tu ?'
+    choix:
+      - id: publie
+        texte: 'Personne ne va lire des chiffres pareils, et je n’ai pas envie de refaire la photo : je publie.'
+        qualite: risque
+        consequence: 'La lampe intéresse vite quelqu’un. Mais un autre profil t’écrit : « Je peux passer la chercher ? J’ai vu que t’habitais rue des Lilas 😉 » Il a collé les coordonnées dans une carte en ligne : elles tombent sur ta maison. Retire la photo de l’annonce et remplace-la par une version sans position, puis parles-en à un adulte.'
+      - id: nettoie
+        texte: 'Je mets une version de la photo sans position, et je coupe la localisation de mon appareil photo.'
+        qualite: bon
+        consequence: 'La nouvelle photo ne contient plus aucune position. Tu as aussi choisi un fond neutre, sans la fenêtre. La lampe se vend en deux jours, sans que personne sache où tu habites.'
+      - id: aide
+        texte: Je demande de l’aide à quelqu’un qui s’y connaît pour enlever ces informations.
+        qualite: aide
+        consequence: 'Ta prof de SNT te montre comment voir et supprimer les métadonnées d’une photo. Une simple capture d’écran de la photo suffit aussi : elle ne garde pas la position.'
+    indices:
+      - { id: gps, libelle: 'Les coordonnées GPS de la prise de vue sont dans le fichier', pertinent: true }
+      - { id: jointes, libelle: 'Ces informations restent jointes à l’image publiée', pertinent: true }
+      - { id: fenetre, libelle: 'On voit ma fenêtre et la rue en arrière-plan', pertinent: true }
+      - { id: prix, libelle: 'La lampe est vendue 15 €', pertinent: false }
+    explicationIndices: 'Une photo de téléphone contient souvent des métadonnées (EXIF) : appareil, date, heure et parfois coordonnées GPS précises. Collées dans une carte, elles montrent l’endroit exact de la prise de vue. Ce qu’on voit par la fenêtre peut aussi suffire à te situer. Le prix, lui, ne révèle rien.'
+    aRetenir: 'Coupe la localisation de l’appareil photo, ou supprime la position avant d’envoyer une photo. Sur une photo prise chez toi, choisis un fond neutre. Certaines plateformes effacent les métadonnées à la publication, d’autres non : ne compte pas dessus.'
+    recuperation: { action: demander-aide, siChoix: [publie] }
+    pourquoi:
+      - levier: reflexe
+        truc: '« Position GPS : 45,1234 N ; 15,4321 O » : des chiffres qu’on survole sans comprendre qu’ils donnent une adresse.'
+        parade: 'Avant de publier une photo prise chez toi, regarde ses informations. S’il y a une position, supprime-la.'
+      - levier: urgence
+        truc: 'Refaire la photo prend du temps, et on veut que l’annonce soit en ligne tout de suite.'
+        parade: 'Une capture d’écran de ta photo prend deux secondes et supprime la position.'
+      - levier: autorite
+        truc: '« Revendo » est une plateforme connue : on suppose qu’elle protège tout automatiquement.'
+        parade: 'Ne compte pas sur la plateforme. Nettoie toi-même tes photos avant de les envoyer.'
+
+  - type: scenario
+    id: candidature
+    ecran:
+      app: mail
+      appNom: Mail
+      contact: 'Claire Moreau <recrutement@bistrot-nova.fr>'
+      sujet: 'Ta candidature pour le job d’été'
+      messages:
+        - de: contact
+          texte: 'Bonjour, merci pour ta candidature au poste de serveur cet été. En cherchant ton nom en ligne, je suis tombée sur ton compte SnapTalk public.'
+        - de: contact
+          texte: 'Certaines publications de 2023 m’ont surprise : des moqueries sur un professeur, avec son nom. Peux-tu m’en dire un mot avant l’entretien ?'
+    question: 'Tu avais 14 ans à l’époque, et tu tiens vraiment à ce job. Que fais-tu ?'
+    choix:
+      - id: minimise
+        texte: 'Tout le monde postait des bêtises au collège : je réponds que ça ne compte plus, et je laisse mon profil comme il est.'
+        qualite: risque
+        consequence: 'Claire Moreau te remercie, puis choisit un autre candidat. Et tes vieilles publications sont toujours publiques : le prochain recruteur, ou l’école où tu postules, les trouvera aussi. Tu peux encore faire le tri, et demander l’effacement de ce qui t’échappe.'
+      - id: assume
+        texte: 'Je réponds que je regrette ces messages, puis je fais le ménage dans mon compte.'
+        qualite: bon
+        consequence: 'Tu supprimes les vieilles publications et tu passes ton compte en privé. À l’entretien, Claire Moreau apprécie ta franchise : « On a tous fait des erreurs à 14 ans. Ce qui compte, c’est ce qu’on en fait. » Tu décroches le job. Depuis, tu cherches ton nom en ligne une fois par an.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte de confiance pour savoir quoi répondre et comment faire le ménage.
+        qualite: aide
+        consequence: 'Ta CPE t’aide à rédiger une réponse sincère. Elle t’explique aussi ton droit à l’effacement : pour ce que tu as publié mineur, la plateforme doit en principe l’effacer si tu le demandes.'
+    indices:
+      - { id: public, libelle: 'Mon compte est resté public depuis le collège', pertinent: true }
+      - { id: recherche-nom, libelle: 'La recruteuse a simplement tapé mon nom', pertinent: true }
+      - { id: nom-prof, libelle: 'Les publications citent une personne par son nom', pertinent: true }
+      - { id: serveur, libelle: 'Le poste est un job de serveur', pertinent: false }
+    explicationIndices: 'Ce qui est public reste trouvable des années plus tard, par un simple moteur de recherche. Des moqueries nommant quelqu’un pèsent lourd, quel que soit le poste visé. Un job d’été ou une grande école, peu importe : beaucoup de recruteurs regardent.'
+    aRetenir: 'Cherche ton nom en ligne de temps en temps. Fais le tri dans tes anciennes publications et passe en privé ce qui doit l’être. Pour ce que tu as publié mineur, tu peux demander son effacement à la plateforme (droit à l’effacement, RGPD).'
+    recuperation: { action: demander-aide, siChoix: [minimise] }
+    pourquoi:
+      - levier: groupe
+        truc: 'Tout le monde a posté des bêtises au collège : ça donne l’impression que ça ne compte pas.'
+        parade: 'Ce que les autres ont fait ne dit rien à un recruteur sur toi. Fais le tri dans ce qui te concerne.'
+      - levier: reflexe
+        truc: 'Ces publications datent de 2023 : on les a oubliées, et on n’imagine pas qu’elles sont encore visibles.'
+        parade: 'Une fois par an, tape ton nom dans un moteur de recherche et regarde ce qui sort.'
+      - levier: urgence
+        truc: '« Avant l’entretien » : on a envie de répondre vite pour se débarrasser du sujet.'
+        parade: 'Prends une heure pour répondre honnêtement. Une réponse sincère vaut mieux qu’une réponse rapide.'
+
+  - type: scenario
+    id: amis-amis
+    ecran:
+      app: social
+      appNom: SnapTalk
+      contact: 'Léo_R (ami de Sarah)'
+      messages:
+        - de: contact
+          texte: 'Salut ! T’es au café Le Square, là ? Je suis à deux rues 😉'
+        - de: contact
+          texte: 'On se rejoint ? Sarah m’a souvent parlé de toi.'
+    question: 'Tu ne connais pas Léo_R. En vérifiant, tu découvres que ta position est partagée avec « les amis de tes amis » : plus de 1 200 personnes. Que fais-tu ?'
+    choix:
+      - id: repond
+        texte: 'Il connaît Sarah, ce n’est pas vraiment un inconnu : je réponds.'
+        qualite: risque
+        consequence: 'Léo_R arrive dix minutes plus tard et insiste pour avoir ton numéro. Sarah, elle, ne le connaît que de loin : il l’avait ajoutée après une soirée. Lui sait où tu es, toi tu ne sais rien de lui. Coupe ta position, bloque et signale son compte, et parles-en.'
+      - id: coupe
+        texte: 'Je passe en mode fantôme, puis je bloque et signale Léo_R.'
+        qualite: bon
+        consequence: 'Tu demandes ensuite à Sarah qui c’est. Elle répond : « Je le connais à peine, il m’a ajoutée après une soirée. » Léo_R ne voit plus ta position et ne peut plus t’écrire.'
+      - id: aide
+        texte: Je demande de l’aide à un proche avant de répondre quoi que ce soit.
+        qualite: aide
+        consequence: 'Ton frère te dit : « Ne réponds pas, coupe ta position et bloque-le. Si tu veux, je viens te chercher. » Tu suis ses conseils.'
+    indices:
+      - { id: amis-amis, libelle: 'Ma position est visible par les amis de mes amis', pertinent: true }
+      - { id: inconnu, libelle: 'Je ne connais pas Léo_R', pertinent: true }
+      - { id: precise, libelle: 'Il sait dans quel café je suis', pertinent: true }
+      - { id: pseudo, libelle: 'Son pseudo commence par « Léo »', pertinent: false }
+    explicationIndices: '« Amis de tes amis », ce sont des centaines de gens que tu ne connais pas. Citer Sarah ne prouve rien : il est dans sa liste d’amis, et c’est justement comme ça qu’il voit ta position. Ce qui compte, c’est qu’un inconnu sait où tu es. Son pseudo, lui, ne dit rien.'
+    aRetenir: 'Ne partage jamais ta position avec « les amis de tes amis ». Garde le mode fantôme par défaut, et partage ta position seulement avec quelques proches choisis, quand c’est utile.'
+    recuperation: { action: bloquer-signaler, siChoix: [repond] }
+    pourquoi:
+      - levier: confiance
+        truc: '« Sarah m’a souvent parlé de toi » : un ami commun rend l’inconnu rassurant.'
+        parade: 'Demande à Sarah directement si elle le connaît. En attendant, ne réponds pas.'
+      - levier: reflexe
+        truc: '« Les amis de tes amis » : on a accepté ce réglage sans mesurer que cela fait plus de 1 200 personnes.'
+        parade: 'Ouvre tes réglages de position aujourd’hui. Choisis le mode fantôme, ou quelques amis choisis.'
+      - levier: gain
+        truc: '« On se rejoint ? » : une nouvelle rencontre peut flatter et rendre curieux.'
+        parade: 'Une vraie rencontre se prépare avec quelqu’un que tu connais, dans un lieu que tu choisis, pas parce qu’il t’a localisé.'
+
+  - type: minijeu
+    id: mj-reglages-traces
+    jeu: confidentialite
+    config:
+      consigne: Voici les réglages de ton compte SnapTalk, laissés tels quels depuis des années. Règle chacun pour limiter tes traces, puis vérifie ton profil.
+      appNom: SnapTalk
+      reglages:
+        - id: compte
+          libelle: Type de compte
+          options:
+            - { id: public, libelle: Public }
+            - { id: prive, libelle: Privé }
+          initial: public
+          conseille: prive
+          explication: 'En privé, seuls les abonnés que tu acceptes voient tes publications.'
+        - id: position
+          libelle: Partager ma position avec
+          options:
+            - { id: amis-amis, libelle: Les amis de mes amis }
+            - { id: amis, libelle: Tous mes amis }
+            - { id: fantome, libelle: Personne (mode fantôme) }
+          initial: amis-amis
+          conseille: fantome
+          explication: 'Par défaut, personne. Partage ta position au cas par cas, avec quelques proches, quand c’est utile.'
+        - id: identification
+          libelle: Photos où je suis identifié(e)
+          options:
+            - { id: direct, libelle: Elles s’affichent sur mon profil }
+            - { id: valider, libelle: Je les valide d’abord }
+          initial: direct
+          conseille: valider
+          explication: 'Tu choisis quelles photos de toi apparaissent sur ton profil, au lieu de le découvrir après.'
+        - id: numero
+          libelle: Me trouver grâce à mon numéro de téléphone
+          options:
+            - { id: oui, libelle: Oui }
+            - { id: non, libelle: Non }
+          initial: oui
+          conseille: non
+          explication: 'Sinon, quiconque a ton numéro retrouve ton profil, même si tu ne lui as jamais donné ton pseudo.'
+        - id: suggestions
+          libelle: Me suggérer aux contacts de mes contacts
+          options:
+            - { id: oui, libelle: Oui }
+            - { id: non, libelle: Non }
+          initial: oui
+          conseille: non
+          explication: 'Ces suggestions montrent ton profil à des inconnus qui partagent un ami avec toi.'
+        - id: moteurs
+          libelle: Mon profil dans les moteurs de recherche
+          options:
+            - { id: visible, libelle: Visible }
+            - { id: masque, libelle: Masqué }
+          initial: visible
+          conseille: masque
+          explication: 'Masqué, ton profil finit par ne plus sortir quand quelqu’un tape ton nom dans un moteur de recherche.'
+        - id: anciennes
+          libelle: Mes anciennes publications
+          options:
+            - { id: inchangees, libelle: Laisser leur visibilité d’origine }
+            - { id: amis, libelle: Les limiter à mes amis }
+          initial: inchangees
+          conseille: amis
+          explication: 'Tes vieilles publications publiques restent visibles par tous. En un clic, tu les réserves à tes amis.'
+debrief:
+  questions:
+    - Quel était le piège ?
+    - Quel indice pourras-tu réutiliser la prochaine fois ?
+    - Que faire si ça t’est déjà arrivé ?
+  reponses: 'Le piège commun : des informations qu’on ne voit pas ou qu’on a oubliées (métadonnées d’une photo, vieilles publications publiques, réglage « amis d’amis ») révèlent bien plus qu’on ne le pense, à des gens qu’on ne connaît pas. Indices réutilisables : la position GPS dans les informations d’une photo, ce qu’on voit par la fenêtre, un compte resté public depuis des années, un inconnu qui sait où tu es. Si c’est déjà arrivé : remplacer la photo par une version sans position, faire le tri dans ses publications et passer le compte en privé, demander l’effacement à la plateforme pour ce qui a été publié mineur, couper la position, bloquer et signaler l’inconnu, en parler à un adulte. Avoir des traces en ligne est normal : l’important est de les connaître et de les gérer.'
+  erreursFrequentes:
+    - 'Croire qu’une photo ne contient que l’image : elle peut contenir la date, l’appareil et la position GPS.'
+    - 'Penser que de vieilles publications sont oubliées parce qu’on ne les voit plus soi-même.'
+    - 'Croire que « les amis de mes amis » sont des gens de confiance.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qu’est-ce qu’un recruteur trouverait en tapant votre nom ? (sans obligation de chercher en classe)
+    20 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, puis retour sur le mini-jeu (recherche par numéro, suggestions, moteurs de recherche) ; en SNT, lien avec les métadonnées EXIF de la photographie numérique.
+    5 min : où trouver de l’aide (adulte de confiance, CPE, signalement dans l’appli, droit à l’effacement auprès de la plateforme puis de la CNIL, 3018 si une photo circule).
+    5 min : engagement. Cette semaine, je coupe la localisation de mon appareil photo et je cherche mon nom dans un moteur de recherche.

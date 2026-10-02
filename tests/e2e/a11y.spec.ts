@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
-import { commencer, jouerMission } from './helpers'
+import { commencer, jouerJusquAuMiniJeu, jouerMission } from './helpers'
 
 async function verifierA11y(page: Page, ecran: string) {
   const resultat = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
@@ -62,3 +62,16 @@ test('étape « pourquoi » et réponse personnalisée', async ({ page }) => {
   await page.locator('[data-levier="autre"]').click()
   await verifierA11y(page, 'conséquence après piège')
 })
+
+for (const [nom, id] of [
+  ['mot de passe', 'c-6e-mot-de-passe'],
+  ['confidentialité', 'v-6e-photo'],
+  ['vérification', 'd-6e-image-ia'],
+  ['permissions', 'a-6e-lampe-torche'],
+] as const) {
+  test(`mini-jeu ${nom}`, async ({ page }) => {
+    await page.goto(`/#/mission/${id}`)
+    await jouerJusquAuMiniJeu(page)
+    await verifierA11y(page, `mini-jeu ${nom}`)
+  })
+}

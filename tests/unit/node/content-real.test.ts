@@ -3,6 +3,7 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { buildContent } from '../../../scripts/build-content'
 import { TRANCHES, type Mission } from '../../../src/content/schema'
+import { atteint, evaluerRobustesse } from '../../../src/minigames/robustesse'
 
 const bundle = buildContent(join(process.cwd(), 'content'))
 const missions = bundle.missions.filter((m) => m.type === 'mission')
@@ -11,6 +12,8 @@ const MARQUES_REELLES = [
   'snapchat', 'instagram', 'tiktok', 'roblox', 'robux', 'discord', 'fortnite', 'v-bucks', 'vinted', 'leboncoin',
   'la poste', 'colissimo', 'chronopost', 'amazon', 'whatsapp', 'facebook', 'youtube', 'paypal', 'iphone',
   'playstation', 'xbox', 'nintendo', 'telegram', 'vestiaire', 'steam', 'twitch', 'google', 'apple', 'pronote',
+  'nordvpn', 'protonvpn', 'bitwarden', 'lastpass', 'dashlane', '1password', 'keepass', 'orange', 'sfr', 'bouygues',
+  'play store', 'app store', 'google play', 'chatgpt', 'midjourney', 'sncf', 'ouigo', 'android', 'windows',
 ]
 
 /** Numéros réservés à la fiction par l’ARCEP : mobile 06 39 98 xx xx, fixe 01 99 00 xx xx. */
@@ -35,6 +38,41 @@ function textesSansVersionSimple(m: Mission): [string, string][] {
     }
     if (e.type === 'fil') return e.notifications.map((n): [string, string] => [`${e.id}.${n.id}.explication`, n.explication])
     if (e.jeu === 'tri') return e.config.cartes.map((c): [string, string] => [`${e.id}.${c.id}.explication`, c.explication])
+    const consigne: [string, string] = [`${e.id}.consigne`, e.config.consigne]
+    if (e.jeu === 'motdepasse') return [consigne, [`${e.id}.contexte`, e.config.contexte]]
+    if (e.jeu === 'confidentialite')
+      return [
+        consigne,
+        ...e.config.reglages.flatMap((r): [string, string][] => [
+          [`${e.id}.${r.id}.libelle`, r.libelle],
+          [`${e.id}.${r.id}.explication`, r.explication],
+          ...r.options.map((o): [string, string] => [`${e.id}.${r.id}.${o.id}`, o.libelle]),
+        ]),
+      ]
+    if (e.jeu === 'verification') {
+      const { publication } = e.config
+      return [
+        consigne,
+        [`${e.id}.publication.texte`, publication.texte],
+        [`${e.id}.publication.image`, publication.image?.description ?? ''],
+        [`${e.id}.explication`, e.config.explication],
+        ...e.config.actions.flatMap((a): [string, string][] => [
+          [`${e.id}.${a.id}.libelle`, a.libelle],
+          [`${e.id}.${a.id}.resultat`, a.resultat],
+        ]),
+      ]
+    }
+    if (e.jeu === 'permissions')
+      return [
+        consigne,
+        ...e.config.apps.flatMap((a): [string, string][] => [
+          [`${e.id}.${a.id}.description`, a.description],
+          ...a.permissions.flatMap((p): [string, string][] => [
+            [`${e.id}.${a.id}.${p.id}.libelle`, p.libelle],
+            [`${e.id}.${a.id}.${p.id}.explication`, p.explication],
+          ]),
+        ]),
+      ]
     return e.config.lignes.map((l): [string, string] => [`${e.id}.${l.id}.explication`, l.explication ?? ''])
   })
 }
@@ -49,6 +87,14 @@ function textesDesFauxEcrans(m: Mission): string[] {
     }
     if (e.type === 'fil') return e.notifications.flatMap((n) => [n.appNom, n.de, n.texte])
     if (e.jeu === 'tri') return e.config.cartes.map((c) => c.texte)
+    if (e.jeu === 'motdepasse') return [e.config.contexte]
+    if (e.jeu === 'confidentialite')
+      return [e.config.appNom, ...e.config.reglages.flatMap((r) => [r.libelle, r.explication, ...r.options.map((o) => o.libelle)])]
+    if (e.jeu === 'verification') {
+      const { auteur, texte, date, image } = e.config.publication
+      return [auteur, texte, date ?? '', image?.description ?? '', ...e.config.actions.flatMap((a) => [a.libelle, a.resultat])]
+    }
+    if (e.jeu === 'permissions') return e.config.apps.flatMap((a) => [a.nom, a.description, ...a.permissions.map((p) => p.libelle)])
     return [e.config.titre, ...e.config.lignes.map((l) => l.texte)]
   })
 }
@@ -187,6 +233,45 @@ describe('contenu réel', () => {
   it.each(TRANCHES)('rappel : exactement une mission rappel pour la tranche %s', (t) => {
     expect(bundle.missions.filter((m) => m.type === 'rappel' && m.tranches.includes(t))).toHaveLength(1)
   })
+
+  const MINIJEU_DU_THEME = { comptes: 'motdepasse', 'vie-privee': 'confidentialite', desinformation: 'verification', appareils: 'permissions' } as const
+
+  it.each(Object.keys(MINIJEU_DU_THEME).flatMap((theme) => TRANCHES.map((t) => [theme, t] as const)))(
+    '%s : au moins une mission pour la tranche %s',
+    (theme, t) => {
+      expect(missionsDuTheme(theme).some((m) => m.tranches.includes(t))).toBe(true)
+    },
+  )
+
+  it.each(Object.entries(MINIJEU_DU_THEME))('%s : chaque mission utilise le mini-jeu « %s »', (theme, jeu) => {
+    for (const m of missionsDuTheme(theme)) {
+      const minijeu = m.etapes.find((e) => e.type === 'minijeu')
+      expect(minijeu?.type === 'minijeu' ? minijeu.jeu : null, m.id).toBe(jeu)
+    }
+  })
+
+  it.each(Object.keys(MINIJEU_DU_THEME))('%s : bon et risque ne sont pas le choix le plus long dans plus d’un tiers des scénarios', (theme) => {
+    const scenarios = missionsDuTheme(theme).flatMap((m) => m.etapes.filter((e) => e.type === 'scenario'))
+    for (const qualite of ['bon', 'risque'] as const) {
+      const plusLong = scenarios.filter((s) => {
+        const cible = s.choix.find((c) => c.qualite === qualite)
+        if (!cible) return false
+        const n = mots(cible.texte).length
+        return s.choix.every((c) => c === cible || mots(c.texte).length < n)
+      })
+      expect(plusLong.length, `${qualite} : ${plusLong.map((s) => s.id).join(', ')}`).toBeLessThanOrEqual(Math.floor(scenarios.length / 3))
+    }
+  })
+
+  it.each(missionsDuTheme('comptes').map((m) => [m.id, m] as const))(
+    '%s : l’objectif du mot de passe est atteignable avec une phrase de passe de 3 mots ou plus',
+    (_id, m) => {
+      const e = m.etapes.find((x) => x.type === 'minijeu' && x.jeu === 'motdepasse')
+      if (e?.type !== 'minijeu' || e.jeu !== 'motdepasse') throw new Error('mini-jeu motdepasse absent')
+      const { niveau } = evaluerRobustesse('tortue-rouge-sous-nuage', e.config.interdits)
+      expect(atteint(niveau, e.config.objectif), niveau).toBe(true)
+    },
+  )
 
   it('les rappels sont courts et contiennent un fil d’au moins 4 notifications', () => {
     const rappels = bundle.missions.filter((m) => m.type === 'rappel')

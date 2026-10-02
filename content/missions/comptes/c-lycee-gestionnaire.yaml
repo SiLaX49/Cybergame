@@ -1,0 +1,175 @@
+id: c-lycee-gestionnaire
+theme: comptes
+tranches: ['lycee']
+titre: Un mot de passe par compte
+resume: 'Des variantes d’un même mot de passe, une alerte de connexion à 3 h du matin, une page qui réclame ton code de double authentification : protège tes comptes pour de bon.'
+duree: 20
+objectifs:
+  - Comprendre pourquoi les variantes d’un même mot de passe ne protègent pas, et utiliser un gestionnaire de mots de passe
+  - Réagir à une alerte de connexion inconnue en passant soi-même par l’appli officielle
+  - Savoir que la double authentification ne protège pas d’un code saisi sur une fausse page
+competences:
+  crcn: ['4.1', '4.2']
+  programmes: ['SNT 2de']
+etapes:
+  - type: scenario
+    id: variantes
+    ecran:
+      app: web
+      appNom: Navigateur
+      contact: 'BilletNova · Créer un compte'
+      url: 'billetnova.fr/inscription'
+      messages:
+        - de: contact
+          texte: 'Crée ton compte pour réserver ta place au festival Sons d’Été. Plus que 43 places ! Mot de passe : 12 caractères minimum.'
+        - de: contact
+          texte: 'CoffreFort, ton gestionnaire de mots de passe, propose : « Générer un mot de passe unique pour ce site et l’enregistrer ? »'
+    question: 'Ton mot de passe habituel, tu le connais par cœur depuis la 4e. Pour chaque site, tu changes juste la fin : la base, puis « Revendo », « GameBox »… Que fais-tu ?'
+    choix:
+      - id: variante
+        texte: 'Ma méthode marche, je ne l’oublie jamais : je mets ma base habituelle avec « Billet » à la fin.'
+        qualite: risque
+        consequence: 'Six mois plus tard, Revendo subit une fuite de données. Ta variante « …Revendo » circule sur des forums. Les pirates connaissent cette astuce : ils gardent la base et essaient d’autres fins. « …GameBox » marche du premier coup, puis ta boîte mail. Change chaque variante pour un mot de passe vraiment différent, en commençant par ta boîte mail.'
+      - id: coffrefort
+        texte: 'J’accepte la proposition de CoffreFort : un mot de passe unique pour ce site, enregistré, que je n’ai pas à retenir.'
+        qualite: bon
+        consequence: 'Ta place est réservée. Dans la foulée, CoffreFort t’aide à remplacer tes autres variantes par des mots de passe uniques, la boîte mail d’abord. Le jour où Revendo subit une fuite, seul ton compte Revendo est concerné : tu changes un mot de passe, et c’est fini. Tu n’as qu’un seul mot de passe à retenir, celui de CoffreFort, long et protégé par la double authentification.'
+      - id: aide
+        texte: Je demande de l’aide à quelqu’un qui utilise déjà un gestionnaire de mots de passe.
+        qualite: aide
+        consequence: 'Ta cousine, en BTS informatique, t’explique : « Une variante, c’est le même mot de passe avec un déguisement. » Elle t’aide à configurer CoffreFort.'
+    indices:
+      - { id: meme-base, libelle: 'Mes mots de passe ne diffèrent que par la fin', pertinent: true }
+      - { id: fuite-base, libelle: 'Si un site fuit, la base de tous mes mots de passe est connue', pertinent: true }
+      - { id: generateur, libelle: 'CoffreFort peut générer un mot de passe unique et le retenir pour moi', pertinent: true }
+      - { id: douze, libelle: 'Le site impose 12 caractères minimum', pertinent: false }
+    explicationIndices: 'Les pirates testent automatiquement les variantes d’un mot de passe volé : changer la fin ne les arrête pas. Un gestionnaire crée un mot de passe vraiment différent pour chaque site. La longueur minimale imposée ne dit rien de la réutilisation.'
+    aRetenir: 'Un compte, un mot de passe vraiment différent : les variantes ne comptent pas. Un gestionnaire de mots de passe les crée et les retient pour toi. Protège-le avec une longue phrase de passe que tu n’utilises nulle part ailleurs, et avec la double authentification.'
+    recuperation: { action: changer-mdp, siChoix: [variante] }
+    pourquoi:
+      - levier: reflexe
+        truc: 'Ta méthode date de la 4e et elle marche sans effort. On garde ses habitudes sans se demander si elles protègent encore.'
+        parade: 'Une méthode facile pour toi l’est aussi pour un pirate. Laisse le gestionnaire créer un mot de passe différent.'
+      - levier: urgence
+        truc: '« Plus que 43 places ! » : tu veux réserver vite, pas réfléchir à ton mot de passe.'
+        parade: 'Accepter la proposition du gestionnaire prend deux secondes. C’est même plus rapide que de taper ta variante.'
+      - levier: confiance
+        truc: 'Ta base, tu la connais par cœur et personne d’autre ne la connaît. On se croit protégé par son secret.'
+        parade: 'Une seule fuite suffit à révéler ta base. Fais confiance au gestionnaire, pas à ta mémoire.'
+      - levier: groupe
+        truc: 'Beaucoup de gens changent juste la fin de leur mot de passe. Si tout le monde le fait, ça doit suffire.'
+        parade: 'Les pirates connaissent cette habitude et la testent en premier. Un gestionnaire te sort du lot.'
+
+  - type: scenario
+    id: alerte-connexion
+    ecran:
+      app: mail
+      appNom: Mail
+      contact: 'StreamTube <no-reply@streamtube.fr>'
+      sujet: 'Nouvelle connexion à ton compte'
+      messages:
+        - de: contact
+          texte: 'Nouvelle connexion à ton compte StreamTube le 14 mars à 3 h 12, depuis un appareil inconnu (ordinateur, région de Lyon). Si c’était toi, tu n’as rien à faire. Sinon, sécurise ton compte.'
+    question: 'À 3 h 12, tu dormais, et tu n’as jamais mis les pieds à Lyon. Mais tu as déjà reçu ce genre d’alerte « pour rien », un jour où tu étais en 4G. Ta chaîne a 800 abonnés. Que fais-tu ?'
+    choix:
+      - id: ignore
+        texte: 'Encore une fausse alerte : je supprime.'
+        qualite: risque
+        consequence: 'Deux jours plus tard, ta chaîne publie une vidéo pour une fausse cryptomonnaie, et l’adresse de récupération de ton compte a changé. Quelqu’un avait ton mot de passe. Lance vite la récupération officielle de StreamTube, change ton mot de passe, puis active la double authentification : avec elle, un mot de passe volé ne suffit plus.'
+      - id: securise
+        texte: 'J’ouvre moi-même l’appli StreamTube pour vérifier, sans cliquer dans le mail.'
+        qualite: bon
+        consequence: 'Dans l’appli, l’ordinateur inconnu apparaît bien. Tu le déconnectes, tu changes ton mot de passe et tu actives la double authentification. Le lendemain, une nouvelle tentative échoue : il manque le code.'
+      - id: aide
+        texte: Je demande de l’aide à un proche qui s’y connaît avant de faire quoi que ce soit.
+        qualite: aide
+        consequence: 'Ton frère te conseille de ne pas cliquer dans le mail et d’ouvrir toi-même l’appli. Vous y trouvez l’appareil inconnu et sécurisez le compte ensemble.'
+    indices:
+      - { id: heure, libelle: 'La connexion a eu lieu à 3 h 12, pendant que je dormais', pertinent: true }
+      - { id: appareil, libelle: 'L’appareil est inconnu', pertinent: true }
+      - { id: mdp-connu, libelle: 'Une connexion a réussi : quelqu’un connaît sans doute mon mot de passe', pertinent: true }
+      - { id: abonnes, libelle: 'Ma chaîne a 800 abonnés', pertinent: false }
+    explicationIndices: 'L’heure et l’appareil inconnu suffisent : ce n’était pas toi, même si la ville est approximative. La bonne réaction : ouvrir soi-même l’appli, sans cliquer dans le mail. Le nombre d’abonnés ne change rien : petit ou gros, tout compte peut être visé.'
+    aRetenir: 'Une alerte de connexion qui ne vient pas de toi se prend au sérieux. Ouvre toi-même l’appli (jamais le lien du mail), déconnecte les appareils inconnus, change ton mot de passe et active la double authentification.'
+    recuperation: { action: activer-2fa, siChoix: [ignore] }
+    pourquoi:
+      - levier: reflexe
+        truc: 'Tu as déjà reçu une alerte « pour rien ». À force, on finit par les supprimer sans les lire.'
+        parade: 'Avant de supprimer une alerte, regarde l’heure et l’appareil. Si ce n’était pas toi, tu agis tout de suite.'
+      - levier: confiance
+        truc: 'Ton mot de passe, tu ne l’as donné à personne. On se croit à l’abri, alors qu’il a pu fuiter d’un autre site.'
+        parade: 'Ne parie pas sur ton mot de passe : active la double authentification. Un mot de passe volé ne suffira plus.'
+      - levier: groupe
+        truc: 'Tout le monde reçoit ces alertes et presque personne ne les lit. Ça donne l’impression qu’elles ne servent à rien.'
+        parade: 'Ces alertes sont faites pour toi. Vérifier dans l’appli prend une minute, récupérer une chaîne prend des jours.'
+
+  - type: scenario
+    id: relais-2fa
+    ecran:
+      app: web
+      appNom: Navigateur
+      contact: 'SnapTalk · Connexion'
+      url: 'snaptalk-connexion.co/verification'
+      messages:
+        - de: contact
+          texte: 'Identifiant et mot de passe acceptés ✔'
+        - de: contact
+          texte: 'Double authentification : saisis le code à 6 chiffres que nous venons de t’envoyer par SMS.'
+    question: 'Cette page s’est ouverte depuis un lien « Vote pour ma photo au concours ! » envoyé par une amie. Tu as tapé ton mot de passe. Ton téléphone vibre : c’est un vrai SMS de SnapTalk, avec un code. Que fais-tu ?'
+    choix:
+      - id: tape-code
+        texte: 'Le SMS vient vraiment de SnapTalk, donc la page est la bonne : je tape le code.'
+        qualite: risque
+        consequence: 'Le code part en direct chez le pirate, qui le tape sur le vrai SnapTalk en quelques secondes. Il est dans ton compte et envoie déjà le même lien à tes amis, mais il ne t’a pas encore mis dehors. La double authentification n’arrête pas un code qu’on donne soi-même. Tu as encore la main : change vite ton mot de passe et déconnecte tous les autres appareils.'
+      - id: stop
+        texte: 'Je ne tape pas le code. Je ferme la page, j’ouvre moi-même l’appli SnapTalk et je change tout de suite mon mot de passe.'
+        qualite: bon
+        consequence: 'Le pirate a ton ancien mot de passe, mais pas le code : il reste bloqué. Tu changes ton mot de passe et tu préviens ton amie que son compte a sans doute été piraté.'
+      - id: aide
+        texte: Je demande de l’aide à quelqu’un avant de taper le code.
+        qualite: aide
+        consequence: 'Ton prof de SNT regarde l’adresse : « snaptalk-connexion.co, ce n’est pas SnapTalk. » Tu changes ton mot de passe depuis l’appli officielle.'
+    indices:
+      - { id: url, libelle: 'L’adresse de la page est snaptalk-connexion.co, pas celle de SnapTalk', pertinent: true }
+      - { id: lien, libelle: 'Cette page s’est ouverte depuis un lien reçu en message', pertinent: true }
+      - { id: vrai-sms, libelle: 'Le vrai SMS arrive parce que quelqu’un tape mon mot de passe sur le vrai site, en ce moment', pertinent: true }
+      - { id: logo, libelle: 'La page a le logo et les couleurs de SnapTalk', pertinent: false }
+    explicationIndices: 'La fausse page relaie ce que tu tapes vers le vrai site : c’est pour ça que le vrai SMS arrive. Le code est authentique, mais la page ne l’est pas. Un logo et des couleurs se copient en quelques secondes.'
+    aRetenir: 'Un code de double authentification se tape uniquement dans l’appli ou sur le site officiel, que tu as ouvert toi-même. Une fausse page peut relayer ton code au pirate en direct. Certaines méthodes, comme les clés d’accès, ne fonctionnent que sur le vrai site et résistent à ce piège.'
+    recuperation: { action: changer-mdp, siChoix: [tape-code] }
+    pourquoi:
+      - levier: autorite
+        truc: 'Le SMS vient vraiment de SnapTalk, et la page en a le logo. Tout semble officiel, sauf l’adresse.'
+        parade: 'Un vrai SMS ne prouve pas que la page est vraie. Regarde l’adresse, ou mieux, ouvre toi-même l’appli.'
+      - levier: confiance
+        truc: '« Vote pour ma photo au concours ! » : le lien vient d’une amie. Son compte a sans doute été piraté.'
+        parade: 'Un lien d’ami qui demande de te connecter, c’est suspect. Vérifie avec elle par un autre moyen.'
+      - levier: reflexe
+        truc: 'Mot de passe, puis code : tu fais ces gestes tous les jours, presque sans y penser.'
+        parade: 'Avant de taper un code, regarde où tu es. Si tu n’as pas ouvert la page toi-même, tu ne tapes rien.'
+
+  - type: minijeu
+    id: mj-mot-de-passe
+    jeu: motdepasse
+    config:
+      consigne: 'Crée le mot de passe principal du gestionnaire CoffreFort de Maëlys. C’est le seul qu’elle devra retenir : vise « très solide », par exemple avec une phrase de passe de plusieurs mots sans lien entre eux.'
+      contexte: 'Maëlys est née en 2009 et son chien s’appelle Pixel. Elle protège tous ses comptes avec CoffreFort.'
+      objectif: tres-solide
+      interdits: ['Maëlys', '2009', 'Pixel', 'CoffreFort']
+debrief:
+  questions:
+    - Quel était le piège ?
+    - Quel indice pourras-tu réutiliser la prochaine fois ?
+    - Que faire si ça t’est déjà arrivé ?
+  reponses: 'Le piège commun : croire qu’on est protégé par une habitude (une variante, une alerte qu’on ignore, un code qu’on tape machinalement). Indices réutilisables : mots de passe qui ne diffèrent que par la fin, connexion à une heure ou depuis un appareil qui ne correspond pas, page de connexion ouverte depuis un lien, adresse qui n’est pas celle du service. Si c’est déjà arrivé : ouvrir soi-même l’appli officielle, changer le mot de passe (et toutes ses variantes), déconnecter les appareils inconnus, activer la double authentification et prévenir ses contacts. Les pirates automatisent ces attaques à grande échelle : être visé n’a rien de personnel ni de honteux.'
+  erreursFrequentes:
+    - 'Croire qu’ajouter le nom du site à la fin d’un même mot de passe suffit à le rendre unique.'
+    - 'Penser qu’un gestionnaire de mots de passe est plus risqué que de tout retenir de tête.'
+    - 'Croire que la double authentification protège de tout, même d’un code tapé sur une fausse page.'
+fiche:
+  deroulement: |
+    5 min : cadre. Combien de comptes en ligne avez-vous ? Combien de mots de passe différents ? (sans obligation de répondre)
+    20 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, puis retour sur le mini-jeu (pourquoi le mot de passe principal d’un gestionnaire doit être très solide).
+    5 min : où trouver de l’aide (procédures officielles de récupération, cybermalveillance.gouv.fr, adulte de confiance).
+    5 min : engagement. Cette semaine, je fais la liste de mes comptes qui partagent un mot de passe ou une variante, et je change celui de ma boîte mail en premier.

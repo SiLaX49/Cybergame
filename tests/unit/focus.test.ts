@@ -1,8 +1,11 @@
 import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Fil, Scenario } from '@/content/schema'
+import ConfidentialiteGame from '@/minigames/ConfidentialiteGame.vue'
+import PermissionsGame from '@/minigames/PermissionsGame.vue'
 import RepereGame from '@/minigames/RepereGame.vue'
 import TriGame from '@/minigames/TriGame.vue'
+import VerificationGame from '@/minigames/VerificationGame.vue'
 import FilStep from '@/mission/FilStep.vue'
 import MinijeuStep from '@/mission/MinijeuStep.vue'
 import ScenarioStep from '@/mission/ScenarioStep.vue'
@@ -12,9 +15,19 @@ import BloquerSignaler from '@/recovery/BloquerSignaler.vue'
 import CapturePreuve from '@/recovery/CapturePreuve.vue'
 import ChangerMdp from '@/recovery/ChangerMdp.vue'
 import PrevenirContacts from '@/recovery/PrevenirContacts.vue'
+import CorrigerPartage from '@/recovery/CorrigerPartage.vue'
 import { creerStore, definirStore } from '@/store/useProgress'
 import AppHeader from '@/ui/AppHeader.vue'
-import { leviersFixture, missionFixture, rappelFixture, repereFixture, triFixture } from './fixtures'
+import {
+  confidentialiteFixture,
+  leviersFixture,
+  missionFixture,
+  permissionsFixture,
+  rappelFixture,
+  repereFixture,
+  triFixture,
+  verificationFixture,
+} from './fixtures'
 import { bouton, cliquer } from './helpers'
 import { MemoryStorage } from './memory-storage'
 import { routerTest } from './router-test'
@@ -95,7 +108,7 @@ describe('gestion du focus', () => {
     expect(actif()?.tagName).toBe('H3')
   })
 
-  it('capture-preuve et prevenir-contacts : le focus ne retombe jamais sur la page', async () => {
+  it('capture-preuve, prevenir-contacts et corriger-partage : le focus ne retombe jamais sur la page', async () => {
     const w = monter(CapturePreuve)
     await cliquer(w, 'Faire une capture d’écran')
     await flushPromises()
@@ -108,6 +121,11 @@ describe('gestion du focus', () => {
     await cliquer(p, 'Envoyer')
     await flushPromises()
     expect(actif()?.tagName).toBe('H3')
+    const c = monter(CorrigerPartage)
+    await c.find('input[value="bon"]').setValue()
+    await cliquer(c, 'Envoyer')
+    await flushPromises()
+    expect(actif()?.tagName).toBe('H3')
   })
 
   it('TriGame : focus sur « Suivant » après une réponse, puis sur la nouvelle carte', async () => {
@@ -118,6 +136,36 @@ describe('gestion du focus', () => {
     await cliquer(w, 'Suivant')
     await flushPromises()
     expect(actif()?.textContent).toContain('Maman : je rentre à 19 h')
+  })
+
+  it('VerificationGame : focus sur le résultat du verdict, qui n’est pas une région annoncée', async () => {
+    const w = monter(VerificationGame, { props: { config: verificationFixture() } })
+    await w.find('[data-verdict="faux"]').trigger('click')
+    await flushPromises()
+    expect(actif()).toBe(w.find('.resultat-verdict').element)
+    expect(actif()?.textContent).toContain('Bien vu')
+    expect(actif()?.getAttribute('role')).toBeNull()
+    expect(actif()?.closest('[role="status"], [aria-live]')).toBeNull()
+  })
+
+  it('ConfidentialiteGame : focus sur le bilan, placé avant les explications', async () => {
+    const w = monter(ConfidentialiteGame, { props: { config: confidentialiteFixture() } })
+    await cliquer(w, 'Vérifier mon profil')
+    await flushPromises()
+    expect(actif()).toBe(w.find('.bilan').element)
+    expect(actif()?.textContent).toContain('réglage sur 3 est sûr')
+    expect(actif()?.closest('[role="status"], [aria-live]')).toBeNull()
+  })
+
+  it('PermissionsGame : focus sur le bilan de l’appli, placé avant les explications', async () => {
+    const w = monter(PermissionsGame, { props: { config: permissionsFixture() } })
+    await w.find('input[name="perm-lampe-flash"][value="autoriser"]').setValue()
+    await w.find('input[name="perm-lampe-contacts"][value="refuser"]').setValue()
+    await cliquer(w, 'Valider les permissions')
+    await flushPromises()
+    expect(actif()).toBe(w.find('.bilan').element)
+    expect(actif()?.textContent).toContain('2 décisions justes sur 2')
+    expect(actif()?.closest('[role="status"], [aria-live]')).toBeNull()
   })
 
   it('Réglages : « Fermer » et Échap rendent le focus au bouton Réglages', async () => {

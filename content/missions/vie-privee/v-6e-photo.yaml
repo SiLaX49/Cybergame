@@ -1,0 +1,213 @@
+id: v-6e-photo
+theme: vie-privee
+tranches: ['6e']
+titre: Ce que dit ma photo
+resume: 'Une photo de rentrée, un message d’anniversaire, un concours : ce que tu publies en dit parfois plus que tu ne le crois.'
+duree: 15
+objectifs:
+  - Repérer les informations personnelles cachées dans une photo ou un profil (collège, date de naissance, adresse)
+  - Choisir qui peut voir ce que je publie et qui peut m’écrire
+  - Savoir quoi faire quand un inconnu pose trop de questions
+competences:
+  crcn: ['4.2', '2.2']
+  programmes: ['EMI cycle 3', 'Référentiel données personnelles cycle 3']
+etapes:
+  - type: scenario
+    id: photo-college
+    ecran:
+      app: social
+      appNom: SnapTalk
+      contact: 'Inès'
+      messages:
+        - de: contact
+          texte: 'Poste la photo de nous deux devant le collège ! On voit trop bien « Collège des Tilleuls » derrière, c’est stylé 😍'
+          texteSimple: 'Poste notre photo devant le collège ! On voit bien « Collège des Tilleuls » derrière 😍'
+        - de: contact
+          texte: 'Tout le monde poste sa photo de rentrée en public, fais pareil !'
+          texteSimple: 'Tout le monde poste sa photo de rentrée en public !'
+    question: Ton compte SnapTalk est public. La photo est réussie. Que fais-tu ?
+    choix:
+      - id: publie
+        texte: 'Inès a raison, tout le monde le fait : je la publie en public.'
+        qualite: risque
+        consequence: 'La photo plaît. Mais un compte inconnu la commente : « Ah, tu es aux Tilleuls ! Tu sors à quelle heure ? » Avec le nom du collège, n’importe qui sait où te trouver en semaine. Tu peux encore modifier la publication.'
+        consequenceSimple: 'Un inconnu écrit : « Tu sors à quelle heure ? » Il sait où est ton collège. Tu peux encore changer la photo.'
+      - id: recadre
+        texte: 'Je recadre la photo pour cacher le nom du collège, et je la partage seulement avec mes amis.'
+        qualite: bon
+        consequence: 'La photo est toujours aussi belle. Tes amis la voient et la likent. Les inconnus, eux, ne savent pas où tu vas en cours.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte pour savoir ce que je peux montrer sur la photo.
+        qualite: aide
+        consequence: 'Ton père regarde la photo avec toi : « Elle est super ! Cache juste le nom du collège. » Vous la recadrez ensemble.'
+    indices:
+      - { id: nom-college, libelle: 'Le nom du collège est bien lisible sur la photo', pertinent: true }
+      - { id: public, libelle: 'Mon compte est public : tout le monde peut voir la photo', pertinent: true }
+      - { id: tout-le-monde, libelle: 'Inès dit que tout le monde le fait', pertinent: true }
+      - { id: emoji, libelle: 'Inès a mis un emoji avec des cœurs', pertinent: false }
+    explicationIndices: 'Le nom du collège dit où tu es presque tous les jours. Sur un compte public, n’importe qui peut le lire. L’emoji, lui, ne change rien.'
+    aRetenir: 'Avant de publier une photo, regarde ce qu’on voit derrière toi : nom du collège, de la rue, numéro de maison. Cache-le, et partage seulement avec tes amis.'
+    aRetenirSimple: 'Avant de publier, regarde le fond de la photo. Cache le nom du collège ou de ta rue.'
+    recuperation: { action: demander-aide, siChoix: [publie] }
+    pourquoi:
+      - levier: groupe
+        truc: '« Tout le monde poste sa photo de rentrée en public » : on a envie de faire comme les autres.'
+        parade: 'Tu peux poster ta photo de rentrée toi aussi. Cache juste le nom du collège et choisis « Amis ».'
+      - levier: confiance
+        truc: 'C’est Inès, ton amie, qui te pousse à la poster. Elle ne pense pas aux inconnus qui la verront.'
+        parade: 'Explique-lui ton idée : on garde la photo, mais on cache le nom du collège.'
+      - levier: reflexe
+        truc: 'On regarde surtout son visage sur une photo. On oublie ce qui est écrit derrière.'
+        parade: 'Avant de publier, regarde le fond de la photo pendant trois secondes.'
+
+  - type: scenario
+    id: anniversaire
+    ecran:
+      app: social
+      appNom: SnapTalk
+      contact: 'Max_du_31'
+      messages:
+        - de: contact
+          texte: 'Joyeux anniversaire 🎂 ! Ma petite sœur a ton âge. Elle cherche des copines pour discuter.'
+          texteSimple: 'Joyeux anniversaire 🎂 ! Ma petite sœur a ton âge. Elle cherche des copines.'
+        - de: contact
+          texte: 'T’es dans quel collège ? Comme ça vous pourrez vous voir 😊'
+          texteSimple: 'T’es dans quel collège ? Comme ça vous pourrez vous voir 😊'
+    question: Tu ne connais pas Max_du_31. Ta date d’anniversaire est affichée sur ton profil public. Que fais-tu ?
+    choix:
+      - id: repond
+        texte: 'Il est gentil, il m’a souhaité mon anniversaire : je lui dis mon collège.'
+        qualite: risque
+        consequence: 'Max_du_31 répond tout de suite. Il demande ta classe, puis l’heure où tu sors. Il pose beaucoup de questions pour quelqu’un que tu ne connais pas. Tu peux arrêter de répondre maintenant.'
+        consequenceSimple: 'Max_du_31 demande ta classe, puis l’heure où tu sors. Arrête de répondre et parles-en à un adulte.'
+      - id: bloque
+        texte: 'Je ne réponds pas, je bloque et je signale ce compte.'
+        qualite: bon
+        consequence: 'Max_du_31 ne peut plus t’écrire. Tu caches aussi ta date d’anniversaire, et tu en parles à tes parents ce soir.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte avant de répondre quoi que ce soit.
+        qualite: aide
+        consequence: 'Ta mère lit le message : « On ne donne pas son collège à un inconnu. » Vous bloquez et signalez le compte ensemble.'
+    indices:
+      - { id: inconnu, libelle: 'Je ne connais pas cette personne', pertinent: true }
+      - { id: college, libelle: 'Il demande dans quel collège je suis', pertinent: true }
+      - { id: date-publique, libelle: 'Ma date d’anniversaire est visible par tout le monde', pertinent: true }
+      - { id: emoji-gateau, libelle: 'Il a mis un emoji gâteau', pertinent: false }
+    explicationIndices: 'Un inconnu a lu ta date d’anniversaire sur ton profil. Il s’en sert pour commencer à parler. Puis il demande ton collège : c’est l’endroit où te trouver.'
+    aRetenir: 'Ne donne jamais ton collège, ton adresse ou tes horaires à quelqu’un que tu ne connais pas en vrai. Bloque, signale, et parles-en à un adulte.'
+    aRetenirSimple: 'Ne dis jamais ton collège à un inconnu. Bloque, signale et parles-en à un adulte.'
+    recuperation: { action: bloquer-signaler, siChoix: [repond] }
+    pourquoi:
+      - levier: confiance
+        truc: '« Joyeux anniversaire » : le message est gentil. On a l’impression qu’il nous connaît.'
+        parade: 'Une gentillesse ne prouve pas qui est la personne. Si tu ne la connais pas en vrai, tu ne réponds pas.'
+      - levier: gain
+        truc: '« Elle cherche des copines » : on te promet une nouvelle amie de ton âge.'
+        parade: 'Une vraie amie, tu peux la rencontrer avec tes parents au courant. Un inconnu n’a pas besoin de ton collège.'
+      - levier: reflexe
+        truc: '« T’es dans quel collège ? » : la question paraît banale. On répond sans y penser.'
+        parade: 'Avant de répondre, demande-toi : qui me pose cette question, et pourquoi veut-il le savoir ?'
+
+  - type: scenario
+    id: concours-adresse
+    ecran:
+      app: web
+      appNom: Navigateur
+      contact: 'Méga Jouets'
+      url: 'megajouets-concours.fun'
+      messages:
+        - de: contact
+          texte: 'GRAND CONCOURS 🛴 Gagne une trottinette électrique ! Remplis ton nom, ton adresse et ajoute une photo de toi. Tirage ce soir à 20 h !'
+          texteSimple: 'Gagne une trottinette électrique ! Donne ton nom, ton adresse et une photo de toi. Tirage ce soir à 20 h !'
+    question: Une publicité t’a amené sur ce site. Tu rêves d’une trottinette. Que fais-tu ?
+    choix:
+      - id: remplit
+        texte: 'Une trottinette ! Ça prend deux minutes : je remplis tout et j’ajoute un selfie.'
+        qualite: risque
+        consequence: 'Aucune trottinette n’arrive. Par contre, tu reçois des pubs et des messages bizarres qui citent ton nom. Ton adresse et ta photo sont maintenant chez des inconnus. Un adulte peut t’aider à limiter les dégâts.'
+        consequenceSimple: 'Pas de trottinette. Mais ton nom, ton adresse et ta photo sont chez des inconnus. Parles-en à un adulte.'
+      - id: ferme
+        texte: 'Je ne remplis rien : un concours n’a pas besoin de ma photo.'
+        qualite: bon
+        consequence: 'Tu fermes la page. Le soir, tu montres le site à ta mère : aucune vraie boutique ne s’appelle « Méga Jouets ». Le concours servait à récolter des adresses et des photos.'
+      - id: aide
+        texte: Je demande de l’aide à un adulte avant de donner la moindre information.
+        qualite: aide
+        consequence: 'Ton grand frère regarde le site : « Un concours ne demande pas ta photo. » Vous fermez la page sans rien remplir.'
+    indices:
+      - { id: photo, libelle: 'On me demande une photo de moi', pertinent: true }
+      - { id: adresse, libelle: 'On me demande mon adresse', pertinent: true }
+      - { id: delai, libelle: 'Le tirage a lieu « ce soir », il faut faire vite', pertinent: true }
+      - { id: majuscules, libelle: 'Le titre est écrit en majuscules', pertinent: false }
+    explicationIndices: 'Un vrai concours n’a pas besoin de ta photo. Ton adresse et ton visage sont des informations précieuses. Le délai court sert à te faire remplir sans réfléchir.'
+    aRetenir: 'Ton nom, ton adresse et ta photo sont des données personnelles. Ne les donne jamais sur un site inconnu. Avant tout concours, demande à un parent.'
+    aRetenirSimple: 'Ne donne jamais ton adresse ou ta photo sur un site inconnu. Demande d’abord à un parent.'
+    recuperation: { action: demander-aide, siChoix: [remplit] }
+    pourquoi:
+      - levier: gain
+        truc: '« Gagne une trottinette électrique ! » : le cadeau fait rêver. On en oublie ce qu’on donne en échange.'
+        parade: 'Demande-toi ce que le site gagne, lui. Ici, ce sont ton adresse et ta photo.'
+      - levier: urgence
+        truc: '« Tirage ce soir à 20 h ! » : le délai te pousse à remplir tout de suite.'
+        parade: 'Un vrai concours te laisse le temps de demander à tes parents. Prends ce temps.'
+      - levier: reflexe
+        truc: 'Remplir un formulaire, on le fait souvent. On tape son nom et son adresse sans y penser.'
+        parade: 'Avant de taper ton adresse, demande-toi qui va la lire.'
+
+  - type: minijeu
+    id: mj-reglages-snaptalk
+    jeu: confidentialite
+    config:
+      consigne: Voici les réglages de ton compte SnapTalk. Choisis les plus sûrs, puis vérifie ton profil.
+      appNom: SnapTalk
+      reglages:
+        - id: profil
+          libelle: Qui peut voir mon profil et mes photos ?
+          options:
+            - { id: public, libelle: Tout le monde }
+            - { id: amis, libelle: Mes amis seulement }
+          initial: public
+          conseille: amis
+          explication: 'En public, des inconnus voient tes photos. Avec « Mes amis seulement », tu choisis qui les voit.'
+        - id: position
+          libelle: Partager ma position sur la carte
+          options:
+            - { id: tous, libelle: Avec tout le monde }
+            - { id: amis, libelle: Avec mes amis }
+            - { id: personne, libelle: Avec personne }
+          initial: amis
+          conseille: personne
+          explication: 'Ta position montre où tu es, en ce moment. Même tes amis n’en ont pas besoin tout le temps.'
+        - id: anniversaire
+          libelle: Afficher ma date d’anniversaire
+          options:
+            - { id: visible, libelle: Visible par tous }
+            - { id: cachee, libelle: Cachée }
+          initial: visible
+          conseille: cachee
+          explication: 'Ta date de naissance donne ton âge. Un inconnu peut s’en servir pour te parler. Tes amis la connaissent déjà.'
+        - id: messages
+          libelle: Qui peut m’écrire ?
+          options:
+            - { id: tous, libelle: Tout le monde }
+            - { id: amis, libelle: Mes amis seulement }
+          initial: tous
+          conseille: amis
+          explication: 'Ainsi, un inconnu ne peut pas t’écrire directement. Tes amis, eux, peuvent toujours le faire.'
+debrief:
+  questions:
+    - Quel était le piège ?
+    - Quel indice pourras-tu réutiliser la prochaine fois ?
+    - Que faire si ça t’est déjà arrivé ?
+  reponses: 'Le piège commun : donner sans s’en rendre compte des informations qui permettent de te trouver (nom du collège, âge, adresse, photo). Indices réutilisables : ce qu’on voit au fond d’une photo, un compte public, un inconnu qui pose des questions sur ton collège ou tes horaires, un site qui demande ton adresse ou ta photo. Si c’est déjà arrivé : modifier ou supprimer la publication, passer le compte en « Amis seulement », bloquer et signaler l’inconnu, et en parler à un adulte. Ce n’est pas grave d’avoir publié, l’important est d’en parler.'
+  erreursFrequentes:
+    - 'Croire qu’une photo ne dit rien parce qu’on n’y voit que des visages.'
+    - 'Penser qu’un inconnu gentil n’est pas vraiment un inconnu.'
+    - 'Croire qu’un compte « Amis seulement » empêche tout : un ami peut faire une capture d’écran.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qu’est-ce qu’on peut apprendre sur quelqu’un avec une seule photo ? (sans montrer de vraie photo d’élève) Sans juger personne, rappeler que la plupart des réseaux sociaux fixent un âge minimum de 13 ans, et que ces réflexes valent aussi pour les comptes de jeux et de messagerie.
+    15 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, puis retour sur le mini-jeu (pourquoi chaque réglage conseillé protège).
+    5 min : où trouver de l’aide (adulte de confiance, CPE, signalement dans l’appli).
+    5 min : engagement. Ce soir, je vérifie avec un adulte qui peut voir mon profil et ma date d’anniversaire.

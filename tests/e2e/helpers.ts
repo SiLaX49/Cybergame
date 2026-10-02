@@ -13,7 +13,7 @@ export async function jouerMission(page: Page) {
   const fin = page.getByRole('heading', { name: 'Mission terminée !' })
   for (let i = 0; i < 300; i++) {
     if (await fin.isVisible()) return
-    const suivant = page.getByRole('button', { name: /^(Suivant|Terminer le mini-jeu)$/ })
+    const suivant = page.getByRole('button', { name: /^(Suivant|Terminer le mini-jeu|Appli suivante)$/ })
     const validerClasse = page.getByRole('button', { name: 'Valider le choix de la classe' })
     const aide = page.locator('[data-qualite="aide"]')
     const jeNeSaisPas = page.getByRole('button', { name: 'Je ne sais pas' })
@@ -22,6 +22,11 @@ export async function jouerMission(page: Page) {
     const solution = page.getByRole('button', { name: 'Voir la solution' })
     const verifier = page.getByRole('radio', { name: 'Je vérifie autrement' })
     const commencerSensible = page.getByRole('button', { name: 'Commencer' })
+    const jePasse = page.getByRole('button', { name: 'Je passe' })
+    const verifierProfil = page.getByRole('button', { name: 'Vérifier mon profil' })
+    const douteux = page.locator('[data-verdict="douteux"]:not([disabled])')
+    const refuser = page.getByRole('radio', { name: 'Refuser' })
+    const validerPermissions = page.getByRole('button', { name: 'Valider les permissions' })
 
     if (await suivant.isVisible()) await suivant.click()
     else if ((await validerClasse.isVisible()) && (await validerClasse.isEnabled())) await validerClasse.click()
@@ -35,9 +40,32 @@ export async function jouerMission(page: Page) {
       for (const radio of await verifier.all()) await radio.check()
       await page.getByRole('button', { name: 'Valider mes choix' }).click()
     } else if (await commencerSensible.isVisible()) await commencerSensible.click()
+    else if (await jePasse.isVisible()) await jePasse.click()
+    else if (await verifierProfil.isVisible()) await verifierProfil.click()
+    else if (await douteux.isVisible()) await douteux.click()
+    else if (await validerPermissions.isVisible()) {
+      for (const radio of await refuser.all()) if (await radio.isEnabled()) await radio.check()
+      await validerPermissions.click()
+    }
     else await page.waitForTimeout(100)
   }
   throw new Error('La mission ne s’est pas terminée')
+}
+
+/** Joue les scénarios (choix « aide ») jusqu’à l’affichage du mini-jeu. */
+export async function jouerJusquAuMiniJeu(page: Page) {
+  const titre = page.getByRole('heading', { name: 'Mini-jeu', exact: true })
+  for (let i = 0; i < 100; i++) {
+    if (await titre.isVisible()) return
+    const aide = page.locator('[data-qualite="aide"]')
+    const jeNeSaisPas = page.getByRole('button', { name: 'Je ne sais pas' })
+    const continuer = page.getByRole('button', { name: 'Continuer', exact: true })
+    if (await aide.isVisible()) await aide.click()
+    else if (await jeNeSaisPas.isVisible()) await jeNeSaisPas.click()
+    else if (await continuer.isVisible()) await continuer.click()
+    else await page.waitForTimeout(100)
+  }
+  throw new Error('Le mini-jeu n’est pas apparu')
 }
 
 export async function tabJusqua(page: Page, texte: string) {

@@ -3,6 +3,7 @@ import { RouterLink, useRoute } from 'vue-router'
 import { getLeviers, getMission } from '@/content'
 import { FIL_ACTIONS } from '@/content/schema'
 import { ordreAffichage } from '@/engine/ordre'
+import { CONSEILS, EXEMPLE_PHRASE, LIBELLES_NIVEAU } from '@/minigames/robustesse'
 
 const route = useRoute()
 const mission = getMission(String(route.params.id))
@@ -14,6 +15,7 @@ const ACTIONS_PAPIER: Record<(typeof FIL_ACTIONS)[number], string> = {
   signaler: 'Je signale',
   ignorer: 'J’ignore',
 }
+const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as const
 </script>
 
 <template>
@@ -65,7 +67,7 @@ const ACTIONS_PAPIER: Record<(typeof FIL_ACTIONS)[number], string> = {
             </tbody>
           </table>
         </template>
-        <template v-else-if="e.type === 'minijeu'">
+        <template v-else-if="e.type === 'minijeu' && e.jeu === 'repere'">
           <h2>Mini-jeu {{ i + 1 }} : {{ e.config.consigne }}</h2>
           <p>Entoure les lignes suspectes.</p>
           <div class="carte">
@@ -73,7 +75,42 @@ const ACTIONS_PAPIER: Record<(typeof FIL_ACTIONS)[number], string> = {
             <p v-for="l in e.config.lignes" :key="l.id">{{ l.texte }}</p>
           </div>
         </template>
-        <template v-else>
+        <template v-else-if="e.type === 'minijeu' && e.jeu === 'motdepasse'">
+          <h2>Mini-jeu {{ i + 1 }} : {{ e.config.consigne }}</h2>
+          <p>{{ e.config.contexte }}</p>
+          <p>Écris une phrase de passe (pas ton vrai mot de passe !) : ______________________________</p>
+          <ul class="cases"><li v-for="c in CONSEILS" :key="c.id">☐ {{ c.libelle }}</li></ul>
+        </template>
+        <template v-else-if="e.type === 'minijeu' && e.jeu === 'confidentialite'">
+          <h2>Mini-jeu {{ i + 1 }} : {{ e.config.consigne }}</h2>
+          <p><strong>Paramètres · {{ e.config.appNom }}</strong></p>
+          <div v-for="r in e.config.reglages" :key="r.id">
+            <p>{{ r.libelle }}</p>
+            <ul class="cases"><li v-for="o in r.options" :key="o.id">☐ {{ o.libelle }}</li></ul>
+          </div>
+        </template>
+        <template v-else-if="e.type === 'minijeu' && e.jeu === 'verification'">
+          <h2>Mini-jeu {{ i + 1 }} : {{ e.config.consigne }}</h2>
+          <div class="carte">
+            <p>
+              <strong>{{ e.config.publication.auteur }}</strong>
+              <span v-if="e.config.publication.date"> · {{ e.config.publication.date }}</span>
+            </p>
+            <p>{{ e.config.publication.texte }}</p>
+            <p v-if="e.config.publication.image">Image (décrite) : {{ e.config.publication.image.description }}</p>
+          </div>
+          <p>Pistes d’enquête : {{ e.config.actions.map((a) => a.libelle).join(' · ') }}</p>
+          <p>Ton verdict : ☐ Fiable ☐ Douteux ☐ Faux</p>
+        </template>
+        <template v-else-if="e.type === 'minijeu' && e.jeu === 'permissions'">
+          <h2>Mini-jeu {{ i + 1 }} : {{ e.config.consigne }}</h2>
+          <table v-for="a in e.config.apps" :key="a.id">
+            <caption>{{ a.nom }} : {{ a.description }}</caption>
+            <thead><tr><th scope="col">Permission</th><th scope="col">Autoriser</th><th scope="col">Refuser</th></tr></thead>
+            <tbody><tr v-for="p in a.permissions" :key="p.id"><td>{{ p.libelle }}</td><td>☐</td><td>☐</td></tr></tbody>
+          </table>
+        </template>
+        <template v-else-if="e.type === 'fil'">
           <h2>Notifications {{ i + 1 }} : {{ e.consigne }}</h2>
           <table>
             <thead><tr><th scope="col">Notification</th><th v-for="a in FIL_ACTIONS" :key="a" scope="col">{{ ACTIONS_PAPIER[a] }}</th></tr></thead>
@@ -112,11 +149,39 @@ const ACTIONS_PAPIER: Record<(typeof FIL_ACTIONS)[number], string> = {
               </li>
             </ul>
           </template>
-          <template v-else-if="e.type === 'minijeu'">
+          <template v-else-if="e.type === 'minijeu' && e.jeu === 'repere'">
             <h3>Mini-jeu {{ i + 1 }}</h3>
             <ul><li v-for="l in e.config.lignes.filter((x) => x.indice)" :key="l.id">{{ l.texte }} : {{ l.explication }}</li></ul>
           </template>
-          <template v-else>
+          <template v-else-if="e.type === 'minijeu' && e.jeu === 'motdepasse'">
+            <h3>Mini-jeu {{ i + 1 }}</h3>
+            <p>Objectif : {{ LIBELLES_NIVEAU[e.config.objectif].toLowerCase() }}. Exemple : {{ EXEMPLE_PHRASE }} (ne la réutilise pas : elle est publique).</p>
+            <p v-if="e.config.interdits.length">À éviter : {{ e.config.interdits.join(', ') }}.</p>
+          </template>
+          <template v-else-if="e.type === 'minijeu' && e.jeu === 'confidentialite'">
+            <h3>Mini-jeu {{ i + 1 }}</h3>
+            <ul>
+              <li v-for="r in e.config.reglages" :key="r.id">
+                {{ r.libelle }} → {{ r.options.find((o) => o.id === r.conseille)?.libelle }} ({{ r.explication }})
+              </li>
+            </ul>
+          </template>
+          <template v-else-if="e.type === 'minijeu' && e.jeu === 'verification'">
+            <h3>Mini-jeu {{ i + 1 }}</h3>
+            <p>Verdict : {{ VERDICT_PAPIER[e.config.verdict] }}. {{ e.config.explication }}</p>
+            <ul><li v-for="a in e.config.actions" :key="a.id">{{ a.libelle }} : {{ a.resultat }}</li></ul>
+          </template>
+          <template v-else-if="e.type === 'minijeu' && e.jeu === 'permissions'">
+            <h3>Mini-jeu {{ i + 1 }}</h3>
+            <ul>
+              <template v-for="a in e.config.apps" :key="a.id">
+                <li v-for="p in a.permissions" :key="p.id">
+                  {{ a.nom }} · {{ p.libelle }} → {{ p.necessaire ? 'Autoriser' : 'Refuser' }} ({{ p.explication }})
+                </li>
+              </template>
+            </ul>
+          </template>
+          <template v-else-if="e.type === 'fil'">
             <h3>Notifications {{ i + 1 }}</h3>
             <ul>
               <li v-for="n in e.notifications" :key="n.id">
