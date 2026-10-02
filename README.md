@@ -25,11 +25,17 @@ Une mission est un fichier YAML dans `content/missions/<thème>/<id>.yaml`. Le s
 Après avoir ajouté un fichier, relancer `npm run dev`.
 
 Règles principales :
-- 3 objectifs maximum ; 3 ou 4 scénarios et 1 mini-jeu (`tri` ou `repere`) par mission.
+- 3 objectifs maximum ; 3 ou 4 scénarios et 1 mini-jeu par mission.
+- Mini-jeux disponibles : `tri`, `repere`, `motdepasse` (objectif `solide` ou `tres-solide`, mots `interdits`),
+  `confidentialite` (3 à 8 réglages, au moins un à changer), `verification` (publication, 2 à 5 pistes d’enquête,
+  verdict `fiable` / `douteux` / `faux`), `permissions` (1 à 3 applis, 2 à 5 permissions chacune). Le schéma de chacun est
+  dans `src/content/schema.ts`.
 - Chaque scénario a un choix `aide` (« Je demande de l’aide… »), au moins un indice pertinent et un `aRetenir`.
 - Chaque scénario avec un choix `risque` a un bloc `pourquoi` : 3 ou 4 leviers (`content/leviers.yaml`), chacun avec
   `truc` (comment l’arnaqueur a joué sur ce levier ici) et `parade` (le geste à faire la prochaine fois).
 - Le texte du choix `risque` est la vraie pensée d’un ado, qui tente vraiment : jamais une évidence.
+- Actions de récupération (`recuperation.action`) : notamment `prevenir-contacts` et `corriger-partage`
+  (« Préviens que c’était faux », pour une fausse info partagée) ; la liste complète est dans `src/content/schema.ts`.
 - `recuperation.siChoix` ne cite que des choix `risque` ou `bon`, jamais le choix `aide`.
 - Marques **fictives** uniquement dans les faux écrans (un test le vérifie).
 - 6e : `texteSimple`, `consequenceSimple` (choix risqués) et `aRetenirSimple` obligatoires.

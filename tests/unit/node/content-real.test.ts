@@ -198,6 +198,35 @@ describe('contenu réel', () => {
     expect(bundle.missions.filter((m) => m.type === 'rappel' && m.tranches.includes(t))).toHaveLength(1)
   })
 
+  const MINIJEU_DU_THEME = { comptes: 'motdepasse', 'vie-privee': 'confidentialite', desinformation: 'verification', appareils: 'permissions' } as const
+
+  it.each(Object.keys(MINIJEU_DU_THEME).flatMap((theme) => TRANCHES.map((t) => [theme, t] as const)))(
+    '%s : au moins une mission pour la tranche %s',
+    (theme, t) => {
+      expect(missionsDuTheme(theme).some((m) => m.tranches.includes(t))).toBe(true)
+    },
+  )
+
+  it.each(Object.entries(MINIJEU_DU_THEME))('%s : chaque mission utilise le mini-jeu « %s »', (theme, jeu) => {
+    for (const m of missionsDuTheme(theme)) {
+      const minijeu = m.etapes.find((e) => e.type === 'minijeu')
+      expect(minijeu?.type === 'minijeu' ? minijeu.jeu : null, m.id).toBe(jeu)
+    }
+  })
+
+  it.each(Object.keys(MINIJEU_DU_THEME))('%s : bon et risque ne sont pas le choix le plus long dans plus d’un tiers des scénarios', (theme) => {
+    const scenarios = missionsDuTheme(theme).flatMap((m) => m.etapes.filter((e) => e.type === 'scenario'))
+    for (const qualite of ['bon', 'risque'] as const) {
+      const plusLong = scenarios.filter((s) => {
+        const cible = s.choix.find((c) => c.qualite === qualite)
+        if (!cible) return false
+        const n = mots(cible.texte).length
+        return s.choix.every((c) => c === cible || mots(c.texte).length < n)
+      })
+      expect(plusLong.length, `${qualite} : ${plusLong.map((s) => s.id).join(', ')}`).toBeLessThanOrEqual(Math.floor(scenarios.length / 3))
+    }
+  })
+
   it('les rappels sont courts et contiennent un fil d’au moins 4 notifications', () => {
     const rappels = bundle.missions.filter((m) => m.type === 'rappel')
     expect(rappels.length).toBeGreaterThan(0)

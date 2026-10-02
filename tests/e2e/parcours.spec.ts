@@ -109,3 +109,11 @@ test('enseignant : fiche imprimable et version papier', async ({ page }) => {
   await page.getByRole('link', { name: 'Version papier (plan B)' }).click()
   await expect(page.getByRole('heading', { name: 'Corrigé (pour l’adulte)' })).toBeVisible()
 })
+
+for (const id of ['c-6e-mot-de-passe', 'v-6e-photo', 'd-6e-image-ia', 'a-6e-lampe-torche']) {
+  test(`mission ${id} jouée jusqu’au bout`, async ({ page }) => {
+    await page.goto(`/#/mission/${id}`)
+    await jouerMission(page)
+    await expect(page.getByRole('heading', { name: 'Mission terminée !' })).toBeVisible()
+  })
+}
