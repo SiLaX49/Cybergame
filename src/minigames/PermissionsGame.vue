@@ -26,6 +26,11 @@ const derniere = computed(() => index.value === props.config.apps.length - 1)
 const cle = (p: Permission) => `${app.value.id}-${p.id}`
 const juste = (p: Permission) => (decisions[cle(p)] === 'autoriser') === p.necessaire
 const complet = computed(() => app.value.permissions.every((p) => decisions[cle(p)]))
+const phraseBilan = computed(() => {
+  const justes = app.value.permissions.filter(juste).length
+  const total = app.value.permissions.length
+  return justes > 1 ? `${justes} décisions justes sur ${total}.` : `${justes} décision juste sur ${total}.`
+})
 
 function valider() {
   if (!complet.value || valide.value) return
@@ -47,6 +52,8 @@ function suivante() {
     <div class="carte appli">
       <h3 ref="titre" tabindex="-1">Appli {{ index + 1 }} sur {{ config.apps.length }} : {{ app.nom }}</h3>
       <p>{{ app.description }}</p>
+      <!-- Reçoit le focus avant les explications ; pas de role="status" pour éviter une double annonce. -->
+      <p v-if="valide" ref="bilan" class="bilan" tabindex="-1">{{ phraseBilan }} Les explications sont sous chaque permission.</p>
       <fieldset v-for="p in app.permissions" :key="cle(p)">
         <legend>{{ app.nom }} veut : {{ p.libelle }}</legend>
         <label class="option">
@@ -63,7 +70,6 @@ function suivante() {
         </p>
       </fieldset>
     </div>
-    <p ref="bilan" role="status" tabindex="-1">{{ valide ? 'Décisions vérifiées.' : '' }}</p>
     <div class="actions">
       <button v-if="!valide" type="button" class="btn btn-primaire" :disabled="!complet" @click="valider">
         Valider les permissions

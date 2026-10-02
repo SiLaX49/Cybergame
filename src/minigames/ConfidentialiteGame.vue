@@ -27,6 +27,8 @@ const phraseBilan = computed(() =>
 <template>
   <div class="confidentialite">
     <p>{{ config.consigne }}</p>
+    <!-- Reçoit le focus avant les explications ; pas de role="status" pour éviter une double annonce. -->
+    <p v-if="verifie" ref="bilan" class="bilan" tabindex="-1">{{ phraseBilan }} Les explications sont sous chaque réglage.</p>
     <div class="carte parametres">
       <p><strong>Paramètres · {{ config.appNom }}</strong></p>
       <fieldset v-for="r in config.reglages" :key="r.id">
@@ -43,7 +45,6 @@ const phraseBilan = computed(() =>
         </template>
       </fieldset>
     </div>
-    <p ref="bilan" role="status" tabindex="-1">{{ verifie ? phraseBilan : '' }}</p>
     <div class="actions">
       <button v-if="!verifie" type="button" class="btn btn-primaire" @click="verifie = true">Vérifier mon profil</button>
       <button

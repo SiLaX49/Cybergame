@@ -1,6 +1,8 @@
 import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Fil, Scenario } from '@/content/schema'
+import ConfidentialiteGame from '@/minigames/ConfidentialiteGame.vue'
+import PermissionsGame from '@/minigames/PermissionsGame.vue'
 import RepereGame from '@/minigames/RepereGame.vue'
 import TriGame from '@/minigames/TriGame.vue'
 import VerificationGame from '@/minigames/VerificationGame.vue'
@@ -16,7 +18,16 @@ import PrevenirContacts from '@/recovery/PrevenirContacts.vue'
 import CorrigerPartage from '@/recovery/CorrigerPartage.vue'
 import { creerStore, definirStore } from '@/store/useProgress'
 import AppHeader from '@/ui/AppHeader.vue'
-import { leviersFixture, missionFixture, rappelFixture, repereFixture, triFixture, verificationFixture } from './fixtures'
+import {
+  confidentialiteFixture,
+  leviersFixture,
+  missionFixture,
+  permissionsFixture,
+  rappelFixture,
+  repereFixture,
+  triFixture,
+  verificationFixture,
+} from './fixtures'
 import { bouton, cliquer } from './helpers'
 import { MemoryStorage } from './memory-storage'
 import { routerTest } from './router-test'
@@ -134,6 +145,26 @@ describe('gestion du focus', () => {
     expect(actif()).toBe(w.find('.resultat-verdict').element)
     expect(actif()?.textContent).toContain('Bien vu')
     expect(actif()?.getAttribute('role')).toBeNull()
+    expect(actif()?.closest('[role="status"], [aria-live]')).toBeNull()
+  })
+
+  it('ConfidentialiteGame : focus sur le bilan, placé avant les explications', async () => {
+    const w = monter(ConfidentialiteGame, { props: { config: confidentialiteFixture() } })
+    await cliquer(w, 'Vérifier mon profil')
+    await flushPromises()
+    expect(actif()).toBe(w.find('.bilan').element)
+    expect(actif()?.textContent).toContain('réglage sur 3 est sûr')
+    expect(actif()?.closest('[role="status"], [aria-live]')).toBeNull()
+  })
+
+  it('PermissionsGame : focus sur le bilan de l’appli, placé avant les explications', async () => {
+    const w = monter(PermissionsGame, { props: { config: permissionsFixture() } })
+    await w.find('input[name="perm-lampe-flash"][value="autoriser"]').setValue()
+    await w.find('input[name="perm-lampe-contacts"][value="refuser"]').setValue()
+    await cliquer(w, 'Valider les permissions')
+    await flushPromises()
+    expect(actif()).toBe(w.find('.bilan').element)
+    expect(actif()?.textContent).toContain('2 décisions justes sur 2')
     expect(actif()?.closest('[role="status"], [aria-live]')).toBeNull()
   })
 
