@@ -1,0 +1,206 @@
+id: p-6e-parcours
+theme: phishing
+format: parcours
+tranches: ['6e']
+titre: La traversée de l’île aux hameçons
+resume: 'Un SMS de colis, un QR code sur une affiche, un lien qui circule, un mail qui fait peur, une fausse alerte virus : traverse l’île sans mordre à l’hameçon.'
+duree: 15
+objectifs:
+  - Ne jamais payer ni donner son mot de passe par un lien reçu
+  - Vérifier soi-même dans l’appli officielle plutôt que par le lien
+  - Ne pas transférer un lien sans l’avoir vérifié
+competences:
+  crcn: ['4.1', '2.1']
+  programmes: ['EMI cycle 3']
+etapes:
+  - type: lieu
+    id: colis
+    lieu: Le salon
+    decor: salon
+    guide: 'Au salon, la tablette de ton père vibre. Un SMS dit : « Colis Express : ton colis est bloqué. Paie 1,99 € de frais ici : colis-expres.info ». Ton père attend justement un colis, et sa carte est enregistrée sur la tablette.'
+    guideSimple: 'La tablette de ton père reçoit un SMS : « Colis Express : ton colis est bloqué. Paie 1,99 € ici. » Ton père attend un colis. Sa carte est enregistrée sur la tablette.'
+    question: Ton père est sous la douche. Que fais-tu ?
+    choix:
+      - id: paie
+        texte: 'Papa attend un colis : je paie les 1,99 € pour lui rendre service.'
+        qualite: risque
+        reaction: 'Sur le faux site, la tablette remplit toute seule la carte de ton père. Tu valides. Le site garde les numéros, et la banque repère ensuite des achats bizarres. Tu voulais rendre service : ce piège est fait exactement pour ça. Préviens vite ton père.'
+        reactionSimple: 'La tablette a rempli toute seule la carte de ton père. Des inconnus peuvent payer avec. Préviens vite ton père.'
+      - id: montre
+        texte: 'Je montre le SMS à Papa, pour qu’il vérifie dans l’appli Colis Express.'
+        qualite: bon
+        reaction: 'Bien vu ! Ton père ouvre lui-même l’appli Colis Express : aucun colis n’est bloqué. Le SMS était un piège.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère avant de toucher à quoi que ce soit sur la tablette.'
+        qualite: aide
+        reaction: 'Ta mère lit le SMS : « Un vrai transporteur ne fait pas payer par SMS. » Elle le supprime avec toi.'
+    pourquoi:
+      - levier: petit-montant
+        truc: '1,99 €, ça paraît vraiment rien. Mais le faux site veut surtout les numéros de la carte.'
+        parade: 'Ne paie jamais par un lien reçu par SMS, même pour 1 €. Même si la carte est déjà enregistrée.'
+      - levier: reflexe
+        truc: 'La carte est enregistrée : payer ne prend qu’un geste. Alors on valide sans réfléchir.'
+        parade: 'Avant de payer, même en un seul geste, prends trois secondes pour vérifier qui demande.'
+      - levier: autorite
+        truc: 'Le SMS commence par « Colis Express : ton colis est bloqué ». Ça a l’air officiel.'
+        parade: 'Pour vérifier, ouvre toi-même l’appli ou le site du transporteur, jamais par le lien du SMS.'
+    aRetenir: 'Un transporteur ne fait jamais payer des frais par SMS. Pour vérifier un colis, ouvre toi-même l’appli officielle. Ne paie jamais par un lien reçu.'
+    aRetenirSimple: 'Ne paie jamais un colis par un lien reçu par SMS.'
+    recuperation: { action: demander-aide, siChoix: [paie] }
+
+  - type: lieu
+    id: qr-code
+    lieu: La rue
+    decor: rue
+    guide: 'Dans la rue, une affiche annonce un concours : « Gagne une trottinette électrique ! » Un QR code est collé dessus, sur un autocollant un peu de travers. Il mène à un formulaire : nom, adresse, numéro de téléphone.'
+    guideSimple: 'Dans la rue, une affiche dit : « Gagne une trottinette électrique ! » Un QR code est collé dessus, un peu de travers. Le formulaire demande ton nom, ton adresse et ton numéro.'
+    question: Ton téléphone est dans ta main. Que fais-tu ?
+    choix:
+      - id: remplit
+        texte: 'Une trottinette, ça vaut le coup d’essayer : je remplis le formulaire.'
+        qualite: risque
+        reaction: 'Aucune trottinette n’arrive. Mais ton nom, ton adresse et ton numéro sont partis chez des inconnus. Tu vas recevoir de faux messages qui les citent pour paraître vrais. Tenter sa chance, c’est humain : l’affiche comptait justement là-dessus. Bloque et signale le prochain faux message.'
+        reactionSimple: 'Pas de trottinette. Ton nom, ton adresse et ton numéro sont chez des inconnus. Bloque les faux messages qui arrivent.'
+      - id: passe
+        texte: 'Je ne scanne pas : un autocollant collé par-dessus, c’est louche.'
+        qualite: bon
+        reaction: 'Bien vu ! Un QR code, c’est un lien caché. Celui-là a été collé par-dessus l’affiche : impossible de savoir par qui.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma grande sœur pour savoir si ce concours existe vraiment.'
+        qualite: aide
+        reaction: 'Ta sœur cherche le concours sur le site officiel du magasin : il n’existe pas. Vous passez votre chemin.'
+    pourquoi:
+      - levier: gain
+        truc: 'Une trottinette électrique, gratuite, rien qu’en scannant. C’est très tentant.'
+        parade: 'Demande-toi qui offrirait une trottinette à un inconnu. Si c’est trop beau, c’est sûrement faux.'
+      - levier: reflexe
+        truc: 'Scanner un QR code, c’est un geste rapide. On le fait souvent sans se demander où il mène.'
+        parade: 'Un QR code est un lien caché. Avant de remplir quoi que ce soit, demande-toi qui l’a posé.'
+      - levier: autorite
+        truc: 'Une affiche dans la rue, ça fait sérieux. Mais n’importe qui peut coller un autocollant dessus.'
+        parade: 'Un vrai concours est annoncé sur le site officiel de son organisateur. Vérifie là-bas, sans scanner.'
+    aRetenir: 'Un QR code est un lien caché. S’il est collé par-dessus une affiche, ne le scanne pas. Un vrai concours ne demande pas ton adresse sur un formulaire inconnu.'
+    aRetenirSimple: 'Un QR code collé sur une affiche peut être un piège. Ne le scanne pas.'
+    recuperation: { action: bloquer-signaler, siChoix: [remplit] }
+
+  - type: lieu
+    id: lien-groupe
+    lieu: La cour
+    decor: cour
+    guide: 'Dans la cour, un lien arrive dans le groupe de la classe : « Double tes Coins GameBox ce soir seulement ! » Ton ami Sami n’a pas son téléphone. Il te demande de lui envoyer le lien.'
+    guideSimple: 'Un lien arrive dans le groupe de la classe : « Double tes Coins GameBox ce soir seulement ! » Sami n’a pas son téléphone. Il veut que tu lui envoies le lien.'
+    question: Sami attend ta réponse. Que fais-tu ?
+    choix:
+      - id: envoie
+        texte: 'Sami adore GameBox, je lui fais plaisir : je lui envoie le lien.'
+        qualite: risque
+        reaction: 'Sami clique et tape son mot de passe sur une fausse page GameBox. Le soir, il ne peut plus se connecter. Tu voulais l’aider, et c’est pour ça que ce piège marche si bien. Avec un adulte, il peut récupérer son compte. Toi, préviens que ce lien est faux.'
+        reactionSimple: 'Sami a tapé son mot de passe sur une fausse page. Préviens vite que ce lien est faux.'
+      - id: garde
+        texte: 'Je ne transfère pas : doubler des Coins, ça n’existe pas.'
+        qualite: bon
+        reaction: 'Bien vu ! Les Coins se gagnent en jouant ou s’achètent dans la boutique du jeu. Tu expliques à Sami que ce lien vole les comptes.'
+      - id: aide
+        texte: 'Je demande de l’aide à un surveillant, et je propose à Sami de venir avec moi.'
+        qualite: aide
+        reaction: 'Le surveillant regarde le lien : il imite GameBox pour voler les comptes. Il prévient la classe.'
+    pourquoi:
+      - levier: confiance
+        truc: 'Le lien arrive dans le groupe de ta classe. Il vient de gens que tu connais.'
+        parade: 'Un lien peut passer de groupe en groupe sans que personne ne l’ait vérifié. Vérifie avant de transférer.'
+      - levier: gain
+        truc: '« Double tes Coins GameBox ce soir seulement ! » Doubler ses Coins, c’est très tentant.'
+        parade: 'Si c’est trop beau pour être vrai, ce n’est pas vrai. Personne ne double tes Coins.'
+      - levier: urgence
+        truc: '« Ce soir seulement » : le lien te presse pour que tu ne vérifies pas.'
+        parade: 'Plus un lien te presse, plus tu ralentis. Les vraies offres sont annoncées dans le jeu lui-même.'
+    aRetenir: 'Avant de transférer un lien, demande-toi s’il est vrai : tu peux piéger un ami sans le vouloir. Les Coins ne se doublent jamais par un lien.'
+    aRetenirSimple: 'Ne transfère pas un lien sans le vérifier. Tu pourrais piéger un ami.'
+    recuperation: { action: corriger-partage, siChoix: [envoie] }
+
+  - type: lieu
+    id: faux-mail
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Dans ta chambre, un mail arrive : « GameBox : ton compte sera supprimé dans 24 h. Confirme ton mot de passe ici. » L’adresse de l’expéditeur est support-gamebox@mail-verif.net.'
+    guideSimple: 'Un mail dit : « GameBox : ton compte sera supprimé dans 24 h. Confirme ton mot de passe ici. » L’adresse est support-gamebox@mail-verif.net.'
+    question: Tu tiens beaucoup à ton compte. Que fais-tu ?
+    choix:
+      - id: confirme
+        texte: 'Je ne veux pas perdre mon compte : je confirme vite mon mot de passe.'
+        qualite: risque
+        reaction: 'La page ressemblait à GameBox, mais c’était un piège. Un pirate a ton mot de passe et se connecte à ta place. Beaucoup de gens se font avoir par la peur. Avec un adulte, change vite ton mot de passe.'
+        reactionSimple: 'C’était une fausse page. Un pirate a ton mot de passe. Change-le vite avec un adulte.'
+      - id: appli
+        texte: 'J’ouvre moi-même l’appli GameBox, sans cliquer sur le mail.'
+        qualite: bon
+        reaction: 'Bien vu ! Dans l’appli, aucun message ne parle de suppression. Le mail était faux, et ton mot de passe est resté à toi.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père et je lui montre l’adresse de l’expéditeur.'
+        qualite: aide
+        reaction: 'Ton père regarde l’adresse : « mail-verif.net, ce n’est pas GameBox. » Vous supprimez le mail ensemble.'
+    pourquoi:
+      - levier: peur
+        truc: '« Ton compte sera supprimé » : perdre ton compte fait peur.'
+        parade: 'Quand un message te fait peur, montre-le à quelqu’un avant d’obéir.'
+      - levier: urgence
+        truc: '« Dans 24 h » : le mail te laisse peu de temps pour réfléchir.'
+        parade: 'Un vrai service te laisse le temps. Plus on te presse, plus tu ralentis.'
+      - levier: autorite
+        truc: 'Le mail porte le nom GameBox. Mais l’adresse de l’expéditeur n’est pas celle de GameBox.'
+        parade: 'Regarde toujours l’adresse de l’expéditeur. Puis passe toi-même par l’appli officielle.'
+    aRetenir: 'Un vrai service ne te demande jamais ton mot de passe par mail. En cas de doute, ouvre toi-même l’appli officielle, sans cliquer sur le lien.'
+    aRetenirSimple: 'On ne donne jamais son mot de passe par mail. Ouvre toi-même l’appli.'
+    recuperation: { action: changer-mdp, siChoix: [confirme] }
+
+  - type: lieu
+    id: alerte-virus
+    lieu: Le bus
+    decor: bus
+    guide: 'Dans le bus, tu regardes une vidéo sur ton téléphone. Une fenêtre s’ouvre et clignote : « Alerte ! Ton téléphone a 3 virus. Installe Nettoyeur Pro maintenant ! » Un compte à rebours défile.'
+    guideSimple: 'Dans le bus, une fenêtre clignote sur ton téléphone : « Alerte ! Ton téléphone a 3 virus. Installe Nettoyeur Pro maintenant ! » Un compte à rebours défile.'
+    question: Le compte à rebours continue. Que fais-tu ?
+    choix:
+      - id: installe
+        texte: 'Trois virus, c’est grave : j’installe le nettoyeur pour protéger mon téléphone.'
+        qualite: risque
+        reaction: 'Nettoyeur Pro n’enlève aucun virus. Il remplit ton écran de publicités et lit tes contacts. Cette fenêtre fait peur exprès, et elle trompe beaucoup de monde. Parles-en à un adulte pour désinstaller l’appli.'
+        reactionSimple: 'Nettoyeur Pro est une fausse appli. Elle lit tes contacts. Avec un adulte, désinstalle-la.'
+      - id: ferme
+        texte: 'Je ferme la fenêtre : une vidéo ne peut pas savoir ça.'
+        qualite: bon
+        reaction: 'Bien vu ! Une page web ne peut pas voir les virus de ton téléphone. Tu fermes l’onglet et la vidéo reprend.'
+      - id: aide
+        texte: 'Je demande de l’aide à un adulte en rentrant, sans rien installer d’ici là.'
+        qualite: aide
+        reaction: 'Le soir, ta mère regarde avec toi : c’était une fausse alerte. Vous fermez l’onglet, il n’y a rien à installer.'
+    pourquoi:
+      - levier: peur
+        truc: '« Ton téléphone a 3 virus » : la fenêtre veut te faire peur.'
+        parade: 'Une page web ne peut pas voir ce qu’il y a dans ton téléphone. Une alerte qui fait peur, on la ferme.'
+      - levier: urgence
+        truc: 'Le compte à rebours défile. Il te pousse à agir avant de réfléchir.'
+        parade: 'Un compte à rebours est là pour te presser. Ferme la page et prends ton temps.'
+      - levier: autorite
+        truc: 'Le mot « Alerte » et le clignotement font penser à un vrai message de sécurité.'
+        parade: 'Les vraies alertes viennent des réglages de ton téléphone, pas d’une fenêtre dans une vidéo.'
+    aRetenir: 'Une fenêtre qui annonce des virus pendant une vidéo est une fausse alerte. Ferme-la, n’installe rien, et parles-en à un adulte si elle revient.'
+    aRetenirSimple: 'Une alerte virus dans une vidéo est fausse. Ferme-la, n’installe rien.'
+    recuperation: { action: demander-aide, siChoix: [installe] }
+debrief:
+  questions:
+    - Quel hameçon t’a le plus tenté sur l’île ?
+    - Quel geste permet de vérifier sans tomber dans le piège ?
+    - Que faire si tu as déjà cliqué, payé ou installé ?
+  reponses: 'Les hameçons de l’île : un petit montant (1,99 €), un cadeau trop beau (trottinette, Coins doublés), la peur (compte supprimé, virus) et l’urgence (24 h, compte à rebours). Le geste qui protège : ne pas passer par le lien, ouvrir soi-même l’appli ou le site officiel, et montrer le message à un adulte. Si c’est déjà fait : prévenir vite un adulte, changer son mot de passe, faire bloquer la carte bancaire si elle a servi, prévenir ceux à qui on a transféré le lien. Tomber dans un piège n’est pas une faute : ces messages sont faits pour tromper tout le monde.'
+  erreursFrequentes:
+    - 'Croire qu’un petit montant ne peut pas cacher une arnaque.'
+    - 'Penser qu’un lien reçu dans le groupe de la classe est forcément sûr.'
+    - 'Croire qu’une page web peut détecter des virus dans le téléphone.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qu’est-ce qu’un hameçon ? Pourquoi les pêcheurs mettent-ils un appât ?
+    15 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, en classant les hameçons rencontrés (argent, cadeau, peur, urgence).
+    5 min : où trouver de l’aide (adulte de confiance, cybermalveillance.gouv.fr pour les parents).
+    5 min : engagement. Ce soir, je montre à un adulte comment vérifier un colis dans l’appli officielle.

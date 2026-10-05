@@ -1,0 +1,203 @@
+id: d-6e-parcours
+theme: desinformation
+format: parcours
+tranches: ['6e']
+titre: La traversée de l’île aux rumeurs
+resume: 'Une rumeur dans la cour, une sirène en couverture, une vidéo trop belle, un message en chaîne, un exposé à préparer : traverse l’île sans te laisser emporter.'
+duree: 15
+objectifs:
+  - Vérifier qu’une nouvelle vient d’une source officielle avant de la répéter
+  - Se méfier des images, des vidéos et des chiffres qui impressionnent
+  - Comparer deux sources sérieuses et corriger ce qu’on a partagé
+competences:
+  crcn: ['1.2', '1.1']
+  programmes: ['EMI cycle 3']
+etapes:
+  - type: lieu
+    id: rumeur
+    lieu: La cour
+    decor: cour
+    guide: 'Dans la cour, Léo te chuchote : « Demain, le collège est fermé, le chauffage est en panne ! Mon cousin l’a entendu dire. » Personne d’autre n’en a parlé. Le collège n’a envoyé aucun message.'
+    guideSimple: 'Dans la cour, Léo te dit : « Demain, le collège est fermé, le chauffage est en panne ! » Personne d’autre n’en a parlé. Le collège n’a envoyé aucun message.'
+    question: Que fais-tu de cette nouvelle ?
+    choix:
+      - id: fais-passer
+        texte: 'Une journée à la maison ? Je préviens vite toute ma classe.'
+        qualite: risque
+        reaction: 'Tu n’as rien inventé, et beaucoup d’élèves auraient fait pareil. Mais le chauffage marche très bien : le collège reste ouvert. Deux copains n’ont pas préparé leur sac pour demain. Tu peux encore les prévenir que c’était une rumeur.'
+        reactionSimple: 'C’était une rumeur : le collège reste ouvert. Tu peux prévenir tes copains que c’était faux.'
+      - id: attendre-college
+        texte: 'Je ne répète rien tant que le collège ne l’a pas annoncé.'
+        qualite: bon
+        reaction: 'Bien vu ! Une vraie fermeture, le collège l’annonce lui-même aux familles, par message. Aucun message n’est arrivé.'
+      - id: aide
+        texte: 'Je demande de l’aide à la CPE pour savoir si le collège est vraiment fermé.'
+        qualite: aide
+        reaction: 'La CPE sourit : « Le chauffage marche très bien. Si on fermait, vos parents recevraient un message. »'
+    pourquoi:
+      - levier: gain
+        truc: 'Une journée sans cours, c’est une super nouvelle. On a envie d’y croire.'
+        parade: 'Plus une nouvelle t’arrange, plus tu la vérifies avant de la répéter.'
+      - levier: confiance
+        truc: 'C’est Léo, ton copain, qui te le dit. Tu le crois sans te demander d’où ça vient.'
+        parade: 'Demande d’où vient l’info. « Quelqu’un l’a entendu dire », ce n’est pas une source.'
+      - levier: urgence
+        truc: 'C’est pour demain : on a envie de prévenir tout le monde tout de suite.'
+        parade: 'Une info importante est toujours confirmée à temps. Attends le message officiel avant de la répéter.'
+    aRetenir: 'Une rumeur ne devient pas vraie parce qu’on la répète. Avant de faire passer une nouvelle, vérifie qu’elle vient d’une source officielle, comme le collège.'
+    aRetenirSimple: 'Avant de répéter une nouvelle, vérifie qu’elle vient du collège.'
+    recuperation: { action: corriger-partage, siChoix: [fais-passer] }
+
+  - type: lieu
+    id: sirene
+    lieu: Le magasin
+    decor: magasin
+    guide: 'Au magasin, un magazine affiche en couverture : « Une vraie sirène découverte sur une plage ! Preuves en page 12. » La photo montre une queue de poisson dans le sable.'
+    guideSimple: 'Au magasin, un magazine dit en couverture : « Une vraie sirène découverte sur une plage ! Preuves en page 12. » La photo montre une queue de poisson dans le sable.'
+    question: Tu as envie d’en parler à toute ta classe. Que fais-tu ?
+    choix:
+      - id: raconte
+        texte: 'Un magazine du magasin, avec des preuves en page 12 : je le raconte demain.'
+        qualite: risque
+        reaction: 'Beaucoup de gens pensent comme toi : ce qui est imprimé paraît sérieux. Mais ce magazine invente des histoires pour se vendre. Aucun scientifique n’a jamais vu de sirène. Tu peux en parler comme d’une blague, pas comme d’une vraie info.'
+        reactionSimple: 'Ce magazine invente des histoires pour se vendre. Les sirènes n’existent pas. Tu peux en rire, sans y croire.'
+      - id: compare
+        texte: 'Je cherche si des journaux connus ou des scientifiques en parlent.'
+        qualite: bon
+        reaction: 'Bonne enquête ! Aucun journal connu n’en parle, et aucun scientifique. Une vraie découverte ferait la une partout.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père pour savoir si ce magazine raconte des choses vraies.'
+        qualite: aide
+        reaction: 'Ton père sourit : « Ce magazine raconte des histoires incroyables chaque semaine pour se vendre. » Vous en riez ensemble.'
+    pourquoi:
+      - levier: autorite
+        truc: '« Preuves en page 12 » : un magazine imprimé, avec des preuves, ça fait sérieux.'
+        parade: 'Imprimé ne veut pas dire vrai. Regarde si des journaux sérieux en parlent aussi.'
+      - levier: gain
+        truc: 'Une vraie sirène, c’est une découverte incroyable. On a très envie que ce soit vrai.'
+        parade: 'Plus une nouvelle est incroyable, plus il faut de preuves solides.'
+      - levier: reflexe
+        truc: 'La photo montre une queue de poisson. Voir une image, ça donne l’impression d’une preuve.'
+        parade: 'Une photo peut être truquée ou montrer autre chose. Une image seule ne prouve rien.'
+    aRetenir: 'Ce qui est imprimé ou photographié n’est pas forcément vrai. Une vraie découverte est reprise par des journaux sérieux et des scientifiques.'
+    aRetenirSimple: 'Imprimé ne veut pas dire vrai. Cherche si des journaux sérieux en parlent.'
+
+  - type: lieu
+    id: video-ia
+    lieu: Le salon
+    decor: salon
+    guide: 'Au salon, ton cousin te montre une vidéo sur sa tablette. Un chien fait du skate sur un toit, puis saute dans une piscine. Le compte s’appelle « Animaux_de_Folie » et la vidéo a « 3 millions de vues ». Ton cousin rigole : « C’est une vraie vidéo, regarde, ça bouge ! »'
+    guideSimple: 'Au salon, ton cousin te montre une vidéo. Un chien fait du skate sur un toit, puis saute dans une piscine. Le compte « Animaux_de_Folie » a « 3 millions de vues ». Ton cousin dit : « C’est une vraie vidéo, regarde, ça bouge ! »'
+    question: Ton cousin veut l’envoyer à toute la famille. Que fais-tu ?
+    choix:
+      - id: partage
+        texte: 'Trois millions de vues, ça ne peut pas être faux : je la partage aussi.'
+        qualite: risque
+        reaction: 'La vidéo a été fabriquée par une intelligence artificielle. Ta tante y croit et la montre à ses collègues. Beaucoup de gens se font avoir : ces vidéos sont de plus en plus réussies. Tu peux encore prévenir ta famille que c’était faux.'
+        reactionSimple: 'La vidéo a été fabriquée par une IA. Ta tante y croit. Préviens ta famille que c’était faux.'
+      - id: details
+        texte: 'Je regarde les détails : les pattes et l’eau sont bizarres.'
+        qualite: bon
+        reaction: 'Bien vu ! Les pattes changent de forme et l’eau ne fait pas d’éclaboussures normales. C’est une vidéo fabriquée par IA.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma grande sœur pour savoir si cette vidéo est vraie ou fabriquée.'
+        qualite: aide
+        reaction: 'Ta sœur regarde le compte : il ne publie que des vidéos fabriquées par IA. Vous prévenez ton cousin.'
+    pourquoi:
+      - levier: groupe
+        truc: '« 3 millions de vues » : si autant de gens l’ont vue, on croit qu’elle est vraie.'
+        parade: 'Le nombre de vues ne dit pas si c’est vrai. Une fausse vidéo peut être très vue.'
+      - levier: confiance
+        truc: 'C’est ton cousin qui te la montre, et il y croit vraiment.'
+        parade: 'Même un proche peut se faire avoir. Regarde les détails avant de le croire.'
+      - levier: reflexe
+        truc: '« Ça bouge ! » Une vidéo qui bouge paraît plus vraie qu’une photo.'
+        parade: 'Une IA peut fabriquer des vidéos qui bougent. Regarde les pattes, les mains, l’eau et les ombres.'
+    aRetenir: 'Une vidéo peut être fabriquée par une intelligence artificielle, même si elle bouge et a des millions de vues. Regarde les détails et le compte qui la publie avant de partager.'
+    aRetenirSimple: 'Une vidéo peut être fabriquée par une IA. Vérifie avant de partager.'
+    recuperation: { action: corriger-partage, siChoix: [partage] }
+
+  - type: lieu
+    id: chaine
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Dans ta chambre, un message arrive : « SnapTalk va devenir payant demain ! Envoie ce message à 10 amis pour garder ton compte gratuit. C’est vrai, ma sœur l’a vu aux infos. »'
+    guideSimple: 'Un message arrive : « SnapTalk va devenir payant demain ! Envoie ce message à 10 amis pour garder ton compte gratuit. C’est vrai, ma sœur l’a vu aux infos. »'
+    question: Que fais-tu de ce message ?
+    choix:
+      - id: transfere
+        texte: 'Je ne veux pas payer : j’envoie le message à 10 amis.'
+        qualite: risque
+        reaction: 'SnapTalk reste gratuit : c’était un message en chaîne, une vieille rumeur qui revient souvent. Tes 10 amis l’envoient à leur tour, et il inquiète des centaines de personnes. Beaucoup tombent dans le piège. Tu peux encore prévenir tes amis que c’était faux.'
+        reactionSimple: 'C’était une fausse rumeur. Tes amis l’ont envoyée à d’autres. Préviens-les que c’était faux.'
+      - id: officiel
+        texte: 'Je ne transfère pas : un vrai changement serait annoncé par l’appli.'
+        qualite: bon
+        reaction: 'Bien vu ! Une appli annonce elle-même ses changements, dans l’appli ou sur son site. Ce message en chaîne était faux.'
+      - id: aide
+        texte: 'Je demande de l’aide à mes parents pour savoir si SnapTalk devient vraiment payant.'
+        qualite: aide
+        reaction: 'Ta mère cherche sur le site officiel de SnapTalk : rien de tel. « Ces messages en chaîne reviennent tout le temps. »'
+    pourquoi:
+      - levier: peur
+        truc: 'Perdre ton compte gratuit fait peur. Le message joue là-dessus.'
+        parade: 'Un message qui fait peur et demande d’être transféré, c’est presque toujours une fausse info.'
+      - levier: urgence
+        truc: '« Demain » : il faut agir tout de suite, sans prendre le temps de vérifier.'
+        parade: 'Une vraie annonce te laisse le temps. Vérifie sur le site officiel avant de transférer.'
+      - levier: autorite
+        truc: '« Ma sœur l’a vu aux infos » : citer les infos donne l’air sérieux.'
+        parade: 'Si c’était aux infos, tu le trouverais sur le site d’un vrai journal. Cherche avant de croire.'
+    aRetenir: 'Un message qui demande d’être envoyé à 10 personnes est presque toujours faux. Ne le transfère pas : vérifie sur le site officiel.'
+    aRetenirSimple: 'Un message à envoyer à 10 amis est presque toujours faux. Ne le transfère pas.'
+
+  - type: lieu
+    id: expose
+    lieu: La classe
+    decor: classe
+    guide: 'En classe, tu prépares un exposé sur les animaux. Le premier site trouvé, « Le Savoir Fou », dit : « Les autruches cachent leur tête dans le sable quand elles ont peur. » Il n’y a ni auteur ni date.'
+    guideSimple: 'En classe, tu prépares un exposé sur les animaux. Le site « Le Savoir Fou » dit : « Les autruches cachent leur tête dans le sable quand elles ont peur. » Il n’y a ni auteur ni date.'
+    question: Ton exposé est pour vendredi. Que fais-tu ?
+    choix:
+      - id: copie
+        texte: 'Tout le monde connaît ça : je le recopie dans mon exposé.'
+        qualite: risque
+        reaction: 'Ta prof t’explique que c’est une légende : les autruches ne cachent pas leur tête dans le sable. Elles se couchent au sol pour se cacher. Beaucoup de gens croient cette idée. Tu peux corriger ton exposé avant vendredi.'
+        reactionSimple: 'C’est une légende. Les autruches se couchent au sol pour se cacher. Corrige ton exposé.'
+      - id: deux-sources
+        texte: 'Je vérifie dans un livre du CDI ou sur un site sérieux.'
+        qualite: bon
+        reaction: 'Bonne enquête ! Le livre du CDI explique que c’est une légende : l’autruche se couche au sol pour se cacher. Ton exposé est juste.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma prof pour trouver un site sérieux sur les animaux.'
+        qualite: aide
+        reaction: 'Ta prof te montre le site d’un musée d’histoire naturelle, avec un auteur et une date. Tu y trouves la bonne réponse.'
+    pourquoi:
+      - levier: groupe
+        truc: 'Tout le monde connaît cette idée. Quand on l’a souvent entendue, on la croit vraie.'
+        parade: 'Une idée très connue peut être fausse. Vérifie dans une deuxième source.'
+      - levier: reflexe
+        truc: 'C’est le premier site trouvé. On prend souvent le premier résultat sans regarder qui l’a écrit.'
+        parade: 'Regarde qui a écrit le site et quand. Pas d’auteur ni de date ? Cherche ailleurs.'
+      - levier: urgence
+        truc: 'L’exposé est pour vendredi. Recopier le premier site fait gagner du temps.'
+        parade: 'Vérifier dans une deuxième source prend cinq minutes. Ça évite de corriger tout l’exposé.'
+    aRetenir: 'Le premier site trouvé n’est pas forcément juste. Regarde qui l’a écrit et quand, et vérifie dans une deuxième source sérieuse : un livre, un musée, un journal.'
+    aRetenirSimple: 'Vérifie toujours dans une deuxième source sérieuse.'
+debrief:
+  questions:
+    - Quelle rumeur de l’île t’a semblé la plus vraie ?
+    - Quels gestes permettent de vérifier une info ?
+    - Que faire si tu as déjà partagé une fausse info ?
+  reponses: 'Les rumeurs de l’île : une fermeture du collège entendue dans la cour, une sirène imprimée, une vidéo fabriquée par IA, un message en chaîne, une légende recopiée d’un site sans auteur. Pour vérifier : chercher d’où vient l’info, attendre la source officielle, comparer avec un journal ou un livre sérieux, regarder les détails d’une image ou d’une vidéo, se méfier des chiffres qui impressionnent. Si c’est déjà partagé : prévenir ceux qui l’ont reçue que c’était faux. Se tromper arrive à tout le monde : corriger, c’est le bon réflexe.'
+  erreursFrequentes:
+    - 'Croire qu’une info est vraie parce que beaucoup de gens la partagent ou l’ont vue.'
+    - 'Penser que ce qui est imprimé ou filmé est forcément vrai.'
+    - 'Croire qu’il est trop tard pour corriger une fausse info déjà partagée.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qu’est-ce qu’une rumeur ? D’où viennent les infos qu’on reçoit ?
+    15 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, en listant les gestes de vérification de la classe.
+    5 min : ressources (CLEMI, journaux pour la jeunesse, documentaliste).
+    5 min : engagement. La prochaine fois qu’une info me surprend, je cherche une deuxième source avant de la partager.

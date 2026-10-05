@@ -1,0 +1,205 @@
+id: j-6e-parcours
+theme: jeux-achats
+format: parcours
+tranches: ['6e']
+titre: La traversée de l’île aux pièces d’or
+resume: 'Un générateur de Coins, un faux modérateur, un pack à 9,99 €, un compte à vendre, un acheteur trop pressé : traverse l’île sans perdre ton trésor.'
+duree: 15
+objectifs:
+  - Reconnaître les faux générateurs et les faux modérateurs
+  - Demander avant tout achat dans un jeu, même petit
+  - Ne jamais donner une carte bancaire ou un code de carte cadeau pour un échange
+competences:
+  crcn: ['4.1', '2.3']
+  programmes: ['EMI cycle 3']
+etapes:
+  - type: lieu
+    id: generateur
+    lieu: La salle de jeux
+    decor: salle-jeux
+    guide: 'À la salle de jeux du quartier, Maëlle te montre un site sur son téléphone : « Générateur de Coins gratuits » pour GameBox. Elle dit : « Ça a marché pour mon cousin. » Puis elle ajoute : « Donne-moi ton pseudo et ton mot de passe, je lance pour toi. »'
+    guideSimple: 'À la salle de jeux, Maëlle te montre un « Générateur de Coins gratuits ». Elle dit : « Ça a marché pour mon cousin. » Elle veut ton pseudo et ton mot de passe.'
+    question: Que fais-tu ?
+    choix:
+      - id: donne
+        texte: 'Ça a marché pour son cousin : je lui donne mon mot de passe.'
+        qualite: risque
+        reaction: 'Aucun Coin n’arrive. Le site a gardé ton pseudo et ton mot de passe. Le lendemain, quelqu’un a pris tes objets et ton compte. Maëlle ne voulait pas te piéger : elle s’est fait avoir aussi. Avec un adulte, tu peux reprendre ton compte.'
+        reactionSimple: 'Pas de Coins. Le site a volé ton mot de passe, et quelqu’un a pris ton compte. Avec un adulte, tu peux le récupérer.'
+      - id: garde
+        texte: 'Je garde mon mot de passe : un site ne peut pas fabriquer des Coins.'
+        qualite: bon
+        reaction: 'Bien vu ! Les Coins se gagnent en jouant ou s’achètent dans la boutique du jeu. Un générateur, ça n’existe pas.'
+      - id: aide
+        texte: 'Je demande de l’aide à l’animateur de la salle, et je propose à Maëlle de venir.'
+        qualite: aide
+        reaction: 'Bonne idée. L’animateur explique que ce site vole les comptes. Maëlle change vite son mot de passe et prévient son cousin.'
+    pourquoi:
+      - levier: gain
+        truc: 'Un « Générateur de Coins gratuits », c’est très tentant. C’est fait pour qu’on oublie de vérifier.'
+        parade: 'Si c’est trop beau pour être vrai, ce n’est pas vrai. Les Coins ne se fabriquent pas.'
+      - levier: confiance
+        truc: 'C’est Maëlle, une copine, qui te le propose. Tu lui fais confiance, et elle est sincère.'
+        parade: 'Une amie peut se tromper de bonne foi. Ton mot de passe reste pour toi, même avec elle.'
+      - levier: groupe
+        truc: 'Elle dit « Ça a marché pour mon cousin ». Quand d’autres disent que ça marche, on a envie d’essayer.'
+        parade: 'Ce que dit le cousin ne prouve rien. Les générateurs volent les comptes de tout le monde.'
+    aRetenir: 'Les générateurs de monnaie gratuite n’existent pas : ils volent les comptes. Ton mot de passe ne se donne à personne, même pour des Coins.'
+    aRetenirSimple: 'Un générateur de Coins gratuits est toujours un piège.'
+    recuperation: { action: changer-mdp, siChoix: [donne] }
+
+  - type: lieu
+    id: faux-modo
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Dans ta chambre, pendant une partie, un joueur t’écrit : « Je suis modérateur GameBox. Ton compte a été signalé pour triche. Donne-moi le code reçu par SMS, sinon tu seras banni. » Son pseudo est Modo_Officiel.'
+    guideSimple: 'Pendant une partie, un joueur t’écrit : « Je suis modérateur GameBox. Ton compte a été signalé. Donne-moi le code reçu par SMS, sinon tu seras banni. » Son pseudo est Modo_Officiel.'
+    question: Tu n’as jamais triché. Que fais-tu ?
+    choix:
+      - id: code
+        texte: 'Je n’ai pas triché : je donne le code pour le prouver.'
+        qualite: risque
+        reaction: 'Le code ouvrait ton compte. Le faux modérateur s’y connecte et change ton mot de passe. Vouloir prouver qu’on est honnête, c’est normal : il comptait là-dessus. Bloque-le et signale-le, puis récupère ton compte avec un adulte.'
+        reactionSimple: 'Ce code ouvrait ton compte. Le faux modérateur l’a pris. Bloque-le et signale-le.'
+      - id: signale
+        texte: 'Je ne réponds pas et je signale ce joueur dans le jeu.'
+        qualite: bon
+        reaction: 'Bien vu ! Un vrai modérateur ne demande jamais de code par message. Ton signalement aide aussi les autres joueurs.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon frère, et je ne donne rien en attendant.'
+        qualite: aide
+        reaction: 'Ton frère lit le message : « Les vrais modérateurs ne demandent jamais de code. » Vous signalez le joueur ensemble.'
+    pourquoi:
+      - levier: autorite
+        truc: 'Le pseudo Modo_Officiel et le mot « modérateur » donnent l’air officiel.'
+        parade: 'N’importe qui peut choisir le pseudo qu’il veut. Un vrai modérateur ne demande jamais de code.'
+      - levier: peur
+        truc: '« Sinon tu seras banni » : perdre ton compte fait peur, même sans avoir triché.'
+        parade: 'Une menace dans un message, c’est le moment d’en parler, pas d’obéir.'
+      - levier: reflexe
+        truc: 'Un code, ça ressemble à de simples chiffres. En fait, c’est la clé de ton compte.'
+        parade: 'Un code reçu par SMS ne se donne jamais, à personne.'
+    aRetenir: 'Un vrai modérateur ne te demande jamais de mot de passe ni de code. Si quelqu’un te menace de bannissement, ne réponds pas : signale-le et parles-en à un adulte.'
+    aRetenirSimple: 'Un vrai modérateur ne demande jamais de code. Signale ce joueur.'
+    recuperation: { action: bloquer-signaler, siChoix: [code] }
+
+  - type: lieu
+    id: pack
+    lieu: Le salon
+    decor: salon
+    guide: 'Au salon, tu joues sur la console familiale. La boutique propose le « Pack Légende » à 9,99 €. La carte de ta mère est enregistrée : un seul bouton « Acheter » suffit. Ta mère est partie faire les courses.'
+    guideSimple: 'Tu joues sur la console familiale. La boutique propose le « Pack Légende » à 9,99 €. La carte de ta mère est enregistrée. Un seul bouton suffit pour acheter.'
+    question: Tu rêves de ce pack. Que fais-tu ?
+    choix:
+      - id: achete
+        texte: 'C’est juste 9,99 €, je lui dirai ce soir : j’achète.'
+        qualite: risque
+        reaction: 'Le pack arrive. Mais ta mère découvre l’achat sur son compte et n’est pas contente : elle aurait voulu décider. Beaucoup d’enfants l’ont déjà fait sans penser à mal. Parles-en avec elle : vous pouvez ajouter un code pour les achats.'
+        reactionSimple: 'Ta mère découvre l’achat. Elle aurait voulu décider. Parlez-en ensemble.'
+      - id: attends
+        texte: 'J’attends ma mère pour lui demander si je peux l’acheter.'
+        qualite: bon
+        reaction: 'Bien vu ! Ta mère dit oui pour ton anniversaire, et elle ajoute un code pour les achats. Plus d’achat par erreur.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère par message pour savoir si j’ai le droit.'
+        qualite: aide
+        reaction: 'Ta mère répond : « On en parle ce soir. » Le soir, vous regardez ensemble ce que contient vraiment le pack.'
+    pourquoi:
+      - levier: petit-montant
+        truc: '9,99 €, ça paraît peu. Mais c’est de l’argent réel, sur la carte de ta mère.'
+        parade: 'Un achat dans un jeu, c’est de l’argent réel. Demande toujours avant, même pour 1 €.'
+      - levier: reflexe
+        truc: 'Un seul bouton « Acheter » suffit. Plus c’est rapide, moins on réfléchit.'
+        parade: 'Quand acheter ne prend qu’un geste, prends trois secondes pour te demander si tu as le droit.'
+      - levier: gain
+        truc: 'Le « Pack Légende » te fait rêver. Tu as très envie de l’avoir tout de suite.'
+        parade: 'Ce qui te fait rêver peut attendre ce soir. Un pack ne disparaît pas en quelques heures.'
+    aRetenir: 'Un achat dans un jeu, c’est de l’argent réel. Demande toujours à l’adulte à qui appartient la carte. Un code pour les achats évite les erreurs.'
+    aRetenirSimple: 'Un achat dans un jeu, c’est de l’argent réel. Demande toujours avant.'
+
+  - type: lieu
+    id: compte-a-vendre
+    lieu: La cour
+    decor: cour
+    guide: 'Dans la cour, Hugo, un élève de 4e, vend son compte GameBox avec des tenues rares. « Seulement 5 €, payés en carte cadeau. Envoie-moi le code de la carte ce soir, je te donne le mot de passe après. »'
+    guideSimple: 'Dans la cour, Hugo, un élève de 4e, vend son compte GameBox. « Seulement 5 €, payés en carte cadeau. Envoie-moi le code ce soir, je te donne le mot de passe après. »'
+    question: Ces tenues sont introuvables. Que fais-tu ?
+    choix:
+      - id: paie
+        texte: 'Des tenues rares pour 5 €, c’est une affaire : j’envoie le code.'
+        qualite: risque
+        reaction: 'Hugo reçoit le code et dépense la carte. Le mot de passe qu’il donne ne marche pas, ou il reprend le compte une semaine après. Acheter un compte est interdit par le jeu, et l’argent d’une carte cadeau ne se récupère pas. Parles-en à un adulte.'
+        reactionSimple: 'Hugo a pris ton argent. Le compte ne marche pas. Parles-en à un adulte.'
+      - id: refuse
+        texte: 'Je refuse : un compte acheté peut être repris à tout moment.'
+        qualite: bon
+        reaction: 'Bien vu ! Le vendeur garde toujours la boîte mail du compte : il peut le reprendre quand il veut. Et le jeu interdit de vendre les comptes.'
+      - id: aide
+        texte: 'Je demande de l’aide à un adulte avant d’envoyer le moindre code de carte cadeau.'
+        qualite: aide
+        reaction: 'Ton père t’explique : « Personne ne vend un compte rare à ce prix. Et un code de carte cadeau, c’est comme de l’argent liquide. »'
+    pourquoi:
+      - levier: gain
+        truc: 'Des tenues rares, introuvables ailleurs. C’est très tentant.'
+        parade: 'Une affaire trop belle cache souvent un piège. Les tenues rares ne se bradent pas.'
+      - levier: petit-montant
+        truc: '« Seulement 5 € » : le prix est si petit qu’on croit ne rien risquer.'
+        parade: 'Même 5 €, perdus en carte cadeau, ne reviennent jamais. Et le compte peut être repris.'
+      - levier: confiance
+        truc: 'Hugo est un élève du collège. Tu crois qu’il ne peut pas tricher.'
+        parade: 'Connaître quelqu’un de vue ne suffit pas. Un compte acheté reste lié à son ancien propriétaire.'
+    aRetenir: 'Acheter un compte de jeu est interdit et risqué : le vendeur peut le reprendre. Un code de carte cadeau, c’est de l’argent : il ne s’envoie jamais pour un échange.'
+    aRetenirSimple: 'N’achète jamais un compte. Un code de carte cadeau, c’est de l’argent.'
+    recuperation: { action: demander-aide, siChoix: [paie] }
+
+  - type: lieu
+    id: acheteur
+    lieu: La cuisine
+    decor: cuisine
+    guide: 'Dans la cuisine, tu vends ta vieille manette sur Revendo avec ta mère. Un acheteur répond tout de suite : « Je prends à 30 € ! Clique sur mon lien Revendo Pay pour recevoir l’argent. Il faut entrer une carte bancaire. »'
+    guideSimple: 'Tu vends ta vieille manette sur Revendo. Un acheteur répond : « Je prends à 30 € ! Clique sur mon lien Revendo Pay pour recevoir l’argent. Il faut entrer une carte bancaire. »'
+    question: Le lien demande la carte de ta mère. Que fais-tu ?
+    choix:
+      - id: carte
+        texte: 'Il paie tout de suite : j’entre la carte de Maman pour recevoir les 30 €.'
+        qualite: risque
+        reaction: 'Le lien n’envoyait pas d’argent : il en prenait. Les numéros de la carte sont partis, et des achats apparaissent sur le compte de ta mère. Cette arnaque piège beaucoup d’adultes aussi. Ta mère fait bloquer la carte, et toi, bloque et signale l’acheteur.'
+        reactionSimple: 'Le lien prenait de l’argent au lieu d’en donner. Ta mère fait bloquer la carte. Bloque et signale l’acheteur.'
+      - id: appli
+        texte: 'Je reste dans l’appli Revendo : on y reçoit l’argent sans lien.'
+        qualite: bon
+        reaction: 'Bien vu ! Pour recevoir de l’argent, on ne donne jamais sa carte. La vraie appli Revendo verse l’argent toute seule après la vente.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère avant de cliquer, en lui montrant le message de l’acheteur.'
+        qualite: aide
+        reaction: 'Ta mère lit le message : « Pour recevoir de l’argent, on ne donne pas sa carte. » Vous signalez l’acheteur dans l’appli.'
+    pourquoi:
+      - levier: gain
+        truc: '« Je prends à 30 € ! » Vendre si vite et à ce prix, c’est une bonne surprise.'
+        parade: 'Un acheteur trop pressé et trop généreux doit te mettre en alerte.'
+      - levier: autorite
+        truc: 'Le lien s’appelle « Revendo Pay ». Il imite le nom de l’appli pour paraître officiel.'
+        parade: 'Reste toujours dans l’appli officielle. Un lien envoyé par un acheteur n’en fait pas partie.'
+      - levier: reflexe
+        truc: 'Pour payer, on donne sa carte. Alors on croit qu’il faut aussi la donner pour recevoir.'
+        parade: 'Pour recevoir de l’argent, on ne donne jamais les numéros d’une carte.'
+    aRetenir: 'Pour recevoir de l’argent, on ne donne jamais les numéros d’une carte bancaire. Sur un site de vente, reste dans l’appli officielle et ne clique pas sur les liens des acheteurs.'
+    aRetenirSimple: 'Pour recevoir de l’argent, on ne donne jamais une carte. Reste dans l’appli.'
+    recuperation: { action: bloquer-signaler, siChoix: [carte] }
+debrief:
+  questions:
+    - Quel trésor de l’île était un piège ?
+    - Avant un achat ou un échange dans un jeu, à qui demander ?
+    - Que faire si tu as déjà donné un mot de passe, un code ou une carte ?
+  reponses: 'Les pièges de l’île : un générateur de Coins (vol de compte), un faux modérateur (vol de code), un pack acheté sans demander, un compte vendu en carte cadeau, un faux lien de paiement. Avant d’acheter ou d’échanger, on demande à l’adulte à qui appartient l’argent. Un mot de passe, un code SMS, un code de carte cadeau et les numéros d’une carte bancaire ne se donnent jamais. Si c’est déjà fait : prévenir vite un adulte, changer le mot de passe, faire bloquer la carte, signaler le joueur ou l’acheteur. Ce n’est pas une faute : ces pièges trompent aussi beaucoup d’adultes.'
+  erreursFrequentes:
+    - 'Croire qu’un générateur de monnaie gratuite peut marcher.'
+    - 'Penser qu’un petit achat dans un jeu, ce n’est pas de l’argent réel.'
+    - 'Croire qu’il faut donner sa carte bancaire pour recevoir de l’argent.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qu’est-ce qu’on peut acheter, gagner ou échanger dans un jeu ? (sans obligation de raconter)
+    15 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, en listant ce qui ne se donne jamais (mot de passe, code, carte).
+    5 min : où trouver de l’aide (adulte de confiance, signalement dans le jeu, cybermalveillance.gouv.fr pour les parents).
+    5 min : engagement. Ce soir, je regarde avec un adulte si un code protège les achats sur nos consoles.

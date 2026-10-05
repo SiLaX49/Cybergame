@@ -1,0 +1,204 @@
+id: v-6e-parcours
+theme: vie-privee
+format: parcours
+tranches: ['6e']
+titre: La traversée de l’île aux secrets
+resume: 'Une photo à la cantine, un inconnu au parc, un profil tout neuf, une position en direct, un quiz amusant : traverse l’île en gardant tes secrets.'
+duree: 15
+objectifs:
+  - Demander l’accord de quelqu’un avant de publier sa photo
+  - Garder pour soi son adresse, son collège et ses informations secrètes
+  - Régler son profil et sa position pour qu’ils restent privés
+competences:
+  crcn: ['4.2', '2.2']
+  programmes: ['EMI cycle 3', 'Référentiel données personnelles cycle 3']
+etapes:
+  - type: lieu
+    id: photo-cantine
+    lieu: La cantine
+    decor: cantine
+    guide: 'À la cantine, tu prends une photo de ta table. Noé a de la purée sur le nez et tout le monde rit. Tu te dis : « Elle est trop drôle ! Je la mets dans ma story SnapTalk. » Personne n’a vu que tu prenais la photo.'
+    guideSimple: 'À la cantine, tu prends une photo de ta table. Noé a de la purée sur le nez et tout le monde rit. Tu te dis : « Elle est trop drôle ! » Tu veux la mettre dans ta story SnapTalk.'
+    question: Que fais-tu de la photo ?
+    choix:
+      - id: publie
+        texte: 'Tout le monde a ri, Noé aussi : je la mets dans ma story.'
+        qualite: risque
+        reaction: 'La photo tourne dans tout le collège. Des élèves d’autres classes se moquent de Noé pendant des jours. Il est blessé, et tu ne voulais pas ça. Beaucoup auraient publié sans réfléchir. Tu peux encore retirer la story et t’excuser auprès de Noé.'
+        reactionSimple: 'La photo tourne dans tout le collège. On se moque de Noé. Retire la story et excuse-toi.'
+      - id: accord
+        texte: 'Je demande d’abord à chacun s’il est d’accord pour être publié.'
+        qualite: bon
+        reaction: 'Noé dit non, les autres disent oui. Tu recadres la photo sans lui, et tout le monde est content.'
+      - id: aide
+        texte: 'Je demande de l’aide à un adulte pour savoir si je peux publier mes copains.'
+        qualite: aide
+        reaction: 'Ta mère t’explique : pour publier la photo de quelqu’un, il faut son accord. Le lendemain, tu demandes à tes copains.'
+    pourquoi:
+      - levier: groupe
+        truc: 'Tout le monde a ri à table. Ça donne l’impression que tout le monde est d’accord.'
+        parade: 'Rire à table ne veut pas dire accepter d’être publié. Demande à chacun.'
+      - levier: reflexe
+        truc: 'Publier une photo drôle se fait en deux secondes, sans penser à la personne dessus.'
+        parade: 'Avant de publier quelqu’un, demande-toi : est-ce qu’il serait d’accord ?'
+      - levier: gain
+        truc: '« Elle est trop drôle ! » Tu imagines déjà les réactions à ta story.'
+        parade: 'Des likes ne valent pas la peine d’un copain. Une photo drôle pour toi peut le blesser.'
+    aRetenir: 'Pour publier la photo de quelqu’un, il faut son accord. Une photo drôle pour toi peut le blesser. Une fois partagée, elle peut circuler partout.'
+    aRetenirSimple: 'Avant de publier quelqu’un, demande-lui s’il est d’accord.'
+
+  - type: lieu
+    id: inconnu-parc
+    lieu: Le parc
+    decor: parc
+    guide: 'Au parc, un monsieur promène son chien près de toi. Il est souriant et poli. « Mon fils va arriver dans le quartier. Tu es dans quel collège ? Et tu habites dans quelle rue ? » Tes amis jouent un peu plus loin.'
+    guideSimple: 'Au parc, un monsieur avec un chien te parle. Il est souriant et poli. Son fils va arriver dans le quartier. Il demande dans quel collège tu es et dans quelle rue tu habites.'
+    question: Tu ne connais pas ce monsieur. Que fais-tu ?
+    choix:
+      - id: repond
+        texte: 'Son fils arrive dans le quartier, je veux être sympa : je lui réponds.'
+        qualite: risque
+        reaction: 'Le monsieur sait maintenant où te trouver en semaine et où tu habites. C’est peut-être juste un voisin bavard, mais tu ne peux pas le savoir. Beaucoup d’enfants auraient répondu. Parles-en ce soir à un adulte de confiance.'
+        reactionSimple: 'Ce monsieur sait où tu habites et où tu vas en cours. Parles-en à un adulte ce soir.'
+      - id: rejoint
+        texte: 'Je reste calme, je ne réponds pas et je rejoins mes amis.'
+        qualite: bon
+        reaction: 'Bien joué ! Tu n’as pas à répondre à un inconnu, même poli. Le soir, tu en parles chez toi.'
+      - id: aide
+        texte: 'Je demande de l’aide en allant voir tout de suite un adulte que je connais.'
+        qualite: aide
+        reaction: 'Tu vas voir la mère de ton amie, assise sur un banc. Elle reste avec vous et écoute ce qui s’est passé.'
+    pourquoi:
+      - levier: confiance
+        truc: 'Le monsieur est souriant et poli. On a envie de faire confiance à quelqu’un de gentil.'
+        parade: 'Être poli ne dit pas qui est quelqu’un. Ton collège et ta rue, tu les gardes pour toi.'
+      - levier: reflexe
+        truc: 'Répondre quand un adulte pose une question, c’est ce qu’on fait d’habitude.'
+        parade: 'Tu as le droit de ne pas répondre à un inconnu, même adulte. Rejoins tes amis.'
+      - levier: peur
+        truc: 'Ne pas répondre te semble impoli. Tu as peur de vexer ce monsieur.'
+        parade: 'Ta sécurité passe avant la politesse. Partir sans répondre, c’est permis.'
+    aRetenir: 'Ton adresse, ton collège et tes horaires ne se donnent pas à un inconnu, en vrai comme en ligne. Tu as le droit de ne pas répondre et d’aller voir un adulte.'
+    aRetenirSimple: 'Ne donne pas ton adresse ni ton collège à un inconnu. Va voir un adulte.'
+    recuperation: { action: demander-aide, siChoix: [repond] }
+
+  - type: lieu
+    id: profil
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Dans ta chambre, tu crées ton profil SnapTalk. L’appli propose : « Ajoute ton collège, ta ville et ta date de naissance pour trouver plus d’amis ! » Le profil est réglé sur « Public ».'
+    guideSimple: 'Tu crées ton profil SnapTalk. L’appli dit : « Ajoute ton collège, ta ville et ta date de naissance pour trouver plus d’amis ! » Le profil est réglé sur « Public ».'
+    question: Que fais-tu de ton profil ?
+    choix:
+      - id: remplit
+        texte: 'Plus d’amis, c’est cool : je remplis tout et je laisse en public.'
+        qualite: risque
+        reaction: 'Des inconnus voient ton collège, ta ville et ton anniversaire. Un compte que tu ne connais pas t’écrit : « Joyeux anniversaire ! On est dans le même collège ? » L’appli poussait à tout remplir. Bloque ce compte, puis passe ton profil en privé avec un adulte.'
+        reactionSimple: 'Des inconnus voient ton collège et ton anniversaire. Un inconnu t’écrit. Bloque-le et passe ton profil en privé.'
+      - id: prive
+        texte: 'Je passe mon profil en privé et je laisse ces cases vides.'
+        qualite: bon
+        reaction: 'Bien vu ! Tes vrais amis te trouvent quand même avec ton pseudo. Les inconnus ne voient rien de ta vie.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père pour choisir ensemble ce que je montre.'
+        qualite: aide
+        reaction: 'Ton père règle le profil avec toi : privé, sans collège ni date de naissance. Tu choisis toi-même ta photo de profil.'
+    pourquoi:
+      - levier: gain
+        truc: '« Pour trouver plus d’amis » : l’appli te promet plein de nouveaux amis.'
+        parade: 'Tes vrais amis te trouvent avec ton pseudo. Les inconnus n’ont pas besoin de ton collège.'
+      - levier: autorite
+        truc: 'C’est l’appli elle-même qui le propose. On croit que c’est le bon réglage.'
+        parade: 'Une appli veut que tu montres beaucoup. À toi de choisir ce qui reste privé.'
+      - levier: reflexe
+        truc: 'Remplir toutes les cases d’un profil, on le fait souvent sans réfléchir.'
+        parade: 'Chaque case remplie est visible. Laisse vide ce dont tes amis n’ont pas besoin.'
+    aRetenir: 'Un profil public est visible par tout le monde, même par des inconnus. Garde-le privé, sans collège, sans ville ni date de naissance.'
+    aRetenirSimple: 'Mets ton profil en privé. Ne montre pas ton collège ni ton anniversaire.'
+    recuperation: { action: bloquer-signaler, siChoix: [remplit] }
+
+  - type: lieu
+    id: position
+    lieu: Le bus
+    decor: bus
+    guide: 'Dans le bus, SnapTalk te propose : « Partage ta position en direct avec tout le monde ! » Beaucoup de tes amis la partagent déjà. Ton amie Inès dit : « Comme ça, on se retrouve plus vite au cinéma. »'
+    guideSimple: 'Dans le bus, SnapTalk propose : « Partage ta position en direct avec tout le monde ! » Beaucoup de tes amis la partagent déjà. Inès dit : « Comme ça, on se retrouve plus vite au cinéma. »'
+    question: Que fais-tu ?
+    choix:
+      - id: partage
+        texte: 'Ça aide pour retrouver Inès : je partage avec tout le monde.'
+        qualite: risque
+        reaction: 'Ta position s’affiche en direct pour tous tes contacts, et même pour des inconnus. On peut voir où tu habites et où tu vas chaque jour. Beaucoup activent ce réglage sans y penser. Avec un adulte, coupe le partage.'
+        reactionSimple: 'Tout le monde voit où tu es, même des inconnus. Avec un adulte, coupe le partage.'
+      - id: message
+        texte: 'Je refuse et j’envoie un message à Inès en arrivant.'
+        qualite: bon
+        reaction: 'Bien vu ! Un message suffit pour vous retrouver. Ta position reste à toi.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère pour partager seulement avec Inès.'
+        qualite: aide
+        reaction: 'Ta mère t’aide à régler l’appli : ta position est partagée seulement avec Inès, et seulement pendant une heure.'
+    pourquoi:
+      - levier: confiance
+        truc: 'C’est Inès, ton amie, qui le propose. Tu ne penses pas aux autres qui verront.'
+        parade: '« Tout le monde », ce n’est pas seulement Inès. Partage seulement avec qui en a besoin.'
+      - levier: reflexe
+        truc: 'Accepter un réglage proposé par l’appli, c’est un clic. On le fait sans lire.'
+        parade: 'Lis chaque réglage qui parle de ta position. « Tout le monde » veut dire des inconnus aussi.'
+      - levier: groupe
+        truc: 'Beaucoup de tes amis partagent déjà leur position. Ça semble normal.'
+        parade: 'Que d’autres le fassent ne rend pas le réglage plus sûr. Ta position dit où tu habites.'
+    aRetenir: 'Ta position en direct dit où tu es et où tu habites. Ne la partage jamais avec tout le monde. Si besoin, seulement avec une personne de confiance, et pour peu de temps.'
+    aRetenirSimple: 'Ne partage jamais ta position avec tout le monde.'
+
+  - type: lieu
+    id: quiz
+    lieu: Le CDI
+    decor: cdi
+    guide: 'Au CDI, ton voisin te montre un quiz en ligne : « Quel animal es-tu ? » Il faut donner le nom de ton premier animal, ta ville de naissance et le prénom de ta mère. Plein d’élèves ont déjà partagé leur résultat.'
+    guideSimple: 'Au CDI, ton voisin te montre un quiz : « Quel animal es-tu ? » Il demande le nom de ton premier animal, ta ville de naissance et le prénom de ta mère. Plein d’élèves ont partagé leur résultat.'
+    question: Le quiz a l’air amusant. Que fais-tu ?
+    choix:
+      - id: repond
+        texte: 'C’est juste un jeu pour rire : je réponds à toutes les questions.'
+        qualite: risque
+        reaction: 'Ces questions servent souvent à récupérer des comptes. Le site garde tes réponses. Avec elles, un pirate peut se faire passer pour toi. Ces quiz amusent tout le monde, c’est ce qui les rend efficaces. Parles-en à un adulte pour vérifier tes comptes.'
+        reactionSimple: 'Ces réponses servent à ouvrir des comptes. Le site les garde. Parles-en à un adulte.'
+      - id: refuse
+        texte: 'Je ne réponds pas : ça ressemble à des questions de sécurité.'
+        qualite: bon
+        reaction: 'Bien vu ! Le nom de ton premier animal ou ta ville de naissance servent souvent à récupérer un compte. Ils restent pour toi.'
+      - id: aide
+        texte: 'Je demande de l’aide à la documentaliste pour savoir à quoi servent ces questions.'
+        qualite: aide
+        reaction: 'La documentaliste explique : ces questions servent souvent à récupérer un compte. Elle vous montre comment repérer ce genre de quiz.'
+    pourquoi:
+      - levier: reflexe
+        truc: 'Un quiz, c’est un jeu. On répond vite, sans se demander à quoi servent les questions.'
+        parade: 'Avant de répondre à un quiz, regarde les questions. Ton animal, ta ville, le prénom de ta mère : c’est privé.'
+      - levier: gain
+        truc: '« Quel animal es-tu ? » Découvrir son résultat et le partager, c’est amusant.'
+        parade: 'Le résultat d’un quiz ne vaut pas tes informations secrètes. Tu peux t’amuser sans répondre.'
+      - levier: groupe
+        truc: 'Ton voisin l’a fait, et plein d’élèves ont déjà partagé leur résultat.'
+        parade: 'Que tout le monde le fasse ne protège personne. Ces quiz récoltent les réponses de tous.'
+    aRetenir: 'Le nom de ton premier animal, ta ville de naissance ou le prénom de tes parents servent à récupérer des comptes. Ne les donne pas dans un quiz.'
+    aRetenirSimple: 'Un quiz qui demande ton animal ou ta ville de naissance récolte tes secrets.'
+    recuperation: { action: demander-aide, siChoix: [repond] }
+debrief:
+  questions:
+    - Quel secret de l’île était le plus facile à laisser filer ?
+    - Avant de publier ou de partager, quelle question se poser ?
+    - Que faire si une information ou une photo est déjà partie ?
+  reponses: 'Les secrets de l’île : la photo d’un copain, son adresse et son collège, son profil, sa position en direct, ses réponses aux questions de sécurité. Avant de publier ou de partager : qui va le voir, et la personne sur la photo est-elle d’accord ? Si c’est déjà parti : retirer la publication, s’excuser si quelqu’un a été blessé, passer son profil en privé, couper le partage de position, bloquer un inconnu insistant et en parler à un adulte. Ce n’est pas grave de s’être trompé : on peut presque toujours limiter les dégâts.'
+  erreursFrequentes:
+    - 'Croire que tout le monde est d’accord pour être publié parce que tout le monde a ri.'
+    - 'Penser qu’il faut répondre à un adulte poli qu’on ne connaît pas.'
+    - 'Croire qu’un quiz amusant ne demande rien de secret.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qu’est-ce qu’une information privée ? Qu’est-ce qu’on accepte de montrer à des inconnus ?
+    15 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, en classant les secrets rencontrés (photo, adresse, profil, position, réponses secrètes).
+    5 min : où trouver de l’aide (adulte de confiance, CNIL et 3018 pour une photo qui circule).
+    5 min : engagement. Ce soir, je vérifie avec un adulte qui peut voir mon profil et ma position.

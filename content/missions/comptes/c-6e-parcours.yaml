@@ -1,0 +1,206 @@
+id: c-6e-parcours
+theme: comptes
+format: parcours
+tranches: ['6e']
+titre: La traversée de l’île des clés
+resume: 'Une feuille d’inscription, un post-it, une amie serviable, une fuite, une tablette à la gare : traverse l’île en gardant tes clés pour toi.'
+duree: 15
+objectifs:
+  - Garder son mot de passe pour soi, même pour un tournoi ou avec une amie proche
+  - Utiliser un mot de passe différent pour chaque compte et réagir après une fuite
+  - Se déconnecter d’un appareil partagé
+competences:
+  crcn: ['4.1', '4.2']
+  programmes: ['EMI cycle 3']
+etapes:
+  - type: lieu
+    id: inscription
+    lieu: Le CDI
+    decor: cdi
+    guide: 'Au CDI, une feuille circule pour le tournoi GameBox du vendredi. On y écrit son pseudo et son mot de passe « pour créer les équipes ». Huit élèves l’ont déjà remplie.'
+    guideSimple: 'Au CDI, une feuille circule pour le tournoi GameBox. On y écrit son pseudo et son mot de passe « pour créer les équipes ». Huit élèves l’ont déjà remplie.'
+    question: La feuille arrive devant toi. Que fais-tu ?
+    choix:
+      - id: ecrit
+        texte: 'Huit élèves l’ont déjà fait, alors j’écris le mien aussi.'
+        qualite: risque
+        reaction: 'La feuille passe dans plein de mains. N’importe qui peut lire ton mot de passe et entrer dans ton compte. Beaucoup d’élèves auraient fait comme toi. Avec un adulte, change vite ton mot de passe.'
+        reactionSimple: 'Tout le monde peut lire la feuille. Avec un adulte, change vite ton mot de passe.'
+      - id: pseudo
+        texte: 'J’écris seulement mon pseudo, sans mon mot de passe.'
+        qualite: bon
+        reaction: 'Bien vu ! Pour inscrire un joueur, son pseudo suffit. Un mot de passe ne s’écrit jamais sur une feuille qui circule.'
+      - id: aide
+        texte: 'Je demande de l’aide à la documentaliste avant d’écrire quoi que ce soit.'
+        qualite: aide
+        reaction: 'Bonne idée. La documentaliste range la feuille. Elle explique au groupe que les pseudos suffisent pour le tournoi.'
+    pourquoi:
+      - levier: groupe
+        truc: 'Huit élèves ont déjà rempli la feuille. Quand tout le monde le fait, ça paraît normal.'
+        parade: 'Que beaucoup d’élèves l’aient fait ne rend pas la feuille plus sûre. Ton mot de passe reste dans ta tête.'
+      - levier: autorite
+        truc: 'La feuille dit « pour créer les équipes ». Ça ressemble à une vraie organisation de tournoi.'
+        parade: 'Aucun tournoi n’a besoin de ton mot de passe. Ton pseudo suffit pour t’inscrire.'
+      - levier: reflexe
+        truc: 'Remplir une feuille, on le fait souvent vite, sans lire chaque case.'
+        parade: 'Avant d’écrire, lis chaque case. Si on te demande ton mot de passe, tu t’arrêtes.'
+    aRetenir: 'Ton mot de passe ne s’écrit jamais sur une feuille, un tableau ou dans un groupe. Pour t’inscrire à un tournoi, ton pseudo suffit.'
+    aRetenirSimple: 'Un mot de passe ne s’écrit jamais sur une feuille. Ton pseudo suffit.'
+    recuperation: { action: changer-mdp, siChoix: [ecrit] }
+
+  - type: lieu
+    id: post-it
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Dans ta chambre, ton mot de passe GameBox est écrit sur un post-it collé au bord de ton écran. Ce soir, tes cousins viennent dormir et vont jouer sur ton ordinateur.'
+    guideSimple: 'Ton mot de passe GameBox est écrit sur un post-it collé à ton écran. Ce soir, tes cousins viennent jouer sur ton ordinateur.'
+    question: Tes cousins arrivent dans une heure. Que fais-tu du post-it ?
+    choix:
+      - id: laisse
+        texte: 'Ce sont mes cousins, ils ne regarderont pas : je le laisse.'
+        qualite: risque
+        reaction: 'Ton cousin lit le post-it sans faire exprès. Le lendemain, il se connecte à ton compte depuis chez lui « pour rigoler » et dépense tes Coins. Beaucoup de gens gardent un post-it. Avec un adulte, change ton mot de passe.'
+        reactionSimple: 'Ton cousin a lu le post-it. Il entre dans ton compte. Avec un adulte, change ton mot de passe.'
+      - id: phrase
+        texte: 'Je retiens une phrase de passe et je jette le post-it.'
+        qualite: bon
+        reaction: 'Bien vu ! Une phrase de passe, ce sont plusieurs mots qui n’ont rien à voir. Elle se retient sans papier. Le post-it part à la poubelle, déchiré.'
+      - id: aide
+        texte: 'Je demande de l’aide à mes parents pour ne plus avoir besoin du post-it.'
+        qualite: aide
+        reaction: 'Ta mère t’aide à créer une phrase de passe : plusieurs mots qui n’ont rien à voir ensemble. Tu la retiens sans post-it.'
+    pourquoi:
+      - levier: confiance
+        truc: 'Ce sont tes cousins. Tu leur fais confiance, et ils ne veulent pas te nuire.'
+        parade: 'Même sans le vouloir, quelqu’un peut lire un post-it. Ce qui est caché ne se lit pas.'
+      - levier: reflexe
+        truc: 'Le post-it est là depuis longtemps. Tu ne le vois même plus.'
+        parade: 'Regarde ton bureau comme un visiteur. Tout ce qui est écrit dessus peut être lu.'
+      - levier: urgence
+        truc: 'Tes cousins arrivent dans une heure. Changer de mot de passe maintenant semble trop long.'
+        parade: 'Cacher le post-it prend deux secondes. Créer une phrase de passe prend cinq minutes.'
+    aRetenir: 'Un mot de passe noté sur un post-it peut être lu par n’importe qui. Une phrase de passe se retient sans papier. Si tu dois le noter, garde-le caché, loin de l’écran.'
+    aRetenirSimple: 'Un mot de passe noté se cache. Jamais collé sur l’écran.'
+    recuperation: { action: changer-mdp, siChoix: [laisse] }
+
+  - type: lieu
+    id: serie
+    lieu: La cour
+    decor: cour
+    guide: 'Dans la cour, ton amie Lina a une idée. « Pendant ta semaine au ski, je me connecte sur ton compte GameBox chaque jour. Ta série de 200 jours ne cassera pas ! » Tu pars lundi matin.'
+    guideSimple: 'Dans la cour, Lina te dit : « Pendant ta semaine au ski, je me connecte sur ton compte GameBox chaque jour. Ta série de 200 jours ne cassera pas ! »'
+    question: Lina veut vraiment t’aider. Que lui réponds-tu ?
+    choix:
+      - id: donne
+        texte: 'Lina est ma meilleure amie : je lui donne mon mot de passe pour la semaine.'
+        qualite: risque
+        reaction: 'Lina garde ta série. Mais elle note ton mot de passe dans son téléphone, et sa sœur le voit. Elle joue avec ton perso et change ton avatar. Personne ne voulait te nuire. Avec un adulte, change ton mot de passe.'
+        reactionSimple: 'La sœur de Lina a vu ton mot de passe. Elle joue sur ton compte. Change ton mot de passe avec un adulte.'
+      - id: refuse
+        texte: 'Je la remercie, mais mon mot de passe reste à moi.'
+        qualite: bon
+        reaction: 'Lina comprend. Ta série s’arrête pendant le ski. À ton retour, tu en commences une nouvelle, et ton compte est resté à toi.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père pour savoir comment dire non sans vexer Lina.'
+        qualite: aide
+        reaction: 'Ton père t’aide à trouver les mots : « Je te fais confiance, mais mon mot de passe reste à moi. » Lina comprend.'
+    pourquoi:
+      - levier: confiance
+        truc: 'Lina est ton amie et elle veut vraiment t’aider. Refuser semble vexant.'
+        parade: 'Dis-lui simplement : « Je te fais confiance, mais mon mot de passe reste dans ma tête. »'
+      - levier: gain
+        truc: '« Ta série de 200 jours ne cassera pas ! » Garder ta série est très tentant.'
+        parade: 'Une série se recommence. Un compte perdu met longtemps à revenir.'
+      - levier: urgence
+        truc: 'Tu pars lundi matin. Il faut décider vite, avant le départ.'
+        parade: 'Un départ n’oblige pas à prêter ton mot de passe. Prends le temps d’en parler à un adulte.'
+    aRetenir: 'Un mot de passe ne se prête pas, même à ta meilleure amie et même pour quelques jours. Une série perdue se recommence. Un compte perdu est long à récupérer.'
+    aRetenirSimple: 'Un mot de passe ne se prête pas, même à une amie.'
+    recuperation: { action: changer-mdp, siChoix: [donne] }
+
+  - type: lieu
+    id: fuite
+    lieu: Le salon
+    decor: salon
+    guide: 'Au salon, ta mère lit les infos : « Le site de jeu Pixelia s’est fait voler des mots de passe. » Tu as un compte Pixelia. Et tu utilises le même mot de passe pour GameBox et pour ta boîte mail.'
+    guideSimple: 'Ta mère lit les infos : « Le site de jeu Pixelia s’est fait voler des mots de passe. » Tu as un compte Pixelia, avec le même mot de passe que GameBox et ta boîte mail.'
+    question: Que fais-tu ?
+    choix:
+      - id: pixelia-seul
+        texte: 'Je change celui de Pixelia, les autres sites n’ont rien eu.'
+        qualite: risque
+        reaction: 'Les voleurs essaient ton mot de passe sur d’autres sites. Il marche sur ta boîte mail, puis sur GameBox. C’est une erreur très courante. Tu peux encore reprendre la main : change vite le mot de passe de ta boîte mail, puis celui de GameBox.'
+        reactionSimple: 'Les voleurs essaient ton mot de passe ailleurs. Il marche sur ta boîte mail. Change vite tes autres mots de passe.'
+      - id: partout
+        texte: 'Je change tous ceux qui sont pareils, la boîte mail en premier.'
+        qualite: bon
+        reaction: 'Bien joué ! Avec ta mère, tu commences par ta boîte mail, puis GameBox, puis Pixelia. Le mot de passe volé n’ouvre plus rien.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère pour faire la liste de tous mes comptes.'
+        qualite: aide
+        reaction: 'Ta mère fait la liste avec toi. Vous changez chaque mot de passe, en commençant par la boîte mail.'
+    pourquoi:
+      - levier: reflexe
+        truc: 'Changer un seul mot de passe, c’est rapide. Les changer tous prend du temps.'
+        parade: 'Fais la liste des comptes qui ont le même mot de passe. Change-les tous, la boîte mail d’abord.'
+      - levier: confiance
+        truc: 'GameBox et ta boîte mail n’ont pas été volés. On croit qu’ils sont à l’abri.'
+        parade: 'Un mot de passe volé ouvre tous les comptes qui ont le même. Ce sont eux qui sont menacés.'
+      - levier: petit-montant
+        truc: 'Pixelia, c’est un petit site. On se dit que ce n’est pas grave.'
+        parade: 'Un petit site peut ouvrir tes comptes importants. Mets un mot de passe différent pour chaque compte.'
+    aRetenir: 'Un mot de passe différent pour chaque compte. Après une fuite, change-le partout où tu utilisais le même, en commençant par ta boîte mail.'
+    aRetenirSimple: 'Après une fuite, change ton mot de passe partout. La boîte mail d’abord.'
+    recuperation: { action: changer-mdp, siChoix: [pixelia-seul] }
+
+  - type: lieu
+    id: tablette
+    lieu: La gare
+    decor: gare
+    guide: 'À la gare, une tablette en libre-service attend les voyageurs. Tu te connectes à ton compte GameBox pour montrer ton nouveau perso à ton petit frère. Votre train arrive : on vous appelle sur le quai.'
+    guideSimple: 'À la gare, tu te connectes à GameBox sur une tablette en libre-service. Tu montres ton perso à ton petit frère. Votre train arrive.'
+    question: Il faut vite aller sur le quai. Que fais-tu ?
+    choix:
+      - id: pars
+        texte: 'Le train n’attend pas : je laisse la tablette comme elle est.'
+        qualite: risque
+        reaction: 'Ton compte reste ouvert sur la tablette. Le voyageur suivant le trouve et joue avec. Il pourrait aussi changer ton mot de passe. Ça arrive à beaucoup de gens pressés. Avec un adulte, change ton mot de passe et déconnecte les autres appareils.'
+        reactionSimple: 'Ton compte est resté ouvert. Quelqu’un d’autre l’utilise. Change ton mot de passe avec un adulte.'
+      - id: deconnecte
+        texte: 'Je me déconnecte en deux secondes, puis je cours.'
+        qualite: bon
+        reaction: 'Bien vu ! Te déconnecter a pris deux secondes. Le voyageur suivant ne trouve que la page d’accueil.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père : il tient le sac pendant que je me déconnecte.'
+        qualite: aide
+        reaction: 'Ton père t’attend une seconde. Tu te déconnectes, puis vous montez dans le train ensemble.'
+    pourquoi:
+      - levier: urgence
+        truc: 'Le train arrive et on vous appelle. Tu n’as plus le temps de penser à la tablette.'
+        parade: 'Se déconnecter prend deux secondes. Fais-le avant de partir, même pressé.'
+      - levier: reflexe
+        truc: 'Sur ta tablette à toi, tu ne te déconnectes jamais. Tu fais pareil sans y penser.'
+        parade: 'Sur un appareil qui n’est pas à toi, déconnecte-toi toujours avant de partir.'
+      - levier: confiance
+        truc: 'Une tablette de la gare, ça paraît sûr. On ne pense pas au voyageur suivant.'
+        parade: 'Un appareil partagé sert à plein de gens. Ne laisse jamais ton compte ouvert dessus.'
+    aRetenir: 'Sur un appareil partagé, déconnecte-toi toujours avant de partir. Si tu as oublié, change ton mot de passe et déconnecte les autres appareils.'
+    aRetenirSimple: 'Sur un appareil partagé, déconnecte-toi toujours.'
+    recuperation: { action: changer-mdp, siChoix: [pars] }
+debrief:
+  questions:
+    - Sur quel lieu de l’île as-tu hésité, et pourquoi ?
+    - Qui a le droit de connaître ton mot de passe ?
+    - Que faire si ton mot de passe a été vu ou volé ?
+  reponses: 'Personne d’autre que toi ne connaît ton mot de passe : ni un tournoi, ni une amie, ni des cousins. Un parent peut t’aider à le créer et à le garder. Un mot de passe ne s’écrit pas sur une feuille ou un post-it visible, et il est différent pour chaque compte. Sur un appareil partagé, on se déconnecte. Si un mot de passe a été vu ou volé : prévenir un adulte, le changer partout où il servait (la boîte mail d’abord) et déconnecter les autres appareils. Ce n’est pas grave de s’être trompé : c’est réparable.'
+  erreursFrequentes:
+    - 'Croire qu’un tournoi ou un club a besoin de ton mot de passe pour t’inscrire.'
+    - 'Penser que refuser de donner son mot de passe à une amie, c’est lui manquer de confiance.'
+    - 'Changer seulement le mot de passe du site qui s’est fait voler.'
+fiche:
+  deroulement: |
+    5 min : cadre. À quoi sert un mot de passe ? Qui a le droit de le connaître ? (sans obligation de raconter)
+    15 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, en revenant sur le lieu où la classe a le plus hésité.
+    5 min : où trouver de l’aide (adulte de confiance, aide officielle du jeu, cybermalveillance.gouv.fr pour les parents).
+    5 min : engagement. Ce soir, je vérifie qu’aucun mot de passe n’est écrit près de mon écran.
