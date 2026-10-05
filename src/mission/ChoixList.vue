@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import type { Scenario } from '@/content/schema'
+import type { Qualite } from '@/content/schema'
 import { ordreAffichage } from '@/engine/ordre'
 import type { Mode } from '@/store/progress'
 
-const props = defineProps<{ choix: Scenario['choix']; graine: string; mode: Mode }>()
+/** Choix d’un scénario ou d’un lieu : seuls l’identifiant, le texte et la qualité servent ici. */
+const props = defineProps<{ choix: { id: string; texte: string; qualite: Qualite }[]; graine: string; mode: Mode }>()
 const emit = defineEmits<{ choisir: [choixId: string] }>()
 const selection = ref<string | null>(null)
 const choixAffiches = computed(() => ordreAffichage(props.choix, props.graine))

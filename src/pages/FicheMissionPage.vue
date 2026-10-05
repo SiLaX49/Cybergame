@@ -9,8 +9,11 @@ const mission = getMission(String(route.params.id))
 const theme = mission?.theme ? getTheme(mission.theme) : undefined
 const leviers = getLeviers()
 const scenariosAvecLeviers = (mission?.etapes ?? []).flatMap((e, i) =>
-  e.type === 'scenario' && e.pourquoi ? [{ id: e.id, numero: i + 1, question: e.question, pourquoi: e.pourquoi }] : [],
+  (e.type === 'scenario' || e.type === 'lieu') && e.pourquoi
+    ? [{ id: e.id, numero: i + 1, question: e.question, pourquoi: e.pourquoi }]
+    : [],
 )
+const lieux = (mission?.etapes ?? []).flatMap((e) => (e.type === 'lieu' ? [e.lieu] : []))
 const imprimer = () => window.print()
 </script>
 
@@ -32,6 +35,8 @@ const imprimer = () => window.print()
         <dt>Niveaux</dt><dd>{{ mission.tranches.map((t) => TRANCHE_LIBELLES[t]).join(', ') }}</dd>
         <dt>Durée de jeu</dt><dd>{{ mission.duree }} min</dd>
         <dt>Thème</dt><dd>{{ theme?.titre ?? 'Rappel (plusieurs thèmes)' }}</dd>
+        <dt v-if="mission.format === 'parcours'">Format</dt>
+        <dd v-if="mission.format === 'parcours'">Parcours de l’île en {{ lieux.length }} lieux : {{ lieux.join(', ') }}</dd>
         <dt>Compétences CRCN</dt><dd>{{ mission.competences.crcn.join(', ') }}</dd>
         <dt v-if="mission.competences.programmes.length">Programmes</dt>
         <dd v-if="mission.competences.programmes.length">{{ mission.competences.programmes.join(' ; ') }}</dd>

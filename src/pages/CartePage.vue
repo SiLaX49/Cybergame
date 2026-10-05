@@ -53,7 +53,7 @@ const terminee = (id: string) => id in store.etat.missions
         <ul v-else class="missions">
           <li v-for="m in missions" :key="m.id">
             <RouterLink :to="`/mission/${m.id}`">{{ m.titre }}</RouterLink>
-            <span class="meta"> · {{ m.duree }} min</span>
+            <span class="meta"> · <template v-if="m.format === 'parcours'">Parcours · </template>{{ m.duree }} min</span>
             <span v-if="terminee(m.id)" class="terminee"> · <Check aria-hidden="true" :size="16" /> Terminée</span>
           </li>
         </ul>

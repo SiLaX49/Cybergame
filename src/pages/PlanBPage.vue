@@ -55,6 +55,21 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
             </ul>
           </template>
         </template>
+        <template v-else-if="e.type === 'lieu'">
+          <h2>Lieu {{ i + 1 }} : {{ e.lieu }}</h2>
+          <div class="carte"><p>{{ e.guide }}</p></div>
+          <p><strong>{{ e.question }}</strong></p>
+          <ul class="cases"><li v-for="c in ordreAffichage(e.choix, e.id)" :key="c.id">☐ {{ c.texte }}</li></ul>
+          <template v-if="e.pourquoi">
+            <p>Si tu as choisi le piège, pourquoi ?</p>
+            <ul class="cases">
+              <li v-for="p in ordreAffichage(e.pourquoi.map((x) => ({ id: x.levier })), `${e.id}:pourquoi`)" :key="p.id">
+                ☐ {{ leviers.leviers[p.id].libelle }}
+              </li>
+              <li>☐ {{ leviers.autre.libelle }}</li>
+            </ul>
+          </template>
+        </template>
         <template v-else-if="e.type === 'minijeu' && e.jeu === 'tri'">
           <h2>Mini-jeu {{ i + 1 }} : {{ e.config.consigne }}</h2>
           <table>
@@ -131,6 +146,19 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
             <h3>Situation {{ i + 1 }}</h3>
             <p>Bons choix : {{ e.choix.filter((c) => c.qualite !== 'risque').map((c) => c.texte).join(' / ') }}</p>
             <p>Vrais indices : {{ e.indices.filter((x) => x.pertinent).map((x) => x.libelle).join(' / ') }}</p>
+            <p>À retenir : {{ e.aRetenir }}</p>
+            <template v-if="e.pourquoi">
+              <p>Si l’élève a choisi le piège :</p>
+              <ul>
+                <li v-for="p in e.pourquoi" :key="p.levier">
+                  <strong>{{ leviers.leviers[p.levier].libelle }}</strong> : {{ p.truc }} Parade : {{ p.parade }}
+                </li>
+              </ul>
+            </template>
+          </template>
+          <template v-else-if="e.type === 'lieu'">
+            <h3>Lieu {{ i + 1 }} : {{ e.lieu }}</h3>
+            <p>Bons choix : {{ e.choix.filter((c) => c.qualite !== 'risque').map((c) => c.texte).join(' / ') }}</p>
             <p>À retenir : {{ e.aRetenir }}</p>
             <template v-if="e.pourquoi">
               <p>Si l’élève a choisi le piège :</p>

@@ -2,7 +2,7 @@
 import { Award } from '@lucide/vue'
 import { computed, nextTick, ref } from 'vue'
 import { RouterLink } from 'vue-router'
-import type { Leviers, Mission, Scenario } from '@/content/schema'
+import type { Leviers, Lieu, Mission, Scenario } from '@/content/schema'
 import { BADGES, calculerBadges } from '@/engine/badges'
 import { leviersDeLaMission, leviersDuRun, type RunState, type SurpriseResultat } from '@/engine/mission-runner'
 import { focusAuMontage } from '@/ui/focus'
@@ -24,24 +24,22 @@ const leviersChoisis = computed(() =>
 )
 const aSurveiller = computed(() => leviersDeLaMission(props.mission).map((id) => props.leviers.leviers[id].libelle))
 /** Tous les scénarios ont été passés : on ne peut rien dire de ce qui a marché ou non. */
-const toutPasse = computed(() =>
-  props.mission.etapes
-    .filter((e): e is Scenario => e.type === 'scenario')
-    .every((s) => {
-      const r = props.etat.resultats[s.id]
-      return r?.type === 'scenario' && r.passe
-    }),
+const avecChoix = computed(() =>
+  props.mission.etapes.filter((e): e is Scenario | Lieu => e.type === 'scenario' || e.type === 'lieu'),
 )
+const estPasse = (id: string) => {
+  const r = props.etat.resultats[id]
+  return (r?.type === 'scenario' || r?.type === 'lieu') && r.passe
+}
+const toutPasse = computed(() => avecChoix.value.every((s) => estPasse(s.id)))
 const afficherCraquer = computed(
   () => leviersChoisis.value.length > 0 || (aSurveiller.value.length > 0 && !toutPasse.value),
 )
 const aRetenir = computed(() =>
-  props.mission.etapes
-    .filter((e): e is Scenario => e.type === 'scenario')
-    .filter((s) => {
-      const r = props.etat.resultats[s.id]
-      return r?.type === 'scenario' && !r.passe
-    }),
+  avecChoix.value.filter((s) => {
+    const r = props.etat.resultats[s.id]
+    return (r?.type === 'scenario' || r?.type === 'lieu') && !r.passe
+  }),
 )
 
 const MESSAGES_SURPRISE: Record<SurpriseResultat, string> = {
