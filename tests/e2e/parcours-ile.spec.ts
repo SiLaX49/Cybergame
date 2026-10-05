@@ -1,0 +1,66 @@
+import { expect, test } from '@playwright/test'
+import { commencer, focusConserve, jouerMission, tabJusqua, tabJusquaSelecteur } from './helpers'
+
+test('6e : un parcours de l’île joué jusqu’au bout, puis marqué terminé', async ({ page }) => {
+  await commencer(page, '6e', 'Solo')
+  await expect(page.getByText('Parcours ·')).toHaveCount(6)
+  await page.getByRole('link', { name: 'La traversée de l’île des clés' }).click()
+  await expect(page.locator('svg.decor-scene')).toHaveAttribute('aria-hidden', 'true')
+  await expect(page.locator('[aria-current="step"]')).toContainText('Le CDI')
+  await expect(page.locator('article.lieu')).toBeFocused()
+  await jouerMission(page)
+  await expect(page.getByText('Explorateur·rice')).toBeVisible()
+  await page.getByRole('link', { name: 'Retour à la carte' }).click()
+  await expect(page.getByText('Terminée').first()).toBeVisible()
+})
+
+test('un lieu : choix risqué, pourquoi, réaction, puis geste de récupération', async ({ page }) => {
+  await page.goto('/#/mission/c-6e-parcours')
+  await page.locator('[data-choix="ecrit"]').click()
+  await expect(page.getByRole('heading', { name: 'Qu’est-ce qui t’a donné envie de le faire ?' })).toBeFocused()
+  await page.locator('[data-levier="groupe"]').click()
+  await expect(page.getByRole('heading', { name: 'Ce qui a marché sur toi' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Les indices' })).toHaveCount(0)
+  await page.getByRole('button', { name: 'Continuer', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Maintenant, limite les dégâts' })).toBeFocused()
+  await page.getByRole('button', { name: /Paramètres/ }).click()
+  await page.getByRole('button', { name: /Sécurité et connexion/ }).click()
+  await page.getByLabel('Nouveau mot de passe').fill('tortue-rouge-sous-nuage')
+  await page.getByLabel(/Déconnecter tous les autres appareils/).check()
+  await page.getByRole('button', { name: 'Enregistrer' }).click()
+  await page.getByRole('button', { name: 'Continuer', exact: true }).click()
+  await expect(page.getByText('Étape 2 sur 5')).toBeVisible()
+  await expect(page.locator('[aria-current="step"]')).toContainText('Ta chambre')
+  await expect(page.locator('article.lieu')).toBeFocused()
+})
+
+test('lecture simplifiée : le récit court s’affiche', async ({ page }) => {
+  await page.goto('/#/mission/c-6e-parcours')
+  await expect(page.getByText('du vendredi')).toBeVisible()
+  await page.getByRole('button', { name: /Réglages/ }).click()
+  await page.getByLabel('Lecture simplifiée (phrases plus courtes)').check()
+  await expect(page.getByText('du vendredi')).toBeHidden()
+  await expect(page.getByText('Huit élèves l’ont déjà remplie.')).toBeVisible()
+})
+
+test('un lieu complet au clavier', async ({ page, browserName }) => {
+  test.skip(browserName === 'webkit', 'WebKit ne tabule pas vers les boutons par défaut')
+  await page.goto('/#/mission/p-6e-parcours')
+  await tabJusquaSelecteur(page, '[data-qualite="aide"]')
+  await page.keyboard.press('Enter')
+  await focusConserve(page)
+  await expect(page.getByRole('heading', { name: 'Et alors, que se passe-t-il ?' })).toBeFocused()
+  await tabJusqua(page, 'Continuer')
+  await page.keyboard.press('Enter')
+  await focusConserve(page)
+  await expect(page.getByText('Étape 2 sur 5')).toBeVisible()
+  await expect(page.locator('article.lieu')).toBeFocused()
+})
+
+for (const id of ['p-6e-parcours', 'j-6e-parcours', 'v-6e-parcours', 'd-6e-parcours', 'a-6e-parcours']) {
+  test(`parcours ${id} joué jusqu’au bout`, async ({ page }) => {
+    await page.goto(`/#/mission/${id}`)
+    await jouerMission(page)
+    await expect(page.getByRole('heading', { name: 'Mission terminée !' })).toBeVisible()
+  })
+}

@@ -45,6 +45,8 @@ for (const [nom, chemin] of [
   ['enseignants', '/#/enseignants'],
   ['fiche', '/#/enseignants/p-6e-colis'],
   ['plan B', '/#/enseignants/p-6e-colis/plan-b'],
+  ['fiche parcours', '/#/enseignants/c-6e-parcours'],
+  ['plan B parcours', '/#/enseignants/c-6e-parcours/plan-b'],
   ['confidentialité', '/#/confidentialite'],
   ['test technique', '/#/test'],
   ['introuvable', '/#/nimporte-quoi'],
@@ -75,3 +77,24 @@ for (const [nom, id] of [
     await verifierA11y(page, `mini-jeu ${nom}`)
   })
 }
+
+test('parcours de l’île : lieu, pourquoi, réaction, récupération et fin', async ({ page }) => {
+  await commencer(page, '6e', 'Solo')
+  await page.getByRole('link', { name: 'La traversée de l’île des clés' }).click()
+  await verifierA11y(page, 'lieu')
+  await page.locator('[data-choix="ecrit"]').click()
+  await verifierA11y(page, 'pourquoi (lieu)')
+  await page.locator('[data-levier="groupe"]').click()
+  await verifierA11y(page, 'réaction')
+  await page.getByRole('button', { name: 'Continuer', exact: true }).click()
+  await verifierA11y(page, 'récupération (lieu)')
+  await page.goto('/#/mission/p-6e-parcours')
+  await jouerMission(page)
+  await verifierA11y(page, 'fin de parcours')
+})
+
+test('parcours en classe entière (grands textes)', async ({ page }) => {
+  await commencer(page, '6e', 'Classe entière')
+  await page.getByRole('link', { name: 'La traversée de l’île aux hameçons' }).click()
+  await verifierA11y(page, 'lieu classe')
+})
