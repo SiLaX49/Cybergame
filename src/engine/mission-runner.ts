@@ -181,7 +181,7 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
       const resultat = etat.resultats[etape.id] as ChoixResultat
       const recupere = !!(etape.recuperation && etat.choixId && etape.recuperation.siChoix.includes(etat.choixId))
       if (etape.type === 'lieu' && resultat.qualite === 'risque' && !recupere) return refuser()
-      if (etape.recuperation && etat.choixId && etape.recuperation.siChoix.includes(etat.choixId)) {
+      if (recupere) {
         return {
           ...etat,
           phase: 'recuperation',
@@ -208,7 +208,12 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
       if (etape.type === 'lieu') {
         const resultat = etat.resultats[etape.id] as LieuResultat
         if (resultat.qualite === 'risque') return { ...etat, phase: 'situation', choixId: null }
-        const vide: LieuResultat = { ...(resultatVide(etape) as LieuResultat), essais: essaisDe(resultat) }
+        // Les essais et le geste de récupération déjà fait après un piège restent acquis.
+        const vide: LieuResultat = {
+          ...(resultatVide(etape) as LieuResultat),
+          essais: essaisDe(resultat),
+          recuperationFaite: resultat.essais.length ? resultat.recuperationFaite : null,
+        }
         return { ...etat, phase: 'situation', choixId: null, resultats: { ...etat.resultats, [etape.id]: vide } }
       }
       const resultats = { ...etat.resultats }
@@ -217,7 +222,10 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
     }
     case 'passer': {
       if (etape.type !== 'scenario' && etape.type !== 'lieu') return refuser()
-      const resultat: ChoixResultat = { ...resultatVide(etape), passe: true }
+      // Un lieu passé garde ses essais : un piège déjà essayé compte toujours pour les badges.
+      const base = resultatVide(etape)
+      const resultat: ChoixResultat =
+        base.type === 'lieu' ? { ...base, essais: essaisDe(etat.resultats[etape.id]), passe: true } : { ...base, passe: true }
       return suivante(mission, etat, { ...etat.resultats, [etape.id]: resultat })
     }
     case 'minijeu-termine': {

@@ -156,6 +156,26 @@ describe('moteur : lieux d’un parcours', () => {
     expect(etat.resultats.l1).toMatchObject({ choixId: null, qualite: null, essais: ['donne'] })
   })
 
+  it('rejouer après un bon choix garde le geste de récupération déjà fait', () => {
+    const etat = jouer(
+      m,
+      { type: 'choisir', choixId: 'donne' }, { type: 'expliquer', levier: 'gain' }, { type: 'continuer' }, { type: 'recuperation-faite' },
+      { type: 'choisir', choixId: 'garde' }, { type: 'rejouer' },
+      { type: 'choisir', choixId: 'garde' }, { type: 'continuer' },
+    )
+    expect(etat.resultats.l1).toMatchObject({ choixId: 'garde', recuperationFaite: true, essais: ['donne'] })
+  })
+
+  it('passer un lieu après un piège garde les essais', () => {
+    const etat = jouer(
+      m,
+      { type: 'choisir', choixId: 'donne' }, { type: 'expliquer', levier: 'gain' }, { type: 'continuer' }, { type: 'recuperation-faite' },
+      { type: 'passer' },
+    )
+    expect(etat.index).toBe(1)
+    expect(etat.resultats.l1).toMatchObject({ type: 'lieu', passe: true, choixId: null, essais: ['donne'] })
+  })
+
   it('passer un lieu le marque passé', () => {
     const etat = jouer(m, { type: 'passer' })
     expect(etat.index).toBe(1)
@@ -186,6 +206,27 @@ describe('badges d’un parcours', () => {
       ...prudent(3),
     )
     expect(calculerBadges(etat)).toEqual(['mission-accomplie', 'reparateur', 'explorateur'])
+  })
+
+  it('Réparateur·rice reste acquis après « Rejouer ce lieu »', () => {
+    const etat = jouer(
+      m,
+      { type: 'choisir', choixId: 'donne' }, { type: 'expliquer', levier: 'gain' }, { type: 'continuer' }, { type: 'recuperation-faite' },
+      { type: 'choisir', choixId: 'garde' }, { type: 'rejouer' },
+      { type: 'choisir', choixId: 'garde' }, { type: 'continuer' },
+      ...prudent(3),
+    )
+    expect(calculerBadges(etat)).toContain('reparateur')
+  })
+
+  it('pas de Réflexe vérif si un piège a été essayé dans un lieu ensuite passé', () => {
+    const etat = jouer(
+      m,
+      { type: 'choisir', choixId: 'donne' }, { type: 'expliquer', levier: 'gain' }, { type: 'continuer' }, { type: 'recuperation-faite' },
+      { type: 'passer' },
+      ...prudent(3),
+    )
+    expect(calculerBadges(etat)).not.toContain('reflexe-verif')
   })
 
   it('pas d’explorateur si un lieu a été passé', () => {
