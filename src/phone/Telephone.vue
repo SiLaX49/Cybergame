@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue'
-import type { Choix } from '@/content/schema'
+import type { Choix, FilAction } from '@/content/schema'
 import type { Mode } from '@/store/progress'
 import ConversationApp from './apps/ConversationApp.vue'
 import MailApp from './apps/MailApp.vue'
 import SocialApp from './apps/SocialApp.vue'
+import VerrouillageApp from './apps/VerrouillageApp.vue'
 import WebApp from './apps/WebApp.vue'
 import { gesteDuChoix } from './gestes'
 import ActionsApp from './parts/ActionsApp.vue'
@@ -16,10 +17,17 @@ import type { EcranTelephone } from './types'
 import './theme.css'
 
 const props = withDefaults(
-  defineProps<{ ecran: EcranTelephone; choix?: Choix[]; mode?: Mode; graine?: string; choixJoue?: string | null }>(),
-  { choix: undefined, mode: 'solo', graine: '', choixJoue: null },
+  defineProps<{
+    ecran: EcranTelephone
+    choix?: Choix[]
+    mode?: Mode
+    graine?: string
+    choixJoue?: string | null
+    actionsNotif?: Record<string, FilAction>
+  }>(),
+  { choix: undefined, mode: 'solo', graine: '', choixJoue: null, actionsNotif: () => ({}) },
 )
-const emit = defineEmits<{ choisir: [choixId: string] }>()
+const emit = defineEmits<{ choisir: [choixId: string]; agir: [notificationId: string, action: FilAction] }>()
 
 const nomApp = computed(() => (props.ecran.app === 'verrouillage' ? 'écran verrouillé' : props.ecran.appNom))
 const heure = computed(() => {
@@ -54,6 +62,13 @@ watch(joue, async (c) => {
       <SocialApp v-else-if="ecran.app === 'social'" :ecran="ecran" />
       <MailApp v-else-if="ecran.app === 'mail'" :ecran="ecran" />
       <WebApp v-else-if="ecran.app === 'web'" :ecran="ecran" />
+      <VerrouillageApp
+        v-else-if="ecran.app === 'verrouillage'"
+        :notifications="ecran.notifications"
+        :actions="actionsNotif"
+        :heure="heure"
+        @agir="(id, a) => emit('agir', id, a)"
+      />
       <div class="choix-joue" role="status">
         <template v-if="joue">
           <Bulle

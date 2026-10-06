@@ -36,7 +36,7 @@ export async function jouerMission(page: Page) {
     const continuer = page.getByRole('button', { name: 'Continuer', exact: true })
     const categorie = page.locator('.tri-categories button:not([disabled])').first()
     const solution = page.getByRole('button', { name: 'Voir la solution' })
-    const verifier = page.getByRole('radio', { name: 'Je vérifie autrement' })
+    const notifs = page.locator('[data-notif]')
     const commencerSensible = page.getByRole('button', { name: 'Commencer' })
     const jePasse = page.getByRole('button', { name: 'Je passe' })
     const verifierProfil = page.getByRole('button', { name: 'Vérifier mon profil' })
@@ -52,8 +52,11 @@ export async function jouerMission(page: Page) {
     else if (await continuer.isVisible()) await continuer.click()
     else if (await categorie.isVisible()) await categorie.click()
     else if (await solution.isVisible()) await solution.click()
-    else if (await verifier.first().isVisible()) {
-      for (const radio of await verifier.all()) await radio.check()
+    else if (await notifs.first().isVisible()) {
+      for (const n of await notifs.all()) {
+        await n.click()
+        await page.getByRole('button', { name: 'Je vérifie autrement' }).click()
+      }
       await page.getByRole('button', { name: 'Valider mes choix' }).click()
     } else if (await commencerSensible.isVisible()) await commencerSensible.click()
     else if (await jePasse.isVisible()) await jePasse.click()

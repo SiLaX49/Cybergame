@@ -97,8 +97,11 @@ describe('MissionPage', () => {
 
   it('mission rappel : révèle le piège et enregistre le résultat', async () => {
     const w = await monter('r-test')
-    for (const n of ['n1', 'n2', 'n3']) await w.find(`input[name="notif-${n}"][value="ouvrir"]`).setValue()
-    await w.find('form').trigger('submit')
+    for (const n of ['n1', 'n2', 'n3']) {
+      await w.find(`[data-notif="${n}"]`).trigger('click')
+      await cliquer(w, 'J’ouvre / je clique')
+    }
+    await cliquer(w, 'Valider mes choix')
     expect(w.text()).toContain('Le message piège était')
     expect(w.text()).toContain('Frais de douane : payez 2,99 € ici')
     expect(w.text()).toContain('Tu as ouvert ce message piège')
@@ -184,8 +187,11 @@ describe('MissionPage', () => {
 
   it('mission sans bloc pourquoi : pas de bloc « Ce qui t’a fait craquer »', async () => {
     const w = await monter('r-test')
-    for (const n of ['n1', 'n2', 'n3']) await w.find(`input[name="notif-${n}"][value="ignorer"]`).setValue()
-    await w.find('form').trigger('submit')
+    for (const n of ['n1', 'n2', 'n3']) {
+      await w.find(`[data-notif="${n}"]`).trigger('click')
+      await cliquer(w, 'J’ignore')
+    }
+    await cliquer(w, 'Valider mes choix')
     expect(w.text()).toContain('Mission terminée !')
     expect(w.find('.craquer').exists()).toBe(false)
   })

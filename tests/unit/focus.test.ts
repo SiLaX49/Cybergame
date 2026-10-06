@@ -77,8 +77,11 @@ describe('gestion du focus', () => {
   it('fin de mission : le titre reçoit le focus', async () => {
     const router = await routerTest('/mission/r-test')
     const w = monter(MissionPage, { global: { plugins: [router] } })
-    for (const n of ['n1', 'n2', 'n3']) await w.find(`input[name="notif-${n}"][value="ouvrir"]`).setValue()
-    await w.find('form').trigger('submit')
+    for (const n of ['n1', 'n2', 'n3']) {
+      await w.find(`[data-notif="${n}"]`).trigger('click')
+      await cliquer(w, 'J’ouvre / je clique')
+    }
+    await cliquer(w, 'Valider mes choix')
     await flushPromises()
     expect(actif()?.textContent).toBe('Mission terminée !')
   })
@@ -86,8 +89,11 @@ describe('gestion du focus', () => {
   it('débrief en grand : focus sur « Fermer », Échap ferme et rend le focus au bouton d’ouverture', async () => {
     const router = await routerTest('/mission/r-test')
     const w = monter(MissionPage, { global: { plugins: [router] } })
-    for (const n of ['n1', 'n2', 'n3']) await w.find(`input[name="notif-${n}"][value="ouvrir"]`).setValue()
-    await w.find('form').trigger('submit')
+    for (const n of ['n1', 'n2', 'n3']) {
+      await w.find(`[data-notif="${n}"]`).trigger('click')
+      await cliquer(w, 'J’ouvre / je clique')
+    }
+    await cliquer(w, 'Valider mes choix')
     await cliquer(w, 'Afficher les questions en grand')
     await flushPromises()
     expect(actif()?.textContent?.trim()).toBe('Fermer')

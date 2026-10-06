@@ -79,7 +79,10 @@ test('classe entière : l’adulte valide le choix de la classe', async ({ page 
 
 test('rappel : le message piège est révélé à la fin', async ({ page }) => {
   await page.goto('/#/mission/r-6e')
-  for (const radio of await page.getByRole('radio', { name: 'J’ouvre / je clique' }).all()) await radio.check()
+  for (const n of await page.locator('[data-notif]').all()) {
+    await n.click()
+    await page.getByRole('button', { name: 'J’ouvre / je clique' }).click()
+  }
   await page.getByRole('button', { name: 'Valider mes choix' }).click()
   await jouerMission(page)
   await expect(page.getByRole('heading', { name: 'Le message piège était…' })).toBeVisible()
