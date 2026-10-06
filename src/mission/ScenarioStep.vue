@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import type { Leviers, Scenario } from '@/content/schema'
 import type { PhaseScenario, RunEvent, ScenarioResultat } from '@/engine/mission-runner'
-import EcranTelephone from '@/phone/EcranTelephone.vue'
+import Telephone from '@/phone/Telephone.vue'
 import { RECUPERATIONS } from '@/recovery/registry'
 import type { Mode } from '@/store/progress'
 import { focusAuChangement, focusAuMontage } from '@/ui/focus'
@@ -52,7 +52,7 @@ focusAuChangement(() => props.phase, titre)
   >
     <p v-if="scenario.role" class="role">Dans ce scénario, tu joues {{ ROLES[scenario.role] }}.</p>
     <div class="scenario-grille">
-      <EcranTelephone :ecran="scenario.ecran" />
+      <Telephone :ecran="scenario.ecran" />
       <div class="scenario-panneau">
         <h2 ref="titre" tabindex="-1">{{ phase === 'situation' ? scenario.question : TITRES[phase] }}</h2>
         <ChoixList
@@ -102,7 +102,7 @@ focusAuChangement(() => props.phase, titre)
 <style scoped>
 .scenario:focus { outline: none; }
 .scenario:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
-.scenario-grille { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); align-items: start; }
+.scenario-grille { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, auto) minmax(0, 1fr); align-items: start; }
 @media (max-width: 48rem) { .scenario-grille { grid-template-columns: minmax(0, 1fr); } }
 .role { font-weight: 700; color: var(--primaire); }
 </style>

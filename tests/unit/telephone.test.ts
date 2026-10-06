@@ -81,3 +81,61 @@ describe('Telephone : conversation', () => {
     expect(w.findAll('.conversation > li')[0]!.text()).toContain('Paie 1,99 €')
   })
 })
+
+const messages = [{ de: 'contact' as const, texte: 'Votre mot de passe expire.', heure: '07:58' }]
+
+describe('Telephone : mail', () => {
+  const mail = { app: 'mail', appNom: 'Mail', contact: 'Mon Collège', adresse: 'support@moncollege-ent.net', sujet: 'Mot de passe', pieceJointe: { nom: 'procedure.pdf' }, messages } as Ecran
+  it('objet, expéditeur avec sa vraie adresse, heure, pièce jointe', () => {
+    const w = mount(Telephone, { props: { ecran: mail } })
+    expect(w.find('.sujet').text()).toContain('Mot de passe')
+    expect(w.find('.expediteur').text()).toContain('De :')
+    expect(w.find('.expediteur').text()).toContain('Mon Collège')
+    expect(w.find('.adresse').text()).toBe('support@moncollege-ent.net')
+    expect(w.find('.expediteur').text()).toContain('07:58')
+    expect(w.find('.piece-jointe').text()).toContain('Pièce jointe :')
+    expect(w.find('.piece-jointe').text()).toContain('procedure.pdf')
+    expect(w.find('.entete-app').text()).toContain('Mail')
+  })
+})
+
+describe('Telephone : web', () => {
+  const web = (url?: string) => ({ app: 'web', appNom: 'Navigateur', contact: 'Wi-Fi Gare Libre', url, messages }) as Ecran
+  it('barre d’adresse : domaine mis en avant, jamais de cadenas', () => {
+    const w = mount(Telephone, { props: { ecran: web('https://gare-libre-wifi.com/connexion') } })
+    expect(w.find('.domaine').text()).toBe('gare-libre-wifi.com')
+    expect(w.find('.reste').text()).toBe('/connexion')
+    expect(w.text()).not.toContain('Non sécurisé')
+    expect(w.find('.titre-page').text()).toBe('Wi-Fi Gare Libre')
+    expect(w.find('.entete-app').exists()).toBe(false)
+  })
+  it('« Non sécurisé » pour une adresse http', () => {
+    expect(mount(Telephone, { props: { ecran: web('http://gare-wifi.com') } }).find('.non-securise').text()).toContain('Non sécurisé')
+  })
+  it('sans adresse : écran d’appli, pas de barre', () => {
+    expect(mount(Telephone, { props: { ecran: web() } }).find('.barre-adresse').exists()).toBe(false)
+  })
+})
+
+describe('Telephone : social', () => {
+  const social = {
+    app: 'social', appNom: 'StreamTube', contact: 'drole_de_college_42', messages, certifie: true, abonnes: '2 400', bio: 'Parodie',
+    media: { description: 'Vidéo de 5 secondes : M. Durand crie.', descriptionSimple: 'Une vidéo de 5 secondes.' },
+    stats: { vues: '1 200', partages: '87' }, commentaires: [{ de: 'lea_42', texte: 'Trop drôle' }],
+  } as Ecran
+  it('compte, publication, média décrit, compteurs, commentaires', () => {
+    const w = mount(Telephone, { props: { ecran: social } })
+    expect(w.find('.compte').text()).toContain('drole_de_college_42')
+    expect(w.find('.compte').text()).toContain('(compte certifié)')
+    expect(w.find('.compte').text()).toContain('2 400 abonnés')
+    expect(w.find('.compte').text()).toContain('Parodie')
+    expect(w.find('.media').text()).toContain('Vidéo de 5 secondes : M. Durand crie.')
+    expect(w.find('.stats').text()).toBe('1 200 vues · 87 partages')
+    expect(w.find('.commentaires').text()).toContain('lea_42')
+    expect(w.find('.commentaires').text()).toContain('Trop drôle')
+  })
+  it('média en lecture simplifiée', () => {
+    store.modifierReglages({ lectureSimple: true })
+    expect(mount(Telephone, { props: { ecran: social } }).find('.media').text()).toContain('Une vidéo de 5 secondes.')
+  })
+})

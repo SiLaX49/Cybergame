@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import ConversationApp from './apps/ConversationApp.vue'
+import MailApp from './apps/MailApp.vue'
+import SocialApp from './apps/SocialApp.vue'
+import WebApp from './apps/WebApp.vue'
 import BarreEtat from './parts/BarreEtat.vue'
 import EnteteApp from './parts/EnteteApp.vue'
 import type { EcranTelephone } from './types'
@@ -29,6 +32,9 @@ const entete = computed(() => {
     <!-- Zone défilante (grands textes, mode classe) : focusable pour défiler au clavier. -->
     <div class="ecran" tabindex="0" role="region" :aria-label="`Contenu de l’écran : ${nomApp}`">
       <ConversationApp v-if="ecran.app === 'sms' || ecran.app === 'chat'" :ecran="ecran" />
+      <SocialApp v-else-if="ecran.app === 'social'" :ecran="ecran" />
+      <MailApp v-else-if="ecran.app === 'mail'" :ecran="ecran" />
+      <WebApp v-else-if="ecran.app === 'web'" :ecran="ecran" />
     </div>
   </figure>
 </template>
