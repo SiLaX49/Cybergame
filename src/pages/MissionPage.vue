@@ -27,6 +27,7 @@ import ParcoursScene from '@/parcours/ParcoursScene.vue'
 import type { PersonnageId } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
 import BandeauAide from '@/ui/BandeauAide.vue'
+import BandeauBrouillon from '@/ui/BandeauBrouillon.vue'
 
 const route = useRoute()
 const store = useProgress()
@@ -93,6 +94,7 @@ function recommencer() {
       <RouterLink class="btn" to="/carte">Retour à la carte</RouterLink>
     </template>
     <template v-else>
+      <BandeauBrouillon v-if="mission.relecture?.statut === 'a-relire'" />
       <header class="mission-entete">
         <h1>{{ mission.titre }}</h1>
         <p v-if="!etat.termine && !surIle" class="progression">

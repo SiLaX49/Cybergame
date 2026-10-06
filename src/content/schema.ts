@@ -362,6 +362,21 @@ function verifierFormat<T>(m: { type: string; format: string; etapes: { type: st
   }
 }
 
+export const RELECTURE_STATUTS = ['a-relire', 'relue-interne', 'relue-association'] as const
+
+/** Statut de relecture d’une mission ; obligatoire pour un thème sensible (règle dans validateCross). */
+const relectureSchema = z
+  .object({
+    statut: z.enum(RELECTURE_STATUTS),
+    par: texte.optional(),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'date attendue au format AAAA-MM-JJ').optional(),
+  })
+  .superRefine((r, ctx) => {
+    if (r.statut !== 'a-relire' && (!r.par || !r.date)) {
+      ctx.addIssue({ code: 'custom', message: 'relecture : « par » et « date » sont obligatoires une fois relue' })
+    }
+  })
+
 export const missionSchema = z
   .object({
     id: slug,
@@ -386,6 +401,7 @@ export const missionSchema = z
       erreursFrequentes: z.array(texte).min(1),
     }),
     fiche: z.object({ deroulement: texte, siRevelation: texte.optional() }),
+    relecture: relectureSchema.optional(),
   })
   .superRefine((m, ctx) => {
     idsUniques(m.etapes.map((e) => e.id), ctx, ['etapes'], 'étape')

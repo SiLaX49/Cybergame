@@ -26,6 +26,7 @@ describe('validateCross', () => {
   it('exige fiche.siRevelation pour un thème sensible', () => {
     const issues = validateCross(themes, [{ fichier: 'a.yaml', mission: missionFixture({ theme: 'harcelement' }) }])
     expect(issues).toEqual([
+      { fichier: 'a.yaml', chemin: 'relecture', message: 'obligatoire pour un thème sensible' },
       { fichier: 'a.yaml', chemin: 'fiche.siRevelation', message: 'obligatoire pour un thème sensible' },
     ])
   })

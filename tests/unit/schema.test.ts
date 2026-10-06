@@ -7,6 +7,19 @@ function problemes(raw: unknown) {
   return res.success ? [] : res.error.issues.map((i) => ({ chemin: i.path.join('.'), message: i.message }))
 }
 
+describe('relecture', () => {
+  it('accepte a-relire sans relecteur', () => {
+    expect(problemes(rawMission({ relecture: { statut: 'a-relire' } }))).toEqual([])
+  })
+  it('refuse relue-interne sans par ni date', () => {
+    const p = problemes(rawMission({ relecture: { statut: 'relue-interne' } }))
+    expect(p.map((x) => x.message)).toContain('relecture : « par » et « date » sont obligatoires une fois relue')
+  })
+  it('accepte relue-association avec par et date', () => {
+    expect(problemes(rawMission({ relecture: { statut: 'relue-association', par: 'Asso', date: '2026-10-01' } }))).toEqual([])
+  })
+})
+
 describe('missionSchema', () => {
   it('accepte une mission valide et applique les valeurs par défaut', () => {
     const m = missionSchema.parse(rawMission())

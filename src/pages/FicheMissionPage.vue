@@ -3,6 +3,7 @@ import { RouterLink, useRoute } from 'vue-router'
 import { getLeviers, getMission, getTheme } from '@/content'
 import { TRANCHE_LIBELLES } from '@/content/schema'
 import BandeauAide from '@/ui/BandeauAide.vue'
+import BandeauBrouillon from '@/ui/BandeauBrouillon.vue'
 
 const route = useRoute()
 const mission = getMission(String(route.params.id))
@@ -24,6 +25,7 @@ const imprimer = () => window.print()
       <RouterLink class="btn" to="/enseignants">Retour à l’espace enseignants</RouterLink>
     </template>
     <template v-else>
+      <BandeauBrouillon v-if="mission.relecture?.statut === 'a-relire'" />
       <div class="actions no-print">
         <button type="button" class="btn btn-primaire" @click="imprimer">Imprimer la fiche</button>
         <RouterLink class="btn" :to="`/enseignants/${mission.id}/plan-b`">Version papier (plan B)</RouterLink>

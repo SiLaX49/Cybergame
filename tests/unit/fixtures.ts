@@ -104,6 +104,16 @@ export function rawMission(overrides: Record<string, unknown> = {}) {
   }
 }
 
+export function rawMissionSensible(overrides: Record<string, unknown> = {}) {
+  return rawMission({
+    id: 'm-sensible',
+    theme: 'harcelement',
+    relecture: { statut: 'a-relire' },
+    fiche: { deroulement: 'Déroulé.', siRevelation: 'Prévenir le ou la CPE et l’infirmier·e scolaire.' },
+    ...overrides,
+  })
+}
+
 export function rawRappel(overrides: Record<string, unknown> = {}) {
   return {
     id: 'r-test',
