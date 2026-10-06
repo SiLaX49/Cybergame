@@ -134,7 +134,7 @@ function recommencer() {
           v-else-if="etape.type === 'minijeu'"
           :key="etape.id"
           :etape="etape"
-          :chrono="store.etat.reglages.chrono"
+          :chrono="store.etat.reglages.chrono && !sensible"
           @evenement="envoyer"
         />
         <LieuStep

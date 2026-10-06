@@ -253,6 +253,13 @@ describe('contenu réel', () => {
     expect(bundle.missions.filter((m) => m.type === 'rappel' && m.tranches.includes(t))).toHaveLength(1)
   })
 
+  it.each(['harcelement', 'rencontres'].flatMap((theme) => TRANCHES.map((t) => [theme, t] as const)))(
+    '%s (thème sensible) : au moins une mission pour la tranche %s',
+    (theme, t) => {
+      expect(missionsDuTheme(theme).some((m) => m.tranches.includes(t))).toBe(true)
+    },
+  )
+
   const MINIJEU_DU_THEME = { comptes: 'motdepasse', 'vie-privee': 'confidentialite', desinformation: 'verification', appareils: 'permissions' } as const
 
   it.each(Object.keys(MINIJEU_DU_THEME).flatMap((theme) => TRANCHES.map((t) => [theme, t] as const)))(

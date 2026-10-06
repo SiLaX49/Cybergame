@@ -71,6 +71,49 @@ Règles d’écriture propres à cette progression :
 - le retour en arrière est présenté à l’élève comme un jeu : « Dans la vraie vie, on ne revient pas en arrière ; ici,
   tu peux rejouer ce moment. », puis « Retour au même moment : essaie un autre choix. ».
 
+## Thèmes sensibles
+
+Les thèmes marqués `sensible: true` dans `content/themes.yaml` (cyberharcèlement, rencontres en ligne) affichent un
+avertissement avant de commencer, un bandeau d’aide permanent (3018…) et un bouton « Passer ce scénario ». Le
+chronomètre du tri n’y tourne jamais.
+
+**Statut de relecture.** Chaque mission d’un thème sensible porte un bloc obligatoire dans son YAML :
+
+```yaml
+relecture:
+  statut: a-relire        # a-relire | relue-interne | relue-association
+  par: Noa M. ; relecture protection de l’enfance   # obligatoire sauf a-relire
+  date: 2026-10-20                                   # obligatoire sauf a-relire
+```
+
+**Brouillons visibles en local, cachés en ligne.** Une mission au statut `a-relire` est incluse avec un bandeau
+« Brouillon » dans `npm run dev` et dans un build avec `VITE_BROUILLONS=1` (c’est celui des tests E2E). Elle est
+exclue de `npm run build`, donc du site publié : le thème reste « Bientôt disponible » tant qu’il n’a aucune mission
+publiable. La CI exécute ensuite `npx tsx scripts/verifier-publication.ts`, qui échoue si l’identifiant d’un brouillon
+se retrouve dans `dist/assets/*.js`. Les tests de contenu chargent toujours tous les brouillons.
+
+**Les 3 verrous de la relecture interne** (une mission passe à `relue-interne` quand ils sont tous passés) :
+1. les tests automatiques sont verts (formules culpabilisantes, 3018, vocabulaire explicite, rôles, récupérations…) ;
+2. une relecture « protection de l’enfance » dédiée est faite, et toutes ses remarques sont traitées ;
+3. une relecture humaine par Noa, si possible aussi par un enseignant, un ou une CPE ou un infirmier scolaire, à
+   partir de la fiche enseignant imprimable et de l’export ci-dessous.
+
+**Exporter pour la relecture.** `npm run export:relecture` écrit un fichier Markdown par mission sensible dans
+`dist-relecture/` (option `--toutes` pour toutes les missions). Ce dossier n’est pas versionné.
+
+**Passer une mission en `relue-interne`.** Dans son YAML, remplacer le bloc par :
+
+```yaml
+relecture:
+  statut: relue-interne
+  par: Noa M. ; relecture protection de l’enfance
+  date: 2026-10-20
+```
+
+puis lancer `npm test` et `npm run test:e2e` : la mission est alors incluse dans le build publié (sans bandeau
+« Brouillon »). Les tests E2E des brouillons (`tests/e2e/sensibles.spec.ts`) passent par `VITE_BROUILLONS=1`, qui reste
+actif dans `playwright.config.ts`. Quand une mission est relue, retirer d’abord son identifiant de la liste `MISSIONS` de ce fichier ou adapter l’assertion du bandeau « Brouillon ».
+
 ## Déploiement
 
 Le site est publié sur GitHub Pages par `.github/workflows/ci.yml` à chaque push sur `main`, une fois lint,
