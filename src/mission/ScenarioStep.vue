@@ -6,7 +6,6 @@ import Telephone from '@/phone/Telephone.vue'
 import { RECUPERATIONS } from '@/recovery/registry'
 import type { Mode } from '@/store/progress'
 import { focusAuChangement, focusAuMontage } from '@/ui/focus'
-import ChoixList from './ChoixList.vue'
 import ConsequencePanel from './ConsequencePanel.vue'
 import IndicesForm from './IndicesForm.vue'
 import PourquoiForm from './PourquoiForm.vue'
@@ -18,6 +17,7 @@ const props = defineProps<{
   mode: Mode
   sensible: boolean
   leviers: Leviers
+  choixId?: string | null
 }>()
 const emit = defineEmits<{ evenement: [evenement: RunEvent] }>()
 
@@ -26,6 +26,11 @@ const TITRES: Record<Exclude<PhaseScenario, 'situation'>, string> = {
   indices: 'Qu’est-ce qui t’a décidé ?',
   consequence: 'Et alors, que se passe-t-il ?',
   recuperation: 'Maintenant, limite les dégâts',
+}
+const CONSIGNES: Record<Mode, string> = {
+  solo: 'Choisis ta réponse en bas du téléphone.',
+  binome: 'Discutez à deux, puis choisissez en bas du téléphone.',
+  classe: 'Votez à main levée, puis l’adulte valide le choix de la classe en bas du téléphone.',
 }
 const ROLES = { victime: 'la personne visée', temoin: 'un·e témoin', auteur: 'celui ou celle qui a dérapé' } as const
 
@@ -52,18 +57,19 @@ focusAuChangement(() => props.phase, titre)
   >
     <p v-if="scenario.role" class="role">Dans ce scénario, tu joues {{ ROLES[scenario.role] }}.</p>
     <div class="scenario-grille">
-      <Telephone :ecran="scenario.ecran" />
+      <Telephone
+        :ecran="scenario.ecran"
+        :choix="scenario.choix"
+        :mode="mode"
+        :graine="scenario.id"
+        :choix-joue="phase === 'situation' ? null : (choixId ?? null)"
+        @choisir="(id) => emit('evenement', { type: 'choisir', choixId: id })"
+      />
       <div class="scenario-panneau">
         <h2 ref="titre" tabindex="-1">{{ phase === 'situation' ? scenario.question : TITRES[phase] }}</h2>
-        <ChoixList
-          v-if="phase === 'situation'"
-          :choix="scenario.choix"
-          :graine="scenario.id"
-          :mode="mode"
-          @choisir="(id) => emit('evenement', { type: 'choisir', choixId: id })"
-        />
+        <p v-if="phase === 'situation'" class="consigne-mode">{{ CONSIGNES[mode] }}</p>
         <PourquoiForm
-          v-else-if="phase === 'pourquoi' && scenario.pourquoi"
+          v-if="phase === 'pourquoi' && scenario.pourquoi"
           :pourquoi="scenario.pourquoi"
           :leviers="leviers"
           :graine="scenario.id"
@@ -71,13 +77,13 @@ focusAuChangement(() => props.phase, titre)
           @expliquer="(levier) => emit('evenement', { type: 'expliquer', levier })"
         />
         <IndicesForm
-          v-else-if="phase === 'indices'"
+          v-if="phase === 'indices'"
           :indices="scenario.indices"
           :graine="scenario.id"
           @valider="(ids) => emit('evenement', { type: 'valider-indices', indices: ids })"
         />
         <ConsequencePanel
-          v-else-if="phase === 'consequence' && resultat"
+          v-if="phase === 'consequence' && resultat"
           :scenario="scenario"
           :resultat="resultat"
           :leviers="leviers"
@@ -86,7 +92,7 @@ focusAuChangement(() => props.phase, titre)
         />
         <component
           :is="RECUPERATIONS[scenario.recuperation.action]"
-          v-else-if="phase === 'recuperation' && scenario.recuperation"
+          v-if="phase === 'recuperation' && scenario.recuperation"
           @fait="emit('evenement', { type: 'recuperation-faite' })"
         />
         <div v-if="sensible" class="actions">
@@ -101,8 +107,9 @@ focusAuChangement(() => props.phase, titre)
 
 <style scoped>
 .scenario:focus { outline: none; }
+.consigne-mode { font-weight: 700; }
 .scenario:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
-.scenario-grille { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, auto) minmax(0, 1fr); align-items: start; }
+.scenario-grille { display: grid; gap: 1.5rem; grid-template-columns: var(--tel-largeur) minmax(0, 1fr); align-items: start; }
 @media (max-width: 48rem) { .scenario-grille { grid-template-columns: minmax(0, 1fr); } }
 .role { font-weight: 700; color: var(--primaire); }
 </style>

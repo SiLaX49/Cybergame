@@ -1,3 +1,7 @@
+/* Taille fixe de vrai téléphone, partagée avec la grille du scénario. */
+:root { --tel-largeur: 23rem; --tel-hauteur: min(46rem, 85vh); }
+:root[data-taille='tres-grand'] { --tel-largeur: 28rem; }
+
 /* Variables du faux téléphone, par appli. Aplats opaques ; texte d'au moins 4.5:1 sur son fond. */
 .telephone {
   --tel-coque: #1b1b2f;
@@ -18,3 +22,6 @@
 .telephone[data-app='mail'] { --tel-accent: #1d4ed8; }
 .telephone[data-app='web'] { --tel-accent: #3b3b4f; }
 .telephone[data-app='verrouillage'] { --tel-fond: #23214a; --tel-texte: #ffffff; --tel-doux: #d6d4f0; --tel-recu: #34316a; }
+
+/* Boutons d'action (ActionsApp) : moins arrondis en mail, web et social. Ici, car le style scoped ne voit pas `.telephone`. */
+.telephone[data-app='mail'] .action, .telephone[data-app='web'] .action, .telephone[data-app='social'] .action { border-radius: 10px; }

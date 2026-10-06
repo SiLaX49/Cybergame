@@ -51,7 +51,7 @@ describe('ScenarioStep', () => {
   })
 
   it('binôme : invite à discuter', () => {
-    expect(monter({ mode: 'binome' }).text()).toContain('Discutez à deux avant de choisir')
+    expect(monter({ mode: 'binome' }).text()).toContain('Discutez à deux, puis choisissez en bas du téléphone.')
   })
 
   it('classe : le choix doit être validé par l’adulte', async () => {
@@ -61,6 +61,13 @@ describe('ScenarioStep', () => {
     expect(w.find('[data-choix="verif"]').attributes('aria-pressed')).toBe('true')
     await cliquer(w, 'Valider le choix de la classe')
     expect(w.emitted('evenement')).toEqual([[{ type: 'choisir', choixId: 'verif' }]])
+  })
+
+  it('après le choix, le téléphone joue le geste et le panneau passe à la suite', () => {
+    const w = monter({ phase: 'indices', choixId: 'clic' })
+    expect(w.find('.choix-joue').text()).toContain('Lien ouvert')
+    expect(w.find('[data-choix]').exists()).toBe(false)
+    expect(w.find('h2').text()).toBe('Qu’est-ce qui t’a décidé ?')
   })
 
   it('indices : « Je ne sais pas » ou sélection', async () => {

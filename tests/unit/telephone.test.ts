@@ -1,8 +1,11 @@
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it } from 'vitest'
-import type { Ecran } from '@/content/schema'
+import type { Ecran, Scenario } from '@/content/schema'
+import { ordreAffichage } from '@/engine/ordre'
 import Telephone from '@/phone/Telephone.vue'
 import { creerStore, definirStore, type ProgressStore } from '@/store/useProgress'
+import { missionFixture } from './fixtures'
+import { cliquer } from './helpers'
 import { MemoryStorage } from './memory-storage'
 
 let store: ProgressStore
@@ -34,6 +37,7 @@ describe('Telephone : coque', () => {
     expect(zone.attributes('role')).toBe('region')
     expect(zone.attributes('aria-label')).toBe('Contenu de l’écran : Messages')
   })
+
 
   it('barre d’état décorative à l’heure du dernier message, 14:32 sinon', () => {
     const w = mount(Telephone, { props: { ecran: sms() } })
@@ -137,5 +141,63 @@ describe('Telephone : social', () => {
   it('média en lecture simplifiée', () => {
     store.modifierReglages({ lectureSimple: true })
     expect(mount(Telephone, { props: { ecran: social } }).find('.media').text()).toContain('Une vidéo de 5 secondes.')
+  })
+})
+
+describe('Telephone : choix', () => {
+  const scenario = () => missionFixture().etapes[0] as Scenario
+  const monter = (props: Record<string, unknown> = {}) => {
+    const s = scenario()
+    return mount(Telephone, { props: { ecran: s.ecran, choix: s.choix, graine: s.id, ...props } })
+  }
+
+  it('affiche les choix en bas de l’appli, dans l’ordre du scénario, et émet le choix', async () => {
+    const s = scenario()
+    const w = monter()
+    expect(w.find('.actions-app').text()).toContain('Que fais-tu ?')
+    expect(w.findAll('[data-choix]').map((b) => b.attributes('data-choix'))).toEqual(ordreAffichage(s.choix, s.id).map((c) => c.id))
+    await w.find('[data-choix="verif"]').trigger('click')
+    expect(w.emitted('choisir')).toEqual([['verif']])
+  })
+
+  it('classe : un clic sélectionne, l’adulte valide', async () => {
+    const w = monter({ mode: 'classe' })
+    await w.find('[data-choix="verif"]').trigger('click')
+    expect(w.emitted('choisir')).toBeUndefined()
+    expect(w.find('[data-choix="verif"]').attributes('aria-pressed')).toBe('true')
+    await cliquer(w, 'Valider le choix de la classe')
+    expect(w.emitted('choisir')).toEqual([['verif']])
+  })
+
+  it('zone du choix joué présente dès le départ, vide', () => {
+    const zone = monter().find('.choix-joue')
+    expect(zone.attributes('role')).toBe('status')
+    expect(zone.text()).toBe('')
+  })
+
+  it('un geste se joue en bannière neutre, et les actions disparaissent', async () => {
+    const w = monter({ choixJoue: null })
+    await w.setProps({ choixJoue: 'clic' })
+    expect(w.find('[data-choix]').exists()).toBe(false)
+    expect(w.find('.choix-joue').text()).toContain('Lien ouvert')
+  })
+
+  it('une réponse se joue en bulle « Toi »', async () => {
+    const s = scenario()
+    const choix = s.choix.map((c) => (c.id === 'verif' ? { ...c, geste: 'repondre' as const, reponse: 'C’est qui ?' } : c))
+    const w = monter({ choix, choixJoue: 'verif' })
+    expect(w.find('.choix-joue').text()).toContain('Toi :')
+    expect(w.find('.choix-joue').text()).toContain('C’est qui ?')
+  })
+
+  it('le choix « aide » pose le téléphone', () => {
+    expect(monter({ choixJoue: 'aide' }).find('.choix-joue').text()).toContain('Tu poses ton téléphone pour demander de l’aide')
+  })
+
+  it('« Rejouer » remet le téléphone en attente', async () => {
+    const w = monter({ choixJoue: 'clic' })
+    await w.setProps({ choixJoue: null })
+    expect(w.find('.choix-joue').text()).toBe('')
+    expect(w.findAll('[data-choix]')).toHaveLength(3)
   })
 })

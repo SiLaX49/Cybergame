@@ -126,6 +126,7 @@ function recommencer() {
           :mode="mode"
           :sensible="sensible"
           :leviers="leviers"
+          :choix-id="etat.choixId"
           @evenement="envoyer"
         />
         <MinijeuStep
