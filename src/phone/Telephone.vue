@@ -89,8 +89,10 @@ watch(joue, async (c) => {
   margin: 0; width: var(--tel-largeur); max-width: 100%; height: var(--tel-hauteur); display: flex; flex-direction: column;
   border: 10px solid var(--tel-coque); border-radius: 32px; overflow: hidden;
   background: var(--tel-fond); color: var(--tel-texte);
+  /* Reste entier à l’écran quand la page défile (bureau). */
+  position: sticky; top: 1rem;
 }
-@media (max-width: 48rem) { .telephone { width: 100%; height: min(40rem, 80vh); } }
-.ecran { flex: 1; min-height: 0; padding: 0.75rem; overflow-y: auto; background: var(--tel-fond); }
+@media (max-width: 48rem) { .telephone { position: static; width: 100%; height: min(40rem, 80vh); } }
+.ecran { flex: 1; min-height: 0; padding: 0.75rem; overflow-y: auto; scrollbar-width: thin; background: var(--tel-fond); }
 .choix-joue { display: flex; flex-direction: column; }
 </style>

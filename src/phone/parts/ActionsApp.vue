@@ -45,11 +45,13 @@ function validerClasse() {
 </template>
 
 <style scoped>
-.actions-app { padding: 0.6rem 0.75rem 0.9rem; border-top: 1px solid var(--tel-bord); background: var(--tel-fond); }
+/* Les réponses ne prennent jamais plus de la moitié de l’écran : au-delà, elles défilent. */
+.actions-app { flex: none; max-height: 50%; overflow-y: auto; scrollbar-width: thin; padding: 0.6rem 0.75rem 0.9rem; border-top: 1px solid var(--tel-bord); background: var(--tel-fond); }
 .intitule { margin: 0 0 0.5rem; font-size: 0.85em; font-weight: 700; color: var(--tel-doux); text-align: center; }
 .liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.45rem; }
-.action { display: flex; align-items: center; gap: 0.5rem; width: 100%; min-height: 44px; padding: 0.5rem 0.8rem; text-align: left; border: 2px solid var(--tel-accent); border-radius: 18px; background: var(--tel-fond); color: var(--tel-texte); font: inherit; cursor: pointer; }
+.action { display: flex; align-items: center; gap: 0.5rem; width: 100%; min-height: 44px; padding: 0.45rem 0.75rem; font-size: 0.92em; line-height: 1.35; text-align: left; border: 2px solid var(--tel-accent); border-radius: 18px; background: var(--tel-fond); color: var(--tel-texte); font: inherit; cursor: pointer; }
 .action:hover, .action[aria-pressed='true'] { background: var(--tel-accent); color: var(--tel-accent-texte); }
+.action svg { flex: none; }
 .action:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 .valider { margin-top: 0.6rem; justify-content: center; font-weight: 700; }
 .valider:disabled { opacity: 0.6; cursor: not-allowed; }

@@ -44,6 +44,7 @@ const t = useTexte()
 .certifie { color: var(--tel-accent); vertical-align: middle; }
 .doux, .stats { font-size: 0.85em; color: var(--tel-doux); }
 .texte { margin: 0 0 0.6rem; overflow-wrap: anywhere; }
+.media svg { flex: none; }
 .media { display: flex; gap: 0.5rem; align-items: center; margin: 0 0 0.6rem; padding: 1.25rem 0.75rem; border-radius: 12px; background: var(--tel-recu); font-style: italic; }
 .commentaires { list-style: none; margin: 0.5rem 0 0; padding: 0.5rem 0 0; border-top: 1px solid var(--tel-bord); display: flex; flex-direction: column; gap: 0.4rem; overflow-wrap: anywhere; }
 </style>
