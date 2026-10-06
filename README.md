@@ -59,7 +59,17 @@ Règle de progression : l’élève n’avance d’une plateforme que sur un cho
 le pourquoi, la réaction et le geste de récupération éventuel, puis il reste sur le même lieu et réessaie, le choix
 risqué déjà essayé étant barré. Au premier parcours, l’élève choisit son personnage (conservé ensuite, modifiable dans
 les réglages) ; la mission s’affiche sur une île propre à son thème, où le personnage saute de plateforme en
-plateforme jusqu’à l’objet à gagner.
+plateforme jusqu’à l’objet à gagner. Un parcours dont le thème n’a pas d’île garde la progression classique, sans
+personnage ni scène.
+
+Règles d’écriture propres à cette progression :
+- la `reaction` d’un choix risqué ne suggère jamais de passer à la suite (« tu continues ta route… ») : l’élève reste
+  sur place et va réessayer ; elle peut en revanche évoquer le nouvel essai ;
+- le choix piège ne doit pas se reconnaître à sa forme (longueur, ton, ponctuation, justification) : les bons choix
+  sont justifiés, les choix risqués le sont parfois aussi ;
+- « Réflexe vérif » exige qu’aucun piège n’ait été essayé dans aucun lieu, même un lieu ensuite passé ;
+- le retour en arrière est présenté à l’élève comme un jeu : « Dans la vraie vie, on ne revient pas en arrière ; ici,
+  tu peux rejouer ce moment. », puis « Retour au même moment : essaie un autre choix. ».
 
 ## Déploiement
 
