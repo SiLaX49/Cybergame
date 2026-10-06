@@ -1,10 +1,11 @@
 import { expect, test } from '@playwright/test'
-import { commencer, focusConserve, jouerMission, tabJusqua, tabJusquaSelecteur } from './helpers'
+import { choisirPersonnageSiDemande, commencer, focusConserve, jouerMission, tabJusqua, tabJusquaSelecteur } from './helpers'
 
 test('6e : un parcours de l’île joué jusqu’au bout, puis marqué terminé', async ({ page }) => {
   await commencer(page, '6e', 'Solo')
   await expect(page.getByText('Parcours ·')).toHaveCount(6)
   await page.getByRole('link', { name: 'La traversée de l’île des clés' }).click()
+  await choisirPersonnageSiDemande(page)
   await expect(page.locator('svg.decor-scene')).toHaveAttribute('aria-hidden', 'true')
   await expect(page.locator('[aria-current="step"]')).toContainText('Le CDI')
   await expect(page.locator('article.lieu')).toBeFocused()
@@ -16,6 +17,7 @@ test('6e : un parcours de l’île joué jusqu’au bout, puis marqué terminé'
 
 test('un lieu : choix risqué, pourquoi, réaction, puis geste de récupération', async ({ page }) => {
   await page.goto('/#/mission/c-6e-parcours')
+  await choisirPersonnageSiDemande(page)
   await page.locator('[data-choix="ecrit"]').click()
   await expect(page.getByRole('heading', { name: 'Qu’est-ce qui t’a donné envie de le faire ?' })).toBeFocused()
   await page.locator('[data-levier="groupe"]').click()
@@ -29,6 +31,19 @@ test('un lieu : choix risqué, pourquoi, réaction, puis geste de récupération
   await page.getByLabel(/Déconnecter tous les autres appareils/).check()
   await page.getByRole('button', { name: 'Enregistrer' }).click()
   await page.getByRole('button', { name: 'Continuer', exact: true }).click()
+  // Après un piège, on reste sur la même plateforme : le choix risqué est barré.
+  await expect(page.getByText('Étape 1 sur 5')).toBeVisible()
+  const barre = page.locator('[data-choix="ecrit"]')
+  await expect(barre).toBeDisabled()
+  // Lisible malgré tout : pas d’opacité réduite, bordure en tirets, texte barré sauf « (déjà essayé) ».
+  await expect(barre).toHaveCSS('opacity', '1')
+  await expect(barre).toHaveCSS('border-top-style', 'dashed')
+  await expect(barre).toHaveCSS('text-decoration-line', 'line-through')
+  await expect(barre.locator('.deja')).toHaveText('(déjà essayé)')
+  await expect(page.locator('.rester')).toBeVisible()
+  await expect(page.locator('article.lieu h2')).toHaveAccessibleDescription('Retour au même moment : essaie un autre choix.')
+  await page.locator('[data-qualite="aide"]').click()
+  await page.getByRole('button', { name: 'Continuer', exact: true }).click()
   await expect(page.getByText('Étape 2 sur 5')).toBeVisible()
   await expect(page.locator('[aria-current="step"]')).toContainText('Ta chambre')
   await expect(page.locator('article.lieu')).toBeFocused()
@@ -36,6 +51,7 @@ test('un lieu : choix risqué, pourquoi, réaction, puis geste de récupération
 
 test('lecture simplifiée : le récit court s’affiche', async ({ page }) => {
   await page.goto('/#/mission/c-6e-parcours')
+  await choisirPersonnageSiDemande(page)
   await expect(page.getByText('du vendredi')).toBeVisible()
   await page.getByRole('button', { name: /Réglages/ }).click()
   await page.getByLabel('Lecture simplifiée (phrases plus courtes)').check()
@@ -46,6 +62,10 @@ test('lecture simplifiée : le récit court s’affiche', async ({ page }) => {
 test('un lieu complet au clavier', async ({ page, browserName }) => {
   test.skip(browserName === 'webkit', 'WebKit ne tabule pas vers les boutons par défaut')
   await page.goto('/#/mission/p-6e-parcours')
+  await tabJusquaSelecteur(page, 'input[name="personnage"]')
+  await page.keyboard.press('Space')
+  await tabJusqua(page, 'C’est parti !')
+  await page.keyboard.press('Enter')
   await tabJusquaSelecteur(page, '[data-qualite="aide"]')
   await page.keyboard.press('Enter')
   await focusConserve(page)
@@ -60,6 +80,7 @@ test('un lieu complet au clavier', async ({ page, browserName }) => {
 for (const id of ['p-6e-parcours', 'j-6e-parcours', 'v-6e-parcours', 'd-6e-parcours', 'a-6e-parcours']) {
   test(`parcours ${id} joué jusqu’au bout`, async ({ page }) => {
     await page.goto(`/#/mission/${id}`)
+    await choisirPersonnageSiDemande(page)
     await jouerMission(page)
     await expect(page.getByRole('heading', { name: 'Mission terminée !' })).toBeVisible()
   })

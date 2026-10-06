@@ -8,6 +8,7 @@ import {
   sauverProgression,
   stockageSur,
   type Mode,
+  type PersonnageId,
   type Progress,
   type Reglages,
 } from './progress'
@@ -29,6 +30,9 @@ export function creerStore(storage: Storage | null) {
     persistant: readonly(persistant),
     choisirTranche(tranche: Tranche) {
       etat.tranche = tranche
+    },
+    choisirPersonnage(id: PersonnageId) {
+      etat.personnage = id
     },
     choisirMode(mode: Mode) {
       etat.mode = mode

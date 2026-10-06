@@ -27,7 +27,7 @@ etapes:
         reaction: 'Beaucoup de gens se feraient avoir : la page a l’air vraie. Mais c’était un faux portail, installé par un inconnu pour voler les mots de passe. Le soir, quelqu’un se connecte à ton compte. Change vite ton mot de passe avec un adulte.'
         reactionSimple: 'La page était un piège. Quelqu’un a pris ton mot de passe. Change-le vite avec un adulte.'
       - id: ferme
-        texte: 'Je ferme cette page : un Wi-Fi n’a pas besoin de mon mot de passe.'
+        texte: 'Un Wi-Fi n’a pas besoin de mon mot de passe : je ferme cette page.'
         qualite: bon
         reaction: 'Bien vu ! Un Wi-Fi peut demander d’accepter des conditions, jamais le mot de passe d’un de tes comptes. Tu regarderas ta vidéo chez toi.'
       - id: aide
@@ -57,10 +57,10 @@ etapes:
     question: La partie commence dans 5 minutes. Que fais-tu ?
     choix:
       - id: plus-tard
-        texte: 'Mes amis sont déjà en ligne : je la ferai demain, promis.'
+        texte: 'J’appuie encore sur « Plus tard » et je lance la partie.'
         qualite: risque
-        reaction: 'C’est ce que font beaucoup de joueurs. Mais la faille reste ouverte, et les pirates connaissent les failles réparées. Ils visent justement les appareils pas à jour. Tu peux lancer la mise à jour juste après ta partie.'
-        reactionSimple: 'La faille reste ouverte, et les pirates la connaissent. Lance la mise à jour juste après ta partie.'
+        reaction: 'C’est ce que font beaucoup de joueurs. Mais la faille reste ouverte, et les pirates connaissent les failles réparées. Ils visent justement les appareils pas à jour. Quinze minutes de retard, ça se rattrape : tu peux encore changer d’avis.'
+        reactionSimple: 'La faille reste ouverte, et les pirates la connaissent. Tu peux encore changer d’avis.'
       - id: maintenant
         texte: 'Je lance la mise à jour et je préviens mes amis du retard.'
         qualite: bon
@@ -96,7 +96,7 @@ etapes:
         reaction: 'La lampe marche. Mais l’appli lit tes contacts et sait où tu es. Elle revend ces informations à des publicitaires. Beaucoup de gens acceptent sans lire. Avec un adulte, retire ces permissions ou désinstalle l’appli.'
         reactionSimple: 'L’appli lit tes contacts et sait où tu es. Avec un adulte, retire ces permissions.'
       - id: refuse
-        texte: 'Je refuse : une lampe a juste besoin du flash.'
+        texte: 'Une lampe a juste besoin du flash : je refuse.'
         qualite: bon
         reaction: 'Bien vu ! Tu désinstalles Super Lampe et tu utilises la lampe déjà prévue dans ton téléphone. Elle ne demande rien.'
       - id: aide
@@ -126,7 +126,7 @@ etapes:
     question: Ce jeu coûte 20 € d’habitude. Que fais-tu ?
     choix:
       - id: installe
-        texte: 'Ryan l’a installé et son téléphone marche : je fais pareil.'
+        texte: 'Je fais pareil que Ryan : il l’a installé et son téléphone marche.'
         qualite: risque
         reaction: 'Le jeu se lance. Mais le fichier contenait aussi un programme espion qui lit tes mots de passe. Des jours plus tard, ton compte SnapTalk est piraté. Ça arrive à beaucoup de joueurs. Avec un adulte, désinstalle tout et change tes mots de passe.'
         reactionSimple: 'Le fichier cachait un programme espion. Ton compte est piraté. Avec un adulte, change tes mots de passe.'
@@ -161,12 +161,12 @@ etapes:
     question: L’ordinateur est juste à côté. Que fais-tu ?
     choix:
       - id: branche
-        texte: 'Je veux juste trouver son propriétaire : je la branche.'
+        texte: 'Je la branche, juste pour trouver son propriétaire.'
         qualite: risque
         reaction: 'La clé contenait un virus. Il s’installe sur l’ordinateur du CDI et peut passer aux autres ordinateurs du collège. Tu voulais rendre service, c’est très gentil. Préviens vite la documentaliste.'
         reactionSimple: 'La clé avait un virus. Il passe sur l’ordinateur du CDI. Préviens vite la documentaliste.'
       - id: accueil
-        texte: 'Je ne la branche pas et je la dépose à l’accueil.'
+        texte: 'Une clé trouvée peut cacher un virus : je la dépose à l’accueil.'
         qualite: bon
         reaction: 'Bien vu ! Une clé trouvée peut contenir un virus. À l’accueil, on retrouvera son propriétaire sans risque.'
       - id: aide

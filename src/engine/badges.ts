@@ -18,7 +18,9 @@ export function calculerBadges(etat: RunState): BadgeId[] {
   const scenarios = resultats.filter((r): r is ChoixResultat => (r.type === 'scenario' || r.type === 'lieu') && !r.passe)
   const avecIndices = scenarios.filter((r): r is ScenarioResultat => r.type === 'scenario' && r.levier === null)
   if (avecIndices.length && avecIndices.every((r) => r.indicesJustes > 0 && r.indicesFaux === 0)) badges.push('oeil-de-lynx')
-  if (scenarios.length && scenarios.every((r) => r.qualite !== 'risque')) badges.push('reflexe-verif')
+  // Un piège essayé dans un lieu, même passé ensuite, empêche « Réflexe vérif » (rien ne change pour les scénarios).
+  const piegeEssaye = resultats.some((r) => r.type === 'lieu' && r.essais.length > 0)
+  if (scenarios.length && !piegeEssaye && scenarios.every((r) => r.qualite !== 'risque')) badges.push('reflexe-verif')
   if (scenarios.some((r) => r.recuperationFaite === true)) badges.push('reparateur')
   const fils = resultats.filter((r): r is FilResultat => r.type === 'fil' && r.surprise !== null)
   if (fils.length && fils.every((r) => r.surprise !== 'piege')) badges.push('vigilant')
