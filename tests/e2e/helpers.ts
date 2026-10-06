@@ -10,6 +10,13 @@ export async function commencer(page: Page, tranche: '6e' | '5e – 3e' | 'Lycé
 
 /** Si l’écran « Choisis ton personnage » est affiché (premier parcours), choisit le premier personnage. */
 export async function choisirPersonnageSiDemande(page: Page) {
+  // Juste après goto, la page n’est peut-être pas encore rendue : on attend l’écran de départ ou un lieu.
+  await expect(page.getByRole('heading', { name: 'Avant de partir' }).or(page.locator('article.lieu')).first()).toBeVisible()
+  await personnageSiAffiche(page)
+}
+
+/** Choisit le premier personnage si l’écran de départ est affiché à cet instant, sans attendre. */
+async function personnageSiAffiche(page: Page) {
   const partir = page.getByRole('button', { name: 'C’est parti !' })
   if (!(await partir.isVisible())) return
   await page.locator('input[name="personnage"]').first().check()
@@ -21,7 +28,7 @@ export async function jouerMission(page: Page) {
   const fin = page.getByRole('heading', { name: 'Mission terminée !' })
   for (let i = 0; i < 300; i++) {
     if (await fin.isVisible()) return
-    await choisirPersonnageSiDemande(page)
+    await personnageSiAffiche(page)
     const suivant = page.getByRole('button', { name: /^(Suivant|Terminer le mini-jeu|Appli suivante)$/ })
     const validerClasse = page.getByRole('button', { name: 'Valider le choix de la classe' })
     const aide = page.locator('[data-qualite="aide"]')
