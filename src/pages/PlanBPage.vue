@@ -37,8 +37,8 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
           <h2>Situation {{ i + 1 }}</h2>
           <div class="carte">
             <p><strong>{{ e.ecran.appNom }} · {{ e.ecran.contact }}</strong></p>
-            <p v-if="e.ecran.sujet">Objet : {{ e.ecran.sujet }}</p>
-            <p v-if="e.ecran.url">Adresse : {{ e.ecran.url }}</p>
+            <p v-if="e.ecran.app === 'mail' && e.ecran.sujet">Objet : {{ e.ecran.sujet }}</p>
+            <p v-if="e.ecran.app === 'web' && e.ecran.url">Adresse : {{ e.ecran.url }}</p>
             <p v-for="(m, j) in e.ecran.messages" :key="j">{{ m.de === 'moi' ? 'Moi' : e.ecran.contact }} : {{ m.texte }}</p>
           </div>
           <p><strong>{{ e.question }}</strong></p>

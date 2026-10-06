@@ -11,7 +11,7 @@ beforeEach(() => {
   definirStore(store)
 })
 
-const ecran = (surcharge: Partial<Scenario['ecran']>): Scenario['ecran'] => ({
+const ecran = (surcharge: Record<string, unknown>): Scenario['ecran'] => ({
   app: 'sms',
   appNom: 'Messages',
   contact: 'Colis Express',
@@ -20,7 +20,7 @@ const ecran = (surcharge: Partial<Scenario['ecran']>): Scenario['ecran'] => ({
     { de: 'moi', texte: 'C’est quoi ?' },
   ],
   ...surcharge,
-})
+}) as Scenario['ecran']
 
 describe('EcranTelephone', () => {
   it('affiche une conversation avec qui parle', () => {

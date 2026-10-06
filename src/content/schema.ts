@@ -21,6 +21,15 @@ export const ICONES = ['Fish', 'KeyRound', 'Eye', 'Users', 'Gamepad2', 'HeartHan
 export const FIL_ACTIONS = ['ouvrir', 'verifier', 'signaler', 'ignorer'] as const
 export type FilAction = (typeof FIL_ACTIONS)[number]
 
+/** Ce que le téléphone montre quand l'élève fait un choix (bulle envoyée ou bannière système). */
+export const GESTES = [
+  'repondre', 'ouvrir-lien', 'se-connecter', 'telecharger', 'installer', 'payer', 'partager',
+  'verifier', 'bloquer', 'signaler', 'ignorer', 'supprimer', 'demander-aide',
+] as const
+export type Geste = (typeof GESTES)[number]
+
+const heure = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'heure attendue au format HH:MM')
+
 const slug = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'identifiant attendu en minuscules-avec-tirets')
 const texte = z.string().trim().min(1, 'texte vide')
 
@@ -71,24 +80,58 @@ const messageSchema = z.object({
   de: z.enum(['contact', 'moi']),
   texte,
   texteSimple: texte.optional(),
+  heure: heure.optional(),
+  apercu: z.object({ titre: texte, domaine: texte }).optional(),
 })
+export type Message = z.infer<typeof messageSchema>
 
-export const ecranSchema = z.object({
-  app: z.enum(['sms', 'chat', 'social', 'mail', 'web']),
-  appNom: texte,
-  contact: texte,
-  sujet: texte.optional(),
-  url: texte.optional(),
-  messages: z.array(messageSchema).min(1),
-})
+const ecranCommun = { appNom: texte, contact: texte, messages: z.array(messageSchema).min(1) }
 
-const choixSchema = z.object({
-  id: slug,
-  texte,
-  qualite: z.enum(['bon', 'risque', 'aide']),
-  consequence: texte,
-  consequenceSimple: texte.optional(),
-})
+/** Faux écran d'un scénario : une forme par appli, chacune avec ses seuls champs. */
+export const ecranSchema = z.discriminatedUnion('app', [
+  z.object({ app: z.literal('sms'), ...ecranCommun }),
+  z.object({ app: z.literal('chat'), ...ecranCommun }),
+  z.object({
+    app: z.literal('social'),
+    ...ecranCommun,
+    certifie: z.boolean().default(false),
+    abonnes: texte.optional(),
+    bio: texte.optional(),
+    media: z.object({ description: texte, descriptionSimple: texte.optional() }).optional(),
+    stats: z.object({ vues: texte.optional(), jaime: texte.optional(), partages: texte.optional() }).optional(),
+    commentaires: z.array(z.object({ de: texte, texte, texteSimple: texte.optional() })).min(1).max(5).optional(),
+  }),
+  z.object({
+    app: z.literal('mail'),
+    ...ecranCommun,
+    sujet: texte.optional(),
+    adresse: z.string().trim().regex(/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/, 'adresse mail attendue (nom@domaine.fr)').optional(),
+    pieceJointe: z.object({ nom: texte }).optional(),
+  }),
+  z.object({ app: z.literal('web'), ...ecranCommun, url: texte.optional() }),
+])
+export type Ecran = z.infer<typeof ecranSchema>
+
+const choixSchema = z
+  .object({
+    id: slug,
+    texte,
+    qualite: z.enum(['bon', 'risque', 'aide']),
+    geste: z.enum(GESTES).optional(),
+    reponse: texte.optional(),
+    reponseSimple: texte.optional(),
+    consequence: texte,
+    consequenceSimple: texte.optional(),
+  })
+  .superRefine((c, ctx) => {
+    if (c.geste === 'repondre' && !c.reponse) {
+      ctx.addIssue({ code: 'custom', path: ['reponse'], message: 'le geste "repondre" demande une reponse (la bulle envoyée)' })
+    }
+    if (c.geste !== 'repondre' && (c.reponse || c.reponseSimple)) {
+      ctx.addIssue({ code: 'custom', path: ['reponse'], message: 'reponse réservée au geste "repondre"' })
+    }
+  })
+export type Choix = z.infer<typeof choixSchema>
 
 const indiceSchema = z.object({ id: slug, libelle: texte, pertinent: z.boolean() })
 
@@ -323,6 +366,7 @@ export const filSchema = z
           appNom: texte,
           de: texte,
           texte,
+          heure: heure.optional(),
           surprise: z.boolean().default(false),
           explication: texte,
         }),

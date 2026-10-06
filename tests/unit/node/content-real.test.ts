@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { buildContent } from '../../../scripts/build-content'
 import { TRANCHES, type Mission } from '../../../src/content/schema'
 import { atteint, evaluerRobustesse } from '../../../src/minigames/robustesse'
+import { textesEcran } from './textes-ecran'
 
 const bundle = buildContent(join(process.cwd(), 'content'))
 const missions = bundle.missions.filter((m) => m.type === 'mission')
@@ -96,10 +97,7 @@ const mots = (phrase: string) => phrase.split(/\s+/).filter((m) => /[\p{L}\d]/u.
 
 function textesDesFauxEcrans(m: Mission): string[] {
   return m.etapes.flatMap((e) => {
-    if (e.type === 'scenario') {
-      const { appNom, contact, sujet, url, messages } = e.ecran
-      return [appNom, contact, sujet ?? '', url ?? '', ...messages.flatMap((x) => [x.texte, x.texteSimple ?? ''])]
-    }
+    if (e.type === 'scenario') return [...textesEcran(e.ecran), ...textesEcran(e.ecran, true)]
     if (e.type === 'lieu') return [e.lieu, e.guide, e.guideSimple ?? '', ...e.choix.flatMap((c) => [c.reaction, c.reactionSimple ?? ''])]
     if (e.type === 'fil') return e.notifications.flatMap((n) => [n.appNom, n.de, n.texte])
     if (e.jeu === 'tri') return e.config.cartes.map((c) => c.texte)
@@ -140,7 +138,7 @@ describe('contenu réel', () => {
 
   it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : aucune marque réelle dans les questions et les choix', (_id, m) => {
     const texte = m.etapes
-      .flatMap((e) => (e.type === 'scenario' || e.type === 'lieu' ? [e.question, ...e.choix.map((c) => c.texte)] : []))
+      .flatMap((e) => (e.type === 'scenario' || e.type === 'lieu' ? [e.question, ...e.choix.flatMap((c) => [c.texte, 'reponse' in c ? (c.reponse ?? '') : '', 'reponseSimple' in c ? (c.reponseSimple ?? '') : ''])] : []))
       .join(' ')
       .toLowerCase()
     expect(MARQUES_REELLES.filter((marque) => new RegExp(`\\b${marque}\\b`).test(texte))).toEqual([])
@@ -157,10 +155,8 @@ describe('contenu réel', () => {
           normal = aplatir([e.guide, e.question].join(' '))
           simple = aplatir([e.guideSimple ?? e.guide, e.question].join(' '))
         } else {
-          const { appNom, contact, sujet, url, messages } = e.ecran
-          const commun = [appNom, contact, sujet ?? '', url ?? '', e.question]
-          normal = aplatir([...commun, ...messages.map((x) => x.texte)].join(' '))
-          simple = aplatir([...commun, ...messages.map((x) => x.texteSimple ?? x.texte)].join(' '))
+          normal = aplatir([...textesEcran(e.ecran), e.question].join(' '))
+          simple = aplatir([...textesEcran(e.ecran, true), e.question].join(' '))
         }
         for (const p of e.pourquoi ?? []) {
           for (const [, citation] of p.truc.matchAll(/«\s*([^»]+?)\s*»/g)) {
