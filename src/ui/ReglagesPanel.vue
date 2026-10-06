@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Reglages } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
+import ChoixPersonnage from '@/parcours/ChoixPersonnage.vue'
 import EffacerProgression from './EffacerProgression.vue'
 
 const emit = defineEmits<{ fermer: [] }>()
@@ -52,6 +53,12 @@ const coche = (e: Event) => (e.target as HTMLInputElement).checked
         {{ i.libelle }}
       </label>
     </fieldset>
+    <ChoixPersonnage
+      legende="Personnage des parcours"
+      name="personnage-reglages"
+      :model-value="store.etat.personnage"
+      @update:model-value="store.choisirPersonnage"
+    />
     <label class="option">
       <input
         type="checkbox"

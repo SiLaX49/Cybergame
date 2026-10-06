@@ -4,6 +4,8 @@ import { trancheSchema } from '@/content/schema'
 export const STORAGE_KEY = 'cyber-reflexes:v1'
 export const MODES = ['solo', 'binome', 'classe'] as const
 export type Mode = (typeof MODES)[number]
+export const PERSONNAGES = ['p1', 'p2', 'p3', 'p4'] as const
+export type PersonnageId = (typeof PERSONNAGES)[number]
 
 const reglagesSchema = z.object({
   taille: z.enum(['normal', 'grand', 'tres-grand']).default('normal'),
@@ -17,6 +19,7 @@ export const progressSchema = z.object({
   version: z.literal(1),
   tranche: trancheSchema.nullable().default(null),
   mode: z.enum(MODES).nullable().default(null),
+  personnage: z.enum(PERSONNAGES).nullable().default(null),
   reglages: reglagesSchema.default(() => reglagesSchema.parse({})),
   missions: z
     .record(z.string(), z.object({ termineeLe: z.string(), badges: z.array(z.string()), choix: z.record(z.string(), z.string()) }))
