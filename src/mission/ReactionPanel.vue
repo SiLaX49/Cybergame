@@ -10,6 +10,10 @@ const emit = defineEmits<{ continuer: []; rejouer: [] }>()
 const t = useTexte()
 
 const choix = computed(() => props.lieu.choix.find((c) => c.id === props.resultat.choixId))
+const risque = computed(() => choix.value?.qualite === 'risque')
+const recupSuit = computed(
+  () => !!props.lieu.recuperation && !!choix.value && props.lieu.recuperation.siChoix.includes(choix.value.id),
+)
 const reponse = computed(() => reponseLevier(props.lieu.pourquoi, props.resultat.levier, props.leviers))
 </script>
 
@@ -18,6 +22,7 @@ const reponse = computed(() => reponseLevier(props.lieu.pourquoi, props.resultat
     <p class="verdict" :class="choix.qualite">
       <span aria-hidden="true">{{ VERDICTS[choix.qualite].icone }}</span> <strong>{{ VERDICTS[choix.qualite].titre }}</strong>
     </p>
+    <p class="deplacement"><strong>{{ risque ? 'Tu restes sur ta plateforme.' : 'Tu avances !' }}</strong></p>
     <p><strong>Ton choix :</strong> {{ choix.texte }}</p>
     <p>{{ t(choix.reaction, choix.reactionSimple) }}</p>
     <div v-if="reponse" class="ce-qui-a-marche" role="note">
@@ -31,8 +36,14 @@ const reponse = computed(() => reponseLevier(props.lieu.pourquoi, props.resultat
       <p>{{ t(lieu.aRetenir, lieu.aRetenirSimple) }}</p>
     </div>
     <div class="actions">
-      <button type="button" class="btn" @click="emit('rejouer')">Rejouer ce lieu</button>
-      <button type="button" class="btn btn-primaire" @click="emit('continuer')">Continuer</button>
+      <template v-if="risque">
+        <button v-if="recupSuit" type="button" class="btn btn-primaire" @click="emit('continuer')">Continuer</button>
+        <button v-else type="button" class="btn btn-primaire" @click="emit('rejouer')">Réessayer</button>
+      </template>
+      <template v-else>
+        <button type="button" class="btn" @click="emit('rejouer')">Rejouer ce lieu</button>
+        <button type="button" class="btn btn-primaire" @click="emit('continuer')">Continuer</button>
+      </template>
     </div>
   </section>
 </template>

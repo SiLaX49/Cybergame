@@ -5,7 +5,10 @@ import { ordreAffichage } from '@/engine/ordre'
 import type { Mode } from '@/store/progress'
 
 /** Choix d’un scénario ou d’un lieu : seuls l’identifiant, le texte et la qualité servent ici. */
-const props = defineProps<{ choix: { id: string; texte: string; qualite: Qualite }[]; graine: string; mode: Mode }>()
+const props = withDefaults(
+  defineProps<{ choix: { id: string; texte: string; qualite: Qualite }[]; graine: string; mode: Mode; essayes?: string[] }>(),
+  { essayes: () => [] },
+)
 const emit = defineEmits<{ choisir: [choixId: string] }>()
 const selection = ref<string | null>(null)
 const choixAffiches = computed(() => ordreAffichage(props.choix, props.graine))
@@ -32,10 +35,12 @@ function validerClasse() {
           class="btn choix-btn"
           :data-qualite="c.qualite"
           :data-choix="c.id"
+          :class="{ essaye: essayes.includes(c.id) }"
+          :disabled="essayes.includes(c.id)"
           :aria-pressed="mode === 'classe' ? selection === c.id : undefined"
           @click="cliquer(c.id)"
         >
-          {{ c.texte }}
+          {{ c.texte }}<span v-if="essayes.includes(c.id)" class="deja"> (déjà essayé)</span>
         </button>
       </li>
     </ol>
@@ -49,5 +54,7 @@ function validerClasse() {
 .liste-choix { display: flex; flex-direction: column; gap: 0.6rem; padding-left: 1.5rem; }
 .choix-btn { width: 100%; text-align: left; justify-content: flex-start; }
 .choix-btn[aria-pressed='true'] { background: var(--primaire); color: var(--primaire-texte); }
+.choix-btn.essaye { text-decoration: line-through; }
+.deja { text-decoration: none; display: inline-block; }
 .consigne-mode { font-weight: 700; }
 </style>

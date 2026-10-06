@@ -49,9 +49,13 @@ focusAuChangement(() => props.phase, titre)
           <p>{{ t(lieu.guide, lieu.guideSimple) }}</p>
         </div>
         <h2 ref="titre" tabindex="-1">{{ phase === 'situation' ? lieu.question : TITRES[phase] }}</h2>
+        <p v-if="phase === 'situation' && resultat?.essais.length" class="rester" role="status">
+          Tu restes sur ta plateforme : essaie un autre choix.
+        </p>
         <ChoixList
           v-if="phase === 'situation'"
           :choix="lieu.choix"
+          :essayes="resultat?.essais ?? []"
           :graine="lieu.id"
           :mode="mode"
           @choisir="(id) => emit('evenement', { type: 'choisir', choixId: id })"

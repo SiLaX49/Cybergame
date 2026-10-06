@@ -65,20 +65,39 @@ describe('LieuStep', () => {
     expect(w.emitted('evenement')).toEqual([[{ type: 'expliquer', levier: 'gain' }]])
   })
 
-  it('réaction : verdict, réaction, ce qui a marché, à retenir, rejouer et continuer', async () => {
-    const w = monterLieu({
-      phase: 'consequence',
-      resultat: resultat({ choixId: 'donne', qualite: 'risque', levier: 'confiance' }),
-    })
+  it('réaction après un piège avec récupération : on reste, un seul bouton « Continuer » vers le geste', async () => {
+    const w = monterLieu({ phase: 'consequence', resultat: resultat({ choixId: 'donne', qualite: 'risque', levier: 'confiance', essais: ['donne'] }) })
     expect(w.text()).toContain('C’était risqué')
+    expect(w.text()).toContain('Tu restes sur ta plateforme.')
     expect(w.text()).toContain('Son frère voit ton mot de passe.')
-    expect(w.text()).toContain('Ce qui a marché sur toi')
     expect(w.text()).toContain('Lina est ton amie.')
-    expect(w.text()).toContain('À retenir')
-    expect(w.text()).not.toContain('Les indices')
+    expect(w.findAll('button').map((b) => b.text())).toEqual(['Continuer'])
+    await cliquer(w, 'Continuer')
+    expect(w.emitted('evenement')).toEqual([[{ type: 'continuer' }]])
+  })
+
+  it('réaction après un piège sans récupération : seulement « Réessayer »', async () => {
+    const sansRecup = { ...lieu(), recuperation: undefined }
+    const w = monterLieu({ lieu: sansRecup, phase: 'consequence', resultat: resultat({ choixId: 'donne', qualite: 'risque', levier: 'gain', essais: ['donne'] }) })
+    expect(w.findAll('button').map((b) => b.text())).toEqual(['Réessayer'])
+    await cliquer(w, 'Réessayer')
+    expect(w.emitted('evenement')).toEqual([[{ type: 'rejouer' }]])
+  })
+
+  it('réaction après un bon choix : on avance, « Rejouer ce lieu » et « Continuer »', async () => {
+    const w = monterLieu({ phase: 'consequence', resultat: resultat() })
+    expect(w.text()).toContain('Tu avances !')
     await cliquer(w, 'Rejouer ce lieu')
     await cliquer(w, 'Continuer')
     expect(w.emitted('evenement')).toEqual([[{ type: 'rejouer' }], [{ type: 'continuer' }]])
+  })
+
+  it('après un essai, le choix risqué est barré et désactivé', () => {
+    const w = monterLieu({ resultat: resultat({ choixId: null, qualite: null, essais: ['donne'] }) })
+    const b = w.find('[data-choix="donne"]')
+    expect(b.attributes('disabled')).toBeDefined()
+    expect(b.text()).toContain('(déjà essayé)')
+    expect(w.find('.rester').text()).toBe('Tu restes sur ta plateforme : essaie un autre choix.')
   })
 
   it('récupération : affiche le geste à pratiquer', () => {
