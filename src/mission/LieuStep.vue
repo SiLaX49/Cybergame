@@ -25,7 +25,6 @@ const t = useTexte()
 
 const TITRES: Record<Exclude<PhaseScenario, 'situation'>, string> = {
   pourquoi: 'Qu’est-ce qui t’a donné envie de le faire ?',
-  indices: 'Qu’est-ce qui t’a décidé ?',
   consequence: 'Et alors, que se passe-t-il ?',
   recuperation: 'Maintenant, limite les dégâts',
 }

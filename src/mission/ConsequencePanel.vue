@@ -10,7 +10,7 @@ const props = defineProps<{ scenario: Scenario; resultat: ScenarioResultat; levi
 const emit = defineEmits<{ continuer: []; rejouer: [] }>()
 const t = useTexte()
 
-const indices = computed(() => ordreAffichage(props.scenario.indices, props.scenario.id))
+const indices = computed(() => ordreAffichage(props.scenario.indices.filter((i) => i.pertinent), props.scenario.id))
 const choix = computed(() => props.scenario.choix.find((c) => c.id === props.resultat.choixId))
 
 const reponse = computed(() => reponseLevier(props.scenario.pourquoi, props.resultat.levier, props.leviers))
@@ -31,10 +31,7 @@ const reponse = computed(() => reponseLevier(props.scenario.pourquoi, props.resu
     </div>
     <h3>Les indices</h3>
     <ul class="liste-indices">
-      <li v-for="i in indices" :key="i.id">
-        <strong>{{ i.pertinent ? 'Vrai indice' : 'Pas un indice' }} :</strong> {{ i.libelle }}
-        <span v-if="resultat.indicesChoisis.includes(i.id)" class="coche"> (tu l’avais coché)</span>
-      </li>
+      <li v-for="i in indices" :key="i.id">{{ i.libelle }}</li>
     </ul>
     <p>{{ scenario.explicationIndices }}</p>
     <div class="a-retenir" role="note">
@@ -53,7 +50,6 @@ const reponse = computed(() => reponseLevier(props.scenario.pourquoi, props.resu
 .verdict.bon { color: var(--bon); }
 .verdict.risque { color: var(--risque); }
 .verdict.aide { color: var(--aide); }
-.coche { color: var(--texte-doux); }
 .a-retenir { background: #eef0ff; border-left: 6px solid var(--primaire); padding: 0.5rem 1rem; border-radius: var(--rayon); }
 .ce-qui-a-marche { background: #fff8e6; border-left: 6px solid var(--aide); padding: 0.5rem 1rem; border-radius: var(--rayon); }
 </style>

@@ -20,12 +20,10 @@ const resultatClic: ScenarioResultat = {
   type: 'scenario',
   choixId: 'verif',
   qualite: 'bon',
-  indicesChoisis: ['url'],
-  indicesJustes: 1,
-  indicesFaux: 0,
   levier: null,
   recuperationFaite: null,
   passe: false,
+  indiceUtilise: false,
 }
 const monter = (props: Record<string, unknown> = {}) =>
   mount(ScenarioStep, {
@@ -40,14 +38,10 @@ describe('ScenarioStep', () => {
     expect(w.emitted('evenement')).toEqual([[{ type: 'choisir', choixId: 'aide' }]])
   })
 
-  it('choix et indices s’affichent dans l’ordre mélangé propre au scénario', async () => {
+  it('les choix s’affichent dans l’ordre mélangé propre au scénario', () => {
     const s = scenario()
     const w = monter()
     expect(w.findAll('[data-choix]').map((b) => b.attributes('data-choix'))).toEqual(ordreAffichage(s.choix, s.id).map((c) => c.id))
-    await w.setProps({ phase: 'indices' })
-    expect(w.findAll('input[type="checkbox"]').map((i) => i.attributes('value'))).toEqual(
-      ordreAffichage(s.indices, s.id).map((i) => i.id),
-    )
   })
 
   it('binôme : invite à discuter', () => {
@@ -64,29 +58,19 @@ describe('ScenarioStep', () => {
   })
 
   it('après le choix, le téléphone joue le geste et le panneau passe à la suite', () => {
-    const w = monter({ phase: 'indices', choixId: 'clic' })
+    const w = monter({ phase: 'consequence', choixId: 'clic', resultat: { ...resultatClic, choixId: 'clic', qualite: 'risque' } })
     expect(w.find('.choix-joue').text()).toContain('Lien ouvert')
     expect(w.find('[data-choix]').exists()).toBe(false)
-    expect(w.find('h2').text()).toBe('Qu’est-ce qui t’a décidé ?')
+    expect(w.find('h2').text()).toBe('Et alors, que se passe-t-il ?')
   })
 
-  it('indices : « Je ne sais pas » ou sélection', async () => {
-    const w = monter({ phase: 'indices' })
-    expect(bouton(w, 'Valider').attributes('disabled')).toBeDefined()
-    await cliquer(w, 'Je ne sais pas')
-    await w.find('input[value="url"]').setValue(true)
-    await w.find('form').trigger('submit')
-    expect(w.emitted('evenement')).toEqual([
-      [{ type: 'valider-indices', indices: [] }],
-      [{ type: 'valider-indices', indices: ['url'] }],
-    ])
-  })
-
-  it('conséquence : verdict, indices, à retenir, continuer ou rejouer', async () => {
+  it('conséquence : verdict, vrais indices seulement, à retenir, continuer ou rejouer', async () => {
     const w = monter({ phase: 'consequence', resultat: resultatClic })
     expect(w.text()).toContain('Bon réflexe !')
     expect(w.text()).toContain('Aucun colis en attente.')
-    expect(w.text()).toContain('tu l’avais coché')
+    expect(w.findAll('.liste-indices li').map((li) => li.text()).sort()).toEqual(['L’adresse est bizarre', 'On me presse'])
+    expect(w.text()).not.toContain('Le montant est petit')
+    expect(w.text()).not.toContain('tu l’avais coché')
     expect(w.text()).toContain('Un transporteur ne demande pas de payer par SMS.')
     await cliquer(w, 'Rejouer ce scénario')
     await cliquer(w, 'Continuer')
@@ -135,7 +119,7 @@ describe('ScenarioStep', () => {
     store.modifierReglages({ lectureSimple: true })
     const w = monter({
       phase: 'consequence',
-      resultat: { ...resultatClic, choixId: 'clic', qualite: 'risque', indicesChoisis: [], indicesJustes: 0, levier: 'urgence' },
+      resultat: { ...resultatClic, choixId: 'clic', qualite: 'risque', levier: 'urgence' },
     })
     expect(w.text()).toContain('On vole la carte.')
     expect(w.text()).not.toContain('La carte est volée.')

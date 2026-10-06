@@ -123,6 +123,9 @@ const choixSchema = z
     reponseSimple: texte.optional(),
     consequence: texte,
     consequenceSimple: texte.optional(),
+    /** Message du contact après ce choix (bulle de réaction) ; sans lui, la bulle est sautée. */
+    reaction: texte.optional(),
+    reactionSimple: texte.optional(),
   })
   .superRefine((c, ctx) => {
     if (c.geste === 'repondre' && !c.reponse) {
@@ -134,7 +137,8 @@ const choixSchema = z
   })
 export type Choix = z.infer<typeof choixSchema>
 
-const indiceSchema = z.object({ id: slug, libelle: texte, pertinent: z.boolean() })
+/** `passage` : texte exact à surligner dans l'écran du scénario. */
+const indiceSchema = z.object({ id: slug, libelle: texte, pertinent: z.boolean(), passage: texte.optional() })
 
 const recuperationSchema = z.object({ action: z.enum(RECOVERY_ACTIONS), siChoix: z.array(slug).min(1) })
 

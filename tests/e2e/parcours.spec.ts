@@ -33,7 +33,6 @@ test('un scénario complet au clavier', async ({ page, browserName }) => {
     await focusConserve(page)
   }
   await activer('Je demande de l’aide')
-  await activer('Je ne sais pas')
   await activer('Continuer')
   await expect(page.getByText('Étape 2 sur 4')).toBeVisible()
   await expect(page.locator('article.scenario')).toBeFocused()
@@ -72,9 +71,9 @@ test('classe entière : l’adulte valide le choix de la classe', async ({ page 
   await commencer(page, '6e', 'Classe entière')
   await page.getByRole('link', { name: 'Le colis mystère' }).click()
   await page.locator('[data-qualite="aide"]').click()
-  await expect(page.getByRole('heading', { name: 'Qu’est-ce qui t’a décidé ?' })).toBeHidden()
+  await expect(page.getByRole('heading', { name: 'Et alors, que se passe-t-il ?' })).toBeHidden()
   await page.getByRole('button', { name: 'Valider le choix de la classe' }).click()
-  await expect(page.getByRole('heading', { name: 'Qu’est-ce qui t’a décidé ?' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Et alors, que se passe-t-il ?' })).toBeVisible()
 })
 
 test('rappel : le message piège est révélé à la fin', async ({ page }) => {

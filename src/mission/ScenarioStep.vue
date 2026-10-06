@@ -7,7 +7,6 @@ import { RECUPERATIONS } from '@/recovery/registry'
 import type { Mode } from '@/store/progress'
 import { focusAuChangement, focusAuMontage } from '@/ui/focus'
 import ConsequencePanel from './ConsequencePanel.vue'
-import IndicesForm from './IndicesForm.vue'
 import PourquoiForm from './PourquoiForm.vue'
 
 const props = defineProps<{
@@ -23,7 +22,6 @@ const emit = defineEmits<{ evenement: [evenement: RunEvent] }>()
 
 const TITRES: Record<Exclude<PhaseScenario, 'situation'>, string> = {
   pourquoi: 'Qu’est-ce qui t’a donné envie de le faire ?',
-  indices: 'Qu’est-ce qui t’a décidé ?',
   consequence: 'Et alors, que se passe-t-il ?',
   recuperation: 'Maintenant, limite les dégâts',
 }
@@ -75,12 +73,6 @@ focusAuChangement(() => props.phase, titre)
           :graine="scenario.id"
           :mode="mode"
           @expliquer="(levier) => emit('evenement', { type: 'expliquer', levier })"
-        />
-        <IndicesForm
-          v-if="phase === 'indices'"
-          :indices="scenario.indices"
-          :graine="scenario.id"
-          @valider="(ids) => emit('evenement', { type: 'valider-indices', indices: ids })"
         />
         <ConsequencePanel
           v-if="phase === 'consequence' && resultat"

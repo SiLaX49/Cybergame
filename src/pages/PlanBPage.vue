@@ -44,8 +44,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
           </div>
           <p><strong>{{ e.question }}</strong></p>
           <ul class="cases"><li v-for="c in ordreAffichage(e.choix, e.id)" :key="c.id">☐ {{ c.texte }}</li></ul>
-          <p>Quel indice t’a décidé ?</p>
-          <ul class="cases"><li v-for="ind in ordreAffichage(e.indices, e.id)" :key="ind.id">☐ {{ ind.libelle }}</li></ul>
+          <p>Souligne dans le message ce qui devait t’alerter.</p>
           <template v-if="e.pourquoi">
             <p>Si tu as choisi le piège, pourquoi ?</p>
             <ul class="cases">
@@ -146,7 +145,10 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
           <template v-if="e.type === 'scenario'">
             <h3>Situation {{ i + 1 }}</h3>
             <p>Bons choix : {{ e.choix.filter((c) => c.qualite !== 'risque').map((c) => c.texte).join(' / ') }}</p>
-            <p>Vrais indices : {{ e.indices.filter((x) => x.pertinent).map((x) => x.libelle).join(' / ') }}</p>
+            <p>
+              Vrais indices :
+              {{ e.indices.filter((x) => x.pertinent).map((x) => (x.passage ? `${x.libelle} (« ${x.passage} »)` : x.libelle)).join(' / ') }}
+            </p>
             <p>À retenir : {{ e.aRetenir }}</p>
             <template v-if="e.pourquoi">
               <p>Si l’élève a choisi le piège :</p>

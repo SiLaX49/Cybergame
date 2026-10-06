@@ -47,6 +47,20 @@ describe('écran du téléphone', () => {
     expect(erreurs(scenarioSchema.safeParse(ok))).toEqual([])
   })
 
+  it('un choix peut avoir une réaction du contact, un indice un passage à surligner', () => {
+    const s = rawScenario()
+    const enrichi = {
+      ...s,
+      choix: s.choix.map((c) => (c.id === 'clic' ? { ...c, reaction: 'Merci, à très vite !', reactionSimple: 'Merci !' } : c)),
+      indices: s.indices.map((i) => (i.id === 'urgence' ? { ...i, passage: 'bloqué' } : i)),
+    }
+    const r = scenarioSchema.safeParse(enrichi)
+    expect(erreurs(r)).toEqual([])
+    expect(r.data?.choix[0]).toMatchObject({ reaction: 'Merci, à très vite !', reactionSimple: 'Merci !' })
+    expect(r.data?.indices[1]).toMatchObject({ passage: 'bloqué' })
+    expect(r.data?.choix[1]?.reaction).toBeUndefined()
+  })
+
   it('une notification peut avoir une heure', () => {
     const fil = rawRappel().etapes[0] as unknown as { notifications: Record<string, unknown>[] }
     const avecHeure = (heure: string) => ({ ...fil, notifications: fil.notifications.map((n, i) => (i === 0 ? { ...n, heure } : n)) })

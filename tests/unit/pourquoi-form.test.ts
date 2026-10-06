@@ -61,7 +61,7 @@ describe('ScenarioStep et « pourquoi »', () => {
     const w = monterEtape({
       phase: 'consequence',
       resultat: {
-        type: 'scenario', choixId: 'clic', qualite: 'risque', indicesChoisis: [], indicesJustes: 0, indicesFaux: 0,
+        type: 'scenario', choixId: 'clic', qualite: 'risque', indiceUtilise: false,
         levier: 'urgence', recuperationFaite: null, passe: false,
       },
     })
@@ -76,7 +76,7 @@ describe('ScenarioStep et « pourquoi »', () => {
     const w = monterEtape({
       phase: 'consequence',
       resultat: {
-        type: 'scenario', choixId: 'clic', qualite: 'risque', indicesChoisis: [], indicesJustes: 0, indicesFaux: 0,
+        type: 'scenario', choixId: 'clic', qualite: 'risque', indiceUtilise: false,
         levier: 'autre', recuperationFaite: null, passe: false,
       },
     })

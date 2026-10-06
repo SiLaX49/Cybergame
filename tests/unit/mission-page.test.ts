@@ -37,14 +37,13 @@ describe('MissionPage', () => {
     expect(w.text()).toContain('Étape 1 sur 2')
     expect(w.text()).not.toContain('Valider le choix de la classe')
     await w.find('[data-choix="aide"]').trigger('click')
-    await cliquer(w, 'Je ne sais pas')
     await cliquer(w, 'Continuer')
     expect(w.text()).toContain('Étape 2 sur 2')
     await finirTri(w)
     expect(w.text()).toContain('Mission terminée !')
     expect(w.text()).toContain('Mission accomplie')
     expect(store.etat.missions['m-test']).toMatchObject({
-      badges: ['mission-accomplie', 'reflexe-verif'],
+      badges: ['mission-accomplie', 'oeil-de-lynx', 'reflexe-verif'],
       choix: { 'sc-1': 'aide' },
     })
   })
@@ -52,7 +51,6 @@ describe('MissionPage', () => {
   it('ignore le double clic sur « Continuer »', async () => {
     const w = await monter('m-test')
     await w.find('[data-choix="aide"]').trigger('click')
-    await cliquer(w, 'Je ne sais pas')
     const continuer = w.findAll('button').find((b) => b.text() === 'Continuer')!
     void continuer.trigger('click')
     await continuer.trigger('click')
@@ -72,7 +70,6 @@ describe('MissionPage', () => {
   it('permet de rejouer la mission depuis la fin', async () => {
     const w = await monter('m-test')
     await w.find('[data-choix="aide"]').trigger('click')
-    await cliquer(w, 'Je ne sais pas')
     await cliquer(w, 'Continuer')
     await finirTri(w)
     await cliquer(w, 'Rejouer la mission')
@@ -112,7 +109,6 @@ describe('MissionPage', () => {
   it('ouvre les questions de débrief en grand', async () => {
     const w = await monter('m-test')
     await w.find('[data-choix="aide"]').trigger('click')
-    await cliquer(w, 'Je ne sais pas')
     await cliquer(w, 'Continuer')
     await finirTri(w)
     await cliquer(w, 'Afficher les questions en grand')
@@ -153,7 +149,6 @@ describe('MissionPage', () => {
   it('sans piège : rappelle les leviers à surveiller', async () => {
     const w = await monter('m-test')
     await w.find('[data-choix="aide"]').trigger('click')
-    await cliquer(w, 'Je ne sais pas')
     await cliquer(w, 'Continuer')
     await finirTri(w)
     const bloc = w.find('.craquer')
@@ -167,7 +162,6 @@ describe('MissionPage', () => {
     await w.find('[data-levier="urgence"]').trigger('click')
     await cliquer(w, 'Rejouer ce scénario')
     await w.find('[data-choix="aide"]').trigger('click')
-    await cliquer(w, 'Je ne sais pas')
     await cliquer(w, 'Continuer')
     await finirTri(w)
     const bloc = w.find('.craquer')

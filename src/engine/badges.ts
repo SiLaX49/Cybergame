@@ -2,7 +2,7 @@ import type { ChoixResultat, FilResultat, LieuResultat, RunState, ScenarioResult
 
 export const BADGES = {
   'mission-accomplie': { titre: 'Mission accomplie', description: 'Tu es allé·e jusqu’au bout de la mission.' },
-  'oeil-de-lynx': { titre: 'Œil de lynx', description: 'Tu as repéré de vrais indices sans te laisser piéger par les faux.' },
+  'oeil-de-lynx': { titre: 'Œil de lynx', description: 'Tu as déjoué les pièges sans demander d’indice.' },
   'reflexe-verif': { titre: 'Réflexe vérif', description: 'À chaque fois, tu as vérifié ou demandé de l’aide avant d’agir.' },
   reparateur: { titre: 'Réparateur·rice', description: 'Tu as appliqué les bons gestes pour limiter les dégâts.' },
   vigilant: { titre: 'Vigilant·e', description: 'Tu n’es pas tombé·e dans le piège glissé parmi tes notifications.' },
@@ -16,8 +16,8 @@ export function calculerBadges(etat: RunState): BadgeId[] {
   const badges: BadgeId[] = ['mission-accomplie']
   const resultats = Object.values(etat.resultats)
   const scenarios = resultats.filter((r): r is ChoixResultat => (r.type === 'scenario' || r.type === 'lieu') && !r.passe)
-  const avecIndices = scenarios.filter((r): r is ScenarioResultat => r.type === 'scenario' && r.levier === null)
-  if (avecIndices.length && avecIndices.every((r) => r.indicesJustes > 0 && r.indicesFaux === 0)) badges.push('oeil-de-lynx')
+  const joues = scenarios.filter((r): r is ScenarioResultat => r.type === 'scenario')
+  if (joues.length && joues.every((r) => r.qualite !== 'risque' && !r.indiceUtilise)) badges.push('oeil-de-lynx')
   // Un piège essayé dans un lieu, même passé ensuite, empêche « Réflexe vérif » (rien ne change pour les scénarios).
   const piegeEssaye = resultats.some((r) => r.type === 'lieu' && r.essais.length > 0)
   if (scenarios.length && !piegeEssaye && scenarios.every((r) => r.qualite !== 'risque')) badges.push('reflexe-verif')

@@ -23,7 +23,7 @@ async function personnageSiAffiche(page: Page) {
   await partir.click()
 }
 
-/** Joue la mission affichée jusqu'à la fin en choisissant toujours « demander de l'aide » et « Je ne sais pas ». */
+/** Joue la mission affichée jusqu'à la fin en choisissant toujours « demander de l'aide ». */
 export async function jouerMission(page: Page) {
   const fin = page.getByRole('heading', { name: 'Mission terminée !' })
   for (let i = 0; i < 300; i++) {
@@ -32,7 +32,6 @@ export async function jouerMission(page: Page) {
     const suivant = page.getByRole('button', { name: /^(Suivant|Terminer le mini-jeu|Appli suivante)$/ })
     const validerClasse = page.getByRole('button', { name: 'Valider le choix de la classe' })
     const aide = page.locator('[data-qualite="aide"]')
-    const jeNeSaisPas = page.getByRole('button', { name: 'Je ne sais pas' })
     const continuer = page.getByRole('button', { name: 'Continuer', exact: true })
     const categorie = page.locator('.tri-categories button:not([disabled])').first()
     const solution = page.getByRole('button', { name: 'Voir la solution' })
@@ -48,7 +47,6 @@ export async function jouerMission(page: Page) {
     else if ((await validerClasse.isVisible()) && (await validerClasse.isEnabled())) await validerClasse.click()
     else if (await aide.isVisible()) await aide.click()
     else if (await page.locator('[data-levier="autre"]').isVisible()) await page.locator('[data-levier="autre"]').click()
-    else if (await jeNeSaisPas.isVisible()) await jeNeSaisPas.click()
     else if (await continuer.isVisible()) await continuer.click()
     else if (await categorie.isVisible()) await categorie.click()
     else if (await solution.isVisible()) await solution.click()
@@ -77,10 +75,8 @@ export async function jouerJusquAuMiniJeu(page: Page) {
   for (let i = 0; i < 100; i++) {
     if (await titre.isVisible()) return
     const aide = page.locator('[data-qualite="aide"]')
-    const jeNeSaisPas = page.getByRole('button', { name: 'Je ne sais pas' })
     const continuer = page.getByRole('button', { name: 'Continuer', exact: true })
     if (await aide.isVisible()) await aide.click()
-    else if (await jeNeSaisPas.isVisible()) await jeNeSaisPas.click()
     else if (await continuer.isVisible()) await continuer.click()
     else await page.waitForTimeout(100)
   }

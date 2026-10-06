@@ -59,9 +59,9 @@ describe('gestion du focus', () => {
     await flushPromises()
     expect(actif()?.tagName).toBe('ARTICLE')
     expect(actif()?.getAttribute('aria-label')).toBe('Situation : message de Colis Express dans Messages')
-    await w.setProps({ phase: 'indices' })
+    await w.setProps({ phase: 'pourquoi', choixId: 'clic' })
     await flushPromises()
-    expect(actif()?.textContent).toBe('Qu’est-ce qui t’a décidé ?')
+    expect(actif()?.textContent).toBe('Qu’est-ce qui t’a donné envie de le faire ?')
   })
 
   it('MinijeuStep et FilStep : le titre reçoit le focus à l’affichage', async () => {

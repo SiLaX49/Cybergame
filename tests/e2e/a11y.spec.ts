@@ -20,8 +20,6 @@ test('pages élève', async ({ page }) => {
   await page.getByRole('link', { name: 'Le colis mystère' }).click()
   await verifierA11y(page, 'situation')
   await page.locator('[data-qualite="aide"]').click()
-  await verifierA11y(page, 'indices')
-  await page.getByRole('button', { name: 'Je ne sais pas' }).click()
   await verifierA11y(page, 'conséquence')
   await jouerMission(page)
   await verifierA11y(page, 'fin de mission')
@@ -33,7 +31,7 @@ test('mode classe entière (grands textes)', async ({ page }) => {
   await verifierA11y(page, 'situation classe')
   await page.locator('[data-qualite="aide"]').click()
   await page.getByRole('button', { name: 'Valider le choix de la classe' }).click()
-  await verifierA11y(page, 'indices classe')
+  await verifierA11y(page, 'conséquence classe')
 })
 
 test('mission rappel (fil de notifications)', async ({ page }) => {
@@ -142,7 +140,6 @@ test('téléphone mail et choix joué', async ({ page }) => {
   const mail = page.locator('figure[data-app="mail"]')
   for (let i = 0; i < 3 && !(await mail.isVisible()); i++) {
     if (i > 0) await page.locator('[data-qualite="aide"]').click()
-    await page.getByRole('button', { name: 'Je ne sais pas' }).click()
     await page.getByRole('button', { name: 'Continuer', exact: true }).click()
     await expect(page.locator('[data-choix]').first()).toBeVisible()
   }
