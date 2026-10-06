@@ -33,21 +33,22 @@ etapes:
         qualite: risque
         geste: installer
         consequence: 'L’appli fonctionne… quelques jours. Mais elle t’a fait taper ton identifiant et ton mot de passe MélodiBox, et ils sont partis chez les pirates. Ton compte est repris, et des pubs plein écran s’ouvrent toutes seules sur ton téléphone. Tu peux reprendre la main : supprime l’appli, puis change ton mot de passe MélodiBox, et partout où tu utilises le même.'
+        reaction: 'Installation réussie ! Connecte-toi maintenant avec ton compte MélodiBox.'
       - id: officiel
         texte: 'Je garde la version gratuite officielle, avec ses pubs, ou je regarde s’il existe une offre famille à partager à la maison.'
         qualite: bon
         geste: fermer
         consequence: 'Tu restes sur la version gratuite du magasin d’applis. Les pubs sont pénibles, mais ton compte et ton téléphone sont en sécurité. Ton père trouve même l’offre famille intéressante.'
+        reaction: 'Attends ! L’offre Premium gratuite expire dans 10 minutes !'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de toucher aux réglages du téléphone.
         qualite: aide
         consequence: 'Ton oncle est clair : « Une appli modifiée, on ne sait pas ce qu’on a ajouté dedans. Et ce réglage enlève une protection du téléphone. » Tu fermes la page.'
     indices:
-      - { id: hors-magasin, libelle: 'Le fichier se télécharge en dehors du magasin d’applis', pertinent: true }
-      - { id: reglage, libelle: 'On me demande d’autoriser l’installation d’applis inconnues', pertinent: true }
-      - { id: gratuit-vie, libelle: 'Un abonnement payant devient « gratuit, à vie »', pertinent: true }
-      - { id: taille, libelle: 'Le fichier fait 38 Mo', pertinent: false }
-    explicationIndices: 'Une version « premium gratuite » est une copie modifiée par un inconnu : personne ne sait ce qu’il y a ajouté. Le réglage « Installer des applis inconnues » désactive une protection du téléphone. La taille du fichier, elle, ne prouve rien.'
+      - { id: hors-magasin, libelle: 'Le fichier se télécharge en dehors du magasin d’applis', passage: 'Télécharge le fichier MélodiBox_Premium_Mod' }
+      - { id: reglage, libelle: 'On me demande d’autoriser l’installation d’applis inconnues', passage: 'Installer des applis inconnues' }
+      - { id: gratuit-vie, libelle: 'Un abonnement payant devient « gratuit, à vie »', passage: 'gratuit, à vie' }
+    explicationIndices: 'Une version « premium gratuite » est une copie modifiée par un inconnu : personne ne sait ce qu’il y a ajouté. Le réglage « Installer des applis inconnues » désactive une protection du téléphone. Un abonnement payant qui devient « gratuit, à vie », c’est l’appât.'
     aRetenir: 'Une appli payante proposée gratuitement hors du magasin d’applis est presque toujours modifiée, souvent pour voler des comptes ou afficher des pubs. Reste dans le magasin d’applis, et laisse désactivé le réglage qui autorise les applis inconnues.'
     recuperation: { action: changer-mdp, siChoix: [installe] }
     pourquoi:
@@ -82,21 +83,21 @@ etapes:
         qualite: risque
         geste: se-connecter
         consequence: 'Internet ne marche même pas. Mais ton identifiant et ton mot de passe sont partis chez un inconnu : le QR code était un autocollant collé par-dessus le vrai. Le lendemain, ton compte SnapTalk envoie des liens d’arnaque à tes amis. Change vite ton mot de passe SnapTalk et active la double authentification.'
+        reaction: 'Connexion réussie ✔ Bon festival ! 🎶'
       - id: accueil
         texte: 'Je demande le vrai Wi-Fi à l’accueil, ou je poste ce soir.'
         qualite: bon
         geste: verifier
         consequence: 'À l’accueil, on t’explique que le vrai Wi-Fi du festival demande seulement d’accepter les conditions d’utilisation. Le QR code de l’affiche était un autocollant collé par-dessus l’original. L’équipe le retire.'
+        reaction: 'Plus que 1 h 59 de Wi-Fi offert ! Connecte-toi vite.'
       - id: aide
         texte: Je demande de l’aide à l’adulte qui m’accompagne avant de me connecter.
         qualite: aide
         consequence: 'Ta tante lit la page : « Un Wi-Fi n’a aucune raison de connaître ton mot de passe SnapTalk. » Vous allez demander le vrai réseau à l’accueil.'
     indices:
-      - { id: mdp, libelle: 'La page demande le mot de passe de mon compte SnapTalk', pertinent: true }
-      - { id: adresse, libelle: 'L’adresse de la page n’est pas celle de SnapTalk', pertinent: true }
-      - { id: affiche, libelle: 'Le QR code est sur une affiche que n’importe qui peut recouvrir', pertinent: true }
-      - { id: emoji, libelle: 'La page affiche une note de musique', pertinent: false }
-    explicationIndices: 'Un Wi-Fi public peut demander d’accepter des conditions, parfois une adresse mail. Il n’a jamais besoin du mot de passe d’un de tes comptes. Même avec un bouton « se connecter avec », le mot de passe se tape uniquement sur la page du vrai réseau social, à sa vraie adresse. Un QR code collé sur une affiche peut être recouvert par un autre.'
+      - { id: mdp, libelle: 'La page demande le mot de passe de mon compte SnapTalk', passage: 'identifiant et mot de passe' }
+      - { id: adresse, libelle: 'L’adresse de la page n’est pas celle de SnapTalk', passage: 'wifi-festival-basszik.net' }
+    explicationIndices: 'Un Wi-Fi public peut demander d’accepter des conditions, parfois une adresse mail. Il n’a jamais besoin du mot de passe d’un de tes comptes. Même avec un bouton « se connecter avec », le mot de passe se tape uniquement sur la page du vrai réseau social, à sa vraie adresse. Ici, l’adresse de la page n’a rien à voir avec SnapTalk.'
     aRetenir: 'Un Wi-Fi public n’est pas dangereux en soi, mais son portail ne doit jamais obtenir le mot de passe d’un de tes comptes. Avant de scanner un QR code dans un lieu public, regarde s’il n’est pas collé par-dessus un autre, et demande le nom du vrai réseau à l’accueil.'
     recuperation: { action: changer-mdp, siChoix: [connecte] }
     pourquoi:
@@ -123,7 +124,8 @@ etapes:
         - de: contact
           texte: 'NuitNoire : passe tous les sites en mode sombre. Fini les yeux qui piquent le soir ! ★ 4,2 · 80 000 utilisateurs'
         - de: contact
-          texte: 'NuitNoire demande l’autorisation de : lire et modifier toutes tes données sur tous les sites web. [Ajouter l’extension] [Annuler]'
+          texte: 'NuitNoire demande l’autorisation de : lire et modifier toutes tes données sur tous les sites web.'
+      boutons: ['Ajouter l’extension', 'Annuler']
     question: 'Tu fais tes devoirs le soir sur l’ordinateur familial, et l’écran blanc te fait mal aux yeux. Que fais-tu ?'
     choix:
       - id: ajoute
@@ -131,21 +133,21 @@ etapes:
         qualite: risque
         geste: installer
         consequence: 'Le mode sombre marche très bien. Trois mois plus tard, l’extension change de propriétaire et reçoit une mise à jour. Elle se met à enregistrer ce qui est tapé sur les sites, y compris des mots de passe de ta famille. Tu peux reprendre la main : supprime l’extension et demande à un adulte de changer les mots de passe importants.'
+        reaction: 'NuitNoire est ajoutée ✔ Elle a maintenant accès à tous tes sites.'
       - id: reglages
         texte: 'J’essaie plutôt le mode sombre déjà prévu dans les réglages.'
         qualite: bon
         geste: regler
         consequence: 'Le navigateur et l’ordinateur ont déjà un mode sombre. Certains sites le suivent automatiquement, d’autres ont leur propre bouton de mode sombre. Tes yeux vont mieux, sans rien installer.'
+        reaction: 'NuitNoire n’a pas été ajoutée.'
       - id: aide
         texte: Je demande de l’aide à un adulte, puisque c’est l’ordinateur de toute la famille.
         qualite: aide
         consequence: 'Ta belle-mère lit l’autorisation : « Toutes les données sur tous les sites, y compris ma banque ? » Elle t’aide à activer le mode sombre dans les réglages.'
     indices:
-      - { id: toutes-donnees, libelle: 'L’extension peut lire et modifier tout ce que j’affiche sur tous les sites', pertinent: true }
-      - { id: editeur, libelle: 'Je ne sais rien de la personne qui a créé l’extension', pertinent: true }
-      - { id: deja-prevu, libelle: 'Le mode sombre existe peut-être déjà dans les réglages', pertinent: true }
-      - { id: note, libelle: 'L’extension a une note de 4,2 étoiles', pertinent: false }
-    explicationIndices: 'Pour assombrir les sites, une telle extension a vraiment besoin de les modifier. C’est justement le problème : elle peut aussi lire tout ce que tu tapes, mots de passe compris. Une extension peut être revendue, puis devenir malveillante lors d’une mise à jour. La note ne protège pas de ça.'
+      - { id: toutes-donnees, libelle: 'L’extension peut lire et modifier tout ce que j’affiche sur tous les sites', passage: 'lire et modifier toutes tes données sur tous les sites web' }
+      - { id: deja-prevu, libelle: 'Le mode sombre existe peut-être déjà dans les réglages', passage: 'mode sombre' }
+    explicationIndices: 'Pour assombrir les sites, une telle extension a vraiment besoin de les modifier. C’est justement le problème : elle peut aussi lire tout ce que tu tapes, mots de passe compris. Une extension peut être revendue, puis devenir malveillante lors d’une mise à jour. Et le mode sombre existe souvent déjà dans les réglages, sans rien installer.'
     aRetenir: 'Une extension qui peut « lire et modifier toutes tes données » voit tout ce que tu fais en ligne. Installe-en le moins possible, seulement d’éditeurs de confiance, et regarde d’abord si le réglage existe déjà dans le navigateur.'
     recuperation: { action: demander-aide, siChoix: [ajoute] }
     pourquoi:

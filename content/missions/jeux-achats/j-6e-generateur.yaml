@@ -37,21 +37,22 @@ etapes:
         geste: se-connecter
         consequence: 'Aucun Coin n’arrive. Le soir, ton mot de passe ne marche plus : quelqu’un a pris ton compte. L’appli, elle, remplit la tablette de pubs. Avec un adulte, tu peux la supprimer et récupérer ton compte.'
         consequenceSimple: 'Pas de Coins. Quelqu’un a volé ton compte GameBox. Avec un adulte, tu peux le récupérer.'
+        reaction: 'Connexion réussie ✔ Installe VerifPlay pour recevoir tes Coins !'
       - id: ferme
         texte: 'Je ferme le site : les Coins, ça se gagne en jouant ou ça s’achète dans la boutique du jeu.'
         qualite: bon
         geste: fermer
         consequence: 'Ton compte et ton mot de passe restent à toi. Personne ne peut « générer » des Coins : ce site était un piège.'
+        reaction: 'Attends ! Plus que 3 places pour tes Coins gratuits !'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de taper quoi que ce soit.
         qualite: aide
         consequence: 'Ton oncle regarde la page : « Un site qui veut ton mot de passe et une appli, c’est un piège. » Vous fermez la page.'
     indices:
-      - { id: impossible, libelle: 'Personne ne peut « générer » des Coins gratuitement', pertinent: true }
-      - { id: mdp, libelle: 'Le site demande mon mot de passe GameBox, en dehors du jeu', pertinent: true }
-      - { id: telechargement, libelle: 'On me demande de télécharger une appli', pertinent: true }
-      - { id: compteur, libelle: 'Le site affiche 2 847 joueurs connectés', pertinent: false }
-    explicationIndices: 'Les Coins viennent seulement du jeu : un générateur, ça n’existe pas. Ton mot de passe se tape uniquement dans GameBox. Le compteur de joueurs ne prouve rien : n’importe qui peut afficher un faux chiffre.'
+      - { id: impossible, libelle: 'Personne ne peut « générer » des Coins gratuitement', passage: 'Coins gratuits en 2 minutes' }
+      - { id: mdp, libelle: 'Le site demande mon mot de passe GameBox, en dehors du jeu', passage: 'ton pseudo et ton mot de passe GameBox' }
+      - { id: telechargement, libelle: 'On me demande de télécharger une appli', passage: 'appli « VerifPlay »' }
+    explicationIndices: 'Les Coins viennent seulement du jeu : un générateur, ça n’existe pas. Ton mot de passe se tape uniquement dans GameBox. Et télécharger une appli pour « débloquer » des Coins, c’est installer un piège.'
     aRetenir: 'Les générateurs de Coins gratuits sont toujours des pièges. Ton mot de passe se tape seulement dans l’appli ou le site officiel du jeu.'
     aRetenirSimple: 'Les Coins gratuits, c’est un piège. Ton mot de passe se tape seulement dans le jeu.'
     recuperation: { action: changer-mdp, siChoix: [genere] }
@@ -78,7 +79,7 @@ etapes:
       messages:
         - de: contact
           texte: 'Salut ! Je te donne mon épée légendaire contre ton dragon. Mais tu me donnes le tien en premier, ok ?'
-          texteSimple: 'Je te donne mon épée légendaire contre ton dragon. Mais donne-moi le tien d’abord !'
+          texteSimple: 'Je te donne mon épée légendaire contre ton dragon. Mais donne-moi le tien en premier !'
           heure: '16:20'
         - de: moi
           texte: 'Pourquoi pas avec la fenêtre d’échange du jeu ?'
@@ -97,22 +98,23 @@ etapes:
         reponse: 'Ok, je t’envoie mon dragon !'
         consequence: 'DarkWolf_77 reçoit ton dragon… puis te bloque. Pas d’épée. Tu peux encore signaler son compte au jeu, avec une capture de la conversation. Ça protège les autres joueurs.'
         consequenceSimple: 'Il garde ton dragon et te bloque. Pas d’épée. Tu peux encore le signaler au jeu.'
+        reaction: 'Merci pour le dragon 😈 L’épée ? Jamais de la vie !'
       - id: echange-officiel
         texte: 'Je réponds : « Seulement avec la fenêtre d’échange du jeu, sinon non. »'
         qualite: bon
         geste: repondre
         reponse: 'Seulement avec la fenêtre d’échange du jeu, sinon non.'
         consequence: 'DarkWolf_77 ne répond plus. Dans la fenêtre d’échange, les deux objets partent en même temps : personne ne peut tricher.'
+        reaction: 'Bon, laisse tomber. Je trouverai quelqu’un d’autre.'
       - id: aide
         texte: Je demande de l’aide à un adulte ou à un copain qui connaît bien le jeu.
         qualite: aide
         consequence: 'Ton copain Malik rigole : « Le coup de la fenêtre qui bugue, c’est une arnaque connue ! » Vous signalez DarkWolf_77 au jeu.'
     indices:
-      - { id: premier, libelle: 'Il veut que je donne mon objet en premier', pertinent: true }
-      - { id: hors-echange, libelle: 'Il veut éviter la fenêtre d’échange du jeu', pertinent: true }
-      - { id: trop-beau, libelle: 'Son offre est trop belle : une épée légendaire contre mon dragon', pertinent: true }
-      - { id: niveau, libelle: 'Il est niveau 80, c’est un très bon joueur', pertinent: false }
-    explicationIndices: 'La fenêtre d’échange protège les deux joueurs. Celui qui veut l’éviter et être servi en premier prépare souvent une arnaque. Un bon niveau ne prouve pas qu’on est honnête.'
+      - { id: premier, libelle: 'Il veut que je donne mon objet en premier', passage: 'le tien en premier' }
+      - { id: hors-echange, libelle: 'Il veut éviter la fenêtre d’échange du jeu', passage: 'Elle bugue' }
+      - { id: trop-beau, libelle: 'Son offre est trop belle : une épée légendaire contre mon dragon', passage: 'mon épée légendaire contre ton dragon' }
+    explicationIndices: 'La fenêtre d’échange protège les deux joueurs. Celui qui veut l’éviter et être servi en premier prépare souvent une arnaque. Une épée légendaire contre ton dragon, c’est trop beau pour être vrai.'
     aRetenir: 'Pour échanger un objet, utilise toujours la fenêtre d’échange du jeu. Ne donne jamais en premier.'
     aRetenirSimple: 'Échange seulement avec la fenêtre d’échange du jeu. Ne donne jamais en premier.'
     recuperation: { action: bloquer-signaler, siChoix: [donne-premier] }
@@ -147,21 +149,22 @@ etapes:
         reponse: 'Ok trop bien ! Mon mot de passe : Loup2014'
         consequence: 'Le lendemain, tes Coins ont disparu et ton mot de passe ne marche plus. Sacha l’a changé « pour rire ». Avec un adulte, tu peux récupérer ton compte et choisir un nouveau mot de passe.'
         consequenceSimple: 'Sacha a dépensé tes Coins et changé ton mot de passe. Avec un adulte, tu peux récupérer ton compte.'
+        reaction: 'Merci ! Ce soir, ton perso passe niveau 50 💪'
       - id: refuse
         texte: 'Je lui dis non gentiment : mon mot de passe, je le garde pour moi.'
         qualite: bon
         geste: repondre
         reponse: 'Non merci, mon mot de passe, je le garde 😉'
         consequence: 'Sacha boude cinq minutes, puis te propose de jouer ensemble en ligne. Tu progresses, et ton compte reste à toi.'
+        reaction: 'Ok, pas de souci ! Je te montre mes astuces à la récré.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de répondre.
         qualite: aide
         consequence: 'Ta mère t’explique : « Un mot de passe, c’est comme une brosse à dents : ça ne se prête pas. » Tu réponds non à Sacha.'
     indices:
-      - { id: demande-mdp, libelle: 'On me demande mon mot de passe', pertinent: true }
-      - { id: pas-besoin, libelle: 'Pour m’aider à progresser, Sacha n’a pas besoin de mon mot de passe', pertinent: true }
-      - { id: classe, libelle: 'Sacha est vraiment dans ma classe', pertinent: false }
-    explicationIndices: 'Avec ton mot de passe, on peut dépenser tes Coins et changer ton mot de passe. Même un vrai ami ne doit pas l’avoir. Qu’il soit dans ta classe ne change rien.'
+      - { id: demande-mdp, libelle: 'On me demande mon mot de passe', passage: 'ton mot de passe GameBox' }
+      - { id: pas-besoin, libelle: 'Pour m’aider à progresser, Sacha n’a pas besoin de mon mot de passe', passage: 'te monte niveau 50 ce soir' }
+    explicationIndices: 'Avec ton mot de passe, on peut dépenser tes Coins et changer ton mot de passe. Même un vrai ami ne doit pas l’avoir. Pour t’aider à progresser, Sacha n’en a pas besoin.'
     aRetenir: 'Un mot de passe ne se partage pas, même avec un ami. Vous pouvez jouer ensemble sans que tu le donnes.'
     aRetenirSimple: 'Ton mot de passe, c’est pour toi seul. Même pas pour un ami.'
     recuperation: { action: changer-mdp, siChoix: [partage] }

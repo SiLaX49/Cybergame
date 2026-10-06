@@ -40,20 +40,21 @@ etapes:
         geste: se-connecter
         consequence: 'Pas de Coins. Le lendemain, ton compte envoie le même message à tous tes amis : il a été piraté, comme celui de Maxime. Tu peux encore le reprendre.'
         consequenceSimple: 'Ton compte est piraté et envoie le message à tes amis. Tu peux encore le reprendre.'
+        reaction: 'Merci 😈 Ton compte GameBox, c’est le mien maintenant.'
       - id: demande-maxime
         texte: Avant de taper quoi que ce soit, je demande à Maxime, au collège, s’il a envoyé ce message.
         qualite: bon
         geste: verifier
         consequence: 'Maxime n’a rien envoyé : son compte a été piraté, et le pirate écrit à tous ses contacts. Grâce à toi, il change vite son mot de passe.'
+        reaction: 'Vite, l’offre finit ce soir !! 😎'
       - id: aide
         texte: Je demande de l’aide à quelqu’un avant de faire quoi que ce soit.
         qualite: aide
         consequence: 'Ta prof principale reconnaît l’arnaque et prévient la classe : plusieurs élèves avaient reçu le même message.'
     indices:
-      - { id: mdp, libelle: 'On me demande mon mot de passe sur un autre site', pertinent: true }
-      - { id: gratuit, libelle: 'Des Coins gratuits, c’est trop beau pour être vrai', pertinent: true }
-      - { id: ami, libelle: 'Le message vient d’un ami', pertinent: false }
-    explicationIndices: 'Un message d’ami n’est pas forcément écrit par ton ami : son compte a pu être piraté. La demande de mot de passe sur un site extérieur au jeu est le vrai signal.'
+      - { id: mdp, libelle: 'On me demande mon mot de passe sur un autre site', passage: 'Mets ton pseudo et ton mot de passe' }
+      - { id: gratuit, libelle: 'Des Coins gratuits, c’est trop beau pour être vrai', passage: 'Coins gratuits' }
+    explicationIndices: 'Des Coins gratuits, c’est l’appât. Le vrai signal, c’est la demande de mot de passe sur un site extérieur au jeu.'
     aRetenir: 'Même venant d’un ami, une offre de Coins gratuits qui demande ton mot de passe est une arnaque. Vérifie en vrai avec ton ami.'
     aRetenirSimple: 'Même si c’est un ami, ne donne jamais ton mot de passe. Demande-lui en vrai.'
     recuperation: { action: changer-mdp, siChoix: [essaie] }

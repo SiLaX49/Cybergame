@@ -84,7 +84,7 @@ describe('ScenarioStep', () => {
     const s = scenario()
     const w = monter({ phase: 'consequence', choixId: 'verif', resultat: resultatClic })
     await flushPromises()
-    const ordre = ordreAffichage(s.indices.filter((i) => i.pertinent), s.id)
+    const ordre = ordreAffichage(s.indices, s.id)
     const items = w.findAll('.liste-indices li')
     expect(items.map((li) => li.find('.numero').text())).toEqual(['1', '2'])
     expect(items.map((li) => li.find('.libelle').text())).toEqual(ordre.map((i) => i.libelle))

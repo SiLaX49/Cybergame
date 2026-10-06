@@ -97,7 +97,9 @@ const mots = (phrase: string) => phrase.split(/\s+/).filter((m) => /[\p{L}\d]/u.
 
 function textesDesFauxEcrans(m: Mission): string[] {
   return m.etapes.flatMap((e) => {
-    if (e.type === 'scenario') return [...textesEcran(e.ecran), ...textesEcran(e.ecran, true)]
+    if (e.type === 'scenario') {
+      return [...textesEcran(e.ecran), ...textesEcran(e.ecran, true), ...e.choix.flatMap((c) => [c.reaction ?? '', c.reactionSimple ?? ''])]
+    }
     if (e.type === 'lieu') return [e.lieu, e.guide, e.guideSimple ?? '', ...e.choix.flatMap((c) => [c.reaction, c.reactionSimple ?? ''])]
     if (e.type === 'fil') return e.notifications.flatMap((n) => [n.appNom, n.de, n.texte])
     if (e.jeu === 'tri') return e.config.cartes.map((c) => c.texte)
@@ -171,6 +173,37 @@ describe('contenu réel', () => {
       expect(absentes).toEqual([])
     },
   )
+
+  const scenariosDe = (m: Mission) => m.etapes.filter((e) => e.type === 'scenario')
+
+  // Sauf le choix « aide » (le téléphone est posé) et le geste « bloquer » (le contact ne peut plus écrire).
+  it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : chaque choix « bon » ou « risqué » a une réaction du contact', (_id, m) => {
+    const sansReaction = scenariosDe(m).flatMap((e) =>
+      e.choix.filter((c) => c.qualite !== 'aide' && c.geste !== 'bloquer' && !c.reaction).map((c) => `${e.id}.${c.id}`),
+    )
+    expect(sansReaction).toEqual([])
+  })
+
+  it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : chaque passage d’indice figure mot pour mot à l’écran, en lecture normale et simplifiée', (_id, m) => {
+    const absents = scenariosDe(m).flatMap((e) =>
+      e.indices.flatMap((i) =>
+        [false, true]
+          .filter((simple) => !textesEcran(e.ecran, simple).some((t) => t.includes(i.passage)))
+          .map((simple) => `${e.id}.${i.id} : « ${i.passage} » absent${simple ? ' de la lecture simplifiée' : ''}`),
+      ),
+    )
+    expect(absents).toEqual([])
+  })
+
+  it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : plus de bouton simulé « [Libellé] » dans le texte des écrans', (_id, m) => {
+    const simules = scenariosDe(m).flatMap((e) =>
+      [...textesEcran(e.ecran), ...textesEcran(e.ecran, true)]
+        // Exception : la description d’une image dans une discussion (« [Capture d’écran : …] », « [QR code] »).
+        .flatMap((t) => (e.ecran.app === 'chat' ? t.replace(/\[(?:Capture|QR code)[^\]]*\]/g, '') : t).match(/\[[A-ZÉ][^\]]{0,30}\]/g) ?? [])
+        .map((b) => `${e.id} : ${b}`),
+    )
+    expect(simules).toEqual([])
+  })
 
   it('le choix risqué n’est pas le plus long dans plus d’un tiers des scénarios', () => {
     const scenarios = classiques.flatMap((m) => m.etapes.filter((e) => e.type === 'scenario'))

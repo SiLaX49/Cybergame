@@ -30,21 +30,22 @@ etapes:
         qualite: risque
         geste: ignorer
         consequence: 'Tes potes te rejoignent, oui. Mais Nolan_skt aussi : il arrive vingt minutes plus tard et t’appelle par ton prénom. Tu n’as jamais vu ce garçon, et lui sait exactement où tu es. Tu peux couper ta position tout de suite et en parler à un adulte.'
+        reaction: 'Nolan_skt a répondu à ta story : « J’arrive, je suis à 5 minutes 🛹 »'
       - id: fantome
         texte: 'Je coupe la position, je ne réponds pas et j’envoie l’adresse à mes potes en privé.'
         qualite: bon
         geste: regler
         consequence: 'Ta story reste en ligne, sans la carte. Tes potes arrivent grâce à ton message. Nolan_skt ne sait plus où tu es.'
+        reaction: 'Position en direct désactivée. Plus personne ne te voit sur la carte.'
       - id: aide
         texte: Je demande de l’aide à un adulte de confiance, par message, avant de faire quoi que ce soit.
         qualite: aide
         consequence: 'Ta grande sœur te répond tout de suite : « Coupe la position, ne réponds pas, je t’appelle. » Elle reste au téléphone avec toi jusqu’à l’arrivée de tes potes.'
     indices:
-      - { id: direct, libelle: 'Ma position est partagée en direct, sans limite de temps', pertinent: true }
-      - { id: abonnes, libelle: 'Beaucoup de mes abonnés sont des inconnus', pertinent: true }
-      - { id: inconnu, libelle: 'Un inconnu me dit qu’il me voit sur la carte', pertinent: true }
-      - { id: emoji-skate, libelle: 'La story a un emoji skate', pertinent: false }
-    explicationIndices: 'Une position en direct dit où tu es à la minute près, à tous ceux qui voient ta story. Un inconnu qui te le fait remarquer, c’est le signal d’alarme. L’emoji, lui, ne dit rien de dangereux.'
+      - { id: direct, libelle: 'Ma position est partagée en direct, sans limite de temps', passage: 'Position en direct activée' }
+      - { id: abonnes, libelle: 'Beaucoup de mes abonnés sont des inconnus', passage: 'tes abonnés te voient sur la carte' }
+      - { id: inconnu, libelle: 'Un inconnu me dit qu’il me voit sur la carte', passage: 'Je te vois sur la carte' }
+    explicationIndices: 'Une position en direct dit où tu es à la minute près, à tous ceux qui voient ta story. Un inconnu qui te le fait remarquer, c’est le signal d’alarme. Et beaucoup de tes abonnés sont des inconnus.'
     aRetenir: 'La position en direct, on la partage rarement, avec quelques proches choisis, et on l’arrête dès que c’est fini. Pour te retrouver, un message privé à tes potes suffit.'
     recuperation: { action: demander-aide, siChoix: [laisse] }
     pourquoi:
@@ -82,22 +83,23 @@ etapes:
         qualite: risque
         geste: ignorer
         consequence: 'Les moqueries continuent dans les commentaires et Yanis ne te parle plus. Chacun décide de ce qu’on publie de lui : c’est son droit à l’image, et Yanis peut demander à la plateforme de retirer la photo. Tu peux encore la retirer maintenant et t’excuser.'
+        reaction: 'Ok… Tant pis 😕'
       - id: retire
         texte: 'Je la retire tout de suite, je m’excuse auprès de Yanis, et je supprime aussi les commentaires moqueurs.'
         qualite: bon
         geste: repondre
         reponse: 'Pardon Yanis, je l’enlève tout de suite, et les commentaires aussi.'
         consequence: 'Yanis te répond : « Merci, c’est cool. » La prochaine fois, tu lui demanderas avant de publier une photo de lui.'
+        reaction: 'Merci, ça me soulage vraiment 🙏'
       - id: aide
         texte: 'Je demande de l’aide à quelqu’un de confiance, parce que je ne sais pas comment arranger les choses avec Yanis.'
         qualite: aide
         consequence: 'Ton cousin te conseille : « Retire la photo et dis-lui pardon. C’est son image, c’est à lui de décider. » Tu le fais le soir même.'
     indices:
-      - { id: demande, libelle: 'Yanis me demande clairement de retirer la photo', pertinent: true }
-      - { id: sans-accord, libelle: 'Je l’ai publiée sans lui demander', pertinent: true }
-      - { id: moqueries, libelle: 'Des gens se moquent de lui dans les commentaires', pertinent: true }
-      - { id: likes, libelle: 'La photo a beaucoup de likes', pertinent: false }
-    explicationIndices: 'Chacun décide de ce qu’on montre de lui en ligne : c’est le droit à l’image. Quand une photo entraîne des moqueries, la laisser en ligne les entretient. Le nombre de likes ne change rien à cela.'
+      - { id: demande, libelle: 'Yanis me demande clairement de retirer la photo', passage: 'Tu peux enlever la photo de moi à la piscine stp' }
+      - { id: sans-accord, libelle: 'Je l’ai publiée sans lui demander', passage: 'Je l’aime pas du tout' }
+      - { id: moqueries, libelle: 'Des gens se moquent de lui dans les commentaires', passage: 'se moquent dans les commentaires' }
+    explicationIndices: 'Chacun décide de ce qu’on montre de lui en ligne : c’est le droit à l’image. Quand une photo entraîne des moqueries, la laisser en ligne les entretient. Et tu l’avais publiée sans demander à Yanis.'
     aRetenir: 'Avant de publier la photo de quelqu’un, demande-lui. S’il te demande de la retirer, retire-la. Et si quelqu’un refuse de retirer une photo de toi, tu peux la signaler à la plateforme et demander de l’aide à un adulte.'
     recuperation: { action: demander-aide, siChoix: [garde] }
     pourquoi:
@@ -130,20 +132,21 @@ etapes:
         geste: repondre
         reponse: 'Moi c’est Biscotte des Acacias 😂'
         consequence: 'Le nom de ton premier animal, c’est la réponse à la « question secrète » de ton compte GameBox. Une semaine plus tard, GameBox t’écrit : « Quelqu’un a demandé à réinitialiser ton mot de passe avec ta question secrète. » Quelqu’un a lu ton commentaire. Ton compte est encore ouvert sur ton téléphone : change vite ton mot de passe, puis ta question secrète.'
+        reaction: 'Trop beau 😂 Prochain quiz : ton prénom + ton année de naissance !'
       - id: passe
         texte: 'Je ne réponds pas : premier animal et nom de rue, ce sont des réponses à des questions secrètes. Je préviens Léa.'
         qualite: bon
         geste: fermer
         consequence: 'Léa n’y avait pas pensé. Elle supprime son commentaire et prévient le groupe de classe. Ton nom de rue et ton premier animal restent à toi.'
+        reaction: 'Déjà 400 commentaires ! Il ne manque plus que toi 👇'
       - id: aide
         texte: Je demande de l’aide à un adulte pour savoir si ce quiz est sans risque.
         qualite: aide
         consequence: 'Ton père sourit : « Premier animal, nom de la rue… ce sont les questions secrètes de plein de sites ! » Vous ne répondez pas.'
     indices:
-      - { id: questions-secretes, libelle: 'Le quiz demande le nom de mon premier animal', pertinent: true }
-      - { id: rue, libelle: 'Il demande aussi le nom de ma rue', pertinent: true }
-      - { id: public, libelle: 'Les réponses sont publiques, en commentaire', pertinent: true }
-      - { id: emoji-heros, libelle: 'Il y a un emoji super-héros', pertinent: false }
+      - { id: questions-secretes, libelle: 'Le quiz demande le nom de mon premier animal', passage: 'Le nom de ton premier animal' }
+      - { id: rue, libelle: 'Il demande aussi le nom de ma rue', passage: 'le nom de ta rue' }
+      - { id: public, libelle: 'Les réponses sont publiques, en commentaire', passage: 'Écris-le en commentaire' }
     explicationIndices: 'Premier animal, nom de rue, ville de naissance : ce sont des questions secrètes classiques pour récupérer un compte. En commentaire public, n’importe qui peut les lire. Ton nom de rue dit aussi où tu habites.'
     aRetenir: 'Les quiz qui demandent ton premier animal, ta rue ou ta date de naissance récoltent les réponses de tes questions secrètes. Ne réponds pas en public. Et pour une question secrète, choisis une réponse que personne ne peut deviner.'
     recuperation: { action: changer-mdp, siChoix: [commente] }

@@ -31,21 +31,22 @@ etapes:
         qualite: risque
         geste: se-connecter
         consequence: 'La page affiche « Connexion réussie » et Internet fonctionne. Mais ton mot de passe est parti chez la personne qui a créé ce faux réseau, depuis un ordinateur portable dans la salle d’attente. Le soir, une alerte : connexion inconnue à ta boîte mail. Or ta boîte mail permet de réinitialiser la plupart de tes autres comptes. Change ton mot de passe tout de suite, active la double authentification et vérifie qu’aucun transfert automatique n’a été ajouté.'
+        reaction: 'Connexion réussie ✔ Bon voyage !'
       - id: vrai-reseau
         texte: 'Pas de mot de passe ici : je cherche « WiFi-Gare », le réseau des affiches.'
         qualite: bon
         geste: regler
         consequence: 'Le vrai « WiFi-Gare » demande seulement d’accepter les conditions d’utilisation. Tu te connectes. Sur les sites dont l’adresse commence par https, la connexion est chiffrée. Tu gardes quand même tes paiements et tes démarches importantes pour tes données mobiles.'
+        reaction: 'Ton accès gratuit t’attend : connecte-toi en un clic !'
       - id: aide
         texte: Je demande de l’aide au guichet de la gare pour savoir quel est le vrai Wi-Fi.
         qualite: aide
         consequence: 'L’agent confirme : le seul Wi-Fi de la gare est « WiFi-Gare », et il ne demande jamais le mot de passe de ta boîte mail ou d’un réseau social. Il prévient la sécurité de la gare pour le faux réseau.'
     indices:
-      - { id: mdp-mail, libelle: 'Le portail demande le mot de passe de ma boîte mail', pertinent: true }
-      - { id: nom-reseau, libelle: 'Le nom du réseau n’est pas celui des affiches', pertinent: true }
-      - { id: adresse, libelle: 'L’adresse de la page n’a rien à voir avec ma messagerie', pertinent: true }
-      - { id: gratuit, libelle: 'Le Wi-Fi est gratuit', pertinent: false }
-    explicationIndices: 'Un Wi-Fi public gratuit n’est pas dangereux en soi : beaucoup de gares en proposent un. Le vrai signal, c’est un portail qui réclame le mot de passe d’un compte personnel. N’importe qui peut créer un point d’accès avec un nom qui sonne officiel. La gratuité, elle, ne distingue pas le vrai réseau du faux.'
+      - { id: mdp-mail, libelle: 'Le portail demande le mot de passe de ma boîte mail', passage: 'adresse et mot de passe' }
+      - { id: nom-reseau, libelle: 'Le nom du réseau n’est pas celui des affiches', passage: 'Wi-Fi Gare Libre' }
+      - { id: adresse, libelle: 'L’adresse de la page n’a rien à voir avec ma messagerie', passage: 'gare-libre-wifi.com' }
+    explicationIndices: 'Beaucoup de gares proposent un vrai Wi-Fi public. Le vrai signal, c’est un portail qui réclame le mot de passe d’un compte personnel. N’importe qui peut créer un point d’accès avec un nom qui sonne officiel. Et l’adresse de la page n’a rien à voir avec ta messagerie.'
     aRetenir: 'Un Wi-Fi public peut s’utiliser, mais aucun portail de connexion ne doit obtenir le mot de passe d’un de tes comptes. Vérifie le nom du réseau sur les affiches ou au guichet. Et pour les opérations sensibles, préfère tes données mobiles.'
     recuperation: { action: changer-mdp, siChoix: [connecte] }
     pourquoi:
@@ -82,21 +83,22 @@ etapes:
         qualite: risque
         geste: installer
         consequence: 'ClipForge Studio s’installe et fonctionne. Mais le fichier contenait aussi un voleur de mots de passe : il a copié les identifiants enregistrés dans ton navigateur et tes sessions ouvertes. Deux jours plus tard, ton compte GameBox est vidé et ta messagerie envoie le même lien à tes contacts. Reprends la main : désinstalle, réactive l’antivirus et lance une analyse, puis change tes mots de passe depuis un appareil sain, en commençant par ta boîte mail.'
+        reaction: 'Tu vas voir, il est top ! Montre-moi ton court-métrage 🎬'
       - id: alternative
         texte: 'Je demande au lycée s’il fournit un logiciel de montage, ou j’en prends un libre.'
         qualite: bon
         geste: ignorer
         consequence: 'Ta prof d’option t’indique un logiciel de montage libre, installé au lycée et gratuit chez toi aussi. Tu le télécharges sur son site officiel. Après une soirée de tutoriels, tu t’y retrouves.'
+        reaction: 'Ok, pas de souci. Dis-moi ce que le lycée te propose !'
       - id: aide
         texte: Je demande de l’aide à quelqu’un qui s’y connaît avant d’installer quoi que ce soit.
         qualite: aide
         consequence: 'Ta cousine, qui travaille en informatique : « Un logiciel cracké, plus un antivirus à couper, c’est le scénario classique du vol de mots de passe. » Vous trouvez ensemble une alternative gratuite.'
     indices:
-      - { id: antivirus, libelle: 'On me demande de désactiver l’antivirus', pertinent: true }
-      - { id: crack, libelle: 'C’est une version piratée d’un logiciel payant', pertinent: true }
-      - { id: source, libelle: 'Le lien ne vient pas du site de l’éditeur', pertinent: true }
-      - { id: aucun-souci, libelle: 'Yanis l’utilise depuis une semaine sans souci', pertinent: false }
-    explicationIndices: 'Un logiciel cracké a été modifié par un inconnu, et personne ne sait ce qu’il y a ajouté. Demander de couper l’antivirus est le signal le plus net. Que Yanis n’ait rien remarqué ne prouve rien : un voleur de mots de passe agit en silence.'
+      - { id: antivirus, libelle: 'On me demande de désactiver l’antivirus', passage: 'tu le désactives 5 minutes' }
+      - { id: crack, libelle: 'C’est une version piratée d’un logiciel payant', passage: 'ClipForge Studio cracké' }
+      - { id: source, libelle: 'Le lien ne vient pas du site de l’éditeur', passage: 'clipforge-full-crack.zip' }
+    explicationIndices: 'Un logiciel cracké a été modifié par un inconnu, et personne ne sait ce qu’il y a ajouté. Demander de couper l’antivirus est le signal le plus net. Et le lien ne vient pas du site de l’éditeur, le seul à fournir le vrai logiciel.'
     aRetenir: 'Un logiciel piraté est l’une des façons les plus courantes d’installer un voleur de mots de passe. Télécharge les logiciels sur le site de leur éditeur, cherche une alternative libre ou une offre éducation, et ne désactive jamais ton antivirus pour installer quelque chose.'
     recuperation: { action: changer-mdp, siChoix: [installe] }
     pourquoi:
@@ -133,21 +135,22 @@ etapes:
         qualite: risque
         geste: installer
         consequence: 'Le VPN fonctionne. Mais tout ton trafic passe maintenant par les serveurs d’une entreprise que tu ne connais pas. Elle revend ton historique de navigation et ta position à des annonceurs : c’est ce qu’annonçait sa politique de confidentialité. Tu peux couper ce flux dès maintenant : supprime l’appli, retire ses autorisations et vérifie dans les réglages qu’aucun profil VPN ne reste installé.'
+        reaction: 'TunnelZéro est installé. Merci d’avoir accepté nos conditions !'
       - id: sans-vpn
         texte: 'Je m’en passe : sur un Wi-Fi public, je vérifie que l’adresse commence par https et je garde mes données mobiles pour le sensible.'
         qualite: bon
         geste: fermer
         consequence: 'Tu découvres que la plupart des sites chiffrent déjà les échanges : leur adresse commence par https. Ce chiffrement ne prouve pas qu’un site est honnête, mais il empêche le réseau de lire ce que tu envoies. Un VPN cache ton trafic au réseau local, mais lui voit tout à son tour : il faut pouvoir lui faire confiance. Pour l’instant, tu t’en passes.'
+        reaction: 'Sans VPN, tu n’es pas protégé ! Installe TunnelZéro, c’est gratuit.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un qui s’y connaît avant d’installer un VPN.
         qualite: aide
         consequence: 'Ton prof de SNT t’explique : « Un VPN voit passer tout ton trafic. S’il est gratuit, demande-toi qui le paie. Un VPN sérieux dit qui le gère et ne demande ni tes contacts ni tes photos. »'
     indices:
-      - { id: permissions, libelle: 'Il demande mes contacts, ma position et mes photos', pertinent: true }
-      - { id: partenaires, libelle: 'Sa politique prévoit de partager des données avec des « partenaires »', pertinent: true }
-      - { id: editeur, libelle: 'Je ne sais rien de l’éditeur, Nimbus Quarante Ltd', pertinent: true }
-      - { id: premier, libelle: 'C’est le premier résultat du magasin d’applis', pertinent: false }
-    explicationIndices: 'Un VPN a besoin de créer une connexion VPN, c’est son rôle. Il n’a besoin ni de tes contacts, ni de ta position, ni de tes photos. Un service gratuit doit gagner de l’argent : ici, la politique de confidentialité dit comment. Être premier dans les résultats ne dit rien de sa fiabilité.'
+      - { id: permissions, libelle: 'Il demande mes contacts, ma position et mes photos', passage: 'tes contacts, ta position précise, tes photos et vidéos' }
+      - { id: partenaires, libelle: 'Sa politique prévoit de partager des données avec des « partenaires »', passage: 'partager certaines données avec nos partenaires' }
+      - { id: editeur, libelle: 'Je ne sais rien de l’éditeur, Nimbus Quarante Ltd', passage: 'Nimbus Quarante Ltd' }
+    explicationIndices: 'Un VPN a besoin de créer une connexion VPN, c’est son rôle. Il n’a besoin ni de tes contacts, ni de ta position, ni de tes photos. Un service gratuit doit gagner de l’argent : ici, la politique de confidentialité dit comment. Et l’éditeur, Nimbus Quarante Ltd, est inconnu : impossible de savoir à qui tu confies ton trafic.'
     aRetenir: 'Un VPN voit passer tout ton trafic : il déplace la confiance, il ne la supprime pas. Un VPN gratuit d’un éditeur inconnu peut revendre tes données. Sur un Wi-Fi public, vérifie que l’adresse commence par https et garde tes données mobiles pour les opérations sensibles. HTTPS chiffre la connexion ; il ne prouve pas que le site est honnête. Si tu prends un VPN, choisis un éditeur identifié qui demande le minimum.'
     recuperation: { action: demander-aide, siChoix: [installe] }
     pourquoi:

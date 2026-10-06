@@ -147,7 +147,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
             <p>Bons choix : {{ e.choix.filter((c) => c.qualite !== 'risque').map((c) => c.texte).join(' / ') }}</p>
             <p>
               Vrais indices :
-              {{ e.indices.filter((x) => x.pertinent).map((x) => (x.passage ? `${x.libelle} (« ${x.passage} »)` : x.libelle)).join(' / ') }}
+              {{ e.indices.map((x) => (x.passage ? `${x.libelle} (« ${x.passage} »)` : x.libelle)).join(' / ') }}
             </p>
             <p>À retenir : {{ e.aRetenir }}</p>
             <template v-if="e.pourquoi">

@@ -33,21 +33,22 @@ etapes:
         geste: partager
         consequence: 'Toute la classe partage la photo, et plusieurs élèves y croient vraiment. Le lendemain, ta prof de SVT explique qu’elle a été fabriquée par une IA. Un chat ne peut pas mesurer 2 mètres. Tu peux encore prévenir le groupe que c’était faux.'
         consequenceSimple: 'Toute la classe y a cru. Mais la photo a été fabriquée par une IA. Tu peux prévenir le groupe que c’était faux.'
+        reaction: 'Merci pour le partage ! 🙌 Déjà 50 000 vues !'
       - id: verifie
         texte: 'Je zoome sur la photo et je cherche si un vrai site en parle.'
         qualite: bon
         geste: verifier
         consequence: 'En zoomant, tu vois des sapins qui se tordent et se mélangent : impossible dans une vraie forêt. Aucun site sérieux ne parle de ce chat. C’est une image fabriquée par une IA.'
+        reaction: 'Tu doutes ? Regarde, 30 000 personnes y croient déjà !'
       - id: aide
         texte: Je demande de l’aide à un adulte de ma famille pour savoir si cette photo est vraie.
         qualite: aide
         consequence: 'Ta mère regarde la photo : « Des sapins tout tordus qui se mélangent ? C’est une image faite par une IA. » Vous en riez ensemble, sans la partager.'
     indices:
-      - { id: sapins-tordus, libelle: 'Les sapins derrière le chat se tordent et se mélangent', pertinent: true }
-      - { id: taille, libelle: 'Un chat de 2 mètres, ça n’existe pas', pertinent: true }
-      - { id: compte, libelle: 'Le compte Planète_Insolite n’est pas un média connu', pertinent: true }
-      - { id: jaime, libelle: 'La photo a beaucoup de « j’aime »', pertinent: false }
-    explicationIndices: 'Les images faites par une IA ont parfois des détails impossibles, comme des arbres qui se tordent et se mélangent. Un chat de 2 mètres n’existe pas. Les « j’aime », eux, ne prouvent rien : on aime une photo surprenante, vraie ou fausse.'
+      - { id: sapins-tordus, libelle: 'Les sapins derrière le chat se tordent et se mélangent', passage: 'se tordent et se mélangent' }
+      - { id: taille, libelle: 'Un chat de 2 mètres, ça n’existe pas', passage: 'Un chat géant de 2 mètres' }
+      - { id: compte, libelle: 'Le compte Planète_Insolite n’est pas un média connu', passage: 'Planète_Insolite' }
+    explicationIndices: 'Les images faites par une IA ont parfois des détails impossibles, comme des arbres qui se tordent et se mélangent. Un chat de 2 mètres n’existe pas. Et Planète_Insolite n’est pas un média connu : rien ne garantit ce qu’il publie.'
     aRetenir: 'Une image peut être fabriquée par une IA. Regarde les détails, mais si tu ne vois pas d’erreur, ça ne prouve pas que c’est vrai. Chercher qui en parle reste le meilleur test.'
     aRetenirSimple: 'Une photo peut être fabriquée par une IA. Avant de partager, cherche si un vrai site en parle.'
     recuperation: { action: corriger-partage, siChoix: [partage] }
@@ -71,7 +72,7 @@ etapes:
       messages:
         - de: contact
           texte: 'URGENT !!! Le collège est fermé demain à cause d’une fuite de gaz. C’est ma cousine qui l’a dit. Partage à 10 personnes sinon ils ne seront pas au courant !!!'
-          texteSimple: 'Urgent : le collège est fermé demain, fuite de gaz. C’est ma cousine qui l’a dit. Partage à 10 personnes !'
+          texteSimple: 'URGENT : le collège est fermé demain, fuite de gaz. C’est ma cousine qui l’a dit. Partage à 10 personnes !'
           heure: '20:47'
         - de: moi
           texte: 'C’est vrai ? 😮'
@@ -89,21 +90,22 @@ etapes:
         geste: partager
         consequence: 'Le message fait le tour du collège. Le lendemain, le collège est bien ouvert. Plusieurs élèves sont restés chez eux et ont raté le contrôle. Tu n’as pas inventé la rumeur, mais tu peux aider à l’arrêter : préviens ceux à qui tu l’as envoyée que c’était faux.'
         consequenceSimple: 'C’était faux : le collège était ouvert. Des élèves sont restés chez eux. Préviens ceux à qui tu l’as envoyé que c’était faux.'
+        reaction: 'Trop bien, merci ! Pas de contrôle demain 🎉'
       - id: ent
         texte: 'Je vérifie sur l’ENT du collège avant de transférer quoi que ce soit.'
         qualite: bon
         geste: verifier
         consequence: 'Sur l’ENT, aucune fermeture n’est annoncée. Le collège aurait prévenu les familles. C’était une rumeur : tu ne la transfères pas.'
+        reaction: 'Ah bon, tu vérifies ? Dis-moi ce que dit l’ENT !'
       - id: aide
         texte: Je demande de l’aide à mes parents pour savoir si le collège a vraiment envoyé un message.
         qualite: aide
         consequence: 'Ta mère regarde l’ENT : aucune fermeture. « Une vraie fermeture, le collège l’annonce lui-même aux familles. » Tu ne transfères rien.'
     indices:
-      - { id: chaine, libelle: 'On me demande de partager à 10 personnes', pertinent: true }
-      - { id: source, libelle: 'L’info vient de « ma cousine », pas du collège', pertinent: true }
-      - { id: majuscules, libelle: 'Le message crie « URGENT » avec plein de points d’exclamation', pertinent: true }
-      - { id: raison, libelle: 'Le message donne une raison précise (une fuite de gaz)', pertinent: false }
-    explicationIndices: 'Une vraie fermeture est annoncée par le collège, sur l’ENT ou par message aux familles. « Partage à 10 personnes » est typique des rumeurs en chaîne. Une raison précise ne rend pas une info vraie.'
+      - { id: chaine, libelle: 'On me demande de partager à 10 personnes', passage: 'Partage à 10 personnes' }
+      - { id: source, libelle: 'L’info vient de « ma cousine », pas du collège', passage: 'C’est ma cousine qui l’a dit' }
+      - { id: majuscules, libelle: 'Le message crie « URGENT » avec plein de points d’exclamation', passage: 'URGENT' }
+    explicationIndices: 'Une vraie fermeture est annoncée par le collège, sur l’ENT ou par message aux familles. « Partage à 10 personnes » est typique des rumeurs en chaîne. Les majuscules et les « !!! » servent à te faire réagir vite.'
     aRetenir: 'Une info sur le collège se vérifie à la source : l’ENT ou un message officiel aux familles. Un message qui demande de partager à 10 personnes est souvent une rumeur.'
     aRetenirSimple: 'Vérifie sur l’ENT avant de croire une info sur le collège. Ne transfère pas les messages en chaîne.'
     recuperation: { action: corriger-partage, siChoix: [transfere] }
@@ -140,21 +142,22 @@ etapes:
         geste: partager
         consequence: 'Ta tante répond qu’elle va essayer. Ta cousine, qui est infirmière, réagit vite : « C’est faux ! Sur une brûlure, on met de l’eau fraîche du robinet, pas un mélange de cuisine. » Préviens le groupe de la famille que l’astuce était fausse. Pour une question de santé, demande conseil à un adulte ou à un professionnel.'
         consequenceSimple: 'Ta cousine infirmière dit que c’est faux. Sur une brûlure, on met de l’eau fraîche. Préviens le groupe de la famille que c’était faux.'
+        reaction: 'Merci de partager ! ❤️ Les médecins vont être jaloux 😏'
       - id: verifie-site
         texte: 'Je ne partage rien avant d’avoir vérifié cette astuce sur un site de santé officiel.'
         qualite: bon
         geste: verifier
         consequence: 'Sur un site de santé officiel, tu lis que l’astuce est fausse. Sur une brûlure, on met de l’eau fraîche du robinet, pas glacée, pendant au moins 10 minutes. Puis on prévient un adulte.'
+        reaction: 'Les sites officiels te cachent la vérité. Fais confiance à Mamie Rose !'
       - id: aide
         texte: Je demande de l’aide à l’infirmière du collège pour savoir si l’astuce est vraie.
         qualite: aide
         consequence: 'L’infirmière est claire : « Cette astuce est fausse. Sur une brûlure, on met de l’eau fraîche pendant au moins 10 minutes. Puis on prévient un adulte. »'
     indices:
-      - { id: medecins, libelle: 'La vidéo dit que les médecins cachent la vérité', pertinent: true }
-      - { id: miracle, libelle: 'L’astuce promet un résultat miracle en 5 minutes', pertinent: true }
-      - { id: auteur, libelle: 'Le compte n’est pas un professionnel de santé', pertinent: true }
-      - { id: partages, libelle: 'La vidéo a 48 000 partages', pertinent: false }
-    explicationIndices: 'Une astuce miracle qui dit que les médecins cachent la vérité, c’est un signal d’alarme. Le compte n’est pas un professionnel de santé. Le nombre de partages ne prouve rien.'
+      - { id: medecins, libelle: 'La vidéo dit que les médecins cachent la vérité', passage: 'Les médecins ne veulent pas que tu le saches' }
+      - { id: miracle, libelle: 'L’astuce promet un résultat miracle en 5 minutes', passage: 'en 5 minutes' }
+      - { id: auteur, libelle: 'Le compte n’est pas un professionnel de santé', passage: 'Astuces de Mamie Rose' }
+    explicationIndices: 'Une astuce miracle qui dit que les médecins cachent la vérité, c’est un signal d’alarme. Le compte n’est pas un professionnel de santé. Et un remède en 5 minutes, c’est trop beau pour être vrai.'
     aRetenir: 'Pour ta santé, ne crois pas une astuce qui circule sur les réseaux. Demande à un adulte, un pharmacien, l’infirmière ou un médecin.'
     aRetenirSimple: 'Une astuce santé sur les réseaux peut être fausse. Demande à un adulte ou à l’infirmière.'
     recuperation: { action: corriger-partage, siChoix: [partage-famille] }

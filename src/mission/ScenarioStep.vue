@@ -44,8 +44,8 @@ const nomSituation = computed(() => {
   return `Situation : message de ${contact} dans ${appNom}`
 })
 
-/** Indices pertinents, dans l’ordre d’affichage : même liste pour le téléphone et le panneau, donc mêmes numéros. */
-const indices = computed(() => ordreAffichage(props.scenario.indices.filter((i) => i.pertinent), props.scenario.id))
+/** Indices, dans l’ordre d’affichage : même liste pour le téléphone et le panneau, donc mêmes numéros. */
+const indices = computed(() => ordreAffichage(props.scenario.indices, props.scenario.id))
 const choixJoue = computed(() => (props.phase === 'situation' ? null : (props.choixId ?? null)))
 
 // Après un choix, le panneau garde la question jusqu’à la fin de la séquence jouée dans le téléphone.

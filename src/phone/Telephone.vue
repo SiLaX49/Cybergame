@@ -27,7 +27,7 @@ const props = withDefaults(
     graine?: string
     choixJoue?: string | null
     actionsNotif?: Record<string, FilAction>
-    /** Indices pertinents, dans l'ordre : leur rang donne le numéro du surlignage. */
+    /** Indices, dans l'ordre : leur rang donne le numéro du surlignage. */
     indices?: { libelle: string; passage?: string }[]
     /** Bouton « Indice » joué : passages surlignés sans numéros avant le choix. */
     indiceVisible?: boolean

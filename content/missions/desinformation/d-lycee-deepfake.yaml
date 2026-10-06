@@ -30,21 +30,22 @@ etapes:
         qualite: risque
         geste: partager
         consequence: 'La vidéo est vue des milliers de fois. Le lendemain, Le Courrier de Valbourg publie une enquête : c’est un deepfake, fabriqué à partir d’un discours de la candidate datant de l’an dernier, avec le visage et la voix retouchés par IA. À deux jours du vote, le faux a déjà circulé partout. Préviens ceux à qui tu l’as envoyée que c’était un faux, et signale la vidéo sur StreamTube.'
+        reaction: 'Merci ! Plus vite elle tourne, mieux c’est 🔴'
       - id: croise
         texte: 'Avant de partager quoi que ce soit, je cherche si des médias reconnus ou la candidate elle-même ont réagi.'
         qualite: bon
         geste: verifier
         consequence: 'Aucun média reconnu ne reprend la vidéo. Sur son compte officiel, la candidate dénonce un faux. Le Courrier de Valbourg retrouve la vidéo d’origine : un discours de l’an dernier, dont le visage et la voix ont été retouchés par IA.'
+        reaction: 'Les médias ne diront rien, ils sont tous complices. Partage !'
       - id: aide
         texte: Je demande de l’aide à ma prof d’histoire-géo pour analyser la vidéo avec moi.
         qualite: aide
         consequence: 'Ta prof montre à la classe le décalage entre la bouche et le son, et le collier qui disparaît. « Avant une élection, les faux se multiplient. On vérifie toujours auprès de plusieurs médias. »'
     indices:
-      - { id: synchro, libelle: 'La bouche bouge en décalage avec le son', pertinent: true }
-      - { id: censure, libelle: 'On me dit de partager « avant qu’elle soit censurée »', pertinent: true }
-      - { id: compte, libelle: 'Le compte qui publie n’est pas un média et ne cite aucune source', pertinent: true }
-      - { id: visage, libelle: 'On voit bien le visage de la candidate', pertinent: false }
-    explicationIndices: 'Un deepfake laisse parfois des traces : lèvres décalées, dents floues, objets qui apparaissent et disparaissent. Mais les plus réussis n’en laissent aucune visible : c’est la vérification des sources qui tranche. L’appel à partager « avant la censure » sert à te faire agir avant les vérifications. Voir un visage ne prouve rien : c’est justement ce que l’IA sait imiter.'
+      - { id: synchro, libelle: 'La bouche bouge en décalage avec le son', passage: 'Sa bouche bouge parfois en décalage avec le son' }
+      - { id: censure, libelle: 'On me dit de partager « avant qu’elle soit censurée »', passage: 'avant qu’elle soit censurée' }
+      - { id: compte, libelle: 'Le compte qui publie n’est pas un média et ne cite aucune source', passage: 'Citoyens_Vigilants' }
+    explicationIndices: 'Un deepfake laisse parfois des traces : lèvres décalées, dents floues, objets qui apparaissent et disparaissent. Mais les plus réussis n’en laissent aucune visible : c’est la vérification des sources qui tranche. L’appel à partager « avant la censure » sert à te faire agir avant les vérifications. Et le compte qui publie n’est pas un média et ne cite aucune source.'
     aRetenir: 'Une vidéo peut être entièrement truquée par IA, visage et voix compris. Avant de relayer, croise avec des médias reconnus et la réaction de la personne concernée. En France, diffuser le montage ou le deepfake d’une personne sans son accord, sans dire qu’il est truqué, est puni par la loi.'
     recuperation: { action: corriger-partage, siChoix: [partage-vite] }
     pourquoi:
@@ -77,21 +78,20 @@ etapes:
         qualite: risque
         geste: partager
         consequence: 'Ta famille file au supermarché, déjà pris d’assaut : les rayons d’eau sont vides. Le soir, la mairie dément : aucune coupure n’est prévue. Les 63 comptes étaient des faux, coordonnés pour semer la panique. Préviens ta famille que c’était faux, puis bloque et signale ces comptes.'
+        reaction: 'Merci de faire passer ! 🚨 Faites vite des réserves.'
       - id: source-officielle
         texte: 'Je vérifie d’abord sur le site de la mairie.'
         qualite: bon
         geste: verifier
         consequence: 'Ni la mairie ni le service des eaux n’annoncent de coupure. Dans la soirée, la préfecture publie un démenti. L’alerte était fausse, et tu n’as rien relayé.'
+        reaction: 'La mairie cache la vérité. Faites des réserves MAINTENANT !'
       - id: aide
         texte: Je demande de l’aide à mes parents pour qu’on vérifie ensemble auprès de la mairie et de la préfecture.
         qualite: aide
         consequence: 'Ta mère consulte le site de la mairie : aucune coupure prévue. « Si c’était vrai, on aurait reçu une alerte officielle. » Vous ne relayez rien.'
     indices:
-      - { id: copie, libelle: 'Des dizaines de comptes publient le même texte, mot pour mot', pertinent: true }
-      - { id: comptes-recents, libelle: 'Ces comptes ont été créés ce mois-ci et ont très peu d’abonnés', pertinent: true }
-      - { id: source-vague, libelle: 'La seule source est « un ami qui travaille à la mairie »', pertinent: true }
-      - { id: emoji, libelle: 'Le message contient un emoji sirène', pertinent: false }
-    explicationIndices: 'Des dizaines de comptes récents qui copient le même texte au même moment, c’est la signature d’une campagne coordonnée, souvent menée avec des faux comptes ou des robots. Une source anonyme « qui travaille à la mairie » ne vaut pas un communiqué de la mairie. L’emoji, lui, ne dit rien.'
+      - { id: source-vague, libelle: 'La seule source est « un ami qui travaille à la mairie »', passage: 'un ami qui travaille à la mairie' }
+    explicationIndices: 'Une source anonyme « qui travaille à la mairie » ne vaut pas un communiqué de la mairie. Une vraie coupure d’eau est annoncée par la mairie ou la préfecture, sur leurs canaux officiels. Un ami d’ami, sans nom, ne permet de vérifier rien du tout.'
     aRetenir: 'Une alerte vraiment officielle est publiée par la mairie, la préfecture ou le service concerné. Le nombre de comptes qui relaient une info ne la confirme pas : regarde qui sont ces comptes.'
     recuperation: { action: bloquer-signaler, siChoix: [relaie] }
     pourquoi:
@@ -117,7 +117,8 @@ etapes:
       url: 'www.la-vigie-du-soir.info/aide-permis'
       messages:
         - de: contact
-          texte: 'LA VIGIE DU SOIR · Société. Bonne nouvelle pour les lycéens : une aide de 300 € pour le permis est versée à tous les jeunes de 16 à 18 ans. Inscription avant vendredi : remplis le formulaire ci-dessous avec ton nom, ton adresse et ton numéro de sécurité sociale. [Bouton : « Je m’inscris »]'
+          texte: 'LA VIGIE DU SOIR · Société. Bonne nouvelle pour les lycéens : une aide de 300 € pour le permis est versée à tous les jeunes de 16 à 18 ans. Inscription avant vendredi : remplis le formulaire ci-dessous avec ton nom, ton adresse et ton numéro de sécurité sociale.'
+      boutons: ['Je m’inscris']
     question: 'Ton ami Sacha t’a envoyé ce lien. Le logo et la mise en page sont ceux de La Vigie du Soir, que tes parents lisent. Que fais-tu ?'
     choix:
       - id: partage-classe
@@ -125,21 +126,22 @@ etapes:
         qualite: risque
         geste: partager
         consequence: 'Le formulaire enregistre ton nom, ton adresse et ton numéro de sécurité sociale. Aucune aide n’existe : le site la-vigie-du-soir.info imite le vrai journal pour récolter des données. Dix élèves de ta classe ont rempli le formulaire eux aussi. Préviens-les vite que c’était faux, et parlez-en à vos parents : ces données peuvent servir à d’autres arnaques.'
+        reaction: 'Inscription enregistrée ✔ Ton aide arrive bientôt !'
       - id: tape-adresse
         texte: 'Je tape moi-même l’adresse du journal pour retrouver l’article.'
         qualite: bon
         geste: verifier
         consequence: 'Sur le vrai site de La Vigie du Soir, aucun article de ce genre. Le site officiel de l’administration ne mentionne aucune aide de 300 € pour tous. Le lien était une imitation.'
+        reaction: 'Plus que 2 jours pour t’inscrire ! Ne rate pas tes 300 €.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de remplir le formulaire.
         qualite: aide
         consequence: 'Ton père compare les adresses : « Le vrai journal, c’est lavigiedusoir.fr. Celui-ci finit en .info, avec des tirets. » Vous ne remplissez rien, et tu préviens Sacha.'
     indices:
-      - { id: adresse, libelle: 'L’adresse est la-vigie-du-soir.info, pas celle du journal', pertinent: true }
-      - { id: secu, libelle: 'On me demande mon numéro de sécurité sociale', pertinent: true }
-      - { id: delai, libelle: 'Il faut s’inscrire « avant vendredi »', pertinent: true }
-      - { id: logo, libelle: 'Le logo est celui de La Vigie du Soir', pertinent: false }
-    explicationIndices: 'Un faux site copie le logo et la mise en page d’un média en quelques minutes : seule l’adresse trahit l’imitation. Un journal informe, il ne collecte pas ton numéro de sécurité sociale. Le délai court sert à t’empêcher de vérifier.'
+      - { id: adresse, libelle: 'L’adresse est la-vigie-du-soir.info, pas celle du journal', passage: 'la-vigie-du-soir.info' }
+      - { id: secu, libelle: 'On me demande mon numéro de sécurité sociale', passage: 'ton numéro de sécurité sociale' }
+      - { id: delai, libelle: 'Il faut s’inscrire « avant vendredi »', passage: 'Inscription avant vendredi' }
+    explicationIndices: 'Un faux site peut imiter un média à la perfection : seule l’adresse, la-vigie-du-soir.info, trahit l’imitation. Un journal informe, il ne collecte pas ton numéro de sécurité sociale. Le délai court sert à t’empêcher de vérifier.'
     aRetenir: 'Pour lire un média, tape toi-même son adresse ou passe par son appli. Une aide publique s’annonce sur les sites officiels de l’administration, et un article ne te demande jamais ton numéro de sécurité sociale.'
     recuperation: { action: demander-aide, siChoix: [partage-classe] }
     pourquoi:

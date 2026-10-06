@@ -31,21 +31,20 @@ etapes:
         qualite: risque
         geste: changer-mdp
         consequence: 'Six mois plus tard, Revendo subit une fuite de données. Ta variante « …Revendo » circule sur des forums. Les pirates connaissent cette astuce : ils gardent la base et essaient d’autres fins. « …GameBox » marche du premier coup, puis ta boîte mail. Change chaque variante pour un mot de passe vraiment différent, en commençant par ta boîte mail.'
+        reaction: 'Compte créé ✔ Ta place pour Sons d’Été est réservée.'
       - id: coffrefort
         texte: 'J’accepte la proposition de CoffreFort : un mot de passe unique pour ce site, enregistré, que je n’ai pas à retenir.'
         qualite: bon
         geste: changer-mdp
         consequence: 'Ta place est réservée. Dans la foulée, CoffreFort t’aide à remplacer tes autres variantes par des mots de passe uniques, la boîte mail d’abord. Le jour où Revendo subit une fuite, seul ton compte Revendo est concerné : tu changes un mot de passe, et c’est fini. Tu n’as qu’un seul mot de passe à retenir, celui de CoffreFort, long et protégé par la double authentification.'
+        reaction: 'Compte créé ✔ CoffreFort a enregistré ton mot de passe.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un qui utilise déjà un gestionnaire de mots de passe.
         qualite: aide
         consequence: 'Ta cousine, en BTS informatique, t’explique : « Une variante, c’est le même mot de passe avec un déguisement. » Elle t’aide à configurer CoffreFort.'
     indices:
-      - { id: meme-base, libelle: 'Mes mots de passe ne diffèrent que par la fin', pertinent: true }
-      - { id: fuite-base, libelle: 'Si un site fuit, la base de tous mes mots de passe est connue', pertinent: true }
-      - { id: generateur, libelle: 'CoffreFort peut générer un mot de passe unique et le retenir pour moi', pertinent: true }
-      - { id: douze, libelle: 'Le site impose 12 caractères minimum', pertinent: false }
-    explicationIndices: 'Les pirates testent automatiquement les variantes d’un mot de passe volé : changer la fin ne les arrête pas. Un gestionnaire crée un mot de passe vraiment différent pour chaque site. La longueur minimale imposée ne dit rien de la réutilisation.'
+      - { id: generateur, libelle: 'CoffreFort peut générer un mot de passe unique et le retenir pour moi', passage: 'Générer un mot de passe unique pour ce site' }
+    explicationIndices: 'CoffreFort propose de générer un mot de passe unique pour ce site et de l’enregistrer. Tu n’as rien à retenir, et chaque site a un mot de passe vraiment différent. Personne ne peut le deviner à partir d’un autre de tes mots de passe.'
     aRetenir: 'Un compte, un mot de passe vraiment différent : les variantes ne comptent pas. Un gestionnaire de mots de passe les crée et les retient pour toi. Protège-le avec une longue phrase de passe que tu n’utilises nulle part ailleurs, et avec la double authentification.'
     recuperation: { action: changer-mdp, siChoix: [variante] }
     pourquoi:
@@ -81,21 +80,22 @@ etapes:
         qualite: risque
         geste: supprimer
         consequence: 'Deux jours plus tard, ta chaîne publie une vidéo pour une fausse cryptomonnaie, et l’adresse de récupération de ton compte a changé. Quelqu’un avait ton mot de passe. Lance vite la récupération officielle de StreamTube, change ton mot de passe, puis active la double authentification : avec elle, un mot de passe volé ne suffit plus.'
+        reaction: 'L’adresse mail de ton compte StreamTube a été modifiée.'
       - id: securise
         texte: 'J’ouvre moi-même l’appli StreamTube pour vérifier, sans cliquer dans le mail.'
         qualite: bon
         geste: verifier
         consequence: 'Dans l’appli, l’ordinateur inconnu apparaît bien. Tu le déconnectes, tu changes ton mot de passe et tu actives la double authentification. Le lendemain, une nouvelle tentative échoue : il manque le code.'
+        reaction: 'Mot de passe modifié ✔ Les autres appareils sont déconnectés.'
       - id: aide
         texte: Je demande de l’aide à un proche qui s’y connaît avant de faire quoi que ce soit.
         qualite: aide
         consequence: 'Ton frère te conseille de ne pas cliquer dans le mail et d’ouvrir toi-même l’appli. Vous y trouvez l’appareil inconnu et sécurisez le compte ensemble.'
     indices:
-      - { id: heure, libelle: 'La connexion a eu lieu à 3 h 12, pendant que je dormais', pertinent: true }
-      - { id: appareil, libelle: 'L’appareil est inconnu', pertinent: true }
-      - { id: mdp-connu, libelle: 'Une connexion a réussi : quelqu’un connaît sans doute mon mot de passe', pertinent: true }
-      - { id: abonnes, libelle: 'Ma chaîne a 800 abonnés', pertinent: false }
-    explicationIndices: 'L’heure et l’appareil inconnu suffisent : ce n’était pas toi, même si la ville est approximative. La bonne réaction : ouvrir soi-même l’appli, sans cliquer dans le mail. Le nombre d’abonnés ne change rien : petit ou gros, tout compte peut être visé.'
+      - { id: heure, libelle: 'La connexion a eu lieu à 3 h 12, pendant que je dormais', passage: 'le 14 mars à 3 h 12' }
+      - { id: appareil, libelle: 'L’appareil est inconnu', passage: 'depuis un appareil inconnu' }
+      - { id: mdp-connu, libelle: 'Une connexion a réussi : quelqu’un connaît sans doute mon mot de passe', passage: 'Nouvelle connexion à ton compte StreamTube' }
+    explicationIndices: 'L’heure et l’appareil inconnu suffisent : ce n’était pas toi, même si la ville est approximative. La bonne réaction : ouvrir soi-même l’appli, sans cliquer dans le mail. Une connexion réussie veut dire que quelqu’un connaît sans doute ton mot de passe.'
     aRetenir: 'Une alerte de connexion qui ne vient pas de toi se prend au sérieux. Ouvre toi-même l’appli (jamais le lien du mail), déconnecte les appareils inconnus, change ton mot de passe et active la double authentification.'
     recuperation: { action: activer-2fa, siChoix: [ignore] }
     pourquoi:
@@ -128,21 +128,21 @@ etapes:
         qualite: risque
         geste: se-connecter
         consequence: 'Le code part en direct chez le pirate, qui le tape sur le vrai SnapTalk en quelques secondes. Il est dans ton compte et envoie déjà le même lien à tes amis, mais il ne t’a pas encore mis dehors. La double authentification n’arrête pas un code qu’on donne soi-même. Tu as encore la main : change vite ton mot de passe et déconnecte tous les autres appareils.'
+        reaction: 'Code accepté ✔ Connexion réussie.'
       - id: stop
         texte: 'Je ne tape pas le code. Je ferme la page, j’ouvre moi-même l’appli SnapTalk et je change tout de suite mon mot de passe.'
         qualite: bon
         geste: changer-mdp
         consequence: 'Le pirate a ton ancien mot de passe, mais pas le code : il reste bloqué. Tu changes ton mot de passe et tu préviens ton amie que son compte a sans doute été piraté.'
+        reaction: 'Ton code va expirer : saisis-le vite pour terminer ta connexion !'
       - id: aide
         texte: Je demande de l’aide à quelqu’un avant de taper le code.
         qualite: aide
         consequence: 'Ton prof de SNT regarde l’adresse : « snaptalk-connexion.co, ce n’est pas SnapTalk. » Tu changes ton mot de passe depuis l’appli officielle.'
     indices:
-      - { id: url, libelle: 'L’adresse de la page est snaptalk-connexion.co, pas celle de SnapTalk', pertinent: true }
-      - { id: lien, libelle: 'Cette page s’est ouverte depuis un lien reçu en message', pertinent: true }
-      - { id: vrai-sms, libelle: 'Le vrai SMS arrive parce que quelqu’un tape mon mot de passe sur le vrai site, en ce moment', pertinent: true }
-      - { id: logo, libelle: 'La page a le logo et les couleurs de SnapTalk', pertinent: false }
-    explicationIndices: 'La fausse page relaie ce que tu tapes vers le vrai site : c’est pour ça que le vrai SMS arrive. Le code est authentique, mais la page ne l’est pas. Un logo et des couleurs se copient en quelques secondes.'
+      - { id: url, libelle: 'L’adresse de la page est snaptalk-connexion.co, pas celle de SnapTalk', passage: 'snaptalk-connexion.co' }
+      - { id: vrai-sms, libelle: 'Le vrai SMS arrive parce que quelqu’un tape mon mot de passe sur le vrai site, en ce moment', passage: 'que nous venons de t’envoyer par SMS' }
+    explicationIndices: 'La fausse page relaie ce que tu tapes vers le vrai site : c’est pour ça que le vrai SMS arrive. Le code est authentique, mais la page ne l’est pas. Seule l’adresse, snaptalk-connexion.co, trahit l’imitation.'
     aRetenir: 'Un code de double authentification se tape uniquement dans l’appli ou sur le site officiel, que tu as ouvert toi-même. Une fausse page peut relayer ton code au pirate en direct. Certaines méthodes, comme les clés d’accès, ne fonctionnent que sur le vrai site et résistent à ce piège.'
     recuperation: { action: changer-mdp, siChoix: [tape-code] }
     pourquoi:

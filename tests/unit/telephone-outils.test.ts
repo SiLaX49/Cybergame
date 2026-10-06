@@ -88,6 +88,8 @@ describe('lignesPapier', () => {
   it('web : adresse ; sms : « Moi » pour mes messages', () => {
     expect(lignesPapier({ app: 'web', appNom: 'Navigateur', contact: 'Page', url: 'x.fr', messages: [{ de: 'contact', texte: 'A' }] } as Ecran))
       .toEqual(['Navigateur · Page', 'Adresse : x.fr', 'Page : A'])
+    expect(lignesPapier({ app: 'web', appNom: 'Navigateur', contact: 'Page', boutons: ['Oui', 'Non'], messages: [{ de: 'contact', texte: 'A' }] } as Ecran))
+      .toEqual(['Navigateur · Page', 'Page : A', 'Boutons : [Oui] [Non]'])
     expect(lignesPapier({ app: 'sms', appNom: 'Messages', contact: 'Léa', messages: [{ de: 'moi', texte: 'Oui' }] } as Ecran))
       .toEqual(['Messages · Léa', 'Moi : Oui'])
   })

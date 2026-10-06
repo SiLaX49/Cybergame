@@ -21,7 +21,7 @@ etapes:
       messages:
         - de: contact
           texte: 'Colis Express : votre colis n°FR4471 est bloqué. Réglez 1,99 € de frais sous 24 h : colis-expres-suivi.info'
-          texteSimple: 'Colis Express : ton colis est bloqué. Paie 1,99 € tout de suite sur colis-expres-suivi.info'
+          texteSimple: 'Colis Express : ton colis est bloqué. Paie 1,99 € sous 24 h sur colis-expres-suivi.info'
           heure: '10:47'
     question: Tu n’attends pas de colis, mais tes parents peut-être… Que fais-tu ?
     choix:
@@ -31,21 +31,22 @@ etapes:
         geste: payer
         consequence: 'Le site ressemble à celui d’un transporteur. Tu tapes les numéros de la carte… Deux jours plus tard, la banque bloque la carte : quelqu’un a essayé de payer 450 € en ligne. Les 1,99 € servaient à voler les numéros. Bonne nouvelle : en prévenant vite, on peut limiter les dégâts.'
         consequenceSimple: 'Le faux site a volé les numéros de la carte. Quelqu’un essaie de payer 450 € avec. Il faut vite prévenir un adulte.'
+        reaction: 'Paiement validé ✔ Merci, ton colis est débloqué !'
       - id: verif
         texte: 'Je ne clique pas : je montre le SMS à mes parents pour qu’ils vérifient dans l’appli du transporteur.'
         qualite: bon
         geste: verifier
         consequence: 'Ta mère n’attend rien. Elle vérifie dans l’appli officielle du transporteur : aucun colis bloqué. C’était une arnaque, et personne n’a cliqué.'
+        reaction: 'Dernier rappel : ton colis sera détruit ce soir.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un avant de faire quoi que ce soit.
         qualite: aide
         consequence: 'Ton grand frère regarde le message : « C’est une arnaque, tout le monde la reçoit. » Vous supprimez le SMS et vous bloquez le numéro.'
     indices:
-      - { id: url, libelle: 'L’adresse du site est bizarre (colis-expres-suivi.info)', pertinent: true }
-      - { id: urgence, libelle: 'On me presse : « sous 24 h »', pertinent: true }
-      - { id: numero, libelle: 'Le SMS vient d’un numéro de portable inconnu', pertinent: true }
-      - { id: montant, libelle: 'Le montant est très petit', pertinent: false }
-    explicationIndices: 'Les arnaqueurs imitent les transporteurs avec des adresses qui ressemblent aux vraies. Ils te pressent pour que tu ne réfléchisses pas. Le petit montant n’est pas un signe de sécurité : c’est un appât pour récupérer les numéros de carte.'
+      - { id: url, libelle: 'L’adresse du site est bizarre (colis-expres-suivi.info)', passage: 'colis-expres-suivi.info' }
+      - { id: urgence, libelle: 'On me presse : « sous 24 h »', passage: 'sous 24 h' }
+      - { id: numero, libelle: 'Le SMS vient d’un numéro de portable inconnu', passage: '+33 6 39 98 12 48' }
+    explicationIndices: 'Les arnaqueurs imitent les transporteurs avec des adresses qui ressemblent aux vraies. Ils te pressent pour que tu ne réfléchisses pas. Et un vrai transporteur n’écrit pas depuis un numéro de portable inconnu.'
     aRetenir: 'Un vrai transporteur ne te demande jamais de payer par un lien reçu par SMS. En cas de doute, on vérifie sur l’appli ou le site officiel, en le tapant soi-même.'
     aRetenirSimple: 'Ne clique jamais sur un lien de colis reçu par SMS. Vérifie sur l’appli officielle.'
     recuperation: { action: demander-aide, siChoix: [clic] }
@@ -82,21 +83,22 @@ etapes:
         geste: payer
         consequence: 'Aucune console n’arrive. Par contre, ton nom et ton adresse circulent maintenant : tu reçois d’autres faux messages qui les citent pour paraître vrais.'
         consequenceSimple: 'Pas de console. Mais ton nom et ton adresse sont partis chez des arnaqueurs.'
+        reaction: 'Merci pour les 2 € 😈 La console ? Tu peux toujours attendre !'
       - id: verifie
         texte: Avant de répondre, je vais sur la vraie chaîne de NoaGaming pour voir s’il a vraiment annoncé ce concours.
         qualite: bon
         geste: verifier
         consequence: 'Sur sa vraie chaîne, NoaGaming a épinglé un message : « Des faux comptes se font passer pour moi. Je ne demande JAMAIS d’argent. » Le compte qui t’a écrit était un imposteur.'
+        reaction: 'Plus que 1 heure pour réclamer ta console !'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de répondre, pour savoir si ce message vient vraiment de NoaGaming.
         qualite: aide
         consequence: 'Ton prof de techno t’explique que c’est une arnaque très courante et te montre comment signaler le faux compte.'
     indices:
-      - { id: frais, libelle: 'On me demande de l’argent pour recevoir un cadeau', pertinent: true }
-      - { id: nom-compte, libelle: 'Le nom du compte a « _Officiel » en plus', pertinent: true }
-      - { id: lien, libelle: 'Le lien n’est pas celui de la plateforme', pertinent: true }
-      - { id: emoji, libelle: 'Il y a un emoji fête dans le message', pertinent: false }
-    explicationIndices: 'Un faux compte peut copier le nom et la photo d’une personne connue. Le vrai signal, c’est la demande d’argent et le lien vers un autre site. L’emoji, lui, ne prouve rien.'
+      - { id: frais, libelle: 'On me demande de l’argent pour recevoir un cadeau', passage: 'ton adresse et 2 €' }
+      - { id: nom-compte, libelle: 'Le nom du compte a « _Officiel » en plus', passage: 'NoaGaming_Officiel' }
+      - { id: lien, libelle: 'Le lien n’est pas celui de la plateforme', passage: 'noagaming-cadeaux.shop' }
+    explicationIndices: 'Un faux compte peut copier le nom et la photo d’une personne connue. Le vrai signal, c’est la demande d’argent et le lien vers un autre site. Le « _Officiel » ne prouve rien : n’importe qui peut l’ajouter.'
     aRetenir: 'Un vrai concours ne te demande jamais de payer pour recevoir ton lot. Vérifie sur le compte officiel de la personne.'
     aRetenirSimple: 'Un vrai cadeau ne se paie pas. Vérifie sur le vrai compte.'
     recuperation: { action: bloquer-signaler, siChoix: [donne] }
@@ -135,20 +137,21 @@ etapes:
         geste: se-connecter
         consequence: 'Tu tapes ton identifiant et ton mot de passe, et le faux site les enregistre. Le soir même, quelqu’un se connecte, change ton pseudo et dépense tes Coins. Tu peux encore reprendre la main.'
         consequenceSimple: 'Le faux site a volé ton mot de passe. Quelqu’un utilise ton compte. Tu peux encore le récupérer.'
+        reaction: 'Merci ! Ton compte GameBox est sauvé ✔'
       - id: appli
         texte: Sans cliquer dans le mail, j’ouvre moi-même l’appli GameBox pour voir si mon compte a un souci.
         qualite: bon
         geste: verifier
         consequence: 'Dans l’appli officielle : aucune alerte, ton compte va très bien. Le mail était faux.'
+        reaction: 'Dernier rappel : ton compte sera supprimé dans 2 h.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un avant de cliquer, même si ça presse.
         qualite: aide
         consequence: 'Ta cousine regarde l’adresse de l’expéditeur : « gamebox-verif.com, ce n’est pas GameBox ! » Vous signalez le mail comme hameçonnage.'
     indices:
-      - { id: expediteur, libelle: 'L’adresse de l’expéditeur n’est pas celle de GameBox', pertinent: true }
-      - { id: menace, libelle: 'On me menace de supprimer mon compte', pertinent: true }
-      - { id: mdp, libelle: 'On me demande mon mot de passe', pertinent: true }
-      - { id: bonjour, libelle: 'Le message commence par « Bonjour »', pertinent: false }
+      - { id: expediteur, libelle: 'L’adresse de l’expéditeur n’est pas celle de GameBox', passage: 'gamebox-verif.com' }
+      - { id: menace, libelle: 'On me menace de supprimer mon compte', passage: 'Ton compte sera supprimé dans 24 h' }
+      - { id: mdp, libelle: 'On me demande mon mot de passe', passage: 'ton mot de passe' }
     explicationIndices: 'Aucun service sérieux ne te demande ton mot de passe par mail. La menace et le délai très court servent à te faire paniquer.'
     aRetenir: 'On ne donne jamais son mot de passe suite à un mail. Pour vérifier, on ouvre soi-même l’appli ou le site officiel.'
     aRetenirSimple: 'Ne donne jamais ton mot de passe dans un mail. Ouvre toi-même l’appli.'

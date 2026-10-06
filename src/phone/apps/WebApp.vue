@@ -20,6 +20,9 @@ const adresse = computed(() => (props.ecran.url ? decouperUrl(props.ecran.url) :
     </p>
     <p class="titre-page">{{ ecran.contact }}</p>
     <p v-for="(m, i) in ecran.messages" :key="i" class="bloc"><TexteRiche :texte="t(m.texte, m.texteSimple)" /></p>
+    <p v-if="ecran.boutons" class="boutons-page">
+      <span v-for="b in ecran.boutons" :key="b" class="bouton-page" aria-hidden="false"><span class="visually-hidden">Bouton : </span><TexteRiche :texte="b" /></span>
+    </p>
   </div>
 </template>
 
@@ -31,4 +34,7 @@ const adresse = computed(() => (props.ecran.url ? decouperUrl(props.ecran.url) :
 .reste { color: var(--tel-doux); }
 .titre-page { margin: 0 0 0.5rem; font-size: 1.15em; font-weight: 700; }
 .bloc { margin: 0 0 0.6rem; overflow-wrap: anywhere; }
+/* Boutons de la page : inertes, ce n'est pas l'élève qui agit ici mais ses choix. */
+.boutons-page { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 0.6rem; }
+.bouton-page { padding: 0.35rem 0.9rem; border: 1px solid currentColor; border-radius: 999px; background: var(--tel-recu); font-weight: 700; }
 </style>

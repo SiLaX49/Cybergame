@@ -30,21 +30,22 @@ etapes:
         geste: repondre
         reponse: 'Tiens, c’est 482 913 👍'
         consequence: 'Ce code servait à se connecter à TON compte. Quelques minutes plus tard, SnapTalk te déconnecte : quelqu’un d’autre est dans ton compte et envoie le même message à tous tes contacts. Ce n’était pas Inès : son compte avait été piraté juste avant le tien. Tu peux encore récupérer ton compte et prévenir tes amis.'
+        reaction: 'Merci 😈 Ton compte SnapTalk est à moi maintenant.'
       - id: verifie
         texte: J’appelle Inès ou je lui en parle au collège pour vérifier que c’est bien elle qui écrit.
         qualite: bon
         geste: verifier
         consequence: 'Inès tombe des nues : elle n’a rien envoyé et elle n’arrive plus à se connecter depuis hier soir. Son compte a été piraté. Tu gardes ton code pour toi et tu l’aides à récupérer son compte.'
+        reaction: 'Stp c’est urgent, renvoie-le vite !! 🙏'
       - id: aide
         texte: Je demande de l’aide à quelqu’un avant de répondre.
         qualite: aide
         consequence: 'Ta sœur lit le SMS : « Il est écrit de ne partager ce code avec personne. Celui qui te le réclame veut entrer dans ton compte. » Tu ne réponds pas, tu signales le message et tu préviens Inès par un autre moyen.'
     indices:
-      - { id: code-non-demande, libelle: 'J’ai reçu un code de connexion sans l’avoir demandé', pertinent: true }
-      - { id: erreur-impossible, libelle: 'Une amie ne peut pas m’envoyer un code de connexion « par erreur » : c’est l’appli qui me l’envoie', pertinent: true }
-      - { id: presse, libelle: 'Elle me presse : « vite stp »', pertinent: true }
-      - { id: emoji, libelle: 'Inès utilise des emojis', pertinent: false }
-    explicationIndices: 'Un code de connexion est envoyé par l’appli, à toi seul, quand quelqu’un essaie d’entrer dans ton compte. Si on te le réclame, c’est que quelqu’un tente de se connecter à ta place. Les emojis ne prouvent rien : un pirate imite facilement la façon d’écrire de ton amie.'
+      - { id: code-non-demande, libelle: 'J’ai reçu un code de connexion sans l’avoir demandé', passage: 'je t’ai envoyé un code' }
+      - { id: erreur-impossible, libelle: 'Une amie ne peut pas m’envoyer un code de connexion « par erreur » : c’est l’appli qui me l’envoie', passage: 'par erreur' }
+      - { id: presse, libelle: 'Elle me presse : « vite stp »', passage: 'vite stp' }
+    explicationIndices: 'Un code de connexion est envoyé par l’appli, à toi seul, quand quelqu’un essaie d’entrer dans ton compte. Si on te le réclame, c’est que quelqu’un tente de se connecter à ta place. Le « vite stp » sert à t’empêcher de réfléchir.'
     aRetenir: 'Un code reçu par SMS ne se partage jamais, même avec un ami. Si un proche te le demande, vérifie par un autre moyen (appel, en vrai) : son compte a sans doute été piraté.'
     recuperation: { action: changer-mdp, siChoix: [renvoie] }
     pourquoi:
@@ -77,21 +78,22 @@ etapes:
         qualite: risque
         geste: se-connecter
         consequence: 'La page ressemble à l’ENT, mais elle enregistre l’identifiant et le mot de passe que tu tapes. Le lendemain, des camarades reçoivent de ta messagerie des messages que tu n’as jamais écrits, et quelqu’un a lu tes conversations. Tu peux encore changer ton mot de passe et prévenir le collège.'
+        reaction: 'Merci, votre mot de passe a bien été renouvelé ✔'
       - id: ent-habituel
         texte: J’ouvre moi-même l’ENT comme d’habitude, sans passer par le lien du mail, et je regarde s’il y a une alerte.
         qualite: bon
         geste: verifier
         consequence: 'Sur le vrai ENT, aucune alerte : ton mot de passe n’expire pas. Tu montres le mail à ton professeur principal, qui prévient toute la classe.'
+        reaction: 'Dernier rappel : votre accès sera coupé à minuit.'
       - id: aide
         texte: Je demande de l’aide à un adulte du collège avant de cliquer.
         qualite: aide
         consequence: 'Le professeur documentaliste regarde l’adresse : « Notre ENT n’est pas sur moncollege-ent.net, c’est un faux. » Il prévient le référent numérique, qui alerte tout le collège.'
     indices:
-      - { id: domaine, libelle: 'L’adresse de l’expéditeur (moncollege-ent.net) n’est pas celle de l’ENT habituel', pertinent: true }
-      - { id: urgence, libelle: 'On me presse : le mot de passe expire « aujourd’hui »', pertinent: true }
-      - { id: mdp, libelle: 'On me demande mon mot de passe actuel', pertinent: true }
-      - { id: logo, libelle: 'Le logo du collège est présent dans le mail', pertinent: false }
-    explicationIndices: 'N’importe qui peut copier un logo : ce n’est pas une preuve. Ce qui compte, c’est l’adresse de l’expéditeur et du site, et le fait qu’on te réclame ton mot de passe dans l’urgence.'
+      - { id: domaine, libelle: 'L’adresse de l’expéditeur (moncollege-ent.net) n’est pas celle de l’ENT habituel', passage: 'moncollege-ent.net' }
+      - { id: urgence, libelle: 'On me presse : le mot de passe expire « aujourd’hui »', passage: 'expire aujourd’hui à minuit' }
+      - { id: mdp, libelle: 'On me demande mon mot de passe actuel', passage: 'votre mot de passe actuel' }
+    explicationIndices: 'Ce qui doit alerter, c’est l’adresse de l’expéditeur, moncollege-ent.net, et le fait qu’on te réclame ton mot de passe actuel dans l’urgence. Aucun ENT ne demande ton mot de passe par mail.'
     aRetenir: 'Pour une alerte sur un compte, on ne passe jamais par le lien du mail : on ouvre soi-même le site ou l’appli habituelle. Un vrai service ne demande jamais ton mot de passe par mail.'
     recuperation: { action: changer-mdp, siChoix: [connecte] }
     pourquoi:
@@ -125,21 +127,21 @@ etapes:
         qualite: risque
         geste: se-connecter
         consequence: 'Il n’y avait pas de vote : la page a enregistré ton identifiant et ton mot de passe. Ton compte envoie maintenant le même message à tous tes contacts, comme celui de Tom avant toi. Tu peux reprendre ton compte et le protéger pour que ça ne recommence pas.'
+        reaction: 'Merci 😈 Ton compte va voter pour moi… et pas que.'
       - id: demande-tom
         texte: Avant de cliquer, je demande à Tom, en vrai ou par téléphone, s’il m’a bien envoyé ce lien.
         qualite: bon
         geste: verifier
         consequence: 'Tom n’a rien envoyé : son compte a été piraté. Grâce à toi, il le découvre et peut le récupérer. Et pour voter, il suffit de passer au CDI.'
+        reaction: 'Pas le temps, vote vite stp, ça finit ce soir !'
       - id: aide
         texte: 'Je demande de l’aide à un adulte avant de cliquer : il saura si ce vote est normal.'
         qualite: aide
         consequence: 'Ton père regarde le lien : « snaptalk-vote.xyz, ce n’est pas SnapTalk. Pour voter, on n’a pas besoin de ton mot de passe. » Vous prévenez Tom par téléphone.'
     indices:
-      - { id: lien-externe, libelle: 'Le lien sort de l’appli et me demande de me reconnecter', pertinent: true }
-      - { id: message-identique, libelle: 'Le même message a été envoyé à toute la classe', pertinent: true }
-      - { id: adresse, libelle: 'L’adresse (snaptalk-vote.xyz) n’est pas celle de SnapTalk', pertinent: true }
-      - { id: concours-reel, libelle: 'Le concours de dessin existe vraiment au collège', pertinent: false }
-    explicationIndices: 'Les pirates s’appuient souvent sur un vrai événement pour paraître crédibles. Mais un vote n’a jamais besoin de ton mot de passe, et un message identique envoyé à tout le monde montre que quelqu’un écrit à la place de Tom.'
+      - { id: lien-externe, libelle: 'Le lien sort de l’appli et me demande de me reconnecter', passage: 'te connecter avec ton SnapTalk' }
+      - { id: adresse, libelle: 'L’adresse (snaptalk-vote.xyz) n’est pas celle de SnapTalk', passage: 'snaptalk-vote.xyz' }
+    explicationIndices: 'Un vote n’a jamais besoin de ton mot de passe. Le lien sort de l’appli et mène à snaptalk-vote.xyz, qui n’est pas SnapTalk : c’est une page qui vole les identifiants.'
     aRetenir: 'Ne te connecte jamais à ton compte depuis un lien reçu en message. Active la double authentification : même avec ton mot de passe, un pirate aura beaucoup plus de mal à entrer.'
     recuperation: { action: activer-2fa, siChoix: [vote] }
     pourquoi:

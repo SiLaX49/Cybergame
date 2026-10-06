@@ -17,6 +17,7 @@ export function lignesPapier(e: Ecran): string[] {
     lignes.push(`${m.de === 'moi' ? 'Moi' : e.contact} : ${m.texte}`)
     if (m.apercu) lignes.push(`Aperçu du lien : ${m.apercu.titre} (${m.apercu.domaine})`)
   }
+  if (e.app === 'web' && e.boutons) lignes.push(`Boutons : ${e.boutons.map((b) => `[${b}]`).join(' ')}`)
   if (e.app === 'social') {
     if (e.media) lignes.push(`[${e.media.description}]`)
     const stats = texteStats(e.stats ?? {})

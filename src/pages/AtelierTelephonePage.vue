@@ -28,7 +28,7 @@ const choixJoue = ref<string | null>(null)
 const actionsNotif = reactive<Record<string, FilAction>>({})
 const indiceVisible = ref(false)
 const store = useProgress()
-const indices = computed(() => entree.value.scenario?.indices.filter((i) => i.pertinent) ?? [])
+const indices = computed(() => entree.value.scenario?.indices ?? [])
 
 const ecran = computed<EcranTelephone>(() =>
   entree.value.fil ? { app: 'verrouillage', notifications: entree.value.fil.notifications } : entree.value.scenario!.ecran,

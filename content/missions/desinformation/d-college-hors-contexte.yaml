@@ -32,21 +32,22 @@ etapes:
         qualite: risque
         geste: partager
         consequence: 'La vidéo fait le tour du collège, et les commentaires moqueurs visent M. Durand. Le lendemain, un élève de sa classe raconte la scène entière : il lisait la réplique d’un roi grincheux, dans la pièce étudiée en cours, et toute la classe riait. Retire ton partage. Garde une capture du compte qui a publié la vidéo, bloque-le et montre la capture à un adulte du collège.'
+        reaction: 'Merci pour le partage 😂 La suite demain !'
       - id: contexte
         texte: 'Je ne partage pas une vidéo coupée sans savoir ce qui s’est passé avant et après.'
         qualite: bon
         geste: fermer
         consequence: 'Un élève de sa classe t’explique : M. Durand lisait la réplique d’un roi grincheux, dans la pièce étudiée en cours. Tout le monde riait. La vidéo coupée faisait croire l’inverse.'
+        reaction: 'Allez, partage, tout le monde l’a déjà vue 😂'
       - id: aide
         texte: 'Je demande de l’aide à un adulte du collège, parce que cette vidéo peut faire du tort au prof.'
         qualite: aide
         consequence: 'La CPE regarde la vidéo et prévient M. Durand. Le compte est signalé, et la vidéo est retirée dans la journée.'
     indices:
-      - { id: duree, libelle: 'La vidéo dure 5 secondes et coupe juste après la phrase', pertinent: true }
-      - { id: anonyme, libelle: 'Le compte qui publie est anonyme', pertinent: true }
-      - { id: legende, libelle: 'La légende m’impose déjà quoi penser (« craque »)', pertinent: true }
-      - { id: vues, libelle: 'La vidéo a 1 200 vues', pertinent: false }
-    explicationIndices: 'Un extrait très court, coupé au bon moment, peut faire dire n’importe quoi à quelqu’un. La légende t’impose une interprétation avant même que tu regardes. Le nombre de vues, lui, ne dit rien du contexte.'
+      - { id: duree, libelle: 'La vidéo dure 5 secondes et coupe juste après la phrase', passage: 'La vidéo coupe juste après' }
+      - { id: anonyme, libelle: 'Le compte qui publie est anonyme', passage: 'drole_de_college_42' }
+      - { id: legende, libelle: 'La légende m’impose déjà quoi penser (« craque »)', passage: 'qui craque en plein cours' }
+    explicationIndices: 'Un extrait très court, coupé au bon moment, peut faire dire n’importe quoi à quelqu’un. La légende t’impose une interprétation avant même que tu regardes. Et le compte qui publie est anonyme : personne ne répond de ce qu’il montre.'
     aRetenir: 'Une vidéo coupée peut changer complètement le sens d’une scène. Avant de partager, demande-toi ce qui s’est passé avant et après. Et publier la vidéo de quelqu’un sans son accord peut être puni par la loi.'
     recuperation: { action: capture-preuve, siChoix: [repartage] }
     pourquoi:
@@ -80,21 +81,22 @@ etapes:
         qualite: risque
         geste: partager
         consequence: 'La capture arrive jusqu’aux parents, qui appellent le collège. Le principal publie un démenti sur l’ENT : ce message n’a jamais existé. Quelqu’un l’avait fabriqué avec un générateur de fausses captures. Préviens les groupes où tu l’as envoyée que c’était faux.'
+        reaction: 'Merci ! Tout le monde doit savoir 😡'
       - id: ent
         texte: 'Je regarde sur l’ENT et je demande à mes parents s’ils ont vraiment reçu ce message du collège.'
         qualite: bon
         geste: verifier
         consequence: 'Sur l’ENT, aucun message de ce genre. Tes parents n’ont rien reçu. Et un « 31 septembre », ça n’existe pas : la capture est fausse.'
+        reaction: 'Ah ouais, bonne idée. Tu me dis ?'
       - id: aide
         texte: Je demande de l’aide à un adulte de confiance pour savoir si ce message vient vraiment du collège.
         qualite: aide
         consequence: 'Ton grand frère remarque tout de suite la date : « Le 31 septembre n’existe pas. » Sur l’ENT, aucune annonce. Tu ne fais rien tourner.'
     indices:
-      - { id: date, libelle: 'La date indique « 31 septembre »', pertinent: true }
-      - { id: logo, libelle: 'Le logo du collège est flou', pertinent: true }
-      - { id: sans-source, libelle: 'C’est une capture, sans lien vers le message d’origine', pertinent: true }
-      - { id: colere, libelle: 'Tout le groupe est en colère', pertinent: false }
-    explicationIndices: 'Une capture d’écran se fabrique en quelques minutes, logo compris. Un détail impossible, comme un 31 septembre, trahit le montage. La colère du groupe, elle, ne prouve rien : elle pousse surtout à partager vite.'
+      - { id: date, libelle: 'La date indique « 31 septembre »', passage: '31 septembre' }
+      - { id: logo, libelle: 'Le logo du collège est flou', passage: 'Le logo du collège est un peu flou' }
+      - { id: sans-source, libelle: 'C’est une capture, sans lien vers le message d’origine', passage: 'Capture d’écran' }
+    explicationIndices: 'Une capture d’écran se fabrique en quelques minutes, logo compris. Un détail impossible, comme un 31 septembre, trahit le montage. Sans lien vers le message d’origine, rien ne prouve que le collège l’a envoyé.'
     aRetenir: 'Une capture d’écran n’est pas une preuve. Une annonce du collège se vérifie à la source : sur l’ENT ou dans les messages reçus par tes parents.'
     recuperation: { action: corriger-partage, siChoix: [fait-tourner] }
     pourquoi:
@@ -129,21 +131,22 @@ etapes:
         qualite: risque
         geste: partager
         consequence: 'Tes amis paniquent et commentent en masse. Une heure plus tard, Pixelnoé publie une vidéo : « J’arrête rien du tout ! » Le compte imitait InfoÉclair, avec un i majuscule à la place du l. Retire ton partage. Comme ce compte se fait passer pour un vrai média, bloque-le et signale-le comme faux compte.'
+        reaction: 'Merci du partage 😂 Tu as lu notre bio ?'
       - id: verifie-compte
         texte: Je regarde d’abord le profil du compte qui publie.
         qualite: bon
         geste: verifier
         consequence: 'La bio dit « Parodie » et le compte n’a que 2 400 abonnés. Le vrai InfoÉclair, écrit avec un l, n’a rien publié de tel. Pixelnoé non plus.'
+        reaction: 'Bien vu : c’était une parodie 😉'
       - id: aide
         texte: Je demande de l’aide à quelqu’un pour vérifier si ce compte est bien celui d’InfoÉclair.
         qualite: aide
         consequence: 'Ta sœur zoome sur le nom : « InfoÉcIair, avec un i majuscule ! Ce n’est pas le vrai compte. » Vous le signalez comme faux compte.'
     indices:
-      - { id: nom, libelle: 'Le nom s’écrit avec un i majuscule à la place du l', pertinent: true }
-      - { id: bio, libelle: 'La bio dit « Parodie »', pertinent: true }
-      - { id: abonnes, libelle: 'Le compte n’a que 2 400 abonnés pour un grand média', pertinent: true }
-      - { id: logo, libelle: 'Le logo est le même que celui d’InfoÉclair', pertinent: false }
-    explicationIndices: 'Un compte parodie ou un faux compte copie le logo d’un média : ça ne prouve rien. Ce qui compte, c’est le nom exact, lettre par lettre, la bio et le nombre d’abonnés. Ici, « InfoÉcIair » s’écrit avec un i majuscule.'
+      - { id: nom, libelle: 'Le nom s’écrit avec un i majuscule à la place du l', passage: 'InfoÉcIair' }
+      - { id: bio, libelle: 'La bio dit « Parodie »', passage: 'Parodie, rien n’est vrai' }
+      - { id: abonnes, libelle: 'Le compte n’a que 2 400 abonnés pour un grand média', passage: '2 400 abonnés' }
+    explicationIndices: 'Un compte parodie ou un faux compte peut imiter un média connu. Ce qui compte, c’est le nom exact, lettre par lettre, la bio et le nombre d’abonnés. Ici, « InfoÉcIair » s’écrit avec un i majuscule.'
     aRetenir: 'Avant de croire un compte qui ressemble à un média, vérifie son nom exact, sa bio et son nombre d’abonnés. Une info importante se retrouve aussi sur le vrai compte du média.'
     recuperation: { action: bloquer-signaler, siChoix: [partage-info] }
     pourquoi:

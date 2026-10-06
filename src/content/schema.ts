@@ -109,7 +109,8 @@ export const ecranSchema = z.discriminatedUnion('app', [
     adresse: z.string().trim().regex(/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/, 'adresse mail attendue (nom@domaine.fr)').optional(),
     pieceJointe: z.object({ nom: texte }).optional(),
   }),
-  z.object({ app: z.literal('web'), ...ecranCommun, url: texte.optional() }),
+  /** `boutons` : libellés des boutons de la page, affichés inertes sous le texte. */
+  z.object({ app: z.literal('web'), ...ecranCommun, url: texte.optional(), boutons: z.array(texte).min(1).max(4).optional() }),
 ])
 export type Ecran = z.infer<typeof ecranSchema>
 
@@ -138,7 +139,7 @@ const choixSchema = z
 export type Choix = z.infer<typeof choixSchema>
 
 /** `passage` : texte exact à surligner dans l'écran du scénario. */
-const indiceSchema = z.object({ id: slug, libelle: texte, pertinent: z.boolean(), passage: texte.optional() })
+const indiceSchema = z.object({ id: slug, libelle: texte, passage: texte })
 
 const recuperationSchema = z.object({ action: z.enum(RECOVERY_ACTIONS), siChoix: z.array(slug).min(1) })
 
@@ -189,7 +190,7 @@ export const scenarioSchema = z
     ecran: ecranSchema,
     question: texte,
     choix: z.array(choixSchema).min(2).max(4),
-    indices: z.array(indiceSchema).min(2),
+    indices: z.array(indiceSchema).min(1),
     explicationIndices: texte,
     aRetenir: texte,
     aRetenirSimple: texte.optional(),
@@ -204,9 +205,6 @@ export const scenarioSchema = z
       }
     })
     idsUniques(s.indices.map((i) => i.id), ctx, ['indices'], 'indice')
-    if (!s.indices.some((i) => i.pertinent)) {
-      ctx.addIssue({ code: 'custom', path: ['indices'], message: 'il faut au moins un indice pertinent' })
-    }
   })
 
 /** Décors dessinés des lieux d’un parcours (un SVG par décor dans src/mission/DecorScene.vue). */

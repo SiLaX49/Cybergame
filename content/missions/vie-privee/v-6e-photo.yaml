@@ -35,21 +35,22 @@ etapes:
         geste: partager
         consequence: 'La photo plaît. Mais un compte inconnu la commente : « Ah, tu es aux Tilleuls ! Tu sors à quelle heure ? » Avec le nom du collège, n’importe qui sait où te trouver en semaine. Tu peux encore modifier la publication.'
         consequenceSimple: 'Un inconnu écrit : « Tu sors à quelle heure ? » Il sait où est ton collège. Tu peux encore changer la photo.'
+        reaction: 'Trop bien, elle est trop belle ! 😍'
       - id: recadre
         texte: 'Je recadre la photo pour cacher le nom du collège, et je la partage seulement avec mes amis.'
         qualite: bon
         geste: partager
         consequence: 'La photo est toujours aussi belle. Tes amis la voient et la likent. Les inconnus, eux, ne savent pas où tu vas en cours.'
+        reaction: 'Super idée, elle est encore mieux comme ça 😍'
       - id: aide
         texte: Je demande de l’aide à un adulte pour savoir ce que je peux montrer sur la photo.
         qualite: aide
         consequence: 'Ton père regarde la photo avec toi : « Elle est super ! Cache juste le nom du collège. » Vous la recadrez ensemble.'
     indices:
-      - { id: nom-college, libelle: 'Le nom du collège est bien lisible sur la photo', pertinent: true }
-      - { id: public, libelle: 'Mon compte est public : tout le monde peut voir la photo', pertinent: true }
-      - { id: tout-le-monde, libelle: 'Inès dit que tout le monde le fait', pertinent: true }
-      - { id: emoji, libelle: 'Inès a mis un emoji avec des cœurs', pertinent: false }
-    explicationIndices: 'Le nom du collège dit où tu es presque tous les jours. Sur un compte public, n’importe qui peut le lire. L’emoji, lui, ne change rien.'
+      - { id: nom-college, libelle: 'Le nom du collège est bien lisible sur la photo', passage: 'Collège des Tilleuls' }
+      - { id: public, libelle: 'Mon compte est public : tout le monde peut voir la photo', passage: 'en public' }
+      - { id: tout-le-monde, libelle: 'Inès dit que tout le monde le fait', passage: 'Tout le monde poste sa photo' }
+    explicationIndices: 'Le nom du collège dit où tu es presque tous les jours. Sur un compte public, n’importe qui peut le lire. Que tout le monde le fasse ne rend pas ça plus sûr.'
     aRetenir: 'Avant de publier une photo, regarde ce qu’on voit derrière toi : nom du collège, de la rue, numéro de maison. Cache-le, et partage seulement avec tes amis.'
     aRetenirSimple: 'Avant de publier, regarde le fond de la photo. Cache le nom du collège ou de ta rue.'
     recuperation: { action: demander-aide, siChoix: [publie] }
@@ -88,6 +89,7 @@ etapes:
         reponse: 'Merci ! Je suis au collège des Tilleuls 😊'
         consequence: 'Max_du_31 répond tout de suite. Il demande ta classe, puis l’heure où tu sors. Il pose beaucoup de questions pour quelqu’un que tu ne connais pas. Tu peux arrêter de répondre maintenant.'
         consequenceSimple: 'Max_du_31 demande ta classe, puis l’heure où tu sors. Arrête de répondre et parles-en à un adulte.'
+        reaction: 'Cool ! Tu es dans quelle classe ? 😊'
       - id: bloque
         texte: 'Je ne réponds pas, je bloque et je signale ce compte.'
         qualite: bon
@@ -98,10 +100,9 @@ etapes:
         qualite: aide
         consequence: 'Ta mère lit le message : « On ne donne pas son collège à un inconnu. » Vous bloquez et signalez le compte ensemble.'
     indices:
-      - { id: inconnu, libelle: 'Je ne connais pas cette personne', pertinent: true }
-      - { id: college, libelle: 'Il demande dans quel collège je suis', pertinent: true }
-      - { id: date-publique, libelle: 'Ma date d’anniversaire est visible par tout le monde', pertinent: true }
-      - { id: emoji-gateau, libelle: 'Il a mis un emoji gâteau', pertinent: false }
+      - { id: inconnu, libelle: 'Je ne connais pas cette personne', passage: 'Max_du_31' }
+      - { id: college, libelle: 'Il demande dans quel collège je suis', passage: 'T’es dans quel collège ?' }
+      - { id: date-publique, libelle: 'Ma date d’anniversaire est visible par tout le monde', passage: 'Joyeux anniversaire' }
     explicationIndices: 'Un inconnu a lu ta date d’anniversaire sur ton profil. Il s’en sert pour commencer à parler. Puis il demande ton collège : c’est l’endroit où te trouver.'
     aRetenir: 'Ne donne jamais ton collège, ton adresse ou tes horaires à quelqu’un que tu ne connais pas en vrai. Bloque, signale, et parles-en à un adulte.'
     aRetenirSimple: 'Ne dis jamais ton collège à un inconnu. Bloque, signale et parles-en à un adulte.'
@@ -136,20 +137,21 @@ etapes:
         geste: partager
         consequence: 'Aucune trottinette n’arrive. Par contre, tu reçois des pubs et des messages bizarres qui citent ton nom. Ton adresse et ta photo sont maintenant chez des inconnus. Un adulte peut t’aider à limiter les dégâts.'
         consequenceSimple: 'Pas de trottinette. Mais ton nom, ton adresse et ta photo sont chez des inconnus. Parles-en à un adulte.'
+        reaction: 'Participation enregistrée ✔ Bonne chance pour le tirage !'
       - id: ferme
         texte: 'Je ne remplis rien : un concours n’a pas besoin de ma photo.'
         qualite: bon
         geste: fermer
         consequence: 'Tu fermes la page. Le soir, tu montres le site à ta mère : aucune vraie boutique ne s’appelle « Méga Jouets ». Le concours servait à récolter des adresses et des photos.'
+        reaction: 'Attends ! Plus que 3 heures pour gagner ta trottinette !'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de donner la moindre information.
         qualite: aide
         consequence: 'Ton grand frère regarde le site : « Un concours ne demande pas ta photo. » Vous fermez la page sans rien remplir.'
     indices:
-      - { id: photo, libelle: 'On me demande une photo de moi', pertinent: true }
-      - { id: adresse, libelle: 'On me demande mon adresse', pertinent: true }
-      - { id: delai, libelle: 'Le tirage a lieu « ce soir », il faut faire vite', pertinent: true }
-      - { id: majuscules, libelle: 'Le titre est écrit en majuscules', pertinent: false }
+      - { id: photo, libelle: 'On me demande une photo de moi', passage: 'une photo de toi' }
+      - { id: adresse, libelle: 'On me demande mon adresse', passage: 'ton nom, ton adresse' }
+      - { id: delai, libelle: 'Le tirage a lieu « ce soir », il faut faire vite', passage: 'Tirage ce soir à 20 h' }
     explicationIndices: 'Un vrai concours n’a pas besoin de ta photo. Ton adresse et ton visage sont des informations précieuses. Le délai court sert à te faire remplir sans réfléchir.'
     aRetenir: 'Ton nom, ton adresse et ta photo sont des données personnelles. Ne les donne jamais sur un site inconnu. Avant tout concours, demande à un parent.'
     aRetenirSimple: 'Ne donne jamais ton adresse ou ta photo sur un site inconnu. Demande d’abord à un parent.'

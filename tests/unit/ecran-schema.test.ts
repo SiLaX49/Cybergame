@@ -19,7 +19,7 @@ describe('écran du téléphone', () => {
       },
       { app: 'mail', appNom: 'Mail', contact: 'Mon Collège', adresse: 'support@moncollege-ent.net', sujet: 'Mot de passe', pieceJointe: { nom: 'devoir.pdf' }, messages },
       { app: 'web', appNom: 'Navigateur', contact: 'Wi-Fi Gare', url: 'http://gare-wifi.com', messages },
-      { app: 'web', appNom: 'Magasin d’applis', contact: 'TunnelZéro VPN', messages },
+      { app: 'web', appNom: 'Magasin d’applis', contact: 'TunnelZéro VPN', messages, boutons: ['Installer', 'Annuler'] },
     ]
     for (const e of ecrans) expect(erreurs(scenarioSchema.safeParse(avecEcran(e))), e.app).toEqual([])
   })
@@ -59,6 +59,15 @@ describe('écran du téléphone', () => {
     expect(r.data?.choix[0]).toMatchObject({ reaction: 'Merci, à très vite !', reactionSimple: 'Merci !' })
     expect(r.data?.indices[1]).toMatchObject({ passage: 'bloqué' })
     expect(r.data?.choix[1]?.reaction).toBeUndefined()
+  })
+
+  it('chaque indice a un passage ; une page a 1 à 4 boutons', () => {
+    const s = rawScenario()
+    const sansPassage = { ...s, indices: s.indices.map((i) => (i.id === 'urgence' ? { id: i.id, libelle: i.libelle } : i)) }
+    expect(erreurs(scenarioSchema.safeParse(sansPassage))).toHaveLength(1)
+    const page = (boutons: string[]) => avecEcran({ app: 'web', appNom: 'Navigateur', contact: 'Page', messages, boutons })
+    expect(scenarioSchema.safeParse(page([])).success).toBe(false)
+    expect(scenarioSchema.safeParse(page(['A', 'B', 'C', 'D', 'E'])).success).toBe(false)
   })
 
   it('une notification peut avoir une heure', () => {
