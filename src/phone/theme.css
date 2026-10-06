@@ -1,0 +1,20 @@
+/* Variables du faux téléphone, par appli. Aplats opaques ; texte d'au moins 4.5:1 sur son fond. */
+.telephone {
+  --tel-coque: #1b1b2f;
+  --tel-fond: #ffffff;
+  --tel-texte: #1b1b2f;
+  --tel-doux: #55556a;
+  --tel-bord: #d9d9e3;
+  --tel-accent: #2f5bd3;
+  --tel-accent-texte: #ffffff;
+  --tel-recu: #ececf1;
+  --tel-envoye: #2f5bd3;
+  --tel-envoye-texte: #ffffff;
+  --tel-lien: #1d4ed8;
+}
+.telephone[data-app='sms'] { --tel-accent: #1f7a3a; --tel-envoye: #1f7a3a; }
+.telephone[data-app='chat'] { --tel-fond: #f3f2fb; --tel-recu: #ffffff; --tel-accent: #5a3fc0; --tel-envoye: #5a3fc0; }
+.telephone[data-app='social'] { --tel-accent: #b0174f; }
+.telephone[data-app='mail'] { --tel-accent: #1d4ed8; }
+.telephone[data-app='web'] { --tel-accent: #3b3b4f; }
+.telephone[data-app='verrouillage'] { --tel-fond: #23214a; --tel-texte: #ffffff; --tel-doux: #d6d4f0; --tel-recu: #34316a; }
