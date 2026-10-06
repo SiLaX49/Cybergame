@@ -8,7 +8,7 @@ import { leviersDeLaMission, leviersDuRun, type RunState, type SurpriseResultat 
 import { focusAuMontage } from '@/ui/focus'
 import { useTexte } from '@/ui/useTexte'
 
-const props = defineProps<{ mission: Mission; etat: RunState; leviers: Leviers }>()
+const props = withDefaults(defineProps<{ mission: Mission; etat: RunState; leviers: Leviers; sensible?: boolean }>(), { sensible: false })
 const emit = defineEmits<{ rejouer: [] }>()
 const t = useTexte()
 const titre = ref<HTMLElement | null>(null)
@@ -94,7 +94,8 @@ async function fermerPleinEcran() {
         <li v-for="l in leviersChoisis" :key="l.id"><strong>{{ l.libelle }}</strong> : {{ l.parade }}</li>
       </ul>
       <template v-else>
-        <p>Aucun piège n’a marché sur toi cette fois. Les leviers à surveiller :</p>
+        <p v-if="sensible">Tu as fait les bons choix cette fois. Ce qui peut faire hésiter :</p>
+        <p v-else>Aucun piège n’a marché sur toi cette fois. Les leviers à surveiller :</p>
         <ul>
           <li v-for="l in aSurveiller" :key="l">{{ l }}</li>
         </ul>

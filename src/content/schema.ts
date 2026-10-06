@@ -24,7 +24,7 @@ export type FilAction = (typeof FIL_ACTIONS)[number]
 const slug = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'identifiant attendu en minuscules-avec-tirets')
 const texte = z.string().trim().min(1, 'texte vide')
 
-export const LEVIERS = ['urgence', 'peur', 'gain', 'confiance', 'petit-montant', 'autorite', 'groupe', 'reflexe'] as const
+export const LEVIERS = ['urgence', 'peur', 'gain', 'confiance', 'petit-montant', 'autorite', 'groupe', 'reflexe', 'flatterie', 'secret', 'honte', 'humour', 'colere'] as const
 export type LevierId = (typeof LEVIERS)[number]
 export type ReponseLevier = LevierId | 'autre'
 

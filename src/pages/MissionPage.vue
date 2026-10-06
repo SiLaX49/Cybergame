@@ -115,7 +115,7 @@ function recommencer() {
         <ChoixPersonnage v-model="personnageChoisi" />
         <button type="button" class="btn btn-primaire" :disabled="!personnageChoisi" @click="commencerParcours">C’est parti !</button>
       </section>
-      <FinMission v-else-if="etat.termine" :mission="mission" :etat="etat" :leviers="leviers" @rejouer="recommencer" />
+      <FinMission v-else-if="etat.termine" :mission="mission" :etat="etat" :leviers="leviers" :sensible="sensible" @rejouer="recommencer" />
       <template v-else-if="etape">
         <ScenarioStep
           v-if="etape.type === 'scenario'"

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { leviersFileSchema, missionSchema } from '@/content/schema'
+import { LEVIERS, leviersFileSchema, missionSchema } from '@/content/schema'
 import { rawLeviers, rawMission, rawScenario } from './fixtures'
 
 const chemins = (raw: unknown) => {
@@ -8,8 +8,16 @@ const chemins = (raw: unknown) => {
 }
 
 describe('leviers.yaml', () => {
-  it('accepte les 8 leviers et « autre »', () => {
+  it('accepte les 13 leviers et « autre »', () => {
     expect(leviersFileSchema.safeParse(rawLeviers()).success).toBe(true)
+  })
+  it('liste les 13 leviers dans l’ordre', () => {
+    expect(LEVIERS).toEqual(['urgence', 'peur', 'gain', 'confiance', 'petit-montant', 'autorite', 'groupe', 'reflexe', 'flatterie', 'secret', 'honte', 'humour', 'colere'])
+  })
+  it('refuse leviers.yaml sans le levier honte', () => {
+    const raw = rawLeviers()
+    delete (raw.leviers as Record<string, unknown>).honte
+    expect(leviersFileSchema.safeParse(raw).success).toBe(false)
   })
   it('exige tous les leviers', () => {
     const raw = rawLeviers()
@@ -18,7 +26,7 @@ describe('leviers.yaml', () => {
   })
   it('refuse un levier inconnu', () => {
     const raw = rawLeviers()
-    ;(raw.leviers as Record<string, unknown>).flatterie = raw.leviers.gain
+    ;(raw.leviers as Record<string, unknown>).inconnu = raw.leviers.gain
     expect(leviersFileSchema.safeParse(raw).success).toBe(false)
   })
 })
@@ -32,7 +40,7 @@ describe('bloc pourquoi d’un scénario', () => {
     sc.pourquoi = [...sc.pourquoi.slice(0, 2), { levier: 'urgence', truc: 'T.', parade: 'P.' }]
     expect(chemins(rawMission({ etapes: [sc] }))).toContainEqual(expect.stringMatching(/^etapes\.0\.pourquoi\.2\.levier : levier en double : urgence/))
     const inconnu = rawScenario()
-    inconnu.pourquoi[0]!.levier = 'flatterie'
+    inconnu.pourquoi[0]!.levier = 'inconnu'
     expect(chemins(rawMission({ etapes: [inconnu] }))).toContainEqual(expect.stringMatching(/^etapes\.0\.pourquoi\.0\.levier/))
   })
   it('exige 3 ou 4 leviers', () => {

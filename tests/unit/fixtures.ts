@@ -168,6 +168,11 @@ export function rawLeviers() {
       autorite: info('Ça avait l’air officiel'),
       groupe: info('Les autres le font aussi'),
       reflexe: info('Je n’ai pas vraiment réfléchi'),
+      flatterie: info('Il ou elle me faisait me sentir spécial·e'),
+      secret: info('On m’a demandé de garder le secret'),
+      honte: info('J’avais honte d’en parler'),
+      humour: info('C’était juste pour rire'),
+      colere: info('J’étais en colère, je voulais répondre'),
     },
     autre: { libelle: 'Autre chose / je ne sais pas', truc: 'Truc générique.', parade: 'Parade générique.' },
   }
