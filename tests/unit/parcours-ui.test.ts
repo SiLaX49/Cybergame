@@ -68,7 +68,9 @@ describe('LieuStep', () => {
   it('réaction après un piège avec récupération : on reste, un seul bouton « Continuer » vers le geste', async () => {
     const w = monterLieu({ phase: 'consequence', resultat: resultat({ choixId: 'donne', qualite: 'risque', levier: 'confiance', essais: ['donne'] }) })
     expect(w.text()).toContain('C’était risqué')
-    expect(w.text()).toContain('Tu restes sur ta plateforme.')
+    expect(w.find('.deplacement').text()).toBe(
+      'Tu restes sur ta plateforme. Dans la vraie vie, on ne revient pas en arrière ; ici, tu peux rejouer ce moment.',
+    )
     expect(w.text()).toContain('Son frère voit ton mot de passe.')
     expect(w.text()).toContain('Lina est ton amie.')
     expect(w.findAll('button').map((b) => b.text())).toEqual(['Continuer'])
@@ -86,7 +88,7 @@ describe('LieuStep', () => {
 
   it('réaction après un bon choix : on avance, « Rejouer ce lieu » et « Continuer »', async () => {
     const w = monterLieu({ phase: 'consequence', resultat: resultat() })
-    expect(w.text()).toContain('Tu avances !')
+    expect(w.find('.deplacement').text()).toBe('Tu avances !')
     await cliquer(w, 'Rejouer ce lieu')
     await cliquer(w, 'Continuer')
     expect(w.emitted('evenement')).toEqual([[{ type: 'rejouer' }], [{ type: 'continuer' }]])
@@ -97,7 +99,18 @@ describe('LieuStep', () => {
     const b = w.find('[data-choix="donne"]')
     expect(b.attributes('disabled')).toBeDefined()
     expect(b.text()).toContain('(déjà essayé)')
-    expect(w.find('.rester').text()).toBe('Tu restes sur ta plateforme : essaie un autre choix.')
+    const rester = w.find('.rester')
+    expect(rester.text()).toBe('Retour au même moment : essaie un autre choix.')
+    // Lu avec la question quand le titre reçoit le focus, sans région live en plus.
+    expect(rester.attributes('role')).toBeUndefined()
+    expect(rester.attributes('id')).toBe('rester-l1')
+    expect(w.find('h2').attributes('aria-describedby')).toBe('rester-l1')
+  })
+
+  it('sans essai, pas de message « retour » ni de description sur la question', () => {
+    const w = monterLieu()
+    expect(w.find('.rester').exists()).toBe(false)
+    expect(w.find('h2').attributes('aria-describedby')).toBeUndefined()
   })
 
   it('récupération : affiche le geste à pratiquer', () => {

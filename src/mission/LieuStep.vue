@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Compass } from '@lucide/vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { Leviers, Lieu } from '@/content/schema'
 import type { LieuResultat, PhaseScenario, RunEvent } from '@/engine/mission-runner'
 import { RECUPERATIONS } from '@/recovery/registry'
@@ -30,6 +30,10 @@ const TITRES: Record<Exclude<PhaseScenario, 'situation'>, string> = {
   recuperation: 'Maintenant, limite les dégâts',
 }
 
+// Retour au même lieu après un piège : le message est lu avec la question quand le titre reçoit le focus.
+const retour = computed(() => props.phase === 'situation' && !!props.resultat?.essais.length)
+const idRester = computed(() => `rester-${props.lieu.id}`)
+
 const article = ref<HTMLElement | null>(null)
 const titre = ref<HTMLElement | null>(null)
 focusAuMontage(article)
@@ -48,10 +52,10 @@ focusAuChangement(() => props.phase, titre)
           <Compass aria-hidden="true" class="recit-icone" />
           <p>{{ t(lieu.guide, lieu.guideSimple) }}</p>
         </div>
-        <h2 ref="titre" tabindex="-1">{{ phase === 'situation' ? lieu.question : TITRES[phase] }}</h2>
-        <p v-if="phase === 'situation' && resultat?.essais.length" class="rester" role="status">
-          Tu restes sur ta plateforme : essaie un autre choix.
-        </p>
+        <h2 ref="titre" tabindex="-1" :aria-describedby="retour ? idRester : undefined">
+          {{ phase === 'situation' ? lieu.question : TITRES[phase] }}
+        </h2>
+        <p v-if="retour" :id="idRester" class="rester">Retour au même moment : essaie un autre choix.</p>
         <ChoixList
           v-if="phase === 'situation'"
           :choix="lieu.choix"

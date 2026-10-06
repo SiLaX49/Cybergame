@@ -33,8 +33,15 @@ test('un lieu : choix risqué, pourquoi, réaction, puis geste de récupération
   await page.getByRole('button', { name: 'Continuer', exact: true }).click()
   // Après un piège, on reste sur la même plateforme : le choix risqué est barré.
   await expect(page.getByText('Étape 1 sur 5')).toBeVisible()
-  await expect(page.locator('[data-choix="ecrit"]')).toBeDisabled()
+  const barre = page.locator('[data-choix="ecrit"]')
+  await expect(barre).toBeDisabled()
+  // Lisible malgré tout : pas d’opacité réduite, bordure en tirets, texte barré sauf « (déjà essayé) ».
+  await expect(barre).toHaveCSS('opacity', '1')
+  await expect(barre).toHaveCSS('border-top-style', 'dashed')
+  await expect(barre).toHaveCSS('text-decoration-line', 'line-through')
+  await expect(barre.locator('.deja')).toHaveText('(déjà essayé)')
   await expect(page.locator('.rester')).toBeVisible()
+  await expect(page.locator('article.lieu h2')).toHaveAccessibleDescription('Retour au même moment : essaie un autre choix.')
   await page.locator('[data-qualite="aide"]').click()
   await page.getByRole('button', { name: 'Continuer', exact: true }).click()
   await expect(page.getByText('Étape 2 sur 5')).toBeVisible()

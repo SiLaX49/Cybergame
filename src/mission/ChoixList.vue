@@ -55,6 +55,8 @@ function validerClasse() {
 .choix-btn { width: 100%; text-align: left; justify-content: flex-start; }
 .choix-btn[aria-pressed='true'] { background: var(--primaire); color: var(--primaire-texte); }
 .choix-btn.essaye { text-decoration: line-through; }
+/* Choix déjà essayé : reste lisible (pas d’opacité réduite), signalé par le texte, le trait et la bordure en tirets. */
+.choix-btn.essaye:disabled { opacity: 1; color: var(--texte-doux); border-style: dashed; }
 .deja { text-decoration: none; display: inline-block; }
 .consigne-mode { font-weight: 700; }
 </style>
