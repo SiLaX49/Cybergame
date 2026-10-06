@@ -2,16 +2,18 @@
 import { computed } from 'vue'
 import type { Leviers, Scenario } from '@/content/schema'
 import type { ScenarioResultat } from '@/engine/mission-runner'
-import { ordreAffichage } from '@/engine/ordre'
 import { useTexte } from '@/ui/useTexte'
+import ExplicationPanel from './ExplicationPanel.vue'
 import { reponseLevier, VERDICTS } from './reponseLevier'
 
-const props = defineProps<{ scenario: Scenario; resultat: ScenarioResultat; leviers: Leviers }>()
+/** `indices` : la liste passée au téléphone (même ordre, donc mêmes numéros). */
+const props = defineProps<{ scenario: Scenario; resultat: ScenarioResultat; leviers: Leviers; indices: Scenario['indices'] }>()
 const emit = defineEmits<{ continuer: []; rejouer: [] }>()
 const t = useTexte()
 
-const indices = computed(() => ordreAffichage(props.scenario.indices.filter((i) => i.pertinent), props.scenario.id))
 const choix = computed(() => props.scenario.choix.find((c) => c.id === props.resultat.choixId))
+// Un piège suivi de la question des leviers a déjà montré l’explication en phase « pourquoi ».
+const explicationVue = computed(() => choix.value?.qualite === 'risque' && Boolean(props.scenario.pourquoi))
 
 const reponse = computed(() => reponseLevier(props.scenario.pourquoi, props.resultat.levier, props.leviers))
 </script>
@@ -29,11 +31,7 @@ const reponse = computed(() => reponseLevier(props.scenario.pourquoi, props.resu
       <p>{{ reponse.truc }}</p>
       <p><strong>Ta parade :</strong> {{ reponse.parade }}</p>
     </div>
-    <h3>Les indices</h3>
-    <ul class="liste-indices">
-      <li v-for="i in indices" :key="i.id">{{ i.libelle }}</li>
-    </ul>
-    <p>{{ scenario.explicationIndices }}</p>
+    <ExplicationPanel v-if="!explicationVue" :indices="indices" :explication="scenario.explicationIndices" />
     <div class="a-retenir" role="note">
       <h3>À retenir</h3>
       <p>{{ t(scenario.aRetenir, scenario.aRetenirSimple) }}</p>

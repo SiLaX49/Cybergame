@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import type { Leviers, Scenario } from '@/content/schema'
 import type { PhaseScenario, RunEvent, ScenarioResultat } from '@/engine/mission-runner'
+import { ordreAffichage } from '@/engine/ordre'
 import Telephone from '@/phone/Telephone.vue'
 import { RECUPERATIONS } from '@/recovery/registry'
 import type { Mode } from '@/store/progress'
 import { focusAuChangement, focusAuMontage } from '@/ui/focus'
 import ConsequencePanel from './ConsequencePanel.vue'
+import ExplicationPanel from './ExplicationPanel.vue'
 import PourquoiForm from './PourquoiForm.vue'
 
 const props = defineProps<{
@@ -17,6 +19,8 @@ const props = defineProps<{
   sensible: boolean
   leviers: Leviers
   choixId?: string | null
+  /** Indice demandé (moteur) : passages surlignés sans numéros avant le choix. */
+  indiceVisible?: boolean
 }>()
 const emit = defineEmits<{ evenement: [evenement: RunEvent] }>()
 
@@ -40,10 +44,32 @@ const nomSituation = computed(() => {
   return `Situation : message de ${contact} dans ${appNom}`
 })
 
+/** Indices pertinents, dans l’ordre d’affichage : même liste pour le téléphone et le panneau, donc mêmes numéros. */
+const indices = computed(() => ordreAffichage(props.scenario.indices.filter((i) => i.pertinent), props.scenario.id))
+const choixJoue = computed(() => (props.phase === 'situation' ? null : (props.choixId ?? null)))
+
+// Après un choix, le panneau garde la question jusqu’à la fin de la séquence jouée dans le téléphone.
+const sequenceFinie = ref(false)
+watch(
+  () => props.phase,
+  (phase) => {
+    if (phase === 'situation') sequenceFinie.value = false
+  },
+)
+// Le téléphone peut émettre `sequence-finie` pendant le rendu de ce composant (séquence instantanée) : une
+// modification faite à cet instant ne relancerait pas son rendu, d’où l’attente du tick suivant.
+async function finirSequence() {
+  await nextTick()
+  sequenceFinie.value = true
+}
+const phaseAffichee = computed<PhaseScenario>(() => (!choixJoue.value || sequenceFinie.value ? props.phase : 'situation'))
+const choix = computed(() => props.scenario.choix.find((c) => c.id === props.choixId))
+
 const situation = ref<HTMLElement | null>(null)
 const titre = ref<HTMLElement | null>(null)
 focusAuMontage(situation)
-focusAuChangement(() => props.phase, titre)
+// Focus sur le titre au choix (le bouton cliqué disparaît), puis à l’affichage de la phase suivante.
+focusAuChangement(() => `${props.phase} ${phaseAffichee.value}`, titre)
 </script>
 
 <template>
@@ -60,31 +86,38 @@ focusAuChangement(() => props.phase, titre)
         :choix="scenario.choix"
         :mode="mode"
         :graine="scenario.id"
-        :choix-joue="phase === 'situation' ? null : (choixId ?? null)"
+        :choix-joue="choixJoue"
+        :indices="indices"
+        :indice-visible="indiceVisible"
         @choisir="(id) => emit('evenement', { type: 'choisir', choixId: id })"
+        @indice="emit('evenement', { type: 'indice' })"
+        @sequence-finie="finirSequence"
       />
       <div class="scenario-panneau">
-        <h2 ref="titre" tabindex="-1">{{ phase === 'situation' ? scenario.question : TITRES[phase] }}</h2>
+        <h2 ref="titre" tabindex="-1">{{ phaseAffichee === 'situation' ? scenario.question : TITRES[phaseAffichee] }}</h2>
         <p v-if="phase === 'situation'" class="consigne-mode">{{ CONSIGNES[mode] }}</p>
-        <PourquoiForm
-          v-if="phase === 'pourquoi' && scenario.pourquoi"
-          :pourquoi="scenario.pourquoi"
-          :leviers="leviers"
-          :graine="scenario.id"
-          :mode="mode"
-          @expliquer="(levier) => emit('evenement', { type: 'expliquer', levier })"
-        />
+        <template v-if="phaseAffichee === 'pourquoi' && scenario.pourquoi">
+          <ExplicationPanel v-if="choix" :indices="indices" :explication="scenario.explicationIndices" :qualite="choix.qualite" />
+          <PourquoiForm
+            :pourquoi="scenario.pourquoi"
+            :leviers="leviers"
+            :graine="scenario.id"
+            :mode="mode"
+            @expliquer="(levier) => emit('evenement', { type: 'expliquer', levier })"
+          />
+        </template>
         <ConsequencePanel
-          v-if="phase === 'consequence' && resultat"
+          v-if="phaseAffichee === 'consequence' && resultat"
           :scenario="scenario"
           :resultat="resultat"
           :leviers="leviers"
+          :indices="indices"
           @continuer="emit('evenement', { type: 'continuer' })"
           @rejouer="emit('evenement', { type: 'rejouer' })"
         />
         <component
           :is="RECUPERATIONS[scenario.recuperation.action]"
-          v-if="phase === 'recuperation' && scenario.recuperation"
+          v-if="phaseAffichee === 'recuperation' && scenario.recuperation"
           @fait="emit('evenement', { type: 'recuperation-faite' })"
         />
         <div v-if="sensible" class="actions">

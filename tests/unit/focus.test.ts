@@ -1,4 +1,5 @@
 import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
+import { nextTick } from 'vue'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Fil, Scenario } from '@/content/schema'
 import ConfidentialiteGame from '@/minigames/ConfidentialiteGame.vue'
@@ -16,7 +17,7 @@ import CapturePreuve from '@/recovery/CapturePreuve.vue'
 import ChangerMdp from '@/recovery/ChangerMdp.vue'
 import PrevenirContacts from '@/recovery/PrevenirContacts.vue'
 import CorrigerPartage from '@/recovery/CorrigerPartage.vue'
-import { creerStore, definirStore } from '@/store/useProgress'
+import { creerStore, definirStore, type ProgressStore } from '@/store/useProgress'
 import AppHeader from '@/ui/AppHeader.vue'
 import {
   confidentialiteFixture,
@@ -35,12 +36,17 @@ import { routerTest } from './router-test'
 vi.mock('@/content', async () => (await import('./content-mock')).contentMock)
 
 let montes: VueWrapper[] = []
+let store: ProgressStore
 beforeEach(() => {
-  definirStore(creerStore(new MemoryStorage()))
+  store = creerStore(new MemoryStorage())
+  definirStore(store)
+  // Séquence de retour instantanée : le panneau suit le choix sans minuterie.
+  store.modifierReglages({ animations: false })
 })
 afterEach(() => {
   montes.forEach((w) => w.unmount())
   montes = []
+  vi.useRealTimers()
 })
 
 function monter<T>(composant: T, options: Record<string, unknown> = {}): VueWrapper {
@@ -61,6 +67,22 @@ describe('gestion du focus', () => {
     expect(actif()?.getAttribute('aria-label')).toBe('Situation : message de Colis Express dans Messages')
     await w.setProps({ phase: 'pourquoi', choixId: 'clic' })
     await flushPromises()
+    expect(actif()?.textContent).toBe('Qu’est-ce qui t’a donné envie de le faire ?')
+  })
+
+  it('ScenarioStep avec animations : focus sur la question au choix, puis sur le titre quand le panneau s’affiche', async () => {
+    vi.useFakeTimers()
+    store.modifierReglages({ animations: true })
+    const scenario = missionFixture().etapes[0] as Scenario
+    const w = monter(ScenarioStep, {
+      props: { scenario, phase: 'situation', mode: 'solo', sensible: false, leviers: leviersFixture() },
+    })
+    await w.setProps({ phase: 'pourquoi', choixId: 'clic' })
+    await nextTick()
+    expect(actif()?.textContent).toBe('Que fais-tu ?')
+    // Choix sans réaction : la séquence finit à 1 400 ms ; puis émission, rendu et focus.
+    vi.advanceTimersByTime(1400)
+    for (let i = 0; i < 4; i++) await nextTick()
     expect(actif()?.textContent).toBe('Qu’est-ce qui t’a donné envie de le faire ?')
   })
 

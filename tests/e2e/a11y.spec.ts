@@ -20,6 +20,7 @@ test('pages élève', async ({ page }) => {
   await page.getByRole('link', { name: 'Le colis mystère' }).click()
   await verifierA11y(page, 'situation')
   await page.locator('[data-qualite="aide"]').click()
+  await expect(page.getByRole('heading', { name: 'Et alors, que se passe-t-il ?' })).toBeVisible()
   await verifierA11y(page, 'conséquence')
   await jouerMission(page)
   await verifierA11y(page, 'fin de mission')
@@ -31,6 +32,7 @@ test('mode classe entière (grands textes)', async ({ page }) => {
   await verifierA11y(page, 'situation classe')
   await page.locator('[data-qualite="aide"]').click()
   await page.getByRole('button', { name: 'Valider le choix de la classe' }).click()
+  await expect(page.getByRole('heading', { name: 'Et alors, que se passe-t-il ?' })).toBeVisible()
   await verifierA11y(page, 'conséquence classe')
 })
 
@@ -58,9 +60,26 @@ for (const [nom, chemin] of [
 test('étape « pourquoi » et réponse personnalisée', async ({ page }) => {
   await page.goto('/#/mission/p-6e-colis')
   await page.locator('[data-choix="clic"]').click()
+  await expect(page.getByRole('heading', { name: 'Qu’est-ce qui t’a donné envie de le faire ?' })).toBeVisible()
   await verifierA11y(page, 'pourquoi')
   await page.locator('[data-levier="autre"]').click()
   await verifierA11y(page, 'conséquence après piège')
+})
+
+test('verdict piège affiché', async ({ page }) => {
+  await page.goto('/#/mission/p-6e-colis')
+  await page.locator('[data-choix="clic"]').click()
+  await expect(page.locator('figure[data-verdict="piege"]')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Ce qui devait t’alerter' })).toBeVisible()
+  await verifierA11y(page, 'verdict piège')
+})
+
+test('verdict bon réflexe affiché', async ({ page }) => {
+  await page.goto('/#/mission/p-6e-colis')
+  await page.locator('[data-qualite="aide"]').click()
+  await expect(page.locator('figure[data-verdict="bon"]')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Ce qui devait t’alerter' })).toBeVisible()
+  await verifierA11y(page, 'verdict bon réflexe')
 })
 
 for (const [nom, id] of [

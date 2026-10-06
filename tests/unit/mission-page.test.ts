@@ -1,4 +1,4 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import MissionPage from '@/pages/MissionPage.vue'
 import { creerStore, definirStore, type ProgressStore } from '@/store/useProgress'
@@ -13,6 +13,8 @@ let erreurs: unknown[]
 beforeEach(() => {
   store = creerStore(new MemoryStorage())
   definirStore(store)
+  // Séquence de retour instantanée : le panneau suit le choix sans minuterie.
+  store.modifierReglages({ animations: false })
   erreurs = []
 })
 
@@ -21,6 +23,12 @@ async function monter(id: string) {
   return mount(MissionPage, {
     global: { plugins: [router], config: { errorHandler: (e) => erreurs.push(e) } },
   })
+}
+
+/** Joue un choix du téléphone, puis attend la fin (instantanée) de la séquence et l’affichage du panneau. */
+async function choisir(w: VueWrapper, id: string) {
+  await w.find(`[data-choix="${id}"]`).trigger('click')
+  await flushPromises()
 }
 
 async function finirTri(w: VueWrapper) {
@@ -36,7 +44,7 @@ describe('MissionPage', () => {
     expect(w.find('h1').text()).toBe('Mission test')
     expect(w.text()).toContain('Étape 1 sur 2')
     expect(w.text()).not.toContain('Valider le choix de la classe')
-    await w.find('[data-choix="aide"]').trigger('click')
+    await choisir(w, 'aide')
     await cliquer(w, 'Continuer')
     expect(w.text()).toContain('Étape 2 sur 2')
     await finirTri(w)
@@ -50,7 +58,7 @@ describe('MissionPage', () => {
 
   it('ignore le double clic sur « Continuer »', async () => {
     const w = await monter('m-test')
-    await w.find('[data-choix="aide"]').trigger('click')
+    await choisir(w, 'aide')
     const continuer = w.findAll('button').find((b) => b.text() === 'Continuer')!
     void continuer.trigger('click')
     await continuer.trigger('click')
@@ -60,7 +68,7 @@ describe('MissionPage', () => {
 
   it('recommence à l’étape 1 après un rechargement en pleine mission', async () => {
     const w = await monter('m-test')
-    await w.find('[data-choix="aide"]').trigger('click')
+    await choisir(w, 'aide')
     w.unmount()
     const w2 = await monter('m-test')
     expect(w2.text()).toContain('Étape 1 sur 2')
@@ -69,11 +77,32 @@ describe('MissionPage', () => {
 
   it('permet de rejouer la mission depuis la fin', async () => {
     const w = await monter('m-test')
-    await w.find('[data-choix="aide"]').trigger('click')
+    await choisir(w, 'aide')
     await cliquer(w, 'Continuer')
     await finirTri(w)
     await cliquer(w, 'Rejouer la mission')
     expect(w.text()).toContain('Étape 1 sur 2')
+  })
+
+  it('« Rejouer ce scénario » : retour à la question, puis un nouveau choix se joue jusqu’au bout', async () => {
+    const w = await monter('m-test')
+    await choisir(w, 'verif')
+    await cliquer(w, 'Rejouer ce scénario')
+    expect(w.find('h2').text()).toBe('Que fais-tu ?')
+    expect(w.find('.choix-joue').text()).toBe('')
+    await choisir(w, 'aide')
+    expect(w.find('.choix-joue').text()).toContain('demander de l’aide')
+    expect(w.text()).toContain('Ta mère confirme : arnaque.')
+    await cliquer(w, 'Continuer')
+    expect(w.text()).toContain('Étape 2 sur 2')
+  })
+
+  it('le bouton « Indice » du téléphone est relayé au moteur et reste enfoncé', async () => {
+    const w = await monter('m-test')
+    await cliquer(w, 'Indice')
+    expect(w.find('button[aria-pressed="true"]').text()).toBe('Indice')
+    expect(w.find('.ecran .passage').text()).toContain('colis-expres.info')
+    expect(erreurs).toEqual([])
   })
 
   it('affiche un message clair pour une mission inconnue', async () => {
@@ -108,7 +137,7 @@ describe('MissionPage', () => {
 
   it('ouvre les questions de débrief en grand', async () => {
     const w = await monter('m-test')
-    await w.find('[data-choix="aide"]').trigger('click')
+    await choisir(w, 'aide')
     await cliquer(w, 'Continuer')
     await finirTri(w)
     await cliquer(w, 'Afficher les questions en grand')
@@ -119,7 +148,7 @@ describe('MissionPage', () => {
 
   it('chemin risqué : pourquoi, réponse, récupération, puis « Ce qui t’a fait craquer »', async () => {
     const w = await monter('m-test')
-    await w.find('[data-choix="clic"]').trigger('click')
+    await choisir(w, 'clic')
     expect(w.find('h2').text()).toBe('Qu’est-ce qui t’a donné envie de le faire ?')
     await w.find('[data-levier="urgence"]').trigger('click')
     expect(w.text()).toContain('Ce qui a marché sur toi')
@@ -138,7 +167,7 @@ describe('MissionPage', () => {
 
   it('ignore le double clic sur une raison', async () => {
     const w = await monter('m-test')
-    await w.find('[data-choix="clic"]').trigger('click')
+    await choisir(w, 'clic')
     const raison = w.find('[data-levier="reflexe"]')
     void raison.trigger('click')
     await raison.trigger('click')
@@ -148,7 +177,7 @@ describe('MissionPage', () => {
 
   it('sans piège : rappelle les leviers à surveiller', async () => {
     const w = await monter('m-test')
-    await w.find('[data-choix="aide"]').trigger('click')
+    await choisir(w, 'aide')
     await cliquer(w, 'Continuer')
     await finirTri(w)
     const bloc = w.find('.craquer')
@@ -158,10 +187,10 @@ describe('MissionPage', () => {
 
   it('« Rejouer ce scénario » n’efface pas le levier du récapitulatif', async () => {
     const w = await monter('m-test')
-    await w.find('[data-choix="clic"]').trigger('click')
+    await choisir(w, 'clic')
     await w.find('[data-levier="urgence"]').trigger('click')
     await cliquer(w, 'Rejouer ce scénario')
-    await w.find('[data-choix="aide"]').trigger('click')
+    await choisir(w, 'aide')
     await cliquer(w, 'Continuer')
     await finirTri(w)
     const bloc = w.find('.craquer')

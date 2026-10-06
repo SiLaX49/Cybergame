@@ -1,5 +1,6 @@
-import { mount } from '@vue/test-utils'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { flushPromises, mount } from '@vue/test-utils'
+import { nextTick } from 'vue'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Scenario } from '@/content/schema'
 import type { ScenarioResultat } from '@/engine/mission-runner'
 import { ordreAffichage } from '@/engine/ordre'
@@ -13,6 +14,7 @@ let store: ProgressStore
 beforeEach(() => {
   store = creerStore(new MemoryStorage())
   definirStore(store)
+  store.modifierReglages({ animations: false })
 })
 
 const scenario = () => missionFixture().etapes[0] as Scenario
@@ -57,8 +59,9 @@ describe('ScenarioStep', () => {
     expect(w.emitted('evenement')).toEqual([[{ type: 'choisir', choixId: 'verif' }]])
   })
 
-  it('après le choix, le téléphone joue le geste et le panneau passe à la suite', () => {
+  it('après le choix, le téléphone joue le geste et le panneau passe à la suite', async () => {
     const w = monter({ phase: 'consequence', choixId: 'clic', resultat: { ...resultatClic, choixId: 'clic', qualite: 'risque' } })
+    await flushPromises()
     expect(w.find('.choix-joue').text()).toContain('Lien ouvert')
     expect(w.find('[data-choix]').exists()).toBe(false)
     expect(w.find('h2').text()).toBe('Et alors, que se passe-t-il ?')
@@ -68,13 +71,48 @@ describe('ScenarioStep', () => {
     const w = monter({ phase: 'consequence', resultat: resultatClic })
     expect(w.text()).toContain('Bon réflexe !')
     expect(w.text()).toContain('Aucun colis en attente.')
-    expect(w.findAll('.liste-indices li').map((li) => li.text()).sort()).toEqual(['L’adresse est bizarre', 'On me presse'])
+    expect(w.findAll('.liste-indices li').map((li) => li.find('.libelle').text()).sort()).toEqual(['L’adresse est bizarre', 'On me presse'])
     expect(w.text()).not.toContain('Le montant est petit')
     expect(w.text()).not.toContain('tu l’avais coché')
     expect(w.text()).toContain('Un transporteur ne demande pas de payer par SMS.')
     await cliquer(w, 'Rejouer ce scénario')
     await cliquer(w, 'Continuer')
     expect(w.emitted('evenement')).toEqual([[{ type: 'rejouer' }], [{ type: 'continuer' }]])
+  })
+
+  it('« Ce qui devait t’alerter » : indices numérotés dans l’ordre du téléphone, avec le passage cité', async () => {
+    const s = scenario()
+    const w = monter({ phase: 'consequence', choixId: 'verif', resultat: resultatClic })
+    await flushPromises()
+    const ordre = ordreAffichage(s.indices.filter((i) => i.pertinent), s.id)
+    const items = w.findAll('.liste-indices li')
+    expect(items.map((li) => li.find('.numero').text())).toEqual(['1', '2'])
+    expect(items.map((li) => li.find('.libelle').text())).toEqual(ordre.map((i) => i.libelle))
+    const url = items.find((li) => li.text().includes('L’adresse est bizarre'))!
+    expect(url.text()).toContain('« colis-expres.info »')
+    // Même numéro que la pastille du passage surligné dans le téléphone.
+    expect(w.find('.ecran .passage .numero').text()).toBe(url.find('.numero').text())
+    expect(w.find('.explication').text()).toContain('L’adresse imite le vrai site et le message crée l’urgence.')
+  })
+
+  it('pourquoi : verdict, « Ce qui devait t’alerter », puis la question des leviers ; pas répété ensuite', async () => {
+    const w = monter({ phase: 'pourquoi', choixId: 'clic' })
+    await flushPromises()
+    expect(w.find('.explication').text()).toContain('C’était risqué.')
+    expect(w.find('.explication').text()).toContain('Ce qui devait t’alerter')
+    expect(w.find('[data-levier="urgence"]').exists()).toBe(true)
+    await w.setProps({ phase: 'consequence', resultat: { ...resultatClic, choixId: 'clic', qualite: 'risque', levier: 'urgence' } })
+    expect(w.text()).toContain('Ce qui a marché sur toi')
+    expect(w.find('.explication').exists()).toBe(false)
+  })
+
+  it('bouton « Indice » : relayé au moteur, et allumé par `indiceVisible`', async () => {
+    const w = monter()
+    await cliquer(w, 'Indice')
+    expect(w.emitted('evenement')).toEqual([[{ type: 'indice' }]])
+    await w.setProps({ indiceVisible: true })
+    expect(bouton(w, 'Indice').attributes('aria-pressed')).toBe('true')
+    expect(w.find('.ecran .passage').text()).toContain('colis-expres.info')
   })
 
   it('lecture simplifiée activée pendant la conséquence : le texte change, la phase reste', async () => {
@@ -128,5 +166,47 @@ describe('ScenarioStep', () => {
   it('annonce le rôle joué', () => {
     const w = monter({ scenario: { ...scenario(), role: 'temoin' } })
     expect(w.text()).toContain('Dans ce scénario, tu joues un·e témoin.')
+  })
+})
+
+describe('ScenarioStep : le panneau attend la fin de la séquence', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+    store.modifierReglages({ animations: true })
+  })
+  afterEach(() => vi.useRealTimers())
+  /** Avance le temps, puis laisse passer l’émission de fin du téléphone et le rendu du panneau. */
+  const avancer = async (ms: number) => {
+    vi.advanceTimersByTime(ms)
+    for (let i = 0; i < 3; i++) await nextTick()
+  }
+
+  it('après un choix, le panneau ne montre que la question, puis la phase suivante', async () => {
+    const w = monter()
+    await w.setProps({ phase: 'consequence', choixId: 'verif', resultat: resultatClic })
+    expect(w.find('h2').text()).toBe('Que fais-tu ?')
+    expect(w.find('.consigne-mode').exists()).toBe(false)
+    expect(w.find('.consequence').exists()).toBe(false)
+    // Choix sans réaction : la séquence finit à 1 400 ms.
+    await avancer(1399)
+    expect(w.find('h2').text()).toBe('Que fais-tu ?')
+    expect(w.find('.consequence').exists()).toBe(false)
+    await avancer(1)
+    expect(w.find('h2').text()).toBe('Et alors, que se passe-t-il ?')
+    expect(w.find('.consequence').text()).toContain('Bon réflexe !')
+  })
+
+  it('« Rejouer » : retour à la question, la séquence repart de zéro au choix suivant', async () => {
+    const w = monter()
+    await w.setProps({ phase: 'consequence', choixId: 'verif', resultat: resultatClic })
+    await avancer(5000)
+    expect(w.find('.consequence').exists()).toBe(true)
+    await w.setProps({ phase: 'situation', choixId: null, resultat: undefined })
+    expect(w.find('h2').text()).toBe('Que fais-tu ?')
+    expect(w.find('.consigne-mode').exists()).toBe(true)
+    await w.setProps({ phase: 'consequence', choixId: 'aide', resultat: { ...resultatClic, choixId: 'aide', qualite: 'aide' } })
+    expect(w.find('.consequence').exists()).toBe(false)
+    await avancer(5000)
+    expect(w.find('.consequence').text()).toContain('Ta mère confirme : arnaque.')
   })
 })

@@ -33,6 +33,8 @@ test('un scénario complet au clavier', async ({ page, browserName }) => {
     await focusConserve(page)
   }
   await activer('Je demande de l’aide')
+  // Le panneau s’affiche à la fin de la séquence jouée dans le téléphone.
+  await expect(page.getByRole('heading', { name: 'Et alors, que se passe-t-il ?' })).toBeFocused()
   await activer('Continuer')
   await expect(page.getByText('Étape 2 sur 4')).toBeVisible()
   await expect(page.locator('article.scenario')).toBeFocused()
