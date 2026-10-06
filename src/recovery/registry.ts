@@ -7,6 +7,8 @@ import ChangerMdp from './ChangerMdp.vue'
 import DemanderAide from './DemanderAide.vue'
 import CorrigerPartage from './CorrigerPartage.vue'
 import PrevenirContacts from './PrevenirContacts.vue'
+import RetirerPublication from './RetirerPublication.vue'
+import Soutenir from './Soutenir.vue'
 
 export const RECUPERATIONS: Record<RecoveryAction, Component> = {
   'bloquer-signaler': BloquerSignaler,
@@ -15,5 +17,7 @@ export const RECUPERATIONS: Record<RecoveryAction, Component> = {
   'capture-preuve': CapturePreuve,
   'prevenir-contacts': PrevenirContacts,
   'corriger-partage': CorrigerPartage,
+  soutenir: Soutenir,
+  'retirer-publication': RetirerPublication,
   'demander-aide': DemanderAide,
 }

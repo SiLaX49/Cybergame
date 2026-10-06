@@ -12,6 +12,8 @@ export const RECOVERY_ACTIONS = [
   'capture-preuve',
   'prevenir-contacts',
   'corriger-partage',
+  'soutenir',
+  'retirer-publication',
   'demander-aide',
 ] as const
 export type RecoveryAction = (typeof RECOVERY_ACTIONS)[number]

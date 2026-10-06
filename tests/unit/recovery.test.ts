@@ -8,6 +8,8 @@ import ChangerMdp from '@/recovery/ChangerMdp.vue'
 import DemanderAide from '@/recovery/DemanderAide.vue'
 import PrevenirContacts from '@/recovery/PrevenirContacts.vue'
 import CorrigerPartage from '@/recovery/CorrigerPartage.vue'
+import RetirerPublication from '@/recovery/RetirerPublication.vue'
+import Soutenir from '@/recovery/Soutenir.vue'
 import { evaluerMotDePasse } from '@/recovery/motDePasse'
 import { RECUPERATIONS } from '@/recovery/registry'
 import { bouton, cliquer } from './helpers'
@@ -103,6 +105,53 @@ describe('actions de récupération', () => {
     await w.find('input[value="bon"]').setValue()
     await cliquer(w, 'Envoyer')
     expect(w.text()).toContain('Tu as arrêté la rumeur de ton côté')
+    await cliquer(w, 'Continuer')
+    expect(w.emitted('fait')).toHaveLength(1)
+  })
+
+  it('soutenir : un message maladroit est expliqué sans blâmer, un bon message termine', async () => {
+    const w = mount(Soutenir)
+    await w.find('input[value="minimise"]').setValue()
+    await cliquer(w, 'Envoyer')
+    expect(w.text()).toContain('il peut donner l’impression que ce n’est pas grave')
+    expect(w.emitted('fait')).toBeUndefined()
+    await w.find('input[value="public"]').setValue()
+    await cliquer(w, 'Envoyer')
+    expect(w.text()).toContain('Répondre en public peut relancer les attaques')
+    expect(w.emitted('fait')).toBeUndefined()
+    await w.find('input[value="adulte"]').setValue()
+    await cliquer(w, 'Envoyer')
+    expect(w.text()).toContain('Message envoyé.')
+    expect(w.text()).toContain('Garde une capture des messages')
+    await cliquer(w, 'Continuer')
+    expect(w.emitted('fait')).toHaveLength(1)
+  })
+
+  it('soutenir : le message d’écoute termine aussi', async () => {
+    const w = mount(Soutenir)
+    await w.find('input[value="ecoute"]').setValue()
+    await cliquer(w, 'Envoyer')
+    expect(w.text()).toContain('Message envoyé.')
+  })
+
+  it('retirer-publication : supprimer, des excuses sincères, puis demander de ne pas repartager', async () => {
+    const w = mount(RetirerPublication)
+    expect(w.find('input[type="radio"]').exists()).toBe(false)
+    await cliquer(w, 'Supprimer ma publication')
+    expect(w.text()).toContain('Publication supprimée.')
+    expect(w.text()).not.toContain('ne pas repartager')
+    await w.find('input[value="pas-vraiment"]').setValue()
+    await cliquer(w, 'Envoyer')
+    expect(w.text()).toContain('Cette excuse rejette la faute sur l’autre')
+    await w.find('input[value="rien"]').setValue()
+    await cliquer(w, 'Envoyer')
+    expect(w.text()).toContain('Supprimer ne suffit pas toujours')
+    expect(w.text()).not.toContain('ne pas repartager')
+    await w.find('input[value="sinceres"]').setValue()
+    await cliquer(w, 'Envoyer')
+    expect(w.emitted('fait')).toBeUndefined()
+    await cliquer(w, 'Demander aux autres de ne pas repartager')
+    expect(w.text()).toContain('C’est possible de réparer.')
     await cliquer(w, 'Continuer')
     expect(w.emitted('fait')).toHaveLength(1)
   })
