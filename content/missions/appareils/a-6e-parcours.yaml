@@ -57,7 +57,7 @@ etapes:
     question: La partie commence dans 5 minutes. Que fais-tu ?
     choix:
       - id: plus-tard
-        texte: 'Je la ferai demain, promis : mes amis sont déjà en ligne.'
+        texte: 'J’appuie encore sur « Plus tard » et je lance la partie.'
         qualite: risque
         reaction: 'C’est ce que font beaucoup de joueurs. Mais la faille reste ouverte, et les pirates connaissent les failles réparées. Ils visent justement les appareils pas à jour. Quinze minutes de retard, ça se rattrape : tu peux encore changer d’avis.'
         reactionSimple: 'La faille reste ouverte, et les pirates la connaissent. Tu peux encore changer d’avis.'
@@ -166,7 +166,7 @@ etapes:
         reaction: 'La clé contenait un virus. Il s’installe sur l’ordinateur du CDI et peut passer aux autres ordinateurs du collège. Tu voulais rendre service, c’est très gentil. Préviens vite la documentaliste.'
         reactionSimple: 'La clé avait un virus. Il passe sur l’ordinateur du CDI. Préviens vite la documentaliste.'
       - id: accueil
-        texte: 'Je ne la branche pas et je la dépose à l’accueil.'
+        texte: 'Une clé trouvée peut cacher un virus : je la dépose à l’accueil.'
         qualite: bon
         reaction: 'Bien vu ! Une clé trouvée peut contenir un virus. À l’accueil, on retrouvera son propriétaire sans risque.'
       - id: aide

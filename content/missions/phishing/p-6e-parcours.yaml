@@ -127,7 +127,7 @@ etapes:
     question: Tu tiens beaucoup à ton compte. Que fais-tu ?
     choix:
       - id: confirme
-        texte: 'Je ne veux pas perdre mon compte : je confirme vite mon mot de passe.'
+        texte: 'Je confirme vite mon mot de passe sur la page du mail.'
         qualite: risque
         reaction: 'La page ressemblait à GameBox, mais c’était un piège. Un pirate a ton mot de passe et se connecte à ta place. Beaucoup de gens se font avoir par la peur. Avec un adulte, change vite ton mot de passe.'
         reactionSimple: 'C’était une fausse page. Un pirate a ton mot de passe. Change-le vite avec un adulte.'

@@ -62,7 +62,7 @@ etapes:
         reaction: 'Le code ouvrait ton compte. Le faux modérateur s’y connecte et change ton mot de passe. Vouloir prouver qu’on est honnête, c’est normal : il comptait là-dessus. Bloque-le et signale-le, puis récupère ton compte avec un adulte.'
         reactionSimple: 'Ce code ouvrait ton compte. Le faux modérateur l’a pris. Bloque-le et signale-le.'
       - id: signale
-        texte: 'Je ne réponds pas et je signale ce joueur dans le jeu.'
+        texte: 'Un vrai modérateur ne demande pas de code : je signale ce joueur.'
         qualite: bon
         reaction: 'Bien vu ! Un vrai modérateur ne demande jamais de code par message. Ton signalement aide aussi les autres joueurs.'
       - id: aide
@@ -92,7 +92,7 @@ etapes:
     question: Tu rêves de ce pack. Que fais-tu ?
     choix:
       - id: achete
-        texte: 'J’achète : c’est juste 9,99 €, et je le dirai à ma mère ce soir.'
+        texte: 'J’achète le pack avec la carte enregistrée de ma mère.'
         qualite: risque
         reaction: 'Le pack arrive. Mais ta mère découvre l’achat sur son compte et n’est pas contente : elle aurait voulu décider. Beaucoup d’enfants l’ont déjà fait sans penser à mal. Parles-en avec elle : vous pouvez ajouter un code pour les achats.'
         reactionSimple: 'Ta mère découvre l’achat. Elle aurait voulu décider. Parlez-en ensemble.'

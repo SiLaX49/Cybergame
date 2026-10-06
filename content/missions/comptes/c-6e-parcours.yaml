@@ -27,7 +27,7 @@ etapes:
         reaction: 'La feuille passe dans plein de mains. N’importe qui peut lire ton mot de passe et entrer dans ton compte. Beaucoup d’élèves auraient fait comme toi. Avec un adulte, change vite ton mot de passe.'
         reactionSimple: 'Tout le monde peut lire la feuille. Avec un adulte, change vite ton mot de passe.'
       - id: pseudo
-        texte: 'J’écris seulement mon pseudo, sans mon mot de passe.'
+        texte: 'J’écris seulement mon pseudo : il suffit pour créer les équipes.'
         qualite: bon
         reaction: 'Bien vu ! Pour inscrire un joueur, son pseudo suffit. Un mot de passe ne s’écrit jamais sur une feuille qui circule.'
       - id: aide
@@ -62,7 +62,7 @@ etapes:
         reaction: 'Ton cousin lit le post-it sans faire exprès. Le lendemain, il se connecte à ton compte depuis chez lui « pour rigoler » et dépense tes Coins. Beaucoup de gens gardent un post-it. Avec un adulte, change ton mot de passe.'
         reactionSimple: 'Ton cousin a lu le post-it. Il entre dans ton compte. Avec un adulte, change ton mot de passe.'
       - id: phrase
-        texte: 'Je retiens une phrase de passe et je jette le post-it.'
+        texte: 'Je jette le post-it, trop facile à lire, et je retiens une phrase de passe.'
         qualite: bon
         reaction: 'Bien vu ! Une phrase de passe, ce sont plusieurs mots qui n’ont rien à voir. Elle se retient sans papier. Le post-it part à la poubelle, déchiré.'
       - id: aide
@@ -97,7 +97,7 @@ etapes:
         reaction: 'Lina garde ta série. Mais elle note ton mot de passe dans son téléphone, et sa sœur le voit. Elle joue avec ton perso et change ton avatar. Personne ne voulait te nuire. Avec un adulte, change ton mot de passe.'
         reactionSimple: 'La sœur de Lina a vu ton mot de passe. Elle joue sur ton compte. Change ton mot de passe avec un adulte.'
       - id: refuse
-        texte: 'Mon mot de passe reste à moi : je la remercie, mais je refuse.'
+        texte: 'Mon mot de passe reste à moi, mais je remercie Lina de vouloir m’aider.'
         qualite: bon
         reaction: 'Lina comprend. Ta série s’arrête pendant le ski. À ton retour, tu en commences une nouvelle, et ton compte est resté à toi.'
       - id: aide
@@ -127,7 +127,7 @@ etapes:
     question: Que fais-tu ?
     choix:
       - id: pixelia-seul
-        texte: 'Je change celui de Pixelia, les autres sites n’ont rien eu.'
+        texte: 'Je change seulement le mot de passe de mon compte Pixelia.'
         qualite: risque
         reaction: 'Les voleurs essaient ton mot de passe sur d’autres sites. Il marche sur ta boîte mail, puis sur GameBox. C’est une erreur très courante. Tu peux encore reprendre la main : change vite le mot de passe de ta boîte mail, puis celui de GameBox.'
         reactionSimple: 'Les voleurs essaient ton mot de passe ailleurs. Il marche sur ta boîte mail. Change vite tes autres mots de passe.'

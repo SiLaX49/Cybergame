@@ -27,7 +27,7 @@ etapes:
         reaction: 'La photo tourne dans tout le collège. Des élèves d’autres classes se moquent de Noé pendant des jours. Il est blessé, et tu ne voulais pas ça. Beaucoup auraient publié sans réfléchir. Tu peux encore retirer la story et t’excuser auprès de Noé.'
         reactionSimple: 'La photo tourne dans tout le collège. On se moque de Noé. Retire la story et excuse-toi.'
       - id: accord
-        texte: 'Je demande d’abord à chacun s’il est d’accord pour être publié.'
+        texte: 'C’est aussi leur photo : je demande d’abord à chacun s’il est d’accord.'
         qualite: bon
         reaction: 'Noé dit non, les autres disent oui. Tu recadres la photo sans lui, et tout le monde est content.'
       - id: aide
@@ -96,7 +96,7 @@ etapes:
         reaction: 'Des inconnus voient ton collège, ta ville et ton anniversaire. Un compte que tu ne connais pas t’écrit : « Joyeux anniversaire ! On est dans le même collège ? » L’appli poussait à tout remplir. Bloque ce compte, puis passe ton profil en privé avec un adulte.'
         reactionSimple: 'Des inconnus voient ton collège et ton anniversaire. Un inconnu t’écrit. Bloque-le et passe ton profil en privé.'
       - id: prive
-        texte: 'Je passe mon profil en privé et je laisse ces cases vides.'
+        texte: 'Mes amis ont mon pseudo : je passe en privé, sans remplir ces cases.'
         qualite: bon
         reaction: 'Bien vu ! Tes vrais amis te trouvent quand même avec ton pseudo. Les inconnus ne voient rien de ta vie.'
       - id: aide
@@ -126,7 +126,7 @@ etapes:
     question: Que fais-tu ?
     choix:
       - id: partage
-        texte: 'Je partage avec tout le monde, ça aide pour retrouver Inès.'
+        texte: 'J’active le partage de ma position avec tout le monde.'
         qualite: risque
         reaction: 'Ta position s’affiche en direct pour tous tes contacts, et même pour des inconnus. On peut voir où tu habites et où tu vas chaque jour. Beaucoup activent ce réglage sans y penser. Avec un adulte, coupe le partage.'
         reactionSimple: 'Tout le monde voit où tu es, même des inconnus. Avec un adulte, coupe le partage.'
