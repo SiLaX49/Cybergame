@@ -1,0 +1,209 @@
+id: h-6e-surnom
+theme: harcelement
+tranches: ['6e']
+titre: Juste pour rire ?
+resume: 'Un surnom qui revient tous les soirs, un sticker qui circule, un commentaire « pour rire » : quand la blague devient du harcèlement, il y a toujours quelque chose à faire.'
+duree: 15
+objectifs:
+  - 'Reconnaître le harcèlement : ça se répète, un groupe s’y met, la personne visée ne peut pas se défendre'
+  - 'Savoir quoi faire quand on est visé ou témoin : garder des preuves, soutenir, en parler à un adulte ou au 3018'
+  - 'Réparer quand on a dérapé : supprimer, s’excuser, demander aux autres d’arrêter'
+competences:
+  crcn: ['2.4', '4.3']
+  programmes: ['EMC cycle 3', 'EMI cycle 3']
+  phare: true
+relecture: { statut: a-relire }
+etapes:
+  - type: scenario
+    id: surnom-groupe
+    role: victime
+    ecran:
+      app: chat
+      appNom: ChatCord
+      contact: 'Groupe 6e B'
+      messages:
+        - de: contact
+          texte: 'Théo : Salut la Girafe 🦒😂 t’as fait les devoirs ?'
+          texteSimple: 'Théo : Salut la Girafe 🦒😂 t’as fait les devoirs ?'
+        - de: contact
+          texte: 'Inès : La Girafe 🦒🦒🦒'
+          texteSimple: 'Inès : La Girafe 🦒🦒🦒'
+        - de: contact
+          texte: 'Malo : Hé la Girafe, tu passes sous la porte demain ? 😂'
+          texteSimple: 'Malo : Hé la Girafe, tu passes sous la porte demain ? 😂'
+    question: 'Depuis la rentrée, Théo t’appelle « la Girafe », parce que tu es la personne la plus grande de la classe. Maintenant, tout le groupe le répète, tous les soirs. Ça te fait mal au ventre avant d’aller au collège. Que fais-tu ?'
+    choix:
+      - id: repond
+        texte: 'Je leur réponds dans le groupe : « Vous êtes trop nuls, laissez-moi tranquille ! »'
+        qualite: risque
+        consequence: 'Ils en rient encore plus, et Malo fait une capture de ta réponse pour la montrer. Ceux qui se moquent cherchent souvent une réaction. Ce n’est pas ta faute : ce sont eux qui doivent arrêter. Garde des preuves, et ne reste pas seul·e avec ça.'
+        consequenceSimple: 'Ils rient encore plus. Ce n’est pas ta faute : ce sont eux qui doivent arrêter. Garde des preuves.'
+      - id: captures
+        texte: 'Je ne réponds pas. Je fais des captures des messages, puis je coupe les notifications du groupe pour ce soir.'
+        qualite: bon
+        consequence: 'Tu as gardé les preuves : les messages, les noms, les dates. Tu respires un peu ce soir. Mais le surnom ne s’arrêtera pas tout seul : montre ces captures à un adulte.'
+      - id: aide
+        texte: 'Je montre les messages à mon père ce soir, et on en parle au CPE demain.'
+        qualite: aide
+        consequence: 'Ton père t’écoute et te dit : « Merci de m’en avoir parlé. » Le lendemain, le CPE reçoit Théo, Inès et Malo. Le surnom s’arrête dans le groupe. Le CPE te dit de revenir le voir si ça recommence.'
+    indices:
+      - { id: repete, libelle: 'Le surnom revient tous les soirs', pertinent: true }
+      - { id: groupe, libelle: 'Plusieurs élèves le reprennent dans le groupe', pertinent: true }
+      - { id: seul, libelle: 'Je n’arrive pas à les faire arrêter tout·e seul·e', pertinent: true }
+      - { id: emojis, libelle: 'Ils mettent des emojis qui rigolent', pertinent: false }
+    explicationIndices: 'Le surnom revient tous les soirs, et tout le groupe le reprend. Tu ne peux pas les arrêter seul·e. C’est du harcèlement. Les emojis qui rigolent n’en font pas une blague.'
+    aRetenir: 'Si un surnom ou des moqueries reviennent tous les jours, ce n’est pas ta faute. Ne reste pas seul·e : garde des captures et parles-en à un adulte. Le 3018 t’écoute aussi, gratuitement.'
+    aRetenirSimple: 'Ce n’est pas ta faute. Garde des captures et parles-en à un adulte ou au 3018.'
+    recuperation: { action: capture-preuve, siChoix: [repond] }
+    pourquoi:
+      - levier: colere
+        truc: 'Ta colère est normale : ce surnom fait mal. Mais ceux qui se moquent attendent souvent ta réaction.'
+        parade: 'Ne réponds pas dans le groupe. Fais des captures, puis parles-en à un adulte.'
+      - levier: groupe
+        truc: 'Tout le groupe répète « la Girafe ». On se sent seul·e contre tous, alors on veut se défendre seul·e.'
+        parade: 'Tu n’as pas à te défendre seul·e contre un groupe. Un adulte peut faire arrêter tout le monde.'
+      - levier: reflexe
+        truc: 'Un message blessant arrive, et on répond tout de suite, sans prendre le temps.'
+        parade: 'Avant de répondre, pose ton téléphone. Fais d’abord une capture.'
+
+  - type: scenario
+    id: sticker-noah
+    role: temoin
+    ecran:
+      app: chat
+      appNom: ChatCord
+      contact: 'Groupe 6e B'
+      messages:
+        - de: contact
+          texte: 'Malo : Regardez le sticker que j’ai fait avec la photo de Noah 😂😂'
+          texteSimple: 'Malo : Regardez le sticker que j’ai fait avec la photo de Noah 😂😂'
+        - de: contact
+          texte: '🖼️ Sticker : la tête de Noah sur un corps de poulet 🐔'
+          texteSimple: '🖼️ Sticker : la tête de Noah sur un corps de poulet 🐔'
+        - de: contact
+          texte: 'Inès : Mdr trop drôle, je l’envoie au groupe du foot 😂'
+          texteSimple: 'Inès : Mdr trop drôle, je l’envoie au groupe du foot 😂'
+    question: 'Noah est dans ta classe. Il ne parle presque jamais dans le groupe. Le sticker circule déjà dans trois groupes. Que fais-tu ?'
+    choix:
+      - id: envoie-ami
+        texte: 'Je l’envoie juste à mon meilleur ami, il est dans un autre collège : Noah ne le saura jamais.'
+        qualite: risque
+        consequence: 'Ton ami le trouve drôle et l’envoie à son tour. Deux jours plus tard, le sticker revient dans un groupe où est Noah. C’est Malo qui l’a fabriqué : il est le premier responsable. Toi, tu peux encore aider Noah.'
+        consequenceSimple: 'Ton ami l’envoie à son tour. Le sticker revient jusqu’à Noah. Tu peux encore l’aider.'
+      - id: soutient
+        texte: 'Je n’envoie rien dans aucun groupe. J’écris à Noah en privé : « Je trouve ça nul, je suis avec toi. »'
+        qualite: bon
+        consequence: 'Noah te répond : « Merci, je croyais que tout le monde se moquait de moi. » Il se sent moins seul. Vous décidez d’en parler ensemble à un adulte.'
+      - id: aide
+        texte: 'Je montre le sticker à ma professeure principale, et je lui dis qu’il circule partout.'
+        qualite: aide
+        consequence: 'Ta professeure principale te remercie et prévient le CPE. Malo et Inès doivent supprimer le sticker partout. Noah est reçu et écouté. Ton nom n’est pas cité.'
+    indices:
+      - { id: photo, libelle: 'La photo de Noah est utilisée sans son accord', pertinent: true }
+      - { id: partout, libelle: 'Le sticker circule dans plusieurs groupes', pertinent: true }
+      - { id: seul, libelle: 'Noah ne peut pas répondre à toute la classe', pertinent: true }
+      - { id: poulet, libelle: 'Le sticker est réussi', pertinent: false }
+    explicationIndices: 'Prendre la photo de quelqu’un sans son accord pour se moquer, ça blesse. Plus le sticker circule, plus Noah est seul face au groupe. Qu’il soit réussi ne change rien.'
+    aRetenir: 'Quand tu es témoin, tu peux beaucoup : ne relaie pas, écris à la personne en privé et préviens un adulte. Le 3018 aide aussi les témoins.'
+    aRetenirSimple: 'Ne relaie pas. Écris à la personne en privé. Préviens un adulte ou le 3018.'
+    recuperation: { action: soutenir, siChoix: [envoie-ami] }
+    pourquoi:
+      - levier: humour
+        truc: '« Mdr trop drôle » : le sticker est présenté comme une blague. Mais Noah, lui, ne rit pas.'
+        parade: 'Une blague qui fait rire tout le monde sauf la personne visée n’est plus une blague.'
+      - levier: groupe
+        truc: 'Inès l’envoie déjà « au groupe du foot ». Le partager semble normal.'
+        parade: 'Même si d’autres le partagent, tu peux arrêter la chaîne : tu n’envoies rien.'
+      - levier: reflexe
+        truc: 'Transférer prend une seconde. On ne pense pas à la personne sur la photo.'
+        parade: 'Avant de transférer, demande-toi : est-ce que Noah serait d’accord ?'
+
+  - type: scenario
+    id: commentaire-video
+    role: auteur
+    ecran:
+      app: social
+      appNom: StreamTube
+      contact: 'Léna_danse'
+      messages:
+        - de: contact
+          texte: 'Léna_danse : Ma première chorégraphie ! Soyez gentils 🙏💃'
+          texteSimple: 'Léna_danse : Ma première chorégraphie ! Soyez gentils 🙏💃'
+        - de: moi
+          texte: 'Mdr on dirait un pingouin 🐧😂'
+          texteSimple: 'Mdr on dirait un pingouin 🐧😂'
+        - de: contact
+          texte: 'Malo : 🐧🐧🐧 PINGOUIN · Inès : le pingouin est de retour 😂 · et 38 autres commentaires'
+          texteSimple: 'Malo : 🐧🐧🐧 PINGOUIN · Inès : le pingouin est de retour 😂 · et 38 autres commentaires'
+        - de: contact
+          texte: 'Léna_danse : Pourquoi vous faites ça ? 😢'
+          texteSimple: 'Léna_danse : Pourquoi vous faites ça ? 😢'
+    question: 'Hier soir, tu as écrit ce commentaire pour rire. Ce matin, il y a 40 commentaires de pingouins. Léna est dans ta classe. Elle vient de répondre. Que fais-tu ?'
+    choix:
+      - id: laisse
+        texte: 'C’était pour rire, et ce n’est pas moi qui ai écrit les 40 autres : je laisse.'
+        qualite: risque
+        consequence: 'Les pingouins continuent toute la journée. Léna supprime sa vidéo et ne veut plus danser devant la classe. Ton commentaire était le premier : les autres l’ont suivi. Tu ne voulais pas ça, et tu peux encore réparer.'
+        consequenceSimple: 'Les moqueries continuent. Léna supprime sa vidéo. Ton commentaire était le premier. Tu peux encore réparer.'
+      - id: supprime
+        texte: 'Je supprime mon commentaire et j’écris à Léna : « Désolé, c’était nul de ma part. »'
+        qualite: bon
+        consequence: 'Léna te répond : « Merci. » Tu demandes aussi aux autres d’arrêter, et des commentaires disparaissent. Ce n’était pas facile, et tu l’as fait.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère : je ne sais pas comment arranger les choses avec Léna.'
+        qualite: aide
+        consequence: 'Ta mère t’écoute. Elle t’aide à supprimer ton commentaire et à écrire des excuses à Léna. Le lendemain, vous prévenez la professeure principale pour que les pingouins s’arrêtent.'
+    indices:
+      - { id: premier, libelle: 'Mon commentaire est le premier : les autres l’ont copié', pertinent: true }
+      - { id: nombre, libelle: 'Les moqueries se répètent : 40 commentaires', pertinent: true }
+      - { id: triste, libelle: 'Léna demande pourquoi on fait ça', pertinent: true }
+      - { id: publie, libelle: 'Léna a publié la vidéo elle-même', pertinent: false }
+    explicationIndices: 'Ton commentaire a lancé les autres. À plusieurs, une moquerie devient du harcèlement. Léna montre qu’elle est blessée. Publier une vidéo n’autorise personne à se moquer.'
+    aRetenir: 'Tout le monde peut déraper. Réparer, c’est supprimer, s’excuser et demander aux autres d’arrêter. Si tu ne sais pas comment faire, un adulte ou le 3018 peut t’aider.'
+    aRetenirSimple: 'Tout le monde peut déraper. Supprime, excuse-toi et demande aux autres d’arrêter.'
+    recuperation: { action: retirer-publication, siChoix: [laisse] }
+    pourquoi:
+      - levier: humour
+        truc: 'Tu as écrit « on dirait un pingouin » pour rire. Mais Léna, elle, demande « pourquoi vous faites ça ».'
+        parade: 'Une blague qui fait rire tout le monde sauf la personne visée n’est plus une blague.'
+      - levier: groupe
+        truc: '40 autres ont écrit pareil, alors ton commentaire semble tout petit. Pourtant, c’est lui qui a lancé les autres.'
+        parade: 'Même si d’autres continuent, supprime ce que tu as écrit. Puis demande-leur d’arrêter.'
+      - levier: honte
+        truc: 'Supprimer, c’est un peu dire qu’on a mal fait. Ça peut gêner devant les autres.'
+        parade: 'S’excuser, ce n’est pas perdre la face. C’est ce qui fait que ça s’arrête.'
+
+  - type: minijeu
+    id: tri-blague-harcelement
+    jeu: tri
+    config:
+      consigne: 'Blague partagée, conflit ou harcèlement ? Classe chaque situation. Dans tous les cas, tu peux en parler à quelqu’un.'
+      categories:
+        - { id: blague, libelle: Blague partagée }
+        - { id: conflit, libelle: Conflit ponctuel }
+        - { id: harcelement, libelle: Harcèlement }
+      cartes:
+        - { id: c1, texte: 'Sami et toi, vous vous appelez « Chef » pour rire, tous les deux, depuis la maternelle.', categorie: blague, explication: 'Vous riez tous les deux, et chacun peut dire stop. C’est une blague partagée.' }
+        - { id: c2, texte: 'Jade et Lou se disputent une fois dans le groupe pour un exposé. Le lendemain, elles se réconcilient.', categorie: conflit, explication: 'Une dispute, une fois, entre deux personnes à égalité : c’est un conflit. Ça peut faire mal, et tu peux en parler.' }
+        - { id: c3, texte: 'Chaque jour, des élèves imitent la voix de Yanis dans le groupe. Il ne répond plus.', categorie: harcelement, explication: 'Ça se répète, plusieurs élèves s’y mettent, et Yanis ne peut pas se défendre. C’est du harcèlement : parles-en à un adulte.' }
+        - { id: c4, texte: 'Toute la classe rit du gage de Rose au jeu du vendredi, et Rose rit la première.', categorie: blague, explication: 'Rose rit avec les autres, pas contre elle. C’est une blague partagée. Si un jour ça la blesse, ça change.' }
+        - { id: c5, texte: 'Emma et Malo se fâchent pour un match de foot. Le lendemain, ils n’en parlent plus.', categorie: conflit, explication: 'Une fâcherie, une fois, et chacun peut répondre : c’est un conflit. Un adulte peut aider à en parler.' }
+        - { id: c6, texte: 'Un compte publie des photos de Zoé avec des moqueries, et toute la classe les partage.', categorie: harcelement, explication: 'Un groupe s’y met, et Zoé ne peut pas répondre à tout le monde. C’est du harcèlement : parles-en à un adulte ou au 3018.' }
+debrief:
+  questions:
+    - 'Qu’est-ce qui fait passer une blague au harcèlement ?'
+    - 'Quand on est témoin, que peut-on faire sans se mettre en danger ?'
+    - 'À qui peut-on en parler, au collège et en dehors ?'
+  reponses: 'Une blague devient du harcèlement quand elle se répète, quand un groupe s’y met, et quand la personne visée ne peut pas se défendre. Témoin, on peut ne rien relayer, écrire à la personne en privé et prévenir un adulte : on n’a pas besoin de répondre aux moqueurs. On peut parler à un parent, au professeur principal, au CPE, à l’infirmier·e, ou appeler le 3018 (gratuit, de 9 h à 23 h, 7 j/7). Quand on a dérapé, on peut réparer : supprimer, s’excuser, demander aux autres d’arrêter. Dans tous les cas, ce n’est jamais la faute de la personne visée.'
+  erreursFrequentes:
+    - 'Croire que ce n’est pas du harcèlement si « c’était pour rire ».'
+    - 'Penser qu’un 😂 ou un transfert à un seul ami, ce n’est rien.'
+    - 'Penser qu’en parler à un adulte, c’est « balancer ».'
+fiche:
+  deroulement: |
+    5 min : cadre. On parle de situations inventées : personne ne raconte une histoire vraie devant la classe. Qui veut en parler peut venir vous voir après.
+    15 min : jeu, en binômes ou en classe entière vidéoprojetée. Chaque scénario fait jouer un rôle : la personne visée, un témoin, celui ou celle qui a dérapé.
+    15 min : débrief des 3 questions, puis retour sur le mini-jeu : les trois critères (répétition, effet de groupe, personne qui ne peut pas se défendre).
+    5 min : où trouver de l’aide (parents, professeur principal, CPE, infirmier·e, 3018). Écrire le 3018 au tableau.
+    5 min : engagement. Si je vois une moquerie qui circule, je ne la relaie pas et j’écris à la personne visée.
+  siRevelation: 'Si un élève se confie pendant ou après la séance : l’écouter calmement, le croire et le remercier d’avoir parlé. Ne pas promettre le secret : lui expliquer qu’on va prévenir des adultes qui peuvent l’aider. Ne pas l’interroger ni chercher les détails, ne pas confronter les élèves mis en cause ; noter ses mots exacts, la date et l’heure. Prévenir le jour même le CPE, l’infirmier·e scolaire et le chef d’établissement, qui déclenchent le protocole pHARe. Si l’élève est en danger ou si sa situation est préoccupante, transmettre une information préoccupante à la CRIP du département (signalement au procureur en cas de danger grave ; 119 pour conseil). Lui indiquer le 3018 (gratuit et confidentiel, 7 j/7 de 9 h à 23 h), qui peut aussi faire retirer des contenus. Pour l’enseignant : le harcèlement scolaire est un délit depuis la loi du 2 mars 2022. Cette information n’est pas à présenter aux élèves de 6e comme une menace.'
