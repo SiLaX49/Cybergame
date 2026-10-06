@@ -92,6 +92,47 @@ const choixSchema = z.object({
 
 const indiceSchema = z.object({ id: slug, libelle: texte, pertinent: z.boolean() })
 
+const recuperationSchema = z.object({ action: z.enum(RECOVERY_ACTIONS), siChoix: z.array(slug).min(1) })
+
+type AvecChoix = {
+  choix: { id: string; qualite: 'bon' | 'risque' | 'aide' }[]
+  recuperation?: { siChoix: string[] }
+  pourquoi?: { levier: string }[]
+}
+
+/** Règles communes aux scénarios et aux lieux : choix « aide », récupération, bloc « pourquoi ». */
+function verifierChoix<T>(s: AvecChoix, ctx: z.RefinementCtx<T>) {
+  idsUniques(s.choix.map((c) => c.id), ctx, ['choix'], 'choix')
+  if (!s.choix.some((c) => c.qualite === 'aide')) {
+    ctx.addIssue({ code: 'custom', path: ['choix'], message: 'il faut un choix de qualité "aide" (Je demande de l’aide…)' })
+  }
+  s.recuperation?.siChoix.forEach((id, i) => {
+    const choix = s.choix.find((c) => c.id === id)
+    if (!choix) {
+      ctx.addIssue({ code: 'custom', path: ['recuperation', 'siChoix', i], message: `choix inconnu : ${id}` })
+    } else if (choix.qualite === 'aide') {
+      ctx.addIssue({ code: 'custom', path: ['recuperation', 'siChoix', i], message: 'la récupération ne peut pas suivre le choix "aide"' })
+    }
+  })
+  const leviersVus = new Set<string>()
+  s.pourquoi?.forEach((p, i) => {
+    if (leviersVus.has(p.levier)) {
+      ctx.addIssue({ code: 'custom', path: ['pourquoi', i, 'levier'], message: `levier en double : ${p.levier}` })
+    }
+    leviersVus.add(p.levier)
+  })
+  if (s.pourquoi && !s.choix.some((c) => c.qualite === 'risque')) {
+    ctx.addIssue({ code: 'custom', path: ['pourquoi'], message: 'le bloc pourquoi suppose un choix de qualité "risque"' })
+  }
+  if (!s.pourquoi && s.choix.some((c) => c.qualite === 'risque')) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['pourquoi'],
+      message: 'il faut un bloc pourquoi : un choix risqué est suivi de la question « pourquoi ? »',
+    })
+  }
+}
+
 export const scenarioSchema = z
   .object({
     type: z.literal('scenario'),
@@ -104,44 +145,48 @@ export const scenarioSchema = z
     explicationIndices: texte,
     aRetenir: texte,
     aRetenirSimple: texte.optional(),
-    recuperation: z.object({ action: z.enum(RECOVERY_ACTIONS), siChoix: z.array(slug).min(1) }).optional(),
+    recuperation: recuperationSchema.optional(),
     pourquoi: pourquoiSchema.optional(),
   })
   .superRefine((s, ctx) => {
-    idsUniques(s.choix.map((c) => c.id), ctx, ['choix'], 'choix')
+    verifierChoix(s, ctx)
     idsUniques(s.indices.map((i) => i.id), ctx, ['indices'], 'indice')
-    if (!s.choix.some((c) => c.qualite === 'aide')) {
-      ctx.addIssue({ code: 'custom', path: ['choix'], message: 'il faut un choix de qualité "aide" (Je demande de l’aide…)' })
-    }
     if (!s.indices.some((i) => i.pertinent)) {
       ctx.addIssue({ code: 'custom', path: ['indices'], message: 'il faut au moins un indice pertinent' })
     }
-    s.recuperation?.siChoix.forEach((id, i) => {
-      const choix = s.choix.find((c) => c.id === id)
-      if (!choix) {
-        ctx.addIssue({ code: 'custom', path: ['recuperation', 'siChoix', i], message: `choix inconnu : ${id}` })
-      } else if (choix.qualite === 'aide') {
-        ctx.addIssue({ code: 'custom', path: ['recuperation', 'siChoix', i], message: 'la récupération ne peut pas suivre le choix "aide"' })
-      }
-    })
-    const leviersVus = new Set<string>()
-    s.pourquoi?.forEach((p, i) => {
-      if (leviersVus.has(p.levier)) {
-        ctx.addIssue({ code: 'custom', path: ['pourquoi', i, 'levier'], message: `levier en double : ${p.levier}` })
-      }
-      leviersVus.add(p.levier)
-    })
-    if (s.pourquoi && !s.choix.some((c) => c.qualite === 'risque')) {
-      ctx.addIssue({ code: 'custom', path: ['pourquoi'], message: 'le bloc pourquoi suppose un choix de qualité "risque"' })
-    }
-    if (!s.pourquoi && s.choix.some((c) => c.qualite === 'risque')) {
-      ctx.addIssue({
-        code: 'custom',
-        path: ['pourquoi'],
-        message: 'il faut un bloc pourquoi : un choix risqué est suivi de la question « pourquoi ? »',
-      })
-    }
   })
+
+/** Décors dessinés des lieux d’un parcours (un SVG par décor dans src/mission/DecorScene.vue). */
+export const DECORS = [
+  'cour', 'cantine', 'cdi', 'classe', 'parc', 'salle-jeux', 'salon', 'chambre', 'cuisine', 'gare', 'magasin', 'rue', 'bus',
+] as const
+export type Decor = (typeof DECORS)[number]
+
+const choixLieuSchema = z.object({
+  id: slug,
+  texte,
+  qualite: z.enum(['bon', 'risque', 'aide']),
+  reaction: texte,
+  reactionSimple: texte.optional(),
+})
+
+/** Étape d’un parcours : un lieu de l’île, une situation racontée, un choix. */
+export const lieuSchema = z
+  .object({
+    type: z.literal('lieu'),
+    id: slug,
+    lieu: texte,
+    decor: z.enum(DECORS),
+    guide: texte,
+    guideSimple: texte.optional(),
+    question: texte,
+    choix: z.array(choixLieuSchema).min(2).max(4),
+    aRetenir: texte,
+    aRetenirSimple: texte.optional(),
+    recuperation: recuperationSchema.optional(),
+    pourquoi: pourquoiSchema.optional(),
+  })
+  .superRefine((l, ctx) => verifierChoix(l, ctx))
 
 export const triConfigSchema = z
   .object({
@@ -286,12 +331,40 @@ export const filSchema = z
   })
   .superRefine((f, ctx) => idsUniques(f.notifications.map((n) => n.id), ctx, ['notifications'], 'notification'))
 
-export const etapeSchema = z.discriminatedUnion('type', [scenarioSchema, minijeuSchema, filSchema])
+export const etapeSchema = z.discriminatedUnion('type', [scenarioSchema, minijeuSchema, filSchema, lieuSchema])
+
+/** Un parcours n’enchaîne que des lieux (et au plus un mini-jeu) ; un lieu n’existe que dans un parcours. */
+function verifierFormat<T>(m: { type: string; format: string; etapes: { type: string }[] }, ctx: z.RefinementCtx<T>) {
+  if (m.format === 'classique') {
+    m.etapes.forEach((e, i) => {
+      if (e.type === 'lieu') {
+        ctx.addIssue({ code: 'custom', path: ['etapes', i, 'type'], message: 'une étape « lieu » n’existe que dans une mission au format parcours' })
+      }
+    })
+    return
+  }
+  if (m.type === 'rappel') {
+    ctx.addIssue({ code: 'custom', path: ['format'], message: 'une mission rappel ne peut pas être un parcours' })
+  }
+  m.etapes.forEach((e, i) => {
+    if (e.type !== 'lieu' && e.type !== 'minijeu') {
+      ctx.addIssue({ code: 'custom', path: ['etapes', i, 'type'], message: 'un parcours ne contient que des lieux et au plus un mini-jeu' })
+    }
+  })
+  const lieux = m.etapes.filter((e) => e.type === 'lieu').length
+  if (lieux < 4 || lieux > 6) {
+    ctx.addIssue({ code: 'custom', path: ['etapes'], message: `un parcours compte 4 à 6 lieux (trouvé : ${lieux})` })
+  }
+  if (m.etapes.filter((e) => e.type === 'minijeu').length > 1) {
+    ctx.addIssue({ code: 'custom', path: ['etapes'], message: 'un parcours contient au plus un mini-jeu' })
+  }
+}
 
 export const missionSchema = z
   .object({
     id: slug,
     type: z.enum(['mission', 'rappel']).default('mission'),
+    format: z.enum(['classique', 'parcours']).default('classique'),
     theme: slug.optional(),
     themesCouverts: z.array(slug).optional(),
     tranches: z.array(trancheSchema).min(1),
@@ -314,6 +387,7 @@ export const missionSchema = z
   })
   .superRefine((m, ctx) => {
     idsUniques(m.etapes.map((e) => e.id), ctx, ['etapes'], 'étape')
+    verifierFormat(m, ctx)
     if (m.type === 'mission') {
       if (!m.theme) ctx.addIssue({ code: 'custom', path: ['theme'], message: 'une mission doit avoir un thème' })
       return
@@ -343,6 +417,7 @@ export type PermissionsConfig = z.infer<typeof permissionsConfigSchema>
 export type Verdict = (typeof VERDICTS)[number]
 export type Minijeu = z.infer<typeof minijeuSchema>
 export type Fil = z.infer<typeof filSchema>
+export type Lieu = z.infer<typeof lieuSchema>
 export type Etape = z.infer<typeof etapeSchema>
 export type Mission = z.infer<typeof missionSchema>
 export type Qualite = Scenario['choix'][number]['qualite']

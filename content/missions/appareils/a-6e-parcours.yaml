@@ -1,0 +1,205 @@
+id: a-6e-parcours
+theme: appareils
+format: parcours
+tranches: ['6e']
+titre: La traversée de l’île aux antennes
+resume: 'Un Wi-Fi gratuit, une mise à jour repoussée, une lampe trop curieuse, un jeu piraté, une clé USB trouvée : traverse l’île en protégeant tes appareils.'
+duree: 15
+objectifs:
+  - Ne jamais taper le mot de passe d’un compte sur la page d’un Wi-Fi
+  - Faire les mises à jour et n’accepter que les permissions utiles
+  - Installer seulement depuis le magasin d’applis officiel et ne jamais brancher une clé trouvée
+competences:
+  crcn: ['4.1', '4.3']
+  programmes: ['EMI cycle 3']
+etapes:
+  - type: lieu
+    id: wifi
+    lieu: Le magasin
+    decor: magasin
+    guide: 'Au magasin, tu veux regarder une vidéo. Un Wi-Fi gratuit apparaît : « Wi-Fi_Magasin_Gratuit ». Une page s’ouvre avec le logo du magasin : « Pour te connecter, entre ton mot de passe SnapTalk. »'
+    guideSimple: 'Au magasin, un Wi-Fi gratuit apparaît. Une page s’ouvre avec le logo du magasin : « Pour te connecter, entre ton mot de passe SnapTalk. »'
+    question: Ta vidéo charge mal. Que fais-tu ?
+    choix:
+      - id: tape-mdp
+        texte: 'C’est le Wi-Fi du magasin, il y a son logo : je tape mon mot de passe.'
+        qualite: risque
+        reaction: 'Beaucoup de gens se feraient avoir : la page a l’air vraie. Mais c’était un faux portail, installé par un inconnu pour voler les mots de passe. Le soir, quelqu’un se connecte à ton compte. Change vite ton mot de passe avec un adulte.'
+        reactionSimple: 'La page était un piège. Quelqu’un a pris ton mot de passe. Change-le vite avec un adulte.'
+      - id: ferme
+        texte: 'Je ferme cette page : un Wi-Fi n’a pas besoin de mon mot de passe.'
+        qualite: bon
+        reaction: 'Bien vu ! Un Wi-Fi peut demander d’accepter des conditions, jamais le mot de passe d’un de tes comptes. Tu regarderas ta vidéo chez toi.'
+      - id: aide
+        texte: 'Je demande de l’aide à un vendeur pour savoir si ce Wi-Fi est vraiment celui du magasin.'
+        qualite: aide
+        reaction: 'Le vendeur est surpris : le magasin n’a pas de Wi-Fi gratuit. Ce réseau a été créé par quelqu’un d’autre. Il prévient le responsable.'
+    pourquoi:
+      - levier: autorite
+        truc: 'La page porte le logo du magasin. Ça a l’air officiel, mais un logo se copie en deux secondes.'
+        parade: 'Regarde surtout ce qu’on te demande. Le mot de passe d’un compte, c’est non.'
+      - levier: gain
+        truc: 'Un Wi-Fi gratuit pour regarder ta vidéo sans attendre, c’est tentant.'
+        parade: 'Le Wi-Fi gratuit n’est pas un problème. Le problème, c’est la page qui veut ton mot de passe.'
+      - levier: reflexe
+        truc: 'Taper ton mot de passe SnapTalk, tu le fais souvent. Tes doigts vont plus vite que ta tête.'
+        parade: 'Tape ton mot de passe seulement dans l’appli SnapTalk elle-même, jamais sur la page d’un Wi-Fi.'
+    aRetenir: 'Un Wi-Fi public n’est pas dangereux en soi. Mais aucun Wi-Fi n’a besoin du mot de passe d’un de tes comptes. Si une page le demande, ferme-la.'
+    aRetenirSimple: 'Un Wi-Fi gratuit n’a jamais besoin du mot de passe de tes comptes. Si une page le demande, ferme-la.'
+    recuperation: { action: changer-mdp, siChoix: [tape-mdp] }
+
+  - type: lieu
+    id: mise-a-jour
+    lieu: La salle de jeux
+    decor: salle-jeux
+    guide: 'Dans la salle de jeux, tu allumes ta console GameBox. Un message s’affiche : « Mise à jour disponible : elle corrige des failles de sécurité. Durée : 15 minutes. » Depuis trois semaines, tu appuies sur « Plus tard ». Tu te demandes si ta sauvegarde va rester. Tes amis t’attendent en ligne.'
+    guideSimple: 'Tu allumes ta console GameBox. Un message dit : « Mise à jour disponible : elle répare des failles. Durée : 15 minutes. » Depuis trois semaines, tu appuies sur « Plus tard ». Ta sauvegarde va-t-elle rester ? Tes amis t’attendent en ligne.'
+    question: La partie commence dans 5 minutes. Que fais-tu ?
+    choix:
+      - id: plus-tard
+        texte: 'Mes amis sont déjà en ligne : je la ferai demain, promis.'
+        qualite: risque
+        reaction: 'C’est ce que font beaucoup de joueurs. Mais la faille reste ouverte, et les pirates connaissent les failles réparées. Ils visent justement les appareils pas à jour. Tu peux lancer la mise à jour juste après ta partie.'
+        reactionSimple: 'La faille reste ouverte, et les pirates la connaissent. Lance la mise à jour juste après ta partie.'
+      - id: maintenant
+        texte: 'Je lance la mise à jour et je préviens mes amis du retard.'
+        qualite: bon
+        reaction: 'Bien joué ! Quinze minutes plus tard, ta console est protégée et ta sauvegarde est toujours là. Tes amis t’ont attendu.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon grand frère : la mise à jour garde-t-elle ma sauvegarde ?'
+        qualite: aide
+        reaction: 'Ton frère te rassure : une mise à jour officielle garde ta sauvegarde. Vous la lancez ensemble avant la partie.'
+    pourquoi:
+      - levier: urgence
+        truc: 'Tes amis t’attendent en ligne. Quinze minutes paraissent très longues.'
+        parade: 'Quinze minutes, c’est court pour boucher une faille. Préviens tes amis et lance-la.'
+      - levier: reflexe
+        truc: 'Depuis trois semaines, tu appuies sur « Plus tard ». C’est devenu un geste automatique.'
+        parade: 'Au lieu de « Plus tard », choisis un moment précis, comme ce soir après le dîner.'
+      - levier: peur
+        truc: 'Tu as peur de perdre ta sauvegarde pendant la mise à jour.'
+        parade: 'Une mise à jour officielle garde tes sauvegardes. Ce qui est dangereux, c’est la faille ouverte.'
+    aRetenir: 'Une mise à jour officielle répare des failles que les pirates connaissent. Fais-la vite, même si tu dois attendre quelques minutes : ta sauvegarde reste.'
+    aRetenirSimple: 'Fais vite les mises à jour : elles réparent des failles. Ta sauvegarde reste.'
+
+  - type: lieu
+    id: lampe
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Dans ta chambre, tu installes l’appli « Super Lampe » pour lire sous la couette. Elle demande : « Autoriser l’accès à tes contacts, à ta position et à ton micro ? » Un seul bouton : « Tout accepter ».'
+    guideSimple: 'Tu installes l’appli « Super Lampe ». Elle demande l’accès à tes contacts, à ta position et à ton micro. Un seul bouton : « Tout accepter ».'
+    question: La lampe s’allumera juste après. Que fais-tu ?
+    choix:
+      - id: accepte
+        texte: 'C’est juste une lampe, ce n’est pas grave : j’accepte tout.'
+        qualite: risque
+        reaction: 'La lampe marche. Mais l’appli lit tes contacts et sait où tu es. Elle revend ces informations à des publicitaires. Beaucoup de gens acceptent sans lire. Avec un adulte, retire ces permissions ou désinstalle l’appli.'
+        reactionSimple: 'L’appli lit tes contacts et sait où tu es. Avec un adulte, retire ces permissions.'
+      - id: refuse
+        texte: 'Je refuse : une lampe a juste besoin du flash.'
+        qualite: bon
+        reaction: 'Bien vu ! Tu désinstalles Super Lampe et tu utilises la lampe déjà prévue dans ton téléphone. Elle ne demande rien.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère pour savoir de quoi une lampe a vraiment besoin.'
+        qualite: aide
+        reaction: 'Ta mère t’explique : une lampe utilise le flash, rien d’autre. Elle te montre la lampe déjà prévue dans ton téléphone.'
+    pourquoi:
+      - levier: petit-montant
+        truc: 'C’est juste une petite lampe. On se dit qu’elle ne peut rien faire de grave.'
+        parade: 'Une petite appli peut demander de gros accès. Regarde toujours ce qu’elle veut.'
+      - levier: reflexe
+        truc: 'Le bouton « Tout accepter » est là, bien visible. Un clic et c’est fini.'
+        parade: 'Avant d’accepter, lis chaque permission. Demande-toi si l’appli en a vraiment besoin.'
+      - levier: urgence
+        truc: 'Tu veux lire tout de suite sous la couette. Lire les permissions semble long.'
+        parade: 'Lire trois permissions prend dix secondes. Ta position et tes contacts valent bien ça.'
+    aRetenir: 'Une appli ne doit demander que ce dont elle a besoin. Une lampe a besoin du flash, pas de tes contacts ni de ta position. Refuse le reste.'
+    aRetenirSimple: 'Une appli ne doit demander que ce dont elle a besoin. Refuse le reste.'
+    recuperation: { action: demander-aide, siChoix: [accepte] }
+
+  - type: lieu
+    id: jeu-pirate
+    lieu: La cour
+    decor: cour
+    guide: 'Dans la cour, Ryan te parle d’un jeu payant : « Je l’ai eu gratuit ! Télécharge ce fichier sur mon site, ça s’installe en dehors du magasin d’applis. Il faut juste autoriser les sources inconnues. »'
+    guideSimple: 'Dans la cour, Ryan te dit : « J’ai eu un jeu payant gratuit ! Télécharge ce fichier sur mon site. Il faut juste autoriser les sources inconnues. »'
+    question: Ce jeu coûte 20 € d’habitude. Que fais-tu ?
+    choix:
+      - id: installe
+        texte: 'Ryan l’a installé et son téléphone marche : je fais pareil.'
+        qualite: risque
+        reaction: 'Le jeu se lance. Mais le fichier contenait aussi un programme espion qui lit tes mots de passe. Des jours plus tard, ton compte SnapTalk est piraté. Ça arrive à beaucoup de joueurs. Avec un adulte, désinstalle tout et change tes mots de passe.'
+        reactionSimple: 'Le fichier cachait un programme espion. Ton compte est piraté. Avec un adulte, change tes mots de passe.'
+      - id: refuse
+        texte: 'Je refuse : un jeu payant donné gratuitement, c’est louche.'
+        qualite: bon
+        reaction: 'Bien vu ! Les jeux piratés cachent souvent des programmes espions. Tu installes seulement depuis le magasin d’applis officiel.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père avant d’autoriser quoi que ce soit sur mon téléphone.'
+        qualite: aide
+        reaction: 'Ton père explique : « Les sources inconnues, c’est la porte ouverte aux virus. » Vous cherchez ensemble un jeu gratuit officiel.'
+    pourquoi:
+      - levier: gain
+        truc: 'Un jeu à 20 €, gratuit. C’est très tentant.'
+        parade: 'Un jeu payant gratuit, c’est souvent un piège. Le prix caché, ce sont tes mots de passe.'
+      - levier: confiance
+        truc: 'C’est Ryan, ton copain, qui te le conseille. Son téléphone a l’air de marcher.'
+        parade: 'Un programme espion ne se voit pas. Le téléphone de Ryan peut être touché sans qu’il le sache.'
+      - levier: reflexe
+        truc: 'Il faut « autoriser les sources inconnues ». On accepte vite, sans comprendre ce que ça veut dire.'
+        parade: 'Ce réglage enlève une protection de ton téléphone. Ne l’active jamais sans un adulte.'
+    aRetenir: 'Installe tes applis seulement depuis le magasin d’applis officiel. Un jeu payant proposé gratuitement ailleurs cache souvent un programme espion.'
+    aRetenirSimple: 'Installe seulement depuis le magasin d’applis officiel.'
+    recuperation: { action: changer-mdp, siChoix: [installe] }
+
+  - type: lieu
+    id: cle-usb
+    lieu: Le CDI
+    decor: cdi
+    guide: 'Au CDI, tu trouves une clé USB sous une table. Une étiquette dit : « Photos de la sortie au zoo ». Tu as envie de la brancher sur l’ordinateur pour savoir à qui elle est.'
+    guideSimple: 'Au CDI, tu trouves une clé USB sous une table. Une étiquette dit : « Photos de la sortie au zoo ». Tu veux la brancher pour savoir à qui elle est.'
+    question: L’ordinateur est juste à côté. Que fais-tu ?
+    choix:
+      - id: branche
+        texte: 'Je veux juste trouver son propriétaire : je la branche.'
+        qualite: risque
+        reaction: 'La clé contenait un virus. Il s’installe sur l’ordinateur du CDI et peut passer aux autres ordinateurs du collège. Tu voulais rendre service, c’est très gentil. Préviens vite la documentaliste.'
+        reactionSimple: 'La clé avait un virus. Il passe sur l’ordinateur du CDI. Préviens vite la documentaliste.'
+      - id: accueil
+        texte: 'Je ne la branche pas et je la dépose à l’accueil.'
+        qualite: bon
+        reaction: 'Bien vu ! Une clé trouvée peut contenir un virus. À l’accueil, on retrouvera son propriétaire sans risque.'
+      - id: aide
+        texte: 'Je demande de l’aide à la documentaliste et je lui donne la clé sans la brancher.'
+        qualite: aide
+        reaction: 'La documentaliste te remercie. Elle garde la clé et affiche un message pour retrouver son propriétaire.'
+    pourquoi:
+      - levier: confiance
+        truc: 'L’étiquette dit « Photos de la sortie au zoo ». Ça a l’air d’appartenir à un élève.'
+        parade: 'Une étiquette s’écrit en deux secondes. Une clé trouvée ne se branche jamais.'
+      - levier: reflexe
+        truc: 'Brancher une clé pour voir ce qu’il y a dedans, c’est un geste rapide et habituel.'
+        parade: 'Une clé inconnue, on la donne à un adulte, sans la brancher.'
+      - levier: gain
+        truc: 'Voir les photos de la sortie, ça donne envie. La curiosité pousse à brancher.'
+        parade: 'Les pirates comptent sur la curiosité. Laisse un adulte s’occuper de la clé.'
+    aRetenir: 'Une clé USB trouvée peut contenir un virus. Ne la branche jamais : donne-la à un adulte ou à l’accueil.'
+    aRetenirSimple: 'Une clé USB trouvée ne se branche jamais. Donne-la à un adulte.'
+    recuperation: { action: demander-aide, siChoix: [branche] }
+debrief:
+  questions:
+    - Sur quel lieu de l’île ton appareil était-il le plus en danger ?
+    - Quels gestes protègent un téléphone ou une console ?
+    - Que faire si tu as déjà installé, accepté ou branché quelque chose de douteux ?
+  reponses: 'Les dangers de l’île : un faux portail Wi-Fi qui vole un mot de passe, une faille laissée ouverte, une appli trop curieuse, un jeu piraté qui cache un espion, une clé USB inconnue. Les gestes qui protègent : ne jamais taper le mot de passe d’un compte sur la page d’un Wi-Fi, faire les mises à jour vite, n’accepter que les permissions utiles, installer seulement depuis le magasin d’applis officiel, ne jamais brancher une clé trouvée. Si c’est déjà fait : prévenir un adulte, désinstaller, retirer les permissions, changer ses mots de passe. Ce n’est pas une faute : ces pièges sont faits pour paraître normaux.'
+  erreursFrequentes:
+    - 'Croire que le logo d’un magasin prouve qu’un Wi-Fi est le sien.'
+    - 'Penser qu’une mise à jour peut toujours attendre.'
+    - 'Croire qu’on peut brancher une clé trouvée pour retrouver son propriétaire.'
+fiche:
+  deroulement: |
+    5 min : cadre. Quels appareils utilisez-vous ? Qui s’occupe de leurs mises à jour ?
+    15 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, en listant les gestes qui protègent un appareil.
+    5 min : où trouver de l’aide (adulte de confiance, référent numérique du collège, cybermalveillance.gouv.fr pour les parents).
+    5 min : engagement. Ce soir, je vérifie avec un adulte que mon téléphone ou ma console est à jour.

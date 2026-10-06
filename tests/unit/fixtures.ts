@@ -229,3 +229,40 @@ export const motdepasseFixture = (): MotdepasseConfig => motdepasseConfigSchema.
 export const confidentialiteFixture = (): ConfidentialiteConfig => confidentialiteConfigSchema.parse(rawConfidentialite())
 export const verificationFixture = (): VerificationConfig => verificationConfigSchema.parse(rawVerification())
 export const permissionsFixture = (): PermissionsConfig => permissionsConfigSchema.parse(rawPermissions())
+
+export function rawLieu(id = 'lieu-1') {
+  return {
+    type: 'lieu',
+    id,
+    lieu: 'La cour',
+    decor: 'cour',
+    guide: 'Dans la cour, Lina te dit : « Donne-moi ton mot de passe, je garde ta série ! »',
+    guideSimple: 'Lina te dit : « Donne-moi ton mot de passe, je garde ta série ! »',
+    question: 'Que fais-tu ?',
+    choix: [
+      { id: 'donne', texte: 'Je lui donne', qualite: 'risque', reaction: 'Son frère voit ton mot de passe.', reactionSimple: 'Son frère le voit.' },
+      { id: 'garde', texte: 'Je garde mon mot de passe', qualite: 'bon', reaction: 'Ton compte reste à toi.' },
+      { id: 'aide', texte: 'Je demande de l’aide à un adulte', qualite: 'aide', reaction: 'Ton père t’aide à dire non.' },
+    ],
+    aRetenir: 'Un mot de passe ne se prête pas.',
+    aRetenirSimple: 'Garde ton mot de passe.',
+    recuperation: { action: 'changer-mdp', siChoix: ['donne'] },
+    pourquoi: [
+      { levier: 'confiance', truc: 'Lina est ton amie.', parade: 'Garde ton mot de passe, même avec elle.' },
+      { levier: 'gain', truc: 'Ta série compte pour toi.', parade: 'Une série se recommence.' },
+      { levier: 'urgence', truc: 'Tu pars demain.', parade: 'Prends le temps d’en parler.' },
+    ],
+  }
+}
+
+export function rawParcours(overrides: Record<string, unknown> = {}) {
+  return rawMission({
+    id: 'p-parcours',
+    format: 'parcours',
+    titre: 'La traversée de l’île test',
+    etapes: [rawLieu('l1'), { ...rawLieu('l2'), recuperation: undefined }, rawLieu('l3'), rawLieu('l4')],
+    ...overrides,
+  })
+}
+export const parcoursFixture = (overrides: Record<string, unknown> = {}): Mission =>
+  missionSchema.parse(rawParcours(overrides))

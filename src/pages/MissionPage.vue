@@ -14,7 +14,9 @@ import {
   type RunState,
 } from '@/engine/mission-runner'
 import FilStep from '@/mission/FilStep.vue'
+import CheminIle from '@/mission/CheminIle.vue'
 import FinMission from '@/mission/FinMission.vue'
+import LieuStep from '@/mission/LieuStep.vue'
 import MinijeuStep from '@/mission/MinijeuStep.vue'
 import ScenarioStep from '@/mission/ScenarioStep.vue'
 import SensibleAvertissement from '@/mission/SensibleAvertissement.vue'
@@ -35,10 +37,9 @@ const avertissementLu = ref(false)
 const etat = ref<RunState | null>(mission ? demarrer(mission) : null)
 
 const etape = computed(() => (mission && etat.value ? etapeCourante(mission, etat.value) : null))
-const resultatCourant = computed(() => {
-  const r = etape.value && etat.value ? etat.value.resultats[etape.value.id] : undefined
-  return r?.type === 'scenario' ? r : undefined
-})
+const resultatEtape = computed(() => (etape.value && etat.value ? etat.value.resultats[etape.value.id] : undefined))
+const resultatCourant = computed(() => (resultatEtape.value?.type === 'scenario' ? resultatEtape.value : undefined))
+const resultatLieu = computed(() => (resultatEtape.value?.type === 'lieu' ? resultatEtape.value : undefined))
 
 function envoyer(evenement: RunEvent) {
   if (!mission || !etat.value) return
@@ -76,6 +77,7 @@ function recommencer() {
           <label for="progression-mission">Étape {{ etat.index + 1 }} sur {{ mission.etapes.length }}</label>
           <progress id="progression-mission" :value="etat.index" :max="mission.etapes.length" />
         </p>
+        <CheminIle v-if="mission.format === 'parcours' && !etat.termine" :mission="mission" :index="etat.index" />
       </header>
 
       <SensibleAvertissement v-if="sensible && !avertissementLu" @commencer="avertissementLu = true" />
@@ -97,6 +99,17 @@ function recommencer() {
           :key="etape.id"
           :etape="etape"
           :chrono="store.etat.reglages.chrono"
+          @evenement="envoyer"
+        />
+        <LieuStep
+          v-else-if="etape.type === 'lieu'"
+          :key="etape.id"
+          :lieu="etape"
+          :phase="etat.phase ?? 'situation'"
+          :resultat="resultatLieu"
+          :mode="mode"
+          :sensible="sensible"
+          :leviers="leviers"
           @evenement="envoyer"
         />
         <FilStep v-else :key="etape.id" :fil="etape" @evenement="envoyer" />

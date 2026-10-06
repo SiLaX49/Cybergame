@@ -25,7 +25,7 @@ Une mission est un fichier YAML dans `content/missions/<thème>/<id>.yaml`. Le s
 Après avoir ajouté un fichier, relancer `npm run dev`.
 
 Règles principales :
-- 3 objectifs maximum ; 3 ou 4 scénarios et 1 mini-jeu par mission.
+- 3 objectifs maximum ; 3 ou 4 scénarios et 1 mini-jeu par mission classique (parcours : voir plus bas).
 - Mini-jeux disponibles : `tri`, `repere`, `motdepasse` (objectif `solide` ou `tres-solide`, mots `interdits`),
   `confidentialite` (3 à 8 réglages, au moins un à changer), `verification` (publication, 2 à 5 pistes d’enquête,
   verdict `fiable` / `douteux` / `faux`), `permissions` (1 à 3 applis, 2 à 5 permissions chacune). Le schéma de chacun est
@@ -43,6 +43,17 @@ Règles principales :
 - Ton : tutoiement, jamais culpabilisant, une conséquence réaliste et toujours une action possible.
 
 Exemple de référence : `content/missions/phishing/p-6e-colis.yaml`.
+
+### Parcours de l’île (6e)
+
+Une mission `format: parcours` est une traversée d’île : 4 à 6 étapes `type: lieu` (et au plus un mini-jeu), sans faux
+écran ni étape « indices ». Chaque lieu a un nom (`lieu`), un décor dessiné (`decor`, liste `DECORS` dans
+`src/content/schema.ts`), un récit à la 2e personne (`guide`, et `guideSimple` en 6e), une question et des choix avec
+leur `reaction` (`reactionSimple` pour les choix risqués en 6e). Les règles des scénarios s’appliquent : choix `aide`
+(qui commence par « Je demande de l’aide »), bloc `pourquoi`, `aRetenir`, récupération sur au moins 2 lieux. Les
+citations « … » d’un `truc` doivent figurer dans le récit. Un décor différent par lieu.
+
+Exemple de référence : `content/missions/comptes/c-6e-parcours.yaml`.
 
 ## Déploiement
 

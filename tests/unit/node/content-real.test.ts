@@ -7,6 +7,10 @@ import { atteint, evaluerRobustesse } from '../../../src/minigames/robustesse'
 
 const bundle = buildContent(join(process.cwd(), 'content'))
 const missions = bundle.missions.filter((m) => m.type === 'mission')
+const classiques = missions.filter((m) => m.format === 'classique')
+const parcours = missions.filter((m) => m.format === 'parcours')
+/** Les étapes à choix d’une mission : scénarios (faux écran) et lieux (parcours). */
+const etapesAChoix = (m: Mission) => m.etapes.filter((e) => e.type === 'scenario' || e.type === 'lieu')
 
 const MARQUES_REELLES = [
   'snapchat', 'instagram', 'tiktok', 'roblox', 'robux', 'discord', 'fortnite', 'v-bucks', 'vinted', 'leboncoin',
@@ -30,6 +34,17 @@ function textesSansVersionSimple(m: Mission): [string, string][] {
         ...e.choix.map((c): [string, string] => [`${e.id}.${c.id}.texte`, c.texte]),
         ...e.choix.filter((c) => !c.consequenceSimple).map((c): [string, string] => [`${e.id}.${c.id}.consequence`, c.consequence]),
         ...e.indices.map((i): [string, string] => [`${e.id}.${i.id}`, i.libelle]),
+        ...(e.pourquoi ?? []).flatMap((p): [string, string][] => [
+          [`${e.id}.pourquoi.${p.levier}.truc`, p.truc],
+          [`${e.id}.pourquoi.${p.levier}.parade`, p.parade],
+        ]),
+      ]
+    }
+    if (e.type === 'lieu') {
+      return [
+        [`${e.id}.question`, e.question],
+        ...e.choix.map((c): [string, string] => [`${e.id}.${c.id}.texte`, c.texte]),
+        ...e.choix.filter((c) => !c.reactionSimple).map((c): [string, string] => [`${e.id}.${c.id}.reaction`, c.reaction]),
         ...(e.pourquoi ?? []).flatMap((p): [string, string][] => [
           [`${e.id}.pourquoi.${p.levier}.truc`, p.truc],
           [`${e.id}.pourquoi.${p.levier}.parade`, p.parade],
@@ -85,6 +100,7 @@ function textesDesFauxEcrans(m: Mission): string[] {
       const { appNom, contact, sujet, url, messages } = e.ecran
       return [appNom, contact, sujet ?? '', url ?? '', ...messages.flatMap((x) => [x.texte, x.texteSimple ?? ''])]
     }
+    if (e.type === 'lieu') return [e.lieu, e.guide, e.guideSimple ?? '', ...e.choix.flatMap((c) => [c.reaction, c.reactionSimple ?? ''])]
     if (e.type === 'fil') return e.notifications.flatMap((n) => [n.appNom, n.de, n.texte])
     if (e.jeu === 'tri') return e.config.cartes.map((c) => c.texte)
     if (e.jeu === 'motdepasse') return [e.config.contexte]
@@ -111,15 +127,12 @@ describe('contenu réel', () => {
   })
 
   it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : chaque scénario a son bloc « pourquoi »', (_id, m) => {
-    for (const e of m.etapes) {
-      if (e.type !== 'scenario') continue
-      expect(e.pourquoi?.length ?? 0, e.id).toBeGreaterThanOrEqual(3)
-    }
+    for (const e of etapesAChoix(m)) expect(e.pourquoi?.length ?? 0, e.id).toBeGreaterThanOrEqual(3)
   })
 
   it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : aucune marque réelle dans les réponses « pourquoi »', (_id, m) => {
     const texte = m.etapes
-      .flatMap((e) => (e.type === 'scenario' ? (e.pourquoi ?? []).flatMap((p) => [p.truc, p.parade]) : []))
+      .flatMap((e) => (e.type === 'scenario' || e.type === 'lieu' ? (e.pourquoi ?? []).flatMap((p) => [p.truc, p.parade]) : []))
       .join(' ')
       .toLowerCase()
     expect(MARQUES_REELLES.filter((marque) => new RegExp(`\\b${marque}\\b`).test(texte))).toEqual([])
@@ -127,7 +140,7 @@ describe('contenu réel', () => {
 
   it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : aucune marque réelle dans les questions et les choix', (_id, m) => {
     const texte = m.etapes
-      .flatMap((e) => (e.type === 'scenario' ? [e.question, ...e.choix.map((c) => c.texte)] : []))
+      .flatMap((e) => (e.type === 'scenario' || e.type === 'lieu' ? [e.question, ...e.choix.map((c) => c.texte)] : []))
       .join(' ')
       .toLowerCase()
     expect(MARQUES_REELLES.filter((marque) => new RegExp(`\\b${marque}\\b`).test(texte))).toEqual([])
@@ -137,12 +150,18 @@ describe('contenu réel', () => {
     '%s : chaque citation « … » d’un « truc » figure à l’écran (et dans la lecture simplifiée en 6e)',
     (_id, m) => {
       const absentes: string[] = []
-      for (const e of m.etapes) {
-        if (e.type !== 'scenario') continue
-        const { appNom, contact, sujet, url, messages } = e.ecran
-        const commun = [appNom, contact, sujet ?? '', url ?? '', e.question]
-        const normal = aplatir([...commun, ...messages.map((x) => x.texte)].join(' '))
-        const simple = aplatir([...commun, ...messages.map((x) => x.texteSimple ?? x.texte)].join(' '))
+      for (const e of etapesAChoix(m)) {
+        let normal: string
+        let simple: string
+        if (e.type === 'lieu') {
+          normal = aplatir([e.guide, e.question].join(' '))
+          simple = aplatir([e.guideSimple ?? e.guide, e.question].join(' '))
+        } else {
+          const { appNom, contact, sujet, url, messages } = e.ecran
+          const commun = [appNom, contact, sujet ?? '', url ?? '', e.question]
+          normal = aplatir([...commun, ...messages.map((x) => x.texte)].join(' '))
+          simple = aplatir([...commun, ...messages.map((x) => x.texteSimple ?? x.texte)].join(' '))
+        }
         for (const p of e.pourquoi ?? []) {
           for (const [, citation] of p.truc.matchAll(/«\s*([^»]+?)\s*»/g)) {
             const c = aplatir(citation!)
@@ -158,7 +177,7 @@ describe('contenu réel', () => {
   )
 
   it('le choix risqué n’est pas le plus long dans plus d’un tiers des scénarios', () => {
-    const scenarios = bundle.missions.flatMap((m) => m.etapes.filter((e) => e.type === 'scenario'))
+    const scenarios = classiques.flatMap((m) => m.etapes.filter((e) => e.type === 'scenario'))
     const plusLong = scenarios.filter((s) => {
       const risque = s.choix.find((c) => c.qualite === 'risque')
       if (!risque) return false
@@ -200,7 +219,7 @@ describe('contenu réel', () => {
     },
   )
 
-  it.each(missions.map((m) => [m.id, m] as const))('%s : 3 ou 4 scénarios et 1 mini-jeu', (_id, m) => {
+  it.each(classiques.map((m) => [m.id, m] as const))('%s : 3 ou 4 scénarios et 1 mini-jeu', (_id, m) => {
     const scenarios = m.etapes.filter((e) => e.type === 'scenario')
     expect(scenarios.length).toBeGreaterThanOrEqual(3)
     expect(scenarios.length).toBeLessThanOrEqual(4)
@@ -243,8 +262,8 @@ describe('contenu réel', () => {
     },
   )
 
-  it.each(Object.entries(MINIJEU_DU_THEME))('%s : chaque mission utilise le mini-jeu « %s »', (theme, jeu) => {
-    for (const m of missionsDuTheme(theme)) {
+  it.each(Object.entries(MINIJEU_DU_THEME))('%s : chaque mission classique utilise le mini-jeu « %s »', (theme, jeu) => {
+    for (const m of missionsDuTheme(theme).filter((x) => x.format === 'classique')) {
       const minijeu = m.etapes.find((e) => e.type === 'minijeu')
       expect(minijeu?.type === 'minijeu' ? minijeu.jeu : null, m.id).toBe(jeu)
     }
@@ -263,7 +282,7 @@ describe('contenu réel', () => {
     }
   })
 
-  it.each(missionsDuTheme('comptes').map((m) => [m.id, m] as const))(
+  it.each(missionsDuTheme('comptes').filter((m) => m.format === 'classique').map((m) => [m.id, m] as const))(
     '%s : l’objectif du mot de passe est atteignable avec une phrase de passe de 3 mots ou plus',
     (_id, m) => {
       const e = m.etapes.find((x) => x.type === 'minijeu' && x.jeu === 'motdepasse')
@@ -272,6 +291,53 @@ describe('contenu réel', () => {
       expect(atteint(niveau, e.config.objectif), niveau).toBe(true)
     },
   )
+
+  const THEMES_PARCOURS = ['phishing', 'jeux-achats', 'comptes', 'vie-privee', 'desinformation', 'appareils']
+
+  it.each(THEMES_PARCOURS)('%s : un parcours de l’île pour les 6e', (theme) => {
+    expect(parcours.filter((m) => m.theme === theme && m.tranches.includes('6e'))).toHaveLength(1)
+  })
+
+  it.each(parcours.map((m) => [m.id, m] as const))('%s : 5 lieux, 2 récupérations ou plus, 15 min', (_id, m) => {
+    const lieux = m.etapes.filter((e) => e.type === 'lieu')
+    expect(lieux).toHaveLength(5)
+    expect(lieux.filter((l) => l.recuperation).length).toBeGreaterThanOrEqual(2)
+    expect(m.duree).toBe(15)
+    expect(new Set(lieux.map((l) => l.decor)).size, 'un décor différent par lieu').toBe(lieux.length)
+  })
+
+  it.each(parcours.filter((m) => m.tranches.includes('6e')).map((m) => [m.id, m] as const))(
+    '%s (6e) : récit, réactions risquées et « À retenir » simplifiés',
+    (_id, m) => {
+      for (const e of m.etapes) {
+        if (e.type !== 'lieu') continue
+        expect(e.guideSimple, `${e.id}.guideSimple`).toBeTruthy()
+        expect(e.aRetenirSimple, `${e.id}.aRetenirSimple`).toBeTruthy()
+        e.choix.filter((c) => c.qualite === 'risque').forEach((c) => expect(c.reactionSimple, `${e.id}.${c.id}`).toBeTruthy())
+      }
+    },
+  )
+
+  it.each(parcours.map((m) => [m.id, m] as const))('%s : le choix « aide » commence par « Je demande de l’aide »', (_id, m) => {
+    for (const e of m.etapes) {
+      if (e.type !== 'lieu') continue
+      const aide = e.choix.find((c) => c.qualite === 'aide')
+      expect(aide?.texte.startsWith('Je demande de l’aide'), e.id).toBe(true)
+    }
+  })
+
+  it('parcours : bon et risque ne sont pas le choix le plus long dans plus d’un tiers des lieux', () => {
+    const lieux = parcours.flatMap((m) => m.etapes.filter((e) => e.type === 'lieu'))
+    for (const qualite of ['bon', 'risque'] as const) {
+      const plusLong = lieux.filter((l) => {
+        const cible = l.choix.find((c) => c.qualite === qualite)
+        if (!cible) return false
+        const n = mots(cible.texte).length
+        return l.choix.every((c) => c === cible || mots(c.texte).length < n)
+      })
+      expect(plusLong.length, `${qualite} : ${plusLong.map((l) => l.id).join(', ')}`).toBeLessThanOrEqual(Math.floor(lieux.length / 3))
+    }
+  })
 
   it('les rappels sont courts et contiennent un fil d’au moins 4 notifications', () => {
     const rappels = bundle.missions.filter((m) => m.type === 'rappel')
