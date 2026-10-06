@@ -22,7 +22,7 @@ etapes:
     question: Ton père est sous la douche. Que fais-tu ?
     choix:
       - id: paie
-        texte: 'Papa attend un colis : je paie les 1,99 € pour lui rendre service.'
+        texte: 'Je paie les 1,99 € pour rendre service à Papa, qui attend un colis.'
         qualite: risque
         reaction: 'Sur le faux site, la tablette remplit toute seule la carte de ton père. Tu valides. Le site garde les numéros, et la banque repère ensuite des achats bizarres. Tu voulais rendre service : ce piège est fait exactement pour ça. Préviens vite ton père.'
         reactionSimple: 'La tablette a rempli toute seule la carte de ton père. Des inconnus peuvent payer avec. Préviens vite ton père.'
@@ -62,7 +62,7 @@ etapes:
         reaction: 'Aucune trottinette n’arrive. Mais ton nom, ton adresse et ton numéro sont partis chez des inconnus. Tu vas recevoir de faux messages qui les citent pour paraître vrais. Tenter sa chance, c’est humain : l’affiche comptait justement là-dessus. Bloque et signale le prochain faux message.'
         reactionSimple: 'Pas de trottinette. Ton nom, ton adresse et ton numéro sont chez des inconnus. Bloque les faux messages qui arrivent.'
       - id: passe
-        texte: 'Je ne scanne pas : un autocollant collé par-dessus, c’est louche.'
+        texte: 'Un autocollant collé par-dessus, c’est louche : je ne scanne pas.'
         qualite: bon
         reaction: 'Bien vu ! Un QR code, c’est un lien caché. Celui-là a été collé par-dessus l’affiche : impossible de savoir par qui.'
       - id: aide
@@ -97,7 +97,7 @@ etapes:
         reaction: 'Sami clique et tape son mot de passe sur une fausse page GameBox. Le soir, il ne peut plus se connecter. Tu voulais l’aider, et c’est pour ça que ce piège marche si bien. Avec un adulte, il peut récupérer son compte. Toi, préviens que ce lien est faux.'
         reactionSimple: 'Sami a tapé son mot de passe sur une fausse page. Préviens vite que ce lien est faux.'
       - id: garde
-        texte: 'Je ne transfère pas : doubler des Coins, ça n’existe pas.'
+        texte: 'Je ne transfère pas : doubler des Coins par un lien, ça n’existe pas.'
         qualite: bon
         reaction: 'Bien vu ! Les Coins se gagnent en jouant ou s’achètent dans la boutique du jeu. Tu expliques à Sami que ce lien vole les comptes.'
       - id: aide
@@ -167,7 +167,7 @@ etapes:
         reaction: 'Nettoyeur Pro n’enlève aucun virus. Il remplit ton écran de publicités et lit tes contacts. Cette fenêtre fait peur exprès, et elle trompe beaucoup de monde. Parles-en à un adulte pour désinstaller l’appli.'
         reactionSimple: 'Nettoyeur Pro est une fausse appli. Elle lit tes contacts. Avec un adulte, désinstalle-la.'
       - id: ferme
-        texte: 'Je ferme la fenêtre : une vidéo ne peut pas savoir ça.'
+        texte: 'Une vidéo ne peut pas savoir ça : je ferme la fenêtre.'
         qualite: bon
         reaction: 'Bien vu ! Une page web ne peut pas voir les virus de ton téléphone. Tu fermes l’onglet et la vidéo reprend.'
       - id: aide

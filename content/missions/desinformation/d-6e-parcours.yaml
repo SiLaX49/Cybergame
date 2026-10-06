@@ -27,7 +27,7 @@ etapes:
         reaction: 'Tu n’as rien inventé, et beaucoup d’élèves auraient fait pareil. Mais le chauffage marche très bien : le collège reste ouvert. Deux copains n’ont pas préparé leur sac pour demain. Tu peux encore les prévenir que c’était une rumeur.'
         reactionSimple: 'C’était une rumeur : le collège reste ouvert. Tu peux prévenir tes copains que c’était faux.'
       - id: attendre-college
-        texte: 'Je ne répète rien tant que le collège ne l’a pas annoncé.'
+        texte: 'Le collège ne l’a pas annoncé : je ne répète rien pour l’instant.'
         qualite: bon
         reaction: 'Bien vu ! Une vraie fermeture, le collège l’annonce lui-même aux familles, par message. Aucun message n’est arrivé.'
       - id: aide
@@ -57,7 +57,7 @@ etapes:
     question: Tu as envie d’en parler à toute ta classe. Que fais-tu ?
     choix:
       - id: raconte
-        texte: 'Un magazine du magasin, avec des preuves en page 12 : je le raconte demain.'
+        texte: 'Il y a des preuves en page 12, alors je le raconte demain.'
         qualite: risque
         reaction: 'Beaucoup de gens pensent comme toi : ce qui est imprimé paraît sérieux. Mais ce magazine invente des histoires pour se vendre. Aucun scientifique n’a jamais vu de sirène. Tu peux en parler comme d’une blague, pas comme d’une vraie info.'
         reactionSimple: 'Ce magazine invente des histoires pour se vendre. Les sirènes n’existent pas. Tu peux en rire, sans y croire.'
@@ -91,7 +91,7 @@ etapes:
     question: Ton cousin veut l’envoyer à toute la famille. Que fais-tu ?
     choix:
       - id: partage
-        texte: 'Trois millions de vues, ça ne peut pas être faux : je la partage aussi.'
+        texte: 'Je la partage aussi : trois millions de vues, ça ne peut pas être faux.'
         qualite: risque
         reaction: 'La vidéo a été fabriquée par une intelligence artificielle. Ta tante y croit et la montre à ses collègues. Beaucoup de gens se font avoir : ces vidéos sont de plus en plus réussies. Tu peux encore prévenir ta famille que c’était faux.'
         reactionSimple: 'La vidéo a été fabriquée par une IA. Ta tante y croit. Préviens ta famille que c’était faux.'
@@ -165,7 +165,7 @@ etapes:
         reaction: 'Ta prof t’explique que c’est une légende : les autruches ne cachent pas leur tête dans le sable. Elles se couchent au sol pour se cacher. Beaucoup de gens croient cette idée. Tu peux corriger ton exposé avant vendredi.'
         reactionSimple: 'C’est une légende. Les autruches se couchent au sol pour se cacher. Corrige ton exposé.'
       - id: deux-sources
-        texte: 'Je vérifie dans un livre du CDI ou sur un site sérieux.'
+        texte: 'Ce site n’a ni auteur ni date : je vérifie dans un livre du CDI.'
         qualite: bon
         reaction: 'Bonne enquête ! Le livre du CDI explique que c’est une légende : l’autruche se couche au sol pour se cacher. Ton exposé est juste.'
       - id: aide

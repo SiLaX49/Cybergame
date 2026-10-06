@@ -22,7 +22,7 @@ etapes:
     question: La feuille arrive devant toi. Que fais-tu ?
     choix:
       - id: ecrit
-        texte: 'Huit élèves l’ont déjà fait, alors j’écris le mien aussi.'
+        texte: 'J’écris le mien aussi : huit élèves l’ont déjà fait.'
         qualite: risque
         reaction: 'La feuille passe dans plein de mains. N’importe qui peut lire ton mot de passe et entrer dans ton compte. Beaucoup d’élèves auraient fait comme toi. Avec un adulte, change vite ton mot de passe.'
         reactionSimple: 'Tout le monde peut lire la feuille. Avec un adulte, change vite ton mot de passe.'
@@ -57,7 +57,7 @@ etapes:
     question: Tes cousins arrivent dans une heure. Que fais-tu du post-it ?
     choix:
       - id: laisse
-        texte: 'Ce sont mes cousins, ils ne regarderont pas : je le laisse.'
+        texte: 'Je le laisse, puisque mes cousins ne regarderont pas.'
         qualite: risque
         reaction: 'Ton cousin lit le post-it sans faire exprès. Le lendemain, il se connecte à ton compte depuis chez lui « pour rigoler » et dépense tes Coins. Beaucoup de gens gardent un post-it. Avec un adulte, change ton mot de passe.'
         reactionSimple: 'Ton cousin a lu le post-it. Il entre dans ton compte. Avec un adulte, change ton mot de passe.'
@@ -97,7 +97,7 @@ etapes:
         reaction: 'Lina garde ta série. Mais elle note ton mot de passe dans son téléphone, et sa sœur le voit. Elle joue avec ton perso et change ton avatar. Personne ne voulait te nuire. Avec un adulte, change ton mot de passe.'
         reactionSimple: 'La sœur de Lina a vu ton mot de passe. Elle joue sur ton compte. Change ton mot de passe avec un adulte.'
       - id: refuse
-        texte: 'Je la remercie, mais mon mot de passe reste à moi.'
+        texte: 'Mon mot de passe reste à moi : je la remercie, mais je refuse.'
         qualite: bon
         reaction: 'Lina comprend. Ta série s’arrête pendant le ski. À ton retour, tu en commences une nouvelle, et ton compte est resté à toi.'
       - id: aide
@@ -167,7 +167,7 @@ etapes:
         reaction: 'Ton compte reste ouvert sur la tablette. Le voyageur suivant le trouve et joue avec. Il pourrait aussi changer ton mot de passe. Ça arrive à beaucoup de gens pressés. Avec un adulte, change ton mot de passe et déconnecte les autres appareils.'
         reactionSimple: 'Ton compte est resté ouvert. Quelqu’un d’autre l’utilise. Change ton mot de passe avec un adulte.'
       - id: deconnecte
-        texte: 'Je me déconnecte en deux secondes, puis je cours.'
+        texte: 'Ça prend deux secondes : je me déconnecte, puis je cours.'
         qualite: bon
         reaction: 'Bien vu ! Te déconnecter a pris deux secondes. Le voyageur suivant ne trouve que la page d’accueil.'
       - id: aide

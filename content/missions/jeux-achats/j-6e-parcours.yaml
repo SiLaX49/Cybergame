@@ -27,7 +27,7 @@ etapes:
         reaction: 'Aucun Coin n’arrive. Le site a gardé ton pseudo et ton mot de passe. Le lendemain, quelqu’un a pris tes objets et ton compte. Maëlle ne voulait pas te piéger : elle s’est fait avoir aussi. Avec un adulte, tu peux reprendre ton compte.'
         reactionSimple: 'Pas de Coins. Le site a volé ton mot de passe, et quelqu’un a pris ton compte. Avec un adulte, tu peux le récupérer.'
       - id: garde
-        texte: 'Je garde mon mot de passe : un site ne peut pas fabriquer des Coins.'
+        texte: 'Un site ne peut pas fabriquer des Coins : je garde mon mot de passe.'
         qualite: bon
         reaction: 'Bien vu ! Les Coins se gagnent en jouant ou s’achètent dans la boutique du jeu. Un générateur, ça n’existe pas.'
       - id: aide
@@ -57,7 +57,7 @@ etapes:
     question: Tu n’as jamais triché. Que fais-tu ?
     choix:
       - id: code
-        texte: 'Je n’ai pas triché : je donne le code pour le prouver.'
+        texte: 'Je donne le code pour prouver que je n’ai pas triché.'
         qualite: risque
         reaction: 'Le code ouvrait ton compte. Le faux modérateur s’y connecte et change ton mot de passe. Vouloir prouver qu’on est honnête, c’est normal : il comptait là-dessus. Bloque-le et signale-le, puis récupère ton compte avec un adulte.'
         reactionSimple: 'Ce code ouvrait ton compte. Le faux modérateur l’a pris. Bloque-le et signale-le.'
@@ -92,7 +92,7 @@ etapes:
     question: Tu rêves de ce pack. Que fais-tu ?
     choix:
       - id: achete
-        texte: 'C’est juste 9,99 €, je lui dirai ce soir : j’achète.'
+        texte: 'J’achète : c’est juste 9,99 €, et je le dirai à ma mère ce soir.'
         qualite: risque
         reaction: 'Le pack arrive. Mais ta mère découvre l’achat sur son compte et n’est pas contente : elle aurait voulu décider. Beaucoup d’enfants l’ont déjà fait sans penser à mal. Parles-en avec elle : vous pouvez ajouter un code pour les achats.'
         reactionSimple: 'Ta mère découvre l’achat. Elle aurait voulu décider. Parlez-en ensemble.'
@@ -131,7 +131,7 @@ etapes:
         reaction: 'Hugo reçoit le code et dépense la carte. Le mot de passe qu’il donne ne marche pas, ou il reprend le compte une semaine après. Acheter un compte est interdit par le jeu, et l’argent d’une carte cadeau ne se récupère pas. Parles-en à un adulte.'
         reactionSimple: 'Hugo a pris ton argent. Le compte ne marche pas. Parles-en à un adulte.'
       - id: refuse
-        texte: 'Je refuse : un compte acheté peut être repris à tout moment.'
+        texte: 'Un compte acheté peut être repris à tout moment : je refuse.'
         qualite: bon
         reaction: 'Bien vu ! Le vendeur garde toujours la boîte mail du compte : il peut le reprendre quand il veut. Et le jeu interdit de vendre les comptes.'
       - id: aide
@@ -161,7 +161,7 @@ etapes:
     question: Le lien demande la carte de ta mère. Que fais-tu ?
     choix:
       - id: carte
-        texte: 'Il paie tout de suite : j’entre la carte de Maman pour recevoir les 30 €.'
+        texte: 'J’entre la carte de Maman pour recevoir les 30 € : il paie tout de suite.'
         qualite: risque
         reaction: 'Le lien n’envoyait pas d’argent : il en prenait. Les numéros de la carte sont partis, et des achats apparaissent sur le compte de ta mère. Cette arnaque piège beaucoup d’adultes aussi. Ta mère fait bloquer la carte, et toi, bloque et signale l’acheteur.'
         reactionSimple: 'Le lien prenait de l’argent au lieu d’en donner. Ta mère fait bloquer la carte. Bloque et signale l’acheteur.'
