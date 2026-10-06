@@ -28,7 +28,9 @@ describe('FinMission : texte neutre en thème sensible', () => {
   })
   it('évite « piège » en thème sensible', async () => {
     const t = await texte(true)
-    expect(t).toContain('Tu as fait les bons choix cette fois. Ce qui peut faire hésiter :')
+    expect(t).toContain('Ce qui peut faire hésiter')
+    expect(t).toContain('Tu as fait les bons choix cette fois. Voici ce qui peut faire hésiter :')
+    expect(t).not.toContain('craquer')
     expect(t).not.toContain('piège')
   })
 })

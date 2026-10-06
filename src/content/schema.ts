@@ -30,7 +30,7 @@ export type ReponseLevier = LevierId | 'autre'
 
 const levierInfoSchema = z.object({ libelle: texte, parade: texte, questionDebrief: texte })
 
-/** content/leviers.yaml : les 8 leviers (tous obligatoires, aucun autre) et la réponse « Autre chose ». */
+/** content/leviers.yaml : les 13 leviers (tous obligatoires, aucun autre) et la réponse « Autre chose ». */
 export const leviersFileSchema = z.object({
   leviers: z.record(z.enum(LEVIERS), levierInfoSchema),
   autre: z.object({ libelle: texte, truc: texte, parade: texte }),
