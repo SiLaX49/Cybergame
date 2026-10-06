@@ -55,6 +55,12 @@ citations « … » d’un `truc` doivent figurer dans le récit. Un décor diff
 
 Exemple de référence : `content/missions/comptes/c-6e-parcours.yaml`.
 
+Règle de progression : l’élève n’avance d’une plateforme que sur un choix `bon` ou `aide`. Après un piège, il voit
+le pourquoi, la réaction et le geste de récupération éventuel, puis il reste sur le même lieu et réessaie, le choix
+risqué déjà essayé étant barré. Au premier parcours, l’élève choisit son personnage (conservé ensuite, modifiable dans
+les réglages) ; la mission s’affiche sur une île propre à son thème, où le personnage saute de plateforme en
+plateforme jusqu’à l’objet à gagner.
+
 ## Déploiement
 
 Le site est publié sur GitHub Pages par `.github/workflows/ci.yml` à chaque push sur `main`, une fois lint,

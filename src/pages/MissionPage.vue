@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { getLeviers, getMission, getTheme } from '@/content'
 import { calculerBadges } from '@/engine/badges'
@@ -20,6 +20,11 @@ import LieuStep from '@/mission/LieuStep.vue'
 import MinijeuStep from '@/mission/MinijeuStep.vue'
 import ScenarioStep from '@/mission/ScenarioStep.vue'
 import SensibleAvertissement from '@/mission/SensibleAvertissement.vue'
+import { DECORS_EMOJI, EMOJI_MINIJEU } from '@/parcours/decors'
+import ChoixPersonnage from '@/parcours/ChoixPersonnage.vue'
+import { estIle } from '@/parcours/iles'
+import ParcoursScene from '@/parcours/ParcoursScene.vue'
+import type { PersonnageId } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
 import BandeauAide from '@/ui/BandeauAide.vue'
 
@@ -31,6 +36,21 @@ const mission = getMission(String(route.params.id))
 const theme = mission?.theme ? getTheme(mission.theme) : undefined
 const sensible = theme?.sensible ?? false
 const leviers = getLeviers()
+
+const parcours = mission?.format === 'parcours'
+const ile = theme && estIle(theme.id) ? theme.id : null
+const etapesScene = (mission?.etapes ?? []).map((e) =>
+  e.type === 'lieu'
+    ? { id: e.id, nom: e.lieu, emoji: DECORS_EMOJI[e.decor] }
+    : { id: e.id, nom: 'Mini-jeu', emoji: EMOJI_MINIJEU },
+)
+const personnageChoisi = ref<PersonnageId | null>(null)
+const titreDepart = ref<HTMLElement | null>(null)
+// Le titre de l’écran de départ reçoit le focus dès qu’il s’affiche (après l’avertissement éventuel).
+watch(titreDepart, (el) => el?.focus())
+function commencerParcours() {
+  if (personnageChoisi.value) store.choisirPersonnage(personnageChoisi.value)
+}
 
 const mode = computed(() => store.etat.mode ?? 'solo')
 const avertissementLu = ref(false)
@@ -73,14 +93,26 @@ function recommencer() {
     <template v-else>
       <header class="mission-entete">
         <h1>{{ mission.titre }}</h1>
-        <p v-if="!etat.termine" class="progression">
+        <p v-if="!etat.termine && !parcours" class="progression">
           <label for="progression-mission">Étape {{ etat.index + 1 }} sur {{ mission.etapes.length }}</label>
           <progress id="progression-mission" :value="etat.index" :max="mission.etapes.length" />
         </p>
         <CheminIle v-if="mission.format === 'parcours' && !etat.termine" :mission="mission" :index="etat.index" />
+        <ParcoursScene
+          v-if="parcours && ile && store.etat.personnage"
+          :ile="ile"
+          :etapes="etapesScene"
+          :position="etat.termine ? etapesScene.length : etat.index"
+          :personnage="store.etat.personnage"
+        />
       </header>
 
       <SensibleAvertissement v-if="sensible && !avertissementLu" @commencer="avertissementLu = true" />
+      <section v-else-if="parcours && !store.etat.personnage" class="choix-depart">
+        <h2 ref="titreDepart" tabindex="-1">Avant de partir</h2>
+        <ChoixPersonnage v-model="personnageChoisi" />
+        <button type="button" class="btn btn-primaire" :disabled="!personnageChoisi" @click="commencerParcours">C’est parti !</button>
+      </section>
       <FinMission v-else-if="etat.termine" :mission="mission" :etat="etat" :leviers="leviers" @rejouer="recommencer" />
       <template v-else-if="etape">
         <ScenarioStep
@@ -112,7 +144,7 @@ function recommencer() {
           :leviers="leviers"
           @evenement="envoyer"
         />
-        <FilStep v-else :key="etape.id" :fil="etape" @evenement="envoyer" />
+        <FilStep v-else-if="etape.type === 'fil'" :key="etape.id" :fil="etape" @evenement="envoyer" />
       </template>
 
       <BandeauAide v-if="sensible && theme" :aides="theme.aides" />

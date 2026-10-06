@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
-import { commencer, jouerJusquAuMiniJeu, jouerMission } from './helpers'
+import { choisirPersonnageSiDemande, commencer, jouerJusquAuMiniJeu, jouerMission } from './helpers'
 
 async function verifierA11y(page: Page, ecran: string) {
   const resultat = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
@@ -81,6 +81,8 @@ for (const [nom, id] of [
 test('parcours de l’île : lieu, pourquoi, réaction, récupération et fin', async ({ page }) => {
   await commencer(page, '6e', 'Solo')
   await page.getByRole('link', { name: 'La traversée de l’île des clés' }).click()
+  await verifierA11y(page, 'choix du personnage')
+  await choisirPersonnageSiDemande(page)
   await verifierA11y(page, 'lieu')
   await page.locator('[data-choix="ecrit"]').click()
   await verifierA11y(page, 'pourquoi (lieu)')
@@ -89,6 +91,7 @@ test('parcours de l’île : lieu, pourquoi, réaction, récupération et fin', 
   await page.getByRole('button', { name: 'Continuer', exact: true }).click()
   await verifierA11y(page, 'récupération (lieu)')
   await page.goto('/#/mission/p-6e-parcours')
+  await choisirPersonnageSiDemande(page)
   await jouerMission(page)
   await verifierA11y(page, 'fin de parcours')
 })
@@ -96,5 +99,15 @@ test('parcours de l’île : lieu, pourquoi, réaction, récupération et fin', 
 test('parcours en classe entière (grands textes)', async ({ page }) => {
   await commencer(page, '6e', 'Classe entière')
   await page.getByRole('link', { name: 'La traversée de l’île aux hameçons' }).click()
+  await choisirPersonnageSiDemande(page)
   await verifierA11y(page, 'lieu classe')
+})
+
+test('parcours : écran « Choisis ton personnage » et scène du premier lieu', async ({ page }) => {
+  await page.goto('/#/mission/v-6e-parcours')
+  await expect(page.getByText('Choisis ton personnage')).toBeVisible()
+  await verifierA11y(page, 'choix du personnage')
+  await choisirPersonnageSiDemande(page)
+  await expect(page.locator('.parcours-scene')).toBeVisible()
+  await verifierA11y(page, 'scène du premier lieu')
 })

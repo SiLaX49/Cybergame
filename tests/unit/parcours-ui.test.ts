@@ -151,8 +151,30 @@ describe('un parcours dans les pages', () => {
     return mount(page, { global: { plugins: [router] } })
   }
 
+  const monterMission = () => monterPage(MissionPage, '/mission/p-parcours')
+
+  it('demande le personnage au premier parcours', async () => {
+    const w = await monterMission()
+    expect(w.text()).toContain('Choisis ton personnage')
+    await w.find('input[name="personnage"][value="p2"]').setValue()
+    await cliquer(w, 'C’est parti !')
+    expect(store.etat.personnage).toBe('p2')
+    expect(w.find('.position').text()).toContain('Étape 1 sur')
+  })
+
+  it('un piège ne fait pas avancer ; après le geste, on réessaie le même lieu', async () => {
+    store.choisirPersonnage('p1')
+    const w = await monterMission()
+    await w.find('[data-choix="donne"]').trigger('click')
+    await w.find('[data-levier="gain"]').trigger('click')
+    await cliquer(w, 'Continuer')
+    expect(w.find('.position').text()).toContain('Étape 1 sur')
+    expect(w.find('article.lieu h2').text()).toBe('Maintenant, limite les dégâts')
+  })
+
   it('se joue lieu après lieu jusqu’à la fin, avec le badge explorateur', async () => {
-    const w = await monterPage(MissionPage, '/mission/p-parcours')
+    store.choisirPersonnage('p1')
+    const w = await monterMission()
     expect(w.find('h1').text()).toBe('La traversée de l’île test')
     for (let i = 0; i < 4; i++) {
       expect(w.find('[aria-current="step"]').text()).toContain('La cour')
