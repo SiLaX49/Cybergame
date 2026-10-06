@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory, type RouteLocationNormalized, type RouteRecordRaw } from 'vue-router'
 import { getMission } from '@/content'
 import AccueilPage from '@/pages/AccueilPage.vue'
+import AtelierTelephonePage from '@/pages/AtelierTelephonePage.vue'
 import CartePage from '@/pages/CartePage.vue'
 import ConfidentialitePage from '@/pages/ConfidentialitePage.vue'
 import EnseignantsPage from '@/pages/EnseignantsPage.vue'
@@ -33,6 +34,7 @@ export const routes: RouteRecordRaw[] = [
   { path: '/enseignants/:id/plan-b', name: 'plan-b', component: PlanBPage, meta: { titre: '{mission} : version papier' } },
   { path: '/confidentialite', name: 'confidentialite', component: ConfidentialitePage, meta: { titre: 'Confidentialité' } },
   { path: '/test', name: 'test-technique', component: TestTechniquePage, meta: { titre: 'Test technique du poste' } },
+  { path: '/atelier-telephone', name: 'atelier-telephone', component: AtelierTelephonePage, meta: { titre: 'Atelier du téléphone' } },
   { path: '/:chemin(.*)*', name: 'introuvable', component: IntrouvablePage, meta: { titre: 'Page introuvable' } },
 ]
 
