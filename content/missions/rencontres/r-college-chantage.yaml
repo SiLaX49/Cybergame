@@ -1,0 +1,192 @@
+id: r-college-chantage
+theme: rencontres
+tranches: ['5e-3e']
+titre: Garde ça entre nous
+resume: 'Un compte qui te trouve formidable, une photo truquée par IA et une menace, un ami qui n’ose pas parler : reconnaître la manipulation et le chantage, et savoir qui appeler.'
+duree: 18
+objectifs:
+  - Reconnaître une relation en ligne qui isole (compliments, secret, éloignement des proches)
+  - 'Réagir à un chantage, même avec un montage par IA : ne pas payer, garder des preuves, bloquer, signaler, appeler le 3018'
+  - Soutenir un ami qui se confie, sans garder un secret qui le met en danger
+competences:
+  crcn: ['4.3', '4.2', '2.1']
+  programmes: ['EMI cycle 4', 'EMC cycle 4']
+etapes:
+  - type: scenario
+    id: compliments-isolement
+    role: victime
+    ecran:
+      app: social
+      appNom: Lumo
+      contact: 'jade.14'
+      messages:
+        - de: contact
+          texte: 'T’es vraiment pas comme les autres. Je peux te parler de tout, j’ai jamais connu quelqu’un comme toi 🥰'
+        - de: contact
+          texte: 'Par contre, garde ça entre nous. Tes parents comprendraient pas, ils te prendraient ton téléphone.'
+        - de: contact
+          texte: 'Et efface nos messages ce soir, ok ?'
+    question: Jade dit avoir 14 ans, comme toi. Vous discutez tous les soirs depuis deux semaines. Que fais-tu ?
+    choix:
+      - id: garde
+        texte: 'Jade me comprend mieux que personne. Mes parents s’inquiéteraient pour rien : je garde ça pour moi.'
+        qualite: risque
+        consequence: 'Jade devient de plus en plus exigeante : elle veut te parler tard le soir, se vexe quand tu vois tes amis et demande des photos de toi. Tu te sens seul·e et coincé·e. Ce n’est pas ta faute : éloigner quelqu’un de ses proches, c’est une technique de manipulation. Tu peux encore bloquer ce compte, le signaler et en parler.'
+      - id: bloque
+        texte: 'Je garde les messages, je bloque ce compte et je le signale : ces demandes ne sont pas normales.'
+        qualite: bon
+        consequence: 'Le compte ne peut plus t’écrire, et la plateforme examine ton signalement. Tu as gardé les messages : si tu veux en parler à un adulte, tu pourras les lui montrer.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père ou à ma mère, même si j’ai peur qu’ils me prennent mon téléphone.'
+        qualite: aide
+        consequence: 'Ta mère t’écoute sans rien te reprocher, et elle ne te prend pas ton téléphone. Vous signalez le compte ensemble. Elle t’explique qu’un adulte peut se cacher derrière un profil d’ado, et que le 3018 peut aussi vous aider.'
+    indices:
+      - { id: compliments, libelle: 'Jade me couvre de compliments depuis le début', pertinent: true }
+      - { id: parents, libelle: 'Elle dit que mes parents ne comprendraient pas', pertinent: true }
+      - { id: effacer, libelle: 'Elle me demande d’effacer nos messages', pertinent: true }
+      - { id: age, libelle: 'Elle a 14 ans, comme moi', pertinent: false }
+    explicationIndices: 'Des compliments, puis « garde ça entre nous », puis effacer les messages : la personne t’éloigne de ceux qui pourraient t’aider. L’âge affiché ne prouve rien : n’importe qui peut créer un profil d’ado.'
+    aRetenir: 'Quelqu’un qui veut t’éloigner de tes proches ou effacer vos messages cherche à te contrôler. Garde les messages, bloque, signale, et parles-en à un adulte ou au 3018, même si tu as peur de te faire gronder.'
+    recuperation: { action: bloquer-signaler, siChoix: [garde] }
+    pourquoi:
+      - levier: flatterie
+        truc: '« Pas comme les autres », « jamais connu quelqu’un comme toi » : Jade te fait te sentir unique, très vite.'
+        parade: 'Des compliments aussi forts, aussi vite, servent souvent à créer un lien. Prends ton temps.'
+      - levier: secret
+        truc: '« Garde ça entre nous » : Jade veut que tes parents ne sachent rien.'
+        parade: 'Quand on te demande de cacher une relation à tes proches, parles-en justement à l’un d’eux.'
+      - levier: peur
+        truc: '« Ils te prendraient ton téléphone » : la peur d’être privé·e de téléphone t’empêche de parler.'
+        parade: 'Les adultes cherchent d’abord à te protéger. Tu peux commencer par : « J’ai besoin d’aide, ne me punis pas. »'
+      - levier: confiance
+        truc: 'Deux semaines de discussions tous les soirs : tu as l’impression de bien connaître Jade.'
+        parade: 'Tu ne l’as jamais vue. Un profil d’ado peut cacher un adulte : tu ne sais pas qui écrit.'
+
+  - type: scenario
+    id: photo-truquee
+    role: victime
+    ecran:
+      app: social
+      appNom: Lumo
+      contact: 'k4rma_x'
+      messages:
+        - de: contact
+          texte: 'Regarde ce que j’ai fait avec ta photo de profil 📷 Une IA, et hop, ça a l’air vrai.'
+        - de: contact
+          texte: 'Si tu veux pas que toute ta classe la reçoive, envoie 50 € en carte cadeau avant 20 h. Et t’en parles à personne.'
+    question: 'L’image envoyée est un montage gênant : ton visage est le vrai, tout le reste est faux. Il est 18 h. Que fais-tu ?'
+    choix:
+      - id: paie
+        texte: 'Si je paie, il efface tout et personne ne verra jamais cette image : j’achète la carte cadeau.'
+        qualite: risque
+        consequence: 'Il encaisse, puis réclame 100 € de plus, et il n’efface rien. Payer ne fait jamais disparaître une image : le maître chanteur revient. Ce n’est pas ta faute : c’est lui qui commet un délit. Ne paie pas plus, n’envoie rien de plus, garde des preuves et demande de l’aide.'
+      - id: preuves
+        texte: 'Je ne réponds pas : je fais des captures, je bloque et je signale le compte, puis je préviens un adulte.'
+        qualite: bon
+        consequence: 'Le maître chanteur ne peut plus t’écrire, et la plateforme examine le compte. Tes captures serviront si l’image circule : on pourra la faire retirer. En parler à un adulte t’évite de rester seul·e avec ça.'
+      - id: aide
+        texte: 'Je demande de l’aide au 3018 : j’appelle ou j’écris sur le tchat.'
+        qualite: aide
+        consequence: 'Un écoutant du 3018 te rassure : c’est un délit, et ce n’est pas ta faute. Il t’explique de ne pas payer et de ne plus répondre. Si l’image est publiée, le 3018 peut demander aux plateformes de la retirer. Il t’aide aussi à en parler à tes parents.'
+    indices:
+      - { id: inconnu, libelle: 'Un compte inconnu m’écrit pour la première fois', pertinent: true }
+      - { id: argent, libelle: 'Il réclame de l’argent en carte cadeau, avant 20 h', pertinent: true }
+      - { id: silence, libelle: 'Il me demande de n’en parler à personne', pertinent: true }
+      - { id: realiste, libelle: 'L’image a l’air très réaliste', pertinent: false }
+    explicationIndices: 'Menace, délai, carte cadeau et silence : c’est la recette du chantage. Que l’image ait l’air vraie ne change rien : c’est un faux, et la seule personne en tort, c’est celle qui l’a fabriquée.'
+    aRetenir: 'Face au chantage : ne paie pas, n’envoie rien de plus, ne réponds plus. Fais des captures, bloque, signale, et appelle le 3018 : il peut faire retirer l’image. Ce n’est pas ta faute, même si la photo de départ est la tienne.'
+    recuperation: { action: capture-preuve, siChoix: [paie] }
+    pourquoi:
+      - levier: peur
+        truc: '« Toute ta classe la reçoive » : la peur que tout le monde voie l’image pousse à payer vite.'
+        parade: 'Quand un message te fait peur, c’est le moment d’en parler. Le 3018 peut faire retirer une image.'
+      - levier: urgence
+        truc: '« Avant 20 h » : le délai sert à t’empêcher de demander de l’aide.'
+        parade: 'Ne réponds pas dans l’urgence. Prends le temps d’appeler le 3018 ou de parler à un adulte.'
+      - levier: honte
+        truc: 'L’image est gênante, même si elle est fausse. On voudrait que personne ne la voie, alors on se tait.'
+        parade: 'C’est celui qui fabrique un faux et fait chanter qui devrait avoir honte. Pas toi.'
+      - levier: secret
+        truc: '« T’en parles à personne » : le maître chanteur sait que s’il est découvert, il perd.'
+        parade: 'En parler, c’est ce qui l’arrête. Tes parents, un adulte du collège ou le 3018 peuvent t’aider.'
+
+  - type: scenario
+    id: ami-honte
+    role: temoin
+    ecran:
+      app: chat
+      appNom: Pixo
+      contact: 'Yanis'
+      messages:
+        - de: contact
+          texte: 'Faut que je te dise un truc. Quelqu’un me fait chanter avec une photo de moi. Il veut 100 € sinon il la publie.'
+        - de: contact
+          texte: 'J’ai trop honte, je peux pas en parler. Jure-moi que tu diras rien à personne.'
+    question: Yanis est ton meilleur ami. Il ne va pas bien depuis plusieurs jours. Que fais-tu ?
+    choix:
+      - id: jure
+        texte: 'C’est son histoire et il me fait confiance : je jure de ne rien dire à personne.'
+        qualite: risque
+        consequence: 'Yanis reste seul face au maître chanteur. Il finit par payer, et l’autre en redemande. Il dort mal et ne parle plus à personne. Ce n’est pas ta faute, ni la sienne : le seul responsable, c’est le maître chanteur. Il est encore temps de soutenir Yanis et de l’aider à en parler.'
+      - id: soutien
+        texte: 'Je lui écris que ce n’est pas sa faute et qu’il ne doit pas payer. Je propose de l’accompagner voir un adulte.'
+        qualite: bon
+        consequence: 'Yanis est soulagé que tu ne le juges pas. Il accepte que vous alliez voir l’infirmière ensemble. Elle prévient ses parents et l’aide à signaler le compte : il n’est plus seul.'
+      - id: aide
+        texte: 'Je demande de l’aide au 3018 pour savoir comment aider Yanis, même s’il m’a demandé de ne rien dire.'
+        qualite: aide
+        consequence: 'L’écoutante du 3018 t’explique que ce secret-là ne se garde pas : Yanis a besoin d’être protégé. Elle te conseille d’en parler à un adulte du collège. Le 3018 peut aussi faire retirer la photo si elle est publiée.'
+    indices:
+      - { id: menace, libelle: 'Quelqu’un réclame de l’argent à Yanis en le menaçant', pertinent: true }
+      - { id: honte, libelle: 'Yanis a trop honte pour en parler', pertinent: true }
+      - { id: jurer, libelle: 'Il me demande de jurer de ne rien dire', pertinent: true }
+      - { id: appli, libelle: 'Il m’écrit sur Pixo', pertinent: false }
+    explicationIndices: 'Yanis subit du chantage : c’est un délit, et c’est grave. La honte et le secret le laissent seul face au maître chanteur. L’appli utilisée ne change rien.'
+    aRetenir: 'Si un ami se confie sur un chantage, dis-lui que ce n’est pas sa faute, qu’il ne paie pas et qu’il n’envoie rien de plus. Ce secret-là ne se garde pas : accompagne-le voir un adulte ou appelez le 3018, qui peut faire retirer une photo.'
+    recuperation: { action: soutenir, siChoix: [jure] }
+    pourquoi:
+      - levier: secret
+        truc: '« Jure-moi que tu diras rien à personne » : tu ne veux pas trahir la confiance de Yanis.'
+        parade: 'Un secret qui met un ami en danger se partage avec un adulte. Ce n’est pas trahir, c’est protéger.'
+      - levier: honte
+        truc: '« J’ai trop honte » : la honte de Yanis devient aussi la tienne, et vous vous taisez à deux.'
+        parade: 'Rappelle-lui que la honte est du côté du maître chanteur, pas du sien.'
+      - levier: confiance
+        truc: 'Yanis est ton meilleur ami : il s’est confié à toi, et à personne d’autre.'
+        parade: 'Garder sa confiance, c’est rester à ses côtés quand vous allez voir un adulte, pas se taire.'
+
+  - type: minijeu
+    id: repere-conversation
+    jeu: repere
+    config:
+      consigne: 'Voici une conversation entre un ado et un inconnu sur un réseau social. Trouve les 5 signaux d’alerte. Les repérer ne t’oblige à rien d’autre qu’à en parler à quelqu’un de confiance.'
+      titre: 'Lumo : messages de noah_lv'
+      lignes:
+        - { id: live, texte: 'Coucou, on était dans le même live hier, non ?' }
+        - { id: compliments, texte: 'Ta photo de profil est trop stylée, t’es vraiment pas comme les autres.', indice: true, explication: 'Des compliments forts dès le premier message : c’est souvent une façon de créer un lien très vite.' }
+        - { id: sport, texte: 'Tu fais quoi comme sport ?' }
+        - { id: profs, texte: 'Moi aussi je trouve que les contrôles du lundi, c’est dur.' }
+        - { id: appli, texte: 'Ajoute-moi sur Pixo, ici on peut pas parler tranquille.', indice: true, explication: 'Changer d’appli, c’est quitter un endroit où tu peux signaler, pour un endroit où personne ne voit rien.' }
+        - { id: secret, texte: 'Tes parents comprendraient pas, garde ça entre nous.', indice: true, explication: 'Une demande de secret sert à t’éloigner des adultes qui pourraient t’aider.' }
+        - { id: photo, texte: 'Envoie une photo de toi, juste pour moi.', indice: true, explication: 'Tu n’as jamais à envoyer de photo à quelqu’un que tu ne connais pas en vrai. Tu peux dire non, bloquer et en parler.' }
+        - { id: pression, texte: 'Si tu réponds pas, je vais être triste… après tout ce que j’ai fait pour toi.', indice: true, explication: 'Te faire culpabiliser est une pression. Ce n’est pas toi qui fais quelque chose de mal en refusant.' }
+debrief:
+  questions:
+    - Quels signaux montrent qu’une relation en ligne devient dangereuse ?
+    - Pourquoi le maître chanteur demande-t-il le silence ?
+    - Que dire à un ami qui se confie, et à qui en parler ensuite ?
+  reponses: 'Signaux : compliments très rapides, cadeaux, demande de secret, changement d’appli, demande de photo, proposition de rencontre, pression ou menace. Le silence protège le maître chanteur : dès qu’un adulte ou le 3018 est au courant, on peut bloquer, signaler, faire retirer une image et porter plainte. Face au chantage : ne paie pas, n’envoie rien de plus, garde des preuves, bloque, signale. Fabriquer un montage d’une personne pour la faire chanter est un délit, et une image truquée par IA reste un faux. Ce n’est pas ta faute, même si la photo de départ venait de ton profil. À un ami qui se confie : « Ce n’est pas ta faute, je suis là, on en parle à un adulte ensemble. »'
+  erreursFrequentes:
+    - 'Croire que payer fera disparaître l’image : le maître chanteur revient presque toujours.'
+    - 'Penser qu’on est responsable parce que sa photo de profil était publique.'
+    - 'Croire que garder le secret d’un ami en danger, c’est être loyal.'
+fiche:
+  deroulement: |
+    5 min : cadre. Personne n’a à raconter sa vie ; « Passer ce scénario » est possible ; l’infirmier·e ou la CPE reste disponible après la séance.
+    18 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    20 min : débrief des 3 questions, puis retour sur le mini-jeu (les 5 signaux d’alerte). Rappeler que le chantage et la fabrication d’un montage pour nuire sont des délits.
+    5 min : où trouver de l’aide (parents, CPE, infirmier·e, 3018 qui peut faire retirer un contenu, 119, Pharos).
+    5 min : engagement. Je note le 3018 dans mon téléphone, et je sais quoi dire à un ami qui se confie.
+  siRevelation: 'Si un élève se confie pendant ou après la séance : l’écouter au calme, sans juger et sans promettre le secret (lui dire qu’on va en parler à des personnes qui peuvent le protéger). Ne pas l’interroger, ne pas demander à voir ni copier les images, et ne pas les transférer ; noter ses mots exacts, avec la date. Lui dire de ne pas payer et de ne plus répondre. Ne pas contacter soi-même l’auteur. Prévenir sans attendre le ou la CPE, l’infirmier·e scolaire et le chef d’établissement. Si d’autres élèves sont impliqués, appliquer le protocole pHARe. Si l’élève est en danger ou risque de l’être, le chef d’établissement transmet une information préoccupante à la cellule départementale (CRIP), ou un signalement au procureur en cas de danger grave et immédiat. Orienter vers le 3018, qui peut faire retirer un contenu, et vers le 119.'
+relecture:
+  statut: a-relire
