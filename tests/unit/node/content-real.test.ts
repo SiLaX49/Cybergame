@@ -352,8 +352,37 @@ describe('contenu réel', () => {
   describe('thèmes sensibles : règles éditoriales', () => {
     const SENSIBLES = ['harcelement', 'rencontres'] as const
     const missionsSensibles = missions.filter((m) => m.theme && (SENSIBLES as readonly string[]).includes(m.theme))
-    const CULPABILISANT = [/\bta faute\b/i, /tu aurais dû/i, /tu n’aurais pas dû/i, /bien fait/i, /\bna[iï]ve?\b/i, /\bbête\b/i, /\bidiot/i, /c’est de ta faute/i]
-    const EXPLICITE = [/\bnue?s?\b/i, /\bsexe\b/i, /\bsexuel/i, /\bintime/i, /\bseins?\b/i, /\bporno/i]
+    const CULPABILISANT = [
+      /\bta faute\b/i,
+      /tu (?:n’)?aurais (?:pas )?d(?:û(?!\p{L})|u(?=\s*(?:[.,;:!?…]|$)|\s+\p{L}+(?:er|ir|re|oir)(?!\p{L})))/iu,
+      /c’est bien fait|bien fait pour (?:toi|lui|elle)/i,
+      /\bna(?:i|ï)(?:f|fs|ve|ves|vement)\b/i,
+      /\bbête\b/i,
+      /\bidiot/i,
+      /tu l’as cherché/i,
+    ]
+    const EXPLICITE = [/\bnue?s?\b/i, /\bnudes?\b/i, /\bsexe\b/i, /\bsext/i, /\bsexy\b/i, /\bsexuel/i, /\bintime/i, /\bseins?\b/i, /\bporno/i]
+    const normaliser = (t: string) => t.normalize('NFC').replace(/'/g, '’')
+    const culpabilisant = (t: string) => {
+      const propre = normaliser(t).replace(/ce n’(?:est|était) (?:pas|jamais)(?: de| à)? ta faute/gi, '')
+      return CULPABILISANT.filter((re) => re.test(propre))
+    }
+    const explicite = (t: string) => EXPLICITE.filter((re) => re.test(normaliser(t)))
+
+    it('règles : formules culpabilisantes détectées, formules bienveillantes épargnées', () => {
+      for (const t of ['Tu aurais dû réfléchir', "Tu n'aurais pas dû", 'tu aurais du faire attention', 'Tu es naïf', 'Tu es naif', 'naïve', 'C’est ta faute', 'Bien fait pour toi', 'Tu l’as cherché', 'Quel idiot', 'Tu es bête']) {
+        expect(culpabilisant(t), t).not.toEqual([])
+      }
+      for (const t of ['Tu as bien fait d’en parler', 'Ce n’est pas ta faute', "Ce n'était jamais de ta faute", 'Ce n’est pas à toi la faute', 'Tu aurais du temps pour en parler', 'Un adulte te croira']) {
+        expect(culpabilisant(t), t).toEqual([])
+      }
+    })
+
+    it('règles : vocabulaire explicite détecté', () => {
+      for (const t of ['une photo nue', 'des nudes', 'un nude', 'le sexto', 'le sexting', 'trop sexy', 'photo intime']) expect(explicite(t), t).not.toEqual([])
+      expect(explicite('Une photo de classe')).toEqual([])
+    })
+
     const scenariosDe = (m: Mission) => m.etapes.filter((e) => e.type === 'scenario')
 
     it('harcèlement : un scénario de chaque rôle (victime, témoin, auteur) par mission', () => {
@@ -393,10 +422,7 @@ describe('contenu réel', () => {
                 ]
               : [...e.choix.flatMap((c) => [c.reaction, c.reactionSimple ?? '']), e.aRetenir, e.aRetenirSimple ?? '']
           textes.push(...(e.pourquoi ?? []).flatMap((p) => [p.truc, p.parade]))
-          return textes.flatMap((t) => {
-            const propre = t.replace(/ce n[’']est pas ta faute|ce n[’']était pas ta faute/gi, '')
-            return CULPABILISANT.filter((re) => re.test(propre)).map((re) => `${m.id}.${e.id} : ${re} dans « ${t} »`)
-          })
+          return textes.flatMap((t) => culpabilisant(t).map((re) => `${m.id}.${e.id} : ${re} dans « ${t} »`))
         }),
       )
       expect(trouvees).toEqual([])
@@ -411,7 +437,8 @@ describe('contenu réel', () => {
 
     it('rencontres : « ce n’est pas ta faute » ; en cas de chantage, « ne paie pas » et « n’envoie rien de plus »', () => {
       const problemes = missionsDuTheme('rencontres').flatMap((m) => {
-        const texte = aplatir(JSON.stringify(m))
+        const eleve = { ...m, fiche: undefined, debrief: undefined }
+        const texte = aplatir(normaliser(JSON.stringify(eleve)))
         const p: string[] = []
         if (!texte.includes('ce n’est pas ta faute')) p.push(`${m.id} : « ce n’est pas ta faute » absent`)
         if (/chantage|paie/.test(texte)) {
@@ -428,7 +455,7 @@ describe('contenu réel', () => {
         scenariosDe(m).flatMap((s) =>
           s.ecran.messages
             .flatMap((x) => [x.texte, x.texteSimple ?? ''])
-            .flatMap((t) => EXPLICITE.filter((re) => re.test(t)).map((re) => `${m.id}.${s.id} : ${re} dans « ${t} »`)),
+            .flatMap((t) => explicite(t).map((re) => `${m.id}.${s.id} : ${re} dans « ${t} »`)),
         ),
       )
       expect(trouves).toEqual([])
