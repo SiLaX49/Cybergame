@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { nextTick } from 'vue'
 import type { Ecran, Scenario } from '@/content/schema'
 import { ordreAffichage } from '@/engine/ordre'
 import Telephone from '@/phone/Telephone.vue'
@@ -199,5 +200,146 @@ describe('Telephone : choix', () => {
     await w.setProps({ choixJoue: null })
     expect(w.find('.choix-joue').text()).toBe('')
     expect(w.findAll('[data-choix]')).toHaveLength(3)
+  })
+})
+
+describe('Telephone : séquence de retour', () => {
+  const scenario = () => missionFixture().etapes[0] as Scenario
+  const indices = [{ libelle: 'L’adresse est bizarre', passage: 'colis-expres.info' }, { libelle: 'On me presse' }]
+  const avecReaction = () =>
+    scenario().choix.map((c) => (c.id === 'clic' ? { ...c, reaction: 'Merci, à très vite !', reactionSimple: 'Merci !' } : c))
+  const monter = (props: Record<string, unknown> = {}) => {
+    const s = scenario()
+    return mount(Telephone, { props: { ecran: s.ecran, choix: avecReaction(), graine: s.id, indices, choixJoue: null, ...props } })
+  }
+  const statut = (w: ReturnType<typeof monter>) => w.find('[role="status"]').text()
+  const avancer = async (ms: number) => {
+    vi.advanceTimersByTime(ms)
+    await nextTick()
+  }
+
+  beforeEach(() => vi.useFakeTimers())
+  afterEach(() => vi.useRealTimers())
+
+  it('avec réaction : envoi, écrit, réaction, verdict, indices numérotés, fin', async () => {
+    const w = monter()
+    await w.setProps({ choixJoue: 'clic' })
+    expect(statut(w)).toContain('Lien ouvert')
+    expect(statut(w)).not.toContain('en train d’écrire')
+    await avancer(150)
+    expect(statut(w)).toContain('Colis Express est en train d’écrire…')
+    await avancer(750)
+    expect(statut(w)).toContain('Merci, à très vite !')
+    expect(statut(w)).not.toContain('en train d’écrire')
+    expect(w.find('figure').attributes('data-verdict')).toBeUndefined()
+    await avancer(100)
+    expect(w.find('figure').attributes('data-verdict')).toBe('piege')
+    expect(w.find('figure').classes()).toContain('secousse')
+    expect(statut(w)).toContain('Piège')
+    expect(w.find('.verdict svg').attributes('aria-hidden')).toBe('true')
+    expect(w.find('.passage').exists()).toBe(false)
+    await avancer(400)
+    const passage = w.find('.ecran .passage')
+    expect(passage.text()).toContain('colis-expres.info')
+    expect(passage.find('.numero').text()).toBe('1')
+    expect(passage.find('.visually-hidden').text()).toBe('indice 1 :')
+    expect(w.emitted('sequence-finie')).toBeUndefined()
+    await avancer(400)
+    expect(w.emitted('sequence-finie')).toEqual([[]])
+    await avancer(5000)
+    expect(w.emitted('sequence-finie')).toHaveLength(1)
+  })
+
+  it('lecture simplifiée : réaction simplifiée', async () => {
+    store.modifierReglages({ lectureSimple: true })
+    const w = monter()
+    await w.setProps({ choixJoue: 'clic' })
+    await avancer(900)
+    expect(statut(w)).toContain('Merci !')
+  })
+
+  it('sans réaction : pas d’« en train d’écrire », verdict à 600 ms, bon réflexe', async () => {
+    const w = monter()
+    await w.setProps({ choixJoue: 'verif' })
+    await avancer(300)
+    expect(statut(w)).not.toContain('en train d’écrire')
+    await avancer(299)
+    expect(w.find('figure').attributes('data-verdict')).toBeUndefined()
+    await avancer(1)
+    expect(w.find('figure').attributes('data-verdict')).toBe('bon')
+    expect(w.find('figure').classes()).toContain('rebond')
+    expect(statut(w)).toContain('Bon réflexe')
+  })
+
+  it('le choix « aide » compte comme bon réflexe', async () => {
+    store.modifierReglages({ animations: false })
+    const w = monter()
+    await w.setProps({ choixJoue: 'aide' })
+    expect(w.find('figure').attributes('data-verdict')).toBe('bon')
+  })
+
+  it('animations désactivées : tout d’un coup, fin au prochain tick', async () => {
+    store.modifierReglages({ animations: false })
+    const w = monter()
+    await w.setProps({ choixJoue: 'clic' })
+    expect(statut(w)).toContain('Lien ouvert')
+    expect(statut(w)).toContain('Merci, à très vite !')
+    expect(statut(w)).not.toContain('en train d’écrire')
+    expect(statut(w)).toContain('Piège')
+    expect(w.find('.ecran .passage .numero').text()).toBe('1')
+    await nextTick()
+    expect(w.emitted('sequence-finie')).toEqual([[]])
+  })
+
+  it('retour à l’attente en pleine séquence : plus rien ne s’affiche', async () => {
+    const w = monter()
+    await w.setProps({ choixJoue: 'clic' })
+    await avancer(500)
+    await w.setProps({ choixJoue: null })
+    expect(statut(w)).toBe('')
+    await avancer(5000)
+    expect(statut(w)).toBe('')
+    expect(w.find('figure').attributes('data-verdict')).toBeUndefined()
+    expect(w.find('.passage').exists()).toBe(false)
+    expect(w.emitted('sequence-finie')).toBeUndefined()
+  })
+
+  it('rejouer après la fin : la séquence repart et finit une seconde fois', async () => {
+    const w = monter()
+    await w.setProps({ choixJoue: 'clic' })
+    await avancer(1800)
+    await w.setProps({ choixJoue: null })
+    await w.setProps({ choixJoue: 'clic' })
+    expect(w.find('figure').attributes('data-verdict')).toBeUndefined()
+    await avancer(1800)
+    expect(w.emitted('sequence-finie')).toHaveLength(2)
+  })
+
+  it('démontage en pleine séquence : aucune erreur, aucune émission', async () => {
+    const w = monter()
+    await w.setProps({ choixJoue: 'clic' })
+    await avancer(500)
+    w.unmount()
+    expect(() => vi.advanceTimersByTime(5000)).not.toThrow()
+    expect(w.emitted('sequence-finie')).toBeUndefined()
+  })
+
+  it('bouton « Indice » : avant le choix, s’il y a des passages ; surlignage sans numéro', async () => {
+    const w = monter()
+    expect(w.find('.passage').exists()).toBe(false)
+    await cliquer(w, 'Indice')
+    expect(w.emitted('indice')).toEqual([[]])
+    await w.setProps({ indiceVisible: true })
+    const passage = w.find('.ecran .passage')
+    expect(passage.text()).toContain('colis-expres.info')
+    expect(passage.find('.numero').exists()).toBe(false)
+    await w.setProps({ choixJoue: 'clic' })
+    expect(w.findAll('button').some((b) => b.text().includes('Indice'))).toBe(false)
+  })
+
+  it('pas de bouton « Indice » sans passage', () => {
+    const w = monter({ indices: [{ libelle: 'On me presse' }] })
+    expect(w.findAll('button').some((b) => b.text().includes('Indice'))).toBe(false)
+    expect(mount(Telephone, { props: { ecran: scenario().ecran } }).findAll('button')).toHaveLength(0)
   })
 })

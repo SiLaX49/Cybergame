@@ -1,6 +1,9 @@
+import type { InjectionKey, Ref } from 'vue'
 import { decouperLiens } from './liens'
 
 export interface Passage { texte: string; numero: number | null }
+/** Passages à surligner, fournis par le téléphone à ses applis (lus par `TexteRiche`). */
+export const CLE_PASSAGES: InjectionKey<Readonly<Ref<readonly Passage[]>>> = Symbol('passages')
 export type MorceauRiche =
   | { type: 'texte' | 'lien'; texte: string }
   | { type: 'passage'; texte: string; numero: number | null }

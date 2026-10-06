@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, nextTick, reactive, ref, watch } from 'vue'
 import type { FilAction, Fil, Scenario } from '@/content/schema'
 import { toutesLesMissions } from '@/content'
 import Telephone from '@/phone/Telephone.vue'
 import type { EcranTelephone } from '@/phone/types'
 import type { Mode } from '@/store/progress'
+import { useProgress } from '@/store/useProgress'
 
 /** Atelier : chaque faux écran du contenu réel, joué seul, pour revoir le téléphone hors mission. */
 type Entree = { id: string; libelle: string; scenario?: Scenario; fil?: Fil }
@@ -25,15 +26,26 @@ const entree = computed(() => entrees.find((e) => e.id === choisie.value) ?? ent
 const mode = ref<Mode>('solo')
 const choixJoue = ref<string | null>(null)
 const actionsNotif = reactive<Record<string, FilAction>>({})
+const indiceVisible = ref(false)
+const store = useProgress()
+const indices = computed(() => entree.value.scenario?.indices.filter((i) => i.pertinent) ?? [])
 
 const ecran = computed<EcranTelephone>(() =>
   entree.value.fil ? { app: 'verrouillage', notifications: entree.value.fil.notifications } : entree.value.scenario!.ecran,
 )
 function reinitialiser() {
   choixJoue.value = null
+  indiceVisible.value = false
   for (const k of Object.keys(actionsNotif)) delete actionsNotif[k]
 }
 watch([choisie, filtre], reinitialiser)
+/** Rejoue la séquence du dernier choix : un passage par l'attente, puis le même choix. */
+async function rejouerSequence() {
+  const id = choixJoue.value
+  choixJoue.value = null
+  await nextTick()
+  choixJoue.value = id
+}
 watch(visibles, (v) => {
   if (!v.some((e) => e.id === choisie.value) && v[0]) choisie.value = v[0].id
 })
@@ -42,7 +54,7 @@ watch(visibles, (v) => {
 <template>
   <main class="conteneur atelier">
     <h1>Atelier du téléphone</h1>
-    <p>Tous les faux écrans du jeu, un par un. Rien n’est enregistré.</p>
+    <p>Tous les faux écrans du jeu, un par un. Rien n’est enregistré, sauf la case « Animations », qui change le réglage du jeu.</p>
     <div class="controles">
       <label>Appli
         <select v-model="filtre">
@@ -62,6 +74,11 @@ watch(visibles, (v) => {
           <option value="classe">Classe entière</option>
         </select>
       </label>
+      <label class="case">
+        <input type="checkbox" :checked="store.etat.reglages.animations" @change="store.modifierReglages({ animations: ($event.target as HTMLInputElement).checked })" />
+        Animations
+      </label>
+      <button type="button" class="btn" :disabled="!choixJoue" @click="rejouerSequence">Rejouer la séquence</button>
       <button type="button" class="btn" @click="reinitialiser">Réinitialiser</button>
     </div>
     <div class="scene">
@@ -72,6 +89,9 @@ watch(visibles, (v) => {
         :graine="entree.scenario?.id ?? ''"
         :choix-joue="choixJoue"
         :actions-notif="actionsNotif"
+        :indices="indices"
+        :indice-visible="indiceVisible"
+        @indice="indiceVisible = true"
         @choisir="(id) => (choixJoue = id)"
         @agir="(id, a) => (actionsNotif[id] = a)"
       />
@@ -87,6 +107,7 @@ watch(visibles, (v) => {
 <style scoped>
 .controles { display: flex; flex-wrap: wrap; gap: 1rem; align-items: end; margin-bottom: 1.5rem; }
 .controles label { display: flex; flex-direction: column; gap: 0.25rem; font-weight: 700; }
+.controles label.case { flex-direction: row; align-items: center; }
 .controles select { max-width: 32rem; }
 .scene { display: grid; gap: 1.5rem; grid-template-columns: var(--tel-largeur) minmax(0, 1fr); align-items: start; }
 @media (max-width: 48rem) { .scene { grid-template-columns: minmax(0, 1fr); } }

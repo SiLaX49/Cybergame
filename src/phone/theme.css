@@ -15,6 +15,13 @@
   --tel-envoye: #2f5bd3;
   --tel-envoye-texte: #ffffff;
   --tel-lien: #1d4ed8;
+  /* Retour du choix : halos (fixes, jamais clignotants), bandeaux du verdict (texte blanc ≥ 4.5:1), surlignage des indices. */
+  --tel-halo-piege: #ff2d55;
+  --tel-halo-bon: #16a34a;
+  --tel-verdict-piege: #b3123a;
+  --tel-verdict-bon: #15803d;
+  --tel-passage: #fff1a8;
+  --tel-passage-texte: #1b1b2f;
 }
 .telephone[data-app='sms'] { --tel-accent: #1f7a3a; --tel-envoye: #1f7a3a; }
 .telephone[data-app='chat'] { --tel-fond: #f3f2fb; --tel-recu: #ffffff; --tel-accent: #5a3fc0; --tel-envoye: #5a3fc0; }
