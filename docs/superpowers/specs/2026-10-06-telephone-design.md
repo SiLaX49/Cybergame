@@ -36,7 +36,8 @@ Remplacer le faux téléphone actuel (`src/phone/`, 5 composants statiques, choi
 src/phone/
   Telephone.vue        seul composant importé par le reste du jeu
   apps/
-    SmsApp.vue  ChatApp.vue  SocialApp.vue  MailApp.vue  WebApp.vue  VerrouillageApp.vue
+    ConversationApp.vue (sms et chat, distingués par le thème)
+    SocialApp.vue  MailApp.vue  WebApp.vue  VerrouillageApp.vue
   parts/
     BarreEtat.vue        heure, réseau, batterie (décoratif)
     EnteteApp.vue        retour, avatar, nom du contact ou titre, nom de l'appli
@@ -44,9 +45,10 @@ src/phone/
     Bulle.vue            message reçu ou envoyé, heure, aperçu de lien
     TexteRiche.vue       texte avec les liens repérés et mis en forme
     ApercuLien.vue       carte titre + domaine sous une bulle
-    BanniereSysteme.vue  « Lien ouvert », « Contact bloqué »… (role="status")
+    BanniereSysteme.vue  « Lien ouvert », « Contact bloqué »…
     ActionsApp.vue       zone « Que fais-tu ? » : choix, vote de classe, choix joué
-  liens.ts             découpage d'un texte en morceaux texte / lien (fonction pure)
+  liens.ts             découpage d'un texte en morceaux texte / lien, découpage d'une URL (fonctions pures)
+  stats.ts             texte des compteurs sociaux (« 1 200 vues · 87 partages »), partagé avec le plan B
   gestes.ts            geste → icône lucide + libellé de bannière
   avatar.ts            nom → initiales + teinte (fonction pure)
   theme.css            variables par appli, aplats opaques
@@ -57,9 +59,9 @@ src/phone/
 defineProps<{
   ecran: EcranTelephone          // union : sms | chat | social | mail | web | verrouillage
   choix?: ChoixTelephone[]       // absent = pas de zone d'actions (ex. verrouillage)
-  mode: Mode                     // solo | binome | classe
+  mode?: Mode                    // solo | binome | classe (défaut solo)
   choixJoue?: string | null      // null : on attend un choix ; sinon le téléphone joue ce choix et se fige
-  graine: string                 // ordre d'affichage stable des choix (ordreAffichage)
+  graine?: string                // ordre d'affichage stable des choix (ordreAffichage, défaut '')
   // Verrouillage uniquement
   actionsNotif?: Record<string, FilAction>
 }>()
@@ -105,9 +107,9 @@ messages:                   # au moins 1
 |---|---|---|
 | `sms` | aucun | Fil de bulles, numéro ou nom en en-tête. |
 | `chat` | aucun | Fil de bulles au style messagerie de jeu (en-tête de salon). |
-| `social` | `certifie?: boolean`, `abonnes?: texte`, `bio?: texte`, `media?: { description, descriptionSimple? }`, `stats?: { vues?, jaime?, partages? }` (textes, ex. `'1 200'`), `commentaires?: [{ de, texte, texteSimple? }]` (`de` = pseudo, 1 à 5) | Publication : en-tête du compte (avatar, nom, badge certifié ou non, abonnés, bio), texte, cadre média décrit (aucune image réelle), compteurs, puis commentaires. Les `messages` forment le texte de la publication. |
+| `social` | `certifie?: boolean`, `abonnes?: texte` (nombre seul, ex. `'2 400'`, l'interface ajoute « abonnés »), `bio?: texte`, `media?: { description, descriptionSimple? }`, `stats?: { vues?, jaime?, partages? }` (nombres seuls en texte, ex. `'1 200'`, l'interface ajoute « vues », « j’aime », « partages »), `commentaires?: [{ de, texte, texteSimple? }]` (`de` = pseudo, 1 à 5) | Publication : en-tête du compte (avatar, nom, badge certifié ou non, abonnés, bio), texte, cadre média décrit (aucune image réelle), compteurs, puis commentaires. Les `messages` forment le texte de la publication. |
 | `mail` | `sujet?`, `adresse?: texte` (forme `x@domaine`), `pieceJointe?: { nom }` | Objet en titre, expéditeur (nom en gras, adresse en dessous, toujours visible), date ou heure, corps, pièce jointe en carte avec icône. |
-| `web` | `url` **obligatoire** | Barre d'adresse en haut (le domaine en gras, le reste atténué), titre de page = `contact`, contenu en blocs. **Aucun cadenas** : seule une adresse `http://` affiche « Non sécurisé ». |
+| `web` | `url?` | Barre d'adresse en haut (le domaine en gras, le reste atténué), titre de page = `contact`, contenu en blocs. **Aucun cadenas** : seule une adresse `http://` affiche « Non sécurisé ». Sans `url`, pas de barre d'adresse : c'est l'écran d'une appli (ex. magasin d'applis). |
 
 ### 3.3 Choix
 ```yaml
@@ -144,7 +146,7 @@ Gestes et bannières (formulations neutres : le téléphone ne dit jamais si le 
 | `demander-aide` | Tu poses ton téléphone pour demander de l'aide |
 
 ### 3.4 Validation
-- Zod : union par `app`, `heure` au format `HH:MM`, `adresse` au format mail, `url` obligatoire pour `web`, `reponse` obligatoire si et seulement si `geste: repondre`, `geste` obligatoire sauf pour un choix `aide`.
+- Zod : union par `app`, `heure` au format `HH:MM`, `adresse` au format mail, `reponse` obligatoire si et seulement si `geste: repondre`, `geste` obligatoire sauf pour un choix `aide`.
 - `tests/unit/node/content-real.test.ts` : `textesDesFauxEcrans` et le test des citations incluent les nouveaux champs (adresse, pièce jointe, aperçus, média, bio, abonnés, commentaires, réponses), en version normale et simplifiée.
 
 ## 4. Les choix dans le téléphone
@@ -157,13 +159,13 @@ Gestes et bannières (formulations neutres : le téléphone ne dit jamais si le 
 
 ### 4.2 Le choix joué
 - `choixJoue` renseigné : la zone d'actions disparaît ; le téléphone ajoute, à la fin du fil, la bulle « moi » (`repondre`) ou la `BanniereSysteme` du geste, puis la zone défile jusqu'à elle.
-- Le fil est un `role="log"` présent dès le montage : l'ajout est annoncé poliment. La bannière porte `role="status"`.
+- Le choix joué s'affiche dans une zone `role="status"` placée à la fin de l'écran et présente dès le montage (vide tant qu'on attend) : la bulle ou la bannière est annoncée poliment.
 - Le focus suit le mécanisme existant (`focusAuChangement` sur le titre du panneau), jamais déplacé dans le téléphone.
 - Apparition en fondu court (150 ms), supprimée si le réglage « animations » est désactivé ou si `prefers-reduced-motion`.
 
 ## 5. Écran verrouillé (étape « fil »)
 - `VerrouillageApp` : grande heure, date fictive, puis les notifications empilées : icône (initiales de l'appli), nom de l'appli, heure, expéditeur, texte.
-- Chaque notification est un bouton `aria-expanded` ; ouverte, elle montre ses 4 actions (« J'ouvre / je clique », « Je vérifie autrement », « Je signale », « J'ignore ») sous forme de groupe de boutons radio. Une seule notification ouverte à la fois.
+- Chaque notification est un bouton `aria-expanded` ; ouverte, elle montre ses 4 actions (« J’ouvre / je clique », « Je vérifie autrement », « Je signale », « J’ignore ») sous forme de boutons `aria-pressed` (pas de boutons radio : les flèches du clavier changeraient l'action et refermeraient la notification). Une seule notification ouverte à la fois ; le focus revient sur la notification après l'action.
 - Une action choisie referme la notification et affiche son état en texte (« Ignorée », « Signalée »…), modifiable en la rouvrant.
 - `FilStep` affiche la consigne en titre, un compteur « 3 notifications traitées sur 5 » et « Valider mes choix », actif quand tout est traité. Le moteur reçoit le même événement `fil-termine`.
 - Schéma du fil : ajout de `heure?` (HH:MM) par notification, rien d'autre.
@@ -171,7 +173,7 @@ Gestes et bannières (formulations neutres : le téléphone ne dit jamais si le 
 ## 6. Visuel et accessibilité
 - **Aplats opaques**, pas d'effet de verre (contraste). Variables par appli dans `theme.css` (couleur d'accent, bulle reçue, bulle envoyée, lien), contrastes texte d'au moins 4.5:1.
 - **Coque** : largeur `min(100%, 24rem)`, jusqu'à `28rem` en taille de texte « très grand » ; zone défilante `tabindex="0"`, `role="region"` nommée « Contenu de l'écran : <appli> » (règle axe `scrollable-region-focusable`).
-- **Structure** : `figure` nommée pour l'appareil ; `role="log"` contenant une liste ordonnée de bulles ; chaque bulle précédée de « <contact> : » ou « Toi : » visible des lecteurs d'écran ; ordre du DOM identique à l'ordre visuel.
+- **Structure** : `figure` nommée pour l'appareil ; liste ordonnée de bulles ; zone `role="status"` pour le choix joué ; chaque bulle précédée de « <contact> : » ou « Toi : » visible des lecteurs d'écran ; ordre du DOM identique à l'ordre visuel.
 - **Décoratif** (`aria-hidden`) : barre d'état, avatars, icônes de geste, compteurs graphiques ; leur information utile existe en texte.
 - **Lecture simplifiée** : `texteSimple`, `reponseSimple`, `descriptionSimple` via `useTexte`, comme aujourd'hui.
 - **Accents et apostrophes** : U+2019 dans tous les libellés.
@@ -191,7 +193,7 @@ Les 21 missions classiques et Rappel sont migrées en une passe, sans changer le
 ## 9. Tests
 - **Unitaires, fonctions pures** : `liens.ts` (domaines, chemins, adresses mail exclues, texte sans lien), `avatar.ts` (initiales, teinte stable), `gestes.ts` (chaque geste a icône et libellé).
 - **Unitaires, composants** : chaque appli rend ses champs ; `Telephone` émet `choisir`, respecte le mode classe, masque les actions et joue le choix (bulle ou bannière) quand `choixJoue` est renseigné, réaffiche les actions quand il repasse à `null` ; `VerrouillageApp` ouvre, agit, referme et émet `agir`.
-- **Schéma** : union par `app`, règles `geste` et `reponse`, formats `heure` et `adresse`, `url` obligatoire en web.
+- **Schéma** : union par `app`, règles `geste` et `reponse`, formats `heure` et `adresse`.
 - **Contenu réel** : tests existants étendus aux nouveaux champs (section 3.4).
 - **Bout en bout** : `parcours.spec.ts` et `a11y.spec.ts` adaptés (les sélecteurs `data-choix` restent valides) ; audit axe d'un scénario par appli et du fil.
 
