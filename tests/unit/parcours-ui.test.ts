@@ -30,6 +30,7 @@ const resultat = (r: Partial<LieuResultat> = {}): LieuResultat => ({
   qualite: 'bon',
   levier: null,
   recuperationFaite: null,
+  essais: [],
   passe: false,
   ...r,
 })

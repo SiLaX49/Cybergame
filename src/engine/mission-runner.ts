@@ -21,6 +21,8 @@ export interface LieuResultat {
   qualite: Qualite | null
   levier: ReponseLevier | null
   recuperationFaite: boolean | null
+  /** Choix risqués déjà essayés dans ce lieu, dans l’ordre ; interdits au prochain essai. */
+  essais: string[]
   passe: boolean
 }
 export interface MinijeuResultat {
@@ -69,7 +71,7 @@ const phaseInitiale = (etape: Etape | undefined): PhaseScenario | null =>
 
 const resultatVide = (etape: Etape): ChoixResultat =>
   etape.type === 'lieu'
-    ? { type: 'lieu', choixId: null, qualite: null, levier: null, recuperationFaite: null, passe: false }
+    ? { type: 'lieu', choixId: null, qualite: null, levier: null, recuperationFaite: null, essais: [], passe: false }
     : {
         type: 'scenario',
         choixId: null,
@@ -81,6 +83,8 @@ const resultatVide = (etape: Etape): ChoixResultat =>
         recuperationFaite: null,
         passe: false,
       }
+
+const essaisDe = (r: EtapeResultat | undefined): string[] => (r?.type === 'lieu' ? r.essais : [])
 
 export function demarrer(mission: Mission): RunState {
   return { index: 0, phase: phaseInitiale(mission.etapes[0]), choixId: null, resultats: {}, termine: false, leviersCedes: [] }
@@ -116,10 +120,20 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
       if ((etape.type !== 'scenario' && etape.type !== 'lieu') || etat.phase !== 'situation') return refuser()
       const choix = etape.choix.find((c) => c.id === evenement.choixId)
       if (!choix) throw new RunError(`choix inconnu : ${evenement.choixId}`)
+      if (etape.type === 'lieu' && essaisDe(etat.resultats[etape.id]).includes(choix.id)) {
+        throw new RunError(`choix déjà essayé : ${choix.id}`)
+      }
       if (choix.qualite === 'risque' && etape.pourquoi) return { ...etat, phase: 'pourquoi', choixId: choix.id }
       if (etape.type === 'scenario') return { ...etat, phase: 'indices', choixId: choix.id }
       // Un lieu n'a pas d'étape « indices » : la réaction suit directement le choix.
-      const resultat: LieuResultat = { ...(resultatVide(etape) as LieuResultat), choixId: choix.id, qualite: choix.qualite }
+      const resultat: LieuResultat = {
+        ...(resultatVide(etape) as LieuResultat),
+        essais: essaisDe(etat.resultats[etape.id]),
+        // Le geste de récupération fait après un essai risqué reste acquis quand on trouve le bon choix.
+        recuperationFaite: (etat.resultats[etape.id] as LieuResultat | undefined)?.recuperationFaite ?? null,
+        choixId: choix.id,
+        qualite: choix.qualite,
+      }
       return { ...etat, phase: 'consequence', choixId: choix.id, resultats: { ...etat.resultats, [etape.id]: resultat } }
     }
     case 'expliquer': {
@@ -129,7 +143,14 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
       if (evenement.levier !== 'autre' && !etape.pourquoi?.some((p) => p.levier === evenement.levier)) {
         throw new RunError(`levier inconnu : ${evenement.levier}`)
       }
-      const resultat: ChoixResultat = { ...resultatVide(etape), choixId: choix.id, qualite: choix.qualite, levier: evenement.levier }
+      const base = resultatVide(etape)
+      const resultat: ChoixResultat = {
+        ...base,
+        ...(base.type === 'lieu' ? { essais: [...essaisDe(etat.resultats[etape.id]), choix.id] } : {}),
+        choixId: choix.id,
+        qualite: choix.qualite,
+        levier: evenement.levier,
+      }
       const leviersCedes = etat.leviersCedes.includes(evenement.levier)
         ? etat.leviersCedes
         : [...etat.leviersCedes, evenement.levier]
@@ -158,6 +179,8 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
     case 'continuer': {
       if ((etape.type !== 'scenario' && etape.type !== 'lieu') || etat.phase !== 'consequence') return refuser()
       const resultat = etat.resultats[etape.id] as ChoixResultat
+      const recupere = !!(etape.recuperation && etat.choixId && etape.recuperation.siChoix.includes(etat.choixId))
+      if (etape.type === 'lieu' && resultat.qualite === 'risque' && !recupere) return refuser()
       if (etape.recuperation && etat.choixId && etape.recuperation.siChoix.includes(etat.choixId)) {
         return {
           ...etat,
@@ -170,10 +193,24 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
     case 'recuperation-faite': {
       if ((etape.type !== 'scenario' && etape.type !== 'lieu') || etat.phase !== 'recuperation') return refuser()
       const resultat = etat.resultats[etape.id] as ChoixResultat
+      if (etape.type === 'lieu' && resultat.qualite === 'risque') {
+        return {
+          ...etat,
+          phase: 'situation',
+          choixId: null,
+          resultats: { ...etat.resultats, [etape.id]: { ...resultat, recuperationFaite: true } },
+        }
+      }
       return suivante(mission, etat, { ...etat.resultats, [etape.id]: { ...resultat, recuperationFaite: true } })
     }
     case 'rejouer': {
       if ((etape.type !== 'scenario' && etape.type !== 'lieu') || etat.phase !== 'consequence') return refuser()
+      if (etape.type === 'lieu') {
+        const resultat = etat.resultats[etape.id] as LieuResultat
+        if (resultat.qualite === 'risque') return { ...etat, phase: 'situation', choixId: null }
+        const vide: LieuResultat = { ...(resultatVide(etape) as LieuResultat), essais: essaisDe(resultat) }
+        return { ...etat, phase: 'situation', choixId: null, resultats: { ...etat.resultats, [etape.id]: vide } }
+      }
       const resultats = { ...etat.resultats }
       delete resultats[etape.id]
       return { ...etat, phase: 'situation', choixId: null, resultats }

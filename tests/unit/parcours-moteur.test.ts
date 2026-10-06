@@ -85,6 +85,8 @@ describe('schéma : format parcours', () => {
 
 describe('moteur : lieux d’un parcours', () => {
   const m = parcoursFixture()
+  const avancer = (n: number): RunEvent[] =>
+    Array.from({ length: n }, (): RunEvent[] => [{ type: 'choisir', choixId: 'garde' }, { type: 'continuer' }]).flat()
 
   it('démarre sur la situation du premier lieu', () => {
     const etat = demarrer(m)
@@ -101,23 +103,42 @@ describe('moteur : lieux d’un parcours', () => {
       qualite: 'bon',
       levier: null,
       recuperationFaite: null,
+      essais: [],
       passe: false,
     })
     expect(() => reduire(m, etat, { type: 'valider-indices', indices: [] })).toThrow(RunError)
   })
 
-  it('un choix risqué passe par « pourquoi », puis la réaction et la récupération', () => {
+  it('un choix risqué : pourquoi, réaction, récupération, puis retour au même lieu', () => {
     let etat = jouer(m, { type: 'choisir', choixId: 'donne' })
     expect(etat.phase).toBe('pourquoi')
     etat = reduire(m, etat, { type: 'expliquer', levier: 'confiance' })
     expect(etat.phase).toBe('consequence')
-    expect(etat.resultats.l1).toMatchObject({ type: 'lieu', qualite: 'risque', levier: 'confiance' })
+    expect(etat.resultats.l1).toMatchObject({ type: 'lieu', qualite: 'risque', levier: 'confiance', essais: ['donne'] })
     expect(etat.leviersCedes).toEqual(['confiance'])
     etat = reduire(m, etat, { type: 'continuer' })
     expect(etat.phase).toBe('recuperation')
     etat = reduire(m, etat, { type: 'recuperation-faite' })
+    expect(etat).toMatchObject({ index: 0, phase: 'situation', choixId: null })
+    expect(etat.resultats.l1).toMatchObject({ recuperationFaite: true, essais: ['donne'] })
+    expect(() => reduire(m, etat, { type: 'choisir', choixId: 'donne' })).toThrow(RunError)
+    etat = reduire(m, reduire(m, etat, { type: 'choisir', choixId: 'garde' }), { type: 'continuer' })
     expect(etat).toMatchObject({ index: 1, phase: 'situation' })
-    expect(etat.resultats.l1).toMatchObject({ recuperationFaite: true })
+    expect(etat.resultats.l1).toMatchObject({ choixId: 'garde', qualite: 'bon', levier: null, essais: ['donne'] })
+  })
+
+  it('un choix risqué sans récupération : « Continuer » refusé, « Réessayer » ramène au même lieu', () => {
+    let etat = jouer(m, ...avancer(1), { type: 'choisir', choixId: 'donne' }, { type: 'expliquer', levier: 'gain' })
+    expect(etat.index).toBe(1)
+    expect(() => reduire(m, etat, { type: 'continuer' })).toThrow(RunError)
+    etat = reduire(m, etat, { type: 'rejouer' })
+    expect(etat).toMatchObject({ index: 1, phase: 'situation', choixId: null })
+    expect(etat.resultats.l2).toMatchObject({ essais: ['donne'] })
+  })
+
+  it('double clic : un second choix est refusé', () => {
+    const etat = jouer(m, { type: 'choisir', choixId: 'garde' })
+    expect(() => reduire(m, etat, { type: 'choisir', choixId: 'aide' })).toThrow(RunError)
   })
 
   it('refuse un levier absent du lieu', () => {
@@ -125,10 +146,14 @@ describe('moteur : lieux d’un parcours', () => {
     expect(() => reduire(m, etat, { type: 'expliquer', levier: 'autorite' })).toThrow(RunError)
   })
 
-  it('rejouer un lieu efface son résultat', () => {
-    const etat = jouer(m, { type: 'choisir', choixId: 'garde' }, { type: 'rejouer' })
+  it('rejouer après un bon choix vide le résultat mais garde les essais', () => {
+    const etat = jouer(
+      m,
+      { type: 'choisir', choixId: 'donne' }, { type: 'expliquer', levier: 'gain' }, { type: 'continuer' }, { type: 'recuperation-faite' },
+      { type: 'choisir', choixId: 'garde' }, { type: 'rejouer' },
+    )
     expect(etat.phase).toBe('situation')
-    expect(etat.resultats.l1).toBeUndefined()
+    expect(etat.resultats.l1).toMatchObject({ choixId: null, qualite: null, essais: ['donne'] })
   })
 
   it('passer un lieu le marque passé', () => {
@@ -153,13 +178,11 @@ describe('badges d’un parcours', () => {
     expect(calculerBadges(jouer(m, ...prudent(4)))).toEqual(['mission-accomplie', 'reflexe-verif', 'explorateur'])
   })
 
-  it('réparer après un choix risqué', () => {
+  it('réparer après un choix risqué, puis trouver le bon choix', () => {
     const etat = jouer(
       m,
-      { type: 'choisir', choixId: 'donne' },
-      { type: 'expliquer', levier: 'gain' },
-      { type: 'continuer' },
-      { type: 'recuperation-faite' },
+      { type: 'choisir', choixId: 'donne' }, { type: 'expliquer', levier: 'gain' }, { type: 'continuer' }, { type: 'recuperation-faite' },
+      { type: 'choisir', choixId: 'garde' }, { type: 'continuer' },
       ...prudent(3),
     )
     expect(calculerBadges(etat)).toEqual(['mission-accomplie', 'reparateur', 'explorateur'])
