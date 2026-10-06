@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { focusAuChangement } from '@/ui/focus'
 
 defineOptions({ name: 'SoutenirPersonneVisee' })
-const emit =defineEmits<{ fait: [] }>()
+const emit = defineEmits<{ fait: [] }>()
 const MESSAGES = [
   { id: 'ecoute', texte: 'Je suis là si tu veux en parler.', retour: '', bon: true },
   { id: 'adulte', texte: 'Tu veux que j’en parle à un adulte avec toi ?', retour: '', bon: true },
@@ -50,7 +50,7 @@ function envoyer() {
     </template>
     <template v-else>
       <p role="status"><span aria-hidden="true">✅</span> Message envoyé.</p>
-      <p>Garde une capture des messages, et préviens un adulte : ensemble, vous pouvez faire cesser le harcèlement.</p>
+      <p>Ne réponds pas aux harceleurs en public à la place de la personne visée. Garde une capture des messages, et préviens un adulte : ensemble, vous pouvez faire cesser le harcèlement.</p>
       <button type="button" class="btn btn-primaire" @click="emit('fait')">Continuer</button>
     </template>
   </section>

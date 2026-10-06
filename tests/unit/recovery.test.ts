@@ -122,6 +122,7 @@ describe('actions de récupération', () => {
     await w.find('input[value="adulte"]').setValue()
     await cliquer(w, 'Envoyer')
     expect(w.text()).toContain('Message envoyé.')
+    expect(w.text()).toContain('Ne réponds pas aux harceleurs en public à la place de la personne visée.')
     expect(w.text()).toContain('Garde une capture des messages')
     await cliquer(w, 'Continuer')
     expect(w.emitted('fait')).toHaveLength(1)
