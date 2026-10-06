@@ -71,7 +71,7 @@ etapes:
       contact: 'k4rma_x'
       messages:
         - de: contact
-          texte: 'Regarde ce que j’ai fait avec ta photo de profil 📷 Une IA, et hop, ça a l’air vrai.'
+          texte: 'Regarde ce que j’ai fait avec ta photo de profil 📷 Avec une IA, ça a l’air vrai.'
         - de: contact
           texte: 'Si tu veux pas que toute ta classe la reçoive, envoie 50 € en carte cadeau avant 20 h. Et t’en parles à personne.'
     question: 'L’image envoyée est un montage gênant : ton visage est le vrai, tout le reste est faux. Il est 18 h. Que fais-tu ?'
@@ -79,11 +79,11 @@ etapes:
       - id: paie
         texte: 'Si je paie, il efface tout et personne ne verra jamais cette image : j’achète la carte cadeau.'
         qualite: risque
-        consequence: 'Il encaisse, puis réclame 100 € de plus, et il n’efface rien. Payer ne fait jamais disparaître une image : le maître chanteur revient. Ce n’est pas ta faute : c’est lui qui commet un délit. Ne paie pas plus, n’envoie rien de plus, garde des preuves et demande de l’aide.'
+        consequence: 'Il encaisse, puis réclame 100 € de plus, et il n’efface rien. Payer ne fait pas disparaître une image, et le maître chanteur revient presque toujours. Ce n’est pas ta faute : c’est lui qui commet un délit. Même si tu as payé, il n’est pas trop tard. Ne paie plus, n’envoie rien de plus, garde des preuves et demande de l’aide.'
       - id: preuves
         texte: 'Je ne réponds pas : je fais des captures, je bloque et je signale le compte, puis je préviens un adulte.'
         qualite: bon
-        consequence: 'Le maître chanteur ne peut plus t’écrire, et la plateforme examine le compte. Tes captures serviront si l’image circule : on pourra la faire retirer. En parler à un adulte t’évite de rester seul·e avec ça.'
+        consequence: 'Le maître chanteur ne peut plus t’écrire, et la plateforme examine le compte. Tes captures serviront si l’image circule : avec elles, un adulte ou le 3018 pourra demander son retrait et porter plainte. En parler à un adulte t’évite de rester seul·e avec ça.'
       - id: aide
         texte: 'Je demande de l’aide au 3018 : j’appelle ou j’écris sur le tchat.'
         qualite: aide
@@ -94,12 +94,12 @@ etapes:
       - { id: silence, libelle: 'Il me demande de n’en parler à personne', pertinent: true }
       - { id: realiste, libelle: 'L’image a l’air très réaliste', pertinent: false }
     explicationIndices: 'Menace, délai, carte cadeau et silence : c’est la recette du chantage. Que l’image ait l’air vraie ne change rien : c’est un faux, et la seule personne en tort, c’est celle qui l’a fabriquée.'
-    aRetenir: 'Face au chantage : ne paie pas, n’envoie rien de plus, ne réponds plus. Fais des captures, bloque, signale, et appelle le 3018 : il peut faire retirer l’image. Ce n’est pas ta faute, même si la photo de départ est la tienne.'
+    aRetenir: 'Face au chantage : ne paie pas, n’envoie rien de plus, ne réponds plus. Fais des captures, bloque, signale, et appelle le 3018 : il peut demander le retrait de l’image. Ce n’est pas ta faute, même si la photo de départ est la tienne.'
     recuperation: { action: capture-preuve, siChoix: [paie] }
     pourquoi:
       - levier: peur
         truc: '« Toute ta classe la reçoive » : la peur que tout le monde voie l’image pousse à payer vite.'
-        parade: 'Quand un message te fait peur, c’est le moment d’en parler. Le 3018 peut faire retirer une image.'
+        parade: 'Quand un message te fait peur, c’est le moment d’en parler. Le 3018 peut demander le retrait d’une image.'
       - levier: urgence
         truc: '« Avant 20 h » : le délai sert à t’empêcher de demander de l’aide.'
         parade: 'Ne réponds pas dans l’urgence. Prends le temps d’appeler le 3018 ou de parler à un adulte.'
@@ -125,7 +125,7 @@ etapes:
     question: Yanis est ton meilleur ami. Il ne va pas bien depuis plusieurs jours. Que fais-tu ?
     choix:
       - id: jure
-        texte: 'C’est son histoire et il me fait confiance : je jure de ne rien dire à personne.'
+        texte: 'Je jure de ne rien dire à personne. C’est son histoire, et il me fait confiance.'
         qualite: risque
         consequence: 'Yanis reste seul face au maître chanteur. Il finit par payer, et l’autre en redemande. Il dort mal et ne parle plus à personne. Ce n’est pas ta faute, ni la sienne : le seul responsable, c’est le maître chanteur. Il est encore temps de soutenir Yanis et de l’aider à en parler.'
       - id: soutien
@@ -135,21 +135,21 @@ etapes:
       - id: aide
         texte: 'Je demande de l’aide au 3018 pour savoir comment aider Yanis, même s’il m’a demandé de ne rien dire.'
         qualite: aide
-        consequence: 'L’écoutante du 3018 t’explique que ce secret-là ne se garde pas : Yanis a besoin d’être protégé. Elle te conseille d’en parler à un adulte du collège. Le 3018 peut aussi faire retirer la photo si elle est publiée.'
+        consequence: 'L’écoutante du 3018 t’explique que ce secret-là ne se garde pas : Yanis a besoin d’être protégé. Elle te conseille d’en parler à un adulte du collège. Le 3018 peut aussi demander le retrait de la photo si elle est publiée.'
     indices:
       - { id: menace, libelle: 'Quelqu’un réclame de l’argent à Yanis en le menaçant', pertinent: true }
       - { id: honte, libelle: 'Yanis a trop honte pour en parler', pertinent: true }
       - { id: jurer, libelle: 'Il me demande de jurer de ne rien dire', pertinent: true }
       - { id: appli, libelle: 'Il m’écrit sur Pixo', pertinent: false }
     explicationIndices: 'Yanis subit du chantage : c’est un délit, et c’est grave. La honte et le secret le laissent seul face au maître chanteur. L’appli utilisée ne change rien.'
-    aRetenir: 'Si un ami se confie sur un chantage, dis-lui que ce n’est pas sa faute, qu’il ne paie pas et qu’il n’envoie rien de plus. Ce secret-là ne se garde pas : accompagne-le voir un adulte ou appelez le 3018, qui peut faire retirer une photo.'
+    aRetenir: 'Si un ami se confie sur un chantage, dis-lui que ce n’est pas sa faute, qu’il ne paie pas et qu’il n’envoie rien de plus. Ce secret-là ne se garde pas : accompagne-le voir un adulte ou appelez le 3018, qui peut demander le retrait d’une photo.'
     recuperation: { action: soutenir, siChoix: [jure] }
     pourquoi:
       - levier: secret
         truc: '« Jure-moi que tu diras rien à personne » : tu ne veux pas trahir la confiance de Yanis.'
         parade: 'Un secret qui met un ami en danger se partage avec un adulte. Ce n’est pas trahir, c’est protéger.'
       - levier: honte
-        truc: '« J’ai trop honte » : la honte de Yanis devient aussi la tienne, et vous vous taisez à deux.'
+        truc: '« J’ai trop honte » : tu ne veux pas l’exposer, alors vous vous taisez à deux.'
         parade: 'Rappelle-lui que la honte est du côté du maître chanteur, pas du sien.'
       - levier: confiance
         truc: 'Yanis est ton meilleur ami : il s’est confié à toi, et à personne d’autre.'
@@ -159,7 +159,7 @@ etapes:
     id: repere-conversation
     jeu: repere
     config:
-      consigne: 'Voici une conversation entre un ado et un inconnu sur un réseau social. Trouve les 5 signaux d’alerte. Les repérer ne t’oblige à rien d’autre qu’à en parler à quelqu’un de confiance.'
+      consigne: 'Voici une conversation entre un ado et un inconnu sur un réseau social. Trouve les 5 signaux d’alerte. Si tu les repères un jour, tu n’as rien d’autre à faire que d’en parler à quelqu’un de confiance.'
       titre: 'Lumo : messages de noah_lv'
       lignes:
         - { id: live, texte: 'Coucou, on était dans le même live hier, non ?' }
@@ -175,7 +175,7 @@ debrief:
     - Quels signaux montrent qu’une relation en ligne devient dangereuse ?
     - Pourquoi le maître chanteur demande-t-il le silence ?
     - Que dire à un ami qui se confie, et à qui en parler ensuite ?
-  reponses: 'Signaux : compliments très rapides, cadeaux, demande de secret, changement d’appli, demande de photo, proposition de rencontre, pression ou menace. Le silence protège le maître chanteur : dès qu’un adulte ou le 3018 est au courant, on peut bloquer, signaler, faire retirer une image et porter plainte. Face au chantage : ne paie pas, n’envoie rien de plus, garde des preuves, bloque, signale. Fabriquer un montage d’une personne pour la faire chanter est un délit, et une image truquée par IA reste un faux. Ce n’est pas ta faute, même si la photo de départ venait de ton profil. À un ami qui se confie : « Ce n’est pas ta faute, je suis là, on en parle à un adulte ensemble. »'
+  reponses: 'Signaux : compliments très rapides, cadeaux, demande de secret, changement d’appli, demande de photo, proposition de rencontre, pression ou menace. Le silence protège le maître chanteur : dès qu’un adulte ou le 3018 est au courant, on peut bloquer, signaler, demander le retrait d’une image et porter plainte. Face au chantage : ne paie pas, n’envoie rien de plus, garde des preuves, bloque, signale. Fabriquer un montage d’une personne pour la faire chanter est un délit, et une image truquée par IA reste un faux. Ce n’est pas ta faute, même si la photo de départ venait de ton profil. À un ami qui se confie : « Ce n’est pas ta faute, je suis là, on en parle à un adulte ensemble. » Si tu repères ces signaux un jour, tu n’as rien d’autre à faire que d’en parler à quelqu’un de confiance.'
   erreursFrequentes:
     - 'Croire que payer fera disparaître l’image : le maître chanteur revient presque toujours.'
     - 'Penser qu’on est responsable parce que sa photo de profil était publique.'
@@ -185,8 +185,8 @@ fiche:
     5 min : cadre. Personne n’a à raconter sa vie ; « Passer ce scénario » est possible ; l’infirmier·e ou la CPE reste disponible après la séance.
     18 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (les 5 signaux d’alerte). Rappeler que le chantage et la fabrication d’un montage pour nuire sont des délits.
-    5 min : où trouver de l’aide (parents, CPE, infirmier·e, 3018 qui peut faire retirer un contenu, 119, Pharos).
+    5 min : où trouver de l’aide (parents, CPE, infirmier·e, 3018 qui peut demander le retrait d’un contenu, 119, Pharos, 17 en cas de danger immédiat).
     5 min : engagement. Je note le 3018 dans mon téléphone, et je sais quoi dire à un ami qui se confie.
-  siRevelation: 'Si un élève se confie pendant ou après la séance : l’écouter au calme, sans juger et sans promettre le secret (lui dire qu’on va en parler à des personnes qui peuvent le protéger). Ne pas l’interroger, ne pas demander à voir ni copier les images, et ne pas les transférer ; noter ses mots exacts, avec la date. Lui dire de ne pas payer et de ne plus répondre. Ne pas contacter soi-même l’auteur. Prévenir sans attendre le ou la CPE, l’infirmier·e scolaire et le chef d’établissement. Si d’autres élèves sont impliqués, appliquer le protocole pHARe. Si l’élève est en danger ou risque de l’être, le chef d’établissement transmet une information préoccupante à la cellule départementale (CRIP), ou un signalement au procureur en cas de danger grave et immédiat. Orienter vers le 3018, qui peut faire retirer un contenu, et vers le 119.'
+  siRevelation: 'Si un élève se confie pendant ou après la séance : l’écouter au calme, sans juger et sans promettre le secret (lui dire qu’on va en parler à des personnes qui peuvent le protéger). Ne pas l’interroger, ne pas demander à voir ni copier les images, et ne pas les transférer ; noter ses mots exacts, avec la date. Lui dire de ne pas payer et de ne plus répondre. Ne pas contacter soi-même l’auteur. Prévenir sans attendre le ou la CPE, l’infirmier·e scolaire et le chef d’établissement. Si d’autres élèves sont impliqués, appliquer le protocole pHARe. Si l’élève est en danger ou risque de l’être, le chef d’établissement transmet une information préoccupante à la cellule départementale (CRIP), ou un signalement au procureur en cas de danger grave et immédiat. Orienter vers le 3018, qui peut demander le retrait d’un contenu, et vers le 119. Si l’élève paraît en grande détresse ou parle de mourir : ne pas le laisser seul, prévenir immédiatement l’infirmier·e et le chef d’établissement, et appeler le 3114 (prévention du suicide, 24 h/24). Repère légal : le chantage et la fabrication d’un montage pour nuire à quelqu’un sont des délits. Un montage à caractère sexuel (hypertrucage, « deepfake ») est spécifiquement puni, et lorsqu’il représente un mineur, la loi le traite comme une image pédopornographique : ne jamais le demander, le conserver ni le transférer, et le signaler au 3018 ou sur Pharos. L’auteur peut être un camarade : dans ce cas, appliquer aussi le protocole pHARe.'
 relecture:
   statut: a-relire

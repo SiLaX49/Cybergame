@@ -81,7 +81,7 @@ etapes:
     question: Tu n’as jamais envoyé de photo à Kiro. Il insiste depuis hier. Que fais-tu ?
     choix:
       - id: installe
-        texte: 'Je ne veux pas le vexer : j’installe Pixo pour discuter, mais sans envoyer de photo.'
+        texte: 'J’installe Pixo pour continuer à discuter, mais je ne lui envoie pas de photo.'
         qualite: risque
         consequence: 'Sur Pixo, personne ne surveille les messages. Kiro te demande la photo encore et encore, même tard le soir. Il dit que tu n’es pas gentil avec lui. Ce n’est pas ta faute : c’est lui qui te met la pression. Tu peux le bloquer et le signaler.'
         consequenceSimple: 'Sur Pixo, Kiro insiste encore plus pour la photo. Ce n’est pas ta faute : c’est lui qui te met la pression. Bloque-le et parles-en.'
@@ -92,7 +92,7 @@ etapes:
       - id: aide
         texte: 'Je demande de l’aide : j’appelle le 3018 avec ma mère.'
         qualite: aide
-        consequence: 'Une écoutante du 3018 vous explique quoi faire : ne rien envoyer, garder les messages, bloquer et signaler. Elle peut aussi alerter le jeu pour que le compte soit vérifié. Ta mère te dit que tu as eu raison d’en parler.'
+        consequence: 'Une écoutante du 3018 vous explique quoi faire : ne rien envoyer, garder les messages, bloquer et signaler. Elle explique aussi comment signaler le compte au jeu. Ta mère te dit que tu as eu raison d’en parler.'
     indices:
       - { id: appli, libelle: 'Il veut que je change d’appli, là où les modos ne lisent pas', pertinent: true }
       - { id: photo, libelle: 'Il me demande une photo de moi', pertinent: true }
@@ -139,17 +139,17 @@ etapes:
         qualite: bon
         consequence: 'Lucas est un peu fâché, puis il accepte. Ses parents l’écoutent sans le gronder. Ils signalent le compte de Max, et Lucas ne va pas au rendez-vous.'
       - id: aide
-        texte: 'Je demande de l’aide à la CPE dès demain : Lucas est peut-être en danger.'
+        texte: 'Je demande de l’aide : j’en parle ce soir à mes parents, ou demain matin à la CPE.'
         qualite: aide
-        consequence: 'La CPE t’écoute et te remercie. Elle prévient les parents de Lucas, qui annulent le rendez-vous. Lucas n’est pas puni : c’est Max qui a mal agi.'
+        consequence: 'Tes parents t’écoutent et te remercient. Ils préviennent les parents de Lucas, qui annulent le rendez-vous. Lucas n’est pas puni : c’est Max qui a mal agi.'
     indices:
       - { id: jamais-vu, libelle: 'Lucas n’a jamais vu Max en vrai', pertinent: true }
       - { id: seul, libelle: 'Max veut que Lucas vienne seul', pertinent: true }
       - { id: secret, libelle: 'Max demande de ne rien dire aux parents', pertinent: true }
       - { id: lieu-connu, libelle: 'Le rendez-vous est dans un lieu connu', pertinent: false }
     explicationIndices: 'Retrouver seul et en secret quelqu’un qu’on n’a jamais vu, c’est un vrai danger. Un lieu connu ne rend pas ce rendez-vous sûr. On ne sait pas qui est vraiment Max.'
-    aRetenir: 'Si un ami va retrouver en secret quelqu’un rencontré en ligne, ne garde pas ce secret : préviens un adulte. Ce n’est pas trahir ton ami, c’est le protéger. Le 3018 peut aussi vous conseiller.'
-    aRetenirSimple: 'Ce secret-là, on ne le garde pas. Préviens un adulte ou appelle le 3018. C’est protéger ton ami.'
+    aRetenir: 'Si un ami va retrouver en secret quelqu’un rencontré en ligne, ne garde pas ce secret : préviens un adulte. Ce n’est pas trahir ton ami, c’est le protéger. Le 3018 peut aussi vous conseiller. Si le rendez-vous est tout de suite, l’adulte peut appeler le 17.'
+    aRetenirSimple: 'Ce secret-là, on ne le garde pas. Préviens un adulte ou appelle le 3018. C’est protéger ton ami. Si c’est tout de suite, l’adulte appelle le 17.'
     recuperation: { action: soutenir, siChoix: [promet] }
     pourquoi:
       - levier: secret
@@ -166,7 +166,7 @@ etapes:
     id: repere-discussion
     jeu: repere
     config:
-      consigne: 'Voici une discussion avec un inconnu dans un jeu. Trouve les 4 signaux d’alerte. Repérer ces signaux ne t’oblige à rien, sauf à en parler à un adulte de confiance.'
+      consigne: 'Voici une discussion avec un inconnu dans un jeu. Trouve les 4 signaux d’alerte. Si tu les repères un jour, tu n’as rien d’autre à faire que d’en parler à un adulte de confiance.'
       titre: 'Planète Bloc : discussion avec Zorro_Bleu'
       lignes:
         - { id: salut, texte: 'Salut ! Bien joué pour la partie.' }
@@ -180,7 +180,7 @@ debrief:
     - Quels signaux d’alerte as-tu repérés ?
     - Pourquoi certains inconnus demandent-ils de garder le secret ?
     - À qui peux-tu en parler si ça t’arrive, à toi ou à un ami ?
-  reponses: 'Les signaux : des compliments très rapides, des cadeaux, une demande de secret, le passage sur une autre appli, une demande de photo, une proposition de rendez-vous. Le secret sert à empêcher les adultes d’aider. Si ça arrive, ce n’est pas ta faute, même si tu as accepté un cadeau ou répondu aux messages. On garde les messages, on bloque, on signale, et on en parle à un adulte de confiance (parents, CPE, infirmier·e, professeur) ou au 3018, gratuit et confidentiel.'
+  reponses: 'Les signaux : des compliments très rapides, des cadeaux, une demande de secret. Il y a aussi le passage sur une autre appli, une demande de photo, une proposition de rendez-vous. Le secret sert à empêcher les adultes d’aider. Si ça arrive, ce n’est pas ta faute. C’est vrai même si tu as accepté un cadeau ou répondu aux messages. On garde les messages, on bloque et on signale. Puis on en parle à un adulte de confiance : parents, CPE, infirmier·e, professeur. On peut aussi appeler le 3018, gratuit et confidentiel. Si tu repères ces signaux un jour, tu n’as rien d’autre à faire que d’en parler à un adulte de confiance.'
   erreursFrequentes:
     - 'Croire qu’un pseudo et un âge affiché disent qui est vraiment la personne.'
     - 'Penser qu’en parler, c’est trahir un ami ou risquer d’être puni.'
@@ -190,7 +190,7 @@ fiche:
     5 min : cadre. Personne n’a à raconter sa vie ; « Passer ce scénario » est possible ; l’infirmier·e ou la CPE reste disponible après la séance.
     15 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (les 4 signaux d’alerte).
-    5 min : où trouver de l’aide (parents, CPE, infirmier·e, 3018 gratuit et confidentiel, 119 si un enfant est en danger).
+    5 min : où trouver de l’aide (parents, CPE, infirmier·e, 3018 gratuit et confidentiel, 119 si un enfant est en danger, 17 en cas de danger immédiat).
     5 min : engagement. Je connais un adulte à qui je peux parler, et le numéro 3018.
   siRevelation: 'Si un élève se confie pendant ou après la séance : l’écouter au calme, sans juger et sans promettre le secret (lui dire qu’on va en parler à des personnes qui peuvent le protéger). Ne pas l’interroger ni lui demander de montrer les messages ou les images ; noter ses mots exacts, avec la date. Ne pas contacter soi-même la personne mise en cause. Prévenir sans attendre le ou la CPE, l’infirmier·e scolaire et le chef d’établissement. Si d’autres élèves sont impliqués, appliquer le protocole pHARe. Si l’enfant est en danger ou risque de l’être, le chef d’établissement transmet une information préoccupante à la cellule départementale (CRIP), ou un signalement au procureur en cas de danger grave et immédiat. Rappeler à l’élève le 3018 et le 119.'
 relecture:

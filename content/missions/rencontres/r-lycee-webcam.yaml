@@ -5,7 +5,7 @@ titre: Derrière l’écran
 resume: 'Un mail qui prétend avoir piraté ta webcam, un profil qui refuse toute visio, une amie dont une photo circule : démêler le bluff du danger, et ne jamais rester seul·e.'
 duree: 20
 objectifs:
-  - Reconnaître un chantage envoyé en masse (« j’ai piraté ta webcam ») et un faux profil sur une appli de rencontre
+  - Reconnaître un chantage envoyé en masse (« j’ai piraté ta webcam ») et un faux profil sur une appli pour se faire des amis
   - 'Réagir au chantage et à la diffusion d’une photo : ne pas payer, garder des preuves, signaler, appeler le 3018'
   - Soutenir une amie dont une photo circule, sans relancer la diffusion
 competences:
@@ -73,10 +73,10 @@ etapes:
           texte: 'Tu peux m’envoyer des photos de toi ? Des vraies, juste pour moi.'
         - de: contact
           texte: 'Et j’ai un souci : tu pourrais me prêter 40 € pour mon forfait ? Je te rembourse lundi, promis.'
-    question: Vous parlez depuis un mois. Sam a toujours refusé les appels vidéo. Que fais-tu ?
+    question: Vous vous êtes connus sur Kalio, une appli pour se faire des amis. Vous parlez depuis un mois, et Sam a toujours refusé les appels vidéo. Que fais-tu ?
     choix:
       - id: prete
-        texte: 'Sam m’a tellement soutenu·e ce mois-ci : je lui prête les 40 €, et je verrai pour les photos.'
+        texte: 'Je lui prête les 40 €, il me remboursera lundi. Sam m’a tellement soutenu·e ce mois-ci.'
         qualite: risque
         consequence: 'Lundi, pas de remboursement : Sam demande 80 € de plus et insiste pour les photos. Quand tu hésites, il dit que tu ne tiens pas à lui. Le profil était faux : ses photos avaient été volées à quelqu’un d’autre. Ce n’est pas ta faute : c’est lui qui ment depuis le début. Bloque, signale, et parles-en.'
       - id: refuse
@@ -121,15 +121,15 @@ etapes:
     question: Inès est ton amie. Sous la photo, des commentaires moqueurs s’accumulent. Que fais-tu ?
     choix:
       - id: commente
-        texte: 'Ils vont m’entendre : je vais sous la publication pour défendre Inès et répondre à ceux qui se moquent.'
+        texte: 'Je vais sous la publication répondre à ceux qui se moquent. Il faut bien que quelqu’un défende Inès !'
         qualite: risque
-        consequence: 'Ton commentaire relance la discussion : la publication remonte, et encore plus de gens la voient. Inès apprend que tout le monde en reparle. Tu voulais l’aider, et le seul responsable reste celui qui a publié la photo. Écris plutôt à Inès en privé, et aidez-la à faire retirer la photo.'
+        consequence: 'Ton commentaire part d’une bonne intention, mais il fait remonter la publication, et d’autres la voient. Ce n’est pas ta faute : le seul responsable est celui qui a publié la photo. Il est encore temps : écris à Inès en privé, et aidez-la à faire retirer la photo.'
       - id: prive
-        texte: 'J’écris à Inès que ce n’est pas sa faute. Je l’aide à faire des captures du compte, sans la photo, et à le signaler.'
+        texte: 'J’écris à Inès que ce n’est pas sa faute. Je l’aide à noter le nom du compte et le lien de la publication, sans enregistrer la photo, et à le signaler.'
         qualite: bon
         consequence: 'Inès se sent moins seule. Vous signalez le compte et gardez des preuves des messages, sans repartager l’image. Elle accepte de prévenir la CPE le lendemain matin.'
       - id: aide
-        texte: 'Je demande de l’aide au 3018 avec Inès ce soir : il peut faire retirer la photo.'
+        texte: 'Je demande de l’aide au 3018 avec Inès ce soir : il peut demander le retrait de la photo.'
         qualite: aide
         consequence: 'Le 3018 écoute Inès et signale la publication aux plateformes, qui peuvent la retirer rapidement. Il lui explique que diffuser une photo privée sans accord est puni par la loi, et comment porter plainte si elle le souhaite.'
     indices:
@@ -138,7 +138,7 @@ etapes:
       - { id: moqueries, libelle: 'Les commentaires moqueurs s’accumulent', pertinent: true }
       - { id: anonyme, libelle: 'Le compte qui publie est anonyme, on ne peut rien faire', pertinent: false }
     explicationIndices: 'Inès va mal et la photo se répand vite : il faut agir sans attendre. Un compte anonyme n’empêche rien : il peut être signalé, et la justice peut retrouver qui est derrière.'
-    aRetenir: 'Si une photo d’un ami circule : ne la repartage pas, ne commente pas, écris-lui en privé que ce n’est pas sa faute. Signalez la publication et appelez le 3018 : il peut faire retirer la photo. Diffuser une photo privée sans accord est puni par la loi.'
+    aRetenir: 'Si une photo d’un ami circule : ne la repartage pas (la transférer, c’est aussi la diffuser), ne commente pas, écris-lui en privé que ce n’est pas sa faute. Signalez la publication et appelez le 3018 : il peut demander son retrait. Diffuser une photo privée sans accord est puni par la loi.'
     recuperation: { action: soutenir, siChoix: [commente] }
     pourquoi:
       - levier: colere
@@ -146,7 +146,7 @@ etapes:
         parade: 'Ne réponds pas en public : ça fait remonter la publication. Garde les preuves et écris à Inès en privé.'
       - levier: groupe
         truc: '« Plein de gens du lycée l’ont vue » : tout le monde commente, alors tu veux commenter aussi, pour la défendre.'
-        parade: 'Chaque commentaire, même gentil, rend la publication plus visible. Le signalement, lui, la fait disparaître.'
+        parade: 'Chaque commentaire, même gentil, rend la publication plus visible. Le signalement, lui, peut la faire retirer.'
       - levier: reflexe
         truc: 'Répondre sous une publication, tu le fais tous les jours, en un geste.'
         parade: 'Avant de commenter, demande-toi si ça aide Inès ou si ça montre la photo à plus de monde.'
@@ -155,7 +155,7 @@ etapes:
     id: repere-conversation
     jeu: repere
     config:
-      consigne: 'Voici une conversation avec une personne rencontrée sur une appli. Trouve les 5 signaux d’alerte. Les repérer ne t’oblige à rien d’autre qu’à en parler à quelqu’un de confiance.'
+      consigne: 'Voici une conversation avec une personne rencontrée sur une appli pour se faire des amis. Trouve les 5 signaux d’alerte. Si tu les repères un jour, tu n’as rien d’autre à faire que d’en parler à quelqu’un de confiance.'
       titre: 'Kalio : conversation avec Lou'
       lignes:
         - { id: amis, texte: 'Hey, on a des amis en commun je crois ?' }
@@ -169,9 +169,9 @@ etapes:
 debrief:
   questions:
     - Comment distinguer un chantage envoyé en masse d’une menace plus ciblée ?
-    - Quels signaux montrent qu’un profil de rencontre est faux ?
+    - Quels signaux montrent qu’un profil en ligne est faux ?
     - Comment aider une amie dont une photo circule, sans aggraver la situation ?
-  reponses: 'Un mail envoyé en masse ne montre aucune preuve, cite au mieux un vieux mot de passe volé, et réclame de l’argent dans un délai : c’est un bluff. Dans tous les cas de chantage : ne paie pas, n’envoie rien de plus, garde des preuves, bloque, signale, appelle le 3018. Un faux profil refuse la visio, va vite, demande des photos puis de l’argent. Pour une amie : ne pas repartager, ne pas commenter, lui écrire en privé que ce n’est pas sa faute, signaler, appeler le 3018 qui peut faire retirer la photo, et prévenir un adulte du lycée. Diffuser une photo privée de quelqu’un sans son accord, et faire chanter quelqu’un, sont des délits.'
+  reponses: 'Un mail envoyé en masse ne montre aucune preuve, cite au mieux un vieux mot de passe volé, et réclame de l’argent dans un délai : c’est un bluff. Dans tous les cas de chantage : ne paie pas, n’envoie rien de plus, garde des preuves, bloque, signale, appelle le 3018. Un faux profil refuse la visio, va vite, demande des photos puis de l’argent. Pour une amie : ne pas repartager, ne pas commenter, lui écrire en privé que ce n’est pas sa faute, signaler, appeler le 3018 qui peut demander le retrait de la photo, et prévenir un adulte du lycée. Transférer la photo, c’est aussi la diffuser. Diffuser une photo privée de quelqu’un sans son accord, et faire chanter quelqu’un, sont des délits. Si tu repères ces signaux un jour, tu n’as rien d’autre à faire que d’en parler à quelqu’un de confiance.'
   erreursFrequentes:
     - 'Croire que le mail dit vrai parce qu’il cite un vrai mot de passe.'
     - 'Penser qu’on est responsable d’une photo diffusée sans son accord : le responsable est celui qui la diffuse.'
@@ -181,8 +181,8 @@ fiche:
     5 min : cadre. Personne n’a à raconter sa vie ; « Passer ce scénario » est possible ; l’infirmier·e ou la CPE reste disponible après la séance.
     20 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (les 5 signaux d’alerte). Rappeler que le chantage et la diffusion d’une image privée sans accord sont des délits.
-    5 min : où trouver de l’aide (CPE, infirmier·e, 3018 qui peut faire retirer un contenu, 119, Pharos sur internet-signalement.gouv.fr).
+    5 min : où trouver de l’aide (CPE, infirmier·e, 3018 qui peut demander le retrait d’un contenu, 119, Pharos sur internet-signalement.gouv.fr, cybermalveillance.gouv.fr pour le mail « webcam », 17 en cas de danger immédiat). Kalio est présentée comme une appli pour se faire des amis : les applis de rencontre amoureuse sont réservées aux majeurs.
     5 min : engagement. Je change aujourd’hui un vieux mot de passe que j’utilise encore, et je note le 3018.
-  siRevelation: 'Si un élève se confie pendant ou après la séance : l’écouter au calme, sans juger et sans promettre le secret (lui dire qu’on va en parler à des personnes qui peuvent le protéger). Ne pas l’interroger, ne pas demander à voir ni copier les images, et ne pas les transférer, même pour les montrer à un collègue ; noter ses mots exacts, avec la date. Lui dire de ne pas payer et de ne plus répondre. Ne pas contacter soi-même l’auteur. Prévenir sans attendre le ou la CPE, l’infirmier·e scolaire et le chef d’établissement. Si d’autres élèves sont impliqués (diffusion, moqueries), appliquer le protocole pHARe. Si l’élève est en danger ou risque de l’être, le chef d’établissement transmet une information préoccupante à la cellule départementale (CRIP), ou un signalement au procureur en cas de danger grave et immédiat. Orienter vers le 3018, qui peut faire retirer un contenu, et vers le 119.'
+  siRevelation: 'Si un élève se confie pendant ou après la séance : l’écouter au calme, sans juger et sans promettre le secret (lui dire qu’on va en parler à des personnes qui peuvent le protéger). Ne pas l’interroger, ne pas demander à voir ni copier les images, et ne pas les transférer, même pour les montrer à un collègue ; noter ses mots exacts, avec la date. Lui dire de ne pas payer et de ne plus répondre. Ne pas contacter soi-même l’auteur. Prévenir sans attendre le ou la CPE, l’infirmier·e scolaire et le chef d’établissement. Si d’autres élèves sont impliqués (diffusion, moqueries), appliquer le protocole pHARe. Si l’élève est en danger ou risque de l’être, le chef d’établissement transmet une information préoccupante à la cellule départementale (CRIP), ou un signalement au procureur en cas de danger grave et immédiat. Orienter vers le 3018, qui peut demander le retrait d’un contenu, et vers le 119. Si l’élève paraît en grande détresse ou parle de mourir : ne pas le laisser seul, prévenir immédiatement l’infirmier·e et le chef d’établissement, et appeler le 3114 (prévention du suicide, 24 h/24). Repère légal : la photo intime d’un mineur est, pour la loi, une image pédopornographique. La détenir ou la transférer est interdit, même avec l’accord de la personne et même entre mineurs. Ne jamais demander à la voir ; la signaler au 3018 ou sur Pharos (internet-signalement.gouv.fr).'
 relecture:
   statut: a-relire
