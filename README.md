@@ -30,6 +30,11 @@ Règles principales :
   `confidentialite` (3 à 8 réglages, au moins un à changer), `verification` (publication, 2 à 5 pistes d’enquête,
   verdict `fiable` / `douteux` / `faux`), `permissions` (1 à 3 applis, 2 à 5 permissions chacune). Le schéma de chacun est
   dans `src/content/schema.ts`.
+- Faux écran (`ecran.app`) : `sms`, `chat`, `social` (`certifie`, `abonnes`, `bio`, `media`, `stats`, `commentaires`),
+  `mail` (`adresse`, `sujet`, `pieceJointe`), `web` (`url`, sans `url` pour l’écran d’une appli). Chaque message peut avoir
+  une `heure` (HH:MM) et un `apercu` de lien ; les liens sont repérés automatiquement dans le texte.
+- Chaque choix `bon` ou `risque` a un `geste` (ce que le téléphone montre quand on le choisit : `ouvrir-lien`, `bloquer`…) ;
+  le geste `repondre` exige une `reponse`, le message envoyé. La liste est dans `src/content/schema.ts` (`GESTES`).
 - Chaque scénario a un choix `aide` (« Je demande de l’aide… »), au moins un indice pertinent et un `aRetenir`.
 - Chaque scénario avec un choix `risque` a un bloc `pourquoi` : 3 ou 4 leviers (`content/leviers.yaml`), chacun avec
   `truc` (comment l’arnaqueur a joué sur ce levier ici) et `parade` (le geste à faire la prochaine fois).

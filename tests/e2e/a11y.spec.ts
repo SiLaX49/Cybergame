@@ -119,3 +119,39 @@ test('parcours : écran « Choisis ton personnage » et scène du premier lieu',
   await expect(page.locator('.parcours-scene')).toBeVisible()
   await verifierA11y(page, 'scène du premier lieu')
 })
+
+for (const [nom, id] of [
+  ['téléphone sms', 'p-6e-colis'],
+  ['téléphone chat', 'p-college-ami-pirate'],
+  ['téléphone social', 'd-college-hors-contexte'],
+  ['téléphone web', 'a-lycee-wifi-gare'],
+] as const) {
+  test(nom, async ({ page }) => {
+    await page.goto(`/#/mission/${id}`)
+    await expect(page.locator('[data-choix]').first()).toBeVisible()
+    await verifierA11y(page, nom)
+  })
+}
+
+test('téléphone mail et choix joué', async ({ page }) => {
+  await page.goto('/#/mission/p-6e-colis')
+  await page.locator('[data-qualite="aide"]').click()
+  await expect(page.locator('.choix-joue')).toContainText('demander de l’aide')
+  await verifierA11y(page, 'choix joué')
+  // Le mail est le 3e scénario de p-6e-colis (sms, chat, puis mail).
+  const mail = page.locator('figure[data-app="mail"]')
+  for (let i = 0; i < 3 && !(await mail.isVisible()); i++) {
+    if (i > 0) await page.locator('[data-qualite="aide"]').click()
+    await page.getByRole('button', { name: 'Je ne sais pas' }).click()
+    await page.getByRole('button', { name: 'Continuer', exact: true }).click()
+    await expect(page.locator('[data-choix]').first()).toBeVisible()
+  }
+  await expect(mail).toBeVisible()
+  await verifierA11y(page, 'téléphone mail')
+})
+
+test('écran verrouillé avec une notification ouverte', async ({ page }) => {
+  await page.goto('/#/mission/r-6e')
+  await page.locator('[data-notif]').first().click()
+  await verifierA11y(page, 'notification ouverte')
+})

@@ -92,6 +92,9 @@ export async function tabJusqua(page: Page, texte: string) {
     await page.keyboard.press('Tab')
     const actif = await page.evaluate(() => {
       const el = document.activeElement
+      // Firefox rend focalisables les zones défilantes (liste des choix du téléphone) : on les ignore,
+      // car leur texte contient celui des boutons qu’elles englobent.
+      if (!el?.matches('a, button, input, select, textarea, summary')) return ''
       // Pour une case ou un bouton radio, on lit le texte de son libellé.
       return (el?.closest('label') ?? el)?.textContent?.trim() ?? ''
     })
