@@ -30,11 +30,13 @@ etapes:
       - id: tout-autoriser
         texte: 'Un million de gens l’ont, et je veux juste ma lampe : j’appuie sur « Tout autoriser ».'
         qualite: risque
+        geste: regler
         consequence: 'La lampe marche bien. Mais l’appli envoie la liste de tes contacts à une entreprise de publicité. Bientôt, des amis à toi reçoivent des SMS de pub bizarres. Tu peux limiter les dégâts : avec un adulte, supprime l’appli. Elle ne prendra plus rien. Dis à tes amis de ne pas répondre.'
         consequenceSimple: 'L’appli a copié tes contacts. Tes amis reçoivent des pubs bizarres. Avec un adulte, supprime l’appli : elle ne prendra plus rien.'
       - id: lampe-telephone
         texte: 'Une lampe n’a pas besoin de mes contacts : je refuse, et j’utilise la lampe déjà prévue dans mon téléphone.'
         qualite: bon
+        geste: fermer
         consequence: 'Ton téléphone a déjà une lampe dans ses réglages rapides. Elle éclaire très bien et ne demande rien.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant d’installer l’appli.
@@ -70,19 +72,23 @@ etapes:
         - de: contact
           texte: 'Mise à jour disponible. Elle corrige des failles de sécurité. [Installer cette nuit] [Plus tard]'
           texteSimple: 'Mise à jour disponible. Elle répare des failles de sécurité. [Installer cette nuit] [Plus tard]'
+          heure: '07:30'
         - de: contact
           texte: 'Rappel : cette mise à jour attend depuis 5 semaines.'
           texteSimple: 'Rappel : elle attend depuis 5 semaines.'
+          heure: '17:45'
     question: Tu es en pleine partie, et ton téléphone te rappelle encore cette mise à jour. Que fais-tu ?
     choix:
       - id: plus-tard
         texte: 'Je suis en pleine partie et mon téléphone marche très bien : j’appuie encore sur « Plus tard ».'
         qualite: risque
+        geste: ignorer
         consequence: 'Ton téléphone marche, mais la faille reste ouverte. Quand une faille est réparée, les pirates l’apprennent aussi. Ils visent alors les téléphones pas à jour. Un jour, un site piégé en profite pour remplir ton écran de pubs. La mise à jour l’aurait bloqué. Tu peux encore la faire ce soir.'
         consequenceSimple: 'La faille reste ouverte. Un site piégé en profite pour mettre des pubs partout. Tu peux encore faire la mise à jour ce soir.'
       - id: cette-nuit
         texte: 'Je finis ma partie, puis je choisis « Installer cette nuit », téléphone branché.'
         qualite: bon
+        geste: installer
         consequence: 'Au réveil, ton téléphone est à jour. Tes photos et tes jeux sont toujours là. Les failles sont réparées.'
       - id: aide
         texte: Je demande de l’aide à un adulte pour faire la mise à jour sans rien perdre.
@@ -118,19 +124,23 @@ etapes:
         - de: contact
           texte: 'Trop bien ce jeu, Dino Galop ! Dans le magasin d’applis, il coûte 4,99 €. Mais là, il est gratuit 😎'
           texteSimple: 'Le jeu Dino Galop coûte 4,99 € dans le magasin d’applis. Mais là, il est gratuit 😎'
+          heure: '18:40'
         - de: contact
           texte: 'Télécharge-le ici : dinogalop-gratuit.net. Ton téléphone va dire « source inconnue », tu acceptes, c’est normal.'
           texteSimple: 'Télécharge-le sur dinogalop-gratuit.net. Le téléphone dira « source inconnue ». Accepte, c’est normal.'
+          heure: '18:41'
     question: Malik est dans ta classe. Il a installé le jeu et dit qu’il marche très bien. Que fais-tu ?
     choix:
       - id: installe
         texte: 'Malik l’a installé et il n’a aucun souci : je télécharge le jeu et j’accepte.'
         qualite: risque
+        geste: telecharger
         consequence: 'Le jeu se lance, mais il cache autre chose. Il te demande ton compte ChatCord « pour sauvegarder ta partie ». Le soir, ton compte envoie le même lien à tous tes amis. Tu peux reprendre la main : change ton mot de passe et supprime le jeu avec un adulte.'
         consequenceSimple: 'Le faux jeu a volé ton mot de passe ChatCord. Ton compte envoie le lien à tes amis. Change vite ton mot de passe.'
       - id: magasin
         texte: 'Je reste dans le magasin d’applis et j’y cherche un jeu gratuit.'
         qualite: bon
+        geste: ignorer
         consequence: 'Tu trouves un jeu de dinosaures gratuit dans le magasin d’applis. Tu préviens Malik que son lien pourrait être piégé.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de télécharger, même si Malik dit que tout va bien.

@@ -31,10 +31,12 @@ etapes:
       - id: installe
         texte: '10 € par mois, c’est tout mon argent de poche. Là, c’est gratuit à vie : j’installe.'
         qualite: risque
+        geste: installer
         consequence: 'L’appli fonctionne… quelques jours. Mais elle t’a fait taper ton identifiant et ton mot de passe MélodiBox, et ils sont partis chez les pirates. Ton compte est repris, et des pubs plein écran s’ouvrent toutes seules sur ton téléphone. Tu peux reprendre la main : supprime l’appli, puis change ton mot de passe MélodiBox, et partout où tu utilises le même.'
       - id: officiel
         texte: 'Je garde la version gratuite officielle, avec ses pubs, ou je regarde s’il existe une offre famille à partager à la maison.'
         qualite: bon
+        geste: fermer
         consequence: 'Tu restes sur la version gratuite du magasin d’applis. Les pubs sont pénibles, mais ton compte et ton téléphone sont en sécurité. Ton père trouve même l’offre famille intéressante.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de toucher aux réglages du téléphone.
@@ -78,10 +80,12 @@ etapes:
       - id: connecte
         texte: 'Je veux poster mes vidéos du concert : je tape mon compte SnapTalk.'
         qualite: risque
+        geste: se-connecter
         consequence: 'Internet ne marche même pas. Mais ton identifiant et ton mot de passe sont partis chez un inconnu : le QR code était un autocollant collé par-dessus le vrai. Le lendemain, ton compte SnapTalk envoie des liens d’arnaque à tes amis. Change vite ton mot de passe SnapTalk et active la double authentification.'
       - id: accueil
         texte: 'Je demande le vrai Wi-Fi à l’accueil, ou je poste ce soir.'
         qualite: bon
+        geste: verifier
         consequence: 'À l’accueil, on t’explique que le vrai Wi-Fi du festival demande seulement d’accepter les conditions d’utilisation. Le QR code de l’affiche était un autocollant collé par-dessus l’original. L’équipe le retire.'
       - id: aide
         texte: Je demande de l’aide à l’adulte qui m’accompagne avant de me connecter.
@@ -125,10 +129,12 @@ etapes:
       - id: ajoute
         texte: 'Elle a 80 000 utilisateurs et j’ai mal aux yeux : j’ajoute l’extension.'
         qualite: risque
+        geste: installer
         consequence: 'Le mode sombre marche très bien. Trois mois plus tard, l’extension change de propriétaire et reçoit une mise à jour. Elle se met à enregistrer ce qui est tapé sur les sites, y compris des mots de passe de ta famille. Tu peux reprendre la main : supprime l’extension et demande à un adulte de changer les mots de passe importants.'
       - id: reglages
         texte: 'J’essaie plutôt le mode sombre déjà prévu dans les réglages.'
         qualite: bon
+        geste: regler
         consequence: 'Le navigateur et l’ordinateur ont déjà un mode sombre. Certains sites le suivent automatiquement, d’autres ont leur propre bouton de mode sombre. Tes yeux vont mieux, sans rien installer.'
       - id: aide
         texte: Je demande de l’aide à un adulte, puisque c’est l’ordinateur de toute la famille.

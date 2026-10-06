@@ -21,17 +21,19 @@ etapes:
       messages:
         - de: contact
           texte: 'EXCLU 🔴 Claire Morand, tête de liste « Valbourg Demain », avoue tout : « J’ai truqué les comptes de la ville. » L’élection, c’est dimanche. Partagez avant qu’elle soit censurée !'
-        - de: contact
-          texte: '[Vidéo de 20 secondes : Claire Morand parle face caméra. Sa bouche bouge parfois en décalage avec le son. Ses dents paraissent floues quand elle parle. Son collier disparaît puis réapparaît.]'
+      media:
+        description: 'Vidéo de 20 secondes : Claire Morand parle face caméra. Sa bouche bouge parfois en décalage avec le son. Ses dents paraissent floues quand elle parle. Son collier disparaît puis réapparaît.'
     question: 'L’élection municipale de Valbourg a lieu dimanche. La vidéo circule partout depuis une heure. Que fais-tu ?'
     choix:
       - id: partage-vite
         texte: 'Si elle risque d’être censurée, autant la partager maintenant : les gens doivent savoir avant dimanche.'
         qualite: risque
+        geste: partager
         consequence: 'La vidéo est vue des milliers de fois. Le lendemain, Le Courrier de Valbourg publie une enquête : c’est un deepfake, fabriqué à partir d’un discours de la candidate datant de l’an dernier, avec le visage et la voix retouchés par IA. À deux jours du vote, le faux a déjà circulé partout. Préviens ceux à qui tu l’as envoyée que c’était un faux, et signale la vidéo sur StreamTube.'
       - id: croise
         texte: 'Avant de partager quoi que ce soit, je cherche si des médias reconnus ou la candidate elle-même ont réagi.'
         qualite: bon
+        geste: verifier
         consequence: 'Aucun média reconnu ne reprend la vidéo. Sur son compte officiel, la candidate dénonce un faux. Le Courrier de Valbourg retrouve la vidéo d’origine : un discours de l’an dernier, dont le visage et la voix ont été retouchés par IA.'
       - id: aide
         texte: Je demande de l’aide à ma prof d’histoire-géo pour analyser la vidéo avec moi.
@@ -73,10 +75,12 @@ etapes:
       - id: relaie
         texte: 'Mieux vaut prévenir que guérir : j’envoie ça à ma famille pour qu’on achète de l’eau avant la ruée.'
         qualite: risque
+        geste: partager
         consequence: 'Ta famille file au supermarché, déjà pris d’assaut : les rayons d’eau sont vides. Le soir, la mairie dément : aucune coupure n’est prévue. Les 63 comptes étaient des faux, coordonnés pour semer la panique. Préviens ta famille que c’était faux, puis bloque et signale ces comptes.'
       - id: source-officielle
         texte: 'Je vérifie d’abord sur le site de la mairie.'
         qualite: bon
+        geste: verifier
         consequence: 'Ni la mairie ni le service des eaux n’annoncent de coupure. Dans la soirée, la préfecture publie un démenti. L’alerte était fausse, et tu n’as rien relayé.'
       - id: aide
         texte: Je demande de l’aide à mes parents pour qu’on vérifie ensemble auprès de la mairie et de la préfecture.
@@ -119,10 +123,12 @@ etapes:
       - id: partage-classe
         texte: 'C’est La Vigie du Soir, c’est sérieux : je m’inscris et j’envoie le lien au groupe de la classe.'
         qualite: risque
+        geste: partager
         consequence: 'Le formulaire enregistre ton nom, ton adresse et ton numéro de sécurité sociale. Aucune aide n’existe : le site la-vigie-du-soir.info imite le vrai journal pour récolter des données. Dix élèves de ta classe ont rempli le formulaire eux aussi. Préviens-les vite que c’était faux, et parlez-en à vos parents : ces données peuvent servir à d’autres arnaques.'
       - id: tape-adresse
         texte: 'Je tape moi-même l’adresse du journal pour retrouver l’article.'
         qualite: bon
+        geste: verifier
         consequence: 'Sur le vrai site de La Vigie du Soir, aucun article de ce genre. Le site officiel de l’administration ne mentionne aucune aide de 300 € pour tous. Le lien était une imitation.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de remplir le formulaire.

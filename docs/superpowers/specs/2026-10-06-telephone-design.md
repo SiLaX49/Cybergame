@@ -144,6 +144,10 @@ Gestes et bannières (formulations neutres : le téléphone ne dit jamais si le 
 | `ignorer` | Message ignoré |
 | `supprimer` | Message supprimé |
 | `demander-aide` | Tu poses ton téléphone pour demander de l'aide |
+| `fermer` | Page fermée |
+| `regler` | Réglage modifié |
+| `deconnecter` | Session fermée |
+| `changer-mdp` | Mot de passe modifié |
 
 ### 3.4 Validation
 - Zod : union par `app`, `heure` au format `HH:MM`, `adresse` au format mail, `reponse` obligatoire si et seulement si `geste: repondre`, `geste` obligatoire sauf pour un choix `aide`.

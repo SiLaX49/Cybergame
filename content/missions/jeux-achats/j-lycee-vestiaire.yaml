@@ -21,21 +21,28 @@ etapes:
       messages:
         - de: contact
           texte: 'Bonjour ! Je prends la veste à 45 €. J’ai déjà payé, mais Revendo demande que tu confirmes la réception du paiement.'
+          heure: '18:02'
         - de: contact
           texte: 'Scanne ce QR code, il ouvre la page de confirmation. Il faudra juste entrer ta carte bancaire pour que l’argent arrive sur ton compte. [QR code]'
+          heure: '18:03'
         - de: moi
           texte: 'Ah bon ? D’habitude, tout se passe dans l’appli…'
+          heure: '18:05'
         - de: contact
           texte: 'Oui, c’est la nouvelle procédure sécurisée 👍 Fais-le vite stp, je voudrais la porter samedi.'
+          heure: '18:06'
     question: 'Tu vends ta veste 45 € sur Revendo. Camille_B a une note de 4,8 étoiles. Dans ton appli, aucune vente n’apparaît pour l’instant. Que fais-tu ?'
     choix:
       - id: scanne
         texte: 'Camille_B a 4,8 étoiles, ça doit être une nouvelle procédure de Revendo : je scanne et je saisis ma carte.'
         qualite: risque
+        geste: payer
         consequence: 'La page, aux couleurs de Revendo, demande aussi le cryptogramme, puis un code reçu par SMS. Ce SMS de ta banque disait pourtant « Code pour valider un paiement de 380 € » : tu l’as tapé sans le lire. Quelques minutes plus tard, 380 € sont débités de ton compte. Appelle vite ta banque au numéro officiel pour faire opposition, et garde les captures de la conversation et de la page : elles serviront à contester le paiement et à porter plainte.'
       - id: reste-appli
         texte: Je réponds que tout se fait dans l’appli Revendo, et j’attends que la vente y apparaisse avant d’envoyer quoi que ce soit.
         qualite: bon
+        geste: repondre
+        reponse: 'Non, tout se fait dans l’appli Revendo. J’attends que la vente y apparaisse.'
         consequence: 'Camille_B insiste, puis disparaît. Aucune vente n’apparaît jamais. Tu signales le profil depuis l’appli, et ta veste est toujours en vente.'
       - id: aide
         texte: Je demande de l’aide à un proche avant de scanner quoi que ce soit.
@@ -72,19 +79,25 @@ etapes:
       messages:
         - de: moi
           texte: 'Bonjour, la NovaStation est toujours disponible ?'
+          heure: '14:10'
         - de: contact
           texte: 'Oui ! Neuve sous blister, 270 € au lieu de 450 €. Paiement par virement direct : c’est plus rapide et tu n’as pas de frais de protection 😉'
+          heure: '14:12'
         - de: contact
           texte: 'D’autres acheteurs attendent, je te la garde jusqu’à ce soir seulement.'
+          heure: '14:13'
     question: 'En magasin, la NovaStation neuve coûte 450 €. Les photos de l’annonce sont superbes. Que fais-tu ?'
     choix:
       - id: vire
         texte: '180 € d’économie sur une console neuve, et sans frais en plus. D’autres attendent : je fais le virement avant ce soir.'
         qualite: risque
+        geste: payer
         consequence: 'Aucun colis n’arrive. Le compte GamerShop a disparu de Revendo et ne répond plus. Comme tu as payé hors de la plateforme, la protection acheteur ne s’applique pas. Garde les preuves, signale le profil et préviens ta banque : elle peut tenter de récupérer le virement, et tu peux porter plainte.'
       - id: paie-appli
         texte: J’accepte d’acheter seulement avec le paiement de l’appli, protection comprise.
         qualite: bon
+        geste: repondre
+        reponse: 'Ok, mais seulement avec le paiement de l’appli, protection comprise.'
         consequence: 'GamerShop refuse, insiste, puis ne répond plus. Tu signales l’annonce. Deux jours plus tard, elle a disparu de Revendo.'
       - id: aide
         texte: Je demande de l’aide à un proche avant de payer.
@@ -118,17 +131,21 @@ etapes:
       messages:
         - de: contact
           texte: 'GameBox Support : ton compte Kaelan_17 est suspendu pour fraude (achats de Coins suspects). Pour le débloquer, règle une amende de 100 € sous 24 h.'
+          heure: '11:24'
         - de: contact
           texte: 'Paiement uniquement en cartes cadeaux : 2 cartes de 50 €, en vente dans les bureaux de tabac et les supermarchés. Envoie-nous par SMS les codes inscrits au dos. Sans paiement, ton compte et tous tes achats seront supprimés.'
+          heure: '11:25'
     question: 'Kaelan_17, c’est bien ton pseudo : trois ans de parties et des skins achetés avec ton argent de poche. Que fais-tu ?'
     choix:
       - id: paie
         texte: 'Trois ans de parties, ça vaut bien 100 € : j’achète les cartes et j’envoie les codes.'
         qualite: risque
+        geste: payer
         consequence: 'Une heure plus tard, nouveau SMS : « Paiement incomplet, envoie 150 € de plus. » Ton compte GameBox, lui, n’a jamais été suspendu. Arrête de payer maintenant. Garde les tickets de caisse et les captures, bloque ce numéro et signale-le en transférant le SMS au 33700. Contacte aussi vite l’émetteur des cartes : si les codes n’ont pas encore servi, il peut parfois les bloquer. Tu peux ensuite porter plainte.'
       - id: verifie-appli
         texte: Je ne réponds pas et j’ouvre moi-même l’appli GameBox pour voir si mon compte est vraiment suspendu.
         qualite: bon
+        geste: verifier
         consequence: 'Ton compte fonctionne normalement, sans aucune sanction. La page d’aide officielle de GameBox le dit clairement : le jeu n’exige jamais d’amende, et encore moins en cartes cadeaux. Tu signales le SMS au 33700, puis tu bloques le numéro.'
       - id: aide
         texte: Je demande de l’aide à un adulte de confiance avant d’acheter quoi que ce soit.

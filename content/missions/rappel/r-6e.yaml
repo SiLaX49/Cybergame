@@ -31,16 +31,19 @@ etapes:
         - de: contact
           texte: 'Trop fort, j’ai eu 5 000 Coins gratuits sur coins-gratuits-gamebox.net !! Mets ton pseudo et ton mot de passe et c’est bon 😎'
           texteSimple: 'J’ai eu 5 000 Coins gratuits ! Mets ton pseudo et ton mot de passe sur coins-gratuits-gamebox.net'
+          heure: '17:50'
     question: C’est un copain de classe qui t’envoie ça. Que fais-tu ?
     choix:
       - id: essaie
         texte: 'Maxime a eu ses 5 000 Coins : je mets mon pseudo et mon mot de passe.'
         qualite: risque
+        geste: se-connecter
         consequence: 'Pas de Coins. Le lendemain, ton compte envoie le même message à tous tes amis : il a été piraté, comme celui de Maxime. Tu peux encore le reprendre.'
         consequenceSimple: 'Ton compte est piraté et envoie le message à tes amis. Tu peux encore le reprendre.'
       - id: demande-maxime
         texte: Avant de taper quoi que ce soit, je demande à Maxime, au collège, s’il a envoyé ce message.
         qualite: bon
+        geste: verifier
         consequence: 'Maxime n’a rien envoyé : son compte a été piraté, et le pirate écrit à tous ses contacts. Grâce à toi, il change vite son mot de passe.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un avant de faire quoi que ce soit.

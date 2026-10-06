@@ -29,10 +29,12 @@ etapes:
       - id: publie
         texte: 'Personne ne va lire des chiffres pareils, et je n’ai pas envie de refaire la photo : je publie.'
         qualite: risque
+        geste: partager
         consequence: 'La lampe intéresse vite quelqu’un. Mais un autre profil t’écrit : « Je peux passer la chercher ? J’ai vu que t’habitais rue des Lilas 😉 » Il a collé les coordonnées dans une carte en ligne : elles tombent sur ta maison. Retire la photo de l’annonce et remplace-la par une version sans position, puis parles-en à un adulte.'
       - id: nettoie
         texte: 'Je mets une version de la photo sans position, et je coupe la localisation de mon appareil photo.'
         qualite: bon
+        geste: regler
         consequence: 'La nouvelle photo ne contient plus aucune position. Tu as aussi choisi un fond neutre, sans la fenêtre. La lampe se vend en deux jours, sans que personne sache où tu habites.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un qui s’y connaît pour enlever ces informations.
@@ -62,22 +64,29 @@ etapes:
     ecran:
       app: mail
       appNom: Mail
-      contact: 'Claire Moreau <recrutement@bistrot-nova.fr>'
+      contact: 'Claire Moreau'
+      adresse: 'recrutement@bistrot-nova.fr'
       sujet: 'Ta candidature pour le job d’été'
       messages:
         - de: contact
           texte: 'Bonjour, merci pour ta candidature au poste de serveur cet été. En cherchant ton nom en ligne, je suis tombée sur ton compte SnapTalk public.'
+          heure: '10:32'
         - de: contact
           texte: 'Certaines publications de 2023 m’ont surprise : des moqueries sur un professeur, avec son nom. Peux-tu m’en dire un mot avant l’entretien ?'
+          heure: '10:32'
     question: 'Tu avais 14 ans à l’époque, et tu tiens vraiment à ce job. Que fais-tu ?'
     choix:
       - id: minimise
         texte: 'Tout le monde postait des bêtises au collège : je réponds que ça ne compte plus, et je laisse mon profil comme il est.'
         qualite: risque
+        geste: repondre
+        reponse: 'Bonjour, c’était au collège, tout le monde postait des bêtises. Ça ne compte plus.'
         consequence: 'Claire Moreau te remercie, puis choisit un autre candidat. Et tes vieilles publications sont toujours publiques : le prochain recruteur, ou l’école où tu postules, les trouvera aussi. Tu peux encore faire le tri, et demander l’effacement de ce qui t’échappe.'
       - id: assume
         texte: 'Je réponds que je regrette ces messages, puis je fais le ménage dans mon compte.'
         qualite: bon
+        geste: repondre
+        reponse: 'Bonjour, je regrette sincèrement ces messages. Je vais faire le ménage dans mon compte.'
         consequence: 'Tu supprimes les vieilles publications et tu passes ton compte en privé. À l’entretien, Claire Moreau apprécie ta franchise : « On a tous fait des erreurs à 14 ans. Ce qui compte, c’est ce qu’on en fait. » Tu décroches le job. Depuis, tu cherches ton nom en ligne une fois par an.'
       - id: aide
         texte: Je demande de l’aide à un adulte de confiance pour savoir quoi répondre et comment faire le ménage.
@@ -105,23 +114,28 @@ etapes:
   - type: scenario
     id: amis-amis
     ecran:
-      app: social
+      app: chat
       appNom: SnapTalk
       contact: 'Léo_R (ami de Sarah)'
       messages:
         - de: contact
           texte: 'Salut ! T’es au café Le Square, là ? Je suis à deux rues 😉'
+          heure: '16:02'
         - de: contact
           texte: 'On se rejoint ? Sarah m’a souvent parlé de toi.'
+          heure: '16:03'
     question: 'Tu ne connais pas Léo_R. En vérifiant, tu découvres que ta position est partagée avec « les amis de tes amis » : plus de 1 200 personnes. Que fais-tu ?'
     choix:
       - id: repond
         texte: 'Il connaît Sarah, ce n’est pas vraiment un inconnu : je réponds.'
         qualite: risque
+        geste: repondre
+        reponse: 'Oui, je suis là ! T’es où ?'
         consequence: 'Léo_R arrive dix minutes plus tard et insiste pour avoir ton numéro. Sarah, elle, ne le connaît que de loin : il l’avait ajoutée après une soirée. Lui sait où tu es, toi tu ne sais rien de lui. Coupe ta position, bloque et signale son compte, et parles-en.'
       - id: coupe
         texte: 'Je passe en mode fantôme, puis je bloque et signale Léo_R.'
         qualite: bon
+        geste: regler
         consequence: 'Tu demandes ensuite à Sarah qui c’est. Elle répond : « Je le connais à peine, il m’a ajoutée après une soirée. » Léo_R ne voit plus ta position et ne peut plus t’écrire.'
       - id: aide
         texte: Je demande de l’aide à un proche avant de répondre quoi que ce soit.

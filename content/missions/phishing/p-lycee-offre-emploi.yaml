@@ -21,19 +21,24 @@ etapes:
       messages:
         - de: contact
           texte: 'Salut ! Job étudiant 100 % à distance : 30 €/h pour liker des vidéos depuis ton téléphone, 1 h par jour. Rejoins l’équipe ici : team-likes-job.net'
+          heure: '13:02'
         - de: moi
           texte: 'Ça m’intéresse, c’est quoi le principe ?'
+          heure: '13:09'
         - de: contact
           texte: 'Super ! Pour activer ton compte, il y a juste 25 € de frais d’inscription, remboursés dès ta première mission. Les places partent vite 😉'
+          heure: '13:10'
     question: Tu cherches justement un petit job pour financer ton permis. Que fais-tu ?
     choix:
       - id: inscrit
         texte: 'Il me faut de l’argent pour le permis, et les 25 € sont remboursés dès la première mission : je m’inscris.'
         qualite: risque
+        geste: payer
         consequence: 'Ton espace affiche vite 60 € de « gains ». Pour les retirer, on te réclame 80 € de « frais de déblocage », puis encore davantage. Tu ne récupères rien. Arrête de payer maintenant : en gardant les preuves, tu peux signaler l’arnaque et porter plainte.'
       - id: recherche
         texte: Je ne paie rien et je cherche le nom de l’offre suivi du mot « arnaque » sur un moteur de recherche.
         qualite: bon
+        geste: verifier
         consequence: 'Des dizaines de témoignages décrivent exactement la même offre : on paie des frais, puis des « déblocages », et on ne touche jamais rien. Tu bloques le numéro et tu transfères le SMS au 33700, le service de signalement des SMS indésirables.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un qui travaille déjà, avant de payer quoi que ce soit.
@@ -66,20 +71,25 @@ etapes:
     ecran:
       app: mail
       appNom: Mail
-      contact: 'Julie Martin <julie.location75@mail-perso.com>'
+      contact: 'Julie Martin'
+      adresse: 'julie.location75@mail-perso.com'
       sujet: 'Studio 350 €/mois centre-ville'
       messages:
         - de: contact
           texte: 'Bonjour, mon studio de 25 m² en plein centre-ville est libre dès le mois prochain, 350 € charges comprises. Je vis à l’étranger pour mon travail, les visites ne sont donc pas possibles. Pour le réserver, il suffit de virer la caution de 700 € : je vous envoie les clés par courrier dès réception. Plusieurs étudiants sont intéressés, merci de répondre rapidement. Photos en pièce jointe.'
+          heure: '09:41'
     question: Tu cherches un logement pour tes études l’an prochain, et les photos sont superbes. Dans ce quartier, les studios se louent plutôt 600 €. Que fais-tu ?
     choix:
       - id: vire
         texte: 'Un studio à 350 € en plein centre, je n’en retrouverai pas : je vire la caution avant les autres.'
         qualite: risque
+        geste: payer
         consequence: 'Julie ne répond plus et l’annonce a disparu : les photos avaient été copiées sur un autre site. La caution n’est pas forcément perdue : avec les preuves, ta banque peut tenter de récupérer le virement, et tu peux porter plainte.'
       - id: visite
         texte: Je réponds que je ne verse rien sans avoir visité le studio, moi ou un proche, et signé un bail.
         qualite: bon
+        geste: repondre
+        reponse: 'Bonjour, je ne verse rien avant d’avoir visité, moi ou un proche, et signé un bail.'
         consequence: 'Julie insiste, puis ne répond plus. En cherchant les photos en ligne, tu les retrouves sur une annonce dans une autre ville. C’était une arnaque, et tu n’as rien perdu.'
       - id: aide
         texte: Je demande de l’aide à mes parents avant de répondre.
@@ -119,10 +129,12 @@ etapes:
       - id: valide
         texte: 'La page connaît mon prénom et le conseiller veut bloquer les 600 € : je valide dans mon appli.'
         qualite: risque
+        geste: payer
         consequence: 'Valider une opération ne l’annule jamais : tu viens d’autoriser le paiement. 600 € partent vers un compte inconnu et le « conseiller » raccroche. Préviens tout de suite un parent et appelle ta banque au numéro officiel pour faire opposition : plus tu agis vite, plus tu as de chances de récupérer l’argent.'
       - id: rappelle
         texte: Je raccroche et j’appelle moi-même ma banque au numéro inscrit au dos de ma carte.
         qualite: bon
+        geste: verifier
         consequence: 'La vraie conseillère de BanqueNova confirme : aucune opération suspecte sur ton compte, et personne de la banque ne t’a appelé. La page et l’appel étaient faux. Tu n’as rien validé, ton argent est en sécurité.'
       - id: aide
         texte: Je demande de l’aide à un parent avant de faire quoi que ce soit, même si le conseiller insiste.

@@ -30,15 +30,18 @@ etapes:
       messages:
         - de: contact
           texte: 'Je t’ajoute à un groupe trop bien : on gagne 5 € par vidéo StreamTube likée, payé direct 💸 J’ai déjà touché 20 € ! Pour débloquer les missions mieux payées, il faut juste un dépôt de 50 € au début. Inscris-toi sur likes-remuneres.xyz, dis que tu viens de ma part.'
+          heure: '21:15'
     question: Emma est dans ta classe et elle a l’air sûre d’elle. Que fais-tu ?
     choix:
       - id: depot
         texte: 'Emma a déjà touché 20 €, et les 50 € de dépôt, je les récupère en dix vidéos : je m’inscris.'
         qualite: risque
+        geste: payer
         consequence: 'Tu reçois 10 € pour tes deux premières vidéos likées. Puis le « manager » du groupe te réclame 150 € de plus « pour débloquer tes gains ». Tu ne peux jamais retirer ton argent, et il insiste pour que tu recrutes d’autres élèves. C’est une arnaque au faux job. Tu peux encore agir : garder des preuves, bloquer, prévenir un adulte et ta banque.'
       - id: parle-emma
         texte: 'Je ne verse rien et j’en parle à Emma en vrai : payer pour gagner de l’argent, c’est louche.'
         qualite: bon
+        geste: verifier
         consequence: 'Emma t’explique qu’elle a bien reçu 20 €, mais qu’elle ne peut récupérer ni ses 50 € de dépôt, ni les 30 € de « frais » qu’on lui a demandés ensuite : le site en invente toujours de nouveaux. Vous gardez des captures et vous signalez le groupe ensemble.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de m’inscrire ou de verser quoi que ce soit.

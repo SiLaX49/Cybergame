@@ -37,8 +37,8 @@ export function rawScenario(id = 'sc-1') {
     },
     question: 'Que fais-tu ?',
     choix: [
-      { id: 'clic', texte: 'Je clique et je paie', qualite: 'risque', consequence: 'La carte est volée.', consequenceSimple: 'On vole la carte.' },
-      { id: 'verif', texte: 'Je vérifie sur l’appli officielle', qualite: 'bon', consequence: 'Aucun colis en attente.' },
+      { id: 'clic', texte: 'Je clique et je paie', qualite: 'risque', geste: 'ouvrir-lien', consequence: 'La carte est volée.', consequenceSimple: 'On vole la carte.' },
+      { id: 'verif', texte: 'Je vérifie sur l’appli officielle', qualite: 'bon', geste: 'verifier', consequence: 'Aucun colis en attente.' },
       { id: 'aide', texte: 'Je demande de l’aide à quelqu’un', qualite: 'aide', consequence: 'Ta mère confirme : arnaque.' },
     ],
     indices: [

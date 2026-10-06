@@ -21,16 +21,21 @@ etapes:
       contact: 'drole_de_college_42'
       messages:
         - de: contact
-          texte: 'Le prof de français qui craque en plein cours 😂😂 « Vous êtes tous des incapables ! » [Vidéo de 5 secondes : M. Durand crie cette phrase devant le tableau. La vidéo coupe juste après.] 1 200 vues · 87 partages'
+          texte: 'Le prof de français qui craque en plein cours 😂😂 « Vous êtes tous des incapables ! »'
+      media:
+        description: 'Vidéo de 5 secondes : M. Durand crie cette phrase devant le tableau. La vidéo coupe juste après.'
+      stats: { vues: '1 200', partages: '87' }
     question: 'Ce compte anonyme publie des vidéos filmées au collège. Plusieurs de tes amis ont déjà partagé celle-ci. Que fais-tu ?'
     choix:
       - id: repartage
         texte: 'Elle tourne déjà partout et elle est trop drôle : je la repartage avec un 😂.'
         qualite: risque
+        geste: partager
         consequence: 'La vidéo fait le tour du collège, et les commentaires moqueurs visent M. Durand. Le lendemain, un élève de sa classe raconte la scène entière : il lisait la réplique d’un roi grincheux, dans la pièce étudiée en cours, et toute la classe riait. Retire ton partage. Garde une capture du compte qui a publié la vidéo, bloque-le et montre la capture à un adulte du collège.'
       - id: contexte
         texte: 'Je ne partage pas une vidéo coupée sans savoir ce qui s’est passé avant et après.'
         qualite: bon
+        geste: fermer
         consequence: 'Un élève de sa classe t’explique : M. Durand lisait la réplique d’un roi grincheux, dans la pièce étudiée en cours. Tout le monde riait. La vidéo coupée faisait croire l’inverse.'
       - id: aide
         texte: 'Je demande de l’aide à un adulte du collège, parce que cette vidéo peut faire du tort au prof.'
@@ -64,17 +69,21 @@ etapes:
       messages:
         - de: contact
           texte: 'Regardez ce que le collège a envoyé aux parents 😱 [Capture d’écran : « Message du principal : à partir de lundi, les téléphones seront confisqués toute l’année, sans exception. » Le logo du collège est un peu flou. La date indique « 31 septembre ».]'
+          heure: '19:30'
         - de: contact
           texte: 'Faites tourner à tout le monde !'
+          heure: '19:31'
     question: 'Cette règle te paraît injuste, et tout le groupe est en colère. Que fais-tu ?'
     choix:
       - id: fait-tourner
         texte: 'C’est scandaleux, il faut que tout le monde le sache : je fais tourner dans mes autres groupes.'
         qualite: risque
+        geste: partager
         consequence: 'La capture arrive jusqu’aux parents, qui appellent le collège. Le principal publie un démenti sur l’ENT : ce message n’a jamais existé. Quelqu’un l’avait fabriqué avec un générateur de fausses captures. Préviens les groupes où tu l’as envoyée que c’était faux.'
       - id: ent
         texte: 'Je regarde sur l’ENT et je demande à mes parents s’ils ont vraiment reçu ce message du collège.'
         qualite: bon
+        geste: verifier
         consequence: 'Sur l’ENT, aucun message de ce genre. Tes parents n’ont rien reçu. Et un « 31 septembre », ça n’existe pas : la capture est fausse.'
       - id: aide
         texte: Je demande de l’aide à un adulte de confiance pour savoir si ce message vient vraiment du collège.
@@ -107,7 +116,9 @@ etapes:
     ecran:
       app: social
       appNom: SnapTalk
-      contact: 'InfoÉcIair · 2 400 abonnés · bio : Parodie, rien n’est vrai'
+      contact: 'InfoÉcIair'
+      abonnes: '2 400'
+      bio: 'Parodie, rien n’est vrai'
       messages:
         - de: contact
           texte: '⚡ ALERTE : Pixelnoé arrête StreamTube pour toujours. Sa dernière vidéo sortira ce soir 💔'
@@ -116,10 +127,12 @@ etapes:
       - id: partage-info
         texte: 'C’est InfoÉclair, un vrai média : je partage direct, mes potes fans de Pixelnoé doivent savoir.'
         qualite: risque
+        geste: partager
         consequence: 'Tes amis paniquent et commentent en masse. Une heure plus tard, Pixelnoé publie une vidéo : « J’arrête rien du tout ! » Le compte imitait InfoÉclair, avec un i majuscule à la place du l. Retire ton partage. Comme ce compte se fait passer pour un vrai média, bloque-le et signale-le comme faux compte.'
       - id: verifie-compte
         texte: Je regarde d’abord le profil du compte qui publie.
         qualite: bon
+        geste: verifier
         consequence: 'La bio dit « Parodie » et le compte n’a que 2 400 abonnés. Le vrai InfoÉclair, écrit avec un l, n’a rien publié de tel. Pixelnoé non plus.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un pour vérifier si ce compte est bien celui d’InfoÉclair.

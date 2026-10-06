@@ -29,10 +29,12 @@ etapes:
       - id: connecte
         texte: 'Quarante minutes sans réseau ? Je tape mon mail et mon mot de passe.'
         qualite: risque
+        geste: se-connecter
         consequence: 'La page affiche « Connexion réussie » et Internet fonctionne. Mais ton mot de passe est parti chez la personne qui a créé ce faux réseau, depuis un ordinateur portable dans la salle d’attente. Le soir, une alerte : connexion inconnue à ta boîte mail. Or ta boîte mail permet de réinitialiser la plupart de tes autres comptes. Change ton mot de passe tout de suite, active la double authentification et vérifie qu’aucun transfert automatique n’a été ajouté.'
       - id: vrai-reseau
         texte: 'Pas de mot de passe ici : je cherche « WiFi-Gare », le réseau des affiches.'
         qualite: bon
+        geste: regler
         consequence: 'Le vrai « WiFi-Gare » demande seulement d’accepter les conditions d’utilisation. Tu te connectes. Sur les sites dont l’adresse commence par https, la connexion est chiffrée. Tu gardes quand même tes paiements et tes démarches importantes pour tes données mobiles.'
       - id: aide
         texte: Je demande de l’aide au guichet de la gare pour savoir quel est le vrai Wi-Fi.
@@ -66,19 +68,24 @@ etapes:
       messages:
         - de: contact
           texte: 'Tu cherchais un logiciel de montage ? J’ai trouvé ClipForge Studio cracké, version complète, normalement 300 €.'
+          heure: '22:05'
         - de: contact
           texte: 'Lien : clipforge-full-crack.zip. Ton antivirus va le bloquer, mais c’est un faux positif : tu le désactives 5 minutes et c’est bon.'
+          heure: '22:06'
         - de: contact
           texte: 'Je l’ai depuis une semaine, aucun souci 👌'
+          heure: '22:08'
     question: 'Tu dois rendre un court-métrage pour l’option cinéma dans dix jours. Les logiciels gratuits que tu as essayés t’agacent. Que fais-tu ?'
     choix:
       - id: installe
         texte: 'Yanis l’utilise sans souci et 300 €, je ne les ai pas : je coupe l’antivirus et j’installe.'
         qualite: risque
+        geste: installer
         consequence: 'ClipForge Studio s’installe et fonctionne. Mais le fichier contenait aussi un voleur de mots de passe : il a copié les identifiants enregistrés dans ton navigateur et tes sessions ouvertes. Deux jours plus tard, ton compte GameBox est vidé et ta messagerie envoie le même lien à tes contacts. Reprends la main : désinstalle, réactive l’antivirus et lance une analyse, puis change tes mots de passe depuis un appareil sain, en commençant par ta boîte mail.'
       - id: alternative
         texte: 'Je demande au lycée s’il fournit un logiciel de montage, ou j’en prends un libre.'
         qualite: bon
+        geste: ignorer
         consequence: 'Ta prof d’option t’indique un logiciel de montage libre, installé au lycée et gratuit chez toi aussi. Tu le télécharges sur son site officiel. Après une soirée de tutoriels, tu t’y retrouves.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un qui s’y connaît avant d’installer quoi que ce soit.
@@ -124,10 +131,12 @@ etapes:
       - id: installe
         texte: 'Tout le monde en a un, et celui-ci est gratuit et sans inscription : j’installe et j’accepte tout.'
         qualite: risque
+        geste: installer
         consequence: 'Le VPN fonctionne. Mais tout ton trafic passe maintenant par les serveurs d’une entreprise que tu ne connais pas. Elle revend ton historique de navigation et ta position à des annonceurs : c’est ce qu’annonçait sa politique de confidentialité. Tu peux couper ce flux dès maintenant : supprime l’appli, retire ses autorisations et vérifie dans les réglages qu’aucun profil VPN ne reste installé.'
       - id: sans-vpn
         texte: 'Je m’en passe : sur un Wi-Fi public, je vérifie que l’adresse commence par https et je garde mes données mobiles pour le sensible.'
         qualite: bon
+        geste: fermer
         consequence: 'Tu découvres que la plupart des sites chiffrent déjà les échanges : leur adresse commence par https. Ce chiffrement ne prouve pas qu’un site est honnête, mais il empêche le réseau de lire ce que tu envoies. Un VPN cache ton trafic au réseau local, mais lui voit tout à son tour : il faut pouvoir lui faire confiance. Pour l’instant, tu t’en passes.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un qui s’y connaît avant d’installer un VPN.

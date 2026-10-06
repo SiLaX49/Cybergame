@@ -21,21 +21,28 @@ etapes:
       messages:
         - de: contact
           texte: 'Bonjour, ici l’équipe SnapTalk Support. Ton compte a été signalé pour activité suspecte et sera désactivé ce soir.'
+          heure: '19:48'
         - de: contact
           texte: 'Pour prouver que tu es bien le propriétaire, tu vas recevoir un code à 6 chiffres. Envoie-le ici et ton compte restera actif.'
+          heure: '19:49'
         - de: moi
           texte: 'Pourquoi vous avez besoin de mon code ?'
+          heure: '19:51'
         - de: contact
           texte: 'C’est la procédure de vérification officielle. Sans réponse dans 10 minutes, la désactivation sera automatique.'
+          heure: '19:52'
     question: 'Quelques secondes plus tard, un SMS arrive : « SnapTalk : ton code est 739 204. Ne le communique à personne. » Que fais-tu ?'
     choix:
       - id: envoie-code
         texte: 'Il a le badge ✔, et je ne veux pas perdre mon compte : j’envoie le code.'
         qualite: risque
+        geste: repondre
+        reponse: 'Voilà le code : 739 204'
         consequence: 'Ce code ne servait pas à te vérifier, mais à te connecter. Le faux support connaissait déjà ton mot de passe, sans doute volé lors d’une fuite : le code était la dernière serrure. Il entre dans ton compte, désactive la double authentification et écrit à tes amis pour leur voler leur code. Ton téléphone est encore connecté : réactive vite la double authentification, puis change ton mot de passe.'
       - id: ignore
         texte: 'Je n’envoie rien et je vérifie moi-même dans les paramètres de SnapTalk.'
         qualite: bon
+        geste: verifier
         consequence: 'Aucune alerte dans tes paramètres : ton compte va bien. Tu signales ce faux support. Mais si quelqu’un a déclenché un code, c’est sans doute qu’il a ton mot de passe. Tu le changes tout de suite, et la double authentification continue de te protéger.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de répondre à ce support qui me presse.
@@ -63,27 +70,33 @@ etapes:
   - type: scenario
     id: recuperateur
     ecran:
-      app: social
+      app: chat
       appNom: StreamTube
       contact: 'RecupCompte_Expert'
       messages:
         - de: moi
           texte: 'Mon compte SnapTalk s’est fait pirater, quelqu’un sait comment le récupérer ? 😭'
+          heure: '21:40'
         - de: contact
           texte: 'Salut ! Je récupère les comptes piratés, plus de 2 000 comptes sauvés ✅ Ton compte est récupéré en 1 h, garanti.'
+          heure: '21:52'
         - de: contact
           texte: 'C’est 20 € en carte prépayée. J’ai juste besoin de ton pseudo, de ton mail et de ta date de naissance.'
+          heure: '21:53'
         - de: contact
           texte: 'Regarde les commentaires sous ma vidéo : « Merci, il m’a sauvé ! » 👇'
+          heure: '21:54'
     question: 'Ça fait deux jours que le pirate publie sur ton compte. Le formulaire officiel de SnapTalk ne t’a pas encore répondu. Que fais-tu ?'
     choix:
       - id: paie
         texte: '20 €, c’est rien pour retrouver mes photos : je paie.'
         qualite: risque
+        geste: payer
         consequence: 'Après le paiement, l’« expert » réclame 30 € de plus « pour finir », puis il disparaît. Ton compte n’est pas récupéré, et il connaît maintenant ton mail et ta date de naissance. Ce n’est pas trop tard : un adulte peut t’aider à relancer la procédure officielle et à signaler ce compte.'
       - id: officiel
         texte: 'Je ne paie pas. Je relance le formulaire officiel de SnapTalk.'
         qualite: bon
+        geste: signaler
         consequence: 'La récupération officielle est gratuite, mais elle prend parfois quelques jours. En attendant, tu préviens tes amis que ton compte a été piraté. Le troisième jour, tu reçois un lien sur ta boîte mail et tu récupères ton compte. Tes amis, prévenus, n’ont pas répondu au pirate.'
       - id: aide
         texte: 'Je demande de l’aide à un adulte : il saura peut-être si cet expert est sérieux.'
@@ -128,10 +141,12 @@ etapes:
       - id: demain
         texte: 'C’est sûrement un copain qui fait une blague. Je fermerai la session demain au CDI.'
         qualite: risque
+        geste: fermer
         consequence: 'Le soir, d’autres messages partent de ton compte, dont une moquerie sur un élève de la classe. Le lendemain, tu dois expliquer à la CPE que ce n’était pas toi. Tant qu’une session reste ouverte, quelqu’un peut parler en ton nom. Déconnecte l’appareil à distance et change ton mot de passe : tu peux le faire maintenant, depuis ton téléphone.'
       - id: deconnecte
         texte: 'Je déconnecte le PC du CDI tout de suite, depuis mon téléphone.'
         qualite: bon
+        geste: deconnecter
         consequence: 'Un clic sur « Déconnecter cet appareil », et la session du CDI se ferme à distance. Tu changes ton mot de passe et tu écris au groupe que ce message n’est pas de toi. Ton message arrive à temps : personne ne sèche la perm. Le lendemain, la documentaliste te rappelle de toujours cliquer sur « Se déconnecter ».'
       - id: aide
         texte: Je demande de l’aide à mes parents tout de suite.

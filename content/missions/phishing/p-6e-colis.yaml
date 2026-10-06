@@ -22,16 +22,19 @@ etapes:
         - de: contact
           texte: 'Colis Express : votre colis n°FR4471 est bloqué. Réglez 1,99 € de frais sous 24 h : colis-expres-suivi.info'
           texteSimple: 'Colis Express : ton colis est bloqué. Paie 1,99 € tout de suite sur colis-expres-suivi.info'
+          heure: '10:47'
     question: Tu n’attends pas de colis, mais tes parents peut-être… Que fais-tu ?
     choix:
       - id: clic
         texte: '1,99 €, c’est rien, et ce colis est peut-être à mes parents : je paie avec leur carte.'
         qualite: risque
+        geste: payer
         consequence: 'Le site ressemble à celui d’un transporteur. Tu tapes les numéros de la carte… Deux jours plus tard, la banque bloque la carte : quelqu’un a essayé de payer 450 € en ligne. Les 1,99 € servaient à voler les numéros. Bonne nouvelle : en prévenant vite, on peut limiter les dégâts.'
         consequenceSimple: 'Le faux site a volé les numéros de la carte. Quelqu’un essaie de payer 450 € avec. Il faut vite prévenir un adulte.'
       - id: verif
         texte: 'Je ne clique pas : je montre le SMS à mes parents pour qu’ils vérifient dans l’appli du transporteur.'
         qualite: bon
+        geste: verifier
         consequence: 'Ta mère n’attend rien. Elle vérifie dans l’appli officielle du transporteur : aucun colis bloqué. C’était une arnaque, et personne n’a cliqué.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un avant de faire quoi que ce soit.
@@ -63,23 +66,26 @@ etapes:
   - type: scenario
     id: concours-streamtube
     ecran:
-      app: social
+      app: chat
       appNom: StreamTube
       contact: 'NoaGaming_Officiel'
       messages:
         - de: contact
           texte: 'BRAVO 🎉 Tu fais partie des 10 gagnants de la console NovaStation ! Pour la recevoir, envoie ton nom, ton adresse et 2 € de frais de port ici : noagaming-cadeaux.shop'
           texteSimple: 'Bravo, tu as gagné une console ! Envoie ton adresse et 2 € sur noagaming-cadeaux.shop'
+          heure: '15:27'
     question: Ce message privé vient d’un compte qui ressemble à celui de ton youtubeur préféré. Que fais-tu ?
     choix:
       - id: donne
         texte: 'C’est NoaGaming ! Une console pour 2 €, je ne peux pas rater ça : j’envoie mes infos et l’argent.'
         qualite: risque
+        geste: payer
         consequence: 'Aucune console n’arrive. Par contre, ton nom et ton adresse circulent maintenant : tu reçois d’autres faux messages qui les citent pour paraître vrais.'
         consequenceSimple: 'Pas de console. Mais ton nom et ton adresse sont partis chez des arnaqueurs.'
       - id: verifie
         texte: Avant de répondre, je vais sur la vraie chaîne de NoaGaming pour voir s’il a vraiment annoncé ce concours.
         qualite: bon
+        geste: verifier
         consequence: 'Sur sa vraie chaîne, NoaGaming a épinglé un message : « Des faux comptes se font passer pour moi. Je ne demande JAMAIS d’argent. » Le compte qui t’a écrit était un imposteur.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de répondre, pour savoir si ce message vient vraiment de NoaGaming.
@@ -113,22 +119,26 @@ etapes:
     ecran:
       app: mail
       appNom: Mail
-      contact: 'GameBox Sécurité <securite@gamebox-verif.com>'
+      contact: 'GameBox Sécurité'
+      adresse: 'securite@gamebox-verif.com'
       sujet: 'Ton compte sera supprimé dans 24 h'
       messages:
         - de: contact
           texte: 'Bonjour, une activité anormale a été détectée sur ton compte GameBox. Pour éviter sa suppression, confirme ton identifiant et ton mot de passe dans les 24 h en cliquant sur « Sauver mon compte ».'
           texteSimple: 'Ton compte GameBox va être supprimé. Donne ton mot de passe ici pour le sauver.'
+          heure: '07:58'
     question: Tu as passé des heures sur ce jeu. Que fais-tu ?
     choix:
       - id: clique
         texte: 'Je ne veux pas perdre toutes mes heures de jeu : je clique pour sauver mon compte.'
         qualite: risque
+        geste: se-connecter
         consequence: 'Tu tapes ton identifiant et ton mot de passe, et le faux site les enregistre. Le soir même, quelqu’un se connecte, change ton pseudo et dépense tes Coins. Tu peux encore reprendre la main.'
         consequenceSimple: 'Le faux site a volé ton mot de passe. Quelqu’un utilise ton compte. Tu peux encore le récupérer.'
       - id: appli
         texte: Sans cliquer dans le mail, j’ouvre moi-même l’appli GameBox pour voir si mon compte a un souci.
         qualite: bon
+        geste: verifier
         consequence: 'Dans l’appli officielle : aucune alerte, ton compte va très bien. Le mail était faux.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un avant de cliquer, même si ça presse.

@@ -20,18 +20,23 @@ etapes:
       contact: 'Planète_Insolite'
       messages:
         - de: contact
-          texte: 'INCROYABLE 😱 Un chat géant de 2 mètres photographié dans une forêt du Jura ! [Photo : un chat tigré aussi grand qu’un homme, assis entre des sapins. Derrière lui, les troncs des sapins se tordent et se mélangent les uns aux autres.]'
-          texteSimple: 'Incroyable 😱 Un chat géant de 2 mètres dans une forêt ! [Photo : un chat aussi grand qu’un homme. Derrière lui, les sapins se tordent et se mélangent.]'
+          texte: 'INCROYABLE 😱 Un chat géant de 2 mètres photographié dans une forêt du Jura !'
+          texteSimple: 'Incroyable 😱 Un chat géant de 2 mètres dans une forêt !'
+      media:
+        description: 'Photo : un chat tigré aussi grand qu’un homme, assis entre des sapins. Derrière lui, les troncs des sapins se tordent et se mélangent les uns aux autres.'
+        descriptionSimple: 'Photo : un chat aussi grand qu’un homme. Derrière lui, les sapins se tordent et se mélangent.'
     question: 'La photo a déjà 30 000 « j’aime ». Tu as envie de la montrer au groupe de ta classe. Que fais-tu ?'
     choix:
       - id: partage
         texte: 'Trop drôle, tout le monde va halluciner : je la partage tout de suite dans le groupe.'
         qualite: risque
+        geste: partager
         consequence: 'Toute la classe partage la photo, et plusieurs élèves y croient vraiment. Le lendemain, ta prof de SVT explique qu’elle a été fabriquée par une IA. Un chat ne peut pas mesurer 2 mètres. Tu peux encore prévenir le groupe que c’était faux.'
         consequenceSimple: 'Toute la classe y a cru. Mais la photo a été fabriquée par une IA. Tu peux prévenir le groupe que c’était faux.'
       - id: verifie
         texte: 'Je zoome sur la photo et je cherche si un vrai site en parle.'
         qualite: bon
+        geste: verifier
         consequence: 'En zoomant, tu vois des sapins qui se tordent et se mélangent : impossible dans une vraie forêt. Aucun site sérieux ne parle de ce chat. C’est une image fabriquée par une IA.'
       - id: aide
         texte: Je demande de l’aide à un adulte de ma famille pour savoir si cette photo est vraie.
@@ -67,22 +72,27 @@ etapes:
         - de: contact
           texte: 'URGENT !!! Le collège est fermé demain à cause d’une fuite de gaz. C’est ma cousine qui l’a dit. Partage à 10 personnes sinon ils ne seront pas au courant !!!'
           texteSimple: 'Urgent : le collège est fermé demain, fuite de gaz. C’est ma cousine qui l’a dit. Partage à 10 personnes !'
+          heure: '20:47'
         - de: moi
           texte: 'C’est vrai ? 😮'
           texteSimple: 'C’est vrai ? 😮'
+          heure: '20:48'
         - de: contact
           texte: 'Oui ! Partage vite, tout le monde le fait déjà.'
           texteSimple: 'Oui ! Partage vite, tout le monde le fait déjà.'
+          heure: '20:49'
     question: 'Tu as un contrôle de maths demain, et tu aimerais bien que ce soit vrai. Que fais-tu ?'
     choix:
       - id: transfere
         texte: 'Pas de contrôle demain, trop bien ! Je transfère vite à 10 copains pour les prévenir.'
         qualite: risque
+        geste: partager
         consequence: 'Le message fait le tour du collège. Le lendemain, le collège est bien ouvert. Plusieurs élèves sont restés chez eux et ont raté le contrôle. Tu n’as pas inventé la rumeur, mais tu peux aider à l’arrêter : préviens ceux à qui tu l’as envoyée que c’était faux.'
         consequenceSimple: 'C’était faux : le collège était ouvert. Des élèves sont restés chez eux. Préviens ceux à qui tu l’as envoyé que c’était faux.'
       - id: ent
         texte: 'Je vérifie sur l’ENT du collège avant de transférer quoi que ce soit.'
         qualite: bon
+        geste: verifier
         consequence: 'Sur l’ENT, aucune fermeture n’est annoncée. Le collège aurait prévenu les familles. C’était une rumeur : tu ne la transfères pas.'
       - id: aide
         texte: Je demande de l’aide à mes parents pour savoir si le collège a vraiment envoyé un message.
@@ -119,18 +129,21 @@ etapes:
       contact: 'Astuces de Mamie Rose'
       messages:
         - de: contact
-          texte: '🔥 Brûlure ? Oublie l’eau froide ! Un mélange de 3 ingrédients de cuisine la fait disparaître en 5 minutes. Les médecins ne veulent pas que tu le saches. Partage pour sauver des vies ! (48 000 partages)'
-          texteSimple: 'Brûlure ? Oublie l’eau froide ! Un mélange de cuisine la soigne en 5 minutes. Les médecins ne veulent pas que tu le saches. Partage pour sauver des vies ! (48 000 partages)'
+          texte: '🔥 Brûlure ? Oublie l’eau froide ! Un mélange de 3 ingrédients de cuisine la fait disparaître en 5 minutes. Les médecins ne veulent pas que tu le saches. Partage pour sauver des vies !'
+          texteSimple: 'Brûlure ? Oublie l’eau froide ! Un mélange de cuisine la soigne en 5 minutes. Les médecins ne veulent pas que tu le saches. Partage pour sauver des vies !'
+      stats: { partages: '48 000' }
     question: 'Ta grand-mère se brûle souvent les doigts en cuisinant. Que fais-tu de cette vidéo ?'
     choix:
       - id: partage-famille
         texte: 'Si ça peut aider mamie, je partage tout de suite dans le groupe de la famille.'
         qualite: risque
+        geste: partager
         consequence: 'Ta tante répond qu’elle va essayer. Ta cousine, qui est infirmière, réagit vite : « C’est faux ! Sur une brûlure, on met de l’eau fraîche du robinet, pas un mélange de cuisine. » Préviens le groupe de la famille que l’astuce était fausse. Pour une question de santé, demande conseil à un adulte ou à un professionnel.'
         consequenceSimple: 'Ta cousine infirmière dit que c’est faux. Sur une brûlure, on met de l’eau fraîche. Préviens le groupe de la famille que c’était faux.'
       - id: verifie-site
         texte: 'Je ne partage rien avant d’avoir vérifié cette astuce sur un site de santé officiel.'
         qualite: bon
+        geste: verifier
         consequence: 'Sur un site de santé officiel, tu lis que l’astuce est fausse. Sur une brûlure, on met de l’eau fraîche du robinet, pas glacée, pendant au moins 10 minutes. Puis on prévient un adulte.'
       - id: aide
         texte: Je demande de l’aide à l’infirmière du collège pour savoir si l’astuce est vraie.

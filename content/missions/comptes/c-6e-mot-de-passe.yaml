@@ -22,19 +22,25 @@ etapes:
         - de: contact
           texte: 'Tu pars en classe de neige sans téléphone ? Donne-moi ton mot de passe GameBox, je garde ta série de 90 jours !'
           texteSimple: 'Tu pars sans téléphone ? Donne-moi ton mot de passe GameBox, je garde ta série de 90 jours !'
+          heure: '20:30'
         - de: contact
           texte: 'Moi je te donne le mien si tu veux. Entre meilleurs amis, on se fait confiance, non ?'
           texteSimple: 'Je te donne le mien aussi. Entre meilleurs amis, on se fait confiance, non ?'
+          heure: '20:31'
     question: 'Jade est ta meilleure amie depuis le CM1. Tu pars une semaine sans téléphone, et ta série risque de s’arrêter. Que fais-tu ?'
     choix:
       - id: donne
         texte: 'Une série de 90 jours, ça ne se perd pas ! Jade est ma meilleure amie, je lui donne.'
         qualite: risque
+        geste: repondre
+        reponse: 'Ok ! Mon mot de passe, c’est Neige2013 😘'
         consequence: 'Jade garde bien ta série. Mais elle a noté ton mot de passe dans son téléphone, et son grand frère l’a vu. Pendant ton séjour, il joue avec ton perso et écrit des messages en ton nom. Personne ne voulait te nuire, mais ton compte t’a échappé. Avec un adulte, change ton mot de passe : plus personne ne pourra entrer.'
         consequenceSimple: 'Le grand frère de Jade a vu ton mot de passe. Il joue avec ton compte. Avec un adulte, change ton mot de passe.'
       - id: refuse
         texte: 'Non merci : je préfère perdre ma série que mon compte.'
         qualite: bon
+        geste: repondre
+        reponse: 'Non merci, je préfère perdre ma série que mon compte 😅'
         consequence: 'Jade répond « ok 😕 ». Ta série s’arrête pendant la classe de neige. À ton retour, tu en commences une nouvelle, et ton compte est resté à toi seul.'
       - id: aide
         texte: Je demande de l’aide à un adulte pour savoir comment dire non à Jade sans la vexer.
@@ -65,22 +71,26 @@ etapes:
     ecran:
       app: mail
       appNom: Mail
-      contact: 'Cubopolis <info@cubopolis.fr>'
+      contact: 'Cubopolis'
+      adresse: 'info@cubopolis.fr'
       sujet: 'Important : fuite de données sur Cubopolis'
       messages:
         - de: contact
           texte: 'Bonjour. Cubopolis a été victime d’un vol de données. Des pseudos, des adresses mail et des mots de passe ont été volés. Change ton mot de passe dans l’appli Cubopolis. Change-le aussi partout où tu utilises le même.'
           texteSimple: 'Des mots de passe de Cubopolis ont été volés. Change le tien dans l’appli. Change-le aussi partout où tu utilises le même.'
+          heure: '09:05'
     question: 'Cubopolis, c’est un jeu de construction où tu ne vas presque plus. Ton mot de passe est le même pour GameBox et ta boîte mail. Que fais-tu ?'
     choix:
       - id: cubopolis-seul
         texte: 'Je change juste celui de Cubopolis. GameBox et ma boîte mail n’ont pas été volés, eux.'
         qualite: risque
+        geste: changer-mdp
         consequence: 'Les voleurs essaient ton mot de passe sur d’autres sites, c’est très facile pour eux. Il marche sur ta boîte mail. Ils s’en servent pour prendre aussi ton compte GameBox. Tu peux encore reprendre la main : change vite le mot de passe de ta boîte mail, puis celui de GameBox.'
         consequenceSimple: 'Les voleurs essaient ton mot de passe ailleurs. Il marche sur ta boîte mail. Change vite tes autres mots de passe.'
       - id: partout
         texte: 'Je change tous mes mots de passe identiques, la boîte mail d’abord.'
         qualite: bon
+        geste: changer-mdp
         consequence: 'Tu commences par ta boîte mail, puis GameBox, puis Cubopolis. Ça prend vingt minutes avec ta mère. Chaque compte a maintenant son propre mot de passe. Le mot de passe volé n’ouvre plus rien.'
       - id: aide
         texte: 'Je demande de l’aide à un adulte : on fait ensemble la liste de mes comptes pour n’en oublier aucun.'
@@ -116,19 +126,24 @@ etapes:
         - de: contact
           texte: 'Coucou, c’est moi, Inès ! J’ai changé de numéro. J’ai mis le tien par erreur pour mon code GameBox 🙈'
           texteSimple: 'Coucou, c’est moi, Inès ! J’ai changé de numéro. J’ai mis le tien par erreur pour mon code GameBox 🙈'
+          heure: '16:44'
         - de: contact
           texte: 'Tu vas recevoir un code par SMS. Renvoie-le-moi vite stp, je suis bloquée !'
           texteSimple: 'Tu vas recevoir un code. Renvoie-le-moi vite stp !'
+          heure: '16:45'
     question: 'Juste avant, un SMS de GameBox est arrivé : « Ton code de connexion : 482 913. Ne le donne à personne. » Tu n’avais rien demandé. Que fais-tu ?'
     choix:
       - id: renvoie
         texte: 'C’est Inès, elle est bloquée. Un code, c’est juste des chiffres : je lui renvoie.'
         qualite: risque
+        geste: repondre
+        reponse: 'Tiens, c’est 482 913 !'
         consequence: 'Le code n’était pas pour Inès : il ouvrait TON compte GameBox. Quelqu’un s’y connecte, change ton mot de passe et ton pseudo. Le lendemain, Inès te dit qu’elle n’a jamais changé de numéro. Préviens vite un adulte : avec lui, tu peux demander à GameBox de te rendre ton compte.'
         consequenceSimple: 'Ce code ouvrait ton compte. Un pirate est entré dedans. Préviens vite un adulte pour le récupérer.'
       - id: garde
         texte: 'Je ne renvoie pas le code. Demain, je demande à Inès en vrai si c’est bien elle.'
         qualite: bon
+        geste: verifier
         consequence: 'Ce code ouvrait ton compte à toi : en le gardant, personne n’y entre. Le lendemain, Inès n’est au courant de rien : c’était un pirate. Avec tes parents, tu changes ton mot de passe GameBox.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de répondre quoi que ce soit.

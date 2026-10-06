@@ -1,5 +1,6 @@
 import {
-  Ban, CreditCard, Download, EyeOff, Flag, HandHelping, Link, LogIn, PackagePlus, Reply, SearchCheck, Share2, Trash2,
+  Ban, CreditCard, Download, EyeOff, Flag, HandHelping, KeyRound, Link, LogIn, LogOut, PackagePlus, Reply, SearchCheck, Settings,
+  Share2, Trash2, X,
 } from '@lucide/vue'
 import type { Component } from 'vue'
 import type { Geste, Qualite } from '@/content/schema'
@@ -19,6 +20,10 @@ export const GESTES_TELEPHONE: Record<Geste, { icone: Component; banniere: strin
   ignorer: { icone: EyeOff, banniere: 'Message ignoré' },
   supprimer: { icone: Trash2, banniere: 'Message supprimé' },
   'demander-aide': { icone: HandHelping, banniere: 'Tu poses ton téléphone pour demander de l’aide' },
+  fermer: { icone: X, banniere: 'Page fermée' },
+  regler: { icone: Settings, banniere: 'Réglage modifié' },
+  deconnecter: { icone: LogOut, banniere: 'Session fermée' },
+  'changer-mdp': { icone: KeyRound, banniere: 'Mot de passe modifié' },
 }
 
 /** Le schéma impose un geste à chaque choix sauf « aide », qui demande de l'aide par défaut. */

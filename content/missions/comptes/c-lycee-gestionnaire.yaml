@@ -29,10 +29,12 @@ etapes:
       - id: variante
         texte: 'Ma méthode marche, je ne l’oublie jamais : je mets ma base habituelle avec « Billet » à la fin.'
         qualite: risque
+        geste: changer-mdp
         consequence: 'Six mois plus tard, Revendo subit une fuite de données. Ta variante « …Revendo » circule sur des forums. Les pirates connaissent cette astuce : ils gardent la base et essaient d’autres fins. « …GameBox » marche du premier coup, puis ta boîte mail. Change chaque variante pour un mot de passe vraiment différent, en commençant par ta boîte mail.'
       - id: coffrefort
         texte: 'J’accepte la proposition de CoffreFort : un mot de passe unique pour ce site, enregistré, que je n’ai pas à retenir.'
         qualite: bon
+        geste: changer-mdp
         consequence: 'Ta place est réservée. Dans la foulée, CoffreFort t’aide à remplacer tes autres variantes par des mots de passe uniques, la boîte mail d’abord. Le jour où Revendo subit une fuite, seul ton compte Revendo est concerné : tu changes un mot de passe, et c’est fini. Tu n’as qu’un seul mot de passe à retenir, celui de CoffreFort, long et protégé par la double authentification.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un qui utilise déjà un gestionnaire de mots de passe.
@@ -65,20 +67,24 @@ etapes:
     ecran:
       app: mail
       appNom: Mail
-      contact: 'StreamTube <no-reply@streamtube.fr>'
+      contact: 'StreamTube'
+      adresse: 'no-reply@streamtube.fr'
       sujet: 'Nouvelle connexion à ton compte'
       messages:
         - de: contact
           texte: 'Nouvelle connexion à ton compte StreamTube le 14 mars à 3 h 12, depuis un appareil inconnu (ordinateur, région de Lyon). Si c’était toi, tu n’as rien à faire. Sinon, sécurise ton compte.'
+          heure: '03:13'
     question: 'À 3 h 12, tu dormais, et tu n’as jamais mis les pieds à Lyon. Mais tu as déjà reçu ce genre d’alerte « pour rien », un jour où tu étais en 4G. Ta chaîne a 800 abonnés. Que fais-tu ?'
     choix:
       - id: ignore
         texte: 'Encore une fausse alerte : je supprime.'
         qualite: risque
+        geste: supprimer
         consequence: 'Deux jours plus tard, ta chaîne publie une vidéo pour une fausse cryptomonnaie, et l’adresse de récupération de ton compte a changé. Quelqu’un avait ton mot de passe. Lance vite la récupération officielle de StreamTube, change ton mot de passe, puis active la double authentification : avec elle, un mot de passe volé ne suffit plus.'
       - id: securise
         texte: 'J’ouvre moi-même l’appli StreamTube pour vérifier, sans cliquer dans le mail.'
         qualite: bon
+        geste: verifier
         consequence: 'Dans l’appli, l’ordinateur inconnu apparaît bien. Tu le déconnectes, tu changes ton mot de passe et tu actives la double authentification. Le lendemain, une nouvelle tentative échoue : il manque le code.'
       - id: aide
         texte: Je demande de l’aide à un proche qui s’y connaît avant de faire quoi que ce soit.
@@ -120,10 +126,12 @@ etapes:
       - id: tape-code
         texte: 'Le SMS vient vraiment de SnapTalk, donc la page est la bonne : je tape le code.'
         qualite: risque
+        geste: se-connecter
         consequence: 'Le code part en direct chez le pirate, qui le tape sur le vrai SnapTalk en quelques secondes. Il est dans ton compte et envoie déjà le même lien à tes amis, mais il ne t’a pas encore mis dehors. La double authentification n’arrête pas un code qu’on donne soi-même. Tu as encore la main : change vite ton mot de passe et déconnecte tous les autres appareils.'
       - id: stop
         texte: 'Je ne tape pas le code. Je ferme la page, j’ouvre moi-même l’appli SnapTalk et je change tout de suite mon mot de passe.'
         qualite: bon
+        geste: changer-mdp
         consequence: 'Le pirate a ton ancien mot de passe, mais pas le code : il reste bloqué. Tu changes ton mot de passe et tu préviens ton amie que son compte a sans doute été piraté.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un avant de taper le code.

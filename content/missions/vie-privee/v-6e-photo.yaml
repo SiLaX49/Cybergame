@@ -15,26 +15,30 @@ etapes:
   - type: scenario
     id: photo-college
     ecran:
-      app: social
+      app: chat
       appNom: SnapTalk
       contact: 'Inès'
       messages:
         - de: contact
           texte: 'Poste la photo de nous deux devant le collège ! On voit trop bien « Collège des Tilleuls » derrière, c’est stylé 😍'
           texteSimple: 'Poste notre photo devant le collège ! On voit bien « Collège des Tilleuls » derrière 😍'
+          heure: '12:05'
         - de: contact
           texte: 'Tout le monde poste sa photo de rentrée en public, fais pareil !'
           texteSimple: 'Tout le monde poste sa photo de rentrée en public !'
+          heure: '12:06'
     question: Ton compte SnapTalk est public. La photo est réussie. Que fais-tu ?
     choix:
       - id: publie
         texte: 'Inès a raison, tout le monde le fait : je la publie en public.'
         qualite: risque
+        geste: partager
         consequence: 'La photo plaît. Mais un compte inconnu la commente : « Ah, tu es aux Tilleuls ! Tu sors à quelle heure ? » Avec le nom du collège, n’importe qui sait où te trouver en semaine. Tu peux encore modifier la publication.'
         consequenceSimple: 'Un inconnu écrit : « Tu sors à quelle heure ? » Il sait où est ton collège. Tu peux encore changer la photo.'
       - id: recadre
         texte: 'Je recadre la photo pour cacher le nom du collège, et je la partage seulement avec mes amis.'
         qualite: bon
+        geste: partager
         consequence: 'La photo est toujours aussi belle. Tes amis la voient et la likent. Les inconnus, eux, ne savent pas où tu vas en cours.'
       - id: aide
         texte: Je demande de l’aide à un adulte pour savoir ce que je peux montrer sur la photo.
@@ -63,26 +67,31 @@ etapes:
   - type: scenario
     id: anniversaire
     ecran:
-      app: social
+      app: chat
       appNom: SnapTalk
       contact: 'Max_du_31'
       messages:
         - de: contact
           texte: 'Joyeux anniversaire 🎂 ! Ma petite sœur a ton âge. Elle cherche des copines pour discuter.'
           texteSimple: 'Joyeux anniversaire 🎂 ! Ma petite sœur a ton âge. Elle cherche des copines.'
+          heure: '18:30'
         - de: contact
           texte: 'T’es dans quel collège ? Comme ça vous pourrez vous voir 😊'
           texteSimple: 'T’es dans quel collège ? Comme ça vous pourrez vous voir 😊'
+          heure: '18:31'
     question: Tu ne connais pas Max_du_31. Ta date d’anniversaire est affichée sur ton profil public. Que fais-tu ?
     choix:
       - id: repond
         texte: 'Il est gentil, il m’a souhaité mon anniversaire : je lui dis mon collège.'
         qualite: risque
+        geste: repondre
+        reponse: 'Merci ! Je suis au collège des Tilleuls 😊'
         consequence: 'Max_du_31 répond tout de suite. Il demande ta classe, puis l’heure où tu sors. Il pose beaucoup de questions pour quelqu’un que tu ne connais pas. Tu peux arrêter de répondre maintenant.'
         consequenceSimple: 'Max_du_31 demande ta classe, puis l’heure où tu sors. Arrête de répondre et parles-en à un adulte.'
       - id: bloque
         texte: 'Je ne réponds pas, je bloque et je signale ce compte.'
         qualite: bon
+        geste: bloquer
         consequence: 'Max_du_31 ne peut plus t’écrire. Tu caches aussi ta date d’anniversaire, et tu en parles à tes parents ce soir.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de répondre quoi que ce soit.
@@ -124,11 +133,13 @@ etapes:
       - id: remplit
         texte: 'Une trottinette ! Ça prend deux minutes : je remplis tout et j’ajoute un selfie.'
         qualite: risque
+        geste: partager
         consequence: 'Aucune trottinette n’arrive. Par contre, tu reçois des pubs et des messages bizarres qui citent ton nom. Ton adresse et ta photo sont maintenant chez des inconnus. Un adulte peut t’aider à limiter les dégâts.'
         consequenceSimple: 'Pas de trottinette. Mais ton nom, ton adresse et ta photo sont chez des inconnus. Parles-en à un adulte.'
       - id: ferme
         texte: 'Je ne remplis rien : un concours n’a pas besoin de ma photo.'
         qualite: bon
+        geste: fermer
         consequence: 'Tu fermes la page. Le soir, tu montres le site à ta mère : aucune vraie boutique ne s’appelle « Méga Jouets ». Le concours servait à récolter des adresses et des photos.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de donner la moindre information.

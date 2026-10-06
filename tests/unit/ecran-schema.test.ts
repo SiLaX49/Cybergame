@@ -55,6 +55,16 @@ describe('écran du téléphone', () => {
   })
 })
 
+describe('gestes des choix', () => {
+  it('chaque choix sauf « aide » a un geste', () => {
+    const s = rawScenario()
+    const sansGeste = { ...s, choix: s.choix.map((c) => (c.id === 'verif' ? { ...c, geste: undefined } : c)) }
+    expect(erreurs(scenarioSchema.safeParse(sansGeste))).toEqual([
+      'choix.1.geste : il faut un geste (ce que le téléphone montre quand on choisit)',
+    ])
+  })
+})
+
 describe('texteStats', () => {
   it('écrit les compteurs présents avec leur unité', () => {
     expect(texteStats({ vues: '1 200', partages: '87' })).toBe('1 200 vues · 87 partages')

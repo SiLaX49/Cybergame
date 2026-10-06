@@ -21,15 +21,19 @@ etapes:
       messages:
         - de: contact
           texte: 'Coucou ! Oups, je t’ai envoyé un code par erreur 😅 Tu peux me le renvoyer vite stp ? J’en ai besoin pour me reconnecter.'
+          heure: '18:21'
     question: 'Au même moment, tu reçois un SMS : « SnapTalk : ton code de connexion est 482 913. Ne le partage avec personne. » Que fais-tu ?'
     choix:
       - id: renvoie
         texte: 'C’est Inès, mon amie, et elle a l’air embêtée : je lui renvoie vite le code.'
         qualite: risque
+        geste: repondre
+        reponse: 'Tiens, c’est 482 913 👍'
         consequence: 'Ce code servait à se connecter à TON compte. Quelques minutes plus tard, SnapTalk te déconnecte : quelqu’un d’autre est dans ton compte et envoie le même message à tous tes contacts. Ce n’était pas Inès : son compte avait été piraté juste avant le tien. Tu peux encore récupérer ton compte et prévenir tes amis.'
       - id: verifie
         texte: J’appelle Inès ou je lui en parle au collège pour vérifier que c’est bien elle qui écrit.
         qualite: bon
+        geste: verifier
         consequence: 'Inès tombe des nues : elle n’a rien envoyé et elle n’arrive plus à se connecter depuis hier soir. Son compte a été piraté. Tu gardes ton code pour toi et tu l’aides à récupérer son compte.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un avant de répondre.
@@ -59,20 +63,24 @@ etapes:
     ecran:
       app: mail
       appNom: Mail
-      contact: 'Mon Collège <support@moncollege-ent.net>'
+      contact: 'Mon Collège'
+      adresse: 'support@moncollege-ent.net'
       sujet: 'Votre mot de passe expire aujourd’hui'
       messages:
         - de: contact
           texte: 'Bonjour, votre mot de passe ENT Mon Collège expire aujourd’hui à minuit. Sans renouvellement, vous perdrez l’accès à vos notes, vos devoirs et votre messagerie. Cliquez sur « Renouveler mon mot de passe » puis saisissez votre identifiant et votre mot de passe actuel.'
+          heure: '08:15'
     question: Le mail porte le logo de ton collège, et tu as un devoir à rendre sur l’ENT demain. Que fais-tu ?
     choix:
       - id: connecte
         texte: 'C’est le logo du collège et j’ai un devoir demain : je renouvelle mon mot de passe.'
         qualite: risque
+        geste: se-connecter
         consequence: 'La page ressemble à l’ENT, mais elle enregistre l’identifiant et le mot de passe que tu tapes. Le lendemain, des camarades reçoivent de ta messagerie des messages que tu n’as jamais écrits, et quelqu’un a lu tes conversations. Tu peux encore changer ton mot de passe et prévenir le collège.'
       - id: ent-habituel
         texte: J’ouvre moi-même l’ENT comme d’habitude, sans passer par le lien du mail, et je regarde s’il y a une alerte.
         qualite: bon
+        geste: verifier
         consequence: 'Sur le vrai ENT, aucune alerte : ton mot de passe n’expire pas. Tu montres le mail à ton professeur principal, qui prévient toute la classe.'
       - id: aide
         texte: Je demande de l’aide à un adulte du collège avant de cliquer.
@@ -109,15 +117,18 @@ etapes:
       messages:
         - de: contact
           texte: 'Salut ! Vote pour moi au concours de dessin stp 🙏 Faut juste te connecter avec ton SnapTalk ici : snaptalk-vote.xyz'
+          heure: '17:36'
     question: Le concours de dessin du collège existe vraiment. Sur le groupe de la classe, deux copains disent avoir reçu exactement le même message de Tom. Que fais-tu ?
     choix:
       - id: vote
         texte: 'Le concours existe et les copains ont reçu le même message de Tom : je me connecte pour voter.'
         qualite: risque
+        geste: se-connecter
         consequence: 'Il n’y avait pas de vote : la page a enregistré ton identifiant et ton mot de passe. Ton compte envoie maintenant le même message à tous tes contacts, comme celui de Tom avant toi. Tu peux reprendre ton compte et le protéger pour que ça ne recommence pas.'
       - id: demande-tom
         texte: Avant de cliquer, je demande à Tom, en vrai ou par téléphone, s’il m’a bien envoyé ce lien.
         qualite: bon
+        geste: verifier
         consequence: 'Tom n’a rien envoyé : son compte a été piraté. Grâce à toi, il le découvre et peut le récupérer. Et pour voter, il suffit de passer au CDI.'
       - id: aide
         texte: 'Je demande de l’aide à un adulte avant de cliquer : il saura si ce vote est normal.'

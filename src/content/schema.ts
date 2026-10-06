@@ -25,6 +25,7 @@ export type FilAction = (typeof FIL_ACTIONS)[number]
 export const GESTES = [
   'repondre', 'ouvrir-lien', 'se-connecter', 'telecharger', 'installer', 'payer', 'partager',
   'verifier', 'bloquer', 'signaler', 'ignorer', 'supprimer', 'demander-aide',
+  'fermer', 'regler', 'deconnecter', 'changer-mdp',
 ] as const
 export type Geste = (typeof GESTES)[number]
 
@@ -193,6 +194,11 @@ export const scenarioSchema = z
   })
   .superRefine((s, ctx) => {
     verifierChoix(s, ctx)
+    s.choix.forEach((c, i) => {
+      if (!c.geste && c.qualite !== 'aide') {
+        ctx.addIssue({ code: 'custom', path: ['choix', i, 'geste'], message: 'il faut un geste (ce que le téléphone montre quand on choisit)' })
+      }
+    })
     idsUniques(s.indices.map((i) => i.id), ctx, ['indices'], 'indice')
     if (!s.indices.some((i) => i.pertinent)) {
       ctx.addIssue({ code: 'custom', path: ['indices'], message: 'il faut au moins un indice pertinent' })
