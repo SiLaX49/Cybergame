@@ -39,6 +39,8 @@ const leviers = getLeviers()
 
 const parcours = mission?.format === 'parcours'
 const ile = theme && estIle(theme.id) ? theme.id : null
+// Personnage et scène seulement pour un parcours sur une île ; sinon, la progression classique.
+const surIle = parcours && !!ile
 const etapesScene = (mission?.etapes ?? []).map((e) =>
   e.type === 'lieu'
     ? { id: e.id, nom: e.lieu, emoji: DECORS_EMOJI[e.decor] }
@@ -93,22 +95,22 @@ function recommencer() {
     <template v-else>
       <header class="mission-entete">
         <h1>{{ mission.titre }}</h1>
-        <p v-if="!etat.termine && !parcours" class="progression">
+        <p v-if="!etat.termine && !surIle" class="progression">
           <label for="progression-mission">Étape {{ etat.index + 1 }} sur {{ mission.etapes.length }}</label>
           <progress id="progression-mission" :value="etat.index" :max="mission.etapes.length" />
         </p>
-        <CheminIle v-if="mission.format === 'parcours' && !etat.termine" :mission="mission" :index="etat.index" />
         <ParcoursScene
-          v-if="parcours && ile && store.etat.personnage"
+          v-if="surIle && ile && store.etat.personnage"
           :ile="ile"
           :etapes="etapesScene"
           :position="etat.termine ? etapesScene.length : etat.index"
           :personnage="store.etat.personnage"
         />
+        <CheminIle v-if="mission.format === 'parcours' && !etat.termine" :mission="mission" :index="etat.index" />
       </header>
 
       <SensibleAvertissement v-if="sensible && !avertissementLu" @commencer="avertissementLu = true" />
-      <section v-else-if="parcours && !store.etat.personnage" class="choix-depart">
+      <section v-else-if="surIle && !store.etat.personnage" class="choix-depart">
         <h2 ref="titreDepart" tabindex="-1">Avant de partir</h2>
         <ChoixPersonnage v-model="personnageChoisi" />
         <button type="button" class="btn btn-primaire" :disabled="!personnageChoisi" @click="commencerParcours">C’est parti !</button>

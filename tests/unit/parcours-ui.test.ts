@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { DECORS, type Lieu } from '@/content/schema'
 import type { LieuResultat } from '@/engine/mission-runner'
 import CheminIle from '@/mission/CheminIle.vue'
+import ChoixList from '@/mission/ChoixList.vue'
 import DecorScene from '@/mission/DecorScene.vue'
 import LieuStep from '@/mission/LieuStep.vue'
 import CartePage from '@/pages/CartePage.vue'
@@ -11,7 +12,7 @@ import MissionPage from '@/pages/MissionPage.vue'
 import PlanBPage from '@/pages/PlanBPage.vue'
 import { creerStore, definirStore, type ProgressStore } from '@/store/useProgress'
 import { leviersFixture, parcoursFixture } from './fixtures'
-import { cliquer } from './helpers'
+import { bouton, cliquer } from './helpers'
 import { MemoryStorage } from './memory-storage'
 import { routerTest } from './router-test'
 
@@ -175,7 +176,7 @@ describe('un parcours dans les pages', () => {
     expect(w.find('.position').text()).toContain('Étape 1 sur')
   })
 
-  it('un piège ne fait pas avancer ; après le geste, on réessaie le même lieu', async () => {
+  it('un piège ne fait pas avancer : « Continuer » mène au geste de récupération, sur le même lieu', async () => {
     store.choisirPersonnage('p1')
     const w = await monterMission()
     await w.find('[data-choix="donne"]').trigger('click')
@@ -183,6 +184,87 @@ describe('un parcours dans les pages', () => {
     await cliquer(w, 'Continuer')
     expect(w.find('.position').text()).toContain('Étape 1 sur')
     expect(w.find('article.lieu h2').text()).toBe('Maintenant, limite les dégâts')
+  })
+
+  it('parcours complet : piège, geste, retour au même lieu, bon choix, puis arrivée et bilan', async () => {
+    store.choisirPersonnage('p1')
+    const w = await monterMission()
+    const surLeLieu = (question: string, etape: string) => {
+      expect(w.find('article.lieu h2').text()).toBe(question)
+      expect(w.find('.position').text()).toContain(etape)
+    }
+
+    // Lieu 1 : piège (levier « gain »), réaction, geste de récupération fait pour de vrai.
+    await w.find('[data-choix="donne"]').trigger('click')
+    await w.find('[data-levier="gain"]').trigger('click')
+    expect(w.find('.deplacement').text()).toContain('Tu restes sur ta plateforme.')
+    await cliquer(w, 'Continuer')
+    await cliquer(w, 'Paramètres')
+    await cliquer(w, 'Sécurité et connexion')
+    await w.find('#nouveau-mdp').setValue('tortue-rouge-sous-nuage')
+    await w.find('.recuperation input[type="checkbox"]').setValue(true)
+    await w.find('.recuperation form').trigger('submit')
+    await cliquer(w, 'Continuer')
+
+    // Retour au même lieu, choix risqué barré.
+    surLeLieu('Que fais-tu ?', 'Étape 1')
+    expect(w.find('[data-choix="donne"]').attributes('disabled')).toBeDefined()
+    expect(w.find('.rester').exists()).toBe(true)
+
+    // Re-cliquer le choix barré, ou recevoir encore son événement : rien ne change, aucune erreur.
+    await w.find('[data-choix="donne"]').trigger('click')
+    await w.find('[data-choix="donne"]').trigger('click')
+    w.findComponent(ChoixList).vm.$emit('choisir', 'donne')
+    await w.vm.$nextTick()
+    surLeLieu('Que fais-tu ?', 'Étape 1')
+    expect(w.find('[data-choix="donne"]').attributes('disabled')).toBeDefined()
+
+    // Le bon choix fait avancer.
+    await w.find('[data-choix="garde"]').trigger('click')
+    expect(w.find('.deplacement').text()).toBe('Tu avances !')
+    await cliquer(w, 'Continuer')
+    surLeLieu('Que fais-tu ?', 'Étape 2')
+
+    // Lieu 2 (sans récupération) : piège, double clic sur « Réessayer » sans effet de bord.
+    await w.find('[data-choix="donne"]').trigger('click')
+    await w.find('[data-levier="gain"]').trigger('click')
+    const reessayer = bouton(w, 'Réessayer')
+    await reessayer.trigger('click')
+    await reessayer.trigger('click')
+    surLeLieu('Que fais-tu ?', 'Étape 2')
+    expect(w.find('[data-choix="donne"]').attributes('disabled')).toBeDefined()
+
+    // Les lieux restants, avec le bon choix.
+    for (const id of ['garde', 'garde', 'garde']) {
+      await w.find(`[data-choix="${id}"]`).trigger('click')
+      await cliquer(w, 'Continuer')
+    }
+
+    expect(w.text()).toContain('Mission terminée !')
+    expect(w.find('.position').text()).toContain('Arrivée !')
+    const craquer = w.find('.craquer')
+    expect(craquer.find('h3').text()).toBe('Ce qui t’a fait craquer')
+    expect(craquer.text()).toContain('C’était trop tentant')
+    expect(w.text()).toContain('Réparateur·rice')
+    expect(w.text()).not.toContain('Réflexe vérif')
+    expect(store.etat.missions['p-parcours']?.badges).toEqual(['mission-accomplie', 'reparateur', 'explorateur'])
+  })
+
+  it('la scène de l’île est au-dessus du chemin', async () => {
+    store.choisirPersonnage('p1')
+    const w = await monterMission()
+    const scene = w.find('.parcours-scene').element
+    const chemin = w.find('.chemin-ile').element
+    expect(scene.compareDocumentPosition(chemin) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  })
+
+  it('un parcours sans île : ni personnage ni scène, la progression classique', async () => {
+    const w = await monterPage(MissionPage, '/mission/p-hors-ile')
+    await cliquer(w, 'Commencer')
+    expect(w.text()).not.toContain('Avant de partir')
+    expect(w.find('.parcours-scene').exists()).toBe(false)
+    expect(w.find('.progression').text()).toContain('Étape 1 sur 4')
+    expect(w.find('article.lieu').exists()).toBe(true)
   })
 
   it('se joue lieu après lieu jusqu’à la fin, avec le badge explorateur', async () => {
