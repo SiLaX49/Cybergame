@@ -28,11 +28,18 @@
 }
 .btn:not(:disabled, .btn-discret):active { transform: translateY(4px); box-shadow: 0 0 0 var(--btn-ombre); }
 .btn:focus-visible { box-shadow: 0 0 0 6px var(--focus-lisere), 0 4px 0 var(--btn-ombre); }
+/* Le liseré de focus reste présent dans tous les états (survol, appui, désactivé, choisi). */
+@media (hover: hover) {
+  .btn:not(:disabled, .btn-discret):hover:focus-visible { box-shadow: 0 0 0 6px var(--focus-lisere), 0 5px 0 var(--btn-ombre); }
+}
+.btn:not(:disabled, .btn-discret):active:focus-visible { box-shadow: 0 0 0 6px var(--focus-lisere); }
+.btn-discret:focus-visible { box-shadow: 0 0 0 6px var(--focus-lisere); }
 .btn:disabled, .btn[aria-disabled='true'] {
   --btn-fond: var(--surface-2); --btn-texte: var(--texte-doux); --btn-bord: var(--bord-fort);
   box-shadow: none; cursor: not-allowed;
   background-image: repeating-linear-gradient(135deg, transparent 0 7px, var(--bord) 7px 9px);
 }
+.btn:disabled:focus-visible, .btn[aria-disabled='true']:focus-visible { box-shadow: 0 0 0 6px var(--focus-lisere); }
 
 /* ---------- Choix de réponse ---------- */
 .btn.choix-btn {
@@ -44,6 +51,9 @@
 .btn.choix-btn[aria-pressed='true'], .btn.choix-btn[aria-checked='true'] {
   --btn-fond: var(--surface-2); --btn-bord: var(--primaire); --btn-ombre: var(--primaire-ombre);
   box-shadow: inset 6px 0 0 var(--primaire), 0 4px 0 var(--btn-ombre);
+}
+.btn.choix-btn[aria-pressed='true']:focus-visible, .btn.choix-btn[aria-checked='true']:focus-visible {
+  box-shadow: inset 6px 0 0 var(--primaire), 0 0 0 6px var(--focus-lisere), 0 4px 0 var(--btn-ombre);
 }
 
 /* ---------- Cartes, tuiles, badges ---------- */
@@ -57,7 +67,7 @@
 .badge {
   display: inline-flex; align-items: center; gap: 0.3em;
   padding: 0.15em 0.7em; border-radius: 999px;
-  font-size: 0.85em; font-weight: 700; line-height: 1.4;
+  font-size: 0.85em; font-weight: 700; line-height: 1.4; white-space: nowrap;
   background: var(--surface-2); color: var(--texte); border: 1px solid var(--bord-fort);
 }
 .badge-bon { background: var(--bon-fond); color: var(--bon); border-color: var(--bon); }
@@ -116,3 +126,10 @@ legend { font-family: var(--police-titres); font-weight: 600; padding: 0 0.4em; 
 }
 .option:has(input:focus-visible) { outline: 3px solid var(--focus); box-shadow: 0 0 0 6px var(--focus-lisere); }
 .option input:focus-visible { outline: none; box-shadow: none; }
+
+/* ---------- Listes déroulantes natives ---------- */
+select {
+  min-height: 44px; padding: 0.4em 0.8em;
+  font: inherit; color: var(--texte); background: var(--surface);
+  border: 2px solid var(--bord-fort); border-radius: var(--rayon-btn);
+}

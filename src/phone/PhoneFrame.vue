@@ -31,4 +31,6 @@ defineProps<{ appNom: string; contact: string }>()
 .nom-app { font-size: 0.8em; color: var(--texte-doux); }
 .contact { overflow-wrap: anywhere; }
 .ecran { padding: 0.75rem; max-height: 28em; overflow-y: auto; background: var(--fond); }
+/* Anneau intérieur : la coque (overflow: hidden) rognerait un anneau extérieur. */
+.ecran:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; box-shadow: inset 0 0 0 6px var(--focus-lisere); }
 </style>

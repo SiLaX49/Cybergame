@@ -68,7 +68,7 @@ function reveler() {
 .lignes { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
 .consigne { color: var(--texte-doux); }
 .ligne { font-weight: 600; border-style: dashed; }
-.ligne.marquee { background: var(--aide-fond); outline: 2px solid var(--aide); border-style: solid; border-color: var(--aide); }
+.ligne.marquee { background: var(--aide-fond); border-style: solid; border-width: 3px; border-color: var(--aide); }
 .marque { font-weight: 700; color: var(--texte); margin-left: 0.4em; }
 .explication { margin: 0.5rem 0 0.5rem 0.6rem; }
 </style>

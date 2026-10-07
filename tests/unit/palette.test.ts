@@ -45,8 +45,7 @@ for (const [nom, p] of Object.entries(PALETTES)) {
       expect(ratioContraste(p[a]!, p[b]!)).toBeGreaterThanOrEqual(3)
     })
     it.each(FONDS_FOCUS)('anneau de focus visible sur %s', (fond) => {
-      const meilleur = Math.max(ratioContraste(p.focus!, p[fond]!), ratioContraste(p['focus-lisere']!, p[fond]!))
-      expect(meilleur).toBeGreaterThanOrEqual(3)
+      expect(ratioContraste(p.focus!, p[fond]!)).toBeGreaterThanOrEqual(3)
     })
   })
 }

@@ -24,7 +24,7 @@ export const CLAIR: Record<string, string> = {
   'bon-fond': '#e3f6ea',
   'risque-fond': '#fde8e6',
   'aide-fond': '#fff1d6',
-  focus: '#ff9f1c',
+  focus: '#b35c00',
   'focus-lisere': '#1f1a3a',
   'hulotte-corps': '#8a6bd1',
   'hulotte-ventre': '#e9defc',
