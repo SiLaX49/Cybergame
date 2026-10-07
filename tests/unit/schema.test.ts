@@ -13,7 +13,15 @@ describe('relecture', () => {
   })
   it('refuse relue-interne sans par ni date', () => {
     const p = problemes(rawMission({ relecture: { statut: 'relue-interne' } }))
-    expect(p.map((x) => x.message)).toContain('relecture : « par » et « date » sont obligatoires une fois relue')
+    expect(p).toContainEqual({ chemin: 'relecture', message: '« par » et « date » sont obligatoires une fois relue' })
+    // Le chemin « relecture » est déjà ajouté par formatIssue : le message ne le répète pas.
+    expect(p.map((x) => x.message).join(' ')).not.toMatch(/^relecture :/)
+  })
+  it('refuse une date qui n’existe pas ou mal formée', () => {
+    for (const date of ['2026-02-30', '2026-13-01', '2026-10-1', '20-10-2026']) {
+      const p = problemes(rawMission({ relecture: { statut: 'relue-interne', par: 'Noa', date } }))
+      expect(p.map((x) => x.chemin), date).toContain('relecture.date')
+    }
   })
   it('accepte relue-association avec par et date', () => {
     expect(problemes(rawMission({ relecture: { statut: 'relue-association', par: 'Asso', date: '2026-10-01' } }))).toEqual([])

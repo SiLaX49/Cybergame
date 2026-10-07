@@ -1,13 +1,20 @@
 <script setup lang="ts">
 import { RouterLink, useRoute } from 'vue-router'
-import { getLeviers, getMission } from '@/content'
+import { getLeviers, getMission, getTheme } from '@/content'
 import { FIL_ACTIONS } from '@/content/schema'
 import { ordreAffichage } from '@/engine/ordre'
 import { CONSEILS, EXEMPLE_PHRASE, LIBELLES_NIVEAU } from '@/minigames/robustesse'
+import BandeauAide from '@/ui/BandeauAide.vue'
+import BandeauBrouillon from '@/ui/BandeauBrouillon.vue'
 
 const route = useRoute()
 const mission = getMission(String(route.params.id))
+const theme = mission?.theme ? getTheme(mission.theme) : undefined
+const sensible = theme?.sensible ?? false
 const leviers = getLeviers()
+// En thème sensible, l’élève n’est pas « piégé » : on parle du choix et de ce qui a pesé.
+const questionPourquoi = sensible ? 'Si tu as fait ce choix, qu’est-ce qui a pesé ?' : 'Si tu as choisi le piège, pourquoi ?'
+const corrigePourquoi = sensible ? 'Si l’élève a fait le choix risqué :' : 'Si l’élève a choisi le piège :'
 const imprimer = () => window.print()
 const ACTIONS_PAPIER: Record<(typeof FIL_ACTIONS)[number], string> = {
   ouvrir: 'J’ouvre',
@@ -25,6 +32,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
       <RouterLink class="btn" to="/enseignants">Retour à l’espace enseignants</RouterLink>
     </template>
     <template v-else>
+      <BandeauBrouillon v-if="mission.relecture?.statut === 'a-relire'" />
       <div class="actions no-print">
         <button type="button" class="btn btn-primaire" @click="imprimer">Imprimer</button>
         <RouterLink class="btn" :to="`/enseignants/${mission.id}`">Retour à la fiche</RouterLink>
@@ -46,7 +54,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
           <p>Quel indice t’a décidé ?</p>
           <ul class="cases"><li v-for="ind in ordreAffichage(e.indices, e.id)" :key="ind.id">☐ {{ ind.libelle }}</li></ul>
           <template v-if="e.pourquoi">
-            <p>Si tu as choisi le piège, pourquoi ?</p>
+            <p>{{ questionPourquoi }}</p>
             <ul class="cases">
               <li v-for="p in ordreAffichage(e.pourquoi.map((x) => ({ id: x.levier })), `${e.id}:pourquoi`)" :key="p.id">
                 ☐ {{ leviers.leviers[p.id].libelle }}
@@ -61,7 +69,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
           <p><strong>{{ e.question }}</strong></p>
           <ul class="cases"><li v-for="c in ordreAffichage(e.choix, e.id)" :key="c.id">☐ {{ c.texte }}</li></ul>
           <template v-if="e.pourquoi">
-            <p>Si tu as choisi le piège, pourquoi ?</p>
+            <p>{{ questionPourquoi }}</p>
             <ul class="cases">
               <li v-for="p in ordreAffichage(e.pourquoi.map((x) => ({ id: x.levier })), `${e.id}:pourquoi`)" :key="p.id">
                 ☐ {{ leviers.leviers[p.id].libelle }}
@@ -139,6 +147,8 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
         </template>
       </section>
 
+      <BandeauAide v-if="sensible && theme" :aides="theme.aides" class="bandeau-imprimable" />
+
       <section class="corrige saut-page">
         <h2>Corrigé (pour l’adulte)</h2>
         <div v-for="(e, i) in mission.etapes" :key="e.id">
@@ -148,7 +158,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
             <p>Vrais indices : {{ e.indices.filter((x) => x.pertinent).map((x) => x.libelle).join(' / ') }}</p>
             <p>À retenir : {{ e.aRetenir }}</p>
             <template v-if="e.pourquoi">
-              <p>Si l’élève a choisi le piège :</p>
+              <p>{{ corrigePourquoi }}</p>
               <ul>
                 <li v-for="p in e.pourquoi" :key="p.levier">
                   <strong>{{ leviers.leviers[p.levier].libelle }}</strong> : {{ p.truc }} Parade : {{ p.parade }}
@@ -161,7 +171,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
             <p>Bons choix : {{ e.choix.filter((c) => c.qualite !== 'risque').map((c) => c.texte).join(' / ') }}</p>
             <p>À retenir : {{ e.aRetenir }}</p>
             <template v-if="e.pourquoi">
-              <p>Si l’élève a choisi le piège :</p>
+              <p>{{ corrigePourquoi }}</p>
               <ul>
                 <li v-for="p in e.pourquoi" :key="p.levier">
                   <strong>{{ leviers.leviers[p.levier].libelle }}</strong> : {{ p.truc }} Parade : {{ p.parade }}
@@ -227,4 +237,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
 table { width: 100%; border-collapse: collapse; margin: 0.5rem 0 1rem; }
 th, td { border: 1px solid var(--bord); padding: 0.4rem; text-align: left; }
 .cases { list-style: none; padding-left: 0.5rem; }
+/* Les aides restent à leur place en fin de fiche élève, à l’écran comme à l’impression. */
+.bandeau-imprimable { position: static; }
+@media print { .bandeau-imprimable { display: block !important; } }
 </style>

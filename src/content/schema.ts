@@ -371,11 +371,11 @@ const relectureSchema = z
   .object({
     statut: z.enum(RELECTURE_STATUTS),
     par: texte.optional(),
-    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'date attendue au format AAAA-MM-JJ').optional(),
+    date: z.iso.date('date attendue au format AAAA-MM-JJ, et qui existe').optional(),
   })
   .superRefine((r, ctx) => {
     if (r.statut !== 'a-relire' && (!r.par || !r.date)) {
-      ctx.addIssue({ code: 'custom', message: 'relecture : « par » et « date » sont obligatoires une fois relue' })
+      ctx.addIssue({ code: 'custom', message: '« par » et « date » sont obligatoires une fois relue' })
     }
   })
 
