@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Leviers, Scenario } from '@/content/schema'
+import type { Leviers, Qualite, Scenario } from '@/content/schema'
 import type { ScenarioResultat } from '@/engine/mission-runner'
 import { ordreAffichage } from '@/engine/ordre'
 import { useTexte } from '@/ui/useTexte'
@@ -10,6 +10,11 @@ const props = withDefaults(defineProps<{ scenario: Scenario; resultat: ScenarioR
 const emit = defineEmits<{ continuer: []; rejouer: [] }>()
 const t = useTexte()
 
+/** En thème sensible, le rouge vif d’un « risque » est remplacé par un encadré doux (l’icône et le texte du verdict restent). */
+function classeEncadre(qualite: Qualite): string {
+  return props.sensible && qualite === 'risque' ? 'encadre-doux' : `encadre-${qualite}`
+}
+
 const indices = computed(() => ordreAffichage(props.scenario.indices, props.scenario.id))
 const choix = computed(() => props.scenario.choix.find((c) => c.id === props.resultat.choixId))
 
@@ -18,7 +23,7 @@ const reponse = computed(() => reponseLevier(props.scenario.pourquoi, props.resu
 
 <template>
   <section v-if="choix" class="consequence">
-    <p class="verdict encadre" :class="[choix.qualite, `encadre-${choix.qualite}`]">
+    <p class="verdict encadre" :class="[choix.qualite, classeEncadre(choix.qualite)]">
       <span aria-hidden="true">{{ VERDICTS[choix.qualite].icone }}</span> <strong>{{ VERDICTS[choix.qualite].titre }}</strong>
     </p>
     <p><strong>Ton choix :</strong> {{ choix.texte }}</p>

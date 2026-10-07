@@ -38,7 +38,7 @@ const couleurJauge = computed(() => (rang.value <= 1 ? 'var(--risque)' : rang.va
         Robustesse : <strong>{{ LIBELLES_NIVEAU[evaluation.niveau] }}</strong> · temps estimé pour la deviner :
         {{ evaluation.temps }}
       </p>
-      <div class="jauge-bloc">
+      <div class="jauge-bloc" aria-hidden="true">
         <label for="jauge-mdp">Niveau de robustesse</label>
         <progress id="jauge-mdp" class="jauge" max="4" :value="rang" :style="{ '--accent': couleurJauge }" />
         <span class="jauge-niveau">{{ LIBELLES_NIVEAU[evaluation.niveau] }}</span>

@@ -89,7 +89,7 @@ async function fermerPleinEcran() {
     <h3>Tes badges</h3>
     <ul class="badges" :class="{ 'badges-animes': !sensible }">
       <li v-for="b in badges" :key="b" class="badge medaille">
-        <Award aria-hidden="true" /> <strong>{{ BADGES[b].titre }}</strong> : {{ descriptionBadge(b, sensible) }}
+        <Award aria-hidden="true" /> <span><strong>{{ BADGES[b].titre }}</strong> : {{ descriptionBadge(b, sensible) }}</span>
       </li>
     </ul>
 
@@ -158,7 +158,7 @@ async function fermerPleinEcran() {
 .badges { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; }
 /* Médailles : le texte du badge reste entier, l'icône n'est qu'un décor. */
 .medaille {
-  display: flex; align-items: flex-start; gap: 0.6rem; border-radius: 18px;
+  display: flex; align-items: flex-start; gap: 0.6rem; border-radius: 18px; white-space: normal;
   font-size: 1em; padding: 0.4em 0.9em; border-width: 2px; border-color: var(--primaire);
   box-shadow: 0 3px 0 var(--bord-fort);
 }

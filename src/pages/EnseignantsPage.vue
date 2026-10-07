@@ -59,7 +59,7 @@ const miseAJour = new Date(contenu.generatedAt).toLocaleDateString('fr-FR', {
         <option v-for="t in getThemes()" :key="t.id" :value="t.id">{{ t.titre }}</option>
       </select>
     </div>
-    <div v-if="missions.length" class="table-defile carte">
+    <div v-if="missions.length" class="table-defile carte" role="region" aria-label="Liste des missions (défilement horizontal)" tabindex="0">
       <table class="table-missions">
         <thead>
           <tr><th scope="col">Mission</th><th scope="col">Thème</th><th scope="col">Niveaux</th><th scope="col">Durée</th><th scope="col">Objectifs</th></tr>
@@ -106,7 +106,6 @@ const miseAJour = new Date(contenu.generatedAt).toLocaleDateString('fr-FR', {
 
 <style scoped>
 .filtres { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; margin-bottom: 1rem; }
-select { font: inherit; min-height: 44px; }
 .table-defile { overflow-x: auto; padding: 0.5rem; }
 .table-missions { width: 100%; min-width: 40rem; border-collapse: collapse; }
 .table-missions th, .table-missions td { border-bottom: 1px solid var(--bord); padding: 0.6rem 0.5rem; text-align: left; vertical-align: top; }

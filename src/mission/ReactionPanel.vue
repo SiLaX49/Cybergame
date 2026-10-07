@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Leviers, Lieu } from '@/content/schema'
+import type { Leviers, Lieu, Qualite } from '@/content/schema'
 import type { LieuResultat } from '@/engine/mission-runner'
 import { useTexte } from '@/ui/useTexte'
 import { reponseLevier, titreReponse, VERDICTS } from './reponseLevier'
@@ -8,6 +8,11 @@ import { reponseLevier, titreReponse, VERDICTS } from './reponseLevier'
 const props = withDefaults(defineProps<{ lieu: Lieu; resultat: LieuResultat; leviers: Leviers; sensible?: boolean }>(), { sensible: false })
 const emit = defineEmits<{ continuer: []; rejouer: [] }>()
 const t = useTexte()
+
+/** En thème sensible, le rouge vif d’un « risque » est remplacé par un encadré doux (l’icône et le texte du verdict restent). */
+function classeEncadre(qualite: Qualite): string {
+  return props.sensible && qualite === 'risque' ? 'encadre-doux' : `encadre-${qualite}`
+}
 
 const choix = computed(() => props.lieu.choix.find((c) => c.id === props.resultat.choixId))
 const risque = computed(() => choix.value?.qualite === 'risque')
@@ -19,7 +24,7 @@ const reponse = computed(() => reponseLevier(props.lieu.pourquoi, props.resultat
 
 <template>
   <section v-if="choix" class="reaction">
-    <p class="verdict encadre" :class="[choix.qualite, `encadre-${choix.qualite}`]">
+    <p class="verdict encadre" :class="[choix.qualite, classeEncadre(choix.qualite)]">
       <span aria-hidden="true">{{ VERDICTS[choix.qualite].icone }}</span> <strong>{{ VERDICTS[choix.qualite].titre }}</strong>
     </p>
     <p v-if="risque" class="deplacement">

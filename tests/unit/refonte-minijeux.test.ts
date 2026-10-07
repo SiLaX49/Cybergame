@@ -11,5 +11,8 @@ describe('refonte des mini-jeux', () => {
     const id = jauge.attributes('id')
     expect(w.find(`label[for="${id}"]`).text().length).toBeGreaterThan(0)
     expect(w.find('.jauge-niveau').text().length).toBeGreaterThan(0)
+    // Le niveau est déjà annoncé par #robustesse-mdp (role=status) : la jauge reste visuelle.
+    expect(w.find('.jauge-bloc').attributes('aria-hidden')).toBe('true')
+    expect(w.find('#robustesse-mdp').attributes('role')).toBe('status')
   })
 })
