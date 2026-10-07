@@ -114,7 +114,7 @@ function recommencer() {
         <CheminIle v-if="mission.format === 'parcours' && !etat.termine" :mission="mission" :index="etat.index" />
       </header>
 
-      <SensibleAvertissement v-if="sensible && !avertissementLu" @commencer="avertissementLu = true" />
+      <SensibleAvertissement v-if="sensible && !avertissementLu" :theme="theme?.id" @commencer="avertissementLu = true" />
       <section v-else-if="surIle && !store.etat.personnage" class="choix-depart">
         <div class="depart-titre">
           <Hulotte expression="accueil" :taille="96" />

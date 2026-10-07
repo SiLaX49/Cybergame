@@ -44,6 +44,7 @@ describe('CartePage', () => {
 
   it('liste les thèmes, les missions de la tranche et les thèmes à venir', async () => {
     store.choisirTranche('6e')
+    store.modifierReglages({ vueCarte: 'liste' })
     const w = mount(CartePage, { global: { plugins: [await routerTest('/carte')] } })
     expect(w.findAll('h2').map((h) => h.text())).toEqual(
       expect.arrayContaining(['Phishing et arnaques', 'Jeux et achats', 'Cyberharcèlement']),
@@ -56,6 +57,7 @@ describe('CartePage', () => {
   it('marque les missions terminées', async () => {
     store.choisirTranche('6e')
     store.enregistrerMission('m-test', ['mission-accomplie'], {})
+    store.modifierReglages({ vueCarte: 'liste' })
     const w = mount(CartePage, { global: { plugins: [await routerTest('/carte')] } })
     expect(w.text()).toContain('Terminée')
   })
@@ -65,6 +67,7 @@ describe('CartePage', () => {
     vi.setSystemTime(new Date('2026-09-20T10:00:00Z'))
     store.choisirTranche('6e')
     store.enregistrerMission('m-test', [], {}, new Date('2026-09-10T10:00:00Z'))
+    store.modifierReglages({ vueCarte: 'liste' })
     const w = mount(CartePage, { global: { plugins: [await routerTest('/carte')] } })
     expect(w.find('.rappel').classes()).toContain('rappel-du')
     expect(w.text()).toContain('C’est le moment de ton rappel (J+7)')
@@ -73,6 +76,7 @@ describe('CartePage', () => {
   it('ignore une progression qui cite une mission disparue', async () => {
     store.choisirTranche('6e')
     store.enregistrerMission('ancienne-mission', ['mission-accomplie'], {})
+    store.modifierReglages({ vueCarte: 'liste' })
     const w = mount(CartePage, { global: { plugins: [await routerTest('/carte')] } })
     expect(w.text()).toContain('Phishing et arnaques')
     expect(w.text()).not.toContain('Terminée')

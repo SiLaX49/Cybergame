@@ -300,6 +300,7 @@ describe('un parcours dans les pages', () => {
 
   it('la carte signale le format parcours', async () => {
     store.choisirTranche('6e')
+    store.modifierReglages({ vueCarte: 'liste' })
     const w = await monterPage(CartePage, '/carte')
     expect(w.text()).toContain('La traversée de l’île test · Parcours · 15 min')
   })

@@ -3,6 +3,7 @@ import { choisirPersonnageSiDemande, commencer, focusConserve, jouerMission, tab
 
 test('6e : un parcours de l’île joué jusqu’au bout, puis marqué terminé', async ({ page }) => {
   await commencer(page, '6e', 'Solo')
+  await page.getByRole('button', { name: 'Vue liste' }).click()
   await expect(page.getByText('Parcours ·')).toHaveCount(6)
   await page.getByRole('link', { name: 'La traversée de l’île des clés' }).click()
   await choisirPersonnageSiDemande(page)
@@ -11,7 +12,7 @@ test('6e : un parcours de l’île joué jusqu’au bout, puis marqué terminé'
   await expect(page.locator('article.lieu')).toBeFocused()
   await jouerMission(page)
   await expect(page.getByText('Explorateur·rice')).toBeVisible()
-  await page.getByRole('link', { name: 'Retour à la carte' }).click()
+  await page.getByRole('link', { name: 'Retour à l’île' }).click()
   await expect(page.getByText('Terminée').first()).toBeVisible()
 })
 

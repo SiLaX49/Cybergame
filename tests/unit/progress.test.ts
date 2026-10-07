@@ -16,7 +16,7 @@ describe('progression', () => {
       version: 1,
       tranche: null,
       mode: null,
-      reglages: { taille: 'normal', interligne: 'normal', lectureSimple: false, animations: true, chrono: false, theme: 'auto' },
+      reglages: { taille: 'normal', interligne: 'normal', lectureSimple: false, animations: true, chrono: false, theme: 'auto', vueCarte: 'archipel' },
       missions: {},
       rappels: {},
     })
@@ -27,6 +27,13 @@ describe('progression', () => {
     const etat = migrer(ancienne)
     expect(etat?.reglages.theme).toBe('auto')
     expect(etat?.reglages.taille).toBe('grand')
+  })
+
+  it('une sauvegarde sans vueCarte passe en archipel', () => {
+    const ancienne = { version: 1, reglages: { taille: 'grand', interligne: 'normal', lectureSimple: false, animations: true, chrono: false, theme: 'sombre' } }
+    const etat = migrer(ancienne)
+    expect(etat?.reglages.vueCarte).toBe('archipel')
+    expect(etat?.reglages.theme).toBe('sombre')
   })
 
   it('sauve puis recharge', () => {

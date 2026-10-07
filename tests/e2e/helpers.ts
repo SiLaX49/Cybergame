@@ -5,7 +5,7 @@ export async function commencer(page: Page, tranche: '6e' | '5e – 3e' | 'Lycé
   await page.getByRole('radio', { name: tranche, exact: true }).check()
   await page.getByRole('radio', { name: new RegExp(mode) }).check()
   await page.getByRole('button', { name: /C.est parti|Continuer/ }).click()
-  await expect(page.getByRole('heading', { name: 'Choisis un thème' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Choisis une île' })).toBeVisible()
 }
 
 /** Si l’écran « Choisis ton personnage » est affiché (premier parcours), choisit le premier personnage. */
@@ -123,4 +123,17 @@ export async function tabJusquaSelecteur(page: Page, selecteur: string) {
 /** Vérifie que le focus n'est pas retombé sur <body> (WCAG 2.4.3). */
 export async function focusConserve(page: Page) {
   await expect.poll(() => page.evaluate(() => document.activeElement?.tagName)).not.toBe('BODY')
+}
+
+/** Ouvre l’île dont le nom accessible commence par `nom` depuis la carte. */
+export async function ouvrirIle(page: Page, nom: string) {
+  const echappe = nom.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  await page.getByRole('link', { name: new RegExp(`^${echappe}`) }).click()
+  await expect(page.getByRole('heading', { name: nom, level: 1 })).toBeVisible()
+}
+
+/** Depuis la carte : ouvre l’île, puis la mission. */
+export async function ouvrirMission(page: Page, ile: string, titre: string) {
+  await ouvrirIle(page, ile)
+  await page.getByRole('link', { name: titre }).click()
 }

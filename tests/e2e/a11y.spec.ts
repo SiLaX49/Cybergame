@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
-import { choisirPersonnageSiDemande, commencer, jouerJusquAuMiniJeu, jouerMission } from './helpers'
+import { choisirPersonnageSiDemande, commencer, jouerJusquAuMiniJeu, jouerMission, ouvrirMission } from './helpers'
 
 async function verifierA11y(page: Page, ecran: string) {
   const resultat = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
@@ -17,7 +17,7 @@ test('pages élève', async ({ page }) => {
   await verifierA11y(page, 'accueil')
   await commencer(page, '6e', 'Solo')
   await verifierA11y(page, 'carte')
-  await page.getByRole('link', { name: 'Le colis mystère' }).click()
+  await ouvrirMission(page, 'Île aux hameçons', 'Le colis mystère')
   await verifierA11y(page, 'situation')
   await page.locator('[data-qualite="aide"]').click()
   await verifierA11y(page, 'indices')
@@ -29,7 +29,7 @@ test('pages élève', async ({ page }) => {
 
 test('mode classe entière (grands textes)', async ({ page }) => {
   await commencer(page, '6e', 'Classe entière')
-  await page.getByRole('link', { name: 'Le colis mystère' }).click()
+  await ouvrirMission(page, 'Île aux hameçons', 'Le colis mystère')
   await verifierA11y(page, 'situation classe')
   await page.locator('[data-qualite="aide"]').click()
   await page.getByRole('button', { name: 'Valider le choix de la classe' }).click()
@@ -80,7 +80,7 @@ for (const [nom, id] of [
 
 test('parcours de l’île : lieu, pourquoi, réaction, récupération et fin', async ({ page }) => {
   await commencer(page, '6e', 'Solo')
-  await page.getByRole('link', { name: 'La traversée de l’île des clés' }).click()
+  await ouvrirMission(page, 'Île des clés', 'La traversée de l’île des clés')
   await verifierA11y(page, 'choix du personnage')
   await choisirPersonnageSiDemande(page)
   await verifierA11y(page, 'lieu')
@@ -106,7 +106,7 @@ test('parcours de l’île : lieu, pourquoi, réaction, récupération et fin', 
 
 test('parcours en classe entière (grands textes)', async ({ page }) => {
   await commencer(page, '6e', 'Classe entière')
-  await page.getByRole('link', { name: 'La traversée de l’île aux hameçons' }).click()
+  await ouvrirMission(page, 'Île aux hameçons', 'La traversée de l’île aux hameçons')
   await choisirPersonnageSiDemande(page)
   await verifierA11y(page, 'lieu classe')
 })

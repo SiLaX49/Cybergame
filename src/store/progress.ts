@@ -14,6 +14,7 @@ const reglagesSchema = z.object({
   animations: z.boolean().default(true),
   chrono: z.boolean().default(false),
   theme: z.enum(['auto', 'clair', 'sombre']).default('auto'),
+  vueCarte: z.enum(['archipel', 'liste']).default('archipel'),
 })
 
 export const progressSchema = z.object({
