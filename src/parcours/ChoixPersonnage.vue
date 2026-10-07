@@ -13,7 +13,7 @@ const emit = defineEmits<{ 'update:modelValue': [id: PersonnageId] }>()
 <template>
   <fieldset class="choix-personnage">
     <legend>{{ legende }}</legend>
-    <label v-for="id in PERSONNAGES" :key="id" class="option-personnage">
+    <label v-for="id in PERSONNAGES" :key="id" class="option option-personnage">
       <input type="radio" :name="name" :value="id" :checked="modelValue === id" @change="emit('update:modelValue', id)" />
       <svg viewBox="-20 -64 40 66" width="48" height="80" aria-hidden="true" focusable="false"><PersonnageG :id="id" /></svg>
       <span>{{ PERSONNAGES_INFO[id].libelle }}</span>
@@ -22,7 +22,9 @@ const emit = defineEmits<{ 'update:modelValue': [id: PersonnageId] }>()
 </template>
 
 <style scoped>
-.choix-personnage { display: grid; gap: 0.6rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr)); }
-.option-personnage { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem; border: 2px solid var(--bord); border-radius: var(--rayon); min-height: 44px; }
-.option-personnage:has(input:checked) { border-color: var(--primaire); font-weight: 700; }
+.choix-personnage { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); }
+.choix-personnage legend { grid-column: 1 / -1; }
+.option-personnage { flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 0.4rem; padding: 0.75rem 0.5rem; min-height: 8.5rem; margin: 0; }
+.option-personnage:has(input:checked) { font-weight: 700; box-shadow: 0 4px 0 var(--primaire); }
+.option-personnage:has(input:focus-visible) { box-shadow: 0 0 0 6px var(--focus-lisere); }
 </style>

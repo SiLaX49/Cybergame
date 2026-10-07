@@ -22,7 +22,15 @@
     --accent-harcelement: #000000; --teinte-harcelement: #ffffff;
     --accent-rencontres: #000000; --teinte-rencontres: #ffffff;
   }
-  .btn, .carte, .encadre, .option { box-shadow: none !important; background-image: none !important; }
+  .btn, .carte, .encadre, .option, .badge, .pastille-theme {
+    box-shadow: none !important;
+    background: #fff !important;
+    background-image: none !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+  }
+  .pastille-theme { border: 0 !important; }
+  .hulotte { display: none !important; }
   .app-header, .lien-evitement, .alerte-stockage, .no-print, .bandeau-aide, .maj {
     display: none !important;
   }

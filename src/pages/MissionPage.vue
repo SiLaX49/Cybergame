@@ -28,6 +28,7 @@ import type { PersonnageId } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
 import BandeauAide from '@/ui/BandeauAide.vue'
 import BandeauBrouillon from '@/ui/BandeauBrouillon.vue'
+import Hulotte from '@/ui/Hulotte.vue'
 import { contexteSensible } from '@/recovery/textes'
 
 const route = useRoute()
@@ -115,7 +116,10 @@ function recommencer() {
 
       <SensibleAvertissement v-if="sensible && !avertissementLu" @commencer="avertissementLu = true" />
       <section v-else-if="surIle && !store.etat.personnage" class="choix-depart">
-        <h2 ref="titreDepart" tabindex="-1">Avant de partir</h2>
+        <div class="depart-titre">
+          <Hulotte expression="accueil" :taille="96" />
+          <h2 ref="titreDepart" tabindex="-1">Avant de partir</h2>
+        </div>
         <ChoixPersonnage v-model="personnageChoisi" />
         <button type="button" class="btn btn-primaire" :disabled="!personnageChoisi" @click="commencerParcours">C’est parti !</button>
       </section>
@@ -163,4 +167,7 @@ function recommencer() {
 <style scoped>
 .progression { display: flex; align-items: center; gap: 0.75rem; }
 progress { flex: 1; max-width: 20rem; height: 0.8rem; }
+.depart-titre { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+.depart-titre h2 { margin: 0; }
+.choix-depart .btn { margin-top: 1rem; }
 </style>

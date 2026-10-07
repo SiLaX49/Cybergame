@@ -35,7 +35,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
       <BandeauBrouillon v-if="mission.relecture?.statut === 'a-relire'" />
       <div class="actions no-print">
         <button type="button" class="btn btn-primaire" @click="imprimer">Imprimer</button>
-        <RouterLink class="btn" :to="`/enseignants/${mission.id}`">Retour à la fiche</RouterLink>
+        <RouterLink class="btn btn-secondaire" :to="`/enseignants/${mission.id}`">Retour à la fiche</RouterLink>
       </div>
       <h1>{{ mission.titre }} : version papier</h1>
       <p>Nom : ______________________ Classe : ________</p>
@@ -149,7 +149,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
 
       <BandeauAide v-if="sensible && theme" :aides="theme.aides" class="bandeau-imprimable" />
 
-      <section class="corrige saut-page">
+      <section class="corrige saut-page carte">
         <h2>Corrigé (pour l’adulte)</h2>
         <div v-for="(e, i) in mission.etapes" :key="e.id">
           <template v-if="e.type === 'scenario'">
@@ -237,6 +237,9 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
 table { width: 100%; border-collapse: collapse; margin: 0.5rem 0 1rem; }
 th, td { border: 1px solid var(--bord); padding: 0.4rem; text-align: left; }
 .cases { list-style: none; padding-left: 0.5rem; }
+.etape-papier { margin-bottom: 1.5rem; }
+.corrige { margin-top: 2rem; }
+.corrige h2 { margin-top: 0; }
 /* Les aides restent à leur place en fin de fiche élève, à l’écran comme à l’impression. */
 .bandeau-imprimable { position: static; }
 @media print { .bandeau-imprimable { display: block !important; } }

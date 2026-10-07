@@ -60,7 +60,7 @@ const texte = computed(() =>
 </template>
 
 <style scoped>
-.parcours-scene { margin-bottom: 1rem; border-radius: var(--rayon); overflow: hidden; border: 2px solid var(--bord); }
+.parcours-scene { margin-bottom: 1rem; border-radius: var(--rayon-carte); overflow: hidden; border: 2px solid var(--bord); box-shadow: 0 4px 0 var(--bord); }
 .ile-nom { margin: 0; padding: 0.3rem 0.8rem; font-weight: 700; background: var(--surface); }
 .position { margin: 0; padding: 0.4rem 0.8rem; font-weight: 700; background: var(--surface); }
 svg { display: block; }
