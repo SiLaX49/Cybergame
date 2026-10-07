@@ -180,18 +180,18 @@ debrief:
     - Quels signaux d’alerte as-tu repérés ?
     - Pourquoi certains inconnus demandent-ils de garder le secret ?
     - À qui peux-tu en parler si ça t’arrive, à toi ou à un ami ?
-  reponses: 'Les signaux : des compliments très rapides, des cadeaux, une demande de secret. Il y a aussi le passage sur une autre appli, une demande de photo, une proposition de rendez-vous. Le secret sert à empêcher les adultes d’aider. Si ça arrive, ce n’est pas ta faute. C’est vrai même si tu as accepté un cadeau ou répondu aux messages. On garde les messages, on bloque et on signale. Puis on en parle à un adulte de confiance : parents, CPE, infirmier·e, professeur. On peut aussi appeler le 3018, gratuit et confidentiel. Si tu repères ces signaux un jour, tu n’as rien d’autre à faire que d’en parler à un adulte de confiance.'
+  reponses: 'Les signaux : des compliments très rapides, des cadeaux, une demande de secret. Il y a aussi le passage sur une autre appli, une demande de photo, une proposition de rendez-vous. Le secret sert à empêcher les adultes d’aider. Si ça arrive, ce n’est pas ta faute. C’est vrai même si tu as accepté un cadeau ou répondu aux messages. On garde les messages, on bloque et on signale. Puis on en parle à un adulte de confiance : parents, CPE, infirmier·e, professeur. On peut aussi appeler le 3018, gratuit et confidentiel. Si tu repères ces signaux, parles-en simplement à un adulte de confiance.'
   erreursFrequentes:
     - 'Croire qu’un pseudo et un âge affiché disent qui est vraiment la personne.'
     - 'Penser qu’en parler, c’est trahir un ami ou risquer d’être puni.'
     - 'Croire que c’est sa faute parce qu’on a accepté un cadeau ou répondu aux messages.'
 fiche:
   deroulement: |
-    5 min : cadre. Personne n’a à raconter sa vie ; « Passer ce scénario » est possible ; l’infirmier·e ou la CPE reste disponible après la séance.
+    5 min : cadre. Les prénoms sont fictifs. Personne n’a à raconter sa vie ; « Passer ce scénario » est possible ; l’infirmier·e ou la CPE reste disponible après la séance.
     15 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (les 4 signaux d’alerte).
     5 min : où trouver de l’aide (parents, CPE, infirmier·e, 3018 gratuit et confidentiel, 119 si un enfant est en danger, 17 en cas de danger immédiat).
     5 min : engagement. Je connais un adulte à qui je peux parler, et le numéro 3018.
-  siRevelation: 'Si un élève se confie pendant ou après la séance : l’écouter au calme, sans juger et sans promettre le secret (lui dire qu’on va en parler à des personnes qui peuvent le protéger). Ne pas l’interroger ni lui demander de montrer les messages ou les images ; noter ses mots exacts, avec la date. Ne pas contacter soi-même la personne mise en cause. Prévenir sans attendre le ou la CPE, l’infirmier·e scolaire et le chef d’établissement. Si d’autres élèves sont impliqués, appliquer le protocole pHARe. Si l’enfant est en danger ou risque de l’être, le chef d’établissement transmet une information préoccupante à la cellule départementale (CRIP), ou un signalement au procureur en cas de danger grave et immédiat. Rappeler à l’élève le 3018 et le 119.'
+  siRevelation: 'Si un élève se confie pendant ou après la séance : l’écouter au calme, sans juger et sans promettre le secret (lui dire qu’on va en parler à des personnes qui peuvent le protéger). Ne pas l’interroger ni lui demander de montrer les messages ou les images ; noter ses mots exacts, avec la date. Ne pas contacter soi-même la personne mise en cause. Prévenir sans attendre le ou la CPE, l’infirmier·e scolaire et le chef d’établissement. Si d’autres élèves sont impliqués, appliquer le protocole pHARe. Si l’enfant est en danger ou risque de l’être, le chef d’établissement transmet une information préoccupante à la cellule départementale (CRIP), ou un signalement au procureur en cas de danger grave et immédiat. Rappeler à l’élève le 3018 et le 119. Si l’élève paraît en grande détresse ou parle de mourir : ne pas le laisser seul, prévenir immédiatement l’infirmier·e et le chef d’établissement, et appeler le 3114 (prévention du suicide, 24 h/24).'
 relecture:
   statut: a-relire

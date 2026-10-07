@@ -4,6 +4,8 @@ import { describe, expect, it } from 'vitest'
 import { buildContent } from '../../../scripts/build-content'
 import { TRANCHES, type Mission } from '../../../src/content/schema'
 import { atteint, evaluerRobustesse } from '../../../src/minigames/robustesse'
+import * as TEXTES_SENSIBLES from '../../../src/mission/textesSensibles'
+import { BLOQUER_SIGNALER, CAPTURE_PREUVE, DEMANDER_AIDE, RETIRER_PUBLICATION, SOUTENIR } from '../../../src/recovery/textes'
 
 const bundle = buildContent(join(process.cwd(), 'content'))
 const missions = bundle.missions.filter((m) => m.type === 'mission')
@@ -363,26 +365,30 @@ describe('contenu réel', () => {
     const missionsSensibles = missions.filter((m) => m.theme && (SENSIBLES as readonly string[]).includes(m.theme))
     const CULPABILISANT = [
       /\bta faute\b/i,
-      /tu (?:n’)?aurais (?:pas )?d(?:û(?!\p{L})|u(?=\s*(?:[.,;:!?…]|$)|\s+\p{L}+(?:er|ir|re|oir)(?!\p{L})))/iu,
+      /tu (?:n’)?aurais (?:pas |jamais )?d(?:û(?!\p{L})|u(?=\s*(?:[.,;:!?…]|$)|\s+\p{L}+(?:er|ir|re|oir)(?!\p{L})))/iu,
       /c’est bien fait|bien fait pour (?:toi|lui|elle)/i,
       /\bna(?:i|ï)(?:f|fs|ve|ves|vement)\b/i,
       /\bbête\b/i,
       /\bidiot/i,
       /tu l’as cherché/i,
+      /à cause de toi/i,
+      /tu aurais pu/i,
+      /si tu n’avais pas/i,
     ]
     const EXPLICITE = [/\bnue?s?\b/i, /\bnudes?\b/i, /\bsexe\b/i, /\bsext/i, /\bsexy\b/i, /\bsexuel/i, /\bintime/i, /\bseins?\b/i, /\bporno/i]
-    const normaliser = (t: string) => t.normalize('NFC').replace(/'/g, '’')
+    // Apostrophe droite et espaces insécables (U+00A0, U+202F) ramenées à la forme des contrôles.
+    const normaliser = (t: string) => t.normalize('NFC').replace(/'/g, '’').replace(/[  ]/g, ' ')
     const culpabilisant = (t: string) => {
-      const propre = normaliser(t).replace(/ce n’(?:est|était) (?:pas|jamais)(?: de| à)? ta faute/gi, '')
+      const propre = normaliser(t).replace(/ce n’(?:est|était) (?:vraiment |du tout )?(?:pas|jamais)(?: du tout)?(?: de| à)? ta faute/gi, '')
       return CULPABILISANT.filter((re) => re.test(propre))
     }
     const explicite = (t: string) => EXPLICITE.filter((re) => re.test(normaliser(t)))
 
     it('règles : formules culpabilisantes détectées, formules bienveillantes épargnées', () => {
-      for (const t of ['Tu aurais dû réfléchir', "Tu n'aurais pas dû", 'tu aurais du faire attention', 'Tu es naïf', 'Tu es naif', 'naïve', 'C’est ta faute', 'Bien fait pour toi', 'Tu l’as cherché', 'Quel idiot', 'Tu es bête']) {
+      for (const t of ['Tu aurais dû réfléchir', "Tu n'aurais pas dû", 'tu aurais du faire attention', 'Tu es naïf', 'Tu es naif', 'naïve', 'C’est ta faute', 'Bien fait pour toi', 'Tu l’as cherché', 'Quel idiot', 'Tu es bête', 'Tu n’aurais jamais dû', 'C’est à cause de toi', 'Tu aurais pu le voir', 'Si tu n’avais pas répondu', 'Tu aurais dû', 'C’est ta faute']) {
         expect(culpabilisant(t), t).not.toEqual([])
       }
-      for (const t of ['Tu as bien fait d’en parler', 'Ce n’est pas ta faute', "Ce n'était jamais de ta faute", 'Ce n’est pas à toi la faute', 'Tu aurais du temps pour en parler', 'Un adulte te croira']) {
+      for (const t of ['Tu as bien fait d’en parler', 'Ce n’est pas ta faute', "Ce n'était jamais de ta faute", 'Ce n’est pas à toi la faute', 'Tu aurais du temps pour en parler', 'Un adulte te croira', 'Ce n’est vraiment pas ta faute', 'Ce n’est pas du tout ta faute', 'Ce n’était vraiment pas de ta faute', 'Ce n’est du tout pas ta faute', 'Ce n’est pas ta faute du tout', 'Ce n’est pas ta faute']) {
         expect(culpabilisant(t), t).toEqual([])
       }
     })
@@ -419,7 +425,12 @@ describe('contenu réel', () => {
     it('aucune formule culpabilisante dans les textes de retour', () => {
       const trouvees = missionsSensibles.flatMap((m) =>
         m.etapes.flatMap((e): string[] => {
-          if (e.type === 'minijeu' || e.type === 'fil') return []
+          if (e.type === 'fil') return []
+          if (e.type === 'minijeu') {
+            const explications =
+              e.jeu === 'tri' ? e.config.cartes.map((c) => c.explication) : e.jeu === 'repere' ? e.config.lignes.map((l) => l.explication ?? '') : []
+            return explications.flatMap((t) => culpabilisant(t).map((re) => `${m.id}.${e.id} : ${re} dans « ${t} »`))
+          }
           const textes: string[] =
             e.type === 'scenario'
               ? [
@@ -434,7 +445,62 @@ describe('contenu réel', () => {
           return textes.flatMap((t) => culpabilisant(t).map((re) => `${m.id}.${e.id} : ${re} dans « ${t} »`))
         }),
       )
-      expect(trouvees).toEqual([])
+      const debriefs = missionsSensibles.flatMap((m) => culpabilisant(m.debrief.reponses).map((re) => `${m.id}.debrief.reponses : ${re}`))
+      expect([...trouvees, ...debriefs]).toEqual([])
+    })
+
+    it('aucune formule culpabilisante dans les textes des gestes et des écrans sensibles (src/)', () => {
+      const chaines = (v: unknown): string[] =>
+        typeof v === 'string' ? [v] : Array.isArray(v) ? v.flatMap(chaines) : v && typeof v === 'object' ? Object.values(v).flatMap(chaines) : []
+      const textes = [
+        ...chaines({ SOUTENIR, RETIRER_PUBLICATION, CAPTURE_PREUVE, BLOQUER_SIGNALER, DEMANDER_AIDE }),
+        ...chaines(TEXTES_SENSIBLES),
+        bundle.leviers.autreSensible.truc,
+        bundle.leviers.autreSensible.parade,
+      ]
+      expect(textes.length).toBeGreaterThan(30)
+      expect(textes.flatMap((t) => culpabilisant(t).map((re) => `${re} dans « ${t} »`))).toEqual([])
+    })
+
+    it('chaque « Si un élève révèle » sensible cite le 3018, le 119 et le 3114', () => {
+      const manques = missionsSensibles.flatMap((m) =>
+        ['3018', '119', '3114'].filter((n) => !new RegExp(`\\b${n}\\b`).test(m.fiche.siRevelation ?? '')).map((n) => `${m.id} : ${n} absent`),
+      )
+      expect(manques).toEqual([])
+    })
+
+    it('les prénoms des personnes visées ne sont jamais repris pour un auteur ou un inconnu', () => {
+      // Personnes visées, ou amis à aider, dans au moins une mission sensible.
+      const VISES = ['Inès', 'Théo', 'Noah', 'Lucas', 'Yanis', 'Léna', 'Clara', 'Maya', 'Nora']
+      // Auteurs des moqueries, du raid, du chantage ou de la manipulation, et inconnus, mission par mission.
+      const AUTEURS: Record<string, string[]> = {
+        'h-6e-surnom': ['Malo', 'Kylian', 'Lisa'],
+        'h-college-faux-compte': ['Kenzo', 'Anaïs'],
+        'h-lycee-rumeur': ['Axel'],
+        'r-6e-ami-du-jeu': ['Kiro_77', 'Max'],
+        'r-college-chantage': ['jade.14', 'k4rma_x', 'zed_lv'],
+        'r-lycee-webcam': ['Sam'],
+      }
+      const problemes = missionsSensibles.flatMap((m) => {
+        const auteurs = AUTEURS[m.id] ?? []
+        const texte = normaliser(JSON.stringify(m))
+        // Qui parle dans un groupe (« Prénom : … »), hors titulaire du compte affiché, est un auteur ou un témoin.
+        const orateurs = scenariosDe(m).flatMap((s) =>
+          s.ecran.messages.flatMap((x) => (x.de === 'contact' ? [...x.texte.matchAll(/(?:^|· )(\p{Lu}[\p{L}_.\d]*) :/gu)].map((r) => r[1]!).filter((o) => o !== s.ecran.contact) : [])),
+        )
+        return [
+          ...(m.id in AUTEURS ? [] : [`${m.id} : auteurs non déclarés dans ce test`]),
+          ...auteurs.filter((a) => !texte.includes(a)).map((a) => `${m.id} : ${a} introuvable`),
+          ...[...auteurs, ...orateurs]
+            .filter((a) => VISES.some((v) => a.toLowerCase().includes(v.toLowerCase())))
+            .map((a) => `${m.id} : ${a} reprend le prénom d’une personne visée`),
+        ]
+      })
+      expect(problemes).toEqual([])
+    })
+
+    it('chaque fiche sensible précise que les prénoms sont fictifs', () => {
+      expect(missionsSensibles.filter((m) => !m.fiche.deroulement.includes('Les prénoms sont fictifs.')).map((m) => m.id)).toEqual([])
     })
 
     it('chaque mission sensible cite le 3018 dans un « À retenir »', () => {

@@ -47,17 +47,14 @@ etapes:
     recuperation: { action: capture-preuve, siChoix: [paie] }
     pourquoi:
       - levier: peur
-        truc: '« Des vidéos de toi » envoyées « à tous tes contacts » : la menace est faite pour paniquer.'
-        parade: 'Une menace sans aucune preuve est un bluff. Parles-en avant d’agir.'
-      - levier: autorite
-        truc: 'Ton vrai mot de passe, « tournesol2019 », rend la menace crédible. Il vient en fait d’une vieille fuite de données.'
-        parade: 'Un vieux mot de passe cité ne prouve pas un piratage. Change-le partout où il sert encore.'
+        truc: '« Des vidéos de toi » envoyées « à tous tes contacts », avec ton vrai mot de passe « tournesol2019 » : la menace est faite pour paniquer. Ce mot de passe vient en fait d’une vieille fuite de données.'
+        parade: 'Une menace sans aucune preuve est un bluff, et un vieux mot de passe cité ne prouve pas un piratage. Parles-en avant d’agir.'
       - levier: urgence
         truc: '« Sous 48 h » : le délai sert à te faire payer avant d’en parler à quelqu’un.'
         parade: 'Prends le temps. Une vraie menace comme une fausse se traite en en parlant, pas en payant.'
-      - levier: honte
-        truc: '« Ne parle de ce mail à personne » : l’arnaqueur compte sur la gêne pour que tu restes seul·e.'
-        parade: 'Ces mails arrivent à des milliers de gens, adultes compris. En parler, c’est souvent découvrir que l’arnaque est connue.'
+      - levier: secret
+        truc: '« Ne parle de ce mail à personne » : l’arnaqueur veut que tu restes seul·e face à sa menace.'
+        parade: 'Quand on te demande de garder une menace secrète, c’est le moment d’en parler. Ces mails arrivent à des milliers de gens, adultes compris.'
 
   - type: scenario
     id: profil-sans-visio
@@ -123,7 +120,7 @@ etapes:
       - id: commente
         texte: 'Je vais sous la publication répondre à ceux qui se moquent. Il faut bien que quelqu’un défende Inès !'
         qualite: risque
-        consequence: 'Ton commentaire part d’une bonne intention, mais il fait remonter la publication, et d’autres la voient. Ce n’est pas ta faute : le seul responsable est celui qui a publié la photo. Il est encore temps : écris à Inès en privé, et aidez-la à faire retirer la photo.'
+        consequence: 'Ton commentaire part d’une bonne intention, mais il fait remonter la publication, et d’autres la voient. Ce n’est pas ta faute : le seul responsable est celui qui a publié la photo. Il est encore temps : écris à Inès en privé, et aidez-la à demander son retrait.'
       - id: prive
         texte: 'J’écris à Inès que ce n’est pas sa faute. Je l’aide à noter le nom du compte et le lien de la publication, sans enregistrer la photo, et à le signaler.'
         qualite: bon
@@ -178,11 +175,11 @@ debrief:
     - 'Commenter une publication pour défendre la victime, ce qui la rend plus visible.'
 fiche:
   deroulement: |
-    5 min : cadre. Personne n’a à raconter sa vie ; « Passer ce scénario » est possible ; l’infirmier·e ou la CPE reste disponible après la séance.
+    5 min : cadre. Les prénoms sont fictifs. Personne n’a à raconter sa vie ; « Passer ce scénario » est possible ; l’infirmier·e ou la CPE reste disponible après la séance.
     20 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (les 5 signaux d’alerte). Rappeler que le chantage et la diffusion d’une image privée sans accord sont des délits.
     5 min : où trouver de l’aide (CPE, infirmier·e, 3018 qui peut demander le retrait d’un contenu, 119, Pharos sur internet-signalement.gouv.fr, cybermalveillance.gouv.fr pour le mail « webcam », 17 en cas de danger immédiat). Kalio est présentée comme une appli pour se faire des amis : les applis de rencontre amoureuse sont réservées aux majeurs.
     5 min : engagement. Je change aujourd’hui un vieux mot de passe que j’utilise encore, et je note le 3018.
-  siRevelation: 'Si un élève se confie pendant ou après la séance : l’écouter au calme, sans juger et sans promettre le secret (lui dire qu’on va en parler à des personnes qui peuvent le protéger). Ne pas l’interroger, ne pas demander à voir ni copier les images, et ne pas les transférer, même pour les montrer à un collègue ; noter ses mots exacts, avec la date. Lui dire de ne pas payer et de ne plus répondre. Ne pas contacter soi-même l’auteur. Prévenir sans attendre le ou la CPE, l’infirmier·e scolaire et le chef d’établissement. Si d’autres élèves sont impliqués (diffusion, moqueries), appliquer le protocole pHARe. Si l’élève est en danger ou risque de l’être, le chef d’établissement transmet une information préoccupante à la cellule départementale (CRIP), ou un signalement au procureur en cas de danger grave et immédiat. Orienter vers le 3018, qui peut demander le retrait d’un contenu, et vers le 119. Si l’élève paraît en grande détresse ou parle de mourir : ne pas le laisser seul, prévenir immédiatement l’infirmier·e et le chef d’établissement, et appeler le 3114 (prévention du suicide, 24 h/24). Repère légal : la photo intime d’un mineur est, pour la loi, une image pédopornographique. La détenir ou la transférer est interdit, même avec l’accord de la personne et même entre mineurs. Ne jamais demander à la voir ; la signaler au 3018 ou sur Pharos (internet-signalement.gouv.fr).'
+  siRevelation: 'Si un élève se confie pendant ou après la séance : l’écouter au calme, sans juger et sans promettre le secret (lui dire qu’on va en parler à des personnes qui peuvent le protéger). Ne pas l’interroger, ne pas demander à voir ni copier les images, et ne pas les transférer, même pour les montrer à un collègue ; noter ses mots exacts, avec la date. Lui dire de ne pas payer et de ne plus répondre. Ne pas contacter soi-même l’auteur. Prévenir sans attendre le ou la CPE, l’infirmier·e scolaire et le chef d’établissement. Si d’autres élèves sont impliqués (diffusion, moqueries), appliquer le protocole pHARe. Si l’élève est en danger ou risque de l’être, le chef d’établissement transmet une information préoccupante à la cellule départementale (CRIP), ou un signalement au procureur en cas de danger grave et immédiat. Orienter vers le 3018, qui peut demander le retrait d’un contenu, et vers le 119. Si l’élève paraît en grande détresse ou parle de mourir : ne pas le laisser seul, prévenir immédiatement l’infirmier·e et le chef d’établissement, et appeler le 3114 (prévention du suicide, 24 h/24). Repère légal : une image à caractère sexuel d’un mineur est, pour la loi, une image pédopornographique. La détenir ou la transférer est interdit, même avec l’accord de la personne et même entre mineurs. Ne jamais demander à la voir ; la signaler au 3018 ou sur Pharos (internet-signalement.gouv.fr).'
 relecture:
   statut: a-relire

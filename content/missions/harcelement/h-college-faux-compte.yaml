@@ -41,14 +41,14 @@ etapes:
       - id: aide
         texte: 'J’appelle le 3018 : je n’ose pas encore en parler au collège.'
         qualite: aide
-        consequence: 'Une écoutante du 3018 t’écoute sans te juger. Elle peut demander à SnapTalk de fermer le faux compte, souvent en quelques heures. Elle t’aide aussi à préparer ce que tu diras au CPE.'
+        consequence: 'Une écoutante du 3018 t’écoute sans te juger. Elle peut demander à SnapTalk de fermer le faux compte. Elle t’aide aussi à préparer ce que tu diras au CPE.'
     indices:
       - { id: photo, libelle: 'Le compte utilise ma photo et mon prénom', pertinent: true }
       - { id: exclusion, libelle: 'On m’a retiré·e du groupe de classe', pertinent: true }
       - { id: duree, libelle: 'Ça dure depuis une semaine et ça empire', pertinent: true }
       - { id: emoji, libelle: 'Yasmine met un emoji étonné', pertinent: false }
     explicationIndices: 'Se faire passer pour quelqu’un en ligne pour lui nuire est interdit : c’est une usurpation d’identité. Avec l’exclusion du groupe, qui dure depuis une semaine, c’est du harcèlement. Yasmine, elle, est plutôt de ton côté.'
-    aRetenir: 'Un faux compte à ton nom, ce n’est pas ta faute. Fais des captures (le compte, ses publications, les dates), signale-le pour usurpation d’identité, et parles-en à un adulte. Le 3018 peut demander la fermeture d’un faux compte (souvent rapidement).'
+    aRetenir: 'Un faux compte à ton nom, ce n’est pas ta faute. Fais des captures (le compte, ses publications, les dates), signale-le pour usurpation d’identité, et parles-en à un adulte. Le 3018 peut demander la fermeture d’un faux compte.'
     recuperation: { action: capture-preuve, siChoix: [garde-pour-soi] }
     pourquoi:
       - levier: honte
@@ -90,7 +90,7 @@ etapes:
       - id: aide
         texte: 'Je fais une capture du sondage et de la menace de Kenzo, et je la montre à mon professeur principal demain matin.'
         qualite: aide
-        consequence: 'Ton professeur principal prévient le CPE. Le sondage est supprimé et Kenzo est convoqué avec sa famille. Clara est reçue, écoutée, et le collège la suit dans les semaines qui viennent. Le CPE fait attention à ne pas citer ton nom.'
+        consequence: 'Ton professeur principal prévient le CPE. Le CPE fait supprimer le sondage et Kenzo est convoqué avec sa famille. Clara est reçue, écoutée, et le collège la suit dans les semaines qui viennent. Le CPE fait attention à ne pas citer ton nom.'
     indices:
       - { id: humilier, libelle: 'Le sondage nomme des élèves pour les humilier', pertinent: true }
       - { id: menace, libelle: 'Kenzo menace ceux qui ne votent pas', pertinent: true }
@@ -108,7 +108,7 @@ etapes:
         parade: 'Que beaucoup de gens votent ne rend pas le sondage moins blessant pour Clara.'
       - levier: humour
         truc: 'Le sondage est présenté comme un jeu, avec des 😂. Pour Clara, ce n’en est pas un.'
-        parade: 'Une blague qui fait rire tout le monde sauf la personne visée n’est plus une blague.'
+        parade: 'Un jeu où une seule personne sert de cible n’est pas un jeu. Ne vote pas, même pour rire.'
 
   - type: scenario
     id: capture-vengeance
@@ -187,9 +187,9 @@ debrief:
     - 'Croire que se venger avec une capture, c’est juste rendre la pareille.'
 fiche:
   deroulement: |
-    5 min : cadre. Situations inventées : personne ne raconte une histoire vraie devant la classe. Qui veut en parler peut venir vous voir après. Si une situation de harcèlement est connue dans la classe, en parler au CPE avant la séance.
+    5 min : cadre. Les prénoms sont fictifs. Situations inventées : personne ne raconte une histoire vraie devant la classe. Qui veut en parler peut venir vous voir après. Si une situation de harcèlement est connue dans la classe, en parler au CPE avant la séance.
     18 min : jeu, en binômes ou en classe entière vidéoprojetée. Trois rôles : la personne visée, un témoin, celui ou celle qui a dérapé.
     15 min : débrief des 3 questions, puis retour sur le mini-jeu et ses trois critères.
     5 min : où trouver de l’aide (parents, professeur principal, CPE, infirmier·e, 3018, qui peut demander la fermeture d’un faux compte). Écrire le 3018 au tableau.
     5 min : engagement. Si je vois un sondage ou une capture qui humilie quelqu’un, je ne vote pas, je ne transfère pas, et j’écris à la personne visée.
-  siRevelation: 'Si un élève se confie pendant ou après la séance : l’écouter calmement, le croire et le remercier d’avoir parlé. Ne pas promettre le secret : lui expliquer qu’on va prévenir des adultes qui peuvent l’aider. Ne pas l’interroger ni chercher les détails, ne pas confronter les élèves mis en cause ; noter ses mots exacts, la date et l’heure. Prévenir le jour même le CPE, l’infirmier·e scolaire et le chef d’établissement, qui déclenchent le protocole pHARe. Si l’élève est en danger ou si sa situation est préoccupante, transmettre une information préoccupante à la CRIP du département (signalement au procureur en cas de danger grave ; 119 pour conseil). Lui indiquer le 3018 (gratuit et confidentiel, 7 j/7 de 9 h à 23 h), qui peut demander en priorité le retrait de contenus ou la fermeture d’un faux compte. Si un élève dit avoir participé ou être témoin : l’écouter sans l’humilier, le remercier d’en parler, et prévenir les mêmes adultes. Pour l’enseignant : le harcèlement scolaire est un délit depuis la loi du 2 mars 2022, et l’usurpation d’identité en ligne est aussi punie. Ces informations ne sont pas à présenter aux élèves comme une menace.'
+  siRevelation: 'Si un élève se confie pendant ou après la séance : l’écouter calmement, le croire et le remercier d’avoir parlé. Ne pas promettre le secret : lui expliquer qu’on va prévenir des adultes qui peuvent l’aider. Ne pas l’interroger ni chercher les détails, ne pas confronter les élèves mis en cause ; noter ses mots exacts, la date et l’heure. Prévenir le jour même le CPE, l’infirmier·e scolaire et le chef d’établissement, qui déclenchent le protocole pHARe. Si l’élève est en danger ou si sa situation est préoccupante, transmettre une information préoccupante à la CRIP du département (signalement au procureur en cas de danger grave ; 119 pour conseil). Lui indiquer le 3018 (gratuit et confidentiel, 7 j/7 de 9 h à 23 h), qui peut demander en priorité le retrait de contenus ou la fermeture d’un faux compte. Si l’élève paraît en grande détresse ou parle de mourir : ne pas le laisser seul, prévenir immédiatement l’infirmier·e et le chef d’établissement, et appeler le 3114 (prévention du suicide, 24 h/24). Si un élève dit avoir participé ou être témoin : l’écouter sans l’humilier, le remercier d’en parler, et prévenir les mêmes adultes. Pour l’enseignant : le harcèlement scolaire est un délit depuis la loi du 2 mars 2022, et l’usurpation d’identité en ligne est aussi punie. Ces informations ne sont pas à présenter aux élèves comme une menace.'
