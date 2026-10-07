@@ -95,6 +95,46 @@ describe('MissionPage', () => {
     expect(w.find('aside').text()).toContain('3018')
   })
 
+  it('thème sensible : le contexte du thème est transmis au geste de récupération', async () => {
+    const w = await monter('m-sensible')
+    await cliquer(w, 'Commencer')
+    await w.find('[data-choix="clic"]').trigger('click')
+    await w.find('[data-levier="urgence"]').trigger('click')
+    await cliquer(w, 'Continuer')
+    await cliquer(w, 'Menu du contact')
+    await cliquer(w, 'Bloquer')
+    expect(w.find('input[value="Comportement inquiétant envers un mineur"]').exists()).toBe(true)
+  })
+
+  it('thème non sensible : aucun contexte transmis au geste de récupération', async () => {
+    const w = await monter('m-test')
+    await w.find('[data-choix="clic"]').trigger('click')
+    await w.find('[data-levier="urgence"]').trigger('click')
+    await cliquer(w, 'Continuer')
+    await cliquer(w, 'Menu du contact')
+    await cliquer(w, 'Bloquer')
+    expect(w.find('input[value="Comportement inquiétant envers un mineur"]').exists()).toBe(false)
+  })
+
+  it('thème sensible : le chronomètre du tri ne tourne jamais, même réglage activé', async () => {
+    store.modifierReglages({ chrono: true })
+    const w = await monter('m-sensible')
+    await cliquer(w, 'Commencer')
+    await cliquer(w, 'Passer ce scénario')
+    expect(w.find('.tri').exists()).toBe(true)
+    expect(w.find('.chrono').exists()).toBe(false)
+    expect(w.text()).not.toContain('Temps écoulé')
+  })
+
+  it('thème non sensible : le chronomètre du tri s’affiche si le réglage est activé', async () => {
+    store.modifierReglages({ chrono: true })
+    const w = await monter('m-test')
+    await w.find('[data-choix="aide"]').trigger('click')
+    await cliquer(w, 'Je ne sais pas')
+    await cliquer(w, 'Continuer')
+    expect(w.find('.chrono').exists()).toBe(true)
+  })
+
   it('mission rappel : révèle le piège et enregistre le résultat', async () => {
     const w = await monter('r-test')
     for (const n of ['n1', 'n2', 'n3']) await w.find(`input[name="notif-${n}"][value="ouvrir"]`).setValue()

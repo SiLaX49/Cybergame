@@ -31,7 +31,30 @@ leviers:
     libelle: Je n’ai pas vraiment réfléchi
     parade: Avant de cliquer, payer ou donner un code, prends trois secondes pour te demander qui t’écrit vraiment.
     questionDebrief: Dans quelles situations est-ce qu’on clique sans réfléchir ?
+  flatterie:
+    libelle: Il ou elle me faisait me sentir spécial·e
+    parade: Quelqu’un qui te couvre de compliments très vite cherche parfois quelque chose. Prends ton temps.
+    questionDebrief: Pourquoi des compliments très rapides peuvent-ils être un signal d’alerte ?
+  secret:
+    libelle: On m’a demandé de garder le secret
+    parade: Un adulte ou un ami bienveillant ne te demande jamais de cacher une relation à tes proches.
+    questionDebrief: Qui a intérêt à ce qu’une conversation reste secrète ?
+  honte:
+    libelle: J’avais honte d’en parler
+    parade: Ce n’est pas à toi d’avoir honte. En parler, c’est ce qui fait que ça s’arrête.
+    questionDebrief: Pourquoi la honte empêche-t-elle souvent de demander de l’aide ?
+  humour:
+    libelle: C’était juste pour rire
+    parade: Une blague qui fait rire tout le monde sauf la personne visée n’est plus une blague.
+    questionDebrief: Comment savoir si une blague fait rire tout le monde, y compris la personne visée ?
+  colere:
+    libelle: J’étais en colère, je voulais répondre
+    parade: Répondre sous le coup de la colère donne souvent prise. Garde les preuves et fais une pause.
+    questionDebrief: Que se passe-t-il quand on répond à chaud en ligne ?
 autre:
   libelle: Autre chose / je ne sais pas
   truc: Les arnaqueurs mélangent souvent plusieurs pièges pour qu’on agisse sans réfléchir.
   parade: Au moindre doute, fais une pause et demande à quelqu’un de confiance avant d’agir.
+autreSensible:
+  truc: 'Souvent, plusieurs raisons se mélangent : la colère, la honte, l’envie de faire comme les autres.'
+  parade: Quelle que soit la raison, tu peux en parler à un adulte ou au 3018.

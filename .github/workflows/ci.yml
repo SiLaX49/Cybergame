@@ -34,6 +34,8 @@ jobs:
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
           VITE_CONTACT_URL: ${{ github.server_url }}/${{ github.repository }}/issues
+      - name: Aucun brouillon sensible dans le build publié
+        run: npx tsx scripts/verifier-publication.ts
       - uses: actions/upload-pages-artifact@v5
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         with:

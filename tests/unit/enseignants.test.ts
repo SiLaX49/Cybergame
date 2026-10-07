@@ -84,6 +84,29 @@ describe('PlanBPage', () => {
     expect(w.text()).toContain('☐ Autre chose / je ne sais pas')
     expect(w.text()).toContain('Le délai de 24 h est là exprès.')
   })
+
+  it('hors thème sensible : ni bandeau « Brouillon » ni bandeau d’aide', async () => {
+    const w = await monter(PlanBPage, '/enseignants/m-test/plan-b')
+    expect(w.text()).not.toContain('Brouillon :')
+    expect(w.find('aside.bandeau-aide').exists()).toBe(false)
+    expect(w.text()).toContain('Si l’élève a choisi le piège :')
+  })
+
+  it('thème sensible : formulation neutre, bandeau « Brouillon » et aides imprimables en fin de fiche élève', async () => {
+    const w = await monter(PlanBPage, '/enseignants/m-sensible/plan-b')
+    expect(w.text()).toContain('Brouillon :')
+    expect(w.text()).toContain('Si tu as fait ce choix, qu’est-ce qui a pesé ?')
+    expect(w.text()).toContain('Si l’élève a fait le choix risqué :')
+    expect(w.text()).not.toContain('piège')
+    const aide = w.find('aside.bandeau-aide')
+    expect(aide.exists()).toBe(true)
+    expect(aide.classes()).toContain('bandeau-imprimable')
+    expect(aide.text()).toContain('3018')
+    // À la fin de la fiche élève : après la dernière étape, avant le corrigé.
+    const html = w.html()
+    expect(html.indexOf('bandeau-aide')).toBeGreaterThan(html.lastIndexOf('etape-papier'))
+    expect(html.indexOf('bandeau-aide')).toBeLessThan(html.indexOf('Corrigé (pour l’adulte)'))
+  })
 })
 
 describe('ConfidentialitePage et TestTechniquePage', () => {

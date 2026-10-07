@@ -104,6 +104,16 @@ export function rawMission(overrides: Record<string, unknown> = {}) {
   }
 }
 
+export function rawMissionSensible(overrides: Record<string, unknown> = {}) {
+  return rawMission({
+    id: 'm-sensible',
+    theme: 'harcelement',
+    relecture: { statut: 'a-relire' },
+    fiche: { deroulement: 'Déroulé.', siRevelation: 'Prévenir le ou la CPE et l’infirmier·e scolaire.' },
+    ...overrides,
+  })
+}
+
 export function rawRappel(overrides: Record<string, unknown> = {}) {
   return {
     id: 'r-test',
@@ -168,8 +178,14 @@ export function rawLeviers() {
       autorite: info('Ça avait l’air officiel'),
       groupe: info('Les autres le font aussi'),
       reflexe: info('Je n’ai pas vraiment réfléchi'),
+      flatterie: info('Il ou elle me faisait me sentir spécial·e'),
+      secret: info('On m’a demandé de garder le secret'),
+      honte: info('J’avais honte d’en parler'),
+      humour: info('C’était juste pour rire'),
+      colere: info('J’étais en colère, je voulais répondre'),
     },
     autre: { libelle: 'Autre chose / je ne sais pas', truc: 'Truc générique.', parade: 'Parade générique.' },
+    autreSensible: { truc: 'Truc sensible.', parade: 'Parade sensible.' },
   }
 }
 export const leviersFixture = (): Leviers => leviersFileSchema.parse(rawLeviers())

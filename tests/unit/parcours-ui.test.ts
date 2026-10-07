@@ -79,6 +79,17 @@ describe('LieuStep', () => {
     expect(w.emitted('evenement')).toEqual([[{ type: 'continuer' }]])
   })
 
+  it('réaction en thème sensible : « Autre chose » reçoit la réponse sensible, titre « Ce qui a pu peser »', () => {
+    const r = resultat({ choixId: 'donne', qualite: 'risque', levier: 'autre', essais: ['donne'] })
+    const sensible = monterLieu({ phase: 'consequence', resultat: r, sensible: true })
+    expect(sensible.find('.ce-qui-a-marche h3').text()).toBe('Ce qui a pu peser')
+    expect(sensible.text()).toContain('Truc sensible.')
+    expect(sensible.text()).toContain('Parade sensible.')
+    const normal = monterLieu({ phase: 'consequence', resultat: r })
+    expect(normal.find('.ce-qui-a-marche h3').text()).toBe('Ce qui a marché sur toi')
+    expect(normal.text()).toContain('Truc générique.')
+  })
+
   it('réaction après un piège sans récupération : seulement « Réessayer »', async () => {
     const sansRecup = { ...lieu(), recuperation: undefined }
     const w = monterLieu({ lieu: sansRecup, phase: 'consequence', resultat: resultat({ choixId: 'donne', qualite: 'risque', levier: 'gain', essais: ['donne'] }) })

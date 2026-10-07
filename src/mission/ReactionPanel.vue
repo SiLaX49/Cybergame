@@ -3,9 +3,9 @@ import { computed } from 'vue'
 import type { Leviers, Lieu } from '@/content/schema'
 import type { LieuResultat } from '@/engine/mission-runner'
 import { useTexte } from '@/ui/useTexte'
-import { reponseLevier, VERDICTS } from './reponseLevier'
+import { reponseLevier, titreReponse, VERDICTS } from './reponseLevier'
 
-const props = defineProps<{ lieu: Lieu; resultat: LieuResultat; leviers: Leviers }>()
+const props = withDefaults(defineProps<{ lieu: Lieu; resultat: LieuResultat; leviers: Leviers; sensible?: boolean }>(), { sensible: false })
 const emit = defineEmits<{ continuer: []; rejouer: [] }>()
 const t = useTexte()
 
@@ -14,7 +14,7 @@ const risque = computed(() => choix.value?.qualite === 'risque')
 const recupSuit = computed(
   () => !!props.lieu.recuperation && !!choix.value && props.lieu.recuperation.siChoix.includes(choix.value.id),
 )
-const reponse = computed(() => reponseLevier(props.lieu.pourquoi, props.resultat.levier, props.leviers))
+const reponse = computed(() => reponseLevier(props.lieu.pourquoi, props.resultat.levier, props.leviers, props.sensible))
 </script>
 
 <template>
@@ -29,7 +29,7 @@ const reponse = computed(() => reponseLevier(props.lieu.pourquoi, props.resultat
     <p><strong>Ton choix :</strong> {{ choix.texte }}</p>
     <p>{{ t(choix.reaction, choix.reactionSimple) }}</p>
     <div v-if="reponse" class="ce-qui-a-marche" role="note">
-      <h3>Ce qui a marché sur toi</h3>
+      <h3>{{ titreReponse(sensible) }}</h3>
       <p>Tu as répondu : « {{ reponse.libelle }} »</p>
       <p>{{ reponse.truc }}</p>
       <p><strong>Ta parade :</strong> {{ reponse.parade }}</p>

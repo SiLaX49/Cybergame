@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { focusAuChangement } from '@/ui/focus'
+import { CAPTURE_PREUVE as T } from './textes'
 
 const emit = defineEmits<{ fait: [] }>()
 const capture = ref(false)
@@ -14,24 +15,21 @@ focusAuChangement(bloque, titre)
 
 <template>
   <section class="recuperation carte">
-    <h3 ref="titre" tabindex="-1">Garde des preuves, puis bloque</h3>
-    <p>Avant de bloquer, fais une capture d’écran : une fois le compte bloqué, tu risques de ne plus voir les messages.</p>
+    <h3 ref="titre" tabindex="-1">{{ T.titre }}</h3>
+    <p>{{ T.consigne }}</p>
     <template v-if="!bloque">
       <div class="actions">
         <button type="button" class="btn" :disabled="capture" @click="capture = true">
-          <span aria-hidden="true">📸</span> Faire une capture d’écran
+          <span aria-hidden="true">📸</span> {{ T.capture }}
         </button>
         <button ref="boutonBloquer" type="button" class="btn" :disabled="!capture" @click="bloque = true">
-          <span aria-hidden="true">🚫</span> Bloquer le compte
+          <span aria-hidden="true">🚫</span> {{ T.bloquer }}
         </button>
       </div>
-      <p v-if="capture" role="status">Capture enregistrée dans ta galerie, avec la date et le nom du compte.</p>
+      <p v-if="capture" role="status">{{ T.captureFaite }}</p>
     </template>
     <template v-else>
-      <p role="status">
-        <span aria-hidden="true">✅</span> Preuves gardées et compte bloqué. Tu pourras montrer les captures à un
-        adulte ou au 3018.
-      </p>
+      <p role="status"><span aria-hidden="true">✅</span> {{ T.rappel }}</p>
       <button type="button" class="btn btn-primaire" @click="emit('fait')">Continuer</button>
     </template>
   </section>

@@ -27,6 +27,8 @@ import ParcoursScene from '@/parcours/ParcoursScene.vue'
 import type { PersonnageId } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
 import BandeauAide from '@/ui/BandeauAide.vue'
+import BandeauBrouillon from '@/ui/BandeauBrouillon.vue'
+import { contexteSensible } from '@/recovery/textes'
 
 const route = useRoute()
 const store = useProgress()
@@ -35,6 +37,7 @@ const store = useProgress()
 const mission = getMission(String(route.params.id))
 const theme = mission?.theme ? getTheme(mission.theme) : undefined
 const sensible = theme?.sensible ?? false
+const contexte = sensible ? contexteSensible(theme?.id) : undefined
 const leviers = getLeviers()
 
 const parcours = mission?.format === 'parcours'
@@ -93,6 +96,7 @@ function recommencer() {
       <RouterLink class="btn" to="/carte">Retour à la carte</RouterLink>
     </template>
     <template v-else>
+      <BandeauBrouillon v-if="mission.relecture?.statut === 'a-relire'" />
       <header class="mission-entete">
         <h1>{{ mission.titre }}</h1>
         <p v-if="!etat.termine && !surIle" class="progression">
@@ -115,7 +119,7 @@ function recommencer() {
         <ChoixPersonnage v-model="personnageChoisi" />
         <button type="button" class="btn btn-primaire" :disabled="!personnageChoisi" @click="commencerParcours">C’est parti !</button>
       </section>
-      <FinMission v-else-if="etat.termine" :mission="mission" :etat="etat" :leviers="leviers" @rejouer="recommencer" />
+      <FinMission v-else-if="etat.termine" :mission="mission" :etat="etat" :leviers="leviers" :sensible="sensible" @rejouer="recommencer" />
       <template v-else-if="etape">
         <ScenarioStep
           v-if="etape.type === 'scenario'"
@@ -126,13 +130,14 @@ function recommencer() {
           :mode="mode"
           :sensible="sensible"
           :leviers="leviers"
+          :contexte="contexte"
           @evenement="envoyer"
         />
         <MinijeuStep
           v-else-if="etape.type === 'minijeu'"
           :key="etape.id"
           :etape="etape"
-          :chrono="store.etat.reglages.chrono"
+          :chrono="store.etat.reglages.chrono && !sensible"
           @evenement="envoyer"
         />
         <LieuStep
@@ -144,6 +149,7 @@ function recommencer() {
           :mode="mode"
           :sensible="sensible"
           :leviers="leviers"
+          :contexte="contexte"
           @evenement="envoyer"
         />
         <FilStep v-else-if="etape.type === 'fil'" :key="etape.id" :fil="etape" @evenement="envoyer" />

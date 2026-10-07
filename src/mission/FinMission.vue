@@ -3,12 +3,13 @@ import { Award } from '@lucide/vue'
 import { computed, nextTick, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import type { Leviers, Lieu, Mission, Scenario } from '@/content/schema'
-import { BADGES, calculerBadges } from '@/engine/badges'
+import { BADGES, calculerBadges, descriptionBadge } from '@/engine/badges'
 import { leviersDeLaMission, leviersDuRun, type RunState, type SurpriseResultat } from '@/engine/mission-runner'
 import { focusAuMontage } from '@/ui/focus'
 import { useTexte } from '@/ui/useTexte'
+import { FIN_SENSIBLE } from './textesSensibles'
 
-const props = defineProps<{ mission: Mission; etat: RunState; leviers: Leviers }>()
+const props = withDefaults(defineProps<{ mission: Mission; etat: RunState; leviers: Leviers; sensible?: boolean }>(), { sensible: false })
 const emit = defineEmits<{ rejouer: [] }>()
 const t = useTexte()
 const titre = ref<HTMLElement | null>(null)
@@ -18,7 +19,7 @@ const badges = computed(() => calculerBadges(props.etat))
 const leviersChoisis = computed(() =>
   leviersDuRun(props.mission, props.etat).map((id) =>
     id === 'autre'
-      ? { id, libelle: props.leviers.autre.libelle, parade: props.leviers.autre.parade }
+      ? { id, libelle: props.leviers.autre.libelle, parade: (props.sensible ? props.leviers.autreSensible : props.leviers.autre).parade }
       : { id, libelle: props.leviers.leviers[id].libelle, parade: props.leviers.leviers[id].parade },
   ),
 )
@@ -84,17 +85,18 @@ async function fermerPleinEcran() {
     <h3>Tes badges</h3>
     <ul class="badges">
       <li v-for="b in badges" :key="b" class="carte badge">
-        <Award aria-hidden="true" /> <strong>{{ BADGES[b].titre }}</strong> : {{ BADGES[b].description }}
+        <Award aria-hidden="true" /> <strong>{{ BADGES[b].titre }}</strong> : {{ descriptionBadge(b, sensible) }}
       </li>
     </ul>
 
     <section v-if="afficherCraquer" class="carte craquer">
-      <h3>Ce qui t’a fait craquer</h3>
+      <h3>{{ sensible ? FIN_SENSIBLE.titre : 'Ce qui t’a fait craquer' }}</h3>
       <ul v-if="leviersChoisis.length">
         <li v-for="l in leviersChoisis" :key="l.id"><strong>{{ l.libelle }}</strong> : {{ l.parade }}</li>
       </ul>
       <template v-else>
-        <p>Aucun piège n’a marché sur toi cette fois. Les leviers à surveiller :</p>
+        <p v-if="sensible">{{ FIN_SENSIBLE.sansLevier }}</p>
+        <p v-else>Aucun piège n’a marché sur toi cette fois. Les leviers à surveiller :</p>
         <ul>
           <li v-for="l in aSurveiller" :key="l">{{ l }}</li>
         </ul>

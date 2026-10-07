@@ -2,7 +2,9 @@ import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it } from 'vitest'
 import type { Scenario } from '@/content/schema'
 import PourquoiForm from '@/mission/PourquoiForm.vue'
+import type { ScenarioResultat } from '@/engine/mission-runner'
 import ScenarioStep from '@/mission/ScenarioStep.vue'
+import { reponseLevier } from '@/mission/reponseLevier'
 import { creerStore, definirStore } from '@/store/useProgress'
 import { leviersFixture, missionFixture } from './fixtures'
 import { cliquer } from './helpers'
@@ -82,5 +84,44 @@ describe('ScenarioStep et « pourquoi »', () => {
     })
     expect(w.text()).toContain('Tu as répondu : « Autre chose / je ne sais pas »')
     expect(w.text()).toContain('Truc générique.')
+  })
+})
+
+describe('« pourquoi » en thème sensible', () => {
+  const resultat = (levier: 'autre' | 'urgence'): ScenarioResultat => ({
+    type: 'scenario', choixId: 'clic', qualite: 'risque', indicesChoisis: [], indicesJustes: 0, indicesFaux: 0,
+    levier, recuperationFaite: null, passe: false,
+  })
+  const monterEtape = (sensible: boolean, levier: 'autre' | 'urgence') =>
+    mount(ScenarioStep, {
+      props: { scenario: scenario(), phase: 'consequence', mode: 'solo', sensible, leviers: leviersFixture(), resultat: resultat(levier) },
+    })
+
+  it('« Autre chose » : réponse propre aux thèmes sensibles, titre « Ce qui a pu peser »', () => {
+    const w = monterEtape(true, 'autre')
+    expect(w.find('.ce-qui-a-marche h3').text()).toBe('Ce qui a pu peser')
+    expect(w.text()).not.toContain('Ce qui a marché sur toi')
+    expect(w.text()).toContain('Tu as répondu : « Autre chose / je ne sais pas »')
+    expect(w.text()).toContain('Truc sensible.')
+    expect(w.text()).toContain('Ta parade : Parade sensible.')
+    expect(w.text()).not.toContain('Truc générique.')
+  })
+
+  it('levier du scénario : même titre neutre en thème sensible', () => {
+    const w = monterEtape(true, 'urgence')
+    expect(w.find('.ce-qui-a-marche h3').text()).toBe('Ce qui a pu peser')
+    expect(w.text()).toContain('Le délai de 24 h est là exprès.')
+  })
+
+  it('hors thème sensible : rien ne change', () => {
+    const w = monterEtape(false, 'autre')
+    expect(w.find('.ce-qui-a-marche h3').text()).toBe('Ce qui a marché sur toi')
+    expect(w.text()).toContain('Truc générique.')
+  })
+
+  it('reponseLevier : autreSensible seulement en thème sensible', () => {
+    const l = leviersFixture()
+    expect(reponseLevier(scenario().pourquoi, 'autre', l, true)).toEqual({ libelle: 'Autre chose / je ne sais pas', truc: 'Truc sensible.', parade: 'Parade sensible.' })
+    expect(reponseLevier(scenario().pourquoi, 'autre', l)).toEqual({ libelle: 'Autre chose / je ne sais pas', truc: 'Truc générique.', parade: 'Parade générique.' })
   })
 })

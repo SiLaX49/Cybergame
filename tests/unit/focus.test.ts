@@ -16,6 +16,8 @@ import CapturePreuve from '@/recovery/CapturePreuve.vue'
 import ChangerMdp from '@/recovery/ChangerMdp.vue'
 import PrevenirContacts from '@/recovery/PrevenirContacts.vue'
 import CorrigerPartage from '@/recovery/CorrigerPartage.vue'
+import RetirerPublication from '@/recovery/RetirerPublication.vue'
+import Soutenir from '@/recovery/Soutenir.vue'
 import { creerStore, definirStore } from '@/store/useProgress'
 import AppHeader from '@/ui/AppHeader.vue'
 import {
@@ -108,7 +110,7 @@ describe('gestion du focus', () => {
     expect(actif()?.tagName).toBe('H3')
   })
 
-  it('capture-preuve, prevenir-contacts et corriger-partage : le focus ne retombe jamais sur la page', async () => {
+  it('capture-preuve, prevenir-contacts, corriger-partage, soutenir et retirer-publication : le focus ne retombe jamais sur la page', async () => {
     const w = monter(CapturePreuve)
     await cliquer(w, 'Faire une capture d’écran')
     await flushPromises()
@@ -124,6 +126,22 @@ describe('gestion du focus', () => {
     const c = monter(CorrigerPartage)
     await c.find('input[value="bon"]').setValue()
     await cliquer(c, 'Envoyer')
+    await flushPromises()
+    expect(actif()?.tagName).toBe('H3')
+    const s = monter(Soutenir)
+    await s.find('input[value="ecoute"]').setValue()
+    await cliquer(s, 'Envoyer')
+    await flushPromises()
+    expect(actif()?.tagName).toBe('H3')
+    const r = monter(RetirerPublication)
+    await cliquer(r, 'Supprimer ma publication')
+    await flushPromises()
+    expect(actif()?.tagName).toBe('H3')
+    await r.find('input[value="sinceres"]').setValue()
+    await cliquer(r, 'Envoyer')
+    await flushPromises()
+    expect(actif()?.tagName).toBe('H3')
+    await cliquer(r, 'Demander aux autres de ne pas repartager')
     await flushPromises()
     expect(actif()?.tagName).toBe('H3')
   })

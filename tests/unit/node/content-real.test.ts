@@ -4,6 +4,8 @@ import { describe, expect, it } from 'vitest'
 import { buildContent } from '../../../scripts/build-content'
 import { TRANCHES, type Mission } from '../../../src/content/schema'
 import { atteint, evaluerRobustesse } from '../../../src/minigames/robustesse'
+import * as TEXTES_SENSIBLES from '../../../src/mission/textesSensibles'
+import { BLOQUER_SIGNALER, CAPTURE_PREUVE, DEMANDER_AIDE, RETIRER_PUBLICATION, SOUTENIR } from '../../../src/recovery/textes'
 
 const bundle = buildContent(join(process.cwd(), 'content'))
 const missions = bundle.missions.filter((m) => m.type === 'mission')
@@ -193,6 +195,8 @@ describe('contenu réel', () => {
       bundle.leviers.autre.libelle,
       bundle.leviers.autre.truc,
       bundle.leviers.autre.parade,
+      bundle.leviers.autreSensible.truc,
+      bundle.leviers.autreSensible.parade,
     ]
     expect(textes.flatMap(phrases).filter((p) => mots(p).length > 20)).toEqual([])
   })
@@ -252,6 +256,13 @@ describe('contenu réel', () => {
   it.each(TRANCHES)('rappel : exactement une mission rappel pour la tranche %s', (t) => {
     expect(bundle.missions.filter((m) => m.type === 'rappel' && m.tranches.includes(t))).toHaveLength(1)
   })
+
+  it.each(['harcelement', 'rencontres'].flatMap((theme) => TRANCHES.map((t) => [theme, t] as const)))(
+    '%s (thème sensible) : au moins une mission pour la tranche %s',
+    (theme, t) => {
+      expect(missionsDuTheme(theme).some((m) => m.tranches.includes(t))).toBe(true)
+    },
+  )
 
   const MINIJEU_DU_THEME = { comptes: 'motdepasse', 'vie-privee': 'confidentialite', desinformation: 'verification', appareils: 'permissions' } as const
 
@@ -347,5 +358,186 @@ describe('contenu réel', () => {
       const fil = r.etapes.find((e) => e.type === 'fil')
       expect(fil?.type === 'fil' ? fil.notifications.length : 0, r.id).toBeGreaterThanOrEqual(4)
     }
+  })
+
+  describe('thèmes sensibles : règles éditoriales', () => {
+    const SENSIBLES = ['harcelement', 'rencontres'] as const
+    const missionsSensibles = missions.filter((m) => m.theme && (SENSIBLES as readonly string[]).includes(m.theme))
+    const CULPABILISANT = [
+      /\bta faute\b/i,
+      /tu (?:n’)?aurais (?:pas |jamais )?d(?:û(?!\p{L})|u(?=\s*(?:[.,;:!?…]|$)|\s+\p{L}+(?:er|ir|re|oir)(?!\p{L})))/iu,
+      /c’est bien fait|bien fait pour (?:toi|lui|elle)/i,
+      /\bna(?:i|ï)(?:f|fs|ve|ves|vement)\b/i,
+      /\bbête\b/i,
+      /\bidiot/i,
+      /tu l’as cherché/i,
+      /à cause de toi/i,
+      /tu aurais pu/i,
+      /si tu n’avais pas/i,
+    ]
+    const EXPLICITE = [/\bnue?s?\b/i, /\bnudes?\b/i, /\bsexe\b/i, /\bsext/i, /\bsexy\b/i, /\bsexuel/i, /\bintime/i, /\bseins?\b/i, /\bporno/i]
+    // Apostrophe droite et espaces insécables (U+00A0, U+202F) ramenées à la forme des contrôles.
+    const normaliser = (t: string) => t.normalize('NFC').replace(/'/g, '’').replace(/[  ]/g, ' ')
+    const culpabilisant = (t: string) => {
+      const propre = normaliser(t).replace(/ce n’(?:est|était) (?:vraiment |du tout )?(?:pas|jamais)(?: du tout)?(?: de| à)? ta faute/gi, '')
+      return CULPABILISANT.filter((re) => re.test(propre))
+    }
+    const explicite = (t: string) => EXPLICITE.filter((re) => re.test(normaliser(t)))
+
+    it('règles : formules culpabilisantes détectées, formules bienveillantes épargnées', () => {
+      for (const t of ['Tu aurais dû réfléchir', "Tu n'aurais pas dû", 'tu aurais du faire attention', 'Tu es naïf', 'Tu es naif', 'naïve', 'C’est ta faute', 'Bien fait pour toi', 'Tu l’as cherché', 'Quel idiot', 'Tu es bête', 'Tu n’aurais jamais dû', 'C’est à cause de toi', 'Tu aurais pu le voir', 'Si tu n’avais pas répondu', 'Tu aurais dû', 'C’est ta faute']) {
+        expect(culpabilisant(t), t).not.toEqual([])
+      }
+      for (const t of ['Tu as bien fait d’en parler', 'Ce n’est pas ta faute', "Ce n'était jamais de ta faute", 'Ce n’est pas à toi la faute', 'Tu aurais du temps pour en parler', 'Un adulte te croira', 'Ce n’est vraiment pas ta faute', 'Ce n’est pas du tout ta faute', 'Ce n’était vraiment pas de ta faute', 'Ce n’est du tout pas ta faute', 'Ce n’est pas ta faute du tout', 'Ce n’est pas ta faute']) {
+        expect(culpabilisant(t), t).toEqual([])
+      }
+    })
+
+    it('règles : vocabulaire explicite détecté', () => {
+      for (const t of ['une photo nue', 'des nudes', 'un nude', 'le sexto', 'le sexting', 'trop sexy', 'photo intime']) expect(explicite(t), t).not.toEqual([])
+      expect(explicite('Une photo de classe')).toEqual([])
+    })
+
+    const scenariosDe = (m: Mission) => m.etapes.filter((e) => e.type === 'scenario')
+
+    it('harcèlement : un scénario de chaque rôle (victime, témoin, auteur) par mission', () => {
+      const manques = missionsDuTheme('harcelement').flatMap((m) => {
+        const roles = new Set(scenariosDe(m).map((s) => s.role))
+        return (['victime', 'temoin', 'auteur'] as const).filter((r) => !roles.has(r)).map((r) => `${m.id} : rôle ${r} absent`)
+      })
+      expect(manques).toEqual([])
+    })
+
+    it('rencontres : rôles victime ou témoin uniquement', () => {
+      const intrus = missionsDuTheme('rencontres').flatMap((m) =>
+        scenariosDe(m).filter((s) => s.role !== 'victime' && s.role !== 'temoin').map((s) => `${m.id}.${s.id} : rôle ${s.role}`),
+      )
+      expect(intrus).toEqual([])
+    })
+
+    it('chaque scénario sensible avec un choix risqué a une récupération', () => {
+      const sans = missionsSensibles.flatMap((m) =>
+        scenariosDe(m).filter((s) => s.choix.some((c) => c.qualite === 'risque') && !s.recuperation).map((s) => `${m.id}.${s.id}`),
+      )
+      expect(sans).toEqual([])
+    })
+
+    it('aucune formule culpabilisante dans les textes de retour', () => {
+      const trouvees = missionsSensibles.flatMap((m) =>
+        m.etapes.flatMap((e): string[] => {
+          if (e.type === 'fil') return []
+          if (e.type === 'minijeu') {
+            const explications =
+              e.jeu === 'tri' ? e.config.cartes.map((c) => c.explication) : e.jeu === 'repere' ? e.config.lignes.map((l) => l.explication ?? '') : []
+            return explications.flatMap((t) => culpabilisant(t).map((re) => `${m.id}.${e.id} : ${re} dans « ${t} »`))
+          }
+          const textes: string[] =
+            e.type === 'scenario'
+              ? [
+                  ...e.choix.flatMap((c) => [c.consequence, c.consequenceSimple ?? '']),
+                  ...e.indices.map((i) => i.libelle),
+                  e.explicationIndices,
+                  e.aRetenir,
+                  e.aRetenirSimple ?? '',
+                ]
+              : [...e.choix.flatMap((c) => [c.reaction, c.reactionSimple ?? '']), e.aRetenir, e.aRetenirSimple ?? '']
+          textes.push(...(e.pourquoi ?? []).flatMap((p) => [p.truc, p.parade]))
+          return textes.flatMap((t) => culpabilisant(t).map((re) => `${m.id}.${e.id} : ${re} dans « ${t} »`))
+        }),
+      )
+      const debriefs = missionsSensibles.flatMap((m) => culpabilisant(m.debrief.reponses).map((re) => `${m.id}.debrief.reponses : ${re}`))
+      expect([...trouvees, ...debriefs]).toEqual([])
+    })
+
+    it('aucune formule culpabilisante dans les textes des gestes et des écrans sensibles (src/)', () => {
+      const chaines = (v: unknown): string[] =>
+        typeof v === 'string' ? [v] : Array.isArray(v) ? v.flatMap(chaines) : v && typeof v === 'object' ? Object.values(v).flatMap(chaines) : []
+      const textes = [
+        ...chaines({ SOUTENIR, RETIRER_PUBLICATION, CAPTURE_PREUVE, BLOQUER_SIGNALER, DEMANDER_AIDE }),
+        ...chaines(TEXTES_SENSIBLES),
+        bundle.leviers.autreSensible.truc,
+        bundle.leviers.autreSensible.parade,
+      ]
+      expect(textes.length).toBeGreaterThan(30)
+      expect(textes.flatMap((t) => culpabilisant(t).map((re) => `${re} dans « ${t} »`))).toEqual([])
+    })
+
+    it('chaque « Si un élève révèle » sensible cite le 3018, le 119 et le 3114', () => {
+      const manques = missionsSensibles.flatMap((m) =>
+        ['3018', '119', '3114'].filter((n) => !new RegExp(`\\b${n}\\b`).test(m.fiche.siRevelation ?? '')).map((n) => `${m.id} : ${n} absent`),
+      )
+      expect(manques).toEqual([])
+    })
+
+    it('les prénoms des personnes visées ne sont jamais repris pour un auteur ou un inconnu', () => {
+      // Personnes visées, ou amis à aider, dans au moins une mission sensible.
+      const VISES = ['Inès', 'Théo', 'Noah', 'Lucas', 'Yanis', 'Léna', 'Clara', 'Maya', 'Nora']
+      // Auteurs des moqueries, du raid, du chantage ou de la manipulation, et inconnus, mission par mission.
+      const AUTEURS: Record<string, string[]> = {
+        'h-6e-surnom': ['Malo', 'Kylian', 'Lisa'],
+        'h-college-faux-compte': ['Kenzo', 'Anaïs'],
+        'h-lycee-rumeur': ['Axel'],
+        'r-6e-ami-du-jeu': ['Kiro_77', 'Max'],
+        'r-college-chantage': ['jade.14', 'k4rma_x', 'zed_lv'],
+        'r-lycee-webcam': ['Sam'],
+      }
+      const problemes = missionsSensibles.flatMap((m) => {
+        const auteurs = AUTEURS[m.id] ?? []
+        const texte = normaliser(JSON.stringify(m))
+        // Qui parle dans un groupe (« Prénom : … »), hors titulaire du compte affiché, est un auteur ou un témoin.
+        const orateurs = scenariosDe(m).flatMap((s) =>
+          s.ecran.messages.flatMap((x) => (x.de === 'contact' ? [...x.texte.matchAll(/(?:^|· )(\p{Lu}[\p{L}_.\d]*) :/gu)].map((r) => r[1]!).filter((o) => o !== s.ecran.contact) : [])),
+        )
+        return [
+          ...(m.id in AUTEURS ? [] : [`${m.id} : auteurs non déclarés dans ce test`]),
+          ...auteurs.filter((a) => !texte.includes(a)).map((a) => `${m.id} : ${a} introuvable`),
+          ...[...auteurs, ...orateurs]
+            .filter((a) => VISES.some((v) => a.toLowerCase().includes(v.toLowerCase())))
+            .map((a) => `${m.id} : ${a} reprend le prénom d’une personne visée`),
+        ]
+      })
+      expect(problemes).toEqual([])
+    })
+
+    it('chaque fiche sensible précise que les prénoms sont fictifs', () => {
+      expect(missionsSensibles.filter((m) => !m.fiche.deroulement.includes('Les prénoms sont fictifs.')).map((m) => m.id)).toEqual([])
+    })
+
+    it('chaque mission sensible cite le 3018 dans un « À retenir »', () => {
+      const sans = missionsSensibles
+        .filter((m) => !m.etapes.some((e) => (e.type === 'scenario' || e.type === 'lieu') && e.aRetenir.includes('3018')))
+        .map((m) => m.id)
+      expect(sans).toEqual([])
+    })
+
+    it('rencontres : « ce n’est pas ta faute » ; en cas de chantage, « ne paie pas » et « n’envoie rien de plus »', () => {
+      const problemes = missionsDuTheme('rencontres').flatMap((m) => {
+        const eleve = { ...m, fiche: undefined, debrief: undefined }
+        const texte = aplatir(normaliser(JSON.stringify(eleve)))
+        const p: string[] = []
+        if (!texte.includes('ce n’est pas ta faute')) p.push(`${m.id} : « ce n’est pas ta faute » absent`)
+        if (/chantage|paie/.test(texte)) {
+          if (!texte.includes('ne paie pas')) p.push(`${m.id} : « ne paie pas » absent`)
+          if (!texte.includes('n’envoie rien de plus')) p.push(`${m.id} : « n’envoie rien de plus » absent`)
+        }
+        return p
+      })
+      expect(problemes).toEqual([])
+    })
+
+    it('aucun vocabulaire explicite dans les messages des faux écrans', () => {
+      const trouves = missionsSensibles.flatMap((m) =>
+        scenariosDe(m).flatMap((s) =>
+          s.ecran.messages
+            .flatMap((x) => [x.texte, x.texteSimple ?? ''])
+            .flatMap((t) => explicite(t).map((re) => `${m.id}.${s.id} : ${re} dans « ${t} »`)),
+        ),
+      )
+      expect(trouves).toEqual([])
+    })
+
+    it('les missions de harcèlement sont des missions phares', () => {
+      expect(missionsDuTheme('harcelement').filter((m) => !m.competences.phare).map((m) => m.id)).toEqual([])
+    })
   })
 })

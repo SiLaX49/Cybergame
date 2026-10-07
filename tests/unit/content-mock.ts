@@ -11,6 +11,7 @@ export const contentMock = creerAcces({
       id: 'm-sensible',
       theme: 'harcelement',
       titre: 'Mission sensible',
+      relecture: { statut: 'a-relire' },
       fiche: { deroulement: 'Déroulé.', siRevelation: 'Prévenir le ou la CPE et l’infirmier·e scolaire.' },
     }),
     rappelFixture(),

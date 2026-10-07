@@ -12,6 +12,8 @@ export const RECOVERY_ACTIONS = [
   'capture-preuve',
   'prevenir-contacts',
   'corriger-partage',
+  'soutenir',
+  'retirer-publication',
   'demander-aide',
 ] as const
 export type RecoveryAction = (typeof RECOVERY_ACTIONS)[number]
@@ -24,16 +26,18 @@ export type FilAction = (typeof FIL_ACTIONS)[number]
 const slug = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'identifiant attendu en minuscules-avec-tirets')
 const texte = z.string().trim().min(1, 'texte vide')
 
-export const LEVIERS = ['urgence', 'peur', 'gain', 'confiance', 'petit-montant', 'autorite', 'groupe', 'reflexe'] as const
+export const LEVIERS = ['urgence', 'peur', 'gain', 'confiance', 'petit-montant', 'autorite', 'groupe', 'reflexe', 'flatterie', 'secret', 'honte', 'humour', 'colere'] as const
 export type LevierId = (typeof LEVIERS)[number]
 export type ReponseLevier = LevierId | 'autre'
 
 const levierInfoSchema = z.object({ libelle: texte, parade: texte, questionDebrief: texte })
 
-/** content/leviers.yaml : les 8 leviers (tous obligatoires, aucun autre) et la réponse « Autre chose ». */
+/** content/leviers.yaml : les 13 leviers (tous obligatoires, aucun autre) et la réponse « Autre chose ». */
 export const leviersFileSchema = z.object({
   leviers: z.record(z.enum(LEVIERS), levierInfoSchema),
   autre: z.object({ libelle: texte, truc: texte, parade: texte }),
+  /** Réponse à « Autre chose » dans les thèmes sensibles (le libellé reste celui de `autre`). */
+  autreSensible: z.object({ truc: texte, parade: texte }),
 })
 export type Leviers = z.infer<typeof leviersFileSchema>
 
@@ -360,6 +364,21 @@ function verifierFormat<T>(m: { type: string; format: string; etapes: { type: st
   }
 }
 
+export const RELECTURE_STATUTS = ['a-relire', 'relue-interne', 'relue-association'] as const
+
+/** Statut de relecture d’une mission ; obligatoire pour un thème sensible (règle dans validateCross). */
+const relectureSchema = z
+  .object({
+    statut: z.enum(RELECTURE_STATUTS),
+    par: texte.optional(),
+    date: z.iso.date('date attendue au format AAAA-MM-JJ, et qui existe').optional(),
+  })
+  .superRefine((r, ctx) => {
+    if (r.statut !== 'a-relire' && (!r.par || !r.date)) {
+      ctx.addIssue({ code: 'custom', message: '« par » et « date » sont obligatoires une fois relue' })
+    }
+  })
+
 export const missionSchema = z
   .object({
     id: slug,
@@ -384,6 +403,7 @@ export const missionSchema = z
       erreursFrequentes: z.array(texte).min(1),
     }),
     fiche: z.object({ deroulement: texte, siRevelation: texte.optional() }),
+    relecture: relectureSchema.optional(),
   })
   .superRefine((m, ctx) => {
     idsUniques(m.etapes.map((e) => e.id), ctx, ['etapes'], 'étape')

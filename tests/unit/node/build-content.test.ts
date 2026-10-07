@@ -4,8 +4,8 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { stringify } from 'yaml'
-import { buildContent, ContentError, listContentFiles } from '../../../scripts/build-content'
-import { rawLeviers, rawMission, rawThemes } from '../fixtures'
+import { buildContent, ContentError, estBrouillon, listContentFiles } from '../../../scripts/build-content'
+import { missionFixture, rawLeviers, rawMission, rawMissionSensible, rawThemes, themesFixture } from '../fixtures'
 
 function dossier(missions: Record<string, string>, themes = stringify(rawThemes())) {
   const racine = mkdtempSync(join(tmpdir(), 'cr-contenu-'))
@@ -32,7 +32,7 @@ function erreur(fn: () => unknown): ContentError {
 describe('buildContent', () => {
   it('compile un dossier valide', () => {
     const racine = dossier({ 'phishing/m.yaml': stringify(rawMission()) })
-    const bundle = buildContent(racine, new Date('2026-09-01T10:00:00Z'))
+    const bundle = buildContent(racine, { maintenant: new Date('2026-09-01T10:00:00Z') })
     expect(bundle.generatedAt).toBe('2026-09-01T10:00:00.000Z')
     expect(bundle.themes.map((t) => t.id)).toEqual(['phishing', 'jeux-achats', 'harcelement'])
     expect(bundle.missions.map((m) => m.id)).toEqual(['m-test'])
@@ -71,6 +71,48 @@ describe('buildContent', () => {
   it('expose les leviers dans le bundle', () => {
     const racine = dossier({ 'phishing/m.yaml': stringify(rawMission()) })
     expect(buildContent(racine).leviers.autre.libelle).toBe('Autre chose / je ne sais pas')
+  })
+
+  describe('relecture des thèmes sensibles', () => {
+    const relue = { statut: 'relue-interne', par: 'Équipe projet', date: '2026-10-01' }
+    const ids = (racine: string, brouillons: boolean) => buildContent(racine, { brouillons }).missions.map((m) => m.id)
+
+    it('exige une relecture pour un thème sensible', () => {
+      const m = rawMissionSensible() as Record<string, unknown>
+      delete m.relecture
+      const racine = dossier({ 'harcelement/m.yaml': stringify(m) })
+      expect(erreur(() => buildContent(racine)).message).toContain('relecture : obligatoire pour un thème sensible')
+    })
+
+    it('garde un brouillon seulement quand brouillons vaut true (défaut)', () => {
+      const racine = dossier({ 'harcelement/m.yaml': stringify(rawMissionSensible()) })
+      expect(ids(racine, true)).toEqual(['m-sensible'])
+      expect(buildContent(racine).missions.map((m) => m.id)).toEqual(['m-sensible'])
+      expect(ids(racine, false)).toEqual([])
+    })
+
+    it('garde une mission relue dans les deux cas', () => {
+      const racine = dossier({ 'harcelement/m.yaml': stringify(rawMissionSensible({ relecture: relue })) })
+      expect(ids(racine, true)).toEqual(['m-sensible'])
+      expect(ids(racine, false)).toEqual(['m-sensible'])
+    })
+
+    it('ne filtre jamais une mission non sensible', () => {
+      const racine = dossier({ 'phishing/m.yaml': stringify(rawMission({ relecture: { statut: 'a-relire' } })) })
+      expect(ids(racine, false)).toEqual(['m-test'])
+    })
+
+    it('valide un brouillon avant de le retirer', () => {
+      const racine = dossier({ 'harcelement/m.yaml': stringify(rawMissionSensible({ tranches: [] })) })
+      expect(erreur(() => buildContent(racine, { brouillons: false })).message).toContain('tranches')
+    })
+
+    it('estBrouillon', () => {
+      const themes = themesFixture()
+      expect(estBrouillon(missionFixture(rawMissionSensible()), themes)).toBe(true)
+      expect(estBrouillon(missionFixture(rawMissionSensible({ relecture: relue })), themes)).toBe(false)
+      expect(estBrouillon(missionFixture({ relecture: { statut: 'a-relire' } }), themes)).toBe(false)
+    })
   })
 
   it('compile le vrai dossier content/', () => {
