@@ -22,7 +22,7 @@ const INTERFACE: Paire[] = [
     [`accent-${t}`, 'surface'], [`accent-${t}`, 'surface-2'], [`accent-${t}`, `teinte-${t}`],
   ]),
 ]
-const FONDS_FOCUS = ['fond', 'surface', 'surface-2', 'bon-fond', 'risque-fond', 'aide-fond']
+const FONDS_FOCUS = ['fond', 'surface', 'surface-2', 'mer', 'bon-fond', 'risque-fond', 'aide-fond']
 
 describe('ratioContraste', () => {
   it('donne 21 pour noir sur blanc et 1 pour une couleur sur elle-même', () => {
