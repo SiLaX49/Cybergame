@@ -1,6 +1,9 @@
 import { expect, test, type Page } from '@playwright/test'
 import { jouerMission } from './helpers'
 
+// Missions sensibles jouées en entier, sur trois navigateurs : plus longues que le délai par défaut.
+test.describe.configure({ timeout: 90_000 })
+
 // Ces missions sont des brouillons (relecture « a-relire ») : elles n’existent que dans le build VITE_BROUILLONS=1 des tests.
 const MISSIONS = [
   ['h-6e-surnom', 'Juste pour rire ?'],
@@ -80,4 +83,43 @@ test('harcèlement, auteur : un choix risqué mène à « retirer la publication
   await expect(page.getByText('C’est possible de réparer.')).toBeVisible()
   await page.getByRole('button', { name: 'Continuer', exact: true }).click()
   await expect(page.getByText('Étape 4 sur')).toBeVisible()
+})
+
+test('rencontres : « protège-toi », motif « mineur » au signalement, et « soutenir » adapté', async ({ page }) => {
+  await page.goto('/#/mission/r-6e-ami-du-jeu')
+  await page.getByRole('button', { name: 'Commencer' }).click()
+  await page.locator('[data-choix="accepte"]').click()
+  await page.locator('[data-levier="autre"]').click()
+  await expect(page.getByRole('heading', { name: 'Ce qui a pu peser' })).toBeVisible()
+  await page.getByRole('button', { name: 'Continuer', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Maintenant, protège-toi' })).toBeFocused()
+  await page.getByRole('button', { name: 'Menu du contact' }).click()
+  await page.getByRole('button', { name: 'Bloquer', exact: true }).click()
+  await page.getByRole('radio', { name: 'Comportement inquiétant envers un mineur' }).check()
+  await page.getByRole('button', { name: 'Envoyer le signalement' }).click()
+  await page.getByRole('button', { name: 'Continuer', exact: true }).click()
+  await expect(page.getByText('Étape 2 sur')).toBeVisible()
+  await page.getByRole('button', { name: 'Passer ce scénario' }).click()
+  await expect(page.getByText('Étape 3 sur')).toBeVisible()
+  await page.locator('[data-choix="promet"]').click()
+  await page.locator('[data-levier="autre"]').click()
+  await page.getByRole('button', { name: 'Continuer', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Maintenant, limite les dégâts' })).toBeFocused()
+  await expect(page.getByRole('heading', { name: 'Écris à ton ami·e, en privé' })).toBeVisible()
+  await expect(page.getByText(/harceleurs|ils sont bêtes/)).toHaveCount(0)
+  await page.getByRole('radio', { name: 'Promis, je ne dirai rien.' }).check()
+  await page.getByRole('button', { name: 'Envoyer', exact: true }).click()
+  await expect(page.getByText('Mais ce secret-là ne se garde pas')).toBeVisible()
+  await page.getByRole('radio', { name: 'Ce n’est pas ta faute, je suis là.' }).check()
+  await page.getByRole('button', { name: 'Envoyer', exact: true }).click()
+  await expect(page.getByText('Ce secret-là ne se garde pas : préviens un adulte ou le 3018.')).toBeVisible()
+  await page.getByRole('button', { name: 'Continuer', exact: true }).click()
+  await expect(page.getByText('Étape 4 sur')).toBeVisible()
+})
+
+test('plan B d’une mission sensible : bandeau « Brouillon », formulation neutre et aides', async ({ page }) => {
+  await page.goto('/#/enseignants/r-6e-ami-du-jeu/plan-b')
+  await expect(page.getByText('Brouillon :')).toBeVisible()
+  await expect(page.getByText('Si tu as fait ce choix, qu’est-ce qui a pesé ?').first()).toBeVisible()
+  await expect(page.getByRole('complementary', { name: 'Besoin d’aide ?' })).toContainText('3018')
 })

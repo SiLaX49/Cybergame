@@ -39,7 +39,8 @@ Règles principales :
 - `recuperation.siChoix` ne cite que des choix `risque` ou `bon`, jamais le choix `aide`.
 - Marques **fictives** uniquement dans les faux écrans (un test le vérifie).
 - 6e : `texteSimple`, `consequenceSimple` (choix risqués) et `aRetenirSimple` obligatoires.
-- Thème sensible : `fiche.siRevelation` obligatoire, et relecture par une association spécialisée avant publication.
+- Thème sensible : `fiche.siRevelation` obligatoire (3018, 119 et 3114 cités), bloc `relecture` obligatoire, et
+  relecture interne renforcée avant publication (voir « Thèmes sensibles »).
 - Ton : tutoiement, jamais culpabilisant, une conséquence réaliste et toujours une action possible.
 
 Exemple de référence : `content/missions/phishing/p-6e-colis.yaml`.
@@ -87,10 +88,13 @@ relecture:
 ```
 
 **Brouillons visibles en local, cachés en ligne.** Une mission au statut `a-relire` est incluse avec un bandeau
-« Brouillon » dans `npm run dev` et dans un build avec `VITE_BROUILLONS=1` (c’est celui des tests E2E). Elle est
+« Brouillon » (en tête de mission, sur la fiche enseignant et sur la version papier) dans `npm run dev` et dans un build avec `VITE_BROUILLONS=1` (c’est celui des tests E2E). Elle est
 exclue de `npm run build`, donc du site publié : le thème reste « Bientôt disponible » tant qu’il n’a aucune mission
-publiable. La CI exécute ensuite `npx tsx scripts/verifier-publication.ts`, qui échoue si l’identifiant d’un brouillon
-se retrouve dans `dist/assets/*.js`. Les tests de contenu chargent toujours tous les brouillons.
+publiable. Le contrôle de production n’est pas dans `npm run test:e2e` (qui tourne sur le build avec brouillons) : c’est
+la CI qui exécute, après le build de production, `npx tsx scripts/verifier-publication.ts`. Ce script échoue si
+l’identifiant d’un brouillon se retrouve dans `dist/assets/*.js`, ou si la liste des brouillons à bloquer ne correspond
+pas aux missions sensibles `a-relire` relues directement dans les YAML. En local : `npm run build`, puis le même script.
+Les tests de contenu chargent toujours tous les brouillons.
 
 **Les 3 verrous de la relecture interne** (une mission passe à `relue-interne` quand ils sont tous passés) :
 1. les tests automatiques sont verts (formules culpabilisantes, 3018, vocabulaire explicite, rôles, récupérations…) ;
@@ -99,7 +103,10 @@ se retrouve dans `dist/assets/*.js`. Les tests de contenu chargent toujours tous
    partir de la fiche enseignant imprimable et de l’export ci-dessous.
 
 **Exporter pour la relecture.** `npm run export:relecture` écrit un fichier Markdown par mission sensible dans
-`dist-relecture/` (option `--toutes` pour toutes les missions). Ce dossier n’est pas versionné.
+`dist-relecture/` (option `--toutes` pour toutes les missions). Chaque fichier se termine par une annexe avec les textes
+affichés autour des étapes : avertissement, numéros d’aide du thème, texte complet des gestes de récupération utilisés,
+leviers avec leur parade (dont « Autre chose »), textes de fin de mission. Ces textes viennent de
+`src/recovery/textes.ts` et `src/mission/textesSensibles.ts`, lus aussi par le jeu. Ce dossier n’est pas versionné.
 
 **Passer une mission en `relue-interne`.** Dans son YAML, remplacer le bloc par :
 
