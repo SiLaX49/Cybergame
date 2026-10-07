@@ -124,3 +124,15 @@ export async function tabJusquaSelecteur(page: Page, selecteur: string) {
 export async function focusConserve(page: Page) {
   await expect.poll(() => page.evaluate(() => document.activeElement?.tagName)).not.toBe('BODY')
 }
+
+/** Ouvre l’île dont le nom accessible commence par `nom` depuis la carte. */
+export async function ouvrirIle(page: Page, nom: string) {
+  await page.getByRole('link', { name: new RegExp(`^${nom}`) }).click()
+  await expect(page.getByRole('heading', { name: nom, level: 1 })).toBeVisible()
+}
+
+/** Depuis la carte : ouvre l’île, puis la mission. */
+export async function ouvrirMission(page: Page, ile: string, titre: string) {
+  await ouvrirIle(page, ile)
+  await page.getByRole('link', { name: titre }).click()
+}

@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
-import { commencer, jouerMission } from './helpers'
+import { commencer, jouerMission, ouvrirMission } from './helpers'
 
 async function verifierA11y(page: Page, ecran: string) {
   const resultat = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
@@ -24,7 +24,7 @@ test.describe('mode sombre automatique', () => {
     await verifierA11y(page, 'accueil sombre')
     await commencer(page, '6e', 'Solo')
     await verifierA11y(page, 'carte sombre')
-    await page.getByRole('link', { name: 'Le colis mystère' }).click()
+    await ouvrirMission(page, 'Île aux hameçons', 'Le colis mystère')
     await verifierA11y(page, 'situation sombre')
     await page.locator('[data-qualite="aide"]').click()
     await verifierA11y(page, 'indices sombre')

@@ -1,9 +1,9 @@
 import { expect, test } from '@playwright/test'
-import { commencer, focusConserve, jouerMission, tabJusqua, tabJusquaSelecteur } from './helpers'
+import { commencer, focusConserve, jouerMission, tabJusqua, tabJusquaSelecteur, ouvrirMission } from './helpers'
 
 test('solo 6e : une mission complète, puis la carte la marque terminée', async ({ page }) => {
   await commencer(page, '6e', 'Solo')
-  await page.getByRole('link', { name: 'Le colis mystère' }).click()
+  await ouvrirMission(page, 'Île aux hameçons', 'Le colis mystère')
   await jouerMission(page)
   await expect(page.getByText('Mission accomplie')).toBeVisible()
   await page.getByRole('link', { name: 'Retour à l’île' }).click()
@@ -70,7 +70,7 @@ test('débrief en grand : Échap ferme et rend le focus', async ({ page }) => {
 
 test('classe entière : l’adulte valide le choix de la classe', async ({ page }) => {
   await commencer(page, '6e', 'Classe entière')
-  await page.getByRole('link', { name: 'Le colis mystère' }).click()
+  await ouvrirMission(page, 'Île aux hameçons', 'Le colis mystère')
   await page.locator('[data-qualite="aide"]').click()
   await expect(page.getByRole('heading', { name: 'Qu’est-ce qui t’a décidé ?' })).toBeHidden()
   await page.getByRole('button', { name: 'Valider le choix de la classe' }).click()
