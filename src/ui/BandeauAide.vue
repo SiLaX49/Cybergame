@@ -1,7 +1,15 @@
 <script setup lang="ts">
 import type { Aide } from '@/content/schema'
 
+defineOptions({ inheritAttrs: false })
 defineProps<{ aides: Aide[] }>()
+
+/** Petits écrans : la barre collante amène le focus sur le bandeau complet. */
+function allerAuBandeau() {
+  const bandeau = document.getElementById('bandeau-aide')
+  bandeau?.scrollIntoView({ block: 'center' })
+  bandeau?.focus()
+}
 
 const TYPES: Record<Aide['type'], string> = {
   humaine: 'Parler à quelqu’un',
@@ -12,7 +20,7 @@ const TYPES: Record<Aide['type'], string> = {
 </script>
 
 <template>
-  <aside class="bandeau-aide encadre encadre-doux" aria-label="Besoin d’aide ?">
+  <aside id="bandeau-aide" tabindex="-1" v-bind="$attrs" class="bandeau-aide encadre encadre-doux" aria-label="Besoin d’aide ?">
     <p><strong>Besoin d’aide ? C’est gratuit et confidentiel.</strong></p>
     <ul>
       <li v-for="aide in aides" :key="aide.numero">
@@ -21,6 +29,9 @@ const TYPES: Record<Aide['type'], string> = {
       </li>
     </ul>
   </aside>
+  <div class="barre-aide no-print">
+    <a href="#bandeau-aide" class="btn btn-primaire" @click.prevent="allerAuBandeau">Besoin d’aide ?</a>
+  </div>
 </template>
 
 <style scoped>
@@ -35,8 +46,15 @@ const TYPES: Record<Aide['type'], string> = {
 .bandeau-aide li strong { font-weight: 700; }
 .type { display: inline-block; min-width: 11rem; color: var(--texte-doux); }
 /* Petit écran : le bandeau ne masque plus le contenu et les libellés passent au-dessus des numéros. */
+.barre-aide { display: none; }
 @media (max-width: 40rem) {
   .bandeau-aide { position: static; box-shadow: none; }
   .type { display: block; min-width: 0; }
+  /* Barre compacte collée en bas : le bandeau complet reste dans le flux, la barre y mène. */
+  .barre-aide {
+    display: flex; justify-content: center;
+    position: sticky; bottom: 0; z-index: 5;
+    padding: 0.5rem 1rem; background: var(--surface); border-top: 2px solid var(--bord);
+  }
 }
 </style>

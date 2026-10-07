@@ -44,3 +44,8 @@ input[type='radio'], input[type='checkbox'] { accent-color: var(--primaire); wid
 :root[data-animations='off'] *,
 :root[data-animations='off'] *::before,
 :root[data-animations='off'] *::after { animation: none !important; transition: none !important; }
+
+/* L’en-tête collant (grands écrans seulement) ne doit pas masquer la cible d’un défilement ou d’un focus. */
+@media (min-width: 40rem) and (min-height: 32rem) {
+  html { scroll-padding-top: 5rem; }
+}

@@ -40,8 +40,11 @@ async function fermer() {
 
 <style scoped>
 .app-header {
-  position: sticky; top: 0; z-index: 10;
   background: var(--surface); border-bottom: 2px solid var(--bord);
+}
+/* Collant seulement si l’écran est assez grand : sur petit écran ou fort zoom, il mangerait la page. */
+@media (min-width: 40rem) and (min-height: 32rem) {
+  .app-header { position: sticky; top: 0; z-index: 10; }
 }
 .barre {
   display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
