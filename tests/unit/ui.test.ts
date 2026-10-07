@@ -34,6 +34,14 @@ describe('appliquerReglages', () => {
     expect(racine.dataset.animations).toBe('off')
     expect(racine.dataset.mode).toBe('classe')
   })
+
+  it('pose le thème choisi, automatique par défaut', () => {
+    const racine = document.createElement('div')
+    appliquerReglages(store, racine)
+    expect(racine.dataset.theme).toBe('auto')
+    store.modifierReglages({ theme: 'sombre' })
+    return nextTick().then(() => expect(racine.dataset.theme).toBe('sombre'))
+  })
 })
 
 describe('useTexte', () => {
@@ -53,6 +61,18 @@ describe('BandeauAide', () => {
     expect(w.text()).toContain('3018')
     expect(w.text()).toContain('Parler à quelqu’un')
     expect(w.find('aside').attributes('aria-label')).toBe('Besoin d’aide ?')
+  })
+})
+
+describe('ReglagesPanel — thème', () => {
+  it('propose Automatique, Clair et Sombre et enregistre le choix', async () => {
+    const w = mount(ReglagesPanel)
+    const groupe = w.findAll('fieldset').find((f) => f.find('legend').text() === 'Thème')
+    expect(groupe).toBeDefined()
+    expect(groupe!.findAll('label').map((l) => l.text())).toEqual(['Automatique (comme l’appareil)', 'Clair', 'Sombre'])
+    expect((groupe!.find('input[value="auto"]').element as HTMLInputElement).checked).toBe(true)
+    await groupe!.find('input[value="sombre"]').setValue(true)
+    expect(store.etat.reglages.theme).toBe('sombre')
   })
 })
 

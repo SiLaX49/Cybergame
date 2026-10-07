@@ -34,6 +34,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     include: ['tests/unit/**/*.test.ts'],
+    css: { include: [/tokens\.css/] }, // ?raw de tokens.css pour tests/unit/palette.test.ts
     alias: {
       'virtual:pwa-register/vue': fileURLToPath(new URL('./tests/unit/pwa-register-stub.ts', import.meta.url)),
     },

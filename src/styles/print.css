@@ -2,6 +2,8 @@
   margin: 1.5cm;
 }
 @media print {
+  :root { color-scheme: light; }
+  .btn, .carte, .encadre, .option { box-shadow: none !important; background-image: none !important; }
   .app-header, .lien-evitement, .alerte-stockage, .no-print, .bandeau-aide, .maj {
     display: none !important;
   }
