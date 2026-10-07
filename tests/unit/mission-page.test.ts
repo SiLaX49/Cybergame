@@ -272,13 +272,27 @@ describe('MissionPage : barre unique et mode scène', () => {
     expect(scene(w)).toBe(true)
   })
 
-  it('l’en-tête global est absent sur la route mission, présent ailleurs', async () => {
+  it('en-tête global et pied de page absents sur la route mission, présents ailleurs', async () => {
     const enMission = mount(App, { global: { plugins: [await routerTest('/mission/m-test')] } })
     await flushPromises()
     expect(enMission.find('.app-header').exists()).toBe(false)
+    expect(enMission.find('footer.pied').exists()).toBe(false)
     expect(enMission.find('header.mission-barre').exists()).toBe(true)
     const ailleurs = mount(App, { global: { plugins: [await routerTest('/confidentialite')] } })
     await flushPromises()
     expect(ailleurs.find('.app-header').exists()).toBe(true)
+    expect(ailleurs.findAll('footer.pied a').map((a) => a.text())).toEqual([
+      'Espace enseignants',
+      'Confidentialité',
+      'Test technique du poste',
+    ])
+  })
+
+  it('les deux barres partagent le même bouton Réglages', async () => {
+    const w = mount(App, { global: { plugins: [await routerTest('/mission/m-test')] } })
+    await flushPromises()
+    await cliquer(w, 'Réglages')
+    expect(w.find('#panneau-reglages').exists()).toBe(true)
+    expect(w.find('header.mission-barre button[aria-controls="panneau-reglages"]').attributes('aria-expanded')).toBe('true')
   })
 })

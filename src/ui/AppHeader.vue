@@ -1,43 +1,17 @@
 <script setup lang="ts">
-import { Settings, ShieldCheck } from '@lucide/vue'
-import { nextTick, ref } from 'vue'
+import { ShieldCheck } from '@lucide/vue'
 import { RouterLink } from 'vue-router'
-import ReglagesPanel from './ReglagesPanel.vue'
-
-const ouvert = ref(false)
-const boutonReglages = ref<HTMLButtonElement | null>(null)
-async function fermer() {
-  ouvert.value = false
-  await nextTick()
-  boutonReglages.value?.focus()
-}
+import EnTete from './EnTete.vue'
 </script>
 
 <template>
-  <header class="app-header">
-    <RouterLink to="/" class="logo"><ShieldCheck aria-hidden="true" /> Cyber Réflexes</RouterLink>
-    <nav aria-label="Navigation principale" class="nav">
-      <RouterLink to="/enseignants">Enseignants</RouterLink>
-      <button
-        ref="boutonReglages"
-        type="button"
-        class="btn"
-        aria-controls="panneau-reglages"
-        :aria-expanded="ouvert"
-        @click="ouvert = !ouvert"
-      >
-        <Settings aria-hidden="true" /> Réglages
-      </button>
-    </nav>
-  </header>
-  <ReglagesPanel v-if="ouvert" @fermer="fermer" />
+  <EnTete classe="app-header">
+    <template #gauche>
+      <RouterLink to="/" class="logo"><ShieldCheck aria-hidden="true" /> Cyber Réflexes</RouterLink>
+    </template>
+  </EnTete>
 </template>
 
 <style scoped>
-.app-header {
-  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
-  gap: 0.5rem; padding: 0.5rem 1rem; background: var(--surface); border-bottom: 1px solid var(--bord);
-}
 .logo { display: inline-flex; align-items: center; gap: 0.4em; font-weight: 700; font-size: 1.2em; text-decoration: none; }
-.nav { display: flex; align-items: center; gap: 1rem; }
 </style>
