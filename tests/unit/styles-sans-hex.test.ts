@@ -2,20 +2,8 @@ import { describe, expect, it } from 'vitest'
 
 const fichiers = import.meta.glob('/src/**/*.vue', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 
-/** Fichiers pas encore repassés sur les jetons. Chaque tâche d’écran retire les siens ; la tâche 7 vide la liste. */
-const EN_ATTENTE = new Set<string>([
-  '/src/App.vue',
-  '/src/minigames/MotDePasseGame.vue',
-  '/src/minigames/RepereGame.vue',
-  '/src/mission/CheminIle.vue',
-  '/src/mission/ConsequencePanel.vue',
-  '/src/mission/ReactionPanel.vue',
-  '/src/phone/PhoneFrame.vue',
-  '/src/phone/ThreadScreen.vue',
-  '/src/phone/WebScreen.vue',
-  '/src/ui/BandeauAide.vue',
-  '/src/ui/BandeauBrouillon.vue',
-])
+/** Aucun composant n’est exempté. */
+const EN_ATTENTE = new Set<string>([])
 
 const COULEUR_LITTERALE = /#[0-9a-f]{3,8}\b|\brgba?\(|\bhsla?\(/i
 
