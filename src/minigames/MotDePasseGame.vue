@@ -15,13 +15,14 @@ focusAuChangement(() => passe.value, boutonTerminer)
 const evaluation = computed(() => evaluerRobustesse(mdp.value, props.config.interdits))
 const objectifAtteint = computed(() => atteint(evaluation.value.niveau, props.config.objectif))
 const rang = computed(() => NIVEAUX.indexOf(evaluation.value.niveau))
+const couleurJauge = computed(() => (rang.value <= 1 ? 'var(--risque)' : rang.value === 2 ? 'var(--aide)' : 'var(--bon)'))
 </script>
 
 <template>
-  <div class="motdepasse">
-    <p>{{ config.consigne }}</p>
-    <p class="contexte">{{ config.contexte }}</p>
-    <p class="avertissement"><strong>N’écris pas ton vrai mot de passe :</strong> c’est un jeu.</p>
+  <div class="motdepasse carte">
+    <p class="consigne">{{ config.consigne }}</p>
+    <p class="contexte encadre encadre-info">{{ config.contexte }}</p>
+    <p class="avertissement encadre encadre-aide"><strong>N’écris pas ton vrai mot de passe :</strong> c’est un jeu.</p>
     <p>Objectif : un mot de passe {{ LIBELLES_NIVEAU[config.objectif].toLowerCase() }}.</p>
     <template v-if="!passe">
       <label for="phrase-de-passe">Ta phrase de passe</label>
@@ -37,7 +38,11 @@ const rang = computed(() => NIVEAUX.indexOf(evaluation.value.niveau))
         Robustesse : <strong>{{ LIBELLES_NIVEAU[evaluation.niveau] }}</strong> · temps estimé pour la deviner :
         {{ evaluation.temps }}
       </p>
-      <meter aria-hidden="true" min="0" max="4" :value="rang" />
+      <div class="jauge-bloc">
+        <label for="jauge-mdp">Niveau de robustesse</label>
+        <progress id="jauge-mdp" class="jauge" max="4" :value="rang" :style="{ '--accent': couleurJauge }" />
+        <span class="jauge-niveau">{{ LIBELLES_NIVEAU[evaluation.niveau] }}</span>
+      </div>
       <ul id="conseils-mdp" class="conseils">
         <li v-for="c in evaluation.conseils" :key="c.id">
           <span aria-hidden="true">{{ c.ok ? '✅' : '⬜' }}</span> {{ c.libelle }} ({{ c.ok ? 'fait' : 'à faire' }})
@@ -68,8 +73,17 @@ const rang = computed(() => NIVEAUX.indexOf(evaluation.value.niveau))
 </template>
 
 <style scoped>
-.avertissement { background: #fff8e6; border-left: 4px solid var(--aide); padding: 0.4rem 0.8rem; }
-input { font: inherit; min-height: 44px; width: 100%; max-width: 32rem; display: block; margin: 0.3rem 0 0.6rem; }
-meter { width: 100%; max-width: 32rem; height: 1rem; }
+.consigne { color: var(--texte-doux); }
+.encadre { margin: 0.75rem 0; }
+input {
+  font: inherit; min-height: 48px; width: 100%; max-width: 32rem; display: block; margin: 0.3rem 0 0.6rem;
+  padding: 0.4rem 0.8rem; color: var(--texte); background: var(--surface);
+  border: 2px solid var(--bord-fort); border-radius: var(--rayon-btn);
+}
+.jauge-bloc { display: grid; grid-template-columns: 1fr auto; gap: 0.2rem 0.75rem; align-items: center; max-width: 32rem; }
+.jauge-bloc label { grid-column: 1 / -1; font-weight: 600; color: var(--texte-doux); }
+.jauge { height: 1.1rem; }
+.jauge-niveau { font-family: var(--police-titres); font-weight: 600; min-width: 5.5rem; text-align: right; }
 .conseils { list-style: none; padding: 0; }
+.conseils li { padding: 0.15rem 0; }
 </style>

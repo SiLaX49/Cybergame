@@ -33,7 +33,7 @@ function decider(v: Verdict) {
 
 <template>
   <div class="verification">
-    <p>{{ config.consigne }}</p>
+    <p class="consigne">{{ config.consigne }}</p>
     <article class="carte publication">
       <p><strong>{{ config.publication.auteur }}</strong><span v-if="config.publication.date"> · {{ config.publication.date }}</span></p>
       <p>{{ config.publication.texte }}</p>
@@ -46,13 +46,13 @@ function decider(v: Verdict) {
       <li v-for="a in config.actions" :key="a.id">
         <button
           type="button"
-          class="btn"
+          class="btn choix-btn"
           :aria-describedby="revelees.includes(a.id) ? `res-${a.id}` : undefined"
           @click="enqueter(a.id)"
         >
           {{ a.libelle }}
         </button>
-        <p v-if="revelees.includes(a.id)" :id="`res-${a.id}`" class="resultat-enquete">{{ a.resultat }}</p>
+        <p v-if="revelees.includes(a.id)" :id="`res-${a.id}`" class="resultat-enquete encadre encadre-doux">{{ a.resultat }}</p>
       </li>
     </ul>
     <p class="visually-hidden annonce-enquete" role="status">{{ annonce }}</p>
@@ -71,7 +71,7 @@ function decider(v: Verdict) {
       </button>
     </div>
     <!-- Reçoit le focus : pas de role="status", sinon le résultat serait annoncé deux fois. -->
-    <div v-if="choisi !== null" ref="resultat" class="resultat-verdict" tabindex="-1">
+    <div v-if="choisi !== null" ref="resultat" class="resultat-verdict encadre" :class="juste ? 'encadre-bon' : 'encadre-risque'" tabindex="-1">
       <p v-if="juste"><span aria-hidden="true">✅</span> Bien vu : {{ LIBELLES[config.verdict].toLowerCase() }}.</p>
       <p v-else><span aria-hidden="true">❌</span> La bonne réponse : {{ LIBELLES[config.verdict] }}.</p>
       <p>{{ config.explication }}</p>
@@ -89,7 +89,9 @@ function decider(v: Verdict) {
 </template>
 
 <style scoped>
-.image-decrite { margin: 0.5rem 0 0; padding: 1rem; border: 2px dashed var(--bord); border-radius: var(--rayon); }
-.actions-enquete { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
-.resultat-enquete { margin: 0.3rem 0 0 0.5rem; color: var(--texte-doux); }
+.consigne { color: var(--texte-doux); }
+.image-decrite { margin: 0.5rem 0 0; padding: 1rem; border: 2px dashed var(--bord-fort); border-radius: 18px; min-height: 4rem; }
+.actions-enquete { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
+.resultat-enquete { margin: 0.6rem 0 0 0.5rem; }
+.resultat-verdict { margin: 1rem 0; }
 </style>

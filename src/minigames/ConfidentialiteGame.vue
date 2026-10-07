@@ -26,9 +26,9 @@ const phraseBilan = computed(() =>
 
 <template>
   <div class="confidentialite">
-    <p>{{ config.consigne }}</p>
+    <p class="consigne">{{ config.consigne }}</p>
     <!-- Reçoit le focus avant les explications ; pas de role="status" pour éviter une double annonce. -->
-    <p v-if="verifie" ref="bilan" class="bilan" tabindex="-1">{{ phraseBilan }} Les explications sont sous chaque réglage.</p>
+    <p v-if="verifie" ref="bilan" class="bilan encadre encadre-info" tabindex="-1">{{ phraseBilan }} Les explications sont sous chaque réglage.</p>
     <div class="carte parametres">
       <p><strong>Paramètres · {{ config.appNom }}</strong></p>
       <fieldset v-for="r in config.reglages" :key="r.id">
@@ -38,8 +38,8 @@ const phraseBilan = computed(() =>
           {{ o.libelle }}
         </label>
         <template v-if="verifie">
-          <p v-if="juste(r)" class="verdict bon"><span aria-hidden="true">✅</span> Bon réglage. {{ r.explication }}</p>
-          <p v-else class="verdict risque">
+          <p v-if="juste(r)" class="verdict encadre encadre-bon"><span aria-hidden="true">✅</span> Bon réglage. {{ r.explication }}</p>
+          <p v-else class="verdict encadre encadre-risque">
             <span aria-hidden="true">⚠️</span> À revoir : choisis « {{ libelleConseille(r) }} ». {{ r.explication }}
           </p>
         </template>
@@ -60,6 +60,7 @@ const phraseBilan = computed(() =>
 </template>
 
 <style scoped>
-.verdict.bon { color: var(--bon); }
-.verdict.risque { color: var(--risque); }
+.consigne { color: var(--texte-doux); }
+.verdict { margin: 0.6rem 0 0; }
+.bilan { margin: 0.75rem 0; }
 </style>

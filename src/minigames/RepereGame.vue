@@ -41,20 +41,20 @@ function reveler() {
 
 <template>
   <div class="repere">
-    <p>{{ config.consigne }}</p>
-    <p class="compteur">Indices trouvés : {{ trouves.length }} sur {{ indices.length }}</p>
+    <p class="consigne">{{ config.consigne }}</p>
+    <p class="compteur badge">Indices trouvés : {{ trouves.length }} sur {{ indices.length }}</p>
     <div class="carte ecran-repere">
       <p><strong>{{ config.titre }}</strong></p>
       <ul class="lignes">
         <li v-for="l in config.lignes" :key="l.id">
-          <button type="button" class="ligne" :class="{ marquee: marquee(l) }" :aria-pressed="marquee(l)" @click="cliquer(l)">
+          <button type="button" class="ligne btn choix-btn" :class="{ marquee: marquee(l) }" :aria-pressed="marquee(l)" @click="cliquer(l)">
             {{ l.texte }}<span v-if="marquee(l)" class="marque"> (indice)</span>
           </button>
-          <p v-if="revele && l.indice" class="explication">{{ l.explication }}</p>
+          <p v-if="revele && l.indice" class="explication encadre encadre-aide">{{ l.explication }}</p>
         </li>
       </ul>
     </div>
-    <p role="status">{{ message }}</p>
+    <p role="status" :class="{ 'encadre encadre-info': message }">{{ message }}</p>
     <div class="actions">
       <button v-if="!fini" type="button" class="btn" @click="reveler">Voir la solution</button>
       <button v-else type="button" class="btn btn-primaire" @click="emit('termine', { reussites: trouves.length, erreurs })">
@@ -66,11 +66,9 @@ function reveler() {
 
 <style scoped>
 .lignes { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
-.ligne {
-  width: 100%; min-height: 44px; text-align: left; padding: 0.4rem 0.6rem; font: inherit;
-  background: transparent; border: 2px dashed var(--bord); border-radius: 8px; cursor: pointer;
-}
-.ligne.marquee { border: 3px solid var(--risque); background: #fdecea; }
-.marque { font-weight: 700; color: var(--risque); }
-.explication { margin: 0.2rem 0 0.5rem 0.6rem; color: var(--texte-doux); }
+.consigne { color: var(--texte-doux); }
+.ligne { font-weight: 600; border-style: dashed; }
+.ligne.marquee { background: var(--aide-fond); outline: 2px solid var(--aide); border-style: solid; border-color: var(--aide); }
+.marque { font-weight: 700; color: var(--texte); margin-left: 0.4em; }
+.explication { margin: 0.5rem 0 0.5rem 0.6rem; }
 </style>
