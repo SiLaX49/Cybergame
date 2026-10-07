@@ -10,7 +10,7 @@ const indicesAffiches = computed(() => ordreAffichage(props.indices, props.grain
 </script>
 
 <template>
-  <form class="indices" @submit.prevent="emit('valider', [...coches])">
+  <form class="indices carte" @submit.prevent="emit('valider', [...coches])">
     <fieldset>
       <legend>Coche ce qui t’a fait réagir (plusieurs réponses possibles).</legend>
       <label v-for="i in indicesAffiches" :key="i.id" class="option">
@@ -23,3 +23,8 @@ const indicesAffiches = computed(() => ordreAffichage(props.indices, props.grain
     </div>
   </form>
 </template>
+
+<style scoped>
+.indices fieldset { border: 0; padding: 0; margin: 0 0 1rem; }
+.indices legend { padding: 0; margin-bottom: 0.5rem; color: var(--texte-doux); font-family: var(--police-texte); font-weight: 400; }
+</style>

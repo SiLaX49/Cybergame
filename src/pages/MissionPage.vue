@@ -98,7 +98,7 @@ function recommencer() {
     </template>
     <template v-else>
       <BandeauBrouillon v-if="mission.relecture?.statut === 'a-relire'" />
-      <header class="mission-entete">
+      <header class="mission-entete carte">
         <h1>{{ mission.titre }}</h1>
         <p v-if="!etat.termine && !surIle" class="progression">
           <label for="progression-mission">Étape {{ etat.index + 1 }} sur {{ mission.etapes.length }}</label>
@@ -165,9 +165,13 @@ function recommencer() {
 </template>
 
 <style scoped>
-.progression { display: flex; align-items: center; gap: 0.75rem; }
-progress { flex: 1; max-width: 20rem; height: 0.8rem; }
-.depart-titre { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+.mission { display: grid; gap: 1rem; align-content: start; }
+.mission-entete { display: grid; gap: 0.75rem; }
+.mission-entete h1 { margin: 0; }
+.progression { display: flex; align-items: center; gap: 0.75rem; margin: 0; }
+.progression label { font-weight: 700; white-space: nowrap; }
+progress { flex: 1; max-width: 20rem; }
+.choix-depart { display: grid; gap: 1rem; justify-items: start; }
+.depart-titre { display: flex; align-items: center; gap: 1rem; }
 .depart-titre h2 { margin: 0; }
-.choix-depart .btn { margin-top: 1rem; }
 </style>

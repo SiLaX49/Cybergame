@@ -24,7 +24,7 @@ function valider() {
 </script>
 
 <template>
-  <section class="fil">
+  <section class="fil carte">
     <h2 ref="titre" tabindex="-1">{{ fil.consigne }}</h2>
     <form @submit.prevent="valider">
       <fieldset v-for="n in fil.notifications" :key="n.id" class="carte notification">
@@ -42,7 +42,8 @@ function valider() {
 </template>
 
 <style scoped>
-.notification { margin-bottom: 1rem; }
+.fil h2 { margin-top: 0; }
+.notification { margin-bottom: 1rem; background: var(--surface-2); }
 .app { color: var(--texte-doux); }
-.actions-notif { display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
+.actions-notif { display: flex; flex-wrap: wrap; gap: 0 0.75rem; }
 </style>

@@ -21,7 +21,7 @@ function terminer(resultat: { reussites: number; erreurs: number }) {
 </script>
 
 <template>
-  <section class="minijeu">
+  <section class="minijeu carte">
     <h2 ref="titre" tabindex="-1">Mini-jeu</h2>
     <TriGame v-if="etape.jeu === 'tri'" :config="etape.config" :chrono="chrono" @termine="terminer" />
     <RepereGame v-else-if="etape.jeu === 'repere'" :config="etape.config" @termine="terminer" />
@@ -31,3 +31,7 @@ function terminer(resultat: { reussites: number; erreurs: number }) {
     <PermissionsGame v-else-if="etape.jeu === 'permissions'" :config="etape.config" @termine="terminer" />
   </section>
 </template>
+
+<style scoped>
+.minijeu h2 { margin-top: 0; }
+</style>
