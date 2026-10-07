@@ -1,4 +1,4 @@
-import { ILES_INFO, type IleId } from '@/parcours/iles'
+import { estIle, ILES_INFO, type Ile, type IleId } from '@/parcours/iles'
 
 /** Ordre conseillé (jamais bloquant) des îles à parcours, depuis le port. */
 export const CHEMIN = ['phishing', 'comptes', 'vie-privee', 'jeux-achats', 'desinformation', 'appareils'] as const satisfies readonly IleId[]
@@ -13,9 +13,12 @@ export const ILES_CALMES_INFO: Record<IleCalmeId, { nom: string; herbe: string; 
   rencontres: { nom: 'Île du phare', herbe: '#cfe3c8', terre: '#d8c8a8', repere: 'phare' },
 }
 
+/** Infos d’une île à parcours, ou `undefined` si `themeId` n’en est pas une (île calme, inconnu). */
+export const infoIle = (themeId: string): Ile | undefined => (estIle(themeId) ? ILES_INFO[themeId] : undefined)
+
 export function nomIle(themeId: string): string | undefined {
   if (estIleCalme(themeId)) return ILES_CALMES_INFO[themeId].nom
-  return (ILES_INFO as Record<string, { nom: string } | undefined>)[themeId]?.nom
+  return infoIle(themeId)?.nom
 }
 
 /** Positions (en % du cadre 16:10) du centre de chaque île en mise en page large. */

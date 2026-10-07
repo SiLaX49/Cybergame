@@ -1,5 +1,5 @@
 import type { Mission } from '@/content/schema'
-import { ILES_INFO } from '@/parcours/iles'
+import { infoIle } from './archipel'
 
 type Faites = Record<string, { termineeLe: string }>
 
@@ -49,10 +49,9 @@ export function objetsSacoche(
   iles: { theme: string; missions: Pick<Mission, 'id' | 'format'>[] }[],
   faites: Faites,
 ): ObjetSacoche[] {
-  const infos = ILES_INFO as Record<string, { objet: { emoji: string; nom: string } } | undefined>
   const objets: ObjetSacoche[] = []
   for (const { theme, missions } of iles) {
-    const info = infos[theme]
+    const info = infoIle(theme)
     const etat = etatIle(missions, faites, false)
     if (info && etat.aParcours) objets.push({ theme, emoji: info.objet.emoji, nom: info.objet.nom, gagne: etat.objetGagne })
   }

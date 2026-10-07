@@ -33,11 +33,6 @@ export const routes: RouteRecordRaw[] = [
     path: '/ile/:theme',
     name: 'ile',
     component: IlePage,
-    beforeEnter: (to) => {
-      if (!useProgress().etat.tranche) return { name: 'accueil' }
-      const theme = String(to.params.theme)
-      return getTheme(theme) && nomIle(theme) ? true : { name: 'introuvable', params: { chemin: ['ile', theme] } }
-    },
     meta: { titre: '{ile}' },
   },
   { path: '/mission/:id', name: 'mission', component: MissionPage, meta: { titre: '{mission}' } },
@@ -62,11 +57,24 @@ export function titrePage(route: RouteLocationNormalized): string {
   return `${titre} · Cyber Réflexes`
 }
 
+/**
+ * Garde de `/ile/:theme`, globale (et non `beforeEnter`, ignoré quand seul le paramètre change) :
+ * sans tranche → accueil ; thème inconnu ou sans île → page introuvable.
+ */
+export function gardeIle(to: RouteLocationNormalized) {
+  if (to.name !== 'ile') return true
+  if (!useProgress().etat.tranche) return { name: 'accueil' }
+  const theme = String(to.params.theme)
+  return getTheme(theme) && nomIle(theme) ? true : { name: 'introuvable', params: { chemin: ['ile', theme] } }
+}
+
 export const router = createRouter({
   history: createWebHashHistory(),
   routes,
   scrollBehavior: () => ({ top: 0 }),
 })
+
+router.beforeEach(gardeIle)
 
 router.afterEach((to) => {
   document.title = titrePage(to)

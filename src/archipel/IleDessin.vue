@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { ILES_INFO } from '@/parcours/iles'
-import { estIleCalme, ILES_CALMES_INFO } from './archipel'
+import { estIleCalme, ILES_CALMES_INFO, infoIle } from './archipel'
 
 const props = defineProps<{ theme: string }>()
 const calme = computed(() => estIleCalme(props.theme))
 const couleurs = computed(() => {
   if (estIleCalme(props.theme)) return ILES_CALMES_INFO[props.theme]
-  return (ILES_INFO as Record<string, { herbe: string; terre: string } | undefined>)[props.theme] ?? ILES_INFO.phishing
+  return infoIle(props.theme) ?? null
 })
 const repere = computed(() => (estIleCalme(props.theme) ? ILES_CALMES_INFO[props.theme].repere : null))
 const fleurs = [
@@ -18,7 +17,7 @@ const fleurs = [
 </script>
 
 <template>
-  <svg class="ile-dessin" viewBox="0 0 120 80" aria-hidden="true" focusable="false">
+  <svg v-if="couleurs" class="ile-dessin" viewBox="0 0 120 80" aria-hidden="true" focusable="false">
     <ellipse cx="60" cy="68" rx="52" ry="8" fill="#2b6f8f" opacity="0.18" />
     <ellipse cx="60" cy="52" rx="54" ry="22" :fill="couleurs.terre" />
     <ellipse cx="60" cy="46" rx="46" ry="17" :fill="couleurs.herbe" />
