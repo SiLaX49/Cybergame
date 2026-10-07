@@ -7,7 +7,7 @@ import SensibleAvertissement from '@/mission/SensibleAvertissement.vue'
 import { AVERTISSEMENT } from '@/mission/textesSensibles'
 import { titrePage } from '@/router'
 import { creerStore, definirStore, type ProgressStore } from '@/store/useProgress'
-import { leviersFixture, missionFixture } from './fixtures'
+import { leviersFixture, missionFixture, themesFixture } from './fixtures'
 import { MemoryStorage } from './memory-storage'
 import { routerTest } from './router-test'
 
@@ -75,6 +75,34 @@ describe('page de l’île', () => {
   it('thème inconnu : page introuvable', async () => {
     const router = await routerTest('/ile/inconnu')
     expect(router.currentRoute.value.name).toBe('introuvable')
+  })
+
+  it('changer seulement le paramètre (/ile/phishing → /ile/inconnu) passe aussi par la garde', async () => {
+    const router = await routerTest('/ile/phishing')
+    expect(router.currentRoute.value.name).toBe('ile')
+    await router.push('/ile/inconnu')
+    expect(router.currentRoute.value.name).toBe('introuvable')
+    await router.push('/ile/phishing')
+    await router.push('/ile/rappel')
+    expect(router.currentRoute.value.name).toBe('introuvable')
+  })
+
+  it('affiche la description du thème et un titre « Missions » avant la liste', async () => {
+    const { w } = await monter('/ile/phishing')
+    expect(w.find('.ile-titres .description').text()).toBe(themesFixture().find((t) => t.id === 'phishing')!.description)
+    const h2 = w.find('h2.titre-missions')
+    expect(h2.text()).toBe('Missions')
+    expect(h2.element.nextElementSibling?.classList.contains('missions-ile')).toBe(true)
+  })
+
+  it('île calme sans mission (brouillons masqués) : « Bientôt disponible », ni encadré ni liste', async () => {
+    store.choisirTranche('lycee')
+    const { w } = await monter('/ile/harcelement')
+    expect(w.find('.bientot-ile').text()).toBe('Bientôt disponible')
+    expect(w.find('.encadre').exists()).toBe(false)
+    expect(w.find('ul.missions-ile').exists()).toBe(false)
+    expect(w.find('h2.titre-missions').exists()).toBe(false)
+    expect(w.text().match(/Bientôt disponible/g)).toHaveLength(1)
   })
 
   it('« rappel » n’est pas une île', async () => {
