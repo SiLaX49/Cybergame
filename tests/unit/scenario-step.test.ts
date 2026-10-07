@@ -167,6 +167,14 @@ describe('ScenarioStep', () => {
     const w = monter({ scenario: { ...scenario(), role: 'temoin' } })
     expect(w.text()).toContain('Dans ce scénario, tu joues un·e témoin.')
   })
+
+  it('le panneau de droite est une région nommée qui défile, avec la ligne de rôle en tête', () => {
+    const w = monter({ scenario: { ...scenario(), role: 'temoin' } })
+    const panneau = w.find('.scenario-panneau')
+    expect(panneau.attributes()).toMatchObject({ role: 'region', tabindex: '0', 'aria-label': 'Question et explications' })
+    expect(panneau.element.firstElementChild?.textContent).toBe('Dans ce scénario, tu joues un·e témoin.')
+    expect(panneau.find('h2').text()).toBe('Que fais-tu ?')
+  })
 })
 
 describe('ScenarioStep : le panneau attend la fin de la séquence', () => {

@@ -1844,3 +1844,61 @@ git commit -m "test(phone): audit each phone app and document the screen format"
 - [ ] **Step 5: Revue humaine**
 
 Lancer `dx npm run dev -- --host` puis ouvrir `http://localhost:5173` : jouer une mission par appli et une mission Rappel, en solo, en mode classe et en taille de texte « très grand ». Vérifier avec NVDA (Windows) l'annonce du choix joué (zone `role="status"`).
+
+---
+
+### Task 10: Page mission plein écran (mode confort) avec repli en flux
+
+Ajoutée le 2026-10-06 après la recette visuelle : la page défilait, le téléphone dépassait et des zones défilaient les unes dans les autres. Le design a été validé dans la conversation et appuyé par une recherche UX (WCAG 1.4.10 et 1.4.12, unités `svh`, container queries).
+
+**Files:**
+- Create: `src/mission/MissionBarre.vue` (barre unique de la mission)
+- Modify: `src/App.vue` (pas d'`AppHeader` sur la route `mission`)
+- Modify: `src/pages/MissionPage.vue` (barre, cadre plein écran pour les étapes à téléphone)
+- Modify: `src/mission/ScenarioStep.vue`, `src/mission/FilStep.vue` (grille qui remplit la hauteur, panneau défilant nommé)
+- Modify: `src/phone/Telephone.vue`, `src/phone/theme.css` (hauteur = espace disponible, largeur bornée)
+- Test: `tests/unit/mission-page.test.ts`, `tests/unit/scenario-step.test.ts`, `tests/unit/fil-step.test.ts`
+
+**Interfaces:**
+- Consumes : `ReglagesPanel.vue` (émet `fermer`), `useProgress`, les données de progression déjà calculées dans `MissionPage` (`etat.index`, `mission.etapes.length`, `surIle`).
+- Produces : `MissionBarre` props `{ titre: string; etape?: number; total?: number }` (progression absente si `etape` est absente) ; classe `mission--scene` sur le `<main>` quand l'étape courante est un `scenario` ou un `fil` non terminé, sans avertissement sensible en attente.
+
+**Comportement attendu**
+1. **Barre unique** (remplace, sur la route `mission` seulement, l'`AppHeader` global ET l'ancien `<header class="mission-entete">` pour le titre et la progression) :
+   - lien « ← Carte » vers `/carte` ;
+   - le titre de la mission en `<h1>` (taille modeste, environ 1.25rem, une ligne, ellipsis si trop long) ;
+   - la progression compacte : texte visible « Étape 2 sur 4 » et une barre fine (`<progress>` existant, ou pastilles). Absente sur un parcours sur île (la scène d'île garde sa propre progression) et à la fin de la mission ;
+   - le bouton « Réglages » (`aria-expanded`, `aria-controls="panneau-reglages"`) qui ouvre `ReglagesPanel` comme `AppHeader` le fait (focus rendu au bouton à la fermeture).
+   - Le lien « Enseignants » n'apparaît pas pendant une mission (décision validée). `ParcoursScene` et `CheminIle` restent sous la barre, inchangés.
+   - Le lien d'évitement « Aller au contenu » de `App.vue` reste.
+2. **Mode confort** (classe `mission--scene`, sur ordinateur et tablette) :
+   - le `<main>` fait `height: 100svh` (pas de `100dvh`), en grille `grid-template-rows: auto 1fr auto` : barre, zone de jeu, bandeau d'aide éventuel (`BandeauAide` des thèmes sensibles, toujours visible) ;
+   - la zone de jeu (`min-height: 0`) contient la grille téléphone | panneau qui remplit la hauteur ; **la page ne défile pas** ;
+   - le téléphone remplit la hauteur disponible : `container-type: size` sur la zone de jeu, hauteur `min(100cqh - 1rem, 52rem)`, largeur `clamp(20rem, (100cqh - 1rem) * 9 / 19, 23rem)` (le ratio n'est qu'un plafond) ; plus de `position: sticky` ni de `--tel-hauteur` en `vh` dans ce mode ;
+   - le panneau de droite défile seul : `overflow-y: auto`, `tabindex="0"`, `role="region"`, `aria-label="Question et explications"` (la règle axe `scrollable-region-focusable` le vérifie ; Chrome ne le rend pas focalisable seul puisqu'il contient des boutons) ;
+   - la ligne « Dans ce scénario, tu joues… » passe en tête du panneau.
+3. **Repli en flux** (la page défile, zones internes ouvertes, téléphone à `--tel-largeur` et hauteur `min(40rem, 80svh)` comme aujourd'hui) dès que l'une de ces conditions est vraie :
+   - `@media (max-height: 34em), (max-width: 48em)` ;
+   - `:root[data-taille='tres-grand']` ou `:root[data-interligne='large']` (posés par `appliquerReglages` : les `em` des media queries ignorent la taille de police de la page, d'où ce sélecteur) ;
+   - dans ce mode, le panneau perd `overflow`, mais garde `role="region"` et son nom (pas de `tabindex` inutile n'est pas exigé : le garder est sans danger).
+4. Les autres étapes (mini-jeux, lieux de parcours, avertissement sensible, écran de départ, fin de mission) restent en flux, avec la nouvelle barre en haut.
+
+**Tests à écrire (TDD)**
+- `mission-page.test.ts` :
+  - la barre affiche le titre en `h1`, « Étape 1 sur N », un lien vers `/carte`, et pas de lien « Enseignants » ;
+  - « Réglages » ouvre `#panneau-reglages`, et la fermeture rend le focus au bouton ;
+  - le `<main>` a la classe `mission--scene` sur une étape scénario, et ne l'a pas sur un mini-jeu ni sur l'écran de fin ;
+  - la progression est absente à la fin de la mission.
+- `scenario-step.test.ts` : le panneau a `role="region"`, `tabindex="0"` et l'`aria-label` « Question et explications », et la ligne de rôle est dedans.
+- `fil-step.test.ts` : même chose pour le panneau du fil (compteur et « Valider mes choix » dedans).
+- Le test d'`App.vue` (s'il existe, sinon dans `mission-page.test.ts` via le routeur de test) : pas d'`AppHeader` (`.app-header`) sur la route `mission`, présent ailleurs.
+
+**Oracle**
+`npx vitest run --maxWorkers=2 && npm run typecheck && npm run lint && PLAYWRIGHT_BROWSERS_PATH=/home/node/.cache/ms-playwright npx playwright test --project=chromium --workers=1` (exit 0), dans le conteneur. L'orchestrateur fait ensuite la recette visuelle avec Playwright : 1366×768, 1920×1080, 390×844, zoom 200 % (viewport 683×384) et texte très grand.
+
+- [ ] **Commit**
+
+```bash
+git add src/App.vue src/mission src/pages/MissionPage.vue src/phone tests/unit
+git commit -m "feat(mission): full-screen mission page with a single top bar"
+```

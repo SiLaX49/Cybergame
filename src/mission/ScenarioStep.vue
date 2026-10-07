@@ -79,7 +79,6 @@ focusAuChangement(() => `${props.phase} ${phaseAffichee.value}`, titre)
     tabindex="-1"
     :aria-label="nomSituation"
   >
-    <p v-if="scenario.role" class="role">Dans ce scénario, tu joues {{ ROLES[scenario.role] }}.</p>
     <div class="scenario-grille">
       <Telephone
         :ecran="scenario.ecran"
@@ -93,7 +92,9 @@ focusAuChangement(() => `${props.phase} ${phaseAffichee.value}`, titre)
         @indice="emit('evenement', { type: 'indice' })"
         @sequence-finie="finirSequence"
       />
-      <div class="scenario-panneau">
+      <!-- Défile seul en mode scène (MissionPage) : focusable pour défiler au clavier. -->
+      <div class="scenario-panneau" role="region" tabindex="0" aria-label="Question et explications">
+        <p v-if="scenario.role" class="role">Dans ce scénario, tu joues {{ ROLES[scenario.role] }}.</p>
         <h2 ref="titre" tabindex="-1">{{ phaseAffichee === 'situation' ? scenario.question : TITRES[phaseAffichee] }}</h2>
         <p v-if="phase === 'situation'" class="consigne-mode">{{ CONSIGNES[mode] }}</p>
         <template v-if="phaseAffichee === 'pourquoi' && scenario.pourquoi">
@@ -133,7 +134,13 @@ focusAuChangement(() => `${props.phase} ${phaseAffichee.value}`, titre)
 <style scoped>
 .scenario:focus { outline: none; }
 .consigne-mode { font-weight: 700; }
-.scenario-grille { display: grid; gap: 1.5rem; grid-template-columns: var(--tel-largeur) minmax(0, 1fr); align-items: start; }
-@media (max-width: 48rem) { .scenario-grille { grid-template-columns: minmax(0, 1fr); } }
+.scenario { min-height: 0; }
+/* En mode scène, la grille remplit la zone de jeu et sert de conteneur au téléphone ; sinon, hauteur du contenu. */
+.scenario-grille {
+  display: grid; gap: 1.5rem; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); align-items: start;
+  height: 100%; container-type: var(--scene-conteneur, normal);
+}
+.scenario-panneau { max-height: 100%; overflow-y: var(--scene-defilement, visible); padding: 0.375rem; }
+@media (max-width: 48em) { .scenario-grille { grid-template-columns: minmax(0, 1fr); } }
 .role { font-weight: 700; color: var(--primaire); }
 </style>

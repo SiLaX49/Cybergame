@@ -17,6 +17,7 @@ import FilStep from '@/mission/FilStep.vue'
 import CheminIle from '@/mission/CheminIle.vue'
 import FinMission from '@/mission/FinMission.vue'
 import LieuStep from '@/mission/LieuStep.vue'
+import MissionBarre from '@/mission/MissionBarre.vue'
 import MinijeuStep from '@/mission/MinijeuStep.vue'
 import ScenarioStep from '@/mission/ScenarioStep.vue'
 import SensibleAvertissement from '@/mission/SensibleAvertissement.vue'
@@ -62,6 +63,15 @@ const etape = computed(() => (mission && etat.value ? etapeCourante(mission, eta
 const resultatEtape = computed(() => (etape.value && etat.value ? etat.value.resultats[etape.value.id] : undefined))
 const resultatCourant = computed(() => (resultatEtape.value?.type === 'scenario' ? resultatEtape.value : undefined))
 const resultatLieu = computed(() => (resultatEtape.value?.type === 'lieu' ? resultatEtape.value : undefined))
+/** Mode scène (plein écran, sans défilement de page) : l’étape montre le téléphone. Mêmes conditions que le gabarit. */
+const scene = computed(
+  () =>
+    !!etat.value &&
+    !etat.value.termine &&
+    !(sensible && !avertissementLu.value) &&
+    !(surIle && !store.etat.personnage) &&
+    (etape.value?.type === 'scenario' || etape.value?.type === 'fil'),
+)
 
 function envoyer(evenement: RunEvent) {
   if (!mission || !etat.value) return
@@ -86,28 +96,26 @@ function recommencer() {
 </script>
 
 <template>
-  <main class="conteneur mission">
+  <main class="conteneur mission" :class="{ 'mission--scene': scene }">
     <template v-if="!mission || !etat">
-      <h1>Cette mission n’existe plus</h1>
+      <MissionBarre titre="Cette mission n’existe plus" />
       <p>Elle a peut-être été renommée ou retirée.</p>
       <RouterLink class="btn" to="/carte">Retour à la carte</RouterLink>
     </template>
     <template v-else>
-      <header class="mission-entete">
-        <h1>{{ mission.titre }}</h1>
-        <p v-if="!etat.termine && !surIle" class="progression">
-          <label for="progression-mission">Étape {{ etat.index + 1 }} sur {{ mission.etapes.length }}</label>
-          <progress id="progression-mission" :value="etat.index" :max="mission.etapes.length" />
-        </p>
-        <ParcoursScene
-          v-if="surIle && ile && store.etat.personnage"
-          :ile="ile"
-          :etapes="etapesScene"
-          :position="etat.termine ? etapesScene.length : etat.index"
-          :personnage="store.etat.personnage"
-        />
-        <CheminIle v-if="mission.format === 'parcours' && !etat.termine" :mission="mission" :index="etat.index" />
-      </header>
+      <MissionBarre
+        :titre="mission.titre"
+        :etape="etat.termine || surIle ? undefined : etat.index + 1"
+        :total="mission.etapes.length"
+      />
+      <ParcoursScene
+        v-if="surIle && ile && store.etat.personnage"
+        :ile="ile"
+        :etapes="etapesScene"
+        :position="etat.termine ? etapesScene.length : etat.index"
+        :personnage="store.etat.personnage"
+      />
+      <CheminIle v-if="mission.format === 'parcours' && !etat.termine" :mission="mission" :index="etat.index" />
 
       <SensibleAvertissement v-if="sensible && !avertissementLu" @commencer="avertissementLu = true" />
       <section v-else-if="surIle && !store.etat.personnage" class="choix-depart">
@@ -157,6 +165,24 @@ function recommencer() {
 </template>
 
 <style scoped>
-.progression { display: flex; align-items: center; gap: 0.75rem; }
-progress { flex: 1; max-width: 20rem; height: 0.8rem; }
+/*
+ * Mode scène : barre, zone de jeu, bandeau d’aide ; la page ne défile pas.
+ * Repli en flux si la place manque, si le texte est très grand ou l’interligne large
+ * (les em des media queries ignorent la taille de police de la page), ou si les réglages sont ouverts.
+ * Les étapes et le téléphone lisent les variables posées ici.
+ */
+@media (min-width: 48.001em) and (min-height: 34.001em) {
+  :root:not([data-taille='tres-grand'], [data-interligne='large']) .mission--scene:not(:has(#panneau-reglages)) {
+    height: 100svh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 0.75rem;
+    padding-block: 0.5rem;
+    --scene-conteneur: size;
+    --scene-defilement: auto;
+    --tel-position: static;
+    --tel-hauteur: min(100cqh - 1rem, 52rem);
+    --tel-largeur: clamp(20rem, (100cqh - 1rem) * 9 / 19, 23rem);
+  }
+}
 </style>

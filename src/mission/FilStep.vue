@@ -28,7 +28,8 @@ function valider() {
         :actions-notif="actions"
         @agir="(id, a) => (actions[id] = a)"
       />
-      <div class="fil-panneau">
+      <!-- Défile seul en mode scène (MissionPage) : focusable pour défiler au clavier. -->
+      <div class="fil-panneau" role="region" tabindex="0" aria-label="Question et explications">
         <p role="status">Notifications traitées : {{ traitees }} sur {{ fil.notifications.length }}</p>
         <button type="button" class="btn btn-primaire" :disabled="!complet" @click="valider">Valider mes choix</button>
       </div>
@@ -37,6 +38,12 @@ function valider() {
 </template>
 
 <style scoped>
-.fil-grille { display: grid; gap: 1.5rem; grid-template-columns: var(--tel-largeur) minmax(0, 1fr); align-items: start; }
-@media (max-width: 48rem) { .fil-grille { grid-template-columns: minmax(0, 1fr); } }
+.fil { display: flex; flex-direction: column; min-height: 0; }
+/* En mode scène, la grille remplit la zone de jeu et sert de conteneur au téléphone ; sinon, hauteur du contenu. */
+.fil-grille {
+  display: grid; gap: 1.5rem; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); align-items: start;
+  flex: 1 1 auto; min-height: 0; container-type: var(--scene-conteneur, normal);
+}
+.fil-panneau { max-height: 100%; overflow-y: var(--scene-defilement, visible); padding: 0.375rem; }
+@media (max-width: 48em) { .fil-grille { grid-template-columns: minmax(0, 1fr); } }
 </style>

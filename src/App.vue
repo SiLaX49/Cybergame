@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
 import { useProgress } from '@/store/useProgress'
 import AppHeader from '@/ui/AppHeader.vue'
 import { appliquerReglages } from '@/ui/appliquerReglages'
@@ -7,6 +7,8 @@ import UpdatePrompt from '@/ui/UpdatePrompt.vue'
 
 const store = useProgress()
 appliquerReglages(store)
+// La mission a sa propre barre (MissionBarre) : pas d'en-tête global.
+const route = useRoute()
 
 function allerAuContenu() {
   const main = document.querySelector('main')
@@ -18,7 +20,7 @@ function allerAuContenu() {
 
 <template>
   <button type="button" class="lien-evitement" @click="allerAuContenu">Aller au contenu</button>
-  <AppHeader />
+  <AppHeader v-if="route.name !== 'mission'" />
   <UpdatePrompt />
   <p v-if="!store.persistant.value" class="alerte-stockage conteneur" role="status">
     Ta progression ne pourra pas être enregistrée sur cet appareil. Tu peux jouer quand même !

@@ -45,4 +45,12 @@ describe('FilStep', () => {
     expect(w.find('[data-notif="n2"]').attributes('aria-expanded')).toBe('true')
     expect(w.findAll('.actions-notif')).toHaveLength(1)
   })
+
+  it('le panneau de droite est une région nommée avec le compteur et la validation', () => {
+    const w = mount(FilStep, { props: { fil: fil() } })
+    const panneau = w.find('.fil-panneau')
+    expect(panneau.attributes()).toMatchObject({ role: 'region', tabindex: '0', 'aria-label': 'Question et explications' })
+    expect(panneau.text()).toContain('Notifications traitées : 0 sur 3')
+    expect(bouton(panneau, 'Valider mes choix').exists()).toBe(true)
+  })
 })

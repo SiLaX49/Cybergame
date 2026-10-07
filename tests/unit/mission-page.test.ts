@@ -1,5 +1,6 @@
 import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import App from '@/App.vue'
 import MissionPage from '@/pages/MissionPage.vue'
 import { creerStore, definirStore, type ProgressStore } from '@/store/useProgress'
 import { cliquer } from './helpers'
@@ -18,9 +19,10 @@ beforeEach(() => {
   erreurs = []
 })
 
-async function monter(id: string) {
+async function monter(id: string, attachTo?: HTMLElement) {
   const router = await routerTest(`/mission/${id}`)
   return mount(MissionPage, {
+    attachTo,
     global: { plugins: [router], config: { errorHandler: (e) => erreurs.push(e) } },
   })
 }
@@ -217,5 +219,66 @@ describe('MissionPage', () => {
     await cliquer(w, 'Valider mes choix')
     expect(w.text()).toContain('Mission terminée !')
     expect(w.find('.craquer').exists()).toBe(false)
+  })
+})
+
+describe('MissionPage : barre unique et mode scène', () => {
+  const scene = (w: VueWrapper) => w.find('main').classes().includes('mission--scene')
+
+  it('la barre affiche le titre en h1, la progression et le lien vers la carte, sans lien Enseignants', async () => {
+    const w = await monter('m-test')
+    const barre = w.find('header.mission-barre')
+    expect(barre.find('h1').text()).toBe('Mission test')
+    expect(barre.text()).toContain('Étape 1 sur 2')
+    expect(barre.find('progress').exists()).toBe(true)
+    expect(barre.find('a[href="/carte"]').text()).toContain('Carte')
+    expect(w.text()).not.toContain('Enseignants')
+  })
+
+  it('« Réglages » ouvre le panneau, la fermeture rend le focus au bouton', async () => {
+    const w = await monter('m-test', document.body)
+    const reglages = w.find('button[aria-controls="panneau-reglages"]')
+    expect(reglages.attributes('aria-expanded')).toBe('false')
+    await reglages.trigger('click')
+    expect(reglages.attributes('aria-expanded')).toBe('true')
+    await cliquer(w.find('#panneau-reglages'), 'Fermer')
+    await flushPromises()
+    expect(w.find('#panneau-reglages').exists()).toBe(false)
+    expect(document.activeElement).toBe(reglages.element)
+    w.unmount()
+  })
+
+  it('mode scène sur un scénario, pas sur un mini-jeu ni à la fin, où la progression disparaît', async () => {
+    const w = await monter('m-test')
+    expect(scene(w)).toBe(true)
+    await w.find('[data-choix="aide"]').trigger('click')
+    await flushPromises()
+    await cliquer(w, 'Continuer')
+    expect(w.text()).toContain('Étape 2 sur 2')
+    expect(scene(w)).toBe(false)
+    await finirTri(w)
+    expect(w.text()).toContain('Mission terminée !')
+    expect(scene(w)).toBe(false)
+    expect(w.find('header.mission-barre h1').text()).toBe('Mission test')
+    expect(w.find('progress').exists()).toBe(false)
+    expect(w.text()).not.toContain('Étape')
+  })
+
+  it('mode scène sur le fil de notifications, pas tant que l’avertissement sensible attend', async () => {
+    expect(scene(await monter('r-test'))).toBe(true)
+    const w = await monter('m-sensible')
+    expect(scene(w)).toBe(false)
+    await cliquer(w, 'Commencer')
+    expect(scene(w)).toBe(true)
+  })
+
+  it('l’en-tête global est absent sur la route mission, présent ailleurs', async () => {
+    const enMission = mount(App, { global: { plugins: [await routerTest('/mission/m-test')] } })
+    await flushPromises()
+    expect(enMission.find('.app-header').exists()).toBe(false)
+    expect(enMission.find('header.mission-barre').exists()).toBe(true)
+    const ailleurs = mount(App, { global: { plugins: [await routerTest('/confidentialite')] } })
+    await flushPromises()
+    expect(ailleurs.find('.app-header').exists()).toBe(true)
   })
 })

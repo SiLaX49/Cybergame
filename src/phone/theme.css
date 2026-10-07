@@ -1,5 +1,5 @@
-/* Taille fixe de vrai téléphone, partagée avec la grille du scénario. */
-:root { --tel-largeur: 23rem; --tel-hauteur: min(46rem, calc(100dvh - 2rem)); }
+/* Taille de vrai téléphone quand la page défile. En mode scène, MissionPage la recalcule sur l'espace disponible. */
+:root { --tel-largeur: 23rem; --tel-hauteur: min(40rem, 80svh); }
 :root[data-taille='tres-grand'] { --tel-largeur: 28rem; }
 
 /* Variables du faux téléphone, par appli. Aplats opaques ; texte d'au moins 4.5:1 sur son fond. */
