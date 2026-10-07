@@ -1,4 +1,5 @@
 import type { Leviers, Qualite, ReponseLevier, Scenario } from '@/content/schema'
+import { TITRE_REPONSE_SENSIBLE } from './textesSensibles'
 
 /**
  * Ce qui a marché sur l’élève : le levier qu’il a choisi, le « truc » de la situation et sa parade.
@@ -20,7 +21,7 @@ export function reponseLevier(
 }
 
 /** Titre du bloc qui répond à la raison choisie : neutre en thème sensible, où l’élève n’est pas « piégé ». */
-export const titreReponse = (sensible: boolean) => (sensible ? 'Ce qui a pu peser' : 'Ce qui a marché sur toi')
+export const titreReponse = (sensible: boolean) => (sensible ? TITRE_REPONSE_SENSIBLE : 'Ce qui a marché sur toi')
 
 export const VERDICTS: Record<Qualite, { icone: string; titre: string }> = {
   bon: { icone: '✅', titre: 'Bon réflexe !' },

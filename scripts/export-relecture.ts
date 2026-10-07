@@ -1,7 +1,10 @@
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import type { Etape, Leviers, Minijeu, Mission } from '../src/content/schema'
+import type { Aide, Etape, LevierId, Leviers, Lieu, Minijeu, Mission, Scenario, Theme } from '../src/content/schema'
+import { BADGES, descriptionBadge, type BadgeId } from '../src/engine/badges'
+import { AVERTISSEMENT, FIN_SENSIBLE, PASSER, TITRE_RECUPERATION_VICTIME, TITRE_REPONSE_SENSIBLE } from '../src/mission/textesSensibles'
+import { contexteSensible, texteRecuperation } from '../src/recovery/textes'
 import { buildContent } from './build-content'
 
 const QUALITES = { bon: 'bon', risque: 'risqué', aide: 'aide' } as const
@@ -73,8 +76,67 @@ function etapeEnMarkdown(e: Etape, leviers: Leviers): string[] {
   return l
 }
 
+const TYPES_AIDE: Record<Aide['type'], string> = {
+  humaine: 'Parler à quelqu’un',
+  urgence: 'Urgence',
+  signalement: 'Signaler un contenu',
+  technique: 'Aide technique',
+}
+
+/** Leviers des blocs « pourquoi » de la mission, dans l’ordre d’apparition, sans doublon. */
+function leviersUtilises(mission: Mission): LevierId[] {
+  const vus: LevierId[] = []
+  for (const e of mission.etapes) {
+    if (e.type !== 'scenario' && e.type !== 'lieu') continue
+    for (const p of e.pourquoi ?? []) if (!vus.includes(p.levier)) vus.push(p.levier)
+  }
+  return vus
+}
+
+/**
+ * Annexe : tout ce que l’élève lit autour des étapes (avertissement, aides, gestes de récupération,
+ * réponses aux leviers, fin de mission), pour que la relecture porte sur le texte exact affiché.
+ */
+function annexeEnMarkdown(mission: Mission, leviers: Leviers, theme: Theme | undefined): string[] {
+  const sensible = !!theme?.sensible
+  const contexte = sensible ? contexteSensible(theme?.id) : undefined
+  const l: string[] = ['## Annexe : textes affichés autour des étapes', '']
+  if (sensible && theme) {
+    l.push('### Avertissement avant la mission', '', `**${AVERTISSEMENT.titre}**`, '', ...AVERTISSEMENT.paragraphes.flatMap((p) => [p, '']))
+    l.push(`Boutons : ${AVERTISSEMENT.commencer} / ${AVERTISSEMENT.revenir}. Pendant la mission : « ${PASSER.scenario} » ou « ${PASSER.lieu} », sans pénalité.`, '')
+    l.push('### Bandeau d’aide (permanent pendant la mission)', '', ...theme.aides.map((a) => `- ${TYPES_AIDE[a.type]} : ${a.numero} : ${a.libelle}`), '')
+  }
+  const avecRecuperation = mission.etapes.filter((e): e is Scenario | Lieu => (e.type === 'scenario' || e.type === 'lieu') && !!e.recuperation)
+  if (avecRecuperation.length) {
+    l.push('### Gestes de récupération', '')
+    for (const e of avecRecuperation) {
+      const titre = e.type === 'scenario' && e.role === 'victime' ? TITRE_RECUPERATION_VICTIME : 'Maintenant, limite les dégâts'
+      l.push(`- ${e.id} : ${e.recuperation!.action}, titre de l’étape « ${titre} »`)
+    }
+    l.push('')
+    for (const action of new Set(avecRecuperation.map((e) => e.recuperation!.action))) {
+      const lignes = texteRecuperation(action, contexte)
+      l.push(`#### ${action}`, '', ...(lignes ?? [`(texte dans src/recovery/, action non sensible)`]), '')
+    }
+  }
+  const ids = leviersUtilises(mission)
+  if (ids.length) {
+    const autre = sensible ? leviers.autreSensible : leviers.autre
+    l.push('### Leviers proposés (« pourquoi ») et parades générales', '')
+    l.push(`Titre du bloc de réponse : « ${sensible ? TITRE_REPONSE_SENSIBLE : 'Ce qui a marché sur toi'} »`, '')
+    l.push(...ids.map((id) => `- ${leviers.leviers[id].libelle} : ${leviers.leviers[id].parade}`))
+    l.push(`- ${leviers.autre.libelle} : truc : ${autre.truc} ; parade : ${autre.parade}`, '')
+  }
+  if (sensible) {
+    l.push('### Fin de mission', '', `Titre du bloc des leviers : « ${FIN_SENSIBLE.titre} »`, '', `Sans levier choisi : « ${FIN_SENSIBLE.sansLevier} »`, '')
+    const badges = (Object.keys(BADGES) as BadgeId[]).filter((b) => b !== 'vigilant' && (b !== 'explorateur' || mission.format === 'parcours'))
+    l.push('Badges possibles :', '', ...badges.map((b) => `- ${BADGES[b].titre} : ${descriptionBadge(b, true)}`), '')
+  }
+  return l
+}
+
 /** Une mission au format Markdown, pour la relecture par un adulte (ton, sensibilité, exactitude). */
-export function missionEnMarkdown(mission: Mission, leviers: Leviers): string {
+export function missionEnMarkdown(mission: Mission, leviers: Leviers, theme?: Theme): string {
   const r = mission.relecture
   const l: string[] = [
     `# ${mission.titre}`,
@@ -110,6 +172,7 @@ export function missionEnMarkdown(mission: Mission, leviers: Leviers): string {
     '',
     `**Si un élève révèle** : ${mission.fiche.siRevelation ?? '(non renseigné)'}`,
     '',
+    ...annexeEnMarkdown(mission, leviers, theme),
   ]
   return l.join('\n')
 }
@@ -123,7 +186,7 @@ function main() {
   const missions = bundle.missions.filter((m) => m.type === 'mission' && (toutes || (m.theme && sensibles.has(m.theme))))
   rmSync(sortie, { recursive: true, force: true })
   mkdirSync(sortie, { recursive: true })
-  for (const m of missions) writeFileSync(join(sortie, `${m.id}.md`), missionEnMarkdown(m, bundle.leviers), 'utf-8')
+  for (const m of missions) writeFileSync(join(sortie, `${m.id}.md`), missionEnMarkdown(m, bundle.leviers, bundle.themes.find((t) => t.id === m.theme)), 'utf-8')
   console.log(`${missions.length} mission(s) exportée(s) dans dist-relecture/`)
 }
 

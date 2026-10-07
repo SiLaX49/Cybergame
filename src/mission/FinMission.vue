@@ -7,6 +7,7 @@ import { BADGES, calculerBadges, descriptionBadge } from '@/engine/badges'
 import { leviersDeLaMission, leviersDuRun, type RunState, type SurpriseResultat } from '@/engine/mission-runner'
 import { focusAuMontage } from '@/ui/focus'
 import { useTexte } from '@/ui/useTexte'
+import { FIN_SENSIBLE } from './textesSensibles'
 
 const props = withDefaults(defineProps<{ mission: Mission; etat: RunState; leviers: Leviers; sensible?: boolean }>(), { sensible: false })
 const emit = defineEmits<{ rejouer: [] }>()
@@ -89,12 +90,12 @@ async function fermerPleinEcran() {
     </ul>
 
     <section v-if="afficherCraquer" class="carte craquer">
-      <h3>{{ sensible ? 'Ce qui peut faire hésiter' : 'Ce qui t’a fait craquer' }}</h3>
+      <h3>{{ sensible ? FIN_SENSIBLE.titre : 'Ce qui t’a fait craquer' }}</h3>
       <ul v-if="leviersChoisis.length">
         <li v-for="l in leviersChoisis" :key="l.id"><strong>{{ l.libelle }}</strong> : {{ l.parade }}</li>
       </ul>
       <template v-else>
-        <p v-if="sensible">Tu as fait les bons choix cette fois. Voici ce qui peut faire hésiter :</p>
+        <p v-if="sensible">{{ FIN_SENSIBLE.sansLevier }}</p>
         <p v-else>Aucun piège n’a marché sur toi cette fois. Les leviers à surveiller :</p>
         <ul>
           <li v-for="l in aSurveiller" :key="l">{{ l }}</li>

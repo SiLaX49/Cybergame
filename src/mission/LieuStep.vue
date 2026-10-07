@@ -12,6 +12,7 @@ import ChoixList from './ChoixList.vue'
 import DecorScene from './DecorScene.vue'
 import PourquoiForm from './PourquoiForm.vue'
 import ReactionPanel from './ReactionPanel.vue'
+import { PASSER } from './textesSensibles'
 
 const props = defineProps<{
   lieu: Lieu
@@ -92,7 +93,7 @@ focusAuChangement(() => props.phase, titre)
         />
         <div v-if="sensible" class="actions">
           <button type="button" class="btn btn-discret" @click="emit('evenement', { type: 'passer' })">
-            Passer ce lieu
+            {{ PASSER.lieu }}
           </button>
         </div>
       </div>

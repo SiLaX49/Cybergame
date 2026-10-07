@@ -11,6 +11,7 @@ import ChoixList from './ChoixList.vue'
 import ConsequencePanel from './ConsequencePanel.vue'
 import IndicesForm from './IndicesForm.vue'
 import PourquoiForm from './PourquoiForm.vue'
+import { PASSER, TITRE_RECUPERATION_VICTIME } from './textesSensibles'
 
 const props = defineProps<{
   scenario: Scenario
@@ -33,7 +34,7 @@ const TITRES: Record<Exclude<PhaseScenario, 'situation'>, string> = {
 /** Quand on joue la personne visée, le geste sert d’abord à se protéger. */
 const titrePhase = computed(() => {
   if (props.phase === 'situation') return props.scenario.question
-  if (props.phase === 'recuperation' && props.scenario.role === 'victime') return 'Maintenant, protège-toi'
+  if (props.phase === 'recuperation' && props.scenario.role === 'victime') return TITRE_RECUPERATION_VICTIME
   return TITRES[props.phase]
 })
 const ROLES = { victime: 'la personne visée', temoin: 'un·e témoin', auteur: 'celui ou celle qui a dérapé' } as const
@@ -102,7 +103,7 @@ focusAuChangement(() => props.phase, titre)
         />
         <div v-if="sensible" class="actions">
           <button type="button" class="btn btn-discret" @click="emit('evenement', { type: 'passer' })">
-            Passer ce scénario
+            {{ PASSER.scenario }}
           </button>
         </div>
       </div>
