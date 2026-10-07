@@ -18,4 +18,6 @@ const t = useTexte()
 <style scoped>
 .champ { margin: 0.2rem 0; overflow-wrap: anywhere; }
 .libelle { color: var(--texte-doux); }
+.mail a { color: var(--primaire); }
+.mail hr { border: 0; border-top: 2px solid var(--bord); margin: 0.6rem 0; }
 </style>

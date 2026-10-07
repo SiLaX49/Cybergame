@@ -12,7 +12,7 @@ const TYPES: Record<Aide['type'], string> = {
 </script>
 
 <template>
-  <aside class="bandeau-aide" aria-label="Besoin d’aide ?">
+  <aside class="bandeau-aide encadre encadre-doux" aria-label="Besoin d’aide ?">
     <p><strong>Besoin d’aide ? C’est gratuit et confidentiel.</strong></p>
     <ul>
       <li v-for="aide in aides" :key="aide.numero">
@@ -28,12 +28,15 @@ const TYPES: Record<Aide['type'], string> = {
   position: sticky;
   bottom: 0;
   margin-top: 1.5rem;
-  padding: 0.75rem 1rem;
-  background: #fff8e6;
-  border: 2px solid var(--aide);
-  border-radius: var(--rayon);
   font-size: 0.95em;
+  box-shadow: 0 -2px 0 var(--fond), 0 -6px 12px var(--fond);
 }
 .bandeau-aide ul { margin: 0.25rem 0 0; padding-left: 1.2rem; }
+.bandeau-aide li strong { font-weight: 700; }
 .type { display: inline-block; min-width: 11rem; color: var(--texte-doux); }
+/* Petit écran : le bandeau ne masque plus le contenu et les libellés passent au-dessus des numéros. */
+@media (max-width: 40rem) {
+  .bandeau-aide { position: static; box-shadow: none; }
+  .type { display: block; min-width: 0; }
+}
 </style>
