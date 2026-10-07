@@ -44,7 +44,7 @@ const label = computed(() =>
 .ile-visuel { position: relative; display: block; width: 100%; animation: flotte 4s ease-in-out infinite; }
 @keyframes flotte { 50% { transform: translateY(-4px); } }
 .ile-objet {
-  position: absolute; top: 0; right: 4%; width: 2rem; height: 2rem; display: grid; place-items: center;
+  position: absolute; top: 20%; right: 2%; width: 2rem; height: 2rem; display: grid; place-items: center;
   background: var(--surface); border: 2px solid var(--bord-fort); border-radius: 50%; font-size: 1.1rem;
 }
 .ile-perso { position: absolute; left: 50%; bottom: 30%; height: 45%; width: auto; transform: translateX(-50%); }

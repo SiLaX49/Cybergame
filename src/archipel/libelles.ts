@@ -14,4 +14,5 @@ export function nomAccessibleIle(o: { nom: string; objet: string | null; calme: 
 }
 
 /** Compteur visible sous l’île. */
-export const compteurIle = (e: EtatIle) => (e.total === 0 ? 'Bientôt disponible' : `${e.terminees} / ${e.total} missions`)
+export const compteurIle = (e: EtatIle) =>
+  e.total === 0 ? 'Bientôt disponible' : `${e.terminees} / ${e.total} mission${e.total > 1 ? 's' : ''}`

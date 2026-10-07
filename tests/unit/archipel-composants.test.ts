@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import IleLien from '@/archipel/IleLien.vue'
 import Sacoche from '@/archipel/Sacoche.vue'
-import { nomAccessibleIle } from '@/archipel/libelles'
+import { compteurIle, nomAccessibleIle } from '@/archipel/libelles'
 import { creerStore, definirStore } from '@/store/useProgress'
 import { MemoryStorage } from './memory-storage'
 import { routerTest } from './router-test'
@@ -80,5 +80,14 @@ describe('Sacoche', () => {
     const items = w.findAll('li').map((l) => l.text())
     expect(items[0]).toContain('gagné')
     expect(items[1]).toContain('pas encore')
+  })
+})
+
+describe('compteurIle', () => {
+  const etat = (terminees: number, total: number) => ({ terminees, total, aParcours: false, objetGagne: false, complete: false })
+  it('accorde « mission » selon le total', () => {
+    expect(compteurIle(etat(0, 1))).toBe('0 / 1 mission')
+    expect(compteurIle(etat(0, 2))).toBe('0 / 2 missions')
+    expect(compteurIle(etat(0, 0))).toBe('Bientôt disponible')
   })
 })
