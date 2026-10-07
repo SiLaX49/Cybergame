@@ -110,3 +110,10 @@ const coche = (e: Event) => (e.target as HTMLInputElement).checked
     </div>
   </section>
 </template>
+
+<style scoped>
+.reglages { display: grid; gap: 0.5rem; margin-top: 1rem; }
+.reglages h2 { margin: 0; }
+.reglages fieldset { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; }
+.reglages fieldset > .option { margin: 0; }
+</style>

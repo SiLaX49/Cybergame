@@ -22,13 +22,13 @@ function effacer() {
     <button v-if="!confirmation" type="button" class="btn btn-danger" @click="demander">
       Effacer ma progression
     </button>
-    <template v-else>
+    <div v-else class="encadre encadre-risque" role="group" aria-label="Confirmation">
       <p>Tout effacer sur cet appareil ? (niveau, missions terminées, badges, réglages)</p>
       <div class="actions">
         <button type="button" class="btn btn-danger" @click="effacer">Oui, tout effacer</button>
-        <button type="button" class="btn" @click="confirmation = false">Annuler</button>
+        <button type="button" class="btn btn-secondaire" @click="confirmation = false">Annuler</button>
       </div>
-    </template>
+    </div>
     <p v-if="fait" role="status">Ta progression a été effacée.</p>
   </div>
 </template>
