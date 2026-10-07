@@ -27,6 +27,7 @@ export const routes: RouteRecordRaw[] = [
     beforeEnter: () => (useProgress().etat.tranche ? true : { name: 'accueil' }),
     meta: { titre: 'Choisis un thème' },
   },
+  { path: '/ile/:theme', name: 'ile', component: () => import('@/pages/IlePage.vue') },
   { path: '/mission/:id', name: 'mission', component: MissionPage, meta: { titre: '{mission}' } },
   { path: '/enseignants', name: 'enseignants', component: EnseignantsPage, meta: { titre: 'Espace enseignants' } },
   { path: '/enseignants/:id', name: 'fiche', component: FicheMissionPage, meta: { titre: '{mission} : fiche enseignant' } },
