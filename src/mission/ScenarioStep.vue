@@ -133,7 +133,6 @@ focusAuChangement(() => `${props.phase} ${phaseAffichee.value}`, titre)
 <style scoped>
 .scenario:focus { outline: none; }
 .consigne-mode { font-weight: 700; }
-.scenario:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
 .scenario-grille { display: grid; gap: 1.5rem; grid-template-columns: var(--tel-largeur) minmax(0, 1fr); align-items: start; }
 @media (max-width: 48rem) { .scenario-grille { grid-template-columns: minmax(0, 1fr); } }
 .role { font-weight: 700; color: var(--primaire); }
