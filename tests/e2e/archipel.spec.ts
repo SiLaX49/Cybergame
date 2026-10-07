@@ -37,6 +37,8 @@ test('ordre des îles = chemin conseillé puis lagon', async ({ page }) => {
   expect(ordre).toEqual(['phishing', 'comptes', 'vie-privee', 'jeux-achats', 'desinformation', 'appareils', 'harcelement', 'rencontres'])
 })
 
+const sansDefilementHorizontal = (page: Page) => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)
+
 test.describe('téléphone', () => {
   test.use({ viewport: { width: 390, height: 844 } })
   test('aucun défilement horizontal, vue liste disponible', async ({ page }) => {
@@ -45,5 +47,29 @@ test.describe('téléphone', () => {
     await page.getByRole('button', { name: 'Vue liste' }).click()
     await expect(page.getByRole('button', { name: 'Vue liste' })).toHaveAttribute('aria-pressed', 'true')
     await expect(page.getByRole('link', { name: 'Le colis mystère' })).toBeVisible()
+  })
+
+  test('« très grand » texte : la sacoche passe à la ligne, aucun défilement horizontal', async ({ page }) => {
+    await commencer(page, '6e', 'Solo')
+    await page.evaluate(() => {
+      const cle = 'cyber-reflexes:v1'
+      const etat = JSON.parse(localStorage.getItem(cle)!)
+      etat.reglages = { ...etat.reglages, taille: 'tres-grand' }
+      localStorage.setItem(cle, JSON.stringify(etat))
+    })
+    await page.reload()
+    await expect(page.getByRole('heading', { name: 'Choisis une île' })).toBeVisible()
+    expect(await sansDefilementHorizontal(page)).toBe(true)
+    await expect(page.locator('.sacoche li', { hasText: 'la cape d’invisibilité' })).toBeVisible()
+  })
+})
+
+test.describe('très petit téléphone', () => {
+  test.use({ viewport: { width: 320, height: 640 } })
+  test('320 px, texte normal : aucun défilement horizontal', async ({ page }) => {
+    await commencer(page, '6e', 'Solo')
+    expect(await sansDefilementHorizontal(page)).toBe(true)
+    await ouvrirIle(page, 'Île aux hameçons')
+    expect(await sansDefilementHorizontal(page)).toBe(true)
   })
 })

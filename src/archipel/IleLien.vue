@@ -2,20 +2,19 @@
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import PersonnageG from '@/parcours/PersonnageG.vue'
-import { ILES_INFO } from '@/parcours/iles'
 import type { PersonnageId } from '@/store/progress'
-import { estIleCalme, nomIle } from './archipel'
+import { estIleCalme, infoIle, nomIle } from './archipel'
 import IleDessin from './IleDessin.vue'
-import { compteurIle, nomAccessibleIle } from './libelles'
+import { compteurIle, nomAccessibleIle, parcoursBientot } from './libelles'
 import type { EtatIle } from './progression'
 
 const props = defineProps<{ theme: string; titreTheme: string; etat: EtatIle; ici: boolean; personnage: PersonnageId | null }>()
 const calme = computed(() => estIleCalme(props.theme))
 const nom = computed(() => nomIle(props.theme) ?? props.titreTheme)
-const objet = computed(() => (calme.value ? null : (ILES_INFO as Record<string, { objet: { emoji: string; nom: string } }>)[props.theme]?.objet ?? null))
-const label = computed(() =>
-  nomAccessibleIle({ nom: nom.value, objet: objet.value?.nom ?? null, calme: calme.value, ici: props.ici, etat: props.etat }),
-)
+const objet = computed(() => (calme.value ? null : (infoIle(props.theme)?.objet ?? null)))
+const infos = computed(() => ({ nom: nom.value, objet: objet.value?.nom ?? null, calme: calme.value, ici: props.ici, etat: props.etat }))
+const label = computed(() => nomAccessibleIle(infos.value))
+const bientot = computed(() => parcoursBientot(infos.value))
 </script>
 
 <template>
@@ -30,6 +29,7 @@ const label = computed(() =>
     <span class="ile-etiquette" aria-hidden="true">
       <strong>{{ nom }}</strong>
       <span>{{ compteurIle(etat) }}</span>
+      <span v-if="bientot" class="ile-parcours">Parcours bientôt</span>
       <span v-if="etat.complete && !calme" class="ile-drapeau">🚩 terminée</span>
     </span>
   </RouterLink>
@@ -47,7 +47,7 @@ const label = computed(() =>
   position: absolute; top: 20%; right: 2%; width: 2rem; height: 2rem; display: grid; place-items: center;
   background: var(--surface); border: 2px solid var(--bord-fort); border-radius: 50%; font-size: 1.1rem;
 }
-.ile-perso { position: absolute; left: 50%; bottom: 30%; height: 45%; width: auto; transform: translateX(-50%); }
+.ile-perso { position: absolute; left: 30%; bottom: 30%; height: 45%; width: auto; transform: translateX(-50%); }
 .ile-etiquette {
   display: flex; flex-direction: column; background: var(--surface); border: 2px solid var(--bord-fort);
   border-radius: 14px; padding: 0.2em 0.6em; font-size: 0.85em; text-align: center; box-shadow: 0 3px 0 var(--bord-fort);

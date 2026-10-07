@@ -127,7 +127,8 @@ export async function focusConserve(page: Page) {
 
 /** Ouvre l’île dont le nom accessible commence par `nom` depuis la carte. */
 export async function ouvrirIle(page: Page, nom: string) {
-  await page.getByRole('link', { name: new RegExp(`^${nom}`) }).click()
+  const echappe = nom.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  await page.getByRole('link', { name: new RegExp(`^${echappe}`) }).click()
   await expect(page.getByRole('heading', { name: nom, level: 1 })).toBeVisible()
 }
 

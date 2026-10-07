@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { List, RotateCcw } from '@lucide/vue'
+import { Check, List, RotateCcw } from '@lucide/vue'
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { CHEMIN } from '@/archipel/archipel'
@@ -64,7 +64,7 @@ const echeance = computed(() =>
     <div class="outils-carte">
       <Sacoche :objets="objets" />
       <button type="button" class="btn btn-secondaire bascule-vue" :aria-pressed="vue === 'liste'" @click="basculer">
-        <List aria-hidden="true" /> Vue liste
+        <List aria-hidden="true" /> Vue liste <Check v-if="vue === 'liste'" class="coche-vue" aria-hidden="true" />
       </button>
     </div>
 
@@ -77,6 +77,12 @@ const echeance = computed(() =>
 .entete-carte { display: flex; align-items: center; gap: 0.75rem; }
 .entete-carte h1 { margin: 0; }
 .outils-carte { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; margin: 0 0 1rem; }
+/* État « activée » visible sans la couleur seule : fond, barre à gauche et coche (comme .choix-btn). */
+.bascule-vue[aria-pressed='true'] {
+  --btn-fond: var(--surface-2); --btn-bord: var(--primaire); --btn-ombre: var(--primaire-ombre);
+  box-shadow: inset 6px 0 0 var(--primaire), 0 4px 0 var(--btn-ombre);
+}
+.bascule-vue[aria-pressed='true']:focus-visible { box-shadow: inset 6px 0 0 var(--primaire), 0 0 0 6px var(--focus-lisere), 0 4px 0 var(--btn-ombre); }
 .rappel { margin-bottom: 1.5rem; }
 .rappel-du { --encadre-trait: var(--primaire); border-width: 3px; border-left-width: 10px; }
 </style>

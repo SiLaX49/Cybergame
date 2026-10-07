@@ -21,5 +21,7 @@ const idTitre = useId()
 .sacoche { padding: 0.6rem 0.9rem; }
 .sacoche h2 { font-size: 1em; margin: 0 0 0.4rem; }
 .sacoche ul { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; padding: 0; margin: 0; }
+/* « badge » est en nowrap : en très grand texte ou à 320 px, l’étiquette doit pouvoir passer à la ligne. */
+.sacoche li { white-space: normal; max-width: 100%; border-radius: 1.25rem; }
 .pas-gagne .sacoche-emoji { filter: grayscale(1); }
 </style>

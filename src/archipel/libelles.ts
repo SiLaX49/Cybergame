@@ -3,12 +3,17 @@ import type { EtatIle } from './progression'
 const missionsTexte = (n: number, total: number) =>
   `${n} mission${n > 1 ? 's' : ''} sur ${total} terminée${n > 1 ? 's' : ''}`
 
+/** Île d’aventure qui a des missions dans la tranche mais pas (encore) de parcours : « Parcours bientôt ». */
+export const parcoursBientot = (o: { objet: string | null; calme: boolean; etat: EtatIle }) =>
+  !o.calme && o.objet !== null && o.etat.total > 0 && !o.etat.aParcours
+
 /** Nom accessible complet d’une île sur la carte. */
 export function nomAccessibleIle(o: { nom: string; objet: string | null; calme: boolean; ici: boolean; etat: EtatIle }): string {
   const parties: string[] = []
   if (o.etat.total === 0) parties.push('bientôt disponible')
   else parties.push(missionsTexte(o.etat.terminees, o.etat.total))
   if (!o.calme && o.objet && o.etat.aParcours) parties.push(o.etat.objetGagne ? `${o.objet} gagné` : `${o.objet} à gagner`)
+  if (parcoursBientot(o)) parties.push('parcours bientôt')
   if (o.ici) parties.push('tu es ici')
   return `${o.nom} — ${parties.join(', ')}`
 }

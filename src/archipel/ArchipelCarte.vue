@@ -65,50 +65,50 @@ const trace = computed(() => {
 
 <template>
   <div class="archipel">
-  <div class="cadre">
-    <svg class="mer" aria-hidden="true" focusable="false" preserveAspectRatio="none" viewBox="0 0 100 62.5">
-      <rect class="mer-fond" width="100" height="62.5" />
-      <g class="vagues" fill="none" stroke-linecap="round">
-        <path d="M4 8 q2 -1.4 4 0 t4 0" />
-        <path d="M40 4 q2 -1.4 4 0 t4 0" />
-        <path d="M88 6 q2 -1.4 4 0 t4 0" />
-        <path d="M24 33 q2 -1.4 4 0 t4 0" />
-        <path d="M72 29 q2 -1.4 4 0 t4 0" />
-        <path d="M44 58 q2 -1.4 4 0 t4 0" />
-        <path d="M6 40 q2 -1.4 4 0 t4 0" />
-        <path d="M92 20 q2 -1.4 4 0 t4 0" />
-      </g>
-      <rect class="lagon-fond" x="79" y="4" width="20" height="50" rx="10" />
-      <path class="chemin-dessous" :d="trace" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke" />
-      <path class="chemin-dessus" :d="trace" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke" />
-    </svg>
+    <div class="cadre">
+      <svg class="mer" aria-hidden="true" focusable="false" preserveAspectRatio="none" viewBox="0 0 100 62.5">
+        <rect class="mer-fond" width="100" height="62.5" />
+        <g class="vagues" fill="none" stroke-linecap="round">
+          <path d="M4 8 q2 -1.4 4 0 t4 0" />
+          <path d="M40 4 q2 -1.4 4 0 t4 0" />
+          <path d="M88 6 q2 -1.4 4 0 t4 0" />
+          <path d="M24 33 q2 -1.4 4 0 t4 0" />
+          <path d="M72 29 q2 -1.4 4 0 t4 0" />
+          <path d="M44 58 q2 -1.4 4 0 t4 0" />
+          <path d="M6 40 q2 -1.4 4 0 t4 0" />
+          <path d="M92 20 q2 -1.4 4 0 t4 0" />
+        </g>
+        <rect class="lagon-fond" x="79" y="4" width="20" height="50" rx="10" />
+        <path class="chemin-dessous" :d="trace" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+        <path class="chemin-dessus" :d="trace" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+      </svg>
 
-    <div class="port" :style="pos('port')">
-      <svg v-if="ici === 'port' && personnage" class="ile-perso" viewBox="-20 -60 40 62" aria-hidden="true" focusable="false">
-        <PersonnageG :id="personnage" />
-      </svg>
-      <Hulotte v-else-if="ici === 'port'" expression="accueil" :taille="48" />
-      <svg class="port-quai" viewBox="0 0 80 30" aria-hidden="true" focusable="false">
-        <ellipse cx="40" cy="22" rx="36" ry="6" fill="#2b6f8f" opacity="0.2" />
-        <rect x="6" y="12" width="68" height="9" rx="3" fill="#a77b52" stroke="#6b4a2b" stroke-width="1.5" />
-        <path d="M18 12v9M30 12v9M42 12v9M54 12v9M66 12v9" stroke="#6b4a2b" stroke-width="1.2" />
-        <rect x="10" y="20" width="4" height="8" fill="#6b4a2b" />
-        <rect x="66" y="20" width="4" height="8" fill="#6b4a2b" />
-      </svg>
-      <span class="port-nom">Port</span>
+      <div class="port" :style="pos('port')">
+        <svg v-if="ici === 'port' && personnage" class="ile-perso" viewBox="-20 -60 40 62" aria-hidden="true" focusable="false">
+          <PersonnageG :id="personnage" />
+        </svg>
+        <Hulotte v-else-if="ici === 'port'" expression="accueil" :taille="48" />
+        <svg class="port-quai" viewBox="0 0 80 30" aria-hidden="true" focusable="false">
+          <ellipse cx="40" cy="22" rx="36" ry="6" fill="#2b6f8f" opacity="0.2" />
+          <rect x="6" y="12" width="68" height="9" rx="3" fill="#a77b52" stroke="#6b4a2b" stroke-width="1.5" />
+          <path d="M18 12v9M30 12v9M42 12v9M54 12v9M66 12v9" stroke="#6b4a2b" stroke-width="1.2" />
+          <rect x="10" y="20" width="4" height="8" fill="#6b4a2b" />
+          <rect x="66" y="20" width="4" height="8" fill="#6b4a2b" />
+        </svg>
+        <span class="port-nom">Port<span v-if="ici === 'port'" class="visually-hidden"> — tu es ici</span></span>
+      </div>
+
+      <ol class="iles-chemin">
+        <li v-for="i in chemin" :key="i.id" :style="pos(i.id)"><IleLien v-bind="i.props" /></li>
+      </ol>
+
+      <section class="lagon" aria-labelledby="titre-lagon">
+        <h2 id="titre-lagon">Lagon calme</h2>
+        <ul>
+          <li v-for="i in calmes" :key="i.id" :style="pos(i.id)"><IleLien v-bind="i.props" /></li>
+        </ul>
+      </section>
     </div>
-
-    <ol class="iles-chemin">
-      <li v-for="i in chemin" :key="i.id" :style="pos(i.id)"><IleLien v-bind="i.props" /></li>
-    </ol>
-
-    <section class="lagon" aria-labelledby="titre-lagon">
-      <h2 id="titre-lagon">Lagon calme</h2>
-      <ul>
-        <li v-for="i in calmes" :key="i.id" :style="pos(i.id)"><IleLien v-bind="i.props" /></li>
-      </ul>
-    </section>
-  </div>
   </div>
 </template>
 
@@ -149,6 +149,9 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
   border-left: 5px dotted var(--texte-doux);
 }
 .iles-chemin li:nth-child(even) { transform: translateY(2.5rem); }
+/* En colonnes, le dessin garde une taille d’île (pas la largeur de la colonne) ; l’objet reste collé au dessin. */
+.iles-chemin :deep(.ile-visuel), .lagon :deep(.ile-visuel) { max-width: 9.5rem; margin-inline: auto; }
+.iles-chemin :deep(.ile-etiquette), .lagon :deep(.ile-etiquette) { max-width: 14rem; }
 .lagon {
   position: relative; margin-top: 1rem; padding: 0.75rem 0.5rem 0.5rem;
   background: var(--mer-profonde); border-radius: 2rem;
@@ -159,6 +162,8 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 /* Mise en page large : carte au ratio 16:10, îles posées par pourcentages. Le seuil est en em
    (relatif à la taille de texte choisie) : en très grand texte ou en mode classe, on reste en colonnes. */
 @container archipel (min-width: 50em) {
+  .iles-chemin :deep(.ile-visuel), .lagon :deep(.ile-visuel) { max-width: none; margin-inline: 0; }
+  .iles-chemin :deep(.ile-etiquette), .lagon :deep(.ile-etiquette) { max-width: none; }
   .cadre { aspect-ratio: 16 / 10; padding: 0; }
   .mer { display: block; position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
   .port, .iles-chemin li, .lagon li {
