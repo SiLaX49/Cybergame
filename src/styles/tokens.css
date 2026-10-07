@@ -1,0 +1,156 @@
+/* Valeurs reprises de src/styles/palette.ts (vérifié par tests/unit/palette.test.ts). */
+:root,
+:root[data-theme='clair'] {
+  color-scheme: light;
+  --fond: #fff8ec;
+  --surface: #ffffff;
+  --surface-2: #f6f1ff;
+  --texte: #1f1a3a;
+  --texte-doux: #544d6e;
+  --bord: #e8e1f5;
+  --bord-fort: #8a80a8;
+  --primaire: #5b3df5;
+  --primaire-ombre: #3b23b8;
+  --primaire-texte: #ffffff;
+  --bon: #0f6b3a;
+  --risque: #b3261e;
+  --aide: #7a4f00;
+  --bon-fond: #e3f6ea;
+  --risque-fond: #fde8e6;
+  --aide-fond: #fff1d6;
+  --focus: #b35c00;
+  --focus-lisere: #1f1a3a;
+  --hulotte-corps: #8a6bd1;
+  --hulotte-ventre: #e9defc;
+  --hulotte-oeil: #ffffff;
+  --hulotte-pupille: #1f1a3a;
+  --hulotte-bec: #ffb627;
+  --accent-phishing: #0f8a7a;
+  --teinte-phishing: #d8f3ef;
+  --accent-comptes: #5b3df5;
+  --teinte-comptes: #ece6ff;
+  --accent-vie-privee: #c92a62;
+  --teinte-vie-privee: #ffe3ef;
+  --accent-jeux-achats: #c4480a;
+  --teinte-jeux-achats: #ffe6d6;
+  --accent-desinformation: #8a6a00;
+  --teinte-desinformation: #fff3c4;
+  --accent-appareils: #1971c2;
+  --teinte-appareils: #dbeafe;
+  --accent-harcelement: #b8400c;
+  --teinte-harcelement: #ffedd5;
+  --accent-rencontres: #2b8a3e;
+  --teinte-rencontres: #dcfce7;
+}
+
+:root[data-theme='sombre'] {
+  color-scheme: dark;
+  --fond: #151226;
+  --surface: #221d3b;
+  --surface-2: #2a2448;
+  --texte: #f4f1ff;
+  --texte-doux: #c9c2e8;
+  --bord: #3a3360;
+  --bord-fort: #8a80b8;
+  --primaire: #9d8bff;
+  --primaire-ombre: #6b56e0;
+  --primaire-texte: #151226;
+  --bon: #6ee7a0;
+  --risque: #ff8a80;
+  --aide: #ffc857;
+  --bon-fond: #173a2a;
+  --risque-fond: #3f1d22;
+  --aide-fond: #3a2e12;
+  --focus: #ffb347;
+  --focus-lisere: #151226;
+  --hulotte-corps: #a78bfa;
+  --hulotte-ventre: #3b3266;
+  --hulotte-oeil: #ffffff;
+  --hulotte-pupille: #151226;
+  --hulotte-bec: #ffb627;
+  --accent-phishing: #2dd4bf;
+  --teinte-phishing: #123f3a;
+  --accent-comptes: #9d8bff;
+  --teinte-comptes: #2e2752;
+  --accent-vie-privee: #f06595;
+  --teinte-vie-privee: #4a1730;
+  --accent-jeux-achats: #ff922b;
+  --teinte-jeux-achats: #4a2414;
+  --accent-desinformation: #fcc419;
+  --teinte-desinformation: #3d3210;
+  --accent-appareils: #4dabf7;
+  --teinte-appareils: #13304d;
+  --accent-harcelement: #ff8a4c;
+  --teinte-harcelement: #47220f;
+  --accent-rencontres: #69db7c;
+  --teinte-rencontres: #143d22;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='clair']):not([data-theme='sombre']) {
+    color-scheme: dark;
+    --fond: #151226;
+    --surface: #221d3b;
+    --surface-2: #2a2448;
+    --texte: #f4f1ff;
+    --texte-doux: #c9c2e8;
+    --bord: #3a3360;
+    --bord-fort: #8a80b8;
+    --primaire: #9d8bff;
+    --primaire-ombre: #6b56e0;
+    --primaire-texte: #151226;
+    --bon: #6ee7a0;
+    --risque: #ff8a80;
+    --aide: #ffc857;
+    --bon-fond: #173a2a;
+    --risque-fond: #3f1d22;
+    --aide-fond: #3a2e12;
+    --focus: #ffb347;
+    --focus-lisere: #151226;
+    --hulotte-corps: #a78bfa;
+    --hulotte-ventre: #3b3266;
+    --hulotte-oeil: #ffffff;
+    --hulotte-pupille: #151226;
+    --hulotte-bec: #ffb627;
+    --accent-phishing: #2dd4bf;
+    --teinte-phishing: #123f3a;
+    --accent-comptes: #9d8bff;
+    --teinte-comptes: #2e2752;
+    --accent-vie-privee: #f06595;
+    --teinte-vie-privee: #4a1730;
+    --accent-jeux-achats: #ff922b;
+    --teinte-jeux-achats: #4a2414;
+    --accent-desinformation: #fcc419;
+    --teinte-desinformation: #3d3210;
+    --accent-appareils: #4dabf7;
+    --teinte-appareils: #13304d;
+    --accent-harcelement: #ff8a4c;
+    --teinte-harcelement: #47220f;
+    --accent-rencontres: #69db7c;
+    --teinte-rencontres: #143d22;
+  }
+}
+
+:root {
+  --rayon: 14px;
+  --rayon-btn: 14px;
+  --rayon-carte: 20px;
+  --duree: 120ms;
+  --police-titres: 'Fredoka', 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --police-texte: 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --taille-base: 1.125rem;
+  --interligne: 1.5;
+}
+:root[data-taille='grand'] { --taille-base: 1.3rem; }
+:root[data-taille='tres-grand'] { --taille-base: 1.5rem; }
+:root[data-interligne='large'] { --interligne: 1.9; }
+:root[data-mode='classe'] { --taille-base: 1.6rem; }
+
+[data-accent='phishing'] { --accent: var(--accent-phishing); --teinte: var(--teinte-phishing); }
+[data-accent='comptes'] { --accent: var(--accent-comptes); --teinte: var(--teinte-comptes); }
+[data-accent='vie-privee'] { --accent: var(--accent-vie-privee); --teinte: var(--teinte-vie-privee); }
+[data-accent='jeux-achats'] { --accent: var(--accent-jeux-achats); --teinte: var(--teinte-jeux-achats); }
+[data-accent='desinformation'] { --accent: var(--accent-desinformation); --teinte: var(--teinte-desinformation); }
+[data-accent='appareils'] { --accent: var(--accent-appareils); --teinte: var(--teinte-appareils); }
+[data-accent='harcelement'] { --accent: var(--accent-harcelement); --teinte: var(--teinte-harcelement); }
+[data-accent='rencontres'] { --accent: var(--accent-rencontres); --teinte: var(--teinte-rencontres); }

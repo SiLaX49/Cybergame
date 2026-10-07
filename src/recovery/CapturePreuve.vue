@@ -26,11 +26,15 @@ focusAuChangement(bloque, titre)
           <span aria-hidden="true">🚫</span> {{ T.bloquer }}
         </button>
       </div>
-      <p v-if="capture" role="status">{{ T.captureFaite }}</p>
+      <p v-if="capture" role="status" class="encadre encadre-doux">{{ T.captureFaite }}</p>
     </template>
     <template v-else>
-      <p role="status"><span aria-hidden="true">✅</span> {{ T.rappel }}</p>
+      <p role="status" class="encadre encadre-doux"><span aria-hidden="true">✅</span> {{ T.rappel }}</p>
       <button type="button" class="btn btn-primaire" @click="emit('fait')">Continuer</button>
     </template>
   </section>
 </template>
+
+<style scoped>
+.encadre { margin: 0.75rem 0; }
+</style>

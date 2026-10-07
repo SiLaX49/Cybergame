@@ -17,9 +17,10 @@ const t = useTexte()
 
 <style scoped>
 .fil-messages { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
-.bulle { max-width: 85%; padding: 0.5rem 0.75rem; border-radius: 16px; overflow-wrap: anywhere; }
-.bulle.contact { align-self: flex-start; background: #ececf4; }
-.bulle.moi { align-self: flex-end; background: var(--primaire); color: var(--primaire-texte); }
-.chat .bulle.contact { background: #e8f0fb; }
-.social .bulle.contact { background: #fdf0e6; }
+.bulle { max-width: 85%; padding: 0.55rem 0.8rem; border-radius: 18px; overflow-wrap: anywhere; }
+.bulle.contact { align-self: flex-start; background: var(--surface-2); color: var(--texte); border: 1px solid var(--bord); border-bottom-left-radius: 6px; }
+.bulle.moi { align-self: flex-end; background: var(--primaire); color: var(--primaire-texte); border-bottom-right-radius: 6px; }
+/* Variantes : seule la forme change (pas la couleur), pour rester lisible dans les deux thèmes. */
+.chat .bulle.contact { border-radius: 18px 18px 18px 6px; }
+.social .bulle.contact { border-style: dashed; border-color: var(--bord-fort); }
 </style>

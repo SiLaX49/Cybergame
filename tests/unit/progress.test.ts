@@ -16,10 +16,17 @@ describe('progression', () => {
       version: 1,
       tranche: null,
       mode: null,
-      reglages: { taille: 'normal', interligne: 'normal', lectureSimple: false, animations: true, chrono: false },
+      reglages: { taille: 'normal', interligne: 'normal', lectureSimple: false, animations: true, chrono: false, theme: 'auto' },
       missions: {},
       rappels: {},
     })
+  })
+
+  it('une sauvegarde sans réglage de thème passe en automatique', () => {
+    const ancienne = { version: 1, reglages: { taille: 'grand', interligne: 'normal', lectureSimple: false, animations: true, chrono: false } }
+    const etat = migrer(ancienne)
+    expect(etat?.reglages.theme).toBe('auto')
+    expect(etat?.reglages.taille).toBe('grand')
   })
 
   it('sauve puis recharge', () => {

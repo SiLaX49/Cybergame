@@ -121,6 +121,16 @@ puis lancer `npm test` et `npm run test:e2e` : la mission est alors incluse dans
 « Brouillon »). Les tests E2E des brouillons (`tests/e2e/sensibles.spec.ts`) passent par `VITE_BROUILLONS=1`, qui reste
 actif dans `playwright.config.ts`. Quand une mission est relue, retirer d’abord son identifiant de la liste `MISSIONS` de ce fichier ou adapter l’assertion du bandeau « Brouillon ».
 
+## Design et accessibilité
+
+- **Jetons** : les couleurs, rayons, ombres et la durée d’animation vivent dans `src/styles/palette.ts` (valeurs) et `src/styles/tokens.css` (variables CSS). Il faut modifier les deux ; `tests/unit/palette.test.ts` vérifie qu’ils concordent.
+- **Contrastes** : `npm test` contrôle les rapports de contraste (≥ 4,5:1 pour le texte, ≥ 3:1 pour les composants et le focus), en clair comme en sombre.
+- **Briques** : les classes communes (boutons, cartes, encadrés, choix…) sont dans `src/styles/composants.css`.
+- **Hulotte** : la mascotte (`expression` selon l’état) est décorative (`aria-hidden`) et toujours accompagnée d’un texte ; `PastilleTheme` affiche l’icône et la couleur d’un thème.
+- **Pas de couleur en dur** dans les `<style>` des `.vue` : utiliser `var(--…)` (vérifié par `tests/unit/styles-sans-hex.test.ts`). Seuls les dessins SVG du `<template>` et `print.css` gardent des couleurs littérales.
+- **Mode sombre** : automatique selon l’appareil, modifiable dans Réglages › Thème (Automatique, Clair, Sombre) ; l’attribut `data-theme` sur `<html>` porte le choix. Réglage « Animations » et `prefers-reduced-motion` coupent toutes les transitions.
+- **Audit** : `tests/e2e/a11y.spec.ts` (clair) et `tests/e2e/theme.spec.ts` (sombre) lancent axe sur les écrans principaux.
+
 ## Déploiement
 
 Le site est publié sur GitHub Pages par `.github/workflows/ci.yml` à chaque push sur `main`, une fois lint,

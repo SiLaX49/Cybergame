@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Leviers, Scenario } from '@/content/schema'
+import type { Leviers, Qualite, Scenario } from '@/content/schema'
 import type { ScenarioResultat } from '@/engine/mission-runner'
 import { ordreAffichage } from '@/engine/ordre'
 import { useTexte } from '@/ui/useTexte'
@@ -10,6 +10,11 @@ const props = withDefaults(defineProps<{ scenario: Scenario; resultat: ScenarioR
 const emit = defineEmits<{ continuer: []; rejouer: [] }>()
 const t = useTexte()
 
+/** En thème sensible, le rouge vif d’un « risque » est remplacé par un encadré doux (l’icône et le texte du verdict restent). */
+function classeEncadre(qualite: Qualite): string {
+  return props.sensible && qualite === 'risque' ? 'encadre-doux' : `encadre-${qualite}`
+}
+
 const indices = computed(() => ordreAffichage(props.scenario.indices, props.scenario.id))
 const choix = computed(() => props.scenario.choix.find((c) => c.id === props.resultat.choixId))
 
@@ -18,12 +23,12 @@ const reponse = computed(() => reponseLevier(props.scenario.pourquoi, props.resu
 
 <template>
   <section v-if="choix" class="consequence">
-    <p class="verdict" :class="choix.qualite">
+    <p class="verdict encadre" :class="[choix.qualite, classeEncadre(choix.qualite)]">
       <span aria-hidden="true">{{ VERDICTS[choix.qualite].icone }}</span> <strong>{{ VERDICTS[choix.qualite].titre }}</strong>
     </p>
     <p><strong>Ton choix :</strong> {{ choix.texte }}</p>
     <p>{{ t(choix.consequence, choix.consequenceSimple) }}</p>
-    <div v-if="reponse" class="ce-qui-a-marche" role="note">
+    <div v-if="reponse" class="ce-qui-a-marche encadre encadre-info" role="note">
       <h3>{{ titreReponse(sensible) }}</h3>
       <p>Tu as répondu : « {{ reponse.libelle }} »</p>
       <p>{{ reponse.truc }}</p>
@@ -37,7 +42,7 @@ const reponse = computed(() => reponseLevier(props.scenario.pourquoi, props.resu
       </li>
     </ul>
     <p>{{ scenario.explicationIndices }}</p>
-    <div class="a-retenir" role="note">
+    <div class="a-retenir encadre encadre-info" role="note">
       <h3>À retenir</h3>
       <p>{{ t(scenario.aRetenir, scenario.aRetenirSimple) }}</p>
     </div>
@@ -49,11 +54,10 @@ const reponse = computed(() => reponseLevier(props.scenario.pourquoi, props.resu
 </template>
 
 <style scoped>
+.consequence, .reaction { display: grid; gap: 0.9rem; }
+.consequence > *, .reaction > * { margin-top: 0; margin-bottom: 0; }
 .verdict { font-size: 1.15em; }
-.verdict.bon { color: var(--bon); }
-.verdict.risque { color: var(--risque); }
-.verdict.aide { color: var(--aide); }
 .coche { color: var(--texte-doux); }
-.a-retenir { background: #eef0ff; border-left: 6px solid var(--primaire); padding: 0.5rem 1rem; border-radius: var(--rayon); }
-.ce-qui-a-marche { background: #fff8e6; border-left: 6px solid var(--aide); padding: 0.5rem 1rem; border-radius: var(--rayon); }
+.encadre h3 { margin: 0 0 0.35rem; }
+.liste-indices { margin: 0; padding-left: 1.2rem; }
 </style>

@@ -7,8 +7,18 @@
       name="description"
       content="Jeu gratuit de sensibilisation aux risques numériques, de la 6e à la Terminale."
     />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#fff8ec" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#151226" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>Cyber Réflexes</title>
+    <script>
+      /* Applique le thème enregistré avant le premier affichage (évite le flash clair/sombre). */
+      try {
+        var t = JSON.parse(localStorage.getItem('cyber-reflexes:v1')).reglages.theme
+        if (t === 'clair' || t === 'sombre' || t === 'auto') document.documentElement.dataset.theme = t
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="app"></div>

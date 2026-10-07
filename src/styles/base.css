@@ -1,27 +1,5 @@
-:root {
-  --fond: #f7f7fb;
-  --surface: #ffffff;
-  --texte: #1b1b2f;
-  --texte-doux: #4a4a63;
-  --primaire: #3b2fc9;
-  --primaire-texte: #ffffff;
-  --bon: #0f7a3d;
-  --risque: #b3261e;
-  --aide: #7a4f00;
-  --bord: #c9c9d9;
-  --focus: #b35c00;
-  --rayon: 12px;
-  --taille-base: 1.125rem;
-  --interligne: 1.5;
-  font-family: 'Atkinson Hyperlegible', system-ui, sans-serif;
-  color-scheme: light;
-}
-:root[data-taille='grand'] { --taille-base: 1.3rem; }
-:root[data-taille='tres-grand'] { --taille-base: 1.5rem; }
-:root[data-interligne='large'] { --interligne: 1.9; }
-:root[data-mode='classe'] { --taille-base: 1.6rem; }
-
 * { box-sizing: border-box; }
+html { font-family: var(--police-texte); }
 body {
   margin: 0;
   background: var(--fond);
@@ -29,28 +7,32 @@ body {
   font-size: var(--taille-base);
   line-height: var(--interligne);
   text-align: left;
+  -webkit-font-smoothing: antialiased;
 }
-h1, h2, h3 { line-height: 1.2; }
-a { color: var(--primaire); }
-:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+h1, h2, h3 {
+  font-family: var(--police-titres);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.005em;
+}
+h1 { font-size: clamp(1.7em, 1.4em + 1.2vw, 2.25em); }
+h2 { font-size: 1.35em; }
+h3 { font-size: 1.15em; }
+a { color: var(--primaire); text-underline-offset: 0.18em; text-decoration-thickness: 0.08em; }
+a:hover { text-decoration-thickness: 0.14em; }
+input, select, textarea, button { font: inherit; color: inherit; }
+input[type='radio'], input[type='checkbox'] { accent-color: var(--primaire); width: 1.25em; height: 1.25em; flex: none; }
+
+/* Repère de focus : anneau orange + liseré (lisible sur toutes les surfaces, clair comme sombre). */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 0;
+  box-shadow: 0 0 0 6px var(--focus-lisere);
+}
 [tabindex='-1']:focus:not(:focus-visible) { outline: none; }
 
 .conteneur { max-width: 64rem; margin: 0 auto; padding: 1rem; }
-.carte { background: var(--surface); border: 1px solid var(--bord); border-radius: var(--rayon); padding: 1rem; }
-.btn {
-  display: inline-flex; align-items: center; gap: 0.5em;
-  min-height: 44px; padding: 0.6em 1.1em;
-  border-radius: var(--rayon); border: 2px solid var(--primaire);
-  background: var(--surface); color: var(--primaire);
-  font: inherit; font-weight: 700; cursor: pointer; text-decoration: none;
-}
-.btn-primaire { background: var(--primaire); color: var(--primaire-texte); }
-.btn-danger { border-color: var(--risque); color: var(--risque); }
-.btn-discret { border-color: var(--bord); color: var(--texte-doux); }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
-.option { display: flex; align-items: center; gap: 0.5em; min-height: 44px; }
-fieldset { border: 1px solid var(--bord); border-radius: var(--rayon); margin: 0 0 1rem; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; overflow: hidden;
   clip: rect(0 0 0 0); white-space: nowrap;
@@ -62,3 +44,8 @@ fieldset { border: 1px solid var(--bord); border-radius: var(--rayon); margin: 0
 :root[data-animations='off'] *,
 :root[data-animations='off'] *::before,
 :root[data-animations='off'] *::after { animation: none !important; transition: none !important; }
+
+/* L’en-tête collant (grands écrans seulement) ne doit pas masquer la cible d’un défilement ou d’un focus. */
+@media (min-width: 40rem) and (min-height: 32rem) {
+  html { scroll-padding-top: 5rem; }
+}

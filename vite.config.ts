@@ -21,8 +21,8 @@ export default defineConfig({
               short_name: 'Cyber Réflexes',
               description: 'Jeu gratuit de sensibilisation aux risques numériques, de la 6e à la Terminale.',
               lang: 'fr',
-              theme_color: '#3b2fc9',
-              background_color: '#f7f7fb',
+              theme_color: '#5b3df5',
+              background_color: '#fff8ec',
               display: 'standalone',
               icons: [{ src: 'icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' }],
             },
@@ -34,6 +34,8 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     include: ['tests/unit/**/*.test.ts'],
+    // Les tests lisent ces feuilles via `?raw` ; sans cela Vitest renvoie une chaîne vide.
+    css: { include: [/(tokens|print)\.css/] },
     alias: {
       'virtual:pwa-register/vue': fileURLToPath(new URL('./tests/unit/pwa-register-stub.ts', import.meta.url)),
     },

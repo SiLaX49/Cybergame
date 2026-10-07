@@ -23,6 +23,8 @@ const t = useTexte()
 <style scoped>
 .barre-adresse {
   display: flex; align-items: center; gap: 0.4em; margin: 0 0 0.75rem;
-  padding: 0.3rem 0.6rem; border-radius: 999px; background: #ececf4; font-size: 0.9em; overflow-wrap: anywhere;
+  padding: 0.25em 0.8em; border-radius: 999px; border: 1px solid var(--bord-fort);
+  background: var(--surface-2); font-size: 0.9em; overflow-wrap: anywhere;
 }
+.page a { color: var(--primaire); }
 </style>

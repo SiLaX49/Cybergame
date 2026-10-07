@@ -17,7 +17,7 @@ function allerAuContenu() {
 </script>
 
 <template>
-  <button type="button" class="lien-evitement" @click="allerAuContenu">Aller au contenu</button>
+  <button type="button" class="lien-evitement btn btn-primaire" @click="allerAuContenu">Aller au contenu</button>
   <AppHeader />
   <UpdatePrompt />
   <p v-if="!store.persistant.value" class="alerte-stockage conteneur" role="status">
@@ -28,6 +28,9 @@ function allerAuContenu() {
 
 <style>
 .lien-evitement { position: absolute; left: -999px; }
-.lien-evitement:focus { left: 1rem; top: 1rem; z-index: 10; }
-.alerte-stockage { background: #fff8e6; border-left: 4px solid var(--aide); }
+.lien-evitement:focus { left: 1rem; top: 1rem; z-index: 30; }
+.alerte-stockage {
+  background: var(--aide-fond); color: var(--texte); border-left: 8px solid var(--aide);
+  border-radius: var(--rayon-btn); padding: 0.75rem 1rem; margin-block: 1rem;
+}
 </style>

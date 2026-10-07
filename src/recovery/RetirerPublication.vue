@@ -32,16 +32,20 @@ function envoyer() {
           <input v-model="choix" type="radio" name="excuses" :value="e.id" @change="retour = ''" /> {{ e.texte }}
         </label>
       </fieldset>
-      <p v-if="retour" role="status">{{ retour }}</p>
+      <p v-if="retour" role="status" class="encadre encadre-doux">{{ retour }}</p>
       <button type="button" class="btn btn-primaire" :disabled="!choix" @click="envoyer">Envoyer</button>
     </template>
     <template v-else-if="etape === 3">
-      <p role="status">{{ T.envoyees }}</p>
+      <p role="status" class="encadre encadre-doux">{{ T.envoyees }}</p>
       <button type="button" class="btn btn-primaire" @click="etape = 4">{{ T.repartager }}</button>
     </template>
     <template v-else>
-      <p role="status"><span aria-hidden="true">✅</span> {{ T.rappel }}</p>
+      <p role="status" class="encadre encadre-doux"><span aria-hidden="true">✅</span> {{ T.rappel }}</p>
       <button type="button" class="btn btn-primaire" @click="emit('fait')">Continuer</button>
     </template>
   </section>
 </template>
+
+<style scoped>
+.encadre { margin: 0.75rem 0; }
+</style>

@@ -28,6 +28,7 @@ import type { PersonnageId } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
 import BandeauAide from '@/ui/BandeauAide.vue'
 import BandeauBrouillon from '@/ui/BandeauBrouillon.vue'
+import Hulotte from '@/ui/Hulotte.vue'
 import { contexteSensible } from '@/recovery/textes'
 
 const route = useRoute()
@@ -97,7 +98,7 @@ function recommencer() {
     </template>
     <template v-else>
       <BandeauBrouillon v-if="mission.relecture?.statut === 'a-relire'" />
-      <header class="mission-entete">
+      <header class="mission-entete carte">
         <h1>{{ mission.titre }}</h1>
         <p v-if="!etat.termine && !surIle" class="progression">
           <label for="progression-mission">Étape {{ etat.index + 1 }} sur {{ mission.etapes.length }}</label>
@@ -115,7 +116,10 @@ function recommencer() {
 
       <SensibleAvertissement v-if="sensible && !avertissementLu" @commencer="avertissementLu = true" />
       <section v-else-if="surIle && !store.etat.personnage" class="choix-depart">
-        <h2 ref="titreDepart" tabindex="-1">Avant de partir</h2>
+        <div class="depart-titre">
+          <Hulotte expression="accueil" :taille="96" />
+          <h2 ref="titreDepart" tabindex="-1">Avant de partir</h2>
+        </div>
         <ChoixPersonnage v-model="personnageChoisi" />
         <button type="button" class="btn btn-primaire" :disabled="!personnageChoisi" @click="commencerParcours">C’est parti !</button>
       </section>
@@ -161,6 +165,13 @@ function recommencer() {
 </template>
 
 <style scoped>
-.progression { display: flex; align-items: center; gap: 0.75rem; }
-progress { flex: 1; max-width: 20rem; height: 0.8rem; }
+.mission { display: grid; gap: 1rem; align-content: start; }
+.mission-entete { display: grid; gap: 0.75rem; }
+.mission-entete h1 { margin: 0; }
+.progression { display: flex; align-items: center; gap: 0.75rem; margin: 0; }
+.progression label { font-weight: 700; white-space: nowrap; }
+progress { flex: 1; max-width: 20rem; }
+.choix-depart { display: grid; gap: 1rem; justify-items: start; }
+.depart-titre { display: flex; align-items: center; gap: 1rem; }
+.depart-titre h2 { margin: 0; }
 </style>

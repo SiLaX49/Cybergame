@@ -48,12 +48,12 @@ function suivante() {
 
 <template>
   <div class="permissions">
-    <p>{{ config.consigne }}</p>
+    <p class="consigne">{{ config.consigne }}</p>
     <div class="carte appli">
       <h3 ref="titre" tabindex="-1">Appli {{ index + 1 }} sur {{ config.apps.length }} : {{ app.nom }}</h3>
       <p>{{ app.description }}</p>
       <!-- Reçoit le focus avant les explications ; pas de role="status" pour éviter une double annonce. -->
-      <p v-if="valide" ref="bilan" class="bilan" tabindex="-1">{{ phraseBilan }} Les explications sont sous chaque permission.</p>
+      <p v-if="valide" ref="bilan" class="bilan encadre encadre-info" tabindex="-1">{{ phraseBilan }} Les explications sont sous chaque permission.</p>
       <fieldset v-for="p in app.permissions" :key="cle(p)">
         <legend>{{ app.nom }} veut : {{ p.libelle }}</legend>
         <label class="option">
@@ -64,7 +64,7 @@ function suivante() {
           <input v-model="decisions[cle(p)]" type="radio" :name="`perm-${cle(p)}`" value="refuser" :disabled="valide" />
           Refuser
         </label>
-        <p v-if="valide" class="verdict" :class="juste(p) ? 'bon' : 'risque'">
+        <p v-if="valide" class="verdict encadre" :class="juste(p) ? 'encadre-bon' : 'encadre-risque'">
           <span aria-hidden="true">{{ juste(p) ? '✅' : '⚠️' }}</span>
           {{ juste(p) ? 'Bien décidé' : p.necessaire ? 'À autoriser' : 'À refuser' }} : {{ p.explication }}
         </p>
@@ -83,6 +83,7 @@ function suivante() {
 </template>
 
 <style scoped>
-.verdict.bon { color: var(--bon); }
-.verdict.risque { color: var(--risque); }
+.consigne { color: var(--texte-doux); }
+.verdict { margin: 0.6rem 0 0; }
+.bilan { margin: 0.75rem 0; }
 </style>

@@ -2,6 +2,35 @@
   margin: 1.5cm;
 }
 @media print {
+  /* Impression toujours noir sur blanc, quel que soit le thème (les jetons sombres sont redéclarés). */
+  :root,
+  :root[data-theme='sombre'],
+  :root:not([data-theme='clair']):not([data-theme='sombre']) {
+    color-scheme: light;
+    --fond: #ffffff; --surface: #ffffff; --surface-2: #ffffff;
+    --texte: #000000; --texte-doux: #000000;
+    --bord: #000000; --bord-fort: #000000;
+    --primaire: #000000; --primaire-ombre: #000000; --primaire-texte: #ffffff;
+    --bon: #000000; --risque: #000000; --aide: #000000;
+    --bon-fond: #ffffff; --risque-fond: #ffffff; --aide-fond: #ffffff;
+    --accent-phishing: #000000; --teinte-phishing: #ffffff;
+    --accent-comptes: #000000; --teinte-comptes: #ffffff;
+    --accent-vie-privee: #000000; --teinte-vie-privee: #ffffff;
+    --accent-jeux-achats: #000000; --teinte-jeux-achats: #ffffff;
+    --accent-desinformation: #000000; --teinte-desinformation: #ffffff;
+    --accent-appareils: #000000; --teinte-appareils: #ffffff;
+    --accent-harcelement: #000000; --teinte-harcelement: #ffffff;
+    --accent-rencontres: #000000; --teinte-rencontres: #ffffff;
+  }
+  .btn, .carte, .encadre, .option, .badge, .pastille-theme {
+    box-shadow: none !important;
+    background: #fff !important;
+    background-image: none !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+  }
+  .pastille-theme { border: 0 !important; }
+  .hulotte { display: none !important; }
   .app-header, .lien-evitement, .alerte-stockage, .no-print, .bandeau-aide, .maj {
     display: none !important;
   }

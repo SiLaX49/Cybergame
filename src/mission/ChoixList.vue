@@ -24,8 +24,8 @@ function validerClasse() {
 
 <template>
   <div class="choix">
-    <p v-if="mode === 'binome'" class="consigne-mode"><span aria-hidden="true">💬</span> Discutez à deux avant de choisir.</p>
-    <p v-if="mode === 'classe'" class="consigne-mode">
+    <p v-if="mode === 'binome'" class="consigne-mode encadre encadre-info"><span aria-hidden="true">💬</span> Discutez à deux avant de choisir.</p>
+    <p v-if="mode === 'classe'" class="consigne-mode encadre encadre-info">
       <span aria-hidden="true">✋</span> Votez à main levée, puis l’adulte valide le choix de la classe.
     </p>
     <ol class="liste-choix">
@@ -51,12 +51,10 @@ function validerClasse() {
 </template>
 
 <style scoped>
-.liste-choix { display: flex; flex-direction: column; gap: 0.6rem; padding-left: 1.5rem; }
-.choix-btn { width: 100%; text-align: left; justify-content: flex-start; }
-.choix-btn[aria-pressed='true'] { background: var(--primaire); color: var(--primaire-texte); }
-.choix-btn.essaye { text-decoration: line-through; }
-/* Choix déjà essayé : reste lisible (pas d’opacité réduite), signalé par le texte, le trait et la bordure en tirets. */
-.choix-btn.essaye:disabled { opacity: 1; color: var(--texte-doux); border-style: dashed; }
-.deja { text-decoration: none; display: inline-block; }
-.consigne-mode { font-weight: 700; }
+.choix { display: grid; gap: 0.75rem; }
+.liste-choix { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; }
+/* Choix déjà essayé : reste lisible (pas d’opacité réduite), signalé par le texte, le trait, le hachuré et la bordure en tirets. */
+.choix-btn.essaye { --btn-fond: var(--surface-2); --btn-texte: var(--texte-doux); text-decoration: line-through; border-style: dashed; }
+.deja { text-decoration: none; display: inline-block; font-weight: 400; font-style: italic; }
+.consigne-mode { font-weight: 700; margin: 0; }
 </style>
