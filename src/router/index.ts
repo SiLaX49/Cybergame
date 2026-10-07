@@ -1,10 +1,12 @@
 import { createRouter, createWebHashHistory, type RouteLocationNormalized, type RouteRecordRaw } from 'vue-router'
-import { getMission } from '@/content'
+import { nomIle } from '@/archipel/archipel'
+import { getMission, getTheme } from '@/content'
 import AccueilPage from '@/pages/AccueilPage.vue'
 import CartePage from '@/pages/CartePage.vue'
 import ConfidentialitePage from '@/pages/ConfidentialitePage.vue'
 import EnseignantsPage from '@/pages/EnseignantsPage.vue'
 import FicheMissionPage from '@/pages/FicheMissionPage.vue'
+import IlePage from '@/pages/IlePage.vue'
 import IntrouvablePage from '@/pages/IntrouvablePage.vue'
 import MissionPage from '@/pages/MissionPage.vue'
 import PlanBPage from '@/pages/PlanBPage.vue'
@@ -13,7 +15,7 @@ import { useProgress } from '@/store/useProgress'
 
 declare module 'vue-router' {
   interface RouteMeta {
-    /** Titre de l'onglet ; `{mission}` est remplacé par le titre de la mission de l'URL. */
+    /** Titre de l'onglet ; `{mission}` est remplacé par le titre de la mission de l'URL, `{ile}` par le nom de l'île. */
     titre?: string
   }
 }
@@ -27,7 +29,17 @@ export const routes: RouteRecordRaw[] = [
     beforeEnter: () => (useProgress().etat.tranche ? true : { name: 'accueil' }),
     meta: { titre: 'Choisis une île' },
   },
-  { path: '/ile/:theme', name: 'ile', component: () => import('@/pages/IlePage.vue') },
+  {
+    path: '/ile/:theme',
+    name: 'ile',
+    component: IlePage,
+    beforeEnter: (to) => {
+      if (!useProgress().etat.tranche) return { name: 'accueil' }
+      const theme = String(to.params.theme)
+      return getTheme(theme) && nomIle(theme) ? true : { name: 'introuvable', params: { chemin: ['ile', theme] } }
+    },
+    meta: { titre: '{ile}' },
+  },
   { path: '/mission/:id', name: 'mission', component: MissionPage, meta: { titre: '{mission}' } },
   { path: '/enseignants', name: 'enseignants', component: EnseignantsPage, meta: { titre: 'Espace enseignants' } },
   { path: '/enseignants/:id', name: 'fiche', component: FicheMissionPage, meta: { titre: '{mission} : fiche enseignant' } },
@@ -46,6 +58,7 @@ export function titrePage(route: RouteLocationNormalized): string {
     const mission = getMission(String(route.params.id))
     titre = mission ? modele.replace('{mission}', mission.titre) : 'Mission introuvable'
   }
+  if (modele.includes('{ile}')) titre = modele.replace('{ile}', nomIle(String(route.params.theme)) ?? 'Île introuvable')
   return `${titre} · Cyber Réflexes`
 }
 

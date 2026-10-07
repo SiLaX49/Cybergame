@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import { nomIle } from '@/archipel/archipel'
 import Hulotte from '@/ui/Hulotte.vue'
 import { AVERTISSEMENT as T } from './textesSensibles'
 
+const props = defineProps<{ theme?: string }>()
 const emit = defineEmits<{ commencer: [] }>()
 </script>
 
@@ -14,7 +16,7 @@ const emit = defineEmits<{ commencer: [] }>()
       <p v-for="p in T.paragraphes" :key="p">{{ p }}</p>
       <div class="actions">
         <button type="button" class="btn btn-primaire" @click="emit('commencer')">{{ T.commencer }}</button>
-        <RouterLink class="btn" to="/carte">{{ T.revenir }}</RouterLink>
+        <RouterLink class="btn" :to="props.theme && nomIle(props.theme) ? { name: 'ile', params: { theme: props.theme } } : '/carte'">{{ T.revenir }}</RouterLink>
       </div>
     </div>
   </section>

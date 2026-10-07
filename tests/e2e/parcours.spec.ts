@@ -6,7 +6,7 @@ test('solo 6e : une mission complète, puis la carte la marque terminée', async
   await page.getByRole('link', { name: 'Le colis mystère' }).click()
   await jouerMission(page)
   await expect(page.getByText('Mission accomplie')).toBeVisible()
-  await page.getByRole('link', { name: 'Retour à la carte' }).click()
+  await page.getByRole('link', { name: 'Retour à l’île' }).click()
   await expect(page.getByText('Terminée').first()).toBeVisible()
 })
 

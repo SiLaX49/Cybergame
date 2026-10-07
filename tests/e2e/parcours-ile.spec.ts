@@ -11,7 +11,7 @@ test('6e : un parcours de l’île joué jusqu’au bout, puis marqué terminé'
   await expect(page.locator('article.lieu')).toBeFocused()
   await jouerMission(page)
   await expect(page.getByText('Explorateur·rice')).toBeVisible()
-  await page.getByRole('link', { name: 'Retour à la carte' }).click()
+  await page.getByRole('link', { name: 'Retour à l’île' }).click()
   await expect(page.getByText('Terminée').first()).toBeVisible()
 })
 
