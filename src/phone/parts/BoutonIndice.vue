@@ -14,7 +14,7 @@ const emit = defineEmits<{ indice: [] }>()
 
 <style scoped>
 .indice {
-  display: flex; align-items: center; gap: 0.35rem; margin: 0 0 0.75rem auto; min-height: 44px; padding: 0.4rem 0.9rem;
+  display: flex; align-items: center; gap: 0.35rem; margin: 0; min-height: 40px; padding: 0.3rem 0.85rem;
   border: 2px solid var(--tel-accent); border-radius: 999px; background: var(--tel-fond); color: var(--tel-texte); font: inherit; font-weight: 700; cursor: pointer;
 }
 .indice[aria-pressed='true'] { background: var(--tel-passage); color: var(--tel-passage-texte); border-color: var(--tel-passage-texte); }

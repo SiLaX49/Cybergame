@@ -98,7 +98,6 @@ watch(
     <EnteteApp v-if="entete" v-bind="entete" />
     <!-- Zone défilante (grands textes, mode classe) : focusable pour défiler au clavier. -->
     <div ref="zone" class="ecran" tabindex="0" role="region" :aria-label="`Contenu de l’écran : ${nomApp}`">
-      <BoutonIndice v-if="boutonIndice" :actif="indiceVisible" @indice="emit('indice')" />
       <ConversationApp v-if="ecran.app === 'sms' || ecran.app === 'chat'" :ecran="ecran" />
       <SocialApp v-else-if="ecran.app === 'social'" :ecran="ecran" />
       <MailApp v-else-if="ecran.app === 'mail'" :ecran="ecran" />
@@ -114,14 +113,16 @@ watch(
         <RetourChoix v-if="joue" :choix="joue" :etape="etape" :contact="contact" :verdict="verdict" />
       </div>
     </div>
-    <ActionsApp v-if="choix && !choixJoue" :choix="choix" :graine="graine" :mode="mode" @choisir="(id) => emit('choisir', id)" />
+    <ActionsApp v-if="choix && !choixJoue" :choix="choix" :graine="graine" :mode="mode" @choisir="(id) => emit('choisir', id)">
+      <BoutonIndice v-if="boutonIndice" :actif="indiceVisible" @indice="emit('indice')" />
+    </ActionsApp>
   </figure>
 </template>
 
 <style scoped>
 .telephone {
   margin: 0; width: var(--tel-largeur); max-width: 100%; height: var(--tel-hauteur); display: flex; flex-direction: column;
-  border: 10px solid var(--tel-coque); border-radius: 32px; overflow: hidden;
+  border: 12px solid var(--tel-coque); border-radius: 22px; overflow: hidden;
   background: var(--tel-fond); color: var(--tel-texte);
   /* Reste entier à l’écran quand la page défile (bureau) ; statique en mode scène (MissionPage). */
   position: var(--tel-position, sticky); top: 1rem;

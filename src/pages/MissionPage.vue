@@ -181,8 +181,9 @@ function recommencer() {
     --scene-conteneur: size;
     --scene-defilement: auto;
     --tel-position: static;
-    --tel-hauteur: min(100cqh - 1rem, 52rem);
-    --tel-largeur: clamp(20rem, (100cqh - 1rem) * 9 / 19, 23rem);
+    --tel-hauteur: min(100cqh - 1rem, 60rem);
+    --tel-largeur: clamp(30rem, (100cqh - 1rem) * 9 / 10, 46rem);
+    max-width: 90rem;
   }
 }
 </style>

@@ -30,9 +30,9 @@ const TITRES: Record<Exclude<PhaseScenario, 'situation'>, string> = {
   recuperation: 'Maintenant, limite les dégâts',
 }
 const CONSIGNES: Record<Mode, string> = {
-  solo: 'Choisis ta réponse en bas du téléphone.',
-  binome: 'Discutez à deux, puis choisissez en bas du téléphone.',
-  classe: 'Votez à main levée, puis l’adulte valide le choix de la classe en bas du téléphone.',
+  solo: 'Choisis ta réponse en bas de l’écran.',
+  binome: 'Discutez à deux, puis choisissez en bas de l’écran.',
+  classe: 'Votez à main levée, puis l’adulte valide le choix de la classe en bas de l’écran.',
 }
 const ROLES = { victime: 'la personne visée', temoin: 'un·e témoin', auteur: 'celui ou celle qui a dérapé' } as const
 

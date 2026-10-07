@@ -14,6 +14,6 @@ defineProps<{ heure: string }>()
 
 <style scoped>
 .barre-etat { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0.3rem 1rem; font-size: 0.8em; font-weight: 700; background: var(--tel-fond); color: var(--tel-texte); }
-.encoche { width: 5rem; height: 1.1rem; border-radius: 999px; background: #000; }
+.encoche { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: #000; }
 .icones { display: inline-flex; gap: 0.3rem; justify-self: end; }
 </style>

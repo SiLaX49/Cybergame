@@ -47,7 +47,7 @@ describe('ScenarioStep', () => {
   })
 
   it('binôme : invite à discuter', () => {
-    expect(monter({ mode: 'binome' }).text()).toContain('Discutez à deux, puis choisissez en bas du téléphone.')
+    expect(monter({ mode: 'binome' }).text()).toContain('Discutez à deux, puis choisissez en bas de l’écran.')
   })
 
   it('classe : le choix doit être validé par l’adulte', async () => {

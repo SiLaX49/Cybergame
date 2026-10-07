@@ -1,6 +1,6 @@
-/* Taille de vrai téléphone quand la page défile. En mode scène, MissionPage la recalcule sur l'espace disponible. */
-:root { --tel-largeur: 23rem; --tel-hauteur: min(40rem, 80svh); }
-:root[data-taille='tres-grand'] { --tel-largeur: 28rem; }
+/* Mini-tablette en portrait (environ 3:4) quand la page défile. En mode scène, MissionPage la recalcule sur l'espace disponible. */
+:root { --tel-largeur: 34rem; --tel-hauteur: min(46rem, 85svh); }
+:root[data-taille='tres-grand'] { --tel-largeur: 40rem; }
 
 /* Variables du faux téléphone, par appli. Aplats opaques ; texte d'au moins 4.5:1 sur son fond. */
 .telephone {

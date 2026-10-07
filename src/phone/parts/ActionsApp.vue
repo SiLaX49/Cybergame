@@ -3,10 +3,11 @@ import { computed, ref, useId } from 'vue'
 import type { Choix } from '@/content/schema'
 import { ordreAffichage } from '@/engine/ordre'
 import type { Mode } from '@/store/progress'
-import { GESTES_TELEPHONE, gesteDuChoix } from '../gestes'
 
 const props = defineProps<{ choix: Choix[]; graine: string; mode: Mode }>()
 const emit = defineEmits<{ choisir: [choixId: string] }>()
+/** Lettre de chaque réponse, comme dans un QCM : utile pour en parler à voix haute en classe. */
+const LETTRES = ['A', 'B', 'C', 'D']
 const id = useId()
 const selection = ref<string | null>(null)
 const choixAffiches = computed(() => ordreAffichage(props.choix, props.graine))
@@ -22,9 +23,13 @@ function validerClasse() {
 
 <template>
   <div class="actions-app" role="group" :aria-labelledby="id">
-    <p :id="id" class="intitule">Que fais-tu ?</p>
+    <div class="entete-qcm">
+      <p :id="id" class="intitule">Que fais-tu ?</p>
+      <!-- Outil facultatif à côté de la question (bouton « Indice »). -->
+      <slot />
+    </div>
     <ul class="liste">
-      <li v-for="c in choixAffiches" :key="c.id">
+      <li v-for="(c, i) in choixAffiches" :key="c.id">
         <button
           type="button"
           class="action"
@@ -33,7 +38,7 @@ function validerClasse() {
           :aria-pressed="mode === 'classe' ? selection === c.id : undefined"
           @click="cliquer(c.id)"
         >
-          <component :is="GESTES_TELEPHONE[gesteDuChoix(c)].icone" aria-hidden="true" :size="18" />
+          <span class="lettre" aria-hidden="true">{{ LETTRES[i] }}</span>
           <span>{{ c.texte }}</span>
         </button>
       </li>
@@ -45,14 +50,16 @@ function validerClasse() {
 </template>
 
 <style scoped>
-/* Les réponses ne prennent jamais plus de la moitié de l’écran : au-delà, elles défilent. */
-.actions-app { flex: none; max-height: 50%; overflow-y: auto; scrollbar-width: thin; padding: 0.6rem 0.75rem 0.9rem; border-top: 1px solid var(--tel-bord); background: var(--tel-fond); }
-.intitule { margin: 0 0 0.5rem; font-size: 0.85em; font-weight: 700; color: var(--tel-doux); text-align: center; }
-.liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.45rem; }
-.action { display: flex; align-items: center; gap: 0.5rem; width: 100%; min-height: 44px; padding: 0.45rem 0.75rem; font-size: 0.92em; line-height: 1.35; text-align: left; border: 2px solid var(--tel-accent); border-radius: 18px; background: var(--tel-fond); color: var(--tel-texte); font: inherit; cursor: pointer; }
-.action:hover, .action[aria-pressed='true'] { background: var(--tel-accent); color: var(--tel-accent-texte); }
-.action svg { flex: none; }
+/* QCM : les réponses ne prennent jamais plus de 55 % de l’écran ; au-delà, elles défilent. */
+.actions-app { flex: none; max-height: 55%; overflow-y: auto; scrollbar-width: thin; padding: 0.75rem 1rem 1rem; border-top: 1px solid var(--tel-bord); background: var(--tel-fond); }
+.entete-qcm { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.6rem; }
+.intitule { margin: 0; font-weight: 700; }
+.liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.action { display: flex; align-items: center; gap: 0.75rem; width: 100%; min-height: 48px; padding: 0.6rem 0.9rem; line-height: 1.4; text-align: left; border: 2px solid var(--tel-bord); border-radius: 12px; background: var(--tel-fond); color: var(--tel-texte); font: inherit; cursor: pointer; }
+.action:hover { border-color: var(--tel-accent); }
+.action[aria-pressed='true'] { border-color: var(--tel-accent); background: var(--tel-accent); color: var(--tel-accent-texte); }
+.lettre { flex: none; display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border: 2px solid var(--tel-accent); border-radius: 50%; font-weight: 700; }
 .action:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
-.valider { margin-top: 0.6rem; justify-content: center; font-weight: 700; }
+.valider { margin-top: 0.75rem; justify-content: center; font-weight: 700; border-color: var(--tel-accent); }
 .valider:disabled { opacity: 0.6; cursor: not-allowed; }
 </style>
