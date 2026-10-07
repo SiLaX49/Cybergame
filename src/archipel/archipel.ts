@@ -20,13 +20,13 @@ export function nomIle(themeId: string): string | undefined {
 
 /** Positions (en % du cadre 16:10) du centre de chaque île en mise en page large. */
 export const POSITIONS_LARGES: Record<IleId | IleCalmeId | 'port', { x: number; y: number }> = {
-  port: { x: 8, y: 82 },
-  phishing: { x: 16, y: 50 },
-  comptes: { x: 32, y: 20 },
-  'vie-privee': { x: 50, y: 42 },
-  'jeux-achats': { x: 66, y: 16 },
-  desinformation: { x: 82, y: 38 },
-  appareils: { x: 62, y: 70 },
-  harcelement: { x: 84, y: 78 },
-  rencontres: { x: 94, y: 62 },
+  port: { x: 8, y: 86 },
+  phishing: { x: 17, y: 58 },
+  comptes: { x: 30, y: 24 },
+  'vie-privee': { x: 45, y: 56 },
+  'jeux-achats': { x: 58, y: 24 },
+  desinformation: { x: 72, y: 48 },
+  appareils: { x: 56, y: 82 },
+  harcelement: { x: 89, y: 70 },
+  rencontres: { x: 90, y: 28 },
 }

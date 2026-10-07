@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { CHEMIN, ILES_CALMES, POSITIONS_LARGES, estIleCalme, nomIle } from '@/archipel/archipel'
-import { etatIle, positionPersonnage } from '@/archipel/progression'
+import { etatIle, objetsSacoche, positionPersonnage } from '@/archipel/progression'
 import { ILES } from '@/parcours/iles'
 
 const fait = (jour: number) => ({ termineeLe: `2026-10-0${jour}T10:00:00.000Z` })
@@ -73,5 +73,20 @@ describe('positionPersonnage', () => {
   it('sur l’île de la dernière mission terminée', () => {
     expect(positionPersonnage(missions, { 'p-a': fait(3), 'c-a': fait(2) })).toBe('phishing')
     expect(positionPersonnage(missions, { 'p-a': fait(1), 'c-a': fait(2) })).toBe('comptes')
+  })
+})
+
+describe('objetsSacoche', () => {
+  it('liste les îles à parcours, gagnées ou non, dans l’ordre donné', () => {
+    const iles = [
+      { theme: 'phishing', missions: [{ id: 'a', format: 'parcours' as const }] },
+      { theme: 'comptes', missions: [{ id: 'b', format: 'parcours' as const }] },
+      { theme: 'vie-privee', missions: [{ id: 'c', format: 'classique' as const }] },
+      { theme: 'jeux-achats', missions: [] },
+    ]
+    expect(objetsSacoche(iles, { a: fait(1) }).map((o) => [o.theme, o.gagne])).toEqual([
+      ['phishing', true],
+      ['comptes', false],
+    ])
   })
 })

@@ -1,4 +1,5 @@
 import type { Mission } from '@/content/schema'
+import { ILES_INFO } from '@/parcours/iles'
 
 type Faites = Record<string, { termineeLe: string }>
 
@@ -34,4 +35,26 @@ export function positionPersonnage(missions: Pick<Mission, 'id' | 'theme'>[], fa
     if (!meilleure || f.termineeLe > meilleure.quand) meilleure = { theme: m.theme, quand: f.termineeLe }
   }
   return meilleure?.theme ?? 'port'
+}
+
+export interface ObjetSacoche {
+  theme: string
+  emoji: string
+  nom: string
+  gagne: boolean
+}
+
+/** Objets de la sacoche : une entrée par île à parcours dans la tranche, dans l’ordre donné. */
+export function objetsSacoche(
+  iles: { theme: string; missions: Pick<Mission, 'id' | 'format'>[] }[],
+  faites: Faites,
+): ObjetSacoche[] {
+  const infos = ILES_INFO as Record<string, { objet: { emoji: string; nom: string } } | undefined>
+  const objets: ObjetSacoche[] = []
+  for (const { theme, missions } of iles) {
+    const info = infos[theme]
+    const etat = etatIle(missions, faites, false)
+    if (info && etat.aParcours) objets.push({ theme, emoji: info.objet.emoji, nom: info.objet.nom, gagne: etat.objetGagne })
+  }
+  return objets
 }

@@ -5,7 +5,7 @@ export async function commencer(page: Page, tranche: '6e' | '5e – 3e' | 'Lycé
   await page.getByRole('radio', { name: tranche, exact: true }).check()
   await page.getByRole('radio', { name: new RegExp(mode) }).check()
   await page.getByRole('button', { name: /C.est parti|Continuer/ }).click()
-  await expect(page.getByRole('heading', { name: 'Choisis un thème' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Choisis une île' })).toBeVisible()
 }
 
 /** Si l’écran « Choisis ton personnage » est affiché (premier parcours), choisit le premier personnage. */

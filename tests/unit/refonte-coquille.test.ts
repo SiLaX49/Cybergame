@@ -33,6 +33,7 @@ describe('refonte : coquille et pages', () => {
 
   it('la carte a une tuile par thème, avec pastille et accent', async () => {
     store.choisirTranche('6e')
+    store.modifierReglages({ vueCarte: 'liste' })
     const w = mount(CartePage, { global: { plugins: [await routerTest('/carte')] } })
     expect(w.find('svg.hulotte[data-expression="reflechit"]').exists()).toBe(true)
     const themes = themesFixture()

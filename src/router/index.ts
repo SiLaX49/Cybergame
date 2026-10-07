@@ -25,7 +25,7 @@ export const routes: RouteRecordRaw[] = [
     name: 'carte',
     component: CartePage,
     beforeEnter: () => (useProgress().etat.tranche ? true : { name: 'accueil' }),
-    meta: { titre: 'Choisis un thème' },
+    meta: { titre: 'Choisis une île' },
   },
   { path: '/ile/:theme', name: 'ile', component: () => import('@/pages/IlePage.vue') },
   { path: '/mission/:id', name: 'mission', component: MissionPage, meta: { titre: '{mission}' } },

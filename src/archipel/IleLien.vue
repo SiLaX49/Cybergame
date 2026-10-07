@@ -30,7 +30,7 @@ const label = computed(() =>
     <span class="ile-etiquette" aria-hidden="true">
       <strong>{{ nom }}</strong>
       <span>{{ compteurIle(etat) }}</span>
-      <span v-if="etat.complete" class="ile-drapeau">🚩 terminée</span>
+      <span v-if="etat.complete && !calme" class="ile-drapeau">🚩 terminée</span>
     </span>
   </RouterLink>
 </template>
