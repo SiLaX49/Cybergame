@@ -3,7 +3,8 @@ import { Compass } from '@lucide/vue'
 import { computed, ref } from 'vue'
 import type { Leviers, Lieu } from '@/content/schema'
 import type { LieuResultat, PhaseScenario, RunEvent } from '@/engine/mission-runner'
-import { RECUPERATIONS } from '@/recovery/registry'
+import { propsRecuperation, RECUPERATIONS } from '@/recovery/registry'
+import type { ContexteSensible } from '@/recovery/textes'
 import type { Mode } from '@/store/progress'
 import { focusAuChangement, focusAuMontage } from '@/ui/focus'
 import { useTexte } from '@/ui/useTexte'
@@ -19,6 +20,8 @@ const props = defineProps<{
   mode: Mode
   sensible: boolean
   leviers: Leviers
+  /** Thème sensible de la mission : adapte les textes des gestes de récupération. */
+  contexte?: ContexteSensible
 }>()
 const emit = defineEmits<{ evenement: [evenement: RunEvent] }>()
 const t = useTexte()
@@ -77,12 +80,14 @@ focusAuChangement(() => props.phase, titre)
           :lieu="lieu"
           :resultat="resultat"
           :leviers="leviers"
+          :sensible="sensible"
           @continuer="emit('evenement', { type: 'continuer' })"
           @rejouer="emit('evenement', { type: 'rejouer' })"
         />
         <component
           :is="RECUPERATIONS[lieu.recuperation.action]"
           v-else-if="phase === 'recuperation' && lieu.recuperation"
+          v-bind="propsRecuperation(lieu.recuperation.action, contexte)"
           @fait="emit('evenement', { type: 'recuperation-faite' })"
         />
         <div v-if="sensible" class="actions">

@@ -3,7 +3,7 @@ import { Award } from '@lucide/vue'
 import { computed, nextTick, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import type { Leviers, Lieu, Mission, Scenario } from '@/content/schema'
-import { BADGES, calculerBadges } from '@/engine/badges'
+import { BADGES, calculerBadges, descriptionBadge } from '@/engine/badges'
 import { leviersDeLaMission, leviersDuRun, type RunState, type SurpriseResultat } from '@/engine/mission-runner'
 import { focusAuMontage } from '@/ui/focus'
 import { useTexte } from '@/ui/useTexte'
@@ -18,7 +18,7 @@ const badges = computed(() => calculerBadges(props.etat))
 const leviersChoisis = computed(() =>
   leviersDuRun(props.mission, props.etat).map((id) =>
     id === 'autre'
-      ? { id, libelle: props.leviers.autre.libelle, parade: props.leviers.autre.parade }
+      ? { id, libelle: props.leviers.autre.libelle, parade: (props.sensible ? props.leviers.autreSensible : props.leviers.autre).parade }
       : { id, libelle: props.leviers.leviers[id].libelle, parade: props.leviers.leviers[id].parade },
   ),
 )
@@ -84,7 +84,7 @@ async function fermerPleinEcran() {
     <h3>Tes badges</h3>
     <ul class="badges">
       <li v-for="b in badges" :key="b" class="carte badge">
-        <Award aria-hidden="true" /> <strong>{{ BADGES[b].titre }}</strong> : {{ BADGES[b].description }}
+        <Award aria-hidden="true" /> <strong>{{ BADGES[b].titre }}</strong> : {{ descriptionBadge(b, sensible) }}
       </li>
     </ul>
 

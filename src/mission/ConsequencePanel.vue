@@ -4,16 +4,16 @@ import type { Leviers, Scenario } from '@/content/schema'
 import type { ScenarioResultat } from '@/engine/mission-runner'
 import { ordreAffichage } from '@/engine/ordre'
 import { useTexte } from '@/ui/useTexte'
-import { reponseLevier, VERDICTS } from './reponseLevier'
+import { reponseLevier, titreReponse, VERDICTS } from './reponseLevier'
 
-const props = defineProps<{ scenario: Scenario; resultat: ScenarioResultat; leviers: Leviers }>()
+const props = withDefaults(defineProps<{ scenario: Scenario; resultat: ScenarioResultat; leviers: Leviers; sensible?: boolean }>(), { sensible: false })
 const emit = defineEmits<{ continuer: []; rejouer: [] }>()
 const t = useTexte()
 
 const indices = computed(() => ordreAffichage(props.scenario.indices, props.scenario.id))
 const choix = computed(() => props.scenario.choix.find((c) => c.id === props.resultat.choixId))
 
-const reponse = computed(() => reponseLevier(props.scenario.pourquoi, props.resultat.levier, props.leviers))
+const reponse = computed(() => reponseLevier(props.scenario.pourquoi, props.resultat.levier, props.leviers, props.sensible))
 </script>
 
 <template>
@@ -24,7 +24,7 @@ const reponse = computed(() => reponseLevier(props.scenario.pourquoi, props.resu
     <p><strong>Ton choix :</strong> {{ choix.texte }}</p>
     <p>{{ t(choix.consequence, choix.consequenceSimple) }}</p>
     <div v-if="reponse" class="ce-qui-a-marche" role="note">
-      <h3>Ce qui a marché sur toi</h3>
+      <h3>{{ titreReponse(sensible) }}</h3>
       <p>Tu as répondu : « {{ reponse.libelle }} »</p>
       <p>{{ reponse.truc }}</p>
       <p><strong>Ta parade :</strong> {{ reponse.parade }}</p>

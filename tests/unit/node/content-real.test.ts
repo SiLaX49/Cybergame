@@ -193,6 +193,8 @@ describe('contenu réel', () => {
       bundle.leviers.autre.libelle,
       bundle.leviers.autre.truc,
       bundle.leviers.autre.parade,
+      bundle.leviers.autreSensible.truc,
+      bundle.leviers.autreSensible.parade,
     ]
     expect(textes.flatMap(phrases).filter((p) => mots(p).length > 20)).toEqual([])
   })

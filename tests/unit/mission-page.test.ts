@@ -95,6 +95,27 @@ describe('MissionPage', () => {
     expect(w.find('aside').text()).toContain('3018')
   })
 
+  it('thème sensible : le contexte du thème est transmis au geste de récupération', async () => {
+    const w = await monter('m-sensible')
+    await cliquer(w, 'Commencer')
+    await w.find('[data-choix="clic"]').trigger('click')
+    await w.find('[data-levier="urgence"]').trigger('click')
+    await cliquer(w, 'Continuer')
+    await cliquer(w, 'Menu du contact')
+    await cliquer(w, 'Bloquer')
+    expect(w.find('input[value="Comportement inquiétant envers un mineur"]').exists()).toBe(true)
+  })
+
+  it('thème non sensible : aucun contexte transmis au geste de récupération', async () => {
+    const w = await monter('m-test')
+    await w.find('[data-choix="clic"]').trigger('click')
+    await w.find('[data-levier="urgence"]').trigger('click')
+    await cliquer(w, 'Continuer')
+    await cliquer(w, 'Menu du contact')
+    await cliquer(w, 'Bloquer')
+    expect(w.find('input[value="Comportement inquiétant envers un mineur"]').exists()).toBe(false)
+  })
+
   it('thème sensible : le chronomètre du tri ne tourne jamais, même réglage activé', async () => {
     store.modifierReglages({ chrono: true })
     const w = await monter('m-sensible')

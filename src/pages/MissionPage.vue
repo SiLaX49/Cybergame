@@ -28,6 +28,7 @@ import type { PersonnageId } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
 import BandeauAide from '@/ui/BandeauAide.vue'
 import BandeauBrouillon from '@/ui/BandeauBrouillon.vue'
+import { contexteSensible } from '@/recovery/textes'
 
 const route = useRoute()
 const store = useProgress()
@@ -36,6 +37,7 @@ const store = useProgress()
 const mission = getMission(String(route.params.id))
 const theme = mission?.theme ? getTheme(mission.theme) : undefined
 const sensible = theme?.sensible ?? false
+const contexte = sensible ? contexteSensible(theme?.id) : undefined
 const leviers = getLeviers()
 
 const parcours = mission?.format === 'parcours'
@@ -128,6 +130,7 @@ function recommencer() {
           :mode="mode"
           :sensible="sensible"
           :leviers="leviers"
+          :contexte="contexte"
           @evenement="envoyer"
         />
         <MinijeuStep
@@ -146,6 +149,7 @@ function recommencer() {
           :mode="mode"
           :sensible="sensible"
           :leviers="leviers"
+          :contexte="contexte"
           @evenement="envoyer"
         />
         <FilStep v-else-if="etape.type === 'fil'" :key="etape.id" :fil="etape" @evenement="envoyer" />

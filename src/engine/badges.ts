@@ -28,3 +28,12 @@ export function calculerBadges(etat: RunState): BadgeId[] {
   if (lieux.length && lieux.every((r) => !r.passe)) badges.push('explorateur')
   return badges
 }
+
+/** Descriptions sans vocabulaire de « piège » pour les thèmes sensibles : l’élève n’y est pas un joueur à piéger. */
+const DESCRIPTIONS_SENSIBLES: Partial<Record<BadgeId, string>> = {
+  'oeil-de-lynx': 'Tu as repéré de vrais indices sans te laisser tromper par les faux.',
+}
+
+export function descriptionBadge(id: BadgeId, sensible = false): string {
+  return (sensible && DESCRIPTIONS_SENSIBLES[id]) || BADGES[id].description
+}

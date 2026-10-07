@@ -24,6 +24,12 @@ describe('leviers.yaml', () => {
     delete (raw.leviers as Record<string, unknown>).groupe
     expect(leviersFileSchema.safeParse(raw).success).toBe(false)
   })
+  it('exige « autreSensible » (truc et parade)', () => {
+    const raw = rawLeviers() as Record<string, unknown>
+    delete raw.autreSensible
+    expect(leviersFileSchema.safeParse(raw).success).toBe(false)
+    expect(leviersFileSchema.safeParse({ ...rawLeviers(), autreSensible: { truc: 'T.' } }).success).toBe(false)
+  })
   it('refuse un levier inconnu', () => {
     const raw = rawLeviers()
     ;(raw.leviers as Record<string, unknown>).inconnu = raw.leviers.gain

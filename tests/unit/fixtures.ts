@@ -185,6 +185,7 @@ export function rawLeviers() {
       colere: info('J’étais en colère, je voulais répondre'),
     },
     autre: { libelle: 'Autre chose / je ne sais pas', truc: 'Truc générique.', parade: 'Parade générique.' },
+    autreSensible: { truc: 'Truc sensible.', parade: 'Parade sensible.' },
   }
 }
 export const leviersFixture = (): Leviers => leviersFileSchema.parse(rawLeviers())

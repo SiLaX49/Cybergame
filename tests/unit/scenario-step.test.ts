@@ -134,6 +134,29 @@ describe('ScenarioStep', () => {
     expect(w.text()).not.toContain('La carte est volée.')
   })
 
+  it('récupération : « Maintenant, protège-toi » quand on joue la personne visée, sinon titre inchangé', () => {
+    const titre = (role: Scenario['role']) =>
+      monter({ scenario: { ...scenario(), role }, phase: 'recuperation', resultat: resultatClic }).find('h2').text()
+    expect(titre('victime')).toBe('Maintenant, protège-toi')
+    expect(titre('temoin')).toBe('Maintenant, limite les dégâts')
+    expect(titre('auteur')).toBe('Maintenant, limite les dégâts')
+    expect(titre(null)).toBe('Maintenant, limite les dégâts')
+  })
+
+  it('récupération « soutenir » : textes adaptés au contexte de la mission', () => {
+    const s = { ...scenario(), role: 'temoin' as const, recuperation: { action: 'soutenir' as const, siChoix: ['clic'] } }
+    const rencontres = monter({ scenario: s, phase: 'recuperation', resultat: resultatClic, sensible: true, contexte: 'rencontres' })
+    expect(rencontres.text()).toContain('Promis, je ne dirai rien.')
+    expect(rencontres.text()).not.toContain('ils sont bêtes')
+    const harcelement = monter({ scenario: s, phase: 'recuperation', resultat: resultatClic, sensible: true, contexte: 'harcelement' })
+    expect(harcelement.text()).toContain('Laisse tomber, ils sont bêtes.')
+  })
+
+  it('récupération « bloquer-signaler » hors thème sensible : aucun attribut ajouté', () => {
+    const w = monter({ phase: 'recuperation', resultat: resultatClic })
+    expect(w.find('section.recuperation').attributes('contexte')).toBeUndefined()
+  })
+
   it('annonce le rôle joué', () => {
     const w = monter({ scenario: { ...scenario(), role: 'temoin' } })
     expect(w.text()).toContain('Dans ce scénario, tu joues un·e témoin.')

@@ -36,6 +36,8 @@ const levierInfoSchema = z.object({ libelle: texte, parade: texte, questionDebri
 export const leviersFileSchema = z.object({
   leviers: z.record(z.enum(LEVIERS), levierInfoSchema),
   autre: z.object({ libelle: texte, truc: texte, parade: texte }),
+  /** Réponse à « Autre chose » dans les thèmes sensibles (le libellé reste celui de `autre`). */
+  autreSensible: z.object({ truc: texte, parade: texte }),
 })
 export type Leviers = z.infer<typeof leviersFileSchema>
 
