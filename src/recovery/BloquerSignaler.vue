@@ -33,8 +33,12 @@ focusAuChangement(etape, titre)
       <button type="button" class="btn btn-primaire" :disabled="!motif" @click="etape = 'fini'">{{ T.envoyer }}</button>
     </template>
     <template v-else>
-      <p role="status"><span aria-hidden="true">✅</span> {{ T.rappel }}</p>
+      <p role="status" class="encadre encadre-doux"><span aria-hidden="true">✅</span> {{ T.rappel }}</p>
       <button type="button" class="btn btn-primaire" @click="emit('fait')">Continuer</button>
     </template>
   </section>
 </template>
+
+<style scoped>
+.encadre { margin: 0.75rem 0; }
+</style>

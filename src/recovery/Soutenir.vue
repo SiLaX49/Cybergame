@@ -31,13 +31,17 @@ function envoyer() {
           <input v-model="choix" type="radio" name="message-soutien" :value="m.id" @change="retour = ''" /> {{ m.texte }}
         </label>
       </fieldset>
-      <p v-if="retour" role="status">{{ retour }}</p>
+      <p v-if="retour" role="status" class="encadre encadre-doux">{{ retour }}</p>
       <button type="button" class="btn btn-primaire" :disabled="!choix" @click="envoyer">Envoyer</button>
     </template>
     <template v-else>
-      <p role="status"><span aria-hidden="true">✅</span> {{ textes.envoye }}</p>
+      <p role="status" class="encadre encadre-doux"><span aria-hidden="true">✅</span> {{ textes.envoye }}</p>
       <p>{{ textes.rappel }}</p>
       <button type="button" class="btn btn-primaire" @click="emit('fait')">Continuer</button>
     </template>
   </section>
 </template>
+
+<style scoped>
+.encadre { margin: 0.75rem 0; }
+</style>

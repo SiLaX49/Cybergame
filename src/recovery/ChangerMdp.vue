@@ -29,7 +29,7 @@ function enregistrer() {
       <button type="button" class="btn" @click="etape = 'formulaire'"><span aria-hidden="true">🔒</span> Sécurité et connexion</button>
     </template>
     <form v-else-if="etape === 'formulaire'" @submit.prevent="enregistrer">
-      <p class="avertissement">C’est un jeu : n’écris pas ton vrai mot de passe !</p>
+      <p class="avertissement encadre encadre-aide">C’est un jeu : n’écris pas ton vrai mot de passe !</p>
       <label for="nouveau-mdp">Nouveau mot de passe</label>
       <input id="nouveau-mdp" v-model="mdp" type="text" autocomplete="off" aria-describedby="conseils-mdp" />
       <ul id="conseils-mdp" aria-live="polite">
@@ -43,7 +43,7 @@ function enregistrer() {
       <button type="submit" class="btn btn-primaire" :disabled="!valide">Enregistrer</button>
     </form>
     <template v-else>
-      <p role="status">
+      <p role="status" class="encadre encadre-bon">
         <span aria-hidden="true">✅</span> Mot de passe changé et autres appareils déconnectés. Si quelqu’un avait
         ton ancien mot de passe, il est dehors.
       </p>
@@ -51,3 +51,13 @@ function enregistrer() {
     </template>
   </section>
 </template>
+
+<style scoped>
+.encadre { margin: 0.75rem 0; }
+#nouveau-mdp {
+  display: block; min-height: 48px; width: 100%; max-width: 32rem; margin: 0.3rem 0 0.6rem; padding: 0.4rem 0.8rem;
+  color: var(--texte); background: var(--surface); border: 2px solid var(--bord-fort); border-radius: var(--rayon-btn);
+}
+#conseils-mdp { list-style: none; padding: 0; }
+#conseils-mdp li { padding: 0.15rem 0; }
+</style>

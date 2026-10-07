@@ -21,7 +21,7 @@ focusAuChangement(etape, titre)
       <button type="button" class="btn" @click="etape = 'securite'"><span aria-hidden="true">⚙️</span> Paramètres</button>
     </template>
     <template v-else-if="etape === 'securite'">
-      <p>Avec la double authentification, même quelqu’un qui connaît ton mot de passe ne pourra pas se connecter sans un code.</p>
+      <p class="encadre encadre-info">Avec la double authentification, même quelqu’un qui connaît ton mot de passe ne pourra pas se connecter sans un code.</p>
       <button type="button" class="btn" @click="etape = 'methode'">Activer la double authentification</button>
     </template>
     <template v-else-if="etape === 'methode'">
@@ -36,12 +36,21 @@ focusAuChangement(etape, titre)
       <p>Code reçu : <strong>482 913</strong></p>
       <label for="code-2fa">Recopie le code</label>
       <input id="code-2fa" v-model="code" inputmode="numeric" autocomplete="off" />
-      <p class="avertissement">Ne donne JAMAIS ce code à quelqu’un, même à un ami ou à un « support ».</p>
+      <p class="avertissement encadre encadre-aide">Ne donne JAMAIS ce code à quelqu’un, même à un ami ou à un « support ».</p>
       <button type="button" class="btn btn-primaire" :disabled="!codeOk" @click="etape = 'fini'">Valider</button>
     </template>
     <template v-else>
-      <p role="status"><span aria-hidden="true">✅</span> Double authentification activée. Ton compte est bien mieux protégé.</p>
+      <p role="status" class="encadre encadre-bon"><span aria-hidden="true">✅</span> Double authentification activée. Ton compte est bien mieux protégé.</p>
       <button type="button" class="btn btn-primaire" @click="emit('fait')">Continuer</button>
     </template>
   </section>
 </template>
+
+<style scoped>
+.encadre { margin: 0.75rem 0; }
+input[type='text'], #code-2fa {
+  display: block; min-height: 48px; width: 100%; max-width: 20rem; margin: 0.3rem 0 0.6rem; padding: 0.4rem 0.8rem;
+  font-size: 1.15em; letter-spacing: 0.1em; color: var(--texte); background: var(--surface);
+  border: 2px solid var(--bord-fort); border-radius: var(--rayon-btn);
+}
+</style>
