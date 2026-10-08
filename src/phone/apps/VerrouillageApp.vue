@@ -2,9 +2,19 @@
 import { nextTick, ref, useId } from 'vue'
 import { FIL_ACTIONS, type Fil, type FilAction } from '@/content/schema'
 import Avatar from '../parts/Avatar.vue'
+import NotificationEntrante from '../parts/NotificationEntrante.vue'
 
-defineProps<{ notifications: Fil['notifications']; actions: Record<string, FilAction>; heure: string }>()
-const emit = defineEmits<{ agir: [notificationId: string, action: FilAction] }>()
+/** Écran verrouillé : les notifications d’un fil, ou la seule notification d’entrée d’un scénario (`entree`). */
+withDefaults(
+  defineProps<{
+    notifications?: Fil['notifications']
+    actions?: Record<string, FilAction>
+    heure: string
+    entree?: { appNom: string; de: string; texte: string; heure?: string } | null
+  }>(),
+  { notifications: () => [], actions: () => ({}), entree: null },
+)
+const emit = defineEmits<{ agir: [notificationId: string, action: FilAction]; ouvrir: [] }>()
 
 const LIBELLES: Record<FilAction, string> = {
   ouvrir: 'J’ouvre / je clique',
@@ -29,7 +39,8 @@ function agir(id: string, action: FilAction) {
 <template>
   <div class="verrouillage">
     <p class="grande-heure" aria-hidden="true">{{ heure }}</p>
-    <ul class="notifications">
+    <NotificationEntrante v-if="entree" v-bind="entree" @ouvrir="emit('ouvrir')" />
+    <ul v-else class="notifications">
       <li v-for="n in notifications" :key="n.id" class="notification">
         <button
           :ref="(el) => { if (el) boutons[n.id] = el as HTMLElement }"

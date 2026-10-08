@@ -27,6 +27,8 @@ const mode = ref<Mode>('solo')
 const choixJoue = ref<string | null>(null)
 const actionsNotif = reactive<Record<string, FilAction>>({})
 const indiceVisible = ref(false)
+/** Entrée par notification (écran verrouillé, puis accueil), comme dans une mission. */
+const entreeNotif = ref(false)
 const store = useProgress()
 const indices = computed(() => entree.value.scenario?.indices ?? [])
 
@@ -78,6 +80,10 @@ watch(visibles, (v) => {
         <input type="checkbox" :checked="store.etat.reglages.animations" @change="store.modifierReglages({ animations: ($event.target as HTMLInputElement).checked })" />
         Animations
       </label>
+      <label class="case">
+        <input v-model="entreeNotif" type="checkbox" />
+        Entrée par notification
+      </label>
       <button type="button" class="btn" :disabled="!choixJoue" @click="rejouerSequence">Rejouer la séquence</button>
       <button type="button" class="btn" @click="reinitialiser">Réinitialiser</button>
     </div>
@@ -91,6 +97,7 @@ watch(visibles, (v) => {
         :actions-notif="actionsNotif"
         :indices="indices"
         :indice-visible="indiceVisible"
+        :entree="entreeNotif"
         @indice="indiceVisible = true"
         @choisir="(id) => (choixJoue = id)"
         @agir="(id, a) => (actionsNotif[id] = a)"

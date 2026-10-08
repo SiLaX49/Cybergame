@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed, nextTick, provide, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import type { Choix, FilAction } from '@/content/schema'
 import type { Mode } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
+import AccueilApp from './apps/AccueilApp.vue'
 import ConversationApp from './apps/ConversationApp.vue'
 import MailApp from './apps/MailApp.vue'
 import SocialApp from './apps/SocialApp.vue'
@@ -10,12 +11,14 @@ import VerrouillageApp from './apps/VerrouillageApp.vue'
 import WebApp from './apps/WebApp.vue'
 import ActionsApp from './parts/ActionsApp.vue'
 import BarreEtat from './parts/BarreEtat.vue'
+import BarreGeste from './parts/BarreGeste.vue'
 import BoutonIndice from './parts/BoutonIndice.vue'
 import EnteteApp from './parts/EnteteApp.vue'
 import RetourChoix from './parts/RetourChoix.vue'
 import { atteinte } from './sequence'
-import { CLE_PASSAGES } from './surlignage'
 import type { EcranTelephone } from './types'
+import { useEntree } from './useEntree'
+import { usePassages } from './usePassages'
 import { useSequence } from './useSequence'
 import './theme.css'
 
@@ -31,8 +34,10 @@ const props = withDefaults(
     indices?: { libelle: string; passage?: string }[]
     /** Bouton « Indice » joué : passages surlignés sans numéros avant le choix. */
     indiceVisible?: boolean
+    /** Entrée par notification : démarre sur l'écran verrouillé, avec un écran d'accueil (scénarios). */
+    entree?: boolean
   }>(),
-  { choix: undefined, mode: 'solo', graine: '', choixJoue: null, actionsNotif: () => ({}), indices: () => [], indiceVisible: false },
+  { choix: undefined, mode: 'solo', graine: '', choixJoue: null, actionsNotif: () => ({}), indices: () => [], indiceVisible: false, entree: false },
 )
 const emit = defineEmits<{
   choisir: [choixId: string]
@@ -42,7 +47,8 @@ const emit = defineEmits<{
 }>()
 const store = useProgress()
 
-const nomApp = computed(() => (props.ecran.app === 'verrouillage' ? 'écran verrouillé' : props.ecran.appNom))
+const zone = ref<HTMLElement | null>(null)
+const { etat, zoom, notification, dataApp, nomApp, aller } = useEntree(props, zone)
 const heure = computed(() => {
   const heures = props.ecran.app === 'verrouillage' ? props.ecran.notifications.map((n) => n.heure) : props.ecran.messages.map((m) => m.heure)
   return heures.filter(Boolean).at(-1) ?? '14:32'
@@ -63,16 +69,8 @@ const { etape } = useSequence(
 )
 const verdict = computed(() => (joue.value && atteinte(etape.value, 'verdict') ? (joue.value.qualite === 'risque' ? 'piege' : 'bon') : null))
 
-// Surlignage : numéroté dès l'étape `indices`, sans numéros avant le choix si l'indice est demandé.
-const avecPassage = computed(() => props.indices.flatMap((i, rang) => (i.passage ? [{ texte: i.passage, rang: rang + 1 }] : [])))
-const passages = computed(() => {
-  if (atteinte(etape.value, 'indices')) return avecPassage.value.map((p) => ({ texte: p.texte, numero: p.rang }))
-  return props.indiceVisible ? avecPassage.value.map((p) => ({ texte: p.texte, numero: null })) : []
-})
-provide(CLE_PASSAGES, passages)
-const boutonIndice = computed(() => Boolean(props.choix) && !props.choixJoue && avecPassage.value.length > 0)
+const { boutonIndice } = usePassages(props, etape)
 
-const zone = ref<HTMLElement | null>(null)
 // Le retour du choix apparaît en bas de l'écran : on y fait défiler la zone, jusqu'au verdict.
 watch(
   etape,
@@ -90,15 +88,17 @@ watch(
   <figure
     class="telephone"
     :class="verdict === 'piege' ? 'secousse' : verdict ? 'rebond' : undefined"
-    :data-app="ecran.app"
+    :data-app="dataApp"
     :data-verdict="verdict ?? undefined"
     :aria-label="`Écran de téléphone : ${nomApp}`"
   >
     <BarreEtat :heure="heure" />
-    <EnteteApp v-if="entete" v-bind="entete" />
+    <EnteteApp v-if="entete && etat === 'appli'" v-bind="entete" />
     <!-- Zone défilante (grands textes, mode classe) : focusable pour défiler au clavier. -->
-    <div ref="zone" class="ecran" tabindex="0" role="region" :aria-label="`Contenu de l’écran : ${nomApp}`">
-      <ConversationApp v-if="ecran.app === 'sms' || ecran.app === 'chat'" :ecran="ecran" />
+    <div ref="zone" class="ecran" :class="{ zoom }" tabindex="0" role="region" :aria-label="`Contenu de l’écran : ${nomApp}`">
+      <VerrouillageApp v-if="etat === 'verrouille' && notification" :entree="notification" :heure="heure" @ouvrir="aller('appli')" />
+      <AccueilApp v-else-if="etat === 'accueil' && notification" :app-nom="notification.appNom" @ouvrir="aller('appli')" />
+      <ConversationApp v-else-if="ecran.app === 'sms' || ecran.app === 'chat'" :ecran="ecran" />
       <SocialApp v-else-if="ecran.app === 'social'" :ecran="ecran" />
       <MailApp v-else-if="ecran.app === 'mail'" :ecran="ecran" />
       <WebApp v-else-if="ecran.app === 'web'" :ecran="ecran" />
@@ -113,9 +113,10 @@ watch(
         <RetourChoix v-if="joue" :choix="joue" :etape="etape" :contact="contact" :verdict="verdict" />
       </div>
     </div>
-    <ActionsApp v-if="choix && !choixJoue" :choix="choix" :graine="graine" :mode="mode" @choisir="(id) => emit('choisir', id)">
+    <ActionsApp v-if="choix && !choixJoue && etat === 'appli'" :choix="choix" :graine="graine" :mode="mode" @choisir="(id) => emit('choisir', id)">
       <BoutonIndice v-if="boutonIndice" :actif="indiceVisible" @indice="emit('indice')" />
     </ActionsApp>
+    <BarreGeste v-if="entree && etat === 'appli' && notification && !choixJoue" @accueil="aller('accueil')" />
   </figure>
 </template>
 
@@ -137,7 +138,9 @@ watch(
 @media (prefers-reduced-motion: no-preference) {
   .secousse { animation: secousse 350ms ease-out; }
   .rebond { animation: rebond 250ms ease-out; }
+  .zoom { animation: zoom 200ms ease-out; }
 }
 @keyframes secousse { 15% { transform: translateX(-8px); } 30% { transform: translateX(8px); } 50% { transform: translateX(-5px); } 65% { transform: translateX(5px); } 80% { transform: translateX(-2px); } 90% { transform: translateX(2px); } }
 @keyframes rebond { 50% { transform: scale(1.03); } }
+@keyframes zoom { from { transform: scale(0.9); } }
 </style>

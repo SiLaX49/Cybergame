@@ -87,7 +87,8 @@ const messageSchema = z.object({
 })
 export type Message = z.infer<typeof messageSchema>
 
-const ecranCommun = { appNom: z.enum(NOMS_APPLIS), contact: texte, messages: z.array(messageSchema).min(1) }
+/** `notification` : texte de la notification d’entrée ; sinon, le début du premier message. */
+const ecranCommun = { appNom: z.enum(NOMS_APPLIS), contact: texte, messages: z.array(messageSchema).min(1), notification: texte.optional() }
 
 /** Faux écran d'un scénario : une forme par appli, chacune avec ses seuls champs. */
 export const ecranSchema = z.discriminatedUnion('app', [

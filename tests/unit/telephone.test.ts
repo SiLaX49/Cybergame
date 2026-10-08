@@ -343,3 +343,107 @@ describe('Telephone : séquence de retour', () => {
     expect(mount(Telephone, { props: { ecran: scenario().ecran } }).findAll('button')).toHaveLength(0)
   })
 })
+
+describe('Telephone : entrée par notification', () => {
+  const scenario = () => missionFixture().etapes[0] as Scenario
+  const monter = (props: Record<string, unknown> = {}) => {
+    const s = scenario()
+    return mount(Telephone, { props: { ecran: s.ecran, choix: s.choix, graine: s.id, entree: true, ...props }, attachTo: document.body })
+  }
+  const accueil = '[aria-label="Revenir à l’écran d’accueil"]'
+  afterEach(() => {
+    document.body.innerHTML = ''
+  })
+
+  it('démarre verrouillé : une notification, le début du premier message, aucun choix', () => {
+    const w = monter()
+    expect(w.find('figure').attributes('data-app')).toBe('verrouillage')
+    expect(w.find('figure').attributes('aria-label')).toBe('Écran de téléphone : écran verrouillé')
+    const notif = w.find('[data-notification]')
+    expect(notif.attributes('aria-label')).toBe('Ouvrir la notification Messages de Colis Express')
+    const texte = notif.find(`[id="${notif.attributes('aria-describedby')}"]`).text()
+    expect(texte).toHaveLength(60)
+    expect(texte).toBe('Votre colis est bloqué : payez 1,99 € sur colis-expres.info…')
+    expect(w.find('[data-choix]').exists()).toBe(false)
+    expect(w.find('.entete-app').exists()).toBe(false)
+    expect(w.find(accueil).exists()).toBe(false)
+  })
+
+  it('texte de notification propre à l’écran, s’il est donné', () => {
+    const s = scenario()
+    const w = monter({ ecran: { ...s.ecran, notification: 'Ton colis t’attend' } })
+    expect(w.find('[data-notification]').text()).toContain('Ton colis t’attend')
+  })
+
+  it('toucher la notification ouvre l’appli avec un zoom, focus sur la zone de l’écran', async () => {
+    const w = monter()
+    await w.find('[data-notification]').trigger('click')
+    await nextTick()
+    expect(w.find('figure').attributes('data-app')).toBe('sms')
+    expect(w.findAll('[data-choix]')).toHaveLength(3)
+    expect(w.find('.ecran').classes()).toContain('zoom')
+    expect(document.activeElement).toBe(w.find('.ecran').element)
+  })
+
+  it('accueil : appli du scénario en couleur avec pastille, les autres en blanc et annoncées', async () => {
+    const w = monter()
+    await w.find('[data-notification]').trigger('click')
+    await w.find(accueil).trigger('click')
+    await nextTick()
+    expect(w.find('figure').attributes('data-app')).toBe('accueil')
+    expect(w.find('[data-choix]').exists()).toBe(false)
+    expect(document.activeElement).toBe(w.find('.ecran').element)
+    expect(w.findAll('.dock [data-appli]').map((b) => b.attributes('data-appli'))).toEqual(['Messages', 'Navigateur', 'Mail', 'SnapTalk'])
+    expect(w.findAll('.grille [data-appli]').length).toBeGreaterThan(0)
+    const active = w.find('[data-appli="Messages"]')
+    expect(active.attributes('aria-disabled')).toBeUndefined()
+    expect(active.find('.pastille').exists()).toBe(true)
+    expect(active.text()).toContain('1 notification')
+    const meteo = w.find('[data-appli="Météo"]')
+    expect(meteo.attributes('aria-disabled')).toBe('true')
+    expect(meteo.find('.pastille').exists()).toBe(false)
+    const annonce = w.find('.accueil [role="status"]')
+    expect(annonce.text()).toBe('')
+    await meteo.trigger('click')
+    expect(annonce.text()).toBe('Météo : pas disponible dans ce scénario')
+    await w.find('[data-appli="Mail"]').trigger('click')
+    expect(annonce.text()).toBe('Mail : pas disponible dans ce scénario')
+    expect(w.find('figure').attributes('data-app')).toBe('accueil')
+  })
+
+  it('toucher l’appli du scénario sur l’accueil la rouvre', async () => {
+    const w = monter()
+    await w.find('[data-notification]').trigger('click')
+    await w.find(accueil).trigger('click')
+    await w.find('[data-appli="Messages"]').trigger('click')
+    expect(w.find('figure').attributes('data-app')).toBe('sms')
+    expect(w.findAll('[data-choix]')).toHaveLength(3)
+  })
+
+  it('après le choix : pas de bouton « Accueil » ; « Rejouer » reste dans l’appli ; un nouvel écran reverrouille', async () => {
+    store.modifierReglages({ animations: false })
+    const w = monter({ choixJoue: null })
+    await w.find('[data-notification]').trigger('click')
+    await w.setProps({ choixJoue: 'clic' })
+    expect(w.find(accueil).exists()).toBe(false)
+    await w.setProps({ choixJoue: null })
+    expect(w.find('figure').attributes('data-app')).toBe('sms')
+    expect(w.findAll('[data-choix]')).toHaveLength(3)
+    await w.setProps({ ecran: { ...scenario().ecran, contact: 'Autre' } })
+    expect(w.find('figure').attributes('data-app')).toBe('verrouillage')
+  })
+
+  it('choix déjà joué au montage : l’appli est ouverte', () => {
+    store.modifierReglages({ animations: false })
+    const w = monter({ choixJoue: 'clic' })
+    expect(w.find('figure').attributes('data-app')).toBe('sms')
+    expect(w.find('.choix-joue').text()).toContain('Lien ouvert')
+  })
+
+  it('sans `entree` : comportement v1, appli ouverte, ni notification ni « Accueil »', () => {
+    const w = monter({ entree: undefined })
+    expect(w.find('[data-notification]').exists()).toBe(false)
+    expect(w.find(accueil).exists()).toBe(false)
+    expect(w.findAll('[data-choix]')).toHaveLength(3)
+  })
+})

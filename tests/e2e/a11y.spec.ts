@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
-import { choisirPersonnageSiDemande, commencer, jouerJusquAuMiniJeu, jouerMission } from './helpers'
+import { choisirPersonnageSiDemande, commencer, jouerJusquAuMiniJeu, jouerMission, ouvrirNotification } from './helpers'
 
 async function verifierA11y(page: Page, ecran: string) {
   const resultat = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
@@ -19,6 +19,7 @@ test('pages élève', async ({ page }) => {
   await verifierA11y(page, 'carte')
   await page.getByRole('link', { name: 'Le colis mystère' }).click()
   await verifierA11y(page, 'situation')
+  await ouvrirNotification(page)
   await page.locator('[data-qualite="aide"]').click()
   await expect(page.getByRole('heading', { name: 'Et alors, que se passe-t-il ?' })).toBeVisible()
   await verifierA11y(page, 'conséquence')
@@ -30,6 +31,7 @@ test('mode classe entière (grands textes)', async ({ page }) => {
   await commencer(page, '6e', 'Classe entière')
   await page.getByRole('link', { name: 'Le colis mystère' }).click()
   await verifierA11y(page, 'situation classe')
+  await ouvrirNotification(page)
   await page.locator('[data-qualite="aide"]').click()
   await page.getByRole('button', { name: 'Valider le choix de la classe' }).click()
   await expect(page.getByRole('heading', { name: 'Et alors, que se passe-t-il ?' })).toBeVisible()
@@ -59,6 +61,7 @@ for (const [nom, chemin] of [
 
 test('étape « pourquoi » et réponse personnalisée', async ({ page }) => {
   await page.goto('/#/mission/p-6e-colis')
+  await ouvrirNotification(page)
   await page.locator('[data-choix="clic"]').click()
   await expect(page.getByRole('heading', { name: 'Qu’est-ce qui t’a donné envie de le faire ?' })).toBeVisible()
   await verifierA11y(page, 'pourquoi')
@@ -68,6 +71,7 @@ test('étape « pourquoi » et réponse personnalisée', async ({ page }) => {
 
 test('verdict piège affiché', async ({ page }) => {
   await page.goto('/#/mission/p-6e-colis')
+  await ouvrirNotification(page)
   await page.locator('[data-choix="clic"]').click()
   await expect(page.locator('figure[data-verdict="piege"]')).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Ce qui devait t’alerter' })).toBeVisible()
@@ -76,6 +80,7 @@ test('verdict piège affiché', async ({ page }) => {
 
 test('verdict bon réflexe affiché', async ({ page }) => {
   await page.goto('/#/mission/p-6e-colis')
+  await ouvrirNotification(page)
   await page.locator('[data-qualite="aide"]').click()
   await expect(page.locator('figure[data-verdict="bon"]')).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Ce qui devait t’alerter' })).toBeVisible()
@@ -145,6 +150,7 @@ for (const [nom, id] of [
 ] as const) {
   test(nom, async ({ page }) => {
     await page.goto(`/#/mission/${id}`)
+    await ouvrirNotification(page)
     await expect(page.locator('[data-choix]').first()).toBeVisible()
     await verifierA11y(page, nom)
   })
@@ -152,6 +158,7 @@ for (const [nom, id] of [
 
 test('téléphone mail et choix joué', async ({ page }) => {
   await page.goto('/#/mission/p-6e-colis')
+  await ouvrirNotification(page)
   await page.locator('[data-qualite="aide"]').click()
   await expect(page.locator('.choix-joue')).toContainText('demander de l’aide')
   await verifierA11y(page, 'choix joué')
@@ -160,10 +167,23 @@ test('téléphone mail et choix joué', async ({ page }) => {
   for (let i = 0; i < 3 && !(await mail.isVisible()); i++) {
     if (i > 0) await page.locator('[data-qualite="aide"]').click()
     await page.getByRole('button', { name: 'Continuer', exact: true }).click()
+    await ouvrirNotification(page)
     await expect(page.locator('[data-choix]').first()).toBeVisible()
   }
   await expect(mail).toBeVisible()
   await verifierA11y(page, 'téléphone mail')
+})
+
+test('écran verrouillé d’entrée et écran d’accueil', async ({ page }) => {
+  await page.goto('/#/mission/p-6e-colis')
+  await expect(page.locator('[data-notification]')).toBeVisible()
+  await verifierA11y(page, 'écran verrouillé d’entrée')
+  await ouvrirNotification(page)
+  await page.getByRole('button', { name: 'Revenir à l’écran d’accueil' }).click()
+  // Appli inactive : `aria-disabled`, que Playwright refuse de cliquer sans `force`.
+  await page.locator('[data-appli="Météo"]').click({ force: true })
+  await expect(page.getByText('Pas disponible dans ce scénario')).toBeVisible()
+  await verifierA11y(page, 'écran d’accueil')
 })
 
 test('écran verrouillé avec une notification ouverte', async ({ page }) => {

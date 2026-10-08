@@ -30,7 +30,7 @@ const TITRES: Record<Exclude<PhaseScenario, 'situation'>, string> = {
   recuperation: 'Maintenant, limite les dégâts',
 }
 const CONSIGNES: Record<Mode, string> = {
-  solo: 'Choisis ta réponse en bas de l’écran.',
+  solo: 'Ouvre la notification, puis choisis ta réponse en bas de l’écran.',
   binome: 'Discutez à deux, puis choisissez en bas de l’écran.',
   classe: 'Votez à main levée, puis l’adulte valide le choix de la classe en bas de l’écran.',
 }
@@ -88,6 +88,7 @@ focusAuChangement(() => `${props.phase} ${phaseAffichee.value}`, titre)
         :choix-joue="choixJoue"
         :indices="indices"
         :indice-visible="indiceVisible"
+        entree
         @choisir="(id) => emit('evenement', { type: 'choisir', choixId: id })"
         @indice="emit('evenement', { type: 'indice' })"
         @sequence-finie="finirSequence"

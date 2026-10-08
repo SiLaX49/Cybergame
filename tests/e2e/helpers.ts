@@ -23,6 +23,11 @@ async function personnageSiAffiche(page: Page) {
   await partir.click()
 }
 
+/** Un scénario démarre sur l’écran verrouillé : toucher la notification ouvre l’appli et ses choix. */
+export async function ouvrirNotification(page: Page) {
+  await page.locator('[data-notification]').click()
+}
+
 /** Joue la mission affichée jusqu'à la fin en choisissant toujours « demander de l'aide ». */
 export async function jouerMission(page: Page) {
   const fin = page.getByRole('heading', { name: 'Mission terminée !' })
@@ -42,8 +47,10 @@ export async function jouerMission(page: Page) {
     const douteux = page.locator('[data-verdict="douteux"]:not([disabled])')
     const refuser = page.getByRole('radio', { name: 'Refuser' })
     const validerPermissions = page.getByRole('button', { name: 'Valider les permissions' })
+    const notification = page.locator('[data-notification]')
 
-    if (await suivant.isVisible()) await suivant.click()
+    if (await notification.isVisible()) await notification.click()
+    else if (await suivant.isVisible()) await suivant.click()
     else if ((await validerClasse.isVisible()) && (await validerClasse.isEnabled())) await validerClasse.click()
     else if (await aide.isVisible()) await aide.click()
     else if (await page.locator('[data-levier="autre"]').isVisible()) await page.locator('[data-levier="autre"]').click()
@@ -76,7 +83,9 @@ export async function jouerJusquAuMiniJeu(page: Page) {
     if (await titre.isVisible()) return
     const aide = page.locator('[data-qualite="aide"]')
     const continuer = page.getByRole('button', { name: 'Continuer', exact: true })
-    if (await aide.isVisible()) await aide.click()
+    const notification = page.locator('[data-notification]')
+    if (await notification.isVisible()) await notification.click()
+    else if (await aide.isVisible()) await aide.click()
     else if (await continuer.isVisible()) await continuer.click()
     else await page.waitForTimeout(100)
   }

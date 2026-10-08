@@ -27,8 +27,15 @@ async function monter(id: string, attachTo?: HTMLElement) {
   })
 }
 
-/** Joue un choix du téléphone, puis attend la fin (instantanée) de la séquence et l’affichage du panneau. */
+/** Ouvre la notification de l’écran verrouillé, si le téléphone l’affiche encore. */
+async function ouvrirNotification(w: VueWrapper) {
+  const notification = w.find('[data-notification]')
+  if (notification.exists()) await notification.trigger('click')
+}
+
+/** Joue un choix du téléphone (notification ouverte au besoin), puis attend la fin (instantanée) de la séquence et l’affichage du panneau. */
 async function choisir(w: VueWrapper, id: string) {
+  await ouvrirNotification(w)
   await w.find(`[data-choix="${id}"]`).trigger('click')
   await flushPromises()
 }
@@ -74,7 +81,7 @@ describe('MissionPage', () => {
     w.unmount()
     const w2 = await monter('m-test')
     expect(w2.text()).toContain('Étape 1 sur 2')
-    expect(w2.find('[data-choix="aide"]').exists()).toBe(true)
+    expect(w2.find('[data-notification]').exists()).toBe(true)
   })
 
   it('permet de rejouer la mission depuis la fin', async () => {
@@ -101,6 +108,7 @@ describe('MissionPage', () => {
 
   it('le bouton « Indice » du téléphone est relayé au moteur et reste enfoncé', async () => {
     const w = await monter('m-test')
+    await ouvrirNotification(w)
     await cliquer(w, 'Indice')
     expect(w.find('button[aria-pressed="true"]').text()).toBe('Indice')
     expect(w.find('.ecran .passage').text()).toContain('colis-expres.info')
@@ -251,6 +259,7 @@ describe('MissionPage : barre unique et mode scène', () => {
   it('mode scène sur un scénario, pas sur un mini-jeu ni à la fin, où la progression disparaît', async () => {
     const w = await monter('m-test')
     expect(scene(w)).toBe(true)
+    await ouvrirNotification(w)
     await w.find('[data-choix="aide"]').trigger('click')
     await flushPromises()
     await cliquer(w, 'Continuer')

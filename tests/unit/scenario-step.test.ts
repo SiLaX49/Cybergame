@@ -31,18 +31,32 @@ const monter = (props: Record<string, unknown> = {}) =>
   mount(ScenarioStep, {
     props: { scenario: scenario(), phase: 'situation', mode: 'solo', sensible: false, leviers: leviersFixture(), ...props },
   })
+/** Le téléphone démarre verrouillé : la notification ouvre l’appli et ses choix. */
+const monterOuvert = async (props: Record<string, unknown> = {}) => {
+  const w = monter(props)
+  await w.find('[data-notification]').trigger('click')
+  return w
+}
 
 describe('ScenarioStep', () => {
-  it('situation (solo) : un clic sur un choix l’envoie', async () => {
+  it('démarre sur l’écran verrouillé : notification, pas encore de choix, question déjà posée', () => {
     const w = monter()
+    expect(w.find('[data-notification]').attributes('aria-label')).toBe('Ouvrir la notification Messages de Colis Express')
+    expect(w.find('[data-choix]').exists()).toBe(false)
+    expect(w.find('h2').text()).toBe('Que fais-tu ?')
+    expect(w.find('.consigne-mode').text()).toBe('Ouvre la notification, puis choisis ta réponse en bas de l’écran.')
+  })
+
+  it('situation (solo) : un clic sur un choix l’envoie', async () => {
+    const w = await monterOuvert()
     expect(w.find('h2').text()).toBe('Que fais-tu ?')
     await w.find('[data-choix="aide"]').trigger('click')
     expect(w.emitted('evenement')).toEqual([[{ type: 'choisir', choixId: 'aide' }]])
   })
 
-  it('les choix s’affichent dans l’ordre mélangé propre au scénario', () => {
+  it('les choix s’affichent dans l’ordre mélangé propre au scénario', async () => {
     const s = scenario()
-    const w = monter()
+    const w = await monterOuvert()
     expect(w.findAll('[data-choix]').map((b) => b.attributes('data-choix'))).toEqual(ordreAffichage(s.choix, s.id).map((c) => c.id))
   })
 
@@ -51,7 +65,7 @@ describe('ScenarioStep', () => {
   })
 
   it('classe : le choix doit être validé par l’adulte', async () => {
-    const w = monter({ mode: 'classe' })
+    const w = await monterOuvert({ mode: 'classe' })
     await w.find('[data-choix="verif"]').trigger('click')
     expect(w.emitted('evenement')).toBeUndefined()
     expect(w.find('[data-choix="verif"]').attributes('aria-pressed')).toBe('true')
@@ -107,7 +121,7 @@ describe('ScenarioStep', () => {
   })
 
   it('bouton « Indice » : relayé au moteur, et allumé par `indiceVisible`', async () => {
-    const w = monter()
+    const w = await monterOuvert()
     await cliquer(w, 'Indice')
     expect(w.emitted('evenement')).toEqual([[{ type: 'indice' }]])
     await w.setProps({ indiceVisible: true })
