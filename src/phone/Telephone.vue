@@ -12,6 +12,7 @@ import BarreEtat from './parts/BarreEtat.vue'
 import BarreGeste from './parts/BarreGeste.vue'
 import EnteteApp from './parts/EnteteApp.vue'
 import RetourChoix from './parts/RetourChoix.vue'
+import { coque, SansCoque } from './marques'
 import { atteinte } from './sequence'
 import type { EcranTelephone } from './types'
 import { useEntree, type EtatTelephone } from './useEntree'
@@ -52,10 +53,12 @@ const heure = computed(() => {
 /** En-tête : la conversation porte le nom du contact ; le web a sa barre d'adresse ; l'écran verrouillé n'en a pas. */
 const entete = computed(() => {
   const e = props.ecran
-  if (e.app === 'sms' || e.app === 'chat') return { titre: e.contact, sousTitre: e.appNom, avatar: true }
+  if (e.app === 'sms' || e.app === 'chat') return { titre: e.contact, sousTitre: e.appNom, avatar: true, riche: true }
   if (e.app === 'social' || e.app === 'mail') return { titre: e.appNom, avatar: false }
   return null
 })
+/** Coque de la marque (conversations) : seulement l’appli ouverte, jamais l’écran verrouillé ni l’accueil. */
+const habillage = computed(() => (etat.value === 'appli' ? coque(props.ecran) : null))
 
 const joue = computed(() => (props.choixJoue ? (props.choix?.find((c) => c.id === props.choixJoue) ?? null) : null))
 const contact = computed(() => ('contact' in props.ecran ? props.ecran.contact : ''))
@@ -89,26 +92,28 @@ watch(
     :aria-label="`Écran de téléphone : ${nomApp}`"
   >
     <BarreEtat :heure="heure" />
-    <EnteteApp v-if="entete && etat === 'appli'" v-bind="entete" />
-    <!-- Zone défilante (grands textes, mode classe) : focusable pour défiler au clavier. -->
-    <div ref="zone" class="ecran" :class="{ zoom }" tabindex="0" role="region" :aria-label="`Contenu de l’écran : ${nomApp}`">
-      <VerrouillageApp v-if="etat === 'verrouille' && notification" :entree="notification" :heure="heure" @ouvrir="aller('appli')" />
-      <AccueilApp v-else-if="etat === 'accueil' && notification" :app-nom="notification.appNom" @ouvrir="aller('appli')" />
-      <ConversationApp v-else-if="ecran.app === 'sms' || ecran.app === 'chat'" :ecran="ecran" />
-      <SocialApp v-else-if="ecran.app === 'social'" :ecran="ecran" />
-      <MailApp v-else-if="ecran.app === 'mail'" :ecran="ecran" />
-      <WebApp v-else-if="ecran.app === 'web'" :ecran="ecran" />
-      <VerrouillageApp
-        v-else-if="ecran.app === 'verrouillage'"
-        :notifications="ecran.notifications"
-        :actions="actionsNotif"
-        :heure="heure"
-        @agir="(id, a) => emit('agir', id, a)"
-      />
-      <div class="choix-joue" role="status">
-        <RetourChoix v-if="joue" :choix="joue" :etape="etape" :contact="contact" :verdict="verdict" />
+    <EnteteApp v-if="entete && etat === 'appli' && !habillage" v-bind="entete" />
+    <component :is="habillage?.composant ?? SansCoque" v-bind="habillage?.attrs">
+      <!-- Zone défilante (grands textes, mode classe) : focusable pour défiler au clavier. -->
+      <div ref="zone" class="ecran" :class="{ zoom }" tabindex="0" role="region" :aria-label="`Contenu de l’écran : ${nomApp}`">
+        <VerrouillageApp v-if="etat === 'verrouille' && notification" :entree="notification" :heure="heure" @ouvrir="aller('appli')" />
+        <AccueilApp v-else-if="etat === 'accueil' && notification" :app-nom="notification.appNom" @ouvrir="aller('appli')" />
+        <ConversationApp v-else-if="ecran.app === 'sms' || ecran.app === 'chat'" :ecran="ecran" :lu="habillage?.marque === 'messages'" />
+        <SocialApp v-else-if="ecran.app === 'social'" :ecran="ecran" />
+        <MailApp v-else-if="ecran.app === 'mail'" :ecran="ecran" />
+        <WebApp v-else-if="ecran.app === 'web'" :ecran="ecran" />
+        <VerrouillageApp
+          v-else-if="ecran.app === 'verrouillage'"
+          :notifications="ecran.notifications"
+          :actions="actionsNotif"
+          :heure="heure"
+          @agir="(id, a) => emit('agir', id, a)"
+        />
+        <div class="choix-joue" role="status">
+          <RetourChoix v-if="joue" :choix="joue" :etape="etape" :contact="contact" :verdict="verdict" />
+        </div>
       </div>
-    </div>
+    </component>
     <BarreGeste v-if="entree && etat === 'appli' && notification && !choixJoue" @accueil="aller('accueil')" />
   </figure>
 </template>

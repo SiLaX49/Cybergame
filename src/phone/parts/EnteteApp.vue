@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ChevronLeft } from '@lucide/vue'
 import Avatar from './Avatar.vue'
+import TexteRiche from './TexteRiche.vue'
 
-defineProps<{ titre: string; sousTitre?: string; avatar?: boolean }>()
+/** `riche` : le titre (nom du contact) est surligné comme le corps des messages. Le contenu ajouté suit les titres. */
+defineProps<{ titre: string; sousTitre?: string; avatar?: boolean; riche?: boolean }>()
 </script>
 
 <template>
@@ -10,9 +12,10 @@ defineProps<{ titre: string; sousTitre?: string; avatar?: boolean }>()
     <ChevronLeft aria-hidden="true" :size="20" />
     <Avatar v-if="avatar" :nom="titre" />
     <p class="titres">
-      <strong>{{ titre }}</strong>
+      <strong><TexteRiche v-if="riche" :texte="titre" /><template v-else>{{ titre }}</template></strong>
       <span v-if="sousTitre" class="sous-titre">{{ sousTitre }}</span>
     </p>
+    <slot />
   </div>
 </template>
 

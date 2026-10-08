@@ -30,3 +30,9 @@
 .telephone[data-app='web'] { --tel-accent: #3b3b4f; }
 .telephone[data-app='verrouillage'] { --tel-fond: #23214a; --tel-texte: #ffffff; --tel-doux: #d6d4f0; --tel-recu: #34316a; }
 .telephone[data-app='accueil'] { --tel-fond: #e9ebf5; --tel-recu: #d5d8ea; --tel-bord: #b9bdd3; }
+
+/* Coques de marque (conversations) : accent et texte sur l'accent viennent du registre (style posé par Telephone). */
+.telephone [data-marque] { --tel-accent: var(--marque-accent); --tel-accent-texte: var(--marque-texte); --tel-envoye: var(--marque-accent); --tel-envoye-texte: var(--marque-texte); }
+.telephone .coque { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+/* Bandeau sur l'accent : texte sur l'accent du registre (au moins 4.5:1), couleurs de l'en-tête recalculées. */
+.telephone .sur-accent { --tel-fond: var(--marque-accent); --tel-texte: var(--marque-texte); --tel-doux: var(--marque-texte); --tel-bord: var(--marque-accent); }

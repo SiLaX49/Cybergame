@@ -46,10 +46,9 @@ describe('Telephone : coque', () => {
     expect(mount(Telephone, { props: { ecran: sansHeure } }).find('.barre-etat').text()).toContain('14:32')
   })
 
-  it('en-tête : contact, nom de l’appli, avatar décoratif (icône pour un numéro)', () => {
+  it('en-tête (coque Messages) : contact, avatar décoratif (icône pour un numéro)', () => {
     const w = mount(Telephone, { props: { ecran: sms() } })
-    expect(w.find('.entete-app').text()).toContain('Colis Express')
-    expect(w.find('.entete-app').text()).toContain('Messages')
+    expect(w.find('.entete-messages').text()).toContain('Colis Express')
     expect(w.find('.avatar').attributes('aria-hidden')).toBe('true')
     expect(w.find('.avatar').text()).toBe('CE')
     const numero = mount(Telephone, { props: { ecran: sms({ contact: '+33 6 39 98 12 48' }) } })
@@ -341,6 +340,7 @@ describe('Telephone : entrée par notification', () => {
     expect(texte).toBe('Votre colis est bloqué : payez 1,99 € sur colis-expres.info…')
     expect(w.find('[data-choix]').exists()).toBe(false)
     expect(w.find('.entete-app').exists()).toBe(false)
+    expect(w.find('[data-marque]').exists()).toBe(false)
     expect(w.find(accueil).exists()).toBe(false)
   })
 
