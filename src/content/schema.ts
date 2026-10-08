@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { NOMS_APPLIS } from '../phone/applis'
 
 export const TRANCHES = ['6e', '5e-3e', 'lycee'] as const
 export const trancheSchema = z.enum(TRANCHES)
@@ -86,7 +87,7 @@ const messageSchema = z.object({
 })
 export type Message = z.infer<typeof messageSchema>
 
-const ecranCommun = { appNom: texte, contact: texte, messages: z.array(messageSchema).min(1) }
+const ecranCommun = { appNom: z.enum(NOMS_APPLIS), contact: texte, messages: z.array(messageSchema).min(1) }
 
 /** Faux écran d'un scénario : une forme par appli, chacune avec ses seuls champs. */
 export const ecranSchema = z.discriminatedUnion('app', [
@@ -284,7 +285,7 @@ export const motdepasseConfigSchema = z.object({
 export const confidentialiteConfigSchema = z
   .object({
     consigne: texte,
-    appNom: texte,
+    appNom: z.enum(NOMS_APPLIS),
     reglages: z
       .array(
         z.object({
@@ -371,7 +372,7 @@ export const filSchema = z
       .array(
         z.object({
           id: slug,
-          appNom: texte,
+          appNom: z.enum(NOMS_APPLIS),
           de: texte,
           texte,
           heure: heure.optional(),
