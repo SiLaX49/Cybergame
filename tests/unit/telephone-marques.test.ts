@@ -182,3 +182,150 @@ describe('coques de marque : surlignage de l’en-tête', () => {
     expect(mark.find('.visually-hidden').text()).toBe('indice :')
   })
 })
+
+/** Écrans des autres types (publication, mail, web), dans l’appli donnée. */
+const publication = (appNom: string, surcharge: Partial<Ecran> = {}) =>
+  conversation({ app: 'social', appNom, contact: 'drole_de_college_42', certifie: false, stats: { vues: '1 200' }, ...surcharge } as Partial<Ecran>)
+const mail = (surcharge: Partial<Ecran> = {}) =>
+  conversation({ app: 'mail', appNom: 'Mail', contact: 'GameBox', adresse: 'support@gamebox-verif.com', sujet: 'Urgent', ...surcharge } as Partial<Ecran>)
+const page = (appNom: string, surcharge: Partial<Ecran> = {}) =>
+  conversation({ app: 'web', appNom, contact: 'Super Lampe', url: 'https://gare-libre-wifi.com/connexion', ...surcharge } as Partial<Ecran>)
+const actif = (w: ReturnType<typeof monter>) => w.find('.barre-onglets .onglet.actif').attributes('data-onglet')
+
+describe('coques de marque : publication, mail, web et autres', () => {
+  it('StreamTube : logo, « S’abonner » et pilule d’actions inertes, 5 onglets', () => {
+    const w = monter(publication('StreamTube'))
+    const coque = w.find('[data-marque="streamtube"]')
+    expect(coque.find('.entete-streamtube').text()).toBe('StreamTube')
+    expect(coque.find('.compte .abonner').text()).toBe('S’abonner')
+    expect(coque.find('.abonner').attributes('aria-hidden')).toBe('true')
+    expect(coque.find('.pilule').attributes('aria-hidden')).toBe('true')
+    expect(coque.findAll('.pilule > span')).toHaveLength(3)
+    expect(coque.find('.stats').text()).toBe('1 200 vues')
+    expect(onglets(w)).toEqual(['Accueil', 'Courts', 'Créer', 'Abonnements', 'Toi'])
+  })
+
+  it('SnapTalk en publication : bandeau sur l’accent, Spotlight actif, sans « S’abonner »', () => {
+    const w = monter(publication('SnapTalk'))
+    expect(w.find('[data-marque="snaptalk"] .entete-app').classes()).toContain('sur-accent')
+    expect(actif(w)).toBe('Spotlight')
+    expect(w.find('.abonner').exists()).toBe(false)
+    expect(w.find('.pilule').exists()).toBe(false)
+  })
+
+  it('Mail : « Écrire » décoratif, étoile, expéditeur en gras', () => {
+    const w = monter(mail())
+    const coque = w.find('[data-marque="mail"]')
+    expect(coque.find('.entete-app').text()).toContain('Mail')
+    expect(coque.find('.outils .etoile').exists()).toBe(true)
+    expect(coque.find('.outils').attributes('aria-hidden')).toBe('true')
+    expect(coque.find('.pied').attributes('aria-hidden')).toBe('true')
+    expect(coque.find('.ecrire').text()).toBe('Écrire')
+    expect(coque.find('.expediteur strong').text()).toBe('GameBox')
+  })
+
+  it('Navigateur : icône réglages avant le domaine entier, jamais de cadenas, bouton des onglets', () => {
+    const w = monter(page('Navigateur'))
+    const barre = w.find('[data-marque="navigateur"] .barre-adresse')
+    expect(barre.find('.reglages').attributes('aria-hidden')).toBe('true')
+    expect(barre.element.firstElementChild).toBe(barre.find('.reglages').element)
+    expect(barre.find('.domaine').text()).toBe('gare-libre-wifi.com')
+    expect(barre.find('.lien').exists()).toBe(false)
+    expect(w.html()).not.toMatch(/lucide-lock/)
+    expect(onglets(w)).toEqual(['Précédent', 'Suivant', 'Accueil', 'Onglets', 'Menu'])
+    expect(w.find('.compteur-onglets').text()).toBe('2')
+  })
+
+  it.each(['Revendo', 'BanqueNova', 'Mon Collège'])('page web de %s : toujours dans le navigateur (accent du Navigateur)', (appNom) => {
+    const w = monter(page(appNom))
+    const coque = w.find('[data-marque="navigateur"]')
+    expect(coque.exists()).toBe(true)
+    expect(w.findAll('[data-marque]')).toHaveLength(1)
+    expect((coque.element as HTMLElement).style.getPropertyValue('--marque-accent')).toBe(appli('Navigateur').accent)
+    expect(coque.find('.barre-adresse .domaine').text()).toBe('gare-libre-wifi.com')
+  })
+
+  it('Magasin (seule exception) : fiche avec note, badge d’âge et « Obtenir » inerte ; onglets Aujourd’hui / Jeux / Recherche', () => {
+    const messages = [{ de: 'contact' as const, texte: 'Gratuit · ★ 4,6 · 1 million de téléchargements' }]
+    const w = monter(page('Magasin d’applis', { url: undefined, messages }))
+    expect(w.find('[data-marque="navigateur"]').exists()).toBe(false)
+    const fiche = w.find('[data-marque="magasin"] .fiche-appli')
+    expect(fiche.find('.titre-page').text()).toBe('Super Lampe')
+    expect(fiche.find('.details').text()).toBe('★ 4,612+')
+    expect(fiche.find('.age').text()).toBe('12+')
+    expect(fiche.find('.obtenir').text()).toBe('Obtenir')
+    expect(fiche.find('.obtenir').attributes('aria-hidden')).toBe('true')
+    expect(onglets(w)).toEqual(['Aujourd’hui', 'Jeux', 'Recherche'])
+    expect(w.findAll('.barre-onglets svg')).toHaveLength(3)
+    expect(monter(page('Magasin d’applis', { url: undefined })).find('.details').text()).toBe('12+')
+    expect(monter(page('Navigateur')).find('.fiche-appli').exists()).toBe(false)
+  })
+
+  it('BanqueNova (hors page web) : en-tête seul', () => {
+    const coque = monter(conversation({ appNom: 'BanqueNova' })).find('[data-marque="banquenova"]')
+    expect(coque.find('.entete-app').text()).toBe('BanqueNova')
+    expect(coque.find('.barre-onglets').exists()).toBe(false)
+  })
+
+  it.each(['Mon Collège', 'Mon Lycée'])('%s : en-tête, menu décoratif Emploi du temps / Notes / Cahier de textes', (appNom) => {
+    const w = monter(conversation({ appNom, contact: 'Vie scolaire' }))
+    const menu = w.find('[data-marque="ent"] .menu')
+    expect(w.find('[data-marque="ent"] .entete-app').text()).toBe(appNom)
+    expect(menu.attributes('aria-hidden')).toBe('true')
+    expect(menu.findAll('[data-rubrique]').map((r) => r.attributes('data-rubrique'))).toEqual(['Emploi du temps', 'Notes', 'Cahier de textes'])
+  })
+
+  it('Météo : température et icône du temps décoratives', () => {
+    const temps = monter(conversation({ appNom: 'Météo' })).find('[data-marque="meteo"] .temps')
+    expect(temps.text()).toMatch(/^14\s°C$/)
+    expect(temps.attributes('aria-hidden')).toBe('true')
+  })
+})
+
+const AUTRES_MARQUES = [
+  ['StreamTube', 'streamtube', () => publication('StreamTube')],
+  ['SnapTalk (publication)', 'snaptalk', () => publication('SnapTalk')],
+  ['Mail', 'mail', () => mail()],
+  ['Navigateur', 'navigateur', () => page('Navigateur')],
+  ['Magasin d’applis', 'magasin', () => page('Magasin d’applis', { url: undefined })],
+  ['BanqueNova', 'banquenova', () => conversation({ appNom: 'BanqueNova' })],
+  ['Mon Collège', 'ent', () => conversation({ appNom: 'Mon Collège' })],
+  ['Météo', 'meteo', () => conversation({ appNom: 'Météo' })],
+] as const
+
+describe('coques de marque : autres applis, accent et séquence', () => {
+  it.each(AUTRES_MARQUES)('%s : accent du registre, aucun bouton, la séquence va jusqu’au verdict', async (_nom, marque, ecran) => {
+    store.modifierReglages({ animations: false })
+    const w = monter(ecran(), { choixJoue: null })
+    const style = (w.find(`[data-marque="${marque}"]`).element as HTMLElement).style
+    const a = appli(ecran().appNom)
+    expect(style.getPropertyValue('--marque-accent')).toBe(a.accent)
+    expect(style.getPropertyValue('--marque-texte')).toBe(a.texteSurAccent)
+    expect(w.findAll('button')).toHaveLength(0)
+    await w.setProps({ choixJoue: 'clic' })
+    expect(w.find(`[data-marque="${marque}"] .choix-joue`).text()).toContain('Piège')
+    expect(w.find('figure').attributes('data-verdict')).toBe('piege')
+  })
+})
+
+describe('coques de marque : surlignage hors du corps', () => {
+  const avec = (...passages: string[]) => ({ indices: passages.map((passage) => ({ libelle: passage, passage })), indiceVisible: true })
+  const surlignes = (w: ReturnType<typeof monter>) => w.findAll('.passage').map((m) => m.element.lastChild?.textContent)
+
+  it('publication : compte, abonnés, bio et média', () => {
+    const ecran = publication('SnapTalk', { contact: 'InfoÉcIair', abonnes: '2 400', bio: 'Parodie, rien n’est vrai', media: { description: 'Sa bouche bouge en décalage' } } as Partial<Ecran>)
+    const w = monter(ecran, avec('InfoÉcIair', '2 400 abonnés', 'Parodie', 'en décalage'))
+    expect(surlignes(w)).toEqual(['InfoÉcIair', '2 400 abonnés', 'Parodie', 'en décalage'])
+  })
+
+  it('mail : objet et domaine de l’adresse, sans lien repéré dans l’adresse', () => {
+    const w = monter(mail({ sujet: 'Ton compte sera supprimé dans 24 h' } as Partial<Ecran>), avec('supprimé dans 24 h', 'gamebox-verif.com'))
+    expect(surlignes(w)).toEqual(['supprimé dans 24 h', 'gamebox-verif.com'])
+    expect(w.find('.adresse .lien').exists()).toBe(false)
+  })
+
+  it('web : domaine de la barre d’adresse', () => {
+    const w = monter(page('Navigateur'), avec('gare-libre-wifi.com'))
+    expect(w.find('.barre-adresse .domaine .passage').exists()).toBe(true)
+  })
+})

@@ -2,11 +2,13 @@
 import { computed, nextTick, reactive, ref, watch } from 'vue'
 import type { FilAction, Fil, Scenario } from '@/content/schema'
 import { toutesLesMissions } from '@/content'
+import { ordreLecture, textesLus } from '@/phone/ordreLecture'
 import SceneTelephone from '@/phone/SceneTelephone.vue'
 import type { Scene } from '@/phone/scene'
 import type { EcranTelephone } from '@/phone/types'
 import type { Mode } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
+import { useTexte } from '@/ui/useTexte'
 
 /** Atelier : chaque faux écran du contenu réel, joué seul, pour revoir le téléphone hors mission. */
 type Entree = { id: string; libelle: string; scenario?: Scenario; fil?: Fil }
@@ -31,7 +33,9 @@ const indiceVisible = ref(false)
 /** Entrée par notification (écran verrouillé, puis accueil), comme dans une mission. */
 const entreeNotif = ref(false)
 const store = useProgress()
-const indices = computed(() => entree.value.scenario?.indices ?? [])
+const t = useTexte()
+/** Même ordre de lecture que dans une mission : ① est lu avant ②. */
+const indices = computed(() => (entree.value.scenario ? ordreLecture(entree.value.scenario.indices, textesLus(entree.value.scenario.ecran, t)) : []))
 
 const ecran = computed<EcranTelephone>(() =>
   entree.value.fil ? { app: 'verrouillage', notifications: entree.value.fil.notifications } : entree.value.scenario!.ecran,

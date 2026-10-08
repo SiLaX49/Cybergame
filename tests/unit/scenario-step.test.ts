@@ -5,6 +5,7 @@ import type { Scenario } from '@/content/schema'
 import type { ScenarioResultat } from '@/engine/mission-runner'
 import { ordreAffichage } from '@/engine/ordre'
 import ScenarioStep from '@/mission/ScenarioStep.vue'
+import { ordreLecture, textesLus } from '@/phone/ordreLecture'
 import { creerStore, definirStore, type ProgressStore } from '@/store/useProgress'
 import { leviersFixture, missionFixture } from './fixtures'
 import { bouton, cliquer } from './helpers'
@@ -101,11 +102,11 @@ describe('ScenarioStep', () => {
     expect(w.emitted('evenement')).toEqual([[{ type: 'rejouer' }], [{ type: 'continuer' }]])
   })
 
-  it('« Ce qui devait t’alerter » : indices numérotés dans l’ordre du téléphone, avec le passage cité', async () => {
+  it('« Ce qui devait t’alerter » : indices numérotés dans l’ordre de lecture du téléphone, avec le passage cité', async () => {
     const s = scenario()
     const w = monter({ phase: 'consequence', choixId: 'verif', resultat: resultatClic })
     await flushPromises()
-    const ordre = ordreAffichage(s.indices, s.id)
+    const ordre = ordreLecture(ordreAffichage(s.indices, s.id), textesLus(s.ecran, (x) => x))
     const items = w.findAll('.liste-indices li')
     expect(items.map((li) => li.find('.numero').text())).toEqual(['1', '2'])
     expect(items.map((li) => li.find('.libelle').text())).toEqual(ordre.map((i) => i.libelle))

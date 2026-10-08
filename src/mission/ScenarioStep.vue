@@ -3,10 +3,12 @@ import { computed, nextTick, ref, watch } from 'vue'
 import type { Leviers, Scenario } from '@/content/schema'
 import type { PhaseScenario, RunEvent, ScenarioResultat } from '@/engine/mission-runner'
 import { ordreAffichage } from '@/engine/ordre'
+import { ordreLecture, textesLus } from '@/phone/ordreLecture'
 import SceneTelephone from '@/phone/SceneTelephone.vue'
 import { RECUPERATIONS } from '@/recovery/registry'
 import type { Mode } from '@/store/progress'
 import { focusAuChangement, focusAuMontage } from '@/ui/focus'
+import { useTexte } from '@/ui/useTexte'
 import ConsequencePanel from './ConsequencePanel.vue'
 import ExplicationPanel from './ExplicationPanel.vue'
 import PourquoiForm from './PourquoiForm.vue'
@@ -44,8 +46,12 @@ const nomSituation = computed(() => {
   return `Situation : message de ${contact} dans ${appNom}`
 })
 
-/** Indices, dans l’ordre d’affichage : même liste pour le téléphone et le panneau, donc mêmes numéros. */
-const indices = computed(() => ordreAffichage(props.scenario.indices, props.scenario.id))
+/**
+ * Indices dans l’ordre de lecture de l’écran (① lu avant ②) : même liste pour le téléphone et le panneau, donc
+ * mêmes numéros. Le mélange stable ne départage que les indices sans passage visible.
+ */
+const t = useTexte()
+const indices = computed(() => ordreLecture(ordreAffichage(props.scenario.indices, props.scenario.id), textesLus(props.scenario.ecran, t)))
 const choixJoue = computed(() => (props.phase === 'situation' ? null : (props.choixId ?? null)))
 const scene = computed(() => ({
   ecran: props.scenario.ecran,

@@ -2,9 +2,10 @@
 import { computed, inject } from 'vue'
 import { CLE_PASSAGES, decouperTexte } from '../surlignage'
 
-const props = defineProps<{ texte: string }>()
+/** `sansLiens` : aucun lien repéré (barre d’adresse, adresse mail, nom de compte). */
+const props = defineProps<{ texte: string; sansLiens?: boolean }>()
 const passages = inject(CLE_PASSAGES, null)
-const morceaux = computed(() => decouperTexte(props.texte, passages?.value ?? []))
+const morceaux = computed(() => decouperTexte(props.texte, passages?.value ?? [], !props.sansLiens))
 </script>
 
 <template>

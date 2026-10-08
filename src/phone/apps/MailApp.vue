@@ -11,12 +11,12 @@ const t = useTexte()
 
 <template>
   <div class="mail">
-    <p v-if="ecran.sujet" class="sujet"><span class="visually-hidden">Objet : </span>{{ ecran.sujet }}</p>
+    <p v-if="ecran.sujet" class="sujet"><span class="visually-hidden">Objet : </span><TexteRiche :texte="ecran.sujet" sans-liens /></p>
     <div class="expediteur">
       <Avatar :nom="ecran.contact" />
       <p class="identite">
-        <span><span class="visually-hidden">De : </span><strong>{{ ecran.contact }}</strong></span>
-        <span v-if="ecran.adresse" class="adresse">{{ ecran.adresse }}</span>
+        <span><span class="visually-hidden">De : </span><strong><TexteRiche :texte="ecran.contact" sans-liens /></strong></span>
+        <span v-if="ecran.adresse" class="adresse"><TexteRiche :texte="ecran.adresse" sans-liens /></span>
       </p>
       <span v-if="ecran.messages[0]?.heure" class="heure">{{ ecran.messages[0].heure }}</span>
     </div>
