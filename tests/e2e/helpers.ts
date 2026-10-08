@@ -117,6 +117,23 @@ export async function tabJusquaSelecteur(page: Page, selecteur: string) {
   throw new Error(`Élément introuvable au clavier : ${selecteur}`)
 }
 
+/**
+ * Joue les scénarios de la mission affichée jusqu’à l’appli dont la coque porte `data-marque="<marque>"` : chaque
+ * notification est ouverte au clavier, les scénarios d’avant sont passés avec le choix « aide ».
+ */
+export async function allerALaMarque(page: Page, marque: string) {
+  for (let i = 0; i < 6; i++) {
+    await expect(page.locator('[data-notification]')).toBeVisible()
+    await tabJusquaSelecteur(page, '[data-notification]')
+    await page.keyboard.press('Enter')
+    await expect(page.locator('[data-choix]').first()).toBeVisible()
+    if ((await page.locator(`[data-marque="${marque}"]`).count()) > 0) return
+    await page.locator('[data-qualite="aide"]').click()
+    await page.getByRole('button', { name: 'Continuer', exact: true }).click()
+  }
+  throw new Error(`Aucune appli de marque ${marque} dans cette mission`)
+}
+
 /** Vérifie que le focus n'est pas retombé sur <body> (WCAG 2.4.3). */
 export async function focusConserve(page: Page) {
   await expect.poll(() => page.evaluate(() => document.activeElement?.tagName)).not.toBe('BODY')

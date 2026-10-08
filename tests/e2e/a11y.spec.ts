@@ -1,6 +1,14 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
-import { choisirPersonnageSiDemande, commencer, jouerJusquAuMiniJeu, jouerMission, ouvrirNotification } from './helpers'
+import {
+  allerALaMarque,
+  choisirPersonnageSiDemande,
+  commencer,
+  jouerJusquAuMiniJeu,
+  jouerMission,
+  ouvrirNotification,
+  tabJusquaSelecteur,
+} from './helpers'
 
 async function verifierA11y(page: Page, ecran: string) {
   const resultat = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
@@ -184,6 +192,70 @@ test('écran verrouillé d’entrée et écran d’accueil', async ({ page }) =>
   await page.locator('[data-appli="Météo"]').click({ force: true })
   await expect(page.getByText('Pas disponible dans ce scénario')).toBeVisible()
   await verifierA11y(page, 'écran d’accueil')
+})
+
+/** Une mission réelle par marque du contenu, jouée au clavier jusqu’au verdict : coque (`data-marque`) et mission. */
+for (const [nom, marque, id] of [
+  ['Messages', 'messages', 'p-6e-colis'],
+  ['SnapTalk (conversation)', 'snaptalk', 'c-college-compte-vole'],
+  ['SnapTalk (publication)', 'snaptalk', 'v-college-story'],
+  ['ChatCord', 'chatcord', 'c-6e-mot-de-passe'],
+  ['StreamTube', 'streamtube', 'd-college-hors-contexte'],
+  ['Revendo', 'revendo', 'j-lycee-vestiaire'],
+  ['GameBox Chat', 'gamebox', 'j-6e-generateur'],
+  ['Mail', 'mail', 'p-college-ami-pirate'],
+  ['Navigateur', 'navigateur', 'a-college-hors-store'],
+  // Page web de BanqueNova (3e scénario) : elle s’ouvre dans la coque du navigateur.
+  ['BanqueNova', 'navigateur', 'p-lycee-offre-emploi'],
+  ['Magasin d’applis', 'magasin', 'a-6e-lampe-torche'],
+] as const) {
+  for (const [verdict, qualite, libelle] of [
+    ['piege', 'risque', 'verdict piège'],
+    ['bon', 'bon', 'bon réflexe'],
+  ] as const) {
+    test(`marque ${nom} : ${libelle}`, async ({ page }) => {
+      await page.goto(`/#/mission/${id}`)
+      await allerALaMarque(page, marque)
+      await tabJusquaSelecteur(page, `[data-qualite="${qualite}"]`)
+      await page.keyboard.press('Enter')
+      await expect(page.locator(`[data-marque="${marque}"]`).first()).toBeAttached()
+      await expect(page.locator(`figure[data-verdict="${verdict}"]`)).toBeVisible()
+      await verifierA11y(page, `${nom}, ${libelle}`)
+    })
+  }
+}
+
+test('mouvement réduit : séquence de retour jusqu’au verdict', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/#/mission/p-6e-colis')
+  await allerALaMarque(page, 'messages')
+  await verifierA11y(page, 'appli ouverte, mouvement réduit')
+  await tabJusquaSelecteur(page, '[data-qualite="risque"]')
+  await page.keyboard.press('Enter')
+  await expect(page.locator('figure[data-verdict="piege"]')).toBeVisible()
+  await verifierA11y(page, 'verdict piège, mouvement réduit')
+})
+
+for (const id of ['r-college', 'r-lycee'] as const) {
+  test(`fil de notifications ${id} (ENT, Météo, BanqueNova, Revendo)`, async ({ page }) => {
+    await page.goto(`/#/mission/${id}`)
+    await expect(page.locator('[data-notif]').first()).toBeVisible()
+    await verifierA11y(page, `fil ${id}`)
+  })
+}
+
+test('atelier : choix de la marque, verdict, puis « Réinitialiser » reverrouille', async ({ page }) => {
+  await page.goto('/#/atelier-telephone')
+  await page.getByLabel('Marque').selectOption({ label: 'Revendo' })
+  await page.getByLabel('Entrée par notification').check()
+  await ouvrirNotification(page)
+  await expect(page.locator('[data-marque="revendo"]')).toBeAttached()
+  await page.locator('[data-qualite="risque"]').click()
+  await expect(page.locator('figure[data-verdict="piege"]')).toBeVisible()
+  await verifierA11y(page, 'atelier, verdict piège')
+  await page.getByRole('button', { name: 'Réinitialiser' }).click()
+  await expect(page.locator('[data-notification]')).toBeVisible()
+  await verifierA11y(page, 'atelier, réinitialisé')
 })
 
 test('écran verrouillé avec une notification ouverte', async ({ page }) => {

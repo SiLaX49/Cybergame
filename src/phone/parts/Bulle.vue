@@ -26,4 +26,6 @@ const t = useTexte()
 .bulle.moi :deep(.lien) { color: inherit; }
 .texte { margin: 0; }
 .heure { margin: 0.2rem 0 0; font-size: 0.75em; text-align: right; opacity: 0.85; }
+/* Sur l’accent d’une marque, le texte n’a que 4.5:1 de marge (registre) : l’heure garde sa couleur pleine. */
+.bulle.moi .heure { opacity: 1; }
 </style>

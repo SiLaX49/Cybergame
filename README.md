@@ -49,6 +49,51 @@ Règles principales :
 
 Exemple de référence : `content/missions/phishing/p-6e-colis.yaml`.
 
+### Faux téléphone
+
+Chaque scénario s’affiche dans une scène (`src/phone/SceneTelephone.vue`, qui reçoit un objet `Scene` défini dans
+`src/phone/scene.ts`) : le téléphone à gauche, un panneau à droite avec la question, les choix A, B, C, puis la suite.
+Le scénario démarre sur l’écran verrouillé : toucher la notification ouvre l’appli, et les choix n’apparaissent qu’à ce
+moment, une fois le message lu. Depuis l’appli, l’écran d’accueil montre les autres applis, inactives.
+
+Règles d’écriture :
+- `ecran.appNom` : nom d’une appli du registre `src/phone/applis.ts` (tableau ci-dessous), aussi pour les
+  notifications d’un fil. Chaque marque a sa coque (`src/phone/marques/`) ; une page web (`app: web`) s’ouvre toujours
+  dans le Navigateur, sauf les fiches du Magasin d’applis.
+- `ecran.notification` (facultatif) : texte de la notification d’entrée sur l’écran verrouillé. Sans lui, la
+  notification reprend le début du premier message (60 caractères au plus).
+- `boutons` (pages web) : 1 à 4 libellés de boutons, affichés inertes sous le texte de la page. Ne plus écrire de bouton
+  simulé « [Libellé] » dans le texte (un test le vérifie).
+- `reaction` (choix d’un scénario) : message du contact juste après le choix, en bulle. Obligatoire pour chaque choix
+  `bon` ou `risque`, sauf le geste `bloquer` (le contact ne peut plus écrire) ; le choix `aide` n’en a pas (le téléphone
+  est posé). `reactionSimple` : la même réaction en lecture simplifiée.
+- `passage` (chaque indice) : texte exact à surligner dans l’écran. Il doit figurer **mot pour mot** dans un texte
+  affiché (contact, sujet, adresse, messages, boutons…), en lecture normale et en lecture simplifiée (`texteSimple`) :
+  un test le vérifie. Les indices sont numérotés ①, ②… dans l’ordre de lecture du téléphone (en-tête, puis corps de
+  haut en bas, `src/phone/ordreLecture.ts`), pas dans l’ordre du fichier ; « Ce qui devait t’alerter » reprend les mêmes
+  numéros.
+
+| `appNom` | Évoque (documentation seulement) |
+|---|---|
+| `SnapTalk` | Snapchat, Instagram |
+| `ChatCord` | Discord |
+| `StreamTube` | YouTube, TikTok |
+| `Revendo` | Vinted, Leboncoin |
+| `GameBox`, `GameBox Chat` | Roblox, Fortnite |
+| `BanqueNova` | une appli bancaire |
+| `Mon Collège`, `Mon Lycée` | l’ENT |
+| `Messages` | les SMS |
+| `Mail` | Gmail, Apple Mail |
+| `Navigateur` | Chrome, Safari |
+| `Magasin d’applis` | App Store, Play Store |
+| `Météo` | une appli météo |
+
+Les vraies marques de la colonne de droite ne servent qu’à guider l’écriture : elles n’apparaissent jamais dans le
+texte visible du jeu.
+
+Pour revoir un faux écran hors mission : page `/#/atelier-telephone` (filtre par type d’écran et par marque, mode,
+animations, entrée par notification, indice joué, rejouer la séquence, réinitialiser).
+
 ### Parcours de l’île (6e)
 
 Une mission `format: parcours` est une traversée d’île : 4 à 6 étapes `type: lieu` (et au plus un mini-jeu), sans faux

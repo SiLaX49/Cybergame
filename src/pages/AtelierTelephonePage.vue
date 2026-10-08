@@ -2,6 +2,8 @@
 import { computed, nextTick, reactive, ref, watch } from 'vue'
 import type { FilAction, Fil, Scenario } from '@/content/schema'
 import { toutesLesMissions } from '@/content'
+import { APPLIS } from '@/phone/applis'
+import { coque } from '@/phone/marques'
 import { ordreLecture, textesLus } from '@/phone/ordreLecture'
 import SceneTelephone from '@/phone/SceneTelephone.vue'
 import type { Scene } from '@/phone/scene'
@@ -11,25 +13,35 @@ import { useProgress } from '@/store/useProgress'
 import { useTexte } from '@/ui/useTexte'
 
 /** Atelier : chaque faux écran du contenu réel, joué seul, pour revoir le téléphone hors mission. */
-type Entree = { id: string; libelle: string; scenario?: Scenario; fil?: Fil }
+type Entree = { id: string; libelle: string; marque: string; scenario?: Scenario; fil?: Fil }
 
+const SANS_COQUE = 'sans-coque'
 const entrees: Entree[] = toutesLesMissions().flatMap((m) =>
   m.etapes.flatMap((e): Entree[] => {
-    if (e.type === 'scenario') return [{ id: `${m.id}/${e.id}`, libelle: `${e.ecran.app} · ${m.titre} · ${e.id}`, scenario: e }]
-    if (e.type === 'fil') return [{ id: `${m.id}/${e.id}`, libelle: `verrouillage · ${m.titre}`, fil: e }]
+    // Marque de la coque réellement affichée (`data-marque`) : une page web s’ouvre dans le navigateur.
+    if (e.type === 'scenario') return [{ id: `${m.id}/${e.id}`, libelle: `${e.ecran.app} · ${m.titre} · ${e.id}`, marque: coque(e.ecran)?.marque ?? SANS_COQUE, scenario: e }]
+    if (e.type === 'fil') return [{ id: `${m.id}/${e.id}`, libelle: `verrouillage · ${m.titre}`, marque: SANS_COQUE, fil: e }]
     return []
   }),
 )
 const apps = [...new Set(entrees.map((e) => e.libelle.split(' · ')[0]!))]
+const marques = [...new Set(entrees.map((e) => e.marque))]
+/** Nom affiché d’une marque : la première appli du registre qui la porte. */
+const nomMarque = (m: string) => Object.values(APPLIS).find((a) => a.marque === m)?.nom ?? 'Sans coque'
 
 const filtre = ref('tous')
-const visibles = computed(() => entrees.filter((e) => filtre.value === 'tous' || e.libelle.startsWith(`${filtre.value} ·`)))
+const filtreMarque = ref('toutes')
+const visibles = computed(() =>
+  entrees.filter((e) => (filtre.value === 'tous' || e.libelle.startsWith(`${filtre.value} ·`)) && (filtreMarque.value === 'toutes' || e.marque === filtreMarque.value)),
+)
 const choisie = ref(entrees[0]!.id)
 const entree = computed(() => entrees.find((e) => e.id === choisie.value) ?? entrees[0]!)
 const mode = ref<Mode>('solo')
 const choixJoue = ref<string | null>(null)
 const actionsNotif = reactive<Record<string, FilAction>>({})
 const indiceVisible = ref(false)
+/** Change à chaque réinitialisation : la scène est recréée, donc reverrouillée avec l’entrée par notification. */
+const tour = ref(0)
 /** Entrée par notification (écran verrouillé, puis accueil), comme dans une mission. */
 const entreeNotif = ref(false)
 const store = useProgress()
@@ -55,8 +67,9 @@ function reinitialiser() {
   choixJoue.value = null
   indiceVisible.value = false
   for (const k of Object.keys(actionsNotif)) delete actionsNotif[k]
+  tour.value++
 }
-watch([choisie, filtre], reinitialiser)
+watch([choisie, filtre, filtreMarque], reinitialiser)
 /** Rejoue la séquence du dernier choix : un passage par l'attente, puis le même choix. */
 async function rejouerSequence() {
   const id = choixJoue.value
@@ -78,6 +91,12 @@ watch(visibles, (v) => {
         <select v-model="filtre">
           <option value="tous">Toutes</option>
           <option v-for="a in apps" :key="a" :value="a">{{ a }}</option>
+        </select>
+      </label>
+      <label>Marque
+        <select v-model="filtreMarque">
+          <option value="toutes">Toutes</option>
+          <option v-for="m in marques" :key="m" :value="m">{{ nomMarque(m) }}</option>
         </select>
       </label>
       <label>Écran
@@ -107,7 +126,7 @@ watch(visibles, (v) => {
       <button type="button" class="btn" :disabled="!choixJoue" @click="rejouerSequence">Rejouer la séquence</button>
       <button type="button" class="btn" @click="reinitialiser">Réinitialiser</button>
     </div>
-    <SceneTelephone :scene="scene" @choisir="(id) => (choixJoue = id)" @agir="(id, a) => (actionsNotif[id] = a)">
+    <SceneTelephone :key="tour" :scene="scene" @choisir="(id) => (choixJoue = id)" @agir="(id, a) => (actionsNotif[id] = a)">
       <template #entete="{ idQuestion }">
         <h2 v-if="entree.scenario" :id="idQuestion">{{ entree.scenario.question }}</h2>
       </template>

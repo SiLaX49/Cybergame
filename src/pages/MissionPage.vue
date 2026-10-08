@@ -190,7 +190,8 @@ function recommencer() {
     --scene-defilement: auto;
     --tel-position: static;
     --tel-hauteur: min(100cqh - 1rem, 60rem);
-    --tel-largeur: clamp(30rem, (100cqh - 1rem) * 9 / 10, 46rem);
+    /* Plafonnée par la largeur de la grille (unités résolues sur `.telephone`) : le panneau garde au moins ~40 %. */
+    --tel-largeur: min(clamp(30rem, (100cqh - 1rem) * 9 / 10, 46rem), 58cqw);
     max-width: 90rem;
   }
 }
