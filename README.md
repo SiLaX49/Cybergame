@@ -61,15 +61,17 @@ Règles d’écriture :
   notifications d’un fil. Chaque marque a sa coque (`src/phone/marques/`) ; une page web (`app: web`) s’ouvre toujours
   dans le Navigateur, sauf les fiches du Magasin d’applis.
 - `ecran.notification` (facultatif) : texte de la notification d’entrée sur l’écran verrouillé. Sans lui, la
-  notification reprend le début du premier message (60 caractères au plus).
+  notification reprend le début du premier message du contact (60 caractères au plus).
 - `boutons` (pages web) : 1 à 4 libellés de boutons, affichés inertes sous le texte de la page. Ne plus écrire de bouton
   simulé « [Libellé] » dans le texte (un test le vérifie).
 - `reaction` (choix d’un scénario) : message du contact juste après le choix, en bulle. Obligatoire pour chaque choix
   `bon` ou `risque`, sauf le geste `bloquer` (le contact ne peut plus écrire) ; le choix `aide` n’en a pas (le téléphone
   est posé). `reactionSimple` : la même réaction en lecture simplifiée.
 - `passage` (chaque indice) : texte exact à surligner dans l’écran. Il doit figurer **mot pour mot** dans un texte
-  affiché (contact, sujet, adresse, messages, boutons…), en lecture normale et en lecture simplifiée (`texteSimple`) :
-  un test le vérifie. Les indices sont numérotés ①, ②… dans l’ordre de lecture du téléphone (en-tête, puis corps de
+  que le téléphone surligne (`textesLus`, `src/phone/ordreLecture.ts` : contact, sujet, adresse, domaine ou chemin de
+  l’URL, messages, boutons, bio, média, commentaires), en lecture normale et en lecture simplifiée (`texteSimple`) : un
+  test le vérifie. Le nom de l’appli, les aperçus de lien, l’URL entière et l’auteur d’un commentaire ne comptent pas.
+  Les indices sont numérotés ①, ②… dans l’ordre de lecture du téléphone (en-tête, puis corps de
   haut en bas, `src/phone/ordreLecture.ts`), pas dans l’ordre du fichier ; « Ce qui devait t’alerter » reprend les mêmes
   numéros.
 

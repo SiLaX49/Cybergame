@@ -35,7 +35,7 @@ const note = computed(() => props.ecran.messages.map((m) => m.texte.match(/★\s
     <p v-else class="titre-page">{{ ecran.contact }}</p>
     <p v-for="(m, i) in ecran.messages" :key="i" class="bloc"><TexteRiche :texte="t(m.texte, m.texteSimple)" /></p>
     <p v-if="ecran.boutons" class="boutons-page">
-      <span v-for="b in ecran.boutons" :key="b" class="bouton-page" aria-hidden="false"><span class="visually-hidden">Bouton : </span><TexteRiche :texte="b" /></span>
+      <span v-for="b in ecran.boutons" :key="b" class="bouton-page"><span class="visually-hidden">Bouton : </span><TexteRiche :texte="b" /></span>
     </p>
   </div>
 </template>

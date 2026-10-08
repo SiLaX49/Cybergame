@@ -3,13 +3,16 @@ import { CloudSun } from '@lucide/vue'
 import type { Ecran } from '@/content/schema'
 import EnteteApp from '../parts/EnteteApp.vue'
 
-/** Météo : en-tête sur l’accent, température et icône du temps décoratives. Le contenu ne l’ouvre jamais : notifications et accueil. */
+/**
+ * Météo : en-tête sur l’accent (contact d’une conversation en sous-titre), température et icône du temps décoratives.
+ * Le contenu ne l’ouvre jamais : notifications et accueil.
+ */
 defineProps<{ ecran: Ecran }>()
 </script>
 
 <template>
   <div class="coque coque-meteo">
-    <EnteteApp class="sur-accent" :titre="ecran.appNom">
+    <EnteteApp class="sur-accent" :titre="ecran.appNom" :sous-titre="ecran.app === 'sms' || ecran.app === 'chat' ? ecran.contact : undefined" sous-titre-riche>
       <span class="temps" aria-hidden="true"><CloudSun :size="22" /> 14&nbsp;°C</span>
     </EnteteApp>
     <slot />

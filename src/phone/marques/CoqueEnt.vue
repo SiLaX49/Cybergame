@@ -3,7 +3,10 @@ import { BookOpen, CalendarDays, ChartColumn } from '@lucide/vue'
 import type { Ecran } from '@/content/schema'
 import EnteteApp from '../parts/EnteteApp.vue'
 
-/** ENT (Mon Collège, Mon Lycée) : en-tête sur l’accent, menu décoratif Emploi du temps / Notes / Cahier de textes. */
+/**
+ * ENT (Mon Collège, Mon Lycée) : en-tête sur l’accent (contact d’une conversation en sous-titre), menu décoratif
+ * Emploi du temps / Notes / Cahier de textes.
+ */
 defineProps<{ ecran: Ecran }>()
 const MENU = [
   { nom: 'Emploi du temps', icone: CalendarDays },
@@ -14,7 +17,7 @@ const MENU = [
 
 <template>
   <div class="coque coque-ent">
-    <EnteteApp class="sur-accent" :titre="ecran.appNom" />
+    <EnteteApp class="sur-accent" :titre="ecran.appNom" :sous-titre="ecran.app === 'sms' || ecran.app === 'chat' ? ecran.contact : undefined" sous-titre-riche />
     <div class="menu" aria-hidden="true">
       <span v-for="m in MENU" :key="m.nom" class="rubrique" :data-rubrique="m.nom"><component :is="m.icone" :size="16" /> {{ m.nom }}</span>
     </div>

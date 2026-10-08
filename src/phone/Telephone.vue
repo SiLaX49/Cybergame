@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { Choix, FilAction } from '@/content/schema'
 import { useProgress } from '@/store/useProgress'
 import AccueilApp from './apps/AccueilApp.vue'
@@ -12,9 +12,11 @@ import BarreEtat from './parts/BarreEtat.vue'
 import BarreGeste from './parts/BarreGeste.vue'
 import EnteteApp from './parts/EnteteApp.vue'
 import RetourChoix from './parts/RetourChoix.vue'
+import Verdict from './parts/Verdict.vue'
 import { coque, SansCoque } from './marques'
 import { atteinte } from './sequence'
 import type { EcranTelephone } from './types'
+import { useDefilement } from './useDefilement'
 import { useEntree, type EtatTelephone } from './useEntree'
 import { usePassages } from './usePassages'
 import { useSequence } from './useSequence'
@@ -62,22 +64,19 @@ const habillage = computed(() => (etat.value === 'appli' ? coque(props.ecran) : 
 
 const joue = computed(() => (props.choixJoue ? (props.choix?.find((c) => c.id === props.choixJoue) ?? null) : null))
 const contact = computed(() => ('contact' in props.ecran ? props.ecran.contact : ''))
+const instantane = () => !store.etat.reglages.animations
 const { etape } = useSequence(
   () => props.choixJoue,
-  () => ({ reaction: Boolean(joue.value?.reaction), instantane: !store.etat.reglages.animations }),
+  () => ({ reaction: Boolean(joue.value?.reaction), instantane: instantane() }),
 )
 const verdict = computed(() => (joue.value && atteinte(etape.value, 'verdict') ? (joue.value.qualite === 'risque' ? 'piege' : 'bon') : null))
 
 usePassages(props, etape)
-
-// Le retour du choix apparaît en bas de l'écran : on y fait défiler la zone, jusqu'au verdict.
+useDefilement(zone, etape, instantane)
 watch(
   etape,
-  async (e) => {
+  (e) => {
     if (e === 'fin') emit('sequence-finie')
-    if (e === 'attente' || atteinte(e, 'indices')) return
-    await nextTick()
-    if (zone.value) zone.value.scrollTop = zone.value.scrollHeight
   },
   { immediate: true },
 )
@@ -110,8 +109,10 @@ watch(
           @agir="(id, a) => emit('agir', id, a)"
         />
         <div class="choix-joue" role="status">
-          <RetourChoix v-if="joue" :choix="joue" :etape="etape" :contact="contact" :verdict="verdict" />
+          <RetourChoix v-if="joue" :choix="joue" :etape="etape" :contact="contact" />
         </div>
+        <!-- Verdict collé en bas de la zone défilante : visible même quand on remonte vers les passages surlignés. -->
+        <div class="verdict-colle" role="status"><Verdict v-if="verdict" :verdict="verdict" /></div>
       </div>
     </component>
     <BarreGeste v-if="entree && etat === 'appli' && notification && !choixJoue" @accueil="aller('accueil')" />
@@ -129,6 +130,7 @@ watch(
 @media (max-width: 48em) { .telephone { position: static; } }
 .ecran { flex: 1; min-height: 0; padding: 0.75rem; overflow-y: auto; scrollbar-width: thin; background: var(--tel-fond); }
 .choix-joue { display: flex; flex-direction: column; gap: 0.5rem; }
+.verdict-colle { position: sticky; bottom: 0; }
 /* Verdict : halo en fondu de 200 ms puis fixe ; secousse ou rebond seulement sans préférence de mouvement réduit. */
 .telephone { transition: box-shadow 200ms ease-out; }
 .telephone[data-verdict='piege'] { box-shadow: 0 0 0 4px var(--tel-halo-piege), 0 0 24px 6px var(--tel-halo-piege); }

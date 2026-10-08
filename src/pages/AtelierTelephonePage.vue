@@ -3,7 +3,7 @@ import { computed, nextTick, reactive, ref, watch } from 'vue'
 import type { FilAction, Fil, Scenario } from '@/content/schema'
 import { toutesLesMissions } from '@/content'
 import { APPLIS } from '@/phone/applis'
-import { coque } from '@/phone/marques'
+import { marqueAffichee } from '@/phone/habillage'
 import { ordreLecture, textesLus } from '@/phone/ordreLecture'
 import SceneTelephone from '@/phone/SceneTelephone.vue'
 import type { Scene } from '@/phone/scene'
@@ -19,7 +19,7 @@ const SANS_COQUE = 'sans-coque'
 const entrees: Entree[] = toutesLesMissions().flatMap((m) =>
   m.etapes.flatMap((e): Entree[] => {
     // Marque de la coque réellement affichée (`data-marque`) : une page web s’ouvre dans le navigateur.
-    if (e.type === 'scenario') return [{ id: `${m.id}/${e.id}`, libelle: `${e.ecran.app} · ${m.titre} · ${e.id}`, marque: coque(e.ecran)?.marque ?? SANS_COQUE, scenario: e }]
+    if (e.type === 'scenario') return [{ id: `${m.id}/${e.id}`, libelle: `${e.ecran.app} · ${m.titre} · ${e.id}`, marque: marqueAffichee(e.ecran)?.marque ?? SANS_COQUE, scenario: e }]
     if (e.type === 'fil') return [{ id: `${m.id}/${e.id}`, libelle: `verrouillage · ${m.titre}`, marque: SANS_COQUE, fil: e }]
     return []
   }),

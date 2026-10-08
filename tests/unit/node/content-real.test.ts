@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { buildContent } from '../../../scripts/build-content'
 import { TRANCHES, type Mission } from '../../../src/content/schema'
 import { atteint, evaluerRobustesse } from '../../../src/minigames/robustesse'
+import { textesLus } from '../../../src/phone/ordreLecture'
 import { textesEcran } from './textes-ecran'
 
 const bundle = buildContent(join(process.cwd(), 'content'))
@@ -184,11 +185,13 @@ describe('contenu réel', () => {
     expect(sansReaction).toEqual([])
   })
 
-  it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : chaque passage d’indice figure mot pour mot à l’écran, en lecture normale et simplifiée', (_id, m) => {
+  // Seuls les textes que le téléphone surligne (`textesLus`, rendus par `TexteRiche`) : ni nom d’appli, ni aperçu, ni URL entière.
+  it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : chaque passage d’indice figure mot pour mot dans un texte surligné, en lecture normale et simplifiée', (_id, m) => {
+    const lecture = (simple: boolean) => (texte: string, texteSimple?: string) => (simple && texteSimple ? texteSimple : texte)
     const absents = scenariosDe(m).flatMap((e) =>
       e.indices.flatMap((i) =>
         [false, true]
-          .filter((simple) => !textesEcran(e.ecran, simple).some((t) => t.includes(i.passage)))
+          .filter((simple) => !textesLus(e.ecran, lecture(simple)).some((t) => t.includes(i.passage)))
           .map((simple) => `${e.id}.${i.id} : « ${i.passage} » absent${simple ? ' de la lecture simplifiée' : ''}`),
       ),
     )

@@ -35,7 +35,8 @@ export function useEntree(props: { entree: boolean; ecran: EcranTelephone; choix
   const notification = computed(() => {
     const e = props.ecran
     if (e.app === 'verrouillage') return null
-    const m = e.messages[0]!
+    // Premier message du contact : jamais celui de l’élève attribué au contact.
+    const m = e.messages.find((x) => x.de === 'contact') ?? e.messages[0]!
     return { appNom: e.appNom, de: e.contact, heure: m.heure, texte: e.notification ?? apercu(t(m.texte, m.texteSimple)) }
   })
 

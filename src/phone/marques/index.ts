@@ -1,5 +1,6 @@
 import type { Component, FunctionalComponent } from 'vue'
-import { APPLIS, type Appli } from '../applis'
+import type { Appli } from '../applis'
+import { marqueAffichee } from '../habillage'
 import type { EcranTelephone } from '../types'
 import CoqueBanqueNova from './CoqueBanqueNova.vue'
 import CoqueChatCord from './CoqueChatCord.vue'
@@ -16,21 +17,17 @@ import CoqueSnapTalkPublication from './CoqueSnapTalkPublication.vue'
 import CoqueStreamTube from './CoqueStreamTube.vue'
 
 type Coques = Partial<Record<Appli['marque'], Component>>
-/** Applis à en-tête seul : même coque quel que soit le type d’écran. */
+/** Applis à en-tête seul : même coque quel que soit le type d’écran (contact d’une conversation en sous-titre). */
 const AUTRES: Coques = { banquenova: CoqueBanqueNova, ent: CoqueEnt, meteo: CoqueMeteo }
 const CONVERSATION: Coques = { snaptalk: CoqueSnapTalk, chatcord: CoqueChatCord, messages: CoqueMessages, gamebox: CoqueGameBox, revendo: CoqueRevendo, ...AUTRES }
 
-/**
- * Coques par type d’écran, puis par marque. `sinon` : appli qui affiche l’écran d’une marque sans coque. Toute page web
- * s’ouvre dans le navigateur (une page de hameçonnage n’est jamais habillée en appli officielle), sauf les fiches du
- * magasin d’applis du système.
- */
-const COQUES: Record<Exclude<EcranTelephone['app'], 'verrouillage'>, { marques: Coques; sinon?: string }> = {
-  sms: { marques: CONVERSATION },
-  chat: { marques: CONVERSATION },
-  social: { marques: { snaptalk: CoqueSnapTalkPublication, streamtube: CoqueStreamTube, ...AUTRES } },
-  mail: { marques: { mail: CoqueMail, ...AUTRES } },
-  web: { marques: { navigateur: CoqueNavigateur, magasin: CoqueMagasin }, sinon: 'Navigateur' },
+/** Coque de chaque marque habillée (`marqueAffichee`), par type d’écran. */
+const COQUES: Record<Exclude<EcranTelephone['app'], 'verrouillage'>, Coques> = {
+  sms: CONVERSATION,
+  chat: CONVERSATION,
+  social: { snaptalk: CoqueSnapTalkPublication, streamtube: CoqueStreamTube, ...AUTRES },
+  mail: { mail: CoqueMail, ...AUTRES },
+  web: { navigateur: CoqueNavigateur, magasin: CoqueMagasin },
 }
 
 /**
@@ -38,12 +35,9 @@ const COQUES: Record<Exclude<EcranTelephone['app'], 'verrouillage'>, { marques: 
  * et texte sur l’accent tirés du registre). `null` pour l’écran verrouillé et les marques sans coque.
  */
 export function coque(ecran: EcranTelephone) {
-  if (ecran.app === 'verrouillage') return null
-  const { marques, sinon } = COQUES[ecran.app]
-  const propre = APPLIS[ecran.appNom]
-  const a = propre && marques[propre.marque] ? propre : sinon ? APPLIS[sinon] : undefined
-  const composant = a && marques[a.marque]
-  if (!composant) return null
+  const a = marqueAffichee(ecran)
+  const composant = a && ecran.app !== 'verrouillage' ? COQUES[ecran.app][a.marque] : undefined
+  if (!a || !composant) return null
   const style = { '--marque-accent': a.accent, '--marque-texte': a.texteSurAccent }
   return { composant, marque: a.marque, attrs: { ecran, 'data-marque': a.marque, style } }
 }

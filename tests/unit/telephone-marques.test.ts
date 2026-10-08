@@ -1,7 +1,9 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import type { Ecran, Scenario } from '@/content/schema'
-import { appli } from '@/phone/applis'
+import { APPLIS, appli } from '@/phone/applis'
+import { marqueAffichee } from '@/phone/habillage'
+import { coque } from '@/phone/marques'
 import Telephone from '@/phone/Telephone.vue'
 import { creerStore, definirStore, type ProgressStore } from '@/store/useProgress'
 import { missionFixture } from './fixtures'
@@ -110,6 +112,16 @@ describe('coques de marque : marqueurs', () => {
     expect(monter(sansPrix).find('.fiche').exists()).toBe(false)
   })
 
+  it('Revendo : prix du premier message du contact qui en donne un, jamais celui de l’élève', () => {
+    const messages = [
+      { de: 'moi', texte: 'Je te la prends à 200 € ?' },
+      { de: 'contact', texte: 'Elle est toujours là.' },
+      { de: 'contact', texte: 'Neuve, 270 € au lieu de 450 €.' },
+    ]
+    const w = monter(conversation({ appNom: 'Revendo', contact: 'GamerShop', messages } as Partial<Ecran>))
+    expect(w.find('.fiche .prix').text()).toBe('270 €')
+  })
+
   it('les autres applis gardent l’en-tête simple, sans coque', () => {
     const w = monter(conversation({ appNom: 'StreamTube', contact: 'NoaGaming_Officiel' }))
     expect(w.find('[data-marque]').exists()).toBe(false)
@@ -141,7 +153,7 @@ describe('coques de marque : séquence et entrée', () => {
     await w.setProps({ choixJoue: 'clic' })
     expect(w.find(`[data-marque="${marque}"] .choix-joue`).text()).toContain('Lien ouvert')
     expect(w.find('figure').attributes('data-verdict')).toBe('piege')
-    expect(w.find('.choix-joue').text()).toContain('Piège')
+    expect(w.find(`[data-marque="${marque}"] .verdict-colle`).text()).toContain('Piège')
     await w.vm.$nextTick()
     expect(w.emitted('sequence-finie')).toEqual([[]])
   })
@@ -169,6 +181,21 @@ describe('coques de marque : surlignage de l’en-tête', () => {
     await w.setProps({ choixJoue: 'clic' })
     expect(w.find('.entete-messages .passage .numero').text()).toBe('1')
     expect(w.find('.entete-messages .passage .visually-hidden').text()).toBe('indice 1 :')
+  })
+
+  it.each(['BanqueNova', 'Mon Collège', 'Météo'])('%s (en-tête seul) : contact de la conversation en sous-titre, surligné', (appNom) => {
+    const w = monter(conversation({ appNom, contact: 'Service client' }), { indices: indices('Service client'), indiceVisible: true })
+    expect(w.find('.entete-app .sous-titre .passage').text()).toContain('Service client')
+  })
+
+  it('en-tête seul : pas de sous-titre pour un mail, dont le corps porte déjà le contact', () => {
+    const w = monter(conversation({ app: 'mail', appNom: 'BanqueNova', contact: 'Service client' } as Partial<Ecran>))
+    expect(w.find('[data-marque="banquenova"] .entete-app .sous-titre').exists()).toBe(false)
+  })
+
+  it('un contact en forme de domaine n’est jamais un lien dans l’en-tête (illisible sur l’accent)', () => {
+    expect(monter(conversation({ appNom: 'ChatCord', contact: 'lea.martin' })).find('.entete-app .lien').exists()).toBe(false)
+    expect(monter(conversation({ appNom: 'BanqueNova', contact: 'lea.martin' })).find('.entete-app .lien').exists()).toBe(false)
   })
 
   it.each([
@@ -263,14 +290,16 @@ describe('coques de marque : publication, mail, web et autres', () => {
 
   it('BanqueNova (hors page web) : en-tête seul', () => {
     const coque = monter(conversation({ appNom: 'BanqueNova' })).find('[data-marque="banquenova"]')
-    expect(coque.find('.entete-app').text()).toBe('BanqueNova')
+    expect(coque.find('.entete-app strong').text()).toBe('BanqueNova')
+    expect(coque.find('.entete-app .sous-titre').text()).toBe('Colis Express')
     expect(coque.find('.barre-onglets').exists()).toBe(false)
   })
 
   it.each(['Mon Collège', 'Mon Lycée'])('%s : en-tête, menu décoratif Emploi du temps / Notes / Cahier de textes', (appNom) => {
     const w = monter(conversation({ appNom, contact: 'Vie scolaire' }))
     const menu = w.find('[data-marque="ent"] .menu')
-    expect(w.find('[data-marque="ent"] .entete-app').text()).toBe(appNom)
+    expect(w.find('[data-marque="ent"] .entete-app strong').text()).toBe(appNom)
+    expect(w.find('[data-marque="ent"] .entete-app .sous-titre').text()).toBe('Vie scolaire')
     expect(menu.attributes('aria-hidden')).toBe('true')
     expect(menu.findAll('[data-rubrique]').map((r) => r.attributes('data-rubrique'))).toEqual(['Emploi du temps', 'Notes', 'Cahier de textes'])
   })
@@ -303,8 +332,23 @@ describe('coques de marque : autres applis, accent et séquence', () => {
     expect(style.getPropertyValue('--marque-texte')).toBe(a.texteSurAccent)
     expect(w.findAll('button')).toHaveLength(0)
     await w.setProps({ choixJoue: 'clic' })
-    expect(w.find(`[data-marque="${marque}"] .choix-joue`).text()).toContain('Piège')
+    expect(w.find(`[data-marque="${marque}"] .verdict-colle`).text()).toContain('Piège')
     expect(w.find('figure').attributes('data-verdict')).toBe('piege')
+  })
+})
+
+describe('marqueAffichee (module pur, lu par l’atelier)', () => {
+  const types = ['sms', 'chat', 'social', 'mail', 'web'] as const
+  it.each(Object.keys(APPLIS))('%s : même marque que la coque affichée, pour chaque type d’écran', (appNom) => {
+    for (const app of types) {
+      const ecran = conversation({ app, appNom } as Partial<Ecran>)
+      expect(marqueAffichee(ecran)?.marque ?? null).toBe(coque(ecran)?.marque ?? null)
+    }
+  })
+  it('page web d’une marque : le Navigateur ; écran verrouillé et appli sans coque : aucune', () => {
+    expect(marqueAffichee(conversation({ app: 'web', appNom: 'Revendo' } as Partial<Ecran>))?.nom).toBe('Navigateur')
+    expect(marqueAffichee({ app: 'verrouillage', notifications: [] })).toBeNull()
+    expect(marqueAffichee(conversation({ appNom: 'StreamTube' }))).toBeNull()
   })
 })
 

@@ -190,7 +190,7 @@ test('écran verrouillé d’entrée et écran d’accueil', async ({ page }) =>
   await page.getByRole('button', { name: 'Revenir à l’écran d’accueil' }).click()
   // Appli inactive : `aria-disabled`, que Playwright refuse de cliquer sans `force`.
   await page.locator('[data-appli="Météo"]').click({ force: true })
-  await expect(page.getByText('Pas disponible dans ce scénario')).toBeVisible()
+  await expect(page.getByText('Météo : pas disponible dans ce scénario', { exact: true })).toBeVisible()
   await verifierA11y(page, 'écran d’accueil')
 })
 

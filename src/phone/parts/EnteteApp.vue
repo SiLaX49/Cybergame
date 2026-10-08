@@ -3,8 +3,11 @@ import { ChevronLeft } from '@lucide/vue'
 import Avatar from './Avatar.vue'
 import TexteRiche from './TexteRiche.vue'
 
-/** `riche` : le titre (nom du contact) est surligné comme le corps des messages. Le contenu ajouté suit les titres. */
-defineProps<{ titre: string; sousTitre?: string; avatar?: boolean; riche?: boolean }>()
+/**
+ * `riche` : le titre (nom du contact) est surligné comme le corps des messages ; `sousTitreRiche`, de même pour le
+ * sous-titre. Jamais de lien repéré (illisible sur l’accent). Le contenu ajouté suit les titres.
+ */
+defineProps<{ titre: string; sousTitre?: string; avatar?: boolean; riche?: boolean; sousTitreRiche?: boolean }>()
 </script>
 
 <template>
@@ -12,8 +15,8 @@ defineProps<{ titre: string; sousTitre?: string; avatar?: boolean; riche?: boole
     <ChevronLeft aria-hidden="true" :size="20" />
     <Avatar v-if="avatar" :nom="titre" />
     <p class="titres">
-      <strong><TexteRiche v-if="riche" :texte="titre" /><template v-else>{{ titre }}</template></strong>
-      <span v-if="sousTitre" class="sous-titre">{{ sousTitre }}</span>
+      <strong><TexteRiche v-if="riche" :texte="titre" sans-liens /><template v-else>{{ titre }}</template></strong>
+      <span v-if="sousTitre" class="sous-titre"><TexteRiche v-if="sousTitreRiche" :texte="sousTitre" sans-liens /><template v-else>{{ sousTitre }}</template></span>
     </p>
     <slot />
   </div>

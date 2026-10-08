@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
 import type { Ecran, Scenario } from '@/content/schema'
@@ -117,6 +117,11 @@ describe('Telephone : web', () => {
   it('sans adresse : écran d’appli, pas de barre', () => {
     expect(mount(Telephone, { props: { ecran: web() } }).find('.barre-adresse').exists()).toBe(false)
   })
+  it('boutons de la page lus, sans attribut `aria-hidden`', () => {
+    const w = mount(Telephone, { props: { ecran: { ...web(), boutons: ['Se connecter'] } as Ecran } })
+    expect(w.find('.bouton-page').text()).toBe('Bouton : Se connecter')
+    expect(w.find('.bouton-page').attributes('aria-hidden')).toBeUndefined()
+  })
 })
 
 describe('Telephone : social', () => {
@@ -195,7 +200,7 @@ describe('Telephone : séquence de retour', () => {
     const s = scenario()
     return mount(Telephone, { props: { ecran: s.ecran, choix: avecReaction(), indices, choixJoue: null, ...props } })
   }
-  const statut = (w: ReturnType<typeof monter>) => w.find('[role="status"]').text()
+  const statut = (w: ReturnType<typeof monter>) => w.findAll('[role="status"]').map((r) => r.text()).join('')
   const avancer = async (ms: number) => {
     vi.advanceTimersByTime(ms)
     await nextTick()
@@ -316,6 +321,83 @@ describe('Telephone : séquence de retour', () => {
     expect(passage.text()).toContain('colis-expres.info')
     expect(passage.find('.numero').exists()).toBe(false)
   })
+
+  it('verdict dans sa propre région annoncée, collée en bas de la zone défilante, hors du retour du choix', async () => {
+    store.modifierReglages({ animations: false })
+    const w = monter()
+    await w.setProps({ choixJoue: 'clic' })
+    expect(w.find('.ecran > .verdict-colle[role="status"] .verdict').text()).toContain('Piège')
+    expect(w.find('.choix-joue .verdict').exists()).toBe(false)
+  })
+})
+
+describe('Telephone : défilement vers le premier passage', () => {
+  const scenario = () => missionFixture().etapes[0] as Scenario
+  const monter = () => {
+    const s = scenario()
+    return mount(Telephone, { props: { ecran: s.ecran, choix: s.choix, indices: [{ libelle: 'Adresse', passage: 'colis-expres.info' }], choixJoue: null } })
+  }
+  const cadre = (top: number, bottom: number) => ({ top, bottom }) as DOMRect
+  /** Zone de 0 à 300 px ; passage à `haut` px ; `reduit` : préférence de mouvement réduit. */
+  const preparer = (w: ReturnType<typeof monter>, haut: number, reduit = false) => {
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+      return this.matches('mark') ? cadre(haut, haut + 20) : cadre(0, 300)
+    })
+    vi.stubGlobal('matchMedia', (q: string) => ({ matches: reduit && q.includes('reduce') }))
+    const zone = w.find('.ecran').element as HTMLElement
+    const defiler = vi.fn()
+    zone.scrollTo = defiler
+    return defiler
+  }
+  beforeEach(() => vi.useFakeTimers())
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.restoreAllMocks()
+    vi.unstubAllGlobals()
+  })
+
+  it('aux indices, le passage ① hors de vue remonte en haut de la zone, en douceur, une seule fois', async () => {
+    const w = monter()
+    const defiler = preparer(w, 500)
+    await w.setProps({ choixJoue: 'clic' })
+    vi.advanceTimersByTime(600)
+    await flushPromises()
+    expect(w.find('figure').attributes('data-verdict')).toBe('piege')
+    expect(defiler).not.toHaveBeenCalled()
+    vi.advanceTimersByTime(400)
+    await flushPromises()
+    expect(defiler).toHaveBeenCalledExactlyOnceWith({ top: 492, behavior: 'smooth' })
+    vi.advanceTimersByTime(400)
+    await flushPromises()
+    expect(defiler).toHaveBeenCalledOnce()
+  })
+
+  it('mouvement réduit : sans défilement doux', async () => {
+    const w = monter()
+    const defiler = preparer(w, 500, true)
+    await w.setProps({ choixJoue: 'clic' })
+    vi.advanceTimersByTime(1000)
+    await flushPromises()
+    expect(defiler).toHaveBeenCalledExactlyOnceWith({ top: 492, behavior: 'auto' })
+  })
+
+  it('mode instantané : défile tout de suite, sans douceur', async () => {
+    store.modifierReglages({ animations: false })
+    const w = monter()
+    const defiler = preparer(w, -200)
+    await w.setProps({ choixJoue: 'clic' })
+    await flushPromises()
+    expect(defiler).toHaveBeenCalledExactlyOnceWith({ top: -208, behavior: 'auto' })
+  })
+
+  it('passage déjà visible : la zone ne bouge pas', async () => {
+    store.modifierReglages({ animations: false })
+    const w = monter()
+    const defiler = preparer(w, 100)
+    await w.setProps({ choixJoue: 'clic' })
+    await flushPromises()
+    expect(defiler).not.toHaveBeenCalled()
+  })
 })
 
 describe('Telephone : entrée par notification', () => {
@@ -342,6 +424,19 @@ describe('Telephone : entrée par notification', () => {
     expect(w.find('.entete-app').exists()).toBe(false)
     expect(w.find('[data-marque]').exists()).toBe(false)
     expect(w.find(accueil).exists()).toBe(false)
+  })
+
+  it('premier message de l’élève : la notification reprend le premier message du contact, à son heure', () => {
+    const s = scenario()
+    const messages = [
+      { de: 'moi', texte: 'Bonjour, la console est toujours disponible ?', heure: '14:10' },
+      { de: 'contact', texte: 'Oui ! 270 € au lieu de 450 €.', heure: '14:12' },
+    ]
+    const w = monter({ ecran: { ...s.ecran, messages } })
+    const notif = w.find('[data-notification]')
+    expect(notif.text()).toContain('Oui ! 270 € au lieu de 450 €.')
+    expect(notif.text()).not.toContain('toujours disponible')
+    expect(notif.text()).toContain('14:12')
   })
 
   it('texte de notification propre à l’écran, s’il est donné', () => {

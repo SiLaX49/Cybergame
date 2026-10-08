@@ -4,10 +4,12 @@ import { computed } from 'vue'
 import type { Ecran } from '@/content/schema'
 import EnteteApp from '../parts/EnteteApp.vue'
 
-/** Revendo : fiche de l’objet épinglée en haut si le premier message donne un prix (prix en gras, « Acheter » inerte). */
+/** Revendo : fiche de l’objet épinglée en haut si un message du contact donne un prix (prix en gras, « Acheter » inerte). */
 const props = defineProps<{ ecran: Extract<Ecran, { app: 'sms' | 'chat' }> }>()
 /** Motif `\d+ ?€`, élargi aux centimes (« 1,99 € ») et aux espaces insécables. */
-const prix = computed(() => props.ecran.messages[0]?.texte.match(/\d+(?:[,.]\d+)?\s?€/)?.[0] ?? null)
+const prix = computed(
+  () => props.ecran.messages.filter((m) => m.de === 'contact').map((m) => m.texte.match(/\d+(?:[,.]\d+)?\s?€/)?.[0]).find(Boolean) ?? null,
+)
 </script>
 
 <template>
