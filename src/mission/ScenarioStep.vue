@@ -3,7 +3,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 import type { Leviers, Scenario } from '@/content/schema'
 import type { PhaseScenario, RunEvent, ScenarioResultat } from '@/engine/mission-runner'
 import { ordreAffichage } from '@/engine/ordre'
-import Telephone from '@/phone/Telephone.vue'
+import SceneTelephone from '@/phone/SceneTelephone.vue'
 import { RECUPERATIONS } from '@/recovery/registry'
 import type { Mode } from '@/store/progress'
 import { focusAuChangement, focusAuMontage } from '@/ui/focus'
@@ -30,9 +30,9 @@ const TITRES: Record<Exclude<PhaseScenario, 'situation'>, string> = {
   recuperation: 'Maintenant, limite les dégâts',
 }
 const CONSIGNES: Record<Mode, string> = {
-  solo: 'Ouvre la notification, puis choisis ta réponse en bas de l’écran.',
-  binome: 'Discutez à deux, puis choisissez en bas de l’écran.',
-  classe: 'Votez à main levée, puis l’adulte valide le choix de la classe en bas de l’écran.',
+  solo: 'Ouvre la notification, puis choisis ta réponse à droite.',
+  binome: 'Discutez à deux, puis choisissez à droite.',
+  classe: 'Votez à main levée, puis l’adulte valide le choix de la classe à droite.',
 }
 const ROLES = { victime: 'la personne visée', temoin: 'un·e témoin', auteur: 'celui ou celle qui a dérapé' } as const
 
@@ -47,6 +47,16 @@ const nomSituation = computed(() => {
 /** Indices, dans l’ordre d’affichage : même liste pour le téléphone et le panneau, donc mêmes numéros. */
 const indices = computed(() => ordreAffichage(props.scenario.indices, props.scenario.id))
 const choixJoue = computed(() => (props.phase === 'situation' ? null : (props.choixId ?? null)))
+const scene = computed(() => ({
+  ecran: props.scenario.ecran,
+  choix: props.scenario.choix,
+  mode: props.mode,
+  graine: props.scenario.id,
+  choixJoue: choixJoue.value,
+  indices: indices.value,
+  indiceVisible: props.indiceVisible,
+  entree: true,
+}))
 
 // Après un choix, le panneau garde la question jusqu’à la fin de la séquence jouée dans le téléphone.
 const sequenceFinie = ref(false)
@@ -79,56 +89,46 @@ focusAuChangement(() => `${props.phase} ${phaseAffichee.value}`, titre)
     tabindex="-1"
     :aria-label="nomSituation"
   >
-    <div class="scenario-grille">
-      <Telephone
-        :ecran="scenario.ecran"
-        :choix="scenario.choix"
-        :mode="mode"
-        :graine="scenario.id"
-        :choix-joue="choixJoue"
-        :indices="indices"
-        :indice-visible="indiceVisible"
-        entree
-        @choisir="(id) => emit('evenement', { type: 'choisir', choixId: id })"
-        @indice="emit('evenement', { type: 'indice' })"
-        @sequence-finie="finirSequence"
-      />
-      <!-- Défile seul en mode scène (MissionPage) : focusable pour défiler au clavier. -->
-      <div class="scenario-panneau" role="region" tabindex="0" aria-label="Question et explications">
+    <SceneTelephone
+      :scene="scene"
+      @choisir="(id) => emit('evenement', { type: 'choisir', choixId: id })"
+      @sequence-finie="finirSequence"
+    >
+      <template #entete="{ idQuestion }">
         <p v-if="scenario.role" class="role">Dans ce scénario, tu joues {{ ROLES[scenario.role] }}.</p>
-        <h2 ref="titre" tabindex="-1">{{ phaseAffichee === 'situation' ? scenario.question : TITRES[phaseAffichee] }}</h2>
+        <h2 :id="idQuestion" ref="titre" tabindex="-1">{{ phaseAffichee === 'situation' ? scenario.question : TITRES[phaseAffichee] }}</h2>
         <p v-if="phase === 'situation'" class="consigne-mode">{{ CONSIGNES[mode] }}</p>
-        <template v-if="phaseAffichee === 'pourquoi' && scenario.pourquoi">
-          <ExplicationPanel v-if="choix" :indices="indices" :explication="scenario.explicationIndices" :qualite="choix.qualite" />
-          <PourquoiForm
-            :pourquoi="scenario.pourquoi"
-            :leviers="leviers"
-            :graine="scenario.id"
-            :mode="mode"
-            @expliquer="(levier) => emit('evenement', { type: 'expliquer', levier })"
-          />
-        </template>
-        <ConsequencePanel
-          v-if="phaseAffichee === 'consequence' && resultat"
-          :scenario="scenario"
-          :resultat="resultat"
+      </template>
+      <template v-if="phaseAffichee === 'pourquoi' && scenario.pourquoi">
+        <ExplicationPanel v-if="choix" :indices="indices" :explication="scenario.explicationIndices" :qualite="choix.qualite" />
+        <PourquoiForm
+          :pourquoi="scenario.pourquoi"
           :leviers="leviers"
-          :indices="indices"
-          @continuer="emit('evenement', { type: 'continuer' })"
-          @rejouer="emit('evenement', { type: 'rejouer' })"
+          :graine="scenario.id"
+          :mode="mode"
+          @expliquer="(levier) => emit('evenement', { type: 'expliquer', levier })"
         />
-        <component
-          :is="RECUPERATIONS[scenario.recuperation.action]"
-          v-if="phaseAffichee === 'recuperation' && scenario.recuperation"
-          @fait="emit('evenement', { type: 'recuperation-faite' })"
-        />
-        <div v-if="sensible" class="actions">
-          <button type="button" class="btn btn-discret" @click="emit('evenement', { type: 'passer' })">
-            Passer ce scénario
-          </button>
-        </div>
+      </template>
+      <ConsequencePanel
+        v-if="phaseAffichee === 'consequence' && resultat"
+        :scenario="scenario"
+        :resultat="resultat"
+        :leviers="leviers"
+        :indices="indices"
+        @continuer="emit('evenement', { type: 'continuer' })"
+        @rejouer="emit('evenement', { type: 'rejouer' })"
+      />
+      <component
+        :is="RECUPERATIONS[scenario.recuperation.action]"
+        v-if="phaseAffichee === 'recuperation' && scenario.recuperation"
+        @fait="emit('evenement', { type: 'recuperation-faite' })"
+      />
+      <div v-if="sensible" class="actions">
+        <button type="button" class="btn btn-discret" @click="emit('evenement', { type: 'passer' })">
+          Passer ce scénario
+        </button>
       </div>
-    </div>
+    </SceneTelephone>
   </article>
 </template>
 
@@ -136,12 +136,5 @@ focusAuChangement(() => `${props.phase} ${phaseAffichee.value}`, titre)
 .scenario:focus { outline: none; }
 .consigne-mode { font-weight: 700; }
 .scenario { min-height: 0; }
-/* En mode scène, la grille remplit la zone de jeu et sert de conteneur au téléphone ; sinon, hauteur du contenu. */
-.scenario-grille {
-  display: grid; gap: 1.5rem; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); align-items: start;
-  height: 100%; container-type: var(--scene-conteneur, normal);
-}
-.scenario-panneau { max-height: 100%; overflow-y: var(--scene-defilement, visible); padding: 0.375rem; }
-@media (max-width: 48em) { .scenario-grille { grid-template-columns: minmax(0, 1fr); } }
 .role { font-weight: 700; color: var(--primaire); }
 </style>

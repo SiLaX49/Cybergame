@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import EnTete from '@/ui/EnTete.vue'
+import BoutonIndice from './BoutonIndice.vue'
 
-/** Barre unique de la mission ; `etape` (à partir de 1) absente : pas de progression. */
-defineProps<{ titre: string; etape?: number; total?: number }>()
+/**
+ * Barre unique de la mission ; `etape` (à partir de 1) absente : pas de progression.
+ * `indice` absent : pas de bouton « Indice » ; `joue` : bouton enfoncé.
+ */
+defineProps<{ titre: string; etape?: number; total?: number; indice?: 'disponible' | 'joue' }>()
+const emit = defineEmits<{ indice: [] }>()
 </script>
 
 <template>
@@ -17,6 +22,7 @@ defineProps<{ titre: string; etape?: number; total?: number }>()
         <label for="progression-mission">Étape {{ etape }} sur {{ total }}</label>
         <progress id="progression-mission" :value="etape - 1" :max="total" />
       </p>
+      <BoutonIndice v-if="indice" :actif="indice === 'joue'" @indice="emit('indice')" />
     </template>
   </EnTete>
 </template>

@@ -2,11 +2,9 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
 import type { Ecran, Scenario } from '@/content/schema'
-import { ordreAffichage } from '@/engine/ordre'
 import Telephone from '@/phone/Telephone.vue'
 import { creerStore, definirStore, type ProgressStore } from '@/store/useProgress'
 import { missionFixture } from './fixtures'
-import { cliquer } from './helpers'
 import { MemoryStorage } from './memory-storage'
 
 let store: ProgressStore
@@ -149,25 +147,13 @@ describe('Telephone : choix', () => {
   const scenario = () => missionFixture().etapes[0] as Scenario
   const monter = (props: Record<string, unknown> = {}) => {
     const s = scenario()
-    return mount(Telephone, { props: { ecran: s.ecran, choix: s.choix, graine: s.id, ...props } })
+    return mount(Telephone, { props: { ecran: s.ecran, choix: s.choix, ...props } })
   }
 
-  it('affiche les choix en bas de l’appli, dans l’ordre du scénario, et émet le choix', async () => {
-    const s = scenario()
+  it('n’affiche ni les choix ni aucun bouton : ils sont dans la scène, à côté', () => {
     const w = monter()
-    expect(w.find('.actions-app').text()).toContain('Que fais-tu ?')
-    expect(w.findAll('[data-choix]').map((b) => b.attributes('data-choix'))).toEqual(ordreAffichage(s.choix, s.id).map((c) => c.id))
-    await w.find('[data-choix="verif"]').trigger('click')
-    expect(w.emitted('choisir')).toEqual([['verif']])
-  })
-
-  it('classe : un clic sélectionne, l’adulte valide', async () => {
-    const w = monter({ mode: 'classe' })
-    await w.find('[data-choix="verif"]').trigger('click')
-    expect(w.emitted('choisir')).toBeUndefined()
-    expect(w.find('[data-choix="verif"]').attributes('aria-pressed')).toBe('true')
-    await cliquer(w, 'Valider le choix de la classe')
-    expect(w.emitted('choisir')).toEqual([['verif']])
+    expect(w.find('[data-choix]').exists()).toBe(false)
+    expect(w.findAll('button')).toHaveLength(0)
   })
 
   it('zone du choix joué présente dès le départ, vide', () => {
@@ -176,10 +162,9 @@ describe('Telephone : choix', () => {
     expect(zone.text()).toBe('')
   })
 
-  it('un geste se joue en bannière neutre, et les actions disparaissent', async () => {
+  it('un geste se joue en bannière neutre', async () => {
     const w = monter({ choixJoue: null })
     await w.setProps({ choixJoue: 'clic' })
-    expect(w.find('[data-choix]').exists()).toBe(false)
     expect(w.find('.choix-joue').text()).toContain('Lien ouvert')
   })
 
@@ -199,7 +184,6 @@ describe('Telephone : choix', () => {
     const w = monter({ choixJoue: 'clic' })
     await w.setProps({ choixJoue: null })
     expect(w.find('.choix-joue').text()).toBe('')
-    expect(w.findAll('[data-choix]')).toHaveLength(3)
   })
 })
 
@@ -210,7 +194,7 @@ describe('Telephone : séquence de retour', () => {
     scenario().choix.map((c) => (c.id === 'clic' ? { ...c, reaction: 'Merci, à très vite !', reactionSimple: 'Merci !' } : c))
   const monter = (props: Record<string, unknown> = {}) => {
     const s = scenario()
-    return mount(Telephone, { props: { ecran: s.ecran, choix: avecReaction(), graine: s.id, indices, choixJoue: null, ...props } })
+    return mount(Telephone, { props: { ecran: s.ecran, choix: avecReaction(), indices, choixJoue: null, ...props } })
   }
   const statut = (w: ReturnType<typeof monter>) => w.find('[role="status"]').text()
   const avancer = async (ms: number) => {
@@ -324,23 +308,14 @@ describe('Telephone : séquence de retour', () => {
     expect(w.emitted('sequence-finie')).toBeUndefined()
   })
 
-  it('bouton « Indice » : avant le choix, s’il y a des passages ; surlignage sans numéro', async () => {
+  it('indice joué (`indiceVisible`) : passages surlignés sans numéro avant le choix, sans bouton dans le téléphone', async () => {
     const w = monter()
     expect(w.find('.passage').exists()).toBe(false)
-    await cliquer(w, 'Indice')
-    expect(w.emitted('indice')).toEqual([[]])
+    expect(w.findAll('button').some((b) => b.text().includes('Indice'))).toBe(false)
     await w.setProps({ indiceVisible: true })
     const passage = w.find('.ecran .passage')
     expect(passage.text()).toContain('colis-expres.info')
     expect(passage.find('.numero').exists()).toBe(false)
-    await w.setProps({ choixJoue: 'clic' })
-    expect(w.findAll('button').some((b) => b.text().includes('Indice'))).toBe(false)
-  })
-
-  it('pas de bouton « Indice » sans passage', () => {
-    const w = monter({ indices: [{ libelle: 'On me presse' }] })
-    expect(w.findAll('button').some((b) => b.text().includes('Indice'))).toBe(false)
-    expect(mount(Telephone, { props: { ecran: scenario().ecran } }).findAll('button')).toHaveLength(0)
   })
 })
 
@@ -348,7 +323,7 @@ describe('Telephone : entrée par notification', () => {
   const scenario = () => missionFixture().etapes[0] as Scenario
   const monter = (props: Record<string, unknown> = {}) => {
     const s = scenario()
-    return mount(Telephone, { props: { ecran: s.ecran, choix: s.choix, graine: s.id, entree: true, ...props }, attachTo: document.body })
+    return mount(Telephone, { props: { ecran: s.ecran, choix: s.choix, entree: true, ...props }, attachTo: document.body })
   }
   const accueil = '[aria-label="Revenir à l’écran d’accueil"]'
   afterEach(() => {
@@ -380,7 +355,6 @@ describe('Telephone : entrée par notification', () => {
     await w.find('[data-notification]').trigger('click')
     await nextTick()
     expect(w.find('figure').attributes('data-app')).toBe('sms')
-    expect(w.findAll('[data-choix]')).toHaveLength(3)
     expect(w.find('.ecran').classes()).toContain('zoom')
     expect(document.activeElement).toBe(w.find('.ecran').element)
   })
@@ -417,7 +391,6 @@ describe('Telephone : entrée par notification', () => {
     await w.find(accueil).trigger('click')
     await w.find('[data-appli="Messages"]').trigger('click')
     expect(w.find('figure').attributes('data-app')).toBe('sms')
-    expect(w.findAll('[data-choix]')).toHaveLength(3)
   })
 
   it('après le choix : pas de bouton « Accueil » ; « Rejouer » reste dans l’appli ; un nouvel écran reverrouille', async () => {
@@ -428,7 +401,6 @@ describe('Telephone : entrée par notification', () => {
     expect(w.find(accueil).exists()).toBe(false)
     await w.setProps({ choixJoue: null })
     expect(w.find('figure').attributes('data-app')).toBe('sms')
-    expect(w.findAll('[data-choix]')).toHaveLength(3)
     await w.setProps({ ecran: { ...scenario().ecran, contact: 'Autre' } })
     expect(w.find('figure').attributes('data-app')).toBe('verrouillage')
   })
@@ -440,10 +412,19 @@ describe('Telephone : entrée par notification', () => {
     expect(w.find('.choix-joue').text()).toContain('Lien ouvert')
   })
 
+  it('émet son état au départ puis à chaque changement', async () => {
+    const w = monter()
+    expect(w.emitted('etat')).toEqual([['verrouille']])
+    await w.find('[data-notification]').trigger('click')
+    await w.find(accueil).trigger('click')
+    expect(w.emitted('etat')).toEqual([['verrouille'], ['appli'], ['accueil']])
+    expect(monter({ entree: undefined }).emitted('etat')).toEqual([['appli']])
+  })
+
   it('sans `entree` : comportement v1, appli ouverte, ni notification ni « Accueil »', () => {
     const w = monter({ entree: undefined })
+    expect(w.find('figure').attributes('data-app')).toBe('sms')
     expect(w.find('[data-notification]').exists()).toBe(false)
     expect(w.find(accueil).exists()).toBe(false)
-    expect(w.findAll('[data-choix]')).toHaveLength(3)
   })
 })

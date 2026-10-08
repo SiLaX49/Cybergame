@@ -258,6 +258,27 @@ export const NOMS_APPLIS: [string, ...string[]]
 
 - [ ] TDD, oracle complet + e2e Chromium, commit `feat(phone): open each scenario from a notification on the lock screen`.
 
+### Task 7b: Une scène unique, les choix hors du téléphone (demande du 2026-10-08)
+
+Les réponses cachaient une partie de la conversation. Le téléphone ne fait plus qu'afficher ; une scène unique place le téléphone et un panneau à côté, et chaque page ne lui passe que des données.
+
+**Files:**
+- Create: `src/phone/SceneTelephone.vue` (nouveau point d'entrée public avec `Telephone.vue`), `src/phone/parts/ChoixScene.vue` (QCM A/B/C/D repris d'`ActionsApp.vue`), `src/phone/scene.ts` (type `Scene`)
+- Delete: `src/phone/parts/ActionsApp.vue` ; `src/phone/parts/BoutonIndice.vue` déménage dans `src/mission/` (barre du haut)
+- Modify: `src/phone/Telephone.vue` (plus de QCM ni de bouton « Indice » ; garde `choix` pour retrouver le choix joué et sa réaction), `src/mission/ScenarioStep.vue`, `src/mission/FilStep.vue`, `src/pages/AtelierTelephonePage.vue` (tous passent par `SceneTelephone`, plus aucune grille propre), `src/mission/MissionBarre.vue` + `src/pages/MissionPage.vue` (bouton « Indice » à côté de « Étape N sur M »), tests unitaires et e2e touchés.
+
+**Comportement**
+- `Scene` (objet de données de la page) : `{ ecran, choix?, mode?, graine?, choixJoue?, indices?, indiceVisible?, entree?, actionsNotif? }`. `SceneTelephone` prend `scene`, rend la grille (téléphone à gauche, panneau `role="region"` à droite qui défile seul en mode scène, une colonne sous 48em) et réémet `choisir`, `agir`, `sequence-finie`.
+- Panneau : slot `entete` (rôle, question en `h2`, consigne), puis `ChoixScene` tant qu'il y a des choix et aucun choix joué, puis le slot par défaut (explications, conséquence, récupération, « Valider mes choix » du fil).
+- `ChoixScene` : lignes A/B/C/D pleine largeur, `data-choix`, `data-qualite`, `aria-pressed` + « Valider le choix de la classe » en mode classe ; groupe nommé par la question (`aria-labelledby` vers le `h2` de l'en-tête), plus de « Que fais-tu ? ».
+- Bouton « Indice » : dans `MissionBarre`, à côté de la progression, seulement pour une étape scénario en phase `situation` dont un indice a un `passage` ; `aria-pressed` une fois joué ; émet l'événement moteur `indice` via `MissionPage`.
+- Consignes : « Ouvre la notification, puis choisis ta réponse à droite. » (solo) ; binôme et classe disent « à droite » au lieu de « en bas de l’écran ».
+- Taille de l'appareil inchangée (mini-tablette).
+
+**Tests** : `SceneTelephone` (choix visibles puis masqués après le choix, réémission des événements, slots) ; `MissionBarre` (Indice visible ou non, `aria-pressed`) ; tests existants adaptés ; e2e inchangés hors sélecteurs nécessaires.
+
+- [ ] TDD, oracle complet + e2e Chromium, commit `refactor(phone): one scene component with the choices beside the phone`.
+
 ### Task 8: Coques de marque (applis de conversation)
 
 **Files:**

@@ -2,7 +2,8 @@
 import { computed, nextTick, reactive, ref, watch } from 'vue'
 import type { FilAction, Fil, Scenario } from '@/content/schema'
 import { toutesLesMissions } from '@/content'
-import Telephone from '@/phone/Telephone.vue'
+import SceneTelephone from '@/phone/SceneTelephone.vue'
+import type { Scene } from '@/phone/scene'
 import type { EcranTelephone } from '@/phone/types'
 import type { Mode } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
@@ -35,6 +36,17 @@ const indices = computed(() => entree.value.scenario?.indices ?? [])
 const ecran = computed<EcranTelephone>(() =>
   entree.value.fil ? { app: 'verrouillage', notifications: entree.value.fil.notifications } : entree.value.scenario!.ecran,
 )
+const scene = computed<Scene>(() => ({
+  ecran: ecran.value,
+  choix: entree.value.scenario?.choix,
+  mode: mode.value,
+  graine: entree.value.scenario?.id ?? '',
+  choixJoue: choixJoue.value,
+  actionsNotif,
+  indices: indices.value,
+  indiceVisible: indiceVisible.value,
+  entree: entreeNotif.value,
+}))
 function reinitialiser() {
   choixJoue.value = null
   indiceVisible.value = false
@@ -84,30 +96,22 @@ watch(visibles, (v) => {
         <input v-model="entreeNotif" type="checkbox" />
         Entrée par notification
       </label>
+      <label class="case">
+        <input v-model="indiceVisible" type="checkbox" :disabled="!entree.scenario || !!choixJoue" />
+        Indice joué
+      </label>
       <button type="button" class="btn" :disabled="!choixJoue" @click="rejouerSequence">Rejouer la séquence</button>
       <button type="button" class="btn" @click="reinitialiser">Réinitialiser</button>
     </div>
-    <div class="scene">
-      <Telephone
-        :ecran="ecran"
-        :choix="entree.scenario?.choix"
-        :mode="mode"
-        :graine="entree.scenario?.id ?? ''"
-        :choix-joue="choixJoue"
-        :actions-notif="actionsNotif"
-        :indices="indices"
-        :indice-visible="indiceVisible"
-        :entree="entreeNotif"
-        @indice="indiceVisible = true"
-        @choisir="(id) => (choixJoue = id)"
-        @agir="(id, a) => (actionsNotif[id] = a)"
-      />
+    <SceneTelephone :scene="scene" @choisir="(id) => (choixJoue = id)" @agir="(id, a) => (actionsNotif[id] = a)">
+      <template #entete="{ idQuestion }">
+        <h2 v-if="entree.scenario" :id="idQuestion">{{ entree.scenario.question }}</h2>
+      </template>
       <section class="infos" aria-label="Ce que l’écran a reçu">
-        <p v-if="entree.scenario"><strong>Question :</strong> {{ entree.scenario.question }}</p>
         <p v-if="choixJoue"><strong>Choix joué :</strong> {{ choixJoue }}</p>
         <p v-if="entree.fil"><strong>Actions :</strong> {{ Object.keys(actionsNotif).length }} sur {{ entree.fil.notifications.length }}</p>
       </section>
-    </div>
+    </SceneTelephone>
   </main>
 </template>
 
@@ -116,6 +120,4 @@ watch(visibles, (v) => {
 .controles label { display: flex; flex-direction: column; gap: 0.25rem; font-weight: 700; }
 .controles label.case { flex-direction: row; align-items: center; }
 .controles select { max-width: 32rem; }
-.scene { display: grid; gap: 1.5rem; grid-template-columns: var(--tel-largeur) minmax(0, 1fr); align-items: start; }
-@media (max-width: 48rem) { .scene { grid-template-columns: minmax(0, 1fr); } }
 </style>

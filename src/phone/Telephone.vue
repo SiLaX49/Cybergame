@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue'
 import type { Choix, FilAction } from '@/content/schema'
-import type { Mode } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
 import AccueilApp from './apps/AccueilApp.vue'
 import ConversationApp from './apps/ConversationApp.vue'
@@ -9,15 +8,13 @@ import MailApp from './apps/MailApp.vue'
 import SocialApp from './apps/SocialApp.vue'
 import VerrouillageApp from './apps/VerrouillageApp.vue'
 import WebApp from './apps/WebApp.vue'
-import ActionsApp from './parts/ActionsApp.vue'
 import BarreEtat from './parts/BarreEtat.vue'
 import BarreGeste from './parts/BarreGeste.vue'
-import BoutonIndice from './parts/BoutonIndice.vue'
 import EnteteApp from './parts/EnteteApp.vue'
 import RetourChoix from './parts/RetourChoix.vue'
 import { atteinte } from './sequence'
 import type { EcranTelephone } from './types'
-import { useEntree } from './useEntree'
+import { useEntree, type EtatTelephone } from './useEntree'
 import { usePassages } from './usePassages'
 import { useSequence } from './useSequence'
 import './theme.css'
@@ -26,29 +23,28 @@ const props = withDefaults(
   defineProps<{
     ecran: EcranTelephone
     choix?: Choix[]
-    mode?: Mode
-    graine?: string
     choixJoue?: string | null
     actionsNotif?: Record<string, FilAction>
     /** Indices, dans l'ordre : leur rang donne le numéro du surlignage. */
     indices?: { libelle: string; passage?: string }[]
-    /** Bouton « Indice » joué : passages surlignés sans numéros avant le choix. */
+    /** Indice joué (bouton de la barre de mission) : passages surlignés sans numéros avant le choix. */
     indiceVisible?: boolean
     /** Entrée par notification : démarre sur l'écran verrouillé, avec un écran d'accueil (scénarios). */
     entree?: boolean
   }>(),
-  { choix: undefined, mode: 'solo', graine: '', choixJoue: null, actionsNotif: () => ({}), indices: () => [], indiceVisible: false, entree: false },
+  { choix: undefined, choixJoue: null, actionsNotif: () => ({}), indices: () => [], indiceVisible: false, entree: false },
 )
 const emit = defineEmits<{
-  choisir: [choixId: string]
   agir: [notificationId: string, action: FilAction]
   'sequence-finie': []
-  indice: []
+  /** État de l’écran (verrouillé, accueil, appli), émis au départ puis à chaque changement. */
+  etat: [etat: EtatTelephone]
 }>()
 const store = useProgress()
 
 const zone = ref<HTMLElement | null>(null)
 const { etat, zoom, notification, dataApp, nomApp, aller } = useEntree(props, zone)
+watch(etat, (e) => emit('etat', e), { immediate: true })
 const heure = computed(() => {
   const heures = props.ecran.app === 'verrouillage' ? props.ecran.notifications.map((n) => n.heure) : props.ecran.messages.map((m) => m.heure)
   return heures.filter(Boolean).at(-1) ?? '14:32'
@@ -69,7 +65,7 @@ const { etape } = useSequence(
 )
 const verdict = computed(() => (joue.value && atteinte(etape.value, 'verdict') ? (joue.value.qualite === 'risque' ? 'piege' : 'bon') : null))
 
-const { boutonIndice } = usePassages(props, etape)
+usePassages(props, etape)
 
 // Le retour du choix apparaît en bas de l'écran : on y fait défiler la zone, jusqu'au verdict.
 watch(
@@ -113,9 +109,6 @@ watch(
         <RetourChoix v-if="joue" :choix="joue" :etape="etape" :contact="contact" :verdict="verdict" />
       </div>
     </div>
-    <ActionsApp v-if="choix && !choixJoue && etat === 'appli'" :choix="choix" :graine="graine" :mode="mode" @choisir="(id) => emit('choisir', id)">
-      <BoutonIndice v-if="boutonIndice" :actif="indiceVisible" @indice="emit('indice')" />
-    </ActionsApp>
     <BarreGeste v-if="entree && etat === 'appli' && notification && !choixJoue" @accueil="aller('accueil')" />
   </figure>
 </template>

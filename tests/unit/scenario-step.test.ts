@@ -39,12 +39,15 @@ const monterOuvert = async (props: Record<string, unknown> = {}) => {
 }
 
 describe('ScenarioStep', () => {
-  it('démarre sur l’écran verrouillé : notification, pas encore de choix, question déjà posée', () => {
+  it('démarre sur l’écran verrouillé : notification, question posée, choix à droite seulement une fois l’appli ouverte', async () => {
     const w = monter()
     expect(w.find('[data-notification]').attributes('aria-label')).toBe('Ouvrir la notification Messages de Colis Express')
     expect(w.find('[data-choix]').exists()).toBe(false)
     expect(w.find('h2').text()).toBe('Que fais-tu ?')
-    expect(w.find('.consigne-mode').text()).toBe('Ouvre la notification, puis choisis ta réponse en bas de l’écran.')
+    await w.find('[data-notification]').trigger('click')
+    expect(w.find('figure [data-choix]').exists()).toBe(false)
+    expect(w.findAll('.scene-panneau [data-choix]')).toHaveLength(3)
+    expect(w.find('.consigne-mode').text()).toBe('Ouvre la notification, puis choisis ta réponse à droite.')
   })
 
   it('situation (solo) : un clic sur un choix l’envoie', async () => {
@@ -60,8 +63,12 @@ describe('ScenarioStep', () => {
     expect(w.findAll('[data-choix]').map((b) => b.attributes('data-choix'))).toEqual(ordreAffichage(s.choix, s.id).map((c) => c.id))
   })
 
+  it('classe : consigne pour l’adulte, à droite', () => {
+    expect(monter({ mode: 'classe' }).text()).toContain('Votez à main levée, puis l’adulte valide le choix de la classe à droite.')
+  })
+
   it('binôme : invite à discuter', () => {
-    expect(monter({ mode: 'binome' }).text()).toContain('Discutez à deux, puis choisissez en bas de l’écran.')
+    expect(monter({ mode: 'binome' }).text()).toContain('Discutez à deux, puis choisissez à droite.')
   })
 
   it('classe : le choix doit être validé par l’adulte', async () => {
@@ -120,12 +127,11 @@ describe('ScenarioStep', () => {
     expect(w.find('.explication').exists()).toBe(false)
   })
 
-  it('bouton « Indice » : relayé au moteur, et allumé par `indiceVisible`', async () => {
+  it('`indiceVisible` surligne les passages dans le téléphone ; le bouton « Indice » n’est pas dans la scène', async () => {
     const w = await monterOuvert()
-    await cliquer(w, 'Indice')
-    expect(w.emitted('evenement')).toEqual([[{ type: 'indice' }]])
+    expect(w.findAll('button').some((b) => b.text().includes('Indice'))).toBe(false)
+    expect(w.find('.ecran .passage').exists()).toBe(false)
     await w.setProps({ indiceVisible: true })
-    expect(bouton(w, 'Indice').attributes('aria-pressed')).toBe('true')
     expect(w.find('.ecran .passage').text()).toContain('colis-expres.info')
   })
 
@@ -182,12 +188,13 @@ describe('ScenarioStep', () => {
     expect(w.text()).toContain('Dans ce scénario, tu joues un·e témoin.')
   })
 
-  it('le panneau de droite est une région nommée qui défile, avec la ligne de rôle en tête', () => {
-    const w = monter({ scenario: { ...scenario(), role: 'temoin' } })
-    const panneau = w.find('.scenario-panneau')
+  it('le panneau de droite est une région nommée qui défile, avec la ligne de rôle en tête', async () => {
+    const w = await monterOuvert({ scenario: { ...scenario(), role: 'temoin' } })
+    const panneau = w.find('.scene-panneau')
     expect(panneau.attributes()).toMatchObject({ role: 'region', tabindex: '0', 'aria-label': 'Question et explications' })
     expect(panneau.element.firstElementChild?.textContent).toBe('Dans ce scénario, tu joues un·e témoin.')
     expect(panneau.find('h2').text()).toBe('Que fais-tu ?')
+    expect(panneau.find('[role="group"]').attributes('aria-labelledby')).toBe(panneau.find('h2').attributes('id'))
   })
 })
 

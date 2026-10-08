@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { computed, ref, useId } from 'vue'
+import { computed, ref } from 'vue'
 import type { Choix } from '@/content/schema'
 import { ordreAffichage } from '@/engine/ordre'
 import type { Mode } from '@/store/progress'
 
-const props = defineProps<{ choix: Choix[]; graine: string; mode: Mode }>()
+/** QCM à côté du téléphone ; le groupe est nommé par la question (`labelledby` : id du `h2` de l’en-tête). */
+const props = defineProps<{ choix: Choix[]; graine: string; mode: Mode; labelledby: string }>()
 const emit = defineEmits<{ choisir: [choixId: string] }>()
 /** Lettre de chaque réponse, comme dans un QCM : utile pour en parler à voix haute en classe. */
 const LETTRES = ['A', 'B', 'C', 'D']
-const id = useId()
 const selection = ref<string | null>(null)
 const choixAffiches = computed(() => ordreAffichage(props.choix, props.graine))
 
@@ -22,12 +22,7 @@ function validerClasse() {
 </script>
 
 <template>
-  <div class="actions-app" role="group" :aria-labelledby="id">
-    <div class="entete-qcm">
-      <p :id="id" class="intitule">Que fais-tu ?</p>
-      <!-- Outil facultatif à côté de la question (bouton « Indice »). -->
-      <slot />
-    </div>
+  <div class="choix-scene" role="group" :aria-labelledby="labelledby">
     <ul class="liste">
       <li v-for="(c, i) in choixAffiches" :key="c.id">
         <button
@@ -50,16 +45,14 @@ function validerClasse() {
 </template>
 
 <style scoped>
-/* QCM : les réponses ne prennent jamais plus de 55 % de l’écran ; au-delà, elles défilent. */
-.actions-app { flex: none; max-height: 55%; overflow-y: auto; scrollbar-width: thin; padding: 0.75rem 1rem 1rem; border-top: 1px solid var(--tel-bord); background: var(--tel-fond); }
-.entete-qcm { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.6rem; }
-.intitule { margin: 0; font-weight: 700; }
+.choix-scene { margin-block: 1rem; }
 .liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
-.action { display: flex; align-items: center; gap: 0.75rem; width: 100%; min-height: 48px; padding: 0.6rem 0.9rem; line-height: 1.4; text-align: left; border: 2px solid var(--tel-bord); border-radius: 12px; background: var(--tel-fond); color: var(--tel-texte); font: inherit; cursor: pointer; }
-.action:hover { border-color: var(--tel-accent); }
-.action[aria-pressed='true'] { border-color: var(--tel-accent); background: var(--tel-accent); color: var(--tel-accent-texte); }
-.lettre { flex: none; display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border: 2px solid var(--tel-accent); border-radius: 50%; font-weight: 700; }
+.action { display: flex; align-items: center; gap: 0.75rem; width: 100%; min-height: 48px; padding: 0.6rem 0.9rem; line-height: 1.4; text-align: left; border: 2px solid var(--bord); border-radius: var(--rayon); background: var(--surface); color: var(--texte); font: inherit; cursor: pointer; }
+.action:hover { border-color: var(--primaire); }
+.action[aria-pressed='true'] { border-color: var(--primaire); background: var(--primaire); color: var(--primaire-texte); }
+.lettre { flex: none; display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border: 2px solid var(--primaire); border-radius: 50%; font-weight: 700; }
+.action[aria-pressed='true'] .lettre { border-color: var(--primaire-texte); }
 .action:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
-.valider { margin-top: 0.75rem; justify-content: center; font-weight: 700; border-color: var(--tel-accent); }
+.valider { margin-top: 0.75rem; justify-content: center; font-weight: 700; border-color: var(--primaire); }
 .valider:disabled { opacity: 0.6; cursor: not-allowed; }
 </style>

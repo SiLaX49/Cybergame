@@ -106,13 +106,22 @@ describe('MissionPage', () => {
     expect(w.text()).toContain('Étape 2 sur 2')
   })
 
-  it('le bouton « Indice » du téléphone est relayé au moteur et reste enfoncé', async () => {
+  it('le bouton « Indice » de la barre est relayé au moteur, reste enfoncé, puis disparaît après le choix', async () => {
     const w = await monter('m-test')
     await ouvrirNotification(w)
-    await cliquer(w, 'Indice')
-    expect(w.find('button[aria-pressed="true"]').text()).toBe('Indice')
+    await cliquer(w.find('header.mission-barre'), 'Indice')
+    expect(w.find('header.mission-barre button[aria-pressed="true"]').text()).toBe('Indice')
     expect(w.find('.ecran .passage').text()).toContain('colis-expres.info')
+    await choisir(w, 'aide')
+    expect(w.findAll('button').some((b) => b.text().includes('Indice'))).toBe(false)
     expect(erreurs).toEqual([])
+  })
+
+  it('pas de bouton « Indice » tant que l’avertissement sensible attend', async () => {
+    const w = await monter('m-sensible')
+    expect(w.findAll('button').some((b) => b.text().includes('Indice'))).toBe(false)
+    await cliquer(w, 'Commencer')
+    expect(w.findAll('header.mission-barre button').some((b) => b.text().includes('Indice'))).toBe(true)
   })
 
   it('affiche un message clair pour une mission inconnue', async () => {

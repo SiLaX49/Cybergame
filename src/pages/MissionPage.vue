@@ -72,6 +72,12 @@ const scene = computed(
     !(surIle && !store.etat.personnage) &&
     (etape.value?.type === 'scenario' || etape.value?.type === 'fil'),
 )
+/** Bouton « Indice » de la barre : scénario affiché, avant le choix, et au moins un passage à surligner. */
+const indice = computed<'disponible' | 'joue' | undefined>(() => {
+  const e = etape.value
+  if (!scene.value || e?.type !== 'scenario' || etat.value?.phase !== 'situation' || !e.indices.some((i) => i.passage)) return undefined
+  return etat.value.indiceUtilise ? 'joue' : 'disponible'
+})
 
 function envoyer(evenement: RunEvent) {
   if (!mission || !etat.value) return
@@ -107,6 +113,8 @@ function recommencer() {
         :titre="mission.titre"
         :etape="etat.termine || surIle ? undefined : etat.index + 1"
         :total="mission.etapes.length"
+        :indice="indice"
+        @indice="envoyer({ type: 'indice' })"
       />
       <ParcoursScene
         v-if="surIle && ile && store.etat.personnage"

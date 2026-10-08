@@ -15,8 +15,8 @@ const emit = defineEmits<{ indice: [] }>()
 <style scoped>
 .indice {
   display: flex; align-items: center; gap: 0.35rem; margin: 0; min-height: 40px; padding: 0.3rem 0.85rem;
-  border: 2px solid var(--tel-accent); border-radius: 999px; background: var(--tel-fond); color: var(--tel-texte); font: inherit; font-weight: 700; cursor: pointer;
+  border: 2px solid var(--primaire); border-radius: 999px; background: var(--surface); color: var(--primaire); font: inherit; font-weight: 700; cursor: pointer;
 }
-.indice[aria-pressed='true'] { background: var(--tel-passage); color: var(--tel-passage-texte); border-color: var(--tel-passage-texte); }
+.indice[aria-pressed='true'] { background: var(--primaire); color: var(--primaire-texte); }
 .indice:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 </style>
