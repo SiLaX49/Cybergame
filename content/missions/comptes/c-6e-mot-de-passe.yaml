@@ -22,29 +22,36 @@ etapes:
         - de: contact
           texte: 'Tu pars en classe de neige sans téléphone ? Donne-moi ton mot de passe GameBox, je garde ta série de 90 jours !'
           texteSimple: 'Tu pars sans téléphone ? Donne-moi ton mot de passe GameBox, je garde ta série de 90 jours !'
+          heure: '20:30'
         - de: contact
           texte: 'Moi je te donne le mien si tu veux. Entre meilleurs amis, on se fait confiance, non ?'
           texteSimple: 'Je te donne le mien aussi. Entre meilleurs amis, on se fait confiance, non ?'
+          heure: '20:31'
     question: 'Jade est ta meilleure amie depuis le CM1. Tu pars une semaine sans téléphone, et ta série risque de s’arrêter. Que fais-tu ?'
     choix:
       - id: donne
         texte: 'Une série de 90 jours, ça ne se perd pas ! Jade est ma meilleure amie, je lui donne.'
         qualite: risque
+        geste: repondre
+        reponse: 'Ok ! Mon mot de passe, c’est Neige2013 😘'
         consequence: 'Jade garde bien ta série. Mais elle a noté ton mot de passe dans son téléphone, et son grand frère l’a vu. Pendant ton séjour, il joue avec ton perso et écrit des messages en ton nom. Personne ne voulait te nuire, mais ton compte t’a échappé. Avec un adulte, change ton mot de passe : plus personne ne pourra entrer.'
         consequenceSimple: 'Le grand frère de Jade a vu ton mot de passe. Il joue avec ton compte. Avec un adulte, change ton mot de passe.'
+        reaction: 'Merci ! Je m’occupe de ta série, promis 😘'
       - id: refuse
         texte: 'Non merci : je préfère perdre ma série que mon compte.'
         qualite: bon
+        geste: repondre
+        reponse: 'Non merci, je préfère perdre ma série que mon compte 😅'
         consequence: 'Jade répond « ok 😕 ». Ta série s’arrête pendant la classe de neige. À ton retour, tu en commences une nouvelle, et ton compte est resté à toi seul.'
+        reaction: 'Pas grave, je comprends ! Bonne classe de neige ❄️'
       - id: aide
         texte: Je demande de l’aide à un adulte pour savoir comment dire non à Jade sans la vexer.
         qualite: aide
         consequence: 'Ton père t’aide à trouver les mots : « Je te fais confiance, mais mon mot de passe reste à moi. » Jade comprend.'
     indices:
-      - { id: demande-mdp, libelle: 'Jade me demande mon mot de passe', pertinent: true }
-      - { id: preuve, libelle: 'Elle fait du mot de passe une preuve d’amitié', pertinent: true }
-      - { id: absent, libelle: 'Pendant une semaine, je ne pourrai pas surveiller mon compte', pertinent: true }
-      - { id: classe-neige, libelle: 'La classe de neige est organisée par le collège', pertinent: false }
+      - { id: demande-mdp, libelle: 'Jade me demande mon mot de passe', passage: 'Donne-moi ton mot de passe GameBox' }
+      - { id: preuve, libelle: 'Elle fait du mot de passe une preuve d’amitié', passage: 'Entre meilleurs amis, on se fait confiance' }
+      - { id: absent, libelle: 'Pendant une semaine, je ne pourrai pas surveiller mon compte', passage: 'sans téléphone' }
     explicationIndices: 'Garder son mot de passe, ce n’est pas manquer de confiance. Un mot de passe prêté peut être noté, vu ou répété. Et pendant ton absence, tu ne peux rien surveiller.'
     aRetenir: 'Un mot de passe ne se prête pas, même pour quelques jours et même à quelqu’un de très proche. Une série perdue se recommence. Un compte qui t’échappe est bien plus long à récupérer.'
     aRetenirSimple: 'Une série perdue, ça se recommence. Un compte perdu, non : garde ton mot de passe.'
@@ -65,33 +72,37 @@ etapes:
     ecran:
       app: mail
       appNom: Mail
-      contact: 'Cubopolis <info@cubopolis.fr>'
+      contact: 'Cubopolis'
+      adresse: 'info@cubopolis.fr'
       sujet: 'Important : fuite de données sur Cubopolis'
       messages:
         - de: contact
           texte: 'Bonjour. Cubopolis a été victime d’un vol de données. Des pseudos, des adresses mail et des mots de passe ont été volés. Change ton mot de passe dans l’appli Cubopolis. Change-le aussi partout où tu utilises le même.'
           texteSimple: 'Des mots de passe de Cubopolis ont été volés. Change le tien dans l’appli. Change-le aussi partout où tu utilises le même.'
+          heure: '09:05'
     question: 'Cubopolis, c’est un jeu de construction où tu ne vas presque plus. Ton mot de passe est le même pour GameBox et ta boîte mail. Que fais-tu ?'
     choix:
       - id: cubopolis-seul
         texte: 'Je change juste celui de Cubopolis. GameBox et ma boîte mail n’ont pas été volés, eux.'
         qualite: risque
+        geste: changer-mdp
         consequence: 'Les voleurs essaient ton mot de passe sur d’autres sites, c’est très facile pour eux. Il marche sur ta boîte mail. Ils s’en servent pour prendre aussi ton compte GameBox. Tu peux encore reprendre la main : change vite le mot de passe de ta boîte mail, puis celui de GameBox.'
         consequenceSimple: 'Les voleurs essaient ton mot de passe ailleurs. Il marche sur ta boîte mail. Change vite tes autres mots de passe.'
+        reaction: 'Ton mot de passe Cubopolis a bien été changé.'
       - id: partout
         texte: 'Je change tous mes mots de passe identiques, la boîte mail d’abord.'
         qualite: bon
+        geste: changer-mdp
         consequence: 'Tu commences par ta boîte mail, puis GameBox, puis Cubopolis. Ça prend vingt minutes avec ta mère. Chaque compte a maintenant son propre mot de passe. Le mot de passe volé n’ouvre plus rien.'
+        reaction: 'C’est fait : ton compte Cubopolis est protégé.'
       - id: aide
         texte: 'Je demande de l’aide à un adulte : on fait ensemble la liste de mes comptes pour n’en oublier aucun.'
         qualite: aide
         consequence: 'Ta grande sœur fait la liste de tes comptes avec toi. Vous changez chaque mot de passe, en commençant par la boîte mail.'
     indices:
-      - { id: vol, libelle: 'Le mail dit que des mots de passe ont été volés', pertinent: true }
-      - { id: meme, libelle: 'J’utilise le même mot de passe pour plusieurs comptes', pertinent: true }
-      - { id: boite-mail, libelle: 'Ma boîte mail sert à récupérer mes autres comptes', pertinent: true }
-      - { id: vieux-jeu, libelle: 'Je ne joue presque plus à Cubopolis', pertinent: false }
-    explicationIndices: 'Les voleurs testent un mot de passe volé sur plein de sites. S’il est partout le même, il ouvre tout. Qu’on joue encore ou non à Cubopolis ne change rien.'
+      - { id: vol, libelle: 'Le mail dit que des mots de passe ont été volés', passage: 'ont été volés' }
+      - { id: meme, libelle: 'J’utilise le même mot de passe pour plusieurs comptes', passage: 'partout où tu utilises le même' }
+    explicationIndices: 'Les voleurs testent un mot de passe volé sur plein de sites. S’il est partout le même, il ouvre tout. Le mail le dit clairement : des mots de passe ont été volés.'
     aRetenir: 'Un mot de passe différent pour chaque compte : si un site se fait voler, les autres restent protégés. Après une fuite, change ton mot de passe partout où tu utilisais le même, en commençant par ta boîte mail.'
     aRetenirSimple: 'Un mot de passe différent pour chaque compte. Après une fuite, change-le partout, en commençant par ta boîte mail.'
     recuperation: { action: changer-mdp, siChoix: [cubopolis-seul] }
@@ -116,30 +127,35 @@ etapes:
         - de: contact
           texte: 'Coucou, c’est moi, Inès ! J’ai changé de numéro. J’ai mis le tien par erreur pour mon code GameBox 🙈'
           texteSimple: 'Coucou, c’est moi, Inès ! J’ai changé de numéro. J’ai mis le tien par erreur pour mon code GameBox 🙈'
+          heure: '16:44'
         - de: contact
           texte: 'Tu vas recevoir un code par SMS. Renvoie-le-moi vite stp, je suis bloquée !'
           texteSimple: 'Tu vas recevoir un code. Renvoie-le-moi vite stp !'
+          heure: '16:45'
     question: 'Juste avant, un SMS de GameBox est arrivé : « Ton code de connexion : 482 913. Ne le donne à personne. » Tu n’avais rien demandé. Que fais-tu ?'
     choix:
       - id: renvoie
         texte: 'C’est Inès, elle est bloquée. Un code, c’est juste des chiffres : je lui renvoie.'
         qualite: risque
+        geste: repondre
+        reponse: 'Tiens, c’est 482 913 !'
         consequence: 'Le code n’était pas pour Inès : il ouvrait TON compte GameBox. Quelqu’un s’y connecte, change ton mot de passe et ton pseudo. Le lendemain, Inès te dit qu’elle n’a jamais changé de numéro. Préviens vite un adulte : avec lui, tu peux demander à GameBox de te rendre ton compte.'
         consequenceSimple: 'Ce code ouvrait ton compte. Un pirate est entré dedans. Préviens vite un adulte pour le récupérer.'
+        reaction: 'Merci !! 😈 Ton compte GameBox est à moi maintenant.'
       - id: garde
         texte: 'Je ne renvoie pas le code. Demain, je demande à Inès en vrai si c’est bien elle.'
         qualite: bon
+        geste: verifier
         consequence: 'Ce code ouvrait ton compte à toi : en le gardant, personne n’y entre. Le lendemain, Inès n’est au courant de rien : c’était un pirate. Avec tes parents, tu changes ton mot de passe GameBox.'
+        reaction: 'Allez stp, c’est urgent !! Renvoie-le vite 🙏'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de répondre quoi que ce soit.
         qualite: aide
         consequence: 'Ta mère lit les deux SMS : « Ce code est pour ton compte, pas pour Inès. » Vous bloquez le numéro et changez ton mot de passe.'
     indices:
-      - { id: rien-demande, libelle: 'Je reçois un code alors que je n’ai rien demandé', pertinent: true }
-      - { id: numero-inconnu, libelle: 'Le message vient d’un numéro que je ne connais pas', pertinent: true }
-      - { id: personne, libelle: 'Le SMS de GameBox dit « Ne le donne à personne »', pertinent: true }
-      - { id: emoji, libelle: 'Le message utilise un emoji, comme Inès', pertinent: false }
-    explicationIndices: 'Un code de connexion ouvre ton compte à toi. Si tu le reçois sans rien demander, quelqu’un essaie d’entrer. N’importe qui peut écrire avec des emojis.'
+      - { id: rien-demande, libelle: 'Je reçois un code alors que je n’ai rien demandé', passage: 'Tu vas recevoir un code' }
+      - { id: numero-inconnu, libelle: 'Le message vient d’un numéro que je ne connais pas', passage: 'J’ai changé de numéro' }
+    explicationIndices: 'Un code de connexion ouvre ton compte à toi. Si tu le reçois sans rien demander, quelqu’un essaie d’entrer. Et « J’ai changé de numéro » ne prouve pas que c’est vraiment Inès.'
     aRetenir: 'Un code reçu par SMS ouvre TON compte : on ne le donne jamais, même à un ami. Si un code arrive sans que tu aies rien demandé, quelqu’un essaie d’entrer : préviens un adulte et change ton mot de passe.'
     aRetenirSimple: 'Un code reçu par SMS ne se donne jamais. Si tu n’as rien demandé, préviens un adulte.'
     recuperation: { action: demander-aide, siChoix: [renvoie] }

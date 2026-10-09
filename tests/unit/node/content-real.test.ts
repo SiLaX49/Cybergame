@@ -5,7 +5,9 @@ import { buildContent } from '../../../scripts/build-content'
 import { TRANCHES, type Mission } from '../../../src/content/schema'
 import { atteint, evaluerRobustesse } from '../../../src/minigames/robustesse'
 import * as TEXTES_SENSIBLES from '../../../src/mission/textesSensibles'
+import { textesLus } from '../../../src/phone/ordreLecture'
 import { BLOQUER_SIGNALER, CAPTURE_PREUVE, DEMANDER_AIDE, RETIRER_PUBLICATION, SOUTENIR } from '../../../src/recovery/textes'
+import { textesEcran } from './textes-ecran'
 
 const bundle = buildContent(join(process.cwd(), 'content'))
 const missions = bundle.missions.filter((m) => m.type === 'mission')
@@ -99,8 +101,7 @@ const mots = (phrase: string) => phrase.split(/\s+/).filter((m) => /[\p{L}\d]/u.
 function textesDesFauxEcrans(m: Mission): string[] {
   return m.etapes.flatMap((e) => {
     if (e.type === 'scenario') {
-      const { appNom, contact, sujet, url, messages } = e.ecran
-      return [appNom, contact, sujet ?? '', url ?? '', ...messages.flatMap((x) => [x.texte, x.texteSimple ?? ''])]
+      return [...textesEcran(e.ecran), ...textesEcran(e.ecran, true), ...e.choix.flatMap((c) => [c.reaction ?? '', c.reactionSimple ?? ''])]
     }
     if (e.type === 'lieu') return [e.lieu, e.guide, e.guideSimple ?? '', ...e.choix.flatMap((c) => [c.reaction, c.reactionSimple ?? ''])]
     if (e.type === 'fil') return e.notifications.flatMap((n) => [n.appNom, n.de, n.texte])
@@ -142,7 +143,7 @@ describe('contenu réel', () => {
 
   it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : aucune marque réelle dans les questions et les choix', (_id, m) => {
     const texte = m.etapes
-      .flatMap((e) => (e.type === 'scenario' || e.type === 'lieu' ? [e.question, ...e.choix.map((c) => c.texte)] : []))
+      .flatMap((e) => (e.type === 'scenario' || e.type === 'lieu' ? [e.question, ...e.choix.flatMap((c) => [c.texte, 'reponse' in c ? (c.reponse ?? '') : '', 'reponseSimple' in c ? (c.reponseSimple ?? '') : ''])] : []))
       .join(' ')
       .toLowerCase()
     expect(MARQUES_REELLES.filter((marque) => new RegExp(`\\b${marque}\\b`).test(texte))).toEqual([])
@@ -159,10 +160,8 @@ describe('contenu réel', () => {
           normal = aplatir([e.guide, e.question].join(' '))
           simple = aplatir([e.guideSimple ?? e.guide, e.question].join(' '))
         } else {
-          const { appNom, contact, sujet, url, messages } = e.ecran
-          const commun = [appNom, contact, sujet ?? '', url ?? '', e.question]
-          normal = aplatir([...commun, ...messages.map((x) => x.texte)].join(' '))
-          simple = aplatir([...commun, ...messages.map((x) => x.texteSimple ?? x.texte)].join(' '))
+          normal = aplatir([...textesEcran(e.ecran), e.question].join(' '))
+          simple = aplatir([...textesEcran(e.ecran, true), e.question].join(' '))
         }
         for (const p of e.pourquoi ?? []) {
           for (const [, citation] of p.truc.matchAll(/«\s*([^»]+?)\s*»/g)) {
@@ -177,6 +176,39 @@ describe('contenu réel', () => {
       expect(absentes).toEqual([])
     },
   )
+
+  const scenariosDe = (m: Mission) => m.etapes.filter((e) => e.type === 'scenario')
+
+  // Sauf le choix « aide » (le téléphone est posé) et le geste « bloquer » (le contact ne peut plus écrire).
+  it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : chaque choix « bon » ou « risqué » a une réaction du contact', (_id, m) => {
+    const sansReaction = scenariosDe(m).flatMap((e) =>
+      e.choix.filter((c) => c.qualite !== 'aide' && c.geste !== 'bloquer' && !c.reaction).map((c) => `${e.id}.${c.id}`),
+    )
+    expect(sansReaction).toEqual([])
+  })
+
+  // Seuls les textes que le téléphone surligne (`textesLus`, rendus par `TexteRiche`) : ni nom d’appli, ni aperçu, ni URL entière.
+  it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : chaque passage d’indice figure mot pour mot dans un texte surligné, en lecture normale et simplifiée', (_id, m) => {
+    const lecture = (simple: boolean) => (texte: string, texteSimple?: string) => (simple && texteSimple ? texteSimple : texte)
+    const absents = scenariosDe(m).flatMap((e) =>
+      e.indices.flatMap((i) =>
+        [false, true]
+          .filter((simple) => !textesLus(e.ecran, lecture(simple)).some((t) => t.includes(i.passage)))
+          .map((simple) => `${e.id}.${i.id} : « ${i.passage} » absent${simple ? ' de la lecture simplifiée' : ''}`),
+      ),
+    )
+    expect(absents).toEqual([])
+  })
+
+  it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : plus de bouton simulé « [Libellé] » dans le texte des écrans', (_id, m) => {
+    const simules = scenariosDe(m).flatMap((e) =>
+      [...textesEcran(e.ecran), ...textesEcran(e.ecran, true)]
+        // Exception : la description d’une image dans une discussion (« [Capture d’écran : …] », « [QR code] »).
+        .flatMap((t) => (e.ecran.app === 'chat' ? t.replace(/\[(?:Capture|QR code)[^\]]*\]/g, '') : t).match(/\[[A-ZÉ][^\]]{0,30}\]/g) ?? [])
+        .map((b) => `${e.id} : ${b}`),
+    )
+    expect(simules).toEqual([])
+  })
 
   it('le choix risqué n’est pas le plus long dans plus d’un tiers des scénarios', () => {
     const scenarios = classiques.flatMap((m) => m.etapes.filter((e) => e.type === 'scenario'))
@@ -434,7 +466,8 @@ describe('contenu réel', () => {
           const textes: string[] =
             e.type === 'scenario'
               ? [
-                  ...e.choix.flatMap((c) => [c.consequence, c.consequenceSimple ?? '']),
+                  // Réactions du contact comprises : même l’agresseur ne fait jamais porter la faute à l’élève.
+                  ...e.choix.flatMap((c) => [c.consequence, c.consequenceSimple ?? '', c.reaction ?? '', c.reactionSimple ?? '']),
                   ...e.indices.map((i) => i.libelle),
                   e.explicationIndices,
                   e.aRetenir,
@@ -484,9 +517,15 @@ describe('contenu réel', () => {
       const problemes = missionsSensibles.flatMap((m) => {
         const auteurs = AUTEURS[m.id] ?? []
         const texte = normaliser(JSON.stringify(m))
-        // Qui parle dans un groupe (« Prénom : … »), hors titulaire du compte affiché, est un auteur ou un témoin.
+        // Qui parle dans un groupe (« Prénom : … », message ou réaction) ou signe un commentaire, hors titulaire du compte
+        // affiché, est un auteur ou un témoin.
         const orateurs = scenariosDe(m).flatMap((s) =>
-          s.ecran.messages.flatMap((x) => (x.de === 'contact' ? [...x.texte.matchAll(/(?:^|· )(\p{Lu}[\p{L}_.\d]*) :/gu)].map((r) => r[1]!).filter((o) => o !== s.ecran.contact) : [])),
+          [
+            ...[...s.ecran.messages.filter((x) => x.de === 'contact').map((x) => x.texte), ...s.choix.map((c) => c.reaction ?? '')].flatMap((t) =>
+              [...t.matchAll(/(?:^|· )(\p{Lu}[\p{L}_.\d]*) :/gu)].map((r) => r[1]!),
+            ),
+            ...(s.ecran.app === 'social' ? (s.ecran.commentaires ?? []).map((c) => c.de) : []),
+          ].filter((o) => o !== s.ecran.contact),
         )
         return [
           ...(m.id in AUTEURS ? [] : [`${m.id} : auteurs non déclarés dans ce test`]),
@@ -525,11 +564,10 @@ describe('contenu réel', () => {
       expect(problemes).toEqual([])
     })
 
-    it('aucun vocabulaire explicite dans les messages des faux écrans', () => {
+    it('aucun vocabulaire explicite dans les faux écrans et les réactions du contact', () => {
       const trouves = missionsSensibles.flatMap((m) =>
         scenariosDe(m).flatMap((s) =>
-          s.ecran.messages
-            .flatMap((x) => [x.texte, x.texteSimple ?? ''])
+          [...textesEcran(s.ecran), ...textesEcran(s.ecran, true), ...s.choix.flatMap((c) => [c.reaction ?? '', c.reactionSimple ?? ''])]
             .flatMap((t) => explicite(t).map((re) => `${m.id}.${s.id} : ${re} dans « ${t} »`)),
         ),
       )

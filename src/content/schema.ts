@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { NOMS_APPLIS } from '../phone/applis'
 
 export const TRANCHES = ['6e', '5e-3e', 'lycee'] as const
 export const trancheSchema = z.enum(TRANCHES)
@@ -22,6 +23,16 @@ export const ICONES = ['Fish', 'KeyRound', 'Eye', 'Users', 'Gamepad2', 'HeartHan
 
 export const FIL_ACTIONS = ['ouvrir', 'verifier', 'signaler', 'ignorer'] as const
 export type FilAction = (typeof FIL_ACTIONS)[number]
+
+/** Ce que le téléphone montre quand l'élève fait un choix (bulle envoyée ou bannière système). */
+export const GESTES = [
+  'repondre', 'ouvrir-lien', 'se-connecter', 'telecharger', 'installer', 'payer', 'partager',
+  'verifier', 'bloquer', 'signaler', 'ignorer', 'supprimer', 'demander-aide',
+  'fermer', 'regler', 'deconnecter', 'changer-mdp',
+] as const
+export type Geste = (typeof GESTES)[number]
+
+const heure = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'heure attendue au format HH:MM')
 
 const slug = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'identifiant attendu en minuscules-avec-tirets')
 const texte = z.string().trim().min(1, 'texte vide')
@@ -75,26 +86,66 @@ const messageSchema = z.object({
   de: z.enum(['contact', 'moi']),
   texte,
   texteSimple: texte.optional(),
+  heure: heure.optional(),
+  apercu: z.object({ titre: texte, domaine: texte }).optional(),
 })
+export type Message = z.infer<typeof messageSchema>
 
-export const ecranSchema = z.object({
-  app: z.enum(['sms', 'chat', 'social', 'mail', 'web']),
-  appNom: texte,
-  contact: texte,
-  sujet: texte.optional(),
-  url: texte.optional(),
-  messages: z.array(messageSchema).min(1),
-})
+/** `notification` : texte de la notification d’entrée ; sinon, le début du premier message. */
+const ecranCommun = { appNom: z.enum(NOMS_APPLIS), contact: texte, messages: z.array(messageSchema).min(1), notification: texte.optional() }
 
-const choixSchema = z.object({
-  id: slug,
-  texte,
-  qualite: z.enum(['bon', 'risque', 'aide']),
-  consequence: texte,
-  consequenceSimple: texte.optional(),
-})
+/** Faux écran d'un scénario : une forme par appli, chacune avec ses seuls champs. */
+export const ecranSchema = z.discriminatedUnion('app', [
+  z.object({ app: z.literal('sms'), ...ecranCommun }),
+  z.object({ app: z.literal('chat'), ...ecranCommun }),
+  z.object({
+    app: z.literal('social'),
+    ...ecranCommun,
+    certifie: z.boolean().default(false),
+    abonnes: texte.optional(),
+    bio: texte.optional(),
+    media: z.object({ description: texte, descriptionSimple: texte.optional() }).optional(),
+    stats: z.object({ vues: texte.optional(), jaime: texte.optional(), partages: texte.optional() }).optional(),
+    commentaires: z.array(z.object({ de: texte, texte, texteSimple: texte.optional() })).min(1).max(5).optional(),
+  }),
+  z.object({
+    app: z.literal('mail'),
+    ...ecranCommun,
+    sujet: texte.optional(),
+    adresse: z.string().trim().regex(/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/, 'adresse mail attendue (nom@domaine.fr)').optional(),
+    pieceJointe: z.object({ nom: texte }).optional(),
+  }),
+  /** `boutons` : libellés des boutons de la page, affichés inertes sous le texte. */
+  z.object({ app: z.literal('web'), ...ecranCommun, url: texte.optional(), boutons: z.array(texte).min(1).max(4).optional() }),
+])
+export type Ecran = z.infer<typeof ecranSchema>
 
-const indiceSchema = z.object({ id: slug, libelle: texte, pertinent: z.boolean() })
+const choixSchema = z
+  .object({
+    id: slug,
+    texte,
+    qualite: z.enum(['bon', 'risque', 'aide']),
+    geste: z.enum(GESTES).optional(),
+    reponse: texte.optional(),
+    reponseSimple: texte.optional(),
+    consequence: texte,
+    consequenceSimple: texte.optional(),
+    /** Message du contact après ce choix (bulle de réaction) ; sans lui, la bulle est sautée. */
+    reaction: texte.optional(),
+    reactionSimple: texte.optional(),
+  })
+  .superRefine((c, ctx) => {
+    if (c.geste === 'repondre' && !c.reponse) {
+      ctx.addIssue({ code: 'custom', path: ['reponse'], message: 'le geste "repondre" demande une reponse (la bulle envoyée)' })
+    }
+    if (c.geste !== 'repondre' && (c.reponse || c.reponseSimple)) {
+      ctx.addIssue({ code: 'custom', path: ['reponse'], message: 'reponse réservée au geste "repondre"' })
+    }
+  })
+export type Choix = z.infer<typeof choixSchema>
+
+/** `passage` : texte exact à surligner dans l'écran du scénario. */
+const indiceSchema = z.object({ id: slug, libelle: texte, passage: texte })
 
 const recuperationSchema = z.object({ action: z.enum(RECOVERY_ACTIONS), siChoix: z.array(slug).min(1) })
 
@@ -145,7 +196,7 @@ export const scenarioSchema = z
     ecran: ecranSchema,
     question: texte,
     choix: z.array(choixSchema).min(2).max(4),
-    indices: z.array(indiceSchema).min(2),
+    indices: z.array(indiceSchema).min(1),
     explicationIndices: texte,
     aRetenir: texte,
     aRetenirSimple: texte.optional(),
@@ -154,10 +205,12 @@ export const scenarioSchema = z
   })
   .superRefine((s, ctx) => {
     verifierChoix(s, ctx)
+    s.choix.forEach((c, i) => {
+      if (!c.geste && c.qualite !== 'aide') {
+        ctx.addIssue({ code: 'custom', path: ['choix', i, 'geste'], message: 'il faut un geste (ce que le téléphone montre quand on choisit)' })
+      }
+    })
     idsUniques(s.indices.map((i) => i.id), ctx, ['indices'], 'indice')
-    if (!s.indices.some((i) => i.pertinent)) {
-      ctx.addIssue({ code: 'custom', path: ['indices'], message: 'il faut au moins un indice pertinent' })
-    }
   })
 
 /** Décors dessinés des lieux d’un parcours (un SVG par décor dans src/mission/DecorScene.vue). */
@@ -237,7 +290,7 @@ export const motdepasseConfigSchema = z.object({
 export const confidentialiteConfigSchema = z
   .object({
     consigne: texte,
-    appNom: texte,
+    appNom: z.enum(NOMS_APPLIS),
     reglages: z
       .array(
         z.object({
@@ -324,9 +377,10 @@ export const filSchema = z
       .array(
         z.object({
           id: slug,
-          appNom: texte,
+          appNom: z.enum(NOMS_APPLIS),
           de: texte,
           texte,
+          heure: heure.optional(),
           surprise: z.boolean().default(false),
           explication: texte,
         }),

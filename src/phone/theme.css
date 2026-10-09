@@ -1,0 +1,53 @@
+/* Mini-tablette en portrait (environ 3:4) quand la page défile. En mode scène, MissionPage la recalcule sur l'espace disponible. */
+:root { --tel-largeur: 34rem; --tel-hauteur: min(46rem, 85svh); }
+/* Surlignage des indices : partagé avec les numéros du panneau d'explication (hors du téléphone). */
+:root { --tel-passage: #fff1a8; --tel-passage-texte: #1b1b2f; }
+:root[data-taille='tres-grand'] { --tel-largeur: 40rem; }
+
+/* Variables du faux téléphone, par appli. Aplats opaques ; texte d'au moins 4.5:1 sur son fond. */
+/* Palette claire de téléphone, même quand le site est en thème sombre : repère de focus du thème clair. */
+.telephone {
+  color-scheme: light;
+  --focus: #b35c00;
+  --focus-lisere: #1f1a3a;
+  --tel-coque: #1b1b2f;
+  --tel-fond: #ffffff;
+  --tel-texte: #1b1b2f;
+  --tel-doux: #55556a;
+  --tel-bord: #d9d9e3;
+  --tel-accent: #2f5bd3;
+  --tel-accent-texte: #ffffff;
+  --tel-recu: #ececf1;
+  --tel-envoye: #2f5bd3;
+  --tel-envoye-texte: #ffffff;
+  --tel-lien: #1d4ed8;
+  /* Retour du choix : halos (fixes, jamais clignotants), bandeaux du verdict (texte blanc ≥ 4.5:1). */
+  --tel-halo-piege: #ff2d55;
+  --tel-halo-bon: #16a34a;
+  --tel-verdict-piege: #b3123a;
+  --tel-verdict-bon: #15803d;
+  /* Couleurs fixes des applis et des coques (pastilles, anneaux, bandeaux). */
+  --tel-blanc: #ffffff;
+  --tel-noir: #000000;
+  --tel-encre: #1b1b2f;
+  --tel-alerte: #c8102e;
+  --tel-danger: #a3200f;
+  --tel-ombre: rgb(0 0 0 / 25%);
+  --tel-chatcord-serveurs: #2b2540;
+  --tel-chatcord-pastille: #e4e0f4;
+  --tel-snaptalk-story: #7a2fd0;
+  --tel-snaptalk-photo: #2563d9;
+}
+.telephone[data-app='sms'] { --tel-accent: #1f7a3a; --tel-envoye: #1f7a3a; }
+.telephone[data-app='chat'] { --tel-fond: #f3f2fb; --tel-recu: #ffffff; --tel-accent: #5a3fc0; --tel-envoye: #5a3fc0; }
+.telephone[data-app='social'] { --tel-accent: #b0174f; }
+.telephone[data-app='mail'] { --tel-accent: #1d4ed8; }
+.telephone[data-app='web'] { --tel-accent: #3b3b4f; }
+.telephone[data-app='verrouillage'] { --tel-fond: #23214a; --tel-texte: #ffffff; --tel-doux: #d6d4f0; --tel-recu: #34316a; }
+.telephone[data-app='accueil'] { --tel-fond: #e9ebf5; --tel-recu: #d5d8ea; --tel-bord: #b9bdd3; }
+
+/* Coques de marque (conversations) : accent et texte sur l'accent viennent du registre (style posé par Telephone). */
+.telephone [data-marque] { --tel-accent: var(--marque-accent); --tel-accent-texte: var(--marque-texte); --tel-envoye: var(--marque-accent); --tel-envoye-texte: var(--marque-texte); }
+.telephone .coque { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+/* Bandeau sur l'accent : texte sur l'accent du registre (au moins 4.5:1), couleurs de l'en-tête recalculées. */
+.telephone .sur-accent { --tel-fond: var(--marque-accent); --tel-texte: var(--marque-texte); --tel-doux: var(--marque-texte); --tel-bord: var(--marque-accent); }

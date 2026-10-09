@@ -26,23 +26,17 @@ describe('mission-runner', () => {
     expect(etapeCourante(m, etat)?.id).toBe('sc-1')
   })
 
-  it('enchaîne choix → indices → conséquence → étape suivante', () => {
-    const etat = jouer(
-      m,
-      { type: 'choisir', choixId: 'verif' },
-      { type: 'valider-indices', indices: ['url', 'montant'] },
-    )
+  it('enchaîne choix → conséquence → étape suivante', () => {
+    const etat = jouer(m, { type: 'choisir', choixId: 'verif' })
     expect(etat.phase).toBe('consequence')
     expect(etat.resultats['sc-1']).toEqual({
       type: 'scenario',
       choixId: 'verif',
       qualite: 'bon',
-      indicesChoisis: ['url', 'montant'],
-      indicesJustes: 1,
-      indicesFaux: 1,
       levier: null,
       recuperationFaite: null,
       passe: false,
+      indiceUtilise: false,
     })
     const suite = reduire(m, etat, { type: 'continuer' })
     expect(suite).toMatchObject({ index: 1, phase: null, choixId: null })
@@ -54,7 +48,7 @@ describe('mission-runner', () => {
     expect(apresChoix.phase).toBe('pourquoi')
     const etat = reduire(m, apresChoix, { type: 'expliquer', levier: 'urgence' })
     expect(etat.phase).toBe('consequence')
-    expect(etat.resultats['sc-1']).toMatchObject({ qualite: 'risque', levier: 'urgence', indicesChoisis: [], indicesJustes: 0 })
+    expect(etat.resultats['sc-1']).toMatchObject({ qualite: 'risque', levier: 'urgence', indiceUtilise: false })
     const recup = reduire(m, etat, { type: 'continuer' })
     expect(recup.phase).toBe('recuperation')
     expect(recup.resultats['sc-1']).toMatchObject({ recuperationFaite: false })
@@ -71,16 +65,42 @@ describe('mission-runner', () => {
 
   it('refuse les événements hors phase autour de « pourquoi »', () => {
     const apresChoix = jouer(m, { type: 'choisir', choixId: 'clic' })
-    expect(() => reduire(m, apresChoix, { type: 'valider-indices', indices: [] })).toThrow(RunError)
-    const indices = jouer(m, { type: 'choisir', choixId: 'verif' })
-    expect(() => reduire(m, indices, { type: 'expliquer', levier: 'urgence' })).toThrow(RunError)
+    expect(() => reduire(m, apresChoix, { type: 'indice' })).toThrow(RunError)
+    const consequence = jouer(m, { type: 'choisir', choixId: 'verif' })
+    expect(() => reduire(m, consequence, { type: 'expliquer', levier: 'urgence' })).toThrow(RunError)
   })
 
-  it('sans bloc pourquoi, un choix risqué passe par les indices', () => {
+  it('sans bloc pourquoi, un choix risqué mène directement à la conséquence', () => {
     const sc = { ...(m.etapes[0] as Scenario) }
     delete sc.pourquoi
     const sansPourquoi = { ...m, etapes: [sc, ...m.etapes.slice(1)] }
-    expect(jouer(sansPourquoi, { type: 'choisir', choixId: 'clic' }).phase).toBe('indices')
+    const etat = jouer(sansPourquoi, { type: 'choisir', choixId: 'clic' })
+    expect(etat.phase).toBe('consequence')
+    expect(etat.resultats['sc-1']).toMatchObject({ qualite: 'risque', levier: null, indiceUtilise: false })
+  })
+
+  it('l’indice demandé en situation est recopié dans le résultat', () => {
+    const etat = jouer(m, { type: 'indice' }, { type: 'choisir', choixId: 'verif' })
+    expect(etat.resultats['sc-1']).toMatchObject({ qualite: 'bon', indiceUtilise: true })
+    const risque = jouer(m, { type: 'indice' }, { type: 'choisir', choixId: 'clic' }, { type: 'expliquer', levier: 'urgence' })
+    expect(risque.resultats['sc-1']).toMatchObject({ qualite: 'risque', indiceUtilise: true })
+  })
+
+  it('l’indice est idempotent et refusé hors de la situation d’un scénario', () => {
+    const une = jouer(m, { type: 'indice' })
+    expect(une).toMatchObject({ phase: 'situation', indiceUtilise: true })
+    expect(reduire(m, une, { type: 'indice' })).toEqual(une)
+    expect(() => reduire(m, jouer(m, { type: 'choisir', choixId: 'verif' }), { type: 'indice' })).toThrow(RunError)
+    expect(() => reduire(m, jouer(m, { type: 'passer' }), { type: 'indice' })).toThrow(RunError)
+  })
+
+  it('« Rejouer » garde l’indice de l’étape ; l’étape suivante repart sans indice', () => {
+    const rejoue = jouer(m, { type: 'indice' }, { type: 'choisir', choixId: 'clic' }, { type: 'expliquer', levier: 'urgence' }, { type: 'rejouer' })
+    expect(rejoue).toMatchObject({ phase: 'situation', indiceUtilise: true })
+    expect(reduire(m, rejoue, { type: 'choisir', choixId: 'verif' }).resultats['sc-1']).toMatchObject({ indiceUtilise: true })
+    const suite = jouer(m, { type: 'indice' }, { type: 'choisir', choixId: 'verif' }, { type: 'continuer' })
+    expect(suite).toMatchObject({ index: 1, indiceUtilise: false })
+    expect(demarrer(m).indiceUtilise).toBe(false)
   })
 
   it('permet de passer un scénario pendant « pourquoi »', () => {
@@ -89,12 +109,7 @@ describe('mission-runner', () => {
     expect(etat.resultats['sc-1']).toMatchObject({ passe: true, levier: null })
   })
 
-  it('ignore les indices inconnus', () => {
-    const etat = jouer(m, { type: 'choisir', choixId: 'aide' }, { type: 'valider-indices', indices: ['url', 'zzz'] })
-    expect(etat.resultats['sc-1']).toMatchObject({ indicesChoisis: ['url'], indicesJustes: 1, indicesFaux: 0 })
-  })
-
-  it('rejouer après le chemin risqué revient à la situation, puis un bon choix mène aux indices', () => {
+  it('rejouer après le chemin risqué revient à la situation, puis un bon choix mène à la conséquence', () => {
     const etat = jouer(
       m,
       { type: 'choisir', choixId: 'clic' },
@@ -102,7 +117,7 @@ describe('mission-runner', () => {
       { type: 'rejouer' },
     )
     expect(etat).toMatchObject({ index: 0, phase: 'situation', choixId: null, resultats: {} })
-    expect(reduire(m, etat, { type: 'choisir', choixId: 'verif' }).phase).toBe('indices')
+    expect(reduire(m, etat, { type: 'choisir', choixId: 'verif' }).phase).toBe('consequence')
   })
 
   it('permet de passer un scénario', () => {
@@ -127,14 +142,14 @@ describe('mission-runner', () => {
   })
 
   it('résume les choix du run', () => {
-    const etat = jouer(m, { type: 'choisir', choixId: 'verif' }, { type: 'valider-indices', indices: [] })
+    const etat = jouer(m, { type: 'choisir', choixId: 'verif' })
     expect(choixDuRun(etat)).toEqual({ 'sc-1': 'verif' })
   })
 
   it('liste les leviers du run et ceux de la mission', () => {
     const etat = jouer(m, { type: 'choisir', choixId: 'clic' }, { type: 'expliquer', levier: 'urgence' })
     expect(leviersDuRun(m, etat)).toEqual(['urgence'])
-    expect(leviersDuRun(m, jouer(m, { type: 'choisir', choixId: 'aide' }, { type: 'valider-indices', indices: [] }))).toEqual([])
+    expect(leviersDuRun(m, jouer(m, { type: 'choisir', choixId: 'aide' }))).toEqual([])
     expect(leviersDeLaMission(m)).toEqual(['urgence', 'petit-montant', 'reflexe'])
   })
 
@@ -145,7 +160,6 @@ describe('mission-runner', () => {
       { type: 'expliquer', levier: 'urgence' },
       { type: 'rejouer' },
       { type: 'choisir', choixId: 'verif' },
-      { type: 'valider-indices', indices: ['url'] },
       { type: 'continuer' },
       { type: 'minijeu-termine', reussites: 3, erreurs: 0 },
     )

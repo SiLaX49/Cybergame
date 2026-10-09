@@ -30,26 +30,30 @@ etapes:
       messages:
         - de: contact
           texte: 'Salut ! Je t’inscris au tournoi GameBox de la classe 🏆 Tu vas recevoir un code par SMS, tu peux me l’envoyer ? Faut valider avant 18 h !'
+          heure: '17:21'
     question: 'Une minute après, tu reçois un SMS : « GameBox : ton code de connexion est 731 204. Ne le communique à personne. » Que fais-tu ?'
     choix:
       - id: envoie
         texte: 'Hugo est dans ma classe et il faut valider avant 18 h : je lui envoie le code.'
         qualite: risque
+        geste: repondre
+        reponse: 'Tiens : 731 204 👍'
         consequence: 'Aucune inscription au tournoi : le code ouvrait ton compte GameBox à quelqu’un d’autre. Le soir, tes Coins ont disparu et tes amis reçoivent en ton nom la même histoire de tournoi. Le vrai Hugo n’y était pour rien : un pirate utilisait son compte. Tu peux encore reprendre ton compte avec « mot de passe oublié », puis le protéger.'
+        reaction: 'Merci 😈 Ton compte GameBox est à moi maintenant.'
       - id: verifie
         texte: Je garde le code pour moi et je demande à Hugo, en vrai ou par appel, s’il m’a bien écrit.
         qualite: bon
+        geste: verifier
         consequence: 'À la récré, Hugo est étonné : il n’a jamais parlé de tournoi, et son ChatCord le déconnecte sans arrêt depuis ce matin. Quelqu’un s’en sert à sa place. Ton code n’a servi à personne, et vous prévenez la classe ensemble.'
+        reaction: 'Grouille, il reste 10 minutes avant 18 h !'
       - id: aide
         texte: Je demande de l’aide à quelqu’un avant de répondre.
         qualite: aide
         consequence: 'Ta prof principale regarde les deux messages : « On ne s’inscrit pas à un tournoi avec un code de connexion. Ce code ouvre ton compte. » Tu ne réponds rien sur ChatCord et tu parles à Hugo en face.'
     indices:
-      - { id: code-connexion, libelle: 'Le SMS parle d’un code de connexion, pas d’une inscription à un tournoi', pertinent: true }
-      - { id: ne-pas-partager, libelle: 'Le SMS dit de ne communiquer ce code à personne', pertinent: true }
-      - { id: presse, libelle: 'On me presse : « avant 18 h »', pertinent: true }
-      - { id: camarade, libelle: 'Le message vient d’un camarade de classe', pertinent: false }
-    explicationIndices: 'Un code de connexion est envoyé à toi seul, quand quelqu’un essaie d’entrer dans ton compte. Si on te le réclame, c’est pour se connecter à ta place. Qu’il vienne d’un camarade ne prouve rien : son compte a pu être piraté.'
+      - { id: code-connexion, libelle: 'Le SMS parle d’un code de connexion, pas d’une inscription à un tournoi', passage: 'Je t’inscris au tournoi GameBox' }
+      - { id: presse, libelle: 'On me presse : « avant 18 h »', passage: 'avant 18 h' }
+    explicationIndices: 'Un code de connexion est envoyé à toi seul, quand quelqu’un essaie d’entrer dans ton compte. Si on te le réclame, c’est pour se connecter à ta place. Le « avant 18 h » sert à te presser.'
     aRetenir: 'Un code reçu par SMS ne se donne jamais, même à un ami. Si un proche te le réclame, vérifie en vrai ou par appel : son compte a sans doute été piraté. La double authentification protège ton compte, tant que tu ne donnes pas le code.'
     recuperation: { action: activer-2fa, siChoix: [envoie] }
     pourquoi:

@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
-import { commencer, jouerMission } from './helpers'
+import { commencer, jouerMission, ouvrirNotification } from './helpers'
 
 async function verifierA11y(page: Page, ecran: string) {
   const resultat = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
@@ -26,9 +26,11 @@ test.describe('mode sombre automatique', () => {
     await verifierA11y(page, 'carte sombre')
     await page.getByRole('link', { name: 'Le colis mystère' }).click()
     await verifierA11y(page, 'situation sombre')
+    // Le téléphone garde sa palette claire : l’audit vérifie ses contrastes sur le site en sombre.
+    await ouvrirNotification(page)
+    await verifierA11y(page, 'appli ouverte sombre')
     await page.locator('[data-qualite="aide"]').click()
-    await verifierA11y(page, 'indices sombre')
-    await page.getByRole('button', { name: 'Je ne sais pas' }).click()
+    await expect(page.getByRole('heading', { name: 'Et alors, que se passe-t-il ?' })).toBeVisible()
     await verifierA11y(page, 'conséquence sombre')
     await jouerMission(page)
     await verifierA11y(page, 'fin de mission sombre')

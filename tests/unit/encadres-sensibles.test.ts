@@ -9,14 +9,14 @@ import { leviersFixture, rawLieu, rawScenario } from './fixtures'
 const scenario = scenarioSchema.parse(rawScenario())
 const lieu = lieuSchema.parse(rawLieu())
 const resScenario: ScenarioResultat = {
-  type: 'scenario', choixId: 'clic', qualite: 'risque', indicesChoisis: [], indicesJustes: 0, indicesFaux: 0,
+  type: 'scenario', choixId: 'clic', qualite: 'risque', indiceUtilise: false,
   levier: null, recuperationFaite: null, passe: false,
 }
 const resLieu: LieuResultat = { type: 'lieu', choixId: 'donne', qualite: 'risque', levier: null, recuperationFaite: null, essais: [], passe: false }
 
 describe('verdict « risque » : encadré doux en thème sensible', () => {
   it.each([
-    ['ConsequencePanel', (sensible: boolean) => mount(ConsequencePanel, { props: { scenario, resultat: resScenario, leviers: leviersFixture(), sensible } })],
+    ['ConsequencePanel', (sensible: boolean) => mount(ConsequencePanel, { props: { scenario, resultat: resScenario, leviers: leviersFixture(), indices: scenario.indices, sensible } })],
     ['ReactionPanel', (sensible: boolean) => mount(ReactionPanel, { props: { lieu, resultat: resLieu, leviers: leviersFixture(), sensible } })],
   ])('%s', (_nom, monter) => {
     const normal = monter(false).find('.verdict')

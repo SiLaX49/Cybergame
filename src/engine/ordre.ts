@@ -1,5 +1,5 @@
 /** Empreinte FNV-1a 32 bits : petite, rapide et stable d'un navigateur à l'autre. */
-function empreinte(texte: string): number {
+export function empreinte(texte: string): number {
   let h = 0x811c9dc5
   for (let i = 0; i < texte.length; i++) {
     h ^= texte.charCodeAt(i)

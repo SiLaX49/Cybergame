@@ -29,21 +29,24 @@ etapes:
       - id: publie
         texte: 'Personne ne va lire des chiffres pareils, et je n’ai pas envie de refaire la photo : je publie.'
         qualite: risque
+        geste: partager
         consequence: 'La lampe intéresse vite quelqu’un. Mais un autre profil t’écrit : « Je peux passer la chercher ? J’ai vu que t’habitais rue des Lilas 😉 » Il a collé les coordonnées dans une carte en ligne : elles tombent sur ta maison. Retire la photo de l’annonce et remplace-la par une version sans position, puis parles-en à un adulte.'
+        reaction: 'Ton annonce est en ligne ✔ 12 personnes l’ont déjà vue.'
       - id: nettoie
         texte: 'Je mets une version de la photo sans position, et je coupe la localisation de mon appareil photo.'
         qualite: bon
+        geste: regler
         consequence: 'La nouvelle photo ne contient plus aucune position. Tu as aussi choisi un fond neutre, sans la fenêtre. La lampe se vend en deux jours, sans que personne sache où tu habites.'
+        reaction: 'Ton annonce est en ligne ✔ Photo publiée sans position.'
       - id: aide
         texte: Je demande de l’aide à quelqu’un qui s’y connaît pour enlever ces informations.
         qualite: aide
         consequence: 'Ta prof de SNT te montre comment voir et supprimer les métadonnées d’une photo. Une simple capture d’écran de la photo suffit aussi : elle ne garde pas la position.'
     indices:
-      - { id: gps, libelle: 'Les coordonnées GPS de la prise de vue sont dans le fichier', pertinent: true }
-      - { id: jointes, libelle: 'Ces informations restent jointes à l’image publiée', pertinent: true }
-      - { id: fenetre, libelle: 'On voit ma fenêtre et la rue en arrière-plan', pertinent: true }
-      - { id: prix, libelle: 'La lampe est vendue 15 €', pertinent: false }
-    explicationIndices: 'Une photo de téléphone contient souvent des métadonnées (EXIF) : appareil, date, heure et parfois coordonnées GPS précises. Collées dans une carte, elles montrent l’endroit exact de la prise de vue. Ce qu’on voit par la fenêtre peut aussi suffire à te situer. Le prix, lui, ne révèle rien.'
+      - { id: gps, libelle: 'Les coordonnées GPS de la prise de vue sont dans le fichier', passage: 'Position GPS' }
+      - { id: jointes, libelle: 'Ces informations restent jointes à l’image publiée', passage: 'Ces informations restent jointes à l’image envoyée' }
+      - { id: fenetre, libelle: 'On voit ma fenêtre et la rue en arrière-plan', passage: 'avec la fenêtre et la rue en arrière-plan' }
+    explicationIndices: 'Une photo de téléphone contient souvent des métadonnées (EXIF) : appareil, date, heure et parfois coordonnées GPS précises. Collées dans une carte, elles montrent l’endroit exact de la prise de vue. Ces informations restent jointes à l’image envoyée. Ce qu’on voit par la fenêtre peut aussi suffire à te situer.'
     aRetenir: 'Coupe la localisation de l’appareil photo, ou supprime la position avant d’envoyer une photo. Sur une photo prise chez toi, choisis un fond neutre. Certaines plateformes effacent les métadonnées à la publication, d’autres non : ne compte pas dessus.'
     recuperation: { action: demander-aide, siChoix: [publie] }
     pourquoi:
@@ -62,33 +65,41 @@ etapes:
     ecran:
       app: mail
       appNom: Mail
-      contact: 'Claire Moreau <recrutement@bistrot-nova.fr>'
+      contact: 'Claire Moreau'
+      adresse: 'recrutement@bistrot-nova.fr'
       sujet: 'Ta candidature pour le job d’été'
       messages:
         - de: contact
           texte: 'Bonjour, merci pour ta candidature au poste de serveur cet été. En cherchant ton nom en ligne, je suis tombée sur ton compte SnapTalk public.'
+          heure: '10:32'
         - de: contact
           texte: 'Certaines publications de 2023 m’ont surprise : des moqueries sur un professeur, avec son nom. Peux-tu m’en dire un mot avant l’entretien ?'
+          heure: '10:32'
     question: 'Tu avais 14 ans à l’époque, et tu tiens vraiment à ce job. Que fais-tu ?'
     choix:
       - id: minimise
         texte: 'Tout le monde postait des bêtises au collège : je réponds que ça ne compte plus, et je laisse mon profil comme il est.'
         qualite: risque
+        geste: repondre
+        reponse: 'Bonjour, c’était au collège, tout le monde postait des bêtises. Ça ne compte plus.'
         consequence: 'Claire Moreau te remercie, puis choisit un autre candidat. Et tes vieilles publications sont toujours publiques : le prochain recruteur, ou l’école où tu postules, les trouvera aussi. Tu peux encore faire le tri, et demander l’effacement de ce qui t’échappe.'
+        reaction: 'Je comprends. Nous avons finalement retenu une autre candidature.'
       - id: assume
         texte: 'Je réponds que je regrette ces messages, puis je fais le ménage dans mon compte.'
         qualite: bon
+        geste: repondre
+        reponse: 'Bonjour, je regrette sincèrement ces messages. Je vais faire le ménage dans mon compte.'
         consequence: 'Tu supprimes les vieilles publications et tu passes ton compte en privé. À l’entretien, Claire Moreau apprécie ta franchise : « On a tous fait des erreurs à 14 ans. Ce qui compte, c’est ce qu’on en fait. » Tu décroches le job. Depuis, tu cherches ton nom en ligne une fois par an.'
+        reaction: 'Merci pour ta franchise. À jeudi pour l’entretien !'
       - id: aide
         texte: Je demande de l’aide à un adulte de confiance pour savoir quoi répondre et comment faire le ménage.
         qualite: aide
         consequence: 'Ta CPE t’aide à rédiger une réponse sincère. Elle t’explique aussi ton droit à l’effacement : pour ce que tu as publié mineur, la plateforme doit en principe l’effacer si tu le demandes.'
     indices:
-      - { id: public, libelle: 'Mon compte est resté public depuis le collège', pertinent: true }
-      - { id: recherche-nom, libelle: 'La recruteuse a simplement tapé mon nom', pertinent: true }
-      - { id: nom-prof, libelle: 'Les publications citent une personne par son nom', pertinent: true }
-      - { id: serveur, libelle: 'Le poste est un job de serveur', pertinent: false }
-    explicationIndices: 'Ce qui est public reste trouvable des années plus tard, par un simple moteur de recherche. Des moqueries nommant quelqu’un pèsent lourd, quel que soit le poste visé. Un job d’été ou une grande école, peu importe : beaucoup de recruteurs regardent.'
+      - { id: public, libelle: 'Mon compte est resté public depuis le collège', passage: 'ton compte SnapTalk public' }
+      - { id: recherche-nom, libelle: 'La recruteuse a simplement tapé mon nom', passage: 'En cherchant ton nom en ligne' }
+      - { id: nom-prof, libelle: 'Les publications citent une personne par son nom', passage: 'des moqueries sur un professeur, avec son nom' }
+    explicationIndices: 'Ce qui est public reste trouvable des années plus tard : il suffit de taper ton nom dans un moteur de recherche. Des moqueries nommant quelqu’un pèsent lourd. Beaucoup de recruteurs regardent, et ton compte est resté public depuis le collège.'
     aRetenir: 'Cherche ton nom en ligne de temps en temps. Fais le tri dans tes anciennes publications et passe en privé ce qui doit l’être. Pour ce que tu as publié mineur, tu peux demander son effacement à la plateforme (droit à l’effacement, RGPD).'
     recuperation: { action: demander-aide, siChoix: [minimise] }
     pourquoi:
@@ -105,34 +116,40 @@ etapes:
   - type: scenario
     id: amis-amis
     ecran:
-      app: social
+      app: chat
       appNom: SnapTalk
       contact: 'Léo_R (ami de Sarah)'
       messages:
         - de: contact
           texte: 'Salut ! T’es au café Le Square, là ? Je suis à deux rues 😉'
+          heure: '16:02'
         - de: contact
           texte: 'On se rejoint ? Sarah m’a souvent parlé de toi.'
+          heure: '16:03'
     question: 'Tu ne connais pas Léo_R. En vérifiant, tu découvres que ta position est partagée avec « les amis de tes amis » : plus de 1 200 personnes. Que fais-tu ?'
     choix:
       - id: repond
         texte: 'Il connaît Sarah, ce n’est pas vraiment un inconnu : je réponds.'
         qualite: risque
+        geste: repondre
+        reponse: 'Oui, je suis là ! T’es où ?'
         consequence: 'Léo_R arrive dix minutes plus tard et insiste pour avoir ton numéro. Sarah, elle, ne le connaît que de loin : il l’avait ajoutée après une soirée. Lui sait où tu es, toi tu ne sais rien de lui. Coupe ta position, bloque et signale son compte, et parles-en.'
+        reaction: 'J’arrive, je suis là dans 2 minutes 😉'
       - id: coupe
         texte: 'Je passe en mode fantôme, puis je bloque et signale Léo_R.'
         qualite: bon
+        geste: regler
         consequence: 'Tu demandes ensuite à Sarah qui c’est. Elle répond : « Je le connais à peine, il m’a ajoutée après une soirée. » Léo_R ne voit plus ta position et ne peut plus t’écrire.'
+        reaction: 'Hé, tu es où ? Je ne te vois plus sur la carte.'
       - id: aide
         texte: Je demande de l’aide à un proche avant de répondre quoi que ce soit.
         qualite: aide
         consequence: 'Ton frère te dit : « Ne réponds pas, coupe ta position et bloque-le. Si tu veux, je viens te chercher. » Tu suis ses conseils.'
     indices:
-      - { id: amis-amis, libelle: 'Ma position est visible par les amis de mes amis', pertinent: true }
-      - { id: inconnu, libelle: 'Je ne connais pas Léo_R', pertinent: true }
-      - { id: precise, libelle: 'Il sait dans quel café je suis', pertinent: true }
-      - { id: pseudo, libelle: 'Son pseudo commence par « Léo »', pertinent: false }
-    explicationIndices: '« Amis de tes amis », ce sont des centaines de gens que tu ne connais pas. Citer Sarah ne prouve rien : il est dans sa liste d’amis, et c’est justement comme ça qu’il voit ta position. Ce qui compte, c’est qu’un inconnu sait où tu es. Son pseudo, lui, ne dit rien.'
+      - { id: amis-amis, libelle: 'Ma position est visible par les amis de mes amis', passage: 'Sarah m’a souvent parlé de toi' }
+      - { id: inconnu, libelle: 'Je ne connais pas Léo_R', passage: 'Léo_R' }
+      - { id: precise, libelle: 'Il sait dans quel café je suis', passage: 'T’es au café Le Square' }
+    explicationIndices: '« Amis de tes amis », ce sont des centaines de gens que tu ne connais pas. Citer Sarah ne prouve rien : il est dans sa liste d’amis, et c’est justement comme ça qu’il voit ta position. Ce qui compte, c’est qu’un inconnu sait où tu es. Et toi, tu ne connais pas Léo_R.'
     aRetenir: 'Ne partage jamais ta position avec « les amis de tes amis ». Garde le mode fantôme par défaut, et partage ta position seulement avec quelques proches choisis, quand c’est utile.'
     recuperation: { action: bloquer-signaler, siChoix: [repond] }
     pourquoi:

@@ -2,6 +2,7 @@
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { buildContent } from '../../../scripts/build-content'
+import type { Mission, Scenario } from '../../../src/content/schema'
 import { missionEnMarkdown } from '../../../scripts/export-relecture'
 import { descriptionBadge } from '../../../src/engine/badges'
 import { leviersDeLaMission } from '../../../src/engine/mission-runner'
@@ -86,5 +87,44 @@ describe('export pour la relecture : annexe des thèmes sensibles', () => {
     }
     const mdp = bundle.missions.find((x) => x.etapes.some((e) => e.type === 'minijeu' && e.jeu === 'motdepasse'))!
     expect(missionEnMarkdown(mdp, bundle.leviers)).toContain('```json')
+  })
+})
+
+describe('export pour la relecture : tout le texte lu du téléphone', () => {
+  /** Textes du nouveau schéma que l’élève lit : bulle envoyée, réaction du contact, champs propres à chaque appli. */
+  const textesDuTelephone = (s: Scenario): string[] => {
+    const e = s.ecran
+    const t = [e.notification, ...e.messages.flatMap((m) => [m.apercu?.titre, m.apercu?.domaine])]
+    if (e.app === 'mail') t.push(e.sujet, e.adresse, e.pieceJointe?.nom)
+    if (e.app === 'web') t.push(...(e.boutons ?? []))
+    if (e.app === 'social') {
+      t.push(e.bio, e.media?.description, e.media?.descriptionSimple, ...(e.commentaires ?? []).flatMap((c) => [c.de, c.texte, c.texteSimple]))
+    }
+    t.push(...s.choix.flatMap((c) => [c.reponse, c.reponseSimple, c.reaction, c.reactionSimple]))
+    return t.filter((x): x is string => !!x)
+  }
+  const absents = (m: Mission) => {
+    const md = missionEnMarkdown(m, bundle.leviers, bundle.themes.find((t) => t.id === m.theme))
+    return m.etapes.flatMap((e) => (e.type === 'scenario' ? textesDuTelephone(e).filter((x) => !md.includes(x)).map((x) => `${m.id}.${e.id} : ${x}`) : []))
+  }
+
+  it('contenu réel : chaque réaction, bulle envoyée, commentaire, média et champ d’écran figure dans l’export', () => {
+    const scenarios = bundle.missions.flatMap((m) => m.etapes.filter((e) => e.type === 'scenario'))
+    expect(scenarios.some((s) => s.choix.some((c) => c.reaction))).toBe(true)
+    expect(bundle.missions.flatMap(absents)).toEqual([])
+  })
+
+  it('champs encore absents du contenu (notification, aperçu, pièce jointe, boutons) : exportés aussi', () => {
+    const base = bundle.missions.find((x) => x.id === 'r-lycee-webcam')!
+    const scenario = base.etapes.find((e): e is Scenario => e.type === 'scenario')!
+    const message = { ...scenario.ecran.messages[0]!, apercu: { titre: 'Titre de l’aperçu', domaine: 'apercu.example' } }
+    const ecrans: Scenario['ecran'][] = [
+      { app: 'mail', appNom: 'Mail', contact: 'X', messages: [message], notification: 'Texte de notification', pieceJointe: { nom: 'piece-jointe.pdf' } },
+      { app: 'web', appNom: 'Navigateur', contact: 'X', messages: [message], boutons: ['Bouton A', 'Bouton B'] },
+    ]
+    for (const ecran of ecrans) {
+      const m: Mission = { ...base, etapes: [{ ...scenario, ecran, choix: scenario.choix.map((c) => ({ ...c, reactionSimple: 'Réaction simplifiée' })) }] }
+      expect(absents(m)).toEqual([])
+    }
   })
 })

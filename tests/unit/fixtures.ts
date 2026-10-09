@@ -30,21 +30,20 @@ export function rawScenario(id = 'sc-1') {
       messages: [
         {
           de: 'contact',
-          texte: 'Votre colis est bloqué : payez 1,99 € sur colis-expres.info',
+          texte: 'Votre colis est bloqué : payez 1,99 € sur colis-expres.info avant ce soir',
           texteSimple: 'Ton colis est bloqué, paie 1,99 €.',
         },
       ],
     },
     question: 'Que fais-tu ?',
     choix: [
-      { id: 'clic', texte: 'Je clique et je paie', qualite: 'risque', consequence: 'La carte est volée.', consequenceSimple: 'On vole la carte.' },
-      { id: 'verif', texte: 'Je vérifie sur l’appli officielle', qualite: 'bon', consequence: 'Aucun colis en attente.' },
+      { id: 'clic', texte: 'Je clique et je paie', qualite: 'risque', geste: 'ouvrir-lien', consequence: 'La carte est volée.', consequenceSimple: 'On vole la carte.' },
+      { id: 'verif', texte: 'Je vérifie sur l’appli officielle', qualite: 'bon', geste: 'verifier', consequence: 'Aucun colis en attente.' },
       { id: 'aide', texte: 'Je demande de l’aide à quelqu’un', qualite: 'aide', consequence: 'Ta mère confirme : arnaque.' },
     ],
     indices: [
-      { id: 'url', libelle: 'L’adresse est bizarre', pertinent: true },
-      { id: 'urgence', libelle: 'On me presse', pertinent: true },
-      { id: 'montant', libelle: 'Le montant est petit', pertinent: false },
+      { id: 'url', libelle: 'L’adresse est bizarre', passage: 'colis-expres.info' },
+      { id: 'urgence', libelle: 'On me presse', passage: 'avant ce soir' },
     ],
     explicationIndices: 'L’adresse imite le vrai site et le message crée l’urgence.',
     aRetenir: 'Un transporteur ne demande pas de payer par SMS.',

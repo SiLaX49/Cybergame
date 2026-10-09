@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { commencer, focusConserve, jouerMission, tabJusqua, tabJusquaSelecteur } from './helpers'
+import { commencer, focusConserve, jouerMission, ouvrirNotification, tabJusqua, tabJusquaSelecteur } from './helpers'
 
 test('solo 6e : une mission complète, puis la carte la marque terminée', async ({ page }) => {
   await commencer(page, '6e', 'Solo')
@@ -12,6 +12,7 @@ test('solo 6e : une mission complète, puis la carte la marque terminée', async
 
 test('un choix risqué mène à un geste de récupération', async ({ page }) => {
   await page.goto('/#/mission/p-6e-colis')
+  await ouvrirNotification(page)
   await page.locator('[data-choix="clic"]').click()
   await expect(page.getByRole('heading', { name: 'Qu’est-ce qui t’a donné envie de le faire ?' })).toBeFocused()
   await page.locator('[data-levier="urgence"]').click()
@@ -32,12 +33,21 @@ test('un scénario complet au clavier', async ({ page, browserName }) => {
     await page.keyboard.press(touche)
     await focusConserve(page)
   }
+  /** Ouvre au clavier la notification de l’écran verrouillé : le focus passe sur la zone de l’appli. */
+  const ouvrirAuClavier = async () => {
+    await tabJusquaSelecteur(page, '[data-notification]')
+    await page.keyboard.press('Enter')
+    await expect(page.locator('.telephone .ecran')).toBeFocused()
+  }
+  await ouvrirAuClavier()
   await activer('Je demande de l’aide')
-  await activer('Je ne sais pas')
+  // Le panneau s’affiche à la fin de la séquence jouée dans le téléphone.
+  await expect(page.getByRole('heading', { name: 'Et alors, que se passe-t-il ?' })).toBeFocused()
   await activer('Continuer')
   await expect(page.getByText('Étape 2 sur 4')).toBeVisible()
   await expect(page.locator('article.scenario')).toBeFocused()
   // Étape 2 : un choix risqué, puis le geste de récupération « bloquer et signaler ».
+  await ouvrirAuClavier()
   await tabJusquaSelecteur(page, '[data-choix="donne"]')
   await page.keyboard.press('Enter')
   await focusConserve(page)
@@ -71,15 +81,19 @@ test('débrief en grand : Échap ferme et rend le focus', async ({ page }) => {
 test('classe entière : l’adulte valide le choix de la classe', async ({ page }) => {
   await commencer(page, '6e', 'Classe entière')
   await page.getByRole('link', { name: 'Le colis mystère' }).click()
+  await ouvrirNotification(page)
   await page.locator('[data-qualite="aide"]').click()
-  await expect(page.getByRole('heading', { name: 'Qu’est-ce qui t’a décidé ?' })).toBeHidden()
+  await expect(page.getByRole('heading', { name: 'Et alors, que se passe-t-il ?' })).toBeHidden()
   await page.getByRole('button', { name: 'Valider le choix de la classe' }).click()
-  await expect(page.getByRole('heading', { name: 'Qu’est-ce qui t’a décidé ?' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Et alors, que se passe-t-il ?' })).toBeVisible()
 })
 
 test('rappel : le message piège est révélé à la fin', async ({ page }) => {
   await page.goto('/#/mission/r-6e')
-  for (const radio of await page.getByRole('radio', { name: 'J’ouvre / je clique' }).all()) await radio.check()
+  for (const n of await page.locator('[data-notif]').all()) {
+    await n.click()
+    await page.getByRole('button', { name: 'J’ouvre / je clique' }).click()
+  }
   await page.getByRole('button', { name: 'Valider mes choix' }).click()
   await jouerMission(page)
   await expect(page.getByRole('heading', { name: 'Le message piège était…' })).toBeVisible()

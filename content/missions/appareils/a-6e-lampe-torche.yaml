@@ -23,29 +23,33 @@ etapes:
           texte: 'Super Lampe : la lampe torche la plus puissante ! Gratuit · ★ 4,6 · 1 million de téléchargements'
           texteSimple: 'Super Lampe : la lampe torche la plus puissante ! Gratuite, 1 million de téléchargements.'
         - de: contact
-          texte: 'Super Lampe demande l’accès à : tes contacts, ta position, ton micro. [Tout autoriser] [Refuser]'
-          texteSimple: 'Super Lampe veut voir tes contacts, ta position et ton micro. [Tout autoriser] [Refuser]'
+          texte: 'Super Lampe demande l’accès à : tes contacts, ta position, ton micro.'
+          texteSimple: 'Super Lampe veut voir tes contacts, ta position et ton micro.'
+      boutons: ['Tout autoriser', 'Refuser']
     question: Tu veux une lampe pour retrouver tes affaires dans le noir. Que fais-tu ?
     choix:
       - id: tout-autoriser
         texte: 'Un million de gens l’ont, et je veux juste ma lampe : j’appuie sur « Tout autoriser ».'
         qualite: risque
+        geste: regler
         consequence: 'La lampe marche bien. Mais l’appli envoie la liste de tes contacts à une entreprise de publicité. Bientôt, des amis à toi reçoivent des SMS de pub bizarres. Tu peux limiter les dégâts : avec un adulte, supprime l’appli. Elle ne prendra plus rien. Dis à tes amis de ne pas répondre.'
         consequenceSimple: 'L’appli a copié tes contacts. Tes amis reçoivent des pubs bizarres. Avec un adulte, supprime l’appli : elle ne prendra plus rien.'
+        reaction: 'Accès autorisé : contacts, position, micro. Merci et bonne lumière ! 🔦'
       - id: lampe-telephone
         texte: 'Une lampe n’a pas besoin de mes contacts : je refuse, et j’utilise la lampe déjà prévue dans mon téléphone.'
         qualite: bon
+        geste: fermer
         consequence: 'Ton téléphone a déjà une lampe dans ses réglages rapides. Elle éclaire très bien et ne demande rien.'
+        reaction: 'Tu pars déjà ? Super Lampe reste gratuite, profites-en !'
       - id: aide
         texte: Je demande de l’aide à un adulte avant d’installer l’appli.
         qualite: aide
         consequence: 'Ton père regarde la liste : « Une lampe qui veut tes contacts ? Non merci. » Il te montre la lampe déjà dans ton téléphone.'
     indices:
-      - { id: contacts, libelle: 'Une lampe demande mes contacts et mon micro', pertinent: true }
-      - { id: position, libelle: 'Elle veut aussi savoir où je suis', pertinent: true }
-      - { id: tout-autoriser, libelle: 'Le bouton propose de tout autoriser d’un coup', pertinent: true }
-      - { id: note, libelle: 'L’appli a une note de 4,6 étoiles', pertinent: false }
-    explicationIndices: 'Une lampe a seulement besoin d’allumer le flash. Tes contacts, ta position et ton micro ne lui servent à rien. Certaines applis gratuites gagnent de l’argent en revendant ces informations. La bonne note, elle, ne dit rien sur ce que l’appli fait de tes données.'
+      - { id: contacts, libelle: 'Une lampe demande mes contacts et mon micro', passage: 'tes contacts' }
+      - { id: position, libelle: 'Elle veut aussi savoir où je suis', passage: 'ta position' }
+      - { id: tout-autoriser, libelle: 'Le bouton propose de tout autoriser d’un coup', passage: 'Tout autoriser' }
+    explicationIndices: 'Une lampe a seulement besoin d’allumer le flash. Tes contacts, ta position et ton micro ne lui servent à rien. Certaines applis gratuites gagnent de l’argent en revendant ces informations. Le bouton « Tout autoriser » donne tout d’un coup, sans te laisser choisir.'
     aRetenir: 'Avant d’installer une appli, regarde ce qu’elle demande. Si une autorisation n’a rien à voir avec ce que fait l’appli, refuse-la ou choisis une autre appli.'
     aRetenirSimple: 'Une appli doit demander seulement ce dont elle a besoin. Sinon, tu refuses.'
     recuperation: { action: demander-aide, siChoix: [tout-autoriser] }
@@ -64,36 +68,41 @@ etapes:
     id: mise-a-jour
     ecran:
       app: sms
-      appNom: Notifications
+      appNom: Messages
       contact: 'Réglages du téléphone'
       messages:
         - de: contact
-          texte: 'Mise à jour disponible. Elle corrige des failles de sécurité. [Installer cette nuit] [Plus tard]'
-          texteSimple: 'Mise à jour disponible. Elle répare des failles de sécurité. [Installer cette nuit] [Plus tard]'
+          texte: 'Mise à jour disponible. Elle corrige des failles de sécurité. « Installer cette nuit » ou « Plus tard » ?'
+          texteSimple: 'Mise à jour disponible. Elle répare des failles de sécurité. « Installer cette nuit » ou « Plus tard » ?'
+          heure: '07:30'
         - de: contact
           texte: 'Rappel : cette mise à jour attend depuis 5 semaines.'
           texteSimple: 'Rappel : elle attend depuis 5 semaines.'
+          heure: '17:45'
     question: Tu es en pleine partie, et ton téléphone te rappelle encore cette mise à jour. Que fais-tu ?
     choix:
       - id: plus-tard
         texte: 'Je suis en pleine partie et mon téléphone marche très bien : j’appuie encore sur « Plus tard ».'
         qualite: risque
+        geste: ignorer
         consequence: 'Ton téléphone marche, mais la faille reste ouverte. Quand une faille est réparée, les pirates l’apprennent aussi. Ils visent alors les téléphones pas à jour. Un jour, un site piégé en profite pour remplir ton écran de pubs. La mise à jour l’aurait bloqué. Tu peux encore la faire ce soir.'
         consequenceSimple: 'La faille reste ouverte. Un site piégé en profite pour mettre des pubs partout. Tu peux encore faire la mise à jour ce soir.'
+        reaction: 'D’accord. Nouveau rappel demain.'
       - id: cette-nuit
         texte: 'Je finis ma partie, puis je choisis « Installer cette nuit », téléphone branché.'
         qualite: bon
+        geste: installer
         consequence: 'Au réveil, ton téléphone est à jour. Tes photos et tes jeux sont toujours là. Les failles sont réparées.'
+        reaction: 'Installation prévue cette nuit. Laisse ton téléphone branché.'
       - id: aide
         texte: Je demande de l’aide à un adulte pour faire la mise à jour sans rien perdre.
         qualite: aide
         consequence: 'Ta mère vérifie avec toi qu’il reste de la place et que tes photos sont sauvegardées. Le soir, vous lancez la mise à jour.'
     indices:
-      - { id: failles, libelle: 'La notification parle de failles de sécurité', pertinent: true }
-      - { id: semaines, libelle: 'La mise à jour attend depuis 5 semaines', pertinent: true }
-      - { id: reglages, libelle: 'Elle vient des réglages du téléphone, pas d’un site', pertinent: true }
-      - { id: marche, libelle: 'Mon téléphone marche bien en ce moment', pertinent: false }
-    explicationIndices: 'Une faille, c’est un trou dans la protection du téléphone. Une mise à jour répare des failles que les pirates connaissent déjà. Plus on attend, plus le téléphone reste exposé. Un téléphone qui marche bien n’est pas forcément protégé. Une vraie mise à jour s’affiche dans les réglages du téléphone, jamais dans une pub sur un site.'
+      - { id: failles, libelle: 'La notification parle de failles de sécurité', passage: 'failles de sécurité' }
+      - { id: semaines, libelle: 'La mise à jour attend depuis 5 semaines', passage: 'depuis 5 semaines' }
+      - { id: reglages, libelle: 'Elle vient des réglages du téléphone, pas d’un site', passage: 'Réglages du téléphone' }
+    explicationIndices: 'Une faille, c’est un trou dans la protection du téléphone. Une mise à jour répare des failles que les pirates connaissent déjà. Plus on attend, plus le téléphone reste exposé : 5 semaines, c’est long. Une vraie mise à jour s’affiche dans les réglages du téléphone, jamais dans une pub sur un site.'
     aRetenir: 'Les mises à jour corrigent des failles de sécurité. Fais-les vite, par exemple la nuit, téléphone branché. Une vraie mise à jour vient des réglages du téléphone, jamais d’une pub sur un site.'
     aRetenirSimple: 'Les mises à jour réparent les failles. Fais-les vite, par exemple la nuit.'
     recuperation: { action: demander-aide, siChoix: [plus-tard] }
@@ -118,30 +127,35 @@ etapes:
         - de: contact
           texte: 'Trop bien ce jeu, Dino Galop ! Dans le magasin d’applis, il coûte 4,99 €. Mais là, il est gratuit 😎'
           texteSimple: 'Le jeu Dino Galop coûte 4,99 € dans le magasin d’applis. Mais là, il est gratuit 😎'
+          heure: '18:40'
         - de: contact
           texte: 'Télécharge-le ici : dinogalop-gratuit.net. Ton téléphone va dire « source inconnue », tu acceptes, c’est normal.'
           texteSimple: 'Télécharge-le sur dinogalop-gratuit.net. Le téléphone dira « source inconnue ». Accepte, c’est normal.'
+          heure: '18:41'
     question: Malik est dans ta classe. Il a installé le jeu et dit qu’il marche très bien. Que fais-tu ?
     choix:
       - id: installe
         texte: 'Malik l’a installé et il n’a aucun souci : je télécharge le jeu et j’accepte.'
         qualite: risque
+        geste: telecharger
         consequence: 'Le jeu se lance, mais il cache autre chose. Il te demande ton compte ChatCord « pour sauvegarder ta partie ». Le soir, ton compte envoie le même lien à tous tes amis. Tu peux reprendre la main : change ton mot de passe et supprime le jeu avec un adulte.'
         consequenceSimple: 'Le faux jeu a volé ton mot de passe ChatCord. Ton compte envoie le lien à tes amis. Change vite ton mot de passe.'
+        reaction: 'Trop bien ! On fait une partie ce soir ? 🦖'
       - id: magasin
         texte: 'Je reste dans le magasin d’applis et j’y cherche un jeu gratuit.'
         qualite: bon
+        geste: ignorer
         consequence: 'Tu trouves un jeu de dinosaures gratuit dans le magasin d’applis. Tu préviens Malik que son lien pourrait être piégé.'
+        reaction: 'Ok, comme tu veux ! Dis-moi lequel tu prends 😉'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de télécharger, même si Malik dit que tout va bien.
         qualite: aide
         consequence: 'Ta grande sœur t’explique : « En dehors du magasin d’applis, personne ne vérifie le jeu. » Vous prévenez Malik ensemble.'
     indices:
-      - { id: hors-magasin, libelle: 'Le jeu se télécharge en dehors du magasin d’applis', pertinent: true }
-      - { id: payant-gratuit, libelle: 'Un jeu payant devient gratuit, sans raison', pertinent: true }
-      - { id: source-inconnue, libelle: 'On me dit d’accepter l’alerte du téléphone', pertinent: true }
-      - { id: copain, libelle: 'Le lien vient de Malik, un copain de classe', pertinent: false }
-    explicationIndices: 'Le magasin d’applis vérifie les applis avant de les proposer. Un fichier pris ailleurs n’est vérifié par personne. Un jeu payant offert gratuitement cache souvent un piège. Malik est sincère, mais lui aussi a pu se faire avoir.'
+      - { id: hors-magasin, libelle: 'Le jeu se télécharge en dehors du magasin d’applis', passage: 'dinogalop-gratuit.net' }
+      - { id: payant-gratuit, libelle: 'Un jeu payant devient gratuit, sans raison', passage: 'il est gratuit' }
+      - { id: source-inconnue, libelle: 'On me dit d’accepter l’alerte du téléphone', passage: 'source inconnue' }
+    explicationIndices: 'Le magasin d’applis vérifie les applis avant de les proposer. Un fichier pris ailleurs n’est vérifié par personne. Un jeu payant offert gratuitement cache souvent un piège. Accepter l’alerte « source inconnue », c’est couper une protection du téléphone.'
     aRetenir: 'Installe tes applis seulement depuis le magasin d’applis du téléphone. Il les vérifie : ce n’est pas parfait, mais c’est bien plus sûr. Si ton téléphone affiche « source inconnue », arrête-toi.'
     aRetenirSimple: 'Installe tes jeux seulement depuis le magasin d’applis. Le téléphone dit « source inconnue » ? Tu t’arrêtes.'
     recuperation: { action: changer-mdp, siChoix: [installe] }

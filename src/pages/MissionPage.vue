@@ -17,6 +17,7 @@ import FilStep from '@/mission/FilStep.vue'
 import CheminIle from '@/mission/CheminIle.vue'
 import FinMission from '@/mission/FinMission.vue'
 import LieuStep from '@/mission/LieuStep.vue'
+import MissionBarre from '@/mission/MissionBarre.vue'
 import MinijeuStep from '@/mission/MinijeuStep.vue'
 import ScenarioStep from '@/mission/ScenarioStep.vue'
 import SensibleAvertissement from '@/mission/SensibleAvertissement.vue'
@@ -40,6 +41,7 @@ const theme = mission?.theme ? getTheme(mission.theme) : undefined
 const sensible = theme?.sensible ?? false
 const contexte = sensible ? contexteSensible(theme?.id) : undefined
 const leviers = getLeviers()
+const brouillon = mission?.relecture?.statut === 'a-relire'
 
 const parcours = mission?.format === 'parcours'
 const ile = theme && estIle(theme.id) ? theme.id : null
@@ -66,6 +68,21 @@ const etape = computed(() => (mission && etat.value ? etapeCourante(mission, eta
 const resultatEtape = computed(() => (etape.value && etat.value ? etat.value.resultats[etape.value.id] : undefined))
 const resultatCourant = computed(() => (resultatEtape.value?.type === 'scenario' ? resultatEtape.value : undefined))
 const resultatLieu = computed(() => (resultatEtape.value?.type === 'lieu' ? resultatEtape.value : undefined))
+/** Mode scène (plein écran, sans défilement de page) : l’étape montre le téléphone. Mêmes conditions que le gabarit. */
+const scene = computed(
+  () =>
+    !!etat.value &&
+    !etat.value.termine &&
+    !(sensible && !avertissementLu.value) &&
+    !(surIle && !store.etat.personnage) &&
+    (etape.value?.type === 'scenario' || etape.value?.type === 'fil'),
+)
+/** Bouton « Indice » de la barre : scénario affiché, avant le choix, et au moins un passage à surligner. */
+const indice = computed<'disponible' | 'joue' | undefined>(() => {
+  const e = etape.value
+  if (!scene.value || e?.type !== 'scenario' || etat.value?.phase !== 'situation' || !e.indices.some((i) => i.passage)) return undefined
+  return etat.value.indiceUtilise ? 'joue' : 'disponible'
+})
 
 function envoyer(evenement: RunEvent) {
   if (!mission || !etat.value) return
@@ -90,29 +107,29 @@ function recommencer() {
 </script>
 
 <template>
-  <main class="conteneur mission">
+  <main class="conteneur mission" :class="{ 'mission--scene': scene, 'mission--brouillon': brouillon }">
     <template v-if="!mission || !etat">
-      <h1>Cette mission n’existe plus</h1>
+      <MissionBarre titre="Cette mission n’existe plus" />
       <p>Elle a peut-être été renommée ou retirée.</p>
       <RouterLink class="btn" to="/carte">Retour à la carte</RouterLink>
     </template>
     <template v-else>
-      <BandeauBrouillon v-if="mission.relecture?.statut === 'a-relire'" />
-      <header class="mission-entete carte">
-        <h1>{{ mission.titre }}</h1>
-        <p v-if="!etat.termine && !surIle" class="progression">
-          <label for="progression-mission">Étape {{ etat.index + 1 }} sur {{ mission.etapes.length }}</label>
-          <progress id="progression-mission" :value="etat.index" :max="mission.etapes.length" />
-        </p>
-        <ParcoursScene
-          v-if="surIle && ile && store.etat.personnage"
-          :ile="ile"
-          :etapes="etapesScene"
-          :position="etat.termine ? etapesScene.length : etat.index"
-          :personnage="store.etat.personnage"
-        />
-        <CheminIle v-if="mission.format === 'parcours' && !etat.termine" :mission="mission" :index="etat.index" />
-      </header>
+      <MissionBarre
+        :titre="mission.titre"
+        :etape="etat.termine || surIle ? undefined : etat.index + 1"
+        :total="mission.etapes.length"
+        :indice="indice"
+        @indice="envoyer({ type: 'indice' })"
+      />
+      <BandeauBrouillon v-if="brouillon" />
+      <ParcoursScene
+        v-if="surIle && ile && store.etat.personnage"
+        :ile="ile"
+        :etapes="etapesScene"
+        :position="etat.termine ? etapesScene.length : etat.index"
+        :personnage="store.etat.personnage"
+      />
+      <CheminIle v-if="mission.format === 'parcours' && !etat.termine" :mission="mission" :index="etat.index" />
 
       <SensibleAvertissement v-if="sensible && !avertissementLu" @commencer="avertissementLu = true" />
       <section v-else-if="surIle && !store.etat.personnage" class="choix-depart">
@@ -134,6 +151,8 @@ function recommencer() {
           :mode="mode"
           :sensible="sensible"
           :leviers="leviers"
+          :choix-id="etat.choixId"
+          :indice-visible="etat.indiceUtilise"
           :contexte="contexte"
           @evenement="envoyer"
         />
@@ -165,12 +184,33 @@ function recommencer() {
 </template>
 
 <style scoped>
+/*
+ * Mode scène : barre, zone de jeu, bandeau d’aide ; la page ne défile pas.
+ * Repli en flux si la place manque, si le texte est très grand ou l’interligne large
+ * (les em des media queries ignorent la taille de police de la page), ou si les réglages sont ouverts.
+ * Les étapes et le téléphone lisent les variables posées ici.
+ */
+@media (min-width: 48.001em) and (min-height: 34.001em) {
+  :root:not([data-taille='tres-grand'], [data-interligne='large']) .mission--scene:not(:has(#panneau-reglages)) {
+    height: 100svh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 0.75rem;
+    padding-block: 0.5rem;
+    --scene-conteneur: size;
+    --scene-defilement: auto;
+    --tel-position: static;
+    --tel-hauteur: min(100cqh - 1rem, 60rem);
+    /* Plafonnée par la largeur de la grille (unités résolues sur `.telephone`) : le panneau garde au moins ~40 %. */
+    --tel-largeur: min(clamp(30rem, (100cqh - 1rem) * 9 / 10, 46rem), 58cqw);
+    max-width: 90rem;
+  }
+  /* Bandeau « Brouillon » (relecture) : une ligne de plus entre la barre et la zone de jeu. */
+  :root:not([data-taille='tres-grand'], [data-interligne='large']) .mission--scene.mission--brouillon:not(:has(#panneau-reglages)) {
+    grid-template-rows: auto auto 1fr auto;
+  }
+}
 .mission { display: grid; gap: 1rem; align-content: start; }
-.mission-entete { display: grid; gap: 0.75rem; }
-.mission-entete h1 { margin: 0; }
-.progression { display: flex; align-items: center; gap: 0.75rem; margin: 0; }
-.progression label { font-weight: 700; white-space: nowrap; }
-progress { flex: 1; max-width: 20rem; }
 .choix-depart { display: grid; gap: 1rem; justify-items: start; }
 .depart-titre { display: flex; align-items: center; gap: 1rem; }
 .depart-titre h2 { margin: 0; }

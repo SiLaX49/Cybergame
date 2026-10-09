@@ -30,26 +30,30 @@ etapes:
       messages:
         - de: contact
           texte: 'Je t’ajoute à un groupe trop bien : on gagne 5 € par vidéo StreamTube likée, payé direct 💸 J’ai déjà touché 20 € ! Pour débloquer les missions mieux payées, il faut juste un dépôt de 50 € au début. Inscris-toi sur likes-remuneres.xyz, dis que tu viens de ma part.'
+          heure: '21:15'
     question: Emma est dans ta classe et elle a l’air sûre d’elle. Que fais-tu ?
     choix:
       - id: depot
         texte: 'Emma a déjà touché 20 €, et les 50 € de dépôt, je les récupère en dix vidéos : je m’inscris.'
         qualite: risque
+        geste: payer
         consequence: 'Tu reçois 10 € pour tes deux premières vidéos likées. Puis le « manager » du groupe te réclame 150 € de plus « pour débloquer tes gains ». Tu ne peux jamais retirer ton argent, et il insiste pour que tu recrutes d’autres élèves. C’est une arnaque au faux job. Tu peux encore agir : garder des preuves, bloquer, prévenir un adulte et ta banque.'
+        reaction: 'Trop bien, bienvenue dans le groupe ! 💸'
       - id: parle-emma
         texte: 'Je ne verse rien et j’en parle à Emma en vrai : payer pour gagner de l’argent, c’est louche.'
         qualite: bon
+        geste: verifier
         consequence: 'Emma t’explique qu’elle a bien reçu 20 €, mais qu’elle ne peut récupérer ni ses 50 € de dépôt, ni les 30 € de « frais » qu’on lui a demandés ensuite : le site en invente toujours de nouveaux. Vous gardez des captures et vous signalez le groupe ensemble.'
+        reaction: 'Ah… tu crois ? Ok, on en parle demain.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant de m’inscrire ou de verser quoi que ce soit.
         qualite: aide
         consequence: 'Ta CPE reconnaît l’arnaque aux « likes payés » : les premiers petits gains servent d’appât pour obtenir des dépôts plus gros. Elle prévient les autres classes et aide Emma, qui avait déjà versé de l’argent, à faire le point avec ses parents et sa banque.'
     indices:
-      - { id: payer-pour-gagner, libelle: 'On me demande de payer avant de pouvoir gagner de l’argent', pertinent: true }
-      - { id: trop-facile, libelle: '5 € pour un simple like, c’est trop beau pour être vrai', pertinent: true }
-      - { id: site, libelle: 'L’inscription se fait sur un site inconnu (likes-remuneres.xyz)', pertinent: true }
-      - { id: deja-paye, libelle: 'Emma dit avoir déjà été payée', pertinent: false }
-    explicationIndices: 'Un vrai travail ne demande jamais de payer pour commencer. Les premiers petits gains sont un appât : ils rendent l’offre crédible pour réclamer ensuite des dépôts plus gros. Qu’Emma ait touché 20 € ne prouve donc rien.'
+      - { id: payer-pour-gagner, libelle: 'On me demande de payer avant de pouvoir gagner de l’argent', passage: 'un dépôt de 50 € au début' }
+      - { id: trop-facile, libelle: '5 € pour un simple like, c’est trop beau pour être vrai', passage: '5 € par vidéo StreamTube likée' }
+      - { id: site, libelle: 'L’inscription se fait sur un site inconnu (likes-remuneres.xyz)', passage: 'likes-remuneres.xyz' }
+    explicationIndices: 'Un vrai travail ne demande jamais de payer pour commencer. 5 € pour un simple like, c’est l’appât : ça rend l’offre crédible pour réclamer ensuite des dépôts plus gros. Et l’inscription passe par un site inconnu, likes-remuneres.xyz.'
     aRetenir: 'Une offre qui te paie pour liker mais te demande un dépôt est une arnaque, même relayée par un camarade. Si tu as payé : garde des preuves, bloque, préviens un adulte et ta banque.'
     recuperation: { action: capture-preuve, siChoix: [depot] }
     pourquoi:
