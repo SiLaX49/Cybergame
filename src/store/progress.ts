@@ -13,6 +13,7 @@ const reglagesSchema = z.object({
   lectureSimple: z.boolean().default(false),
   animations: z.boolean().default(true),
   chrono: z.boolean().default(false),
+  theme: z.enum(['auto', 'clair', 'sombre']).default('auto'),
 })
 
 export const progressSchema = z.object({

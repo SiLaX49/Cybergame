@@ -48,6 +48,12 @@ export async function jouerMission(page: Page) {
     const refuser = page.getByRole('radio', { name: 'Refuser' })
     const validerPermissions = page.getByRole('button', { name: 'Valider les permissions' })
     const notification = page.locator('[data-notification]')
+    // Gestes de récupération des thèmes sensibles : premier bon message, étapes dans l’ordre.
+    const messageSoutien = page.locator('input[name="message-soutien"]').first()
+    const excuses = page.locator('input[name="excuses"]').first()
+    const supprimer = page.getByRole('button', { name: 'Supprimer ma publication' })
+    const demanderNePasRepartager = page.getByRole('button', { name: 'Demander aux autres de ne pas repartager' })
+    const envoyer = page.getByRole('button', { name: 'Envoyer', exact: true })
 
     if (await notification.isVisible()) await notification.click()
     else if (await suivant.isVisible()) await suivant.click()
@@ -71,6 +77,14 @@ export async function jouerMission(page: Page) {
       for (const radio of await refuser.all()) if (await radio.isEnabled()) await radio.check()
       await validerPermissions.click()
     }
+    else if (await messageSoutien.isVisible()) {
+      await messageSoutien.check()
+      await envoyer.click()
+    } else if (await supprimer.isVisible()) await supprimer.click()
+    else if (await excuses.isVisible()) {
+      await excuses.check()
+      await envoyer.click()
+    } else if (await demanderNePasRepartager.isVisible()) await demanderNePasRepartager.click()
     else await page.waitForTimeout(100)
   }
   throw new Error('La mission ne s’est pas terminée')

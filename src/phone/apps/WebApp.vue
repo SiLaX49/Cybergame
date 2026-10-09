@@ -43,7 +43,7 @@ const note = computed(() => props.ecran.messages.map((m) => m.texte.match(/★\s
 <style scoped>
 .barre-adresse { display: flex; align-items: center; flex-wrap: wrap; gap: 0.4em; margin: 0 0 0.75rem; padding: 0.35rem 0.7rem; border-radius: 999px; background: var(--tel-recu); font-size: 0.9em; }
 .reglages { flex: none; color: var(--tel-doux); }
-.non-securise { display: inline-flex; align-items: center; gap: 0.2em; font-weight: 700; color: #a3200f; }
+.non-securise { display: inline-flex; align-items: center; gap: 0.2em; font-weight: 700; color: var(--tel-danger); }
 .url { flex: 1 1 6em; min-width: 0; overflow-wrap: anywhere; }
 .domaine { font-weight: 700; }
 .reste { color: var(--tel-doux); }

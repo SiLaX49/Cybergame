@@ -3,12 +3,14 @@ import { Award } from '@lucide/vue'
 import { computed, nextTick, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import type { Leviers, Lieu, Mission, Scenario } from '@/content/schema'
-import { BADGES, calculerBadges } from '@/engine/badges'
+import { BADGES, calculerBadges, descriptionBadge } from '@/engine/badges'
 import { leviersDeLaMission, leviersDuRun, type RunState, type SurpriseResultat } from '@/engine/mission-runner'
 import { focusAuMontage } from '@/ui/focus'
+import Hulotte from '@/ui/Hulotte.vue'
 import { useTexte } from '@/ui/useTexte'
+import { FIN_SENSIBLE } from './textesSensibles'
 
-const props = defineProps<{ mission: Mission; etat: RunState; leviers: Leviers }>()
+const props = withDefaults(defineProps<{ mission: Mission; etat: RunState; leviers: Leviers; sensible?: boolean }>(), { sensible: false })
 const emit = defineEmits<{ rejouer: [] }>()
 const t = useTexte()
 const titre = ref<HTMLElement | null>(null)
@@ -18,7 +20,7 @@ const badges = computed(() => calculerBadges(props.etat))
 const leviersChoisis = computed(() =>
   leviersDuRun(props.mission, props.etat).map((id) =>
     id === 'autre'
-      ? { id, libelle: props.leviers.autre.libelle, parade: props.leviers.autre.parade }
+      ? { id, libelle: props.leviers.autre.libelle, parade: (props.sensible ? props.leviers.autreSensible : props.leviers.autre).parade }
       : { id, libelle: props.leviers.leviers[id].libelle, parade: props.leviers.leviers[id].parade },
   ),
 )
@@ -79,29 +81,33 @@ async function fermerPleinEcran() {
 
 <template>
   <section class="fin-mission">
-    <h2 ref="titre" tabindex="-1">Mission terminée !</h2>
+    <header class="fin-entete">
+      <Hulotte :expression="sensible ? 'douce' : 'bravo'" :taille="120" />
+      <h2 ref="titre" tabindex="-1">Mission terminée !</h2>
+    </header>
 
     <h3>Tes badges</h3>
-    <ul class="badges">
-      <li v-for="b in badges" :key="b" class="carte badge">
-        <Award aria-hidden="true" /> <strong>{{ BADGES[b].titre }}</strong> : {{ BADGES[b].description }}
+    <ul class="badges" :class="{ 'badges-animes': !sensible }">
+      <li v-for="b in badges" :key="b" class="badge medaille">
+        <Award aria-hidden="true" /> <span><strong>{{ BADGES[b].titre }}</strong> : {{ descriptionBadge(b, sensible) }}</span>
       </li>
     </ul>
 
-    <section v-if="afficherCraquer" class="carte craquer">
-      <h3>Ce qui t’a fait craquer</h3>
+    <section v-if="afficherCraquer" class="encadre encadre-aide craquer">
+      <h3>{{ sensible ? FIN_SENSIBLE.titre : 'Ce qui t’a fait craquer' }}</h3>
       <ul v-if="leviersChoisis.length">
         <li v-for="l in leviersChoisis" :key="l.id"><strong>{{ l.libelle }}</strong> : {{ l.parade }}</li>
       </ul>
       <template v-else>
-        <p>Aucun piège n’a marché sur toi cette fois. Les leviers à surveiller :</p>
+        <p v-if="sensible">{{ FIN_SENSIBLE.sansLevier }}</p>
+        <p v-else>Aucun piège n’a marché sur toi cette fois. Les leviers à surveiller :</p>
         <ul>
           <li v-for="l in aSurveiller" :key="l">{{ l }}</li>
         </ul>
       </template>
     </section>
 
-    <section v-if="surprise" class="carte surprise">
+    <section v-if="surprise" class="encadre encadre-info surprise">
       <h3>Le message piège était…</h3>
       <p><strong>{{ surprise.notification.de }}</strong> : « {{ surprise.notification.texte }} »</p>
       <p>{{ surprise.notification.explication }}</p>
@@ -145,10 +151,22 @@ async function fermerPleinEcran() {
 </template>
 
 <style scoped>
-.badges { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
-.badge { display: flex; align-items: center; gap: 0.5rem; }
-.surprise { margin: 1rem 0; border-left: 6px solid var(--aide); }
-.craquer { margin: 1rem 0; border-left: 6px solid var(--aide); }
+.fin-mission { display: grid; gap: 1rem; }
+.fin-mission > * { margin-top: 0; margin-bottom: 0; }
+.fin-entete { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.fin-entete h2 { margin: 0; }
+.badges { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; }
+/* Médailles : le texte du badge reste entier, l'icône n'est qu'un décor. */
+.medaille {
+  display: flex; align-items: flex-start; gap: 0.6rem; border-radius: 18px; white-space: normal;
+  font-size: 1em; padding: 0.4em 0.9em; border-width: 2px; border-color: var(--primaire);
+  box-shadow: 0 3px 0 var(--bord-fort);
+}
+.medaille svg { flex: none; margin-top: 0.15em; color: var(--primaire); }
+/* Apparition douce : jamais en thème sensible (classe absente), coupée par les réglages globaux d'animation. */
+.badges-animes .medaille { animation: medaille-apparait var(--duree) ease-out both; }
+@keyframes medaille-apparait { from { transform: translateY(6px); } to { transform: none; } }
+.debrief ol { padding-left: 1.4rem; }
 .plein-ecran {
   position: fixed; inset: 0; z-index: 20; background: var(--surface);
   width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; border: 0; color: var(--texte);

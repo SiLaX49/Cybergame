@@ -25,5 +25,5 @@ const ONGLETS = [
 
 <style scoped>
 /* Anneau de story : liseré blanc puis violet autour de l’avatar du compte. */
-.coque-snaptalk-publication :deep(.compte .avatar) { box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #7a2fd0; }
+.coque-snaptalk-publication :deep(.compte .avatar) { box-shadow: 0 0 0 2px var(--tel-blanc), 0 0 0 4px var(--tel-snaptalk-story); }
 </style>

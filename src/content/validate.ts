@@ -32,6 +32,9 @@ export function validateCross(themes: Theme[], missions: { fichier: string; miss
       if (!themesParId.has(id)) issues.push({ fichier, chemin: `themesCouverts.${i}`, message: `thème inconnu : ${id}` })
     })
     const theme = mission.theme ? themesParId.get(mission.theme) : undefined
+    if (theme?.sensible && !mission.relecture) {
+      issues.push({ fichier, chemin: 'relecture', message: 'obligatoire pour un thème sensible' })
+    }
     if (theme?.sensible && !mission.fiche.siRevelation) {
       issues.push({ fichier, chemin: 'fiche.siRevelation', message: 'obligatoire pour un thème sensible' })
     }

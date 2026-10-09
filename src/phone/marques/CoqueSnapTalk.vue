@@ -27,11 +27,11 @@ const ONGLETS = [
 
 <style scoped>
 /* Anneau de story : liseré blanc puis violet autour de l’avatar. */
-.avec-story :deep(.avatar) { box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #7a2fd0; }
+.avec-story :deep(.avatar) { box-shadow: 0 0 0 2px var(--tel-blanc), 0 0 0 4px var(--tel-snaptalk-story); }
 .serie { flex: none; font-weight: 700; white-space: nowrap; }
 /* Icône d’état : petit carré plein en tête de chaque bulle (bleu pour le contact, rouge pour toi). */
 .coque-snaptalk :deep(.bulle .texte)::before {
-  content: ''; display: inline-block; width: 0.6em; height: 0.6em; margin-right: 0.4em; border-radius: 2px; background: #2563d9;
+  content: ''; display: inline-block; width: 0.6em; height: 0.6em; margin-right: 0.4em; border-radius: 2px; background: var(--tel-snaptalk-photo);
 }
-.coque-snaptalk :deep(.bulle.moi .texte)::before { background: #c8102e; }
+.coque-snaptalk :deep(.bulle.moi .texte)::before { background: var(--tel-alerte); }
 </style>

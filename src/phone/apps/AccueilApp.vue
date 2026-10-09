@@ -57,9 +57,9 @@ function toucher(nom: string) {
 .appli:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 .appli[aria-disabled='true'] { cursor: not-allowed; }
 /* « En blanc » : fond blanc, contour, icône désaturée ; le libellé reste lisible. */
-.appli[aria-disabled='true'] :deep(.icone-appli) { background: #ffffff !important; color: var(--tel-doux) !important; box-shadow: inset 0 0 0 2px var(--tel-bord); }
+.appli[aria-disabled='true'] :deep(.icone-appli) { background: var(--tel-blanc) !important; color: var(--tel-doux) !important; box-shadow: inset 0 0 0 2px var(--tel-bord); }
 .icone { position: relative; display: inline-flex; font-size: 1.15em; }
-.pastille { position: absolute; top: -0.4em; right: -0.5em; min-width: 1.4em; padding: 0 0.3em; border-radius: 999px; background: #c8102e; color: #ffffff; font-size: 0.7em; font-weight: 700; line-height: 1.4em; text-align: center; box-shadow: 0 0 0 2px var(--tel-fond); }
+.pastille { position: absolute; top: -0.4em; right: -0.5em; min-width: 1.4em; padding: 0 0.3em; border-radius: 999px; background: var(--tel-alerte); color: var(--tel-blanc); font-size: 0.7em; font-weight: 700; line-height: 1.4em; text-align: center; box-shadow: 0 0 0 2px var(--tel-fond); }
 .libelle { font-size: 0.85em; line-height: 1.2; text-align: center; overflow-wrap: anywhere; }
 .pages { display: flex; justify-content: center; gap: 0.4rem; margin: 0; }
 .pages span { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--tel-bord); }

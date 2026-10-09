@@ -22,7 +22,7 @@ async function fermer() {
     <button
       ref="boutonReglages"
       type="button"
-      class="btn"
+      class="btn btn-secondaire"
       aria-controls="panneau-reglages"
       :aria-expanded="ouvert"
       @click="ouvert = !ouvert"
@@ -37,6 +37,13 @@ async function fermer() {
 .entete { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
 .gauche { display: flex; align-items: center; }
 .centre { flex: 1 1 10rem; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
-.app-header { padding: 0.5rem 1rem; background: var(--surface); border-bottom: 1px solid var(--bord); }
-.mission-barre { padding-bottom: 0.5rem; border-bottom: 1px solid var(--bord); }
+.app-header {
+  padding: 0.4rem max(1rem, (100% - 62rem) / 2);
+  background: var(--surface); border-bottom: 2px solid var(--bord);
+}
+/* Collant seulement si l’écran est assez grand : sur petit écran ou fort zoom, il mangerait la page. */
+@media (min-width: 40rem) and (min-height: 32rem) {
+  .app-header { position: sticky; top: 0; z-index: 10; }
+}
+.mission-barre { padding-bottom: 0.5rem; border-bottom: 2px solid var(--bord); }
 </style>

@@ -26,6 +26,6 @@ defineProps<{ ecran: Ecran }>()
 .pied { flex: none; display: flex; justify-content: flex-end; padding: 0.5rem 0.75rem; background: var(--tel-fond); }
 .ecrire {
   display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.1rem; border-radius: 16px;
-  background: var(--marque-accent); color: var(--marque-texte); font-weight: 700; box-shadow: 0 2px 6px rgb(0 0 0 / 25%);
+  background: var(--marque-accent); color: var(--marque-texte); font-weight: 700; box-shadow: 0 2px 6px var(--tel-ombre);
 }
 </style>

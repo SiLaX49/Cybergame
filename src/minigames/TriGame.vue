@@ -60,9 +60,9 @@ onUnmounted(arreterChrono)
 
 <template>
   <div class="tri">
-    <p>{{ config.consigne }}</p>
-    <p class="compteur">Carte {{ index + 1 }} sur {{ config.cartes.length }}</p>
-    <p v-if="chrono && reponse === null" class="chrono" role="timer" aria-live="off">
+    <p class="consigne">{{ config.consigne }}</p>
+    <p class="compteur badge">Carte {{ index + 1 }} sur {{ config.cartes.length }}</p>
+    <p v-if="chrono && reponse === null" class="chrono badge badge-aide" role="timer" aria-live="off">
       <span aria-hidden="true">⏱️</span> {{ restant }} s
     </p>
     <blockquote ref="carteTri" class="carte carte-tri" tabindex="-1">{{ carte.texte }}</blockquote>
@@ -78,7 +78,11 @@ onUnmounted(arreterChrono)
         {{ c.libelle }}
       </button>
     </div>
-    <div class="retour" role="status">
+    <div
+      class="retour"
+      :class="reponse === null ? '' : reponse === carte.categorie ? 'encadre encadre-bon' : 'encadre encadre-risque'"
+      role="status"
+    >
       <template v-if="reponse !== null">
         <p v-if="reponse === carte.categorie"><span aria-hidden="true">✅</span> Bien vu !</p>
         <p v-else-if="reponse === TEMPS_ECOULE">
@@ -95,6 +99,11 @@ onUnmounted(arreterChrono)
 </template>
 
 <style scoped>
-.carte-tri { margin: 1rem 0; font-size: 1.1em; }
-.chrono { font-weight: 700; }
+.consigne { color: var(--texte-doux); }
+.carte-tri { margin: 1rem 0; font-size: 1.15em; border-left: 8px solid var(--primaire); }
+.tri-categories { margin: 1rem 0; }
+.tri-categories .btn { flex: 1 1 10rem; }
+.retour { margin: 1rem 0; }
+.retour:empty { display: none; }
+.chrono { margin-left: 0.5rem; }
 </style>

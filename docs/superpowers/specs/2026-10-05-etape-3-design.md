@@ -1,7 +1,7 @@
 # Cyber Réflexes, étape 3 : thèmes sensibles (cyberharcèlement, rencontres en ligne)
 
 - **Date** : 2026-10-05
-- **Statut** : à valider
+- **Statut** : validée le 2026-10-06 (points du § 10 tranchés)
 - **Prérequis** : étapes 1 et 2 et évolution « pourquoi » livrées (`2026-09-24-cyber-reflexes-design.md`, `2026-09-28-pourquoi-leviers-design.md`, `2026-10-01-etape-2-design.md`)
 
 ## 1. Objectif
@@ -17,7 +17,7 @@ Ces thèmes touchent des élèves qui peuvent vivre la situation au moment où i
 
 ### Critères de succès
 - 6 nouvelles missions (2 thèmes × 3 niveaux), chacune avec 3 scénarios et le mini-jeu de son thème.
-- **Aucune mission sensible n’est publiée sur le site tant qu’elle n’a pas été relue** par une association spécialisée (section 4). Le contenu peut être écrit, testé et joué en local avant.
+- **Aucune mission sensible n’est publiée sur le site tant qu’elle n’a pas passé la relecture interne renforcée** (section 4). Une relecture par une association spécialisée viendra ensuite, pour améliorer le contenu déjà publié. Le contenu peut être écrit, testé et joué en local avant.
 - Toutes les règles de contenu existantes passent, plus les règles éditoriales des thèmes sensibles (section 5), vérifiées par des tests quand c’est automatisable.
 - Les parcours passent l’audit axe (aucune violation critique ou sérieuse), y compris l’avertissement, le bandeau d’aide et les nouvelles actions de récupération.
 
@@ -57,19 +57,25 @@ Nouveau champ de mission, obligatoire pour un thème sensible (règle dans `vali
 
 ```yaml
 relecture:
-  statut: a-relire        # a-relire | relue
-  par: e-Enfance / 3018   # obligatoire si relue
-  date: 2026-11-15        # obligatoire si relue
+  statut: a-relire        # a-relire | relue-interne | relue-association
+  par: Noa M. ; relecture protection de l’enfance   # obligatoire sauf a-relire
+  date: 2026-10-20                                   # obligatoire sauf a-relire
 ```
 
 ### 4.2 Dans le build
 - `buildContent` reçoit une option `brouillons: boolean`.
-- **Production** (`npm run build`, CI, GitHub Pages) : les missions sensibles dont le statut n’est pas `relue` sont **exclues du bundle**. Le thème reste « Bientôt disponible » sur la carte tant qu’il n’a aucune mission relue.
+- **Production** (`npm run build`, CI, GitHub Pages) : les missions sensibles au statut `a-relire` sont **exclues du bundle**. Le thème reste « Bientôt disponible » sur la carte tant qu’il n’a aucune mission publiable.
 - **Développement** (`npm run dev`) ou build avec `VITE_BROUILLONS=1` : elles sont incluses, avec un bandeau « Brouillon : contenu pas encore relu, ne pas utiliser en classe » en tête de mission et sur la fiche enseignant.
 - Les tests de contenu chargent toujours **tout** le contenu (brouillons compris).
 
-### 4.3 La relecture elle-même
-Elle se fait hors code : le contenu est envoyé à une association spécialisée (candidate naturelle : **e-Enfance**, qui opère le 3018 ; possibles en complément : l’association Hugo !, l’Unaf pour les fiches familles). Le format envoyé est la **fiche enseignant imprimable** de chaque mission (déjà générée par `FicheMissionPage`), complétée d’un export lisible de tous les textes des scénarios (script `npm run export:relecture` qui écrit un Markdown par mission dans `dist-relecture/`). Les retours sont intégrés, puis `statut: relue` est posé mission par mission.
+### 4.3 La relecture interne renforcée (condition de publication)
+Décision du 2026-10-06 : publication après relecture interne ; l’association relit plus tard, sans bloquer la publication. Une mission passe à `relue-interne` quand ces trois verrous sont passés :
+1. **Tests automatiques** de la section 5 (formules culpabilisantes, 3018, vocabulaire explicite, rôles, récupérations…) : verts.
+2. **Relecture « protection de l’enfance »** dédiée, distincte de la relecture de contenu habituelle, avec une grille écrite à partir des sources de la section 5 (nonauharcelement.education.gouv.fr, e-Enfance / 3018, CNIL, internet-signalement.gouv.fr, protocole pHARe) ; toutes ses remarques sont traitées.
+3. **Relecture humaine** par Noa, et si possible par un enseignant, un ou une CPE ou une infirmière scolaire, à partir de la fiche enseignant imprimable et d’un export lisible de tous les textes (script `npm run export:relecture` qui écrit un Markdown par mission dans `dist-relecture/`).
+
+### 4.4 La relecture par une association (plus tard)
+Le même export sert de dossier d’envoi (candidate naturelle : **e-Enfance**, qui opère le 3018 ; en complément : l’association Hugo !, l’Unaf pour les fiches familles). Les retours sont intégrés comme une correction de contenu ordinaire, puis le statut passe à `relue-association`.
 
 ## 5. Règles éditoriales
 
@@ -131,7 +137,7 @@ Récupérations : chantage → `capture-preuve` puis `bloquer-signaler` ; contac
 2. Actions `soutenir` et `retirer-publication`.
 3. Missions `harcelement` (3) et leurs tests de contenu.
 4. Missions `rencontres` (3) et leurs tests de contenu.
-5. Script d’export pour la relecture, envoi à l’association (hors code), puis passage en `relue` mission par mission.
+5. Script d’export pour la relecture, relecture interne renforcée (§ 4.3), puis passage en `relue-interne` mission par mission. L’envoi à l’association vient ensuite, hors code.
 
 Les étapes 1 à 4 peuvent être fusionnées dans `main` sans rien changer au site publié, grâce au filtre de la section 4.2.
 
@@ -141,7 +147,7 @@ Les étapes 1 à 4 peuvent être fusionnées dans `main` sans rien changer au si
 - Témoignages réels, photos réelles, noms d’élèves réels.
 - Protocole d’évaluation et espace enseignant avec classes (« Plus tard »).
 
-## 10. Points à trancher
-1. Le scénario de chantage par photo truquée en 5e – 3e : pertinent (cas en hausse) mais à confirmer avec l’association pour cet âge.
-2. Libellés exacts des 5 nouveaux leviers, et faut-il plutôt réutiliser `peur` et `confiance` pour limiter leur nombre.
-3. Association relectrice à contacter, et qui s’en charge (toi, ou l’ESAIP via un enseignant).
+## 10. Points tranchés (2026-10-06)
+1. **Chantage par photo truquée en 5e – 3e** : gardé. La photo est un montage fait à partir de la photo de profil ; l’élève n’envoie jamais d’image. Point à soumettre en priorité à l’association lors de sa relecture.
+2. **Leviers** : les 5 nouveaux leviers sont ajoutés (`flatterie`, `secret`, `honte`, `humour`, `colere`), avec les libellés et parades du § 3.1.
+3. **Relecture** : publication après la relecture interne renforcée (§ 4.3) ; l’association est contactée plus tard (§ 4.4).

@@ -40,11 +40,11 @@ const etapes = computed(() =>
 .halte { display: flex; align-items: center; gap: 0.35rem; font-size: 0.9em; }
 .halte:not(:last-child)::after { content: ''; width: 1.25rem; border-top: 3px dotted var(--bord); margin: 0 0.4rem; }
 .pastille {
-  display: inline-grid; place-items: center; width: 1.8em; height: 1.8em; border-radius: 50%;
-  border: 2px solid var(--primaire); background: var(--surface); color: var(--primaire); font-weight: 700;
+  display: inline-grid; place-items: center; width: 1.75rem; height: 1.75rem; min-width: 1.75rem; border-radius: 50%;
+  border: 3px solid var(--bord-fort); background: var(--surface); color: var(--texte); font-weight: 700;
 }
-.visite .pastille { background: var(--bon); border-color: var(--bon); color: #fff; }
-.ici .pastille { background: var(--primaire); color: var(--primaire-texte); }
+.visite .pastille { background: var(--bon); border-color: var(--bon); color: var(--surface); }
+.ici .pastille { background: var(--primaire); border-color: var(--primaire); color: var(--primaire-texte); box-shadow: 0 3px 0 var(--primaire-ombre); }
 .ici .nom { font-weight: 700; text-decoration: underline; text-underline-offset: 0.2em; }
 .a-venir .nom { color: var(--texte-doux); }
 </style>

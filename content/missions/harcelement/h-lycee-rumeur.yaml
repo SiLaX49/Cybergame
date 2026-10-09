@@ -1,0 +1,209 @@
+id: h-lycee-rumeur
+theme: harcelement
+tranches: ['lycee']
+titre: La rumeur
+resume: 'Une rumeur après une rupture, un raid de commentaires, une vidéo de soirée qui pourrait faire le tour du lycée : reconnaître le harcèlement, s’en protéger, aider et réparer.'
+duree: 20
+objectifs:
+  - 'Reconnaître le cyberharcèlement, y compris en meute, et savoir que c’est un délit'
+  - 'Se protéger quand on est visé : preuves, blocage, signalement, 3018, plainte possible'
+  - 'Agir en témoin et réparer quand on a publié quelque chose qui blesse'
+competences:
+  crcn: ['2.4', '4.3']
+  programmes: ['EMC lycée', 'EMI lycée']
+  phare: true
+relecture: { statut: a-relire }
+etapes:
+  - type: scenario
+    id: rumeur-rupture
+    role: victime
+    ecran:
+      app: sms
+      appNom: Messages
+      contact: '06 39 98 42 17'
+      messages:
+        - de: contact
+          texte: 'Tout le lycée sait ce que t’as fait à Enzo. T’as pas honte ?'
+          heure: '22:47'
+        - de: contact
+          texte: 'Tu crois que quelqu’un va encore te parler ? 😂'
+          heure: '22:48'
+        - de: contact
+          texte: 'Bonne nuit 😘 À demain au lycée.'
+          heure: '23:05'
+    question: 'Depuis ta rupture avec Enzo il y a deux semaines, une rumeur circule : tu l’aurais trompé. C’est faux. Chaque soir, des messages comme ceux-ci arrivent, de numéros différents. Que fais-tu ?'
+    choix:
+      - id: efface
+        texte: 'J’efface tout pour ne plus les voir, et j’attends que ça se tasse : ils finiront par se lasser.'
+        qualite: risque
+        geste: supprimer
+        consequence: 'Les messages continuent chaque soir, et la rumeur aussi. Le jour où tu décides d’en parler, les premiers messages ont disparu. Vouloir ne plus les voir est normal, et ce n’est pas ta faute : les responsables sont ceux qui écrivent. Garde les prochains. Ce que tu racontes compte aussi : un adulte peut agir même sans les premiers messages.'
+        reaction: 'On continue demain soir 😘'
+      - id: preuves
+        texte: 'Je fais des captures avec chaque numéro et chaque date, puis je bloque les numéros un par un.'
+        qualite: bon
+        geste: bloquer
+        consequence: 'Les captures sont rangées dans un dossier que tu n’ouvres pas tous les jours. De nouveaux numéros apparaissent, mais tu as les preuves. Il te reste à ne pas porter ça seul·e : parles-en à un adulte.'
+      - id: aide
+        texte: 'Je vais voir la CPE avec mes captures et je lui raconte tout.'
+        qualite: aide
+        consequence: 'La CPE te croit et déclenche le protocole du lycée contre le harcèlement. Les élèves qui relaient la rumeur sont reçus. Elle t’explique que tu peux porter plainte avec tes parents, et te donne le 3018 pour demander le retrait des publications.'
+    indices:
+      - { id: numeros, libelle: 'Les messages arrivent de numéros différents', passage: '06 39 98 42 17' }
+      - { id: chaque-soir, libelle: 'Ils arrivent chaque soir depuis deux semaines', passage: 'Bonne nuit' }
+      - { id: rumeur, libelle: 'Une rumeur fausse circule dans tout le lycée', passage: 'Tout le lycée sait ce que t’as fait' }
+    explicationIndices: 'Des messages chaque soir, de plusieurs numéros, plus une rumeur que tout le lycée répète : c’est du harcèlement, organisé à plusieurs. Ni la rupture ni la rumeur ne le justifient.'
+    aRetenir: 'Le cyberharcèlement est un délit, et ce n’est jamais la faute de la personne visée. Garde les preuves (captures, numéros, dates), bloque, et parles-en : CPE, infirmerie, parents, 3018. Le 3018 peut demander le retrait de contenus et t’expliquer comment porter plainte.'
+    recuperation: { action: capture-preuve, siChoix: [efface] }
+    pourquoi:
+      - levier: honte
+        truc: '« T’as pas honte ? » : ces messages veulent te faire porter la honte. Alors on a envie de tout effacer.'
+        parade: 'Ce n’est pas à toi d’avoir honte. Garde les preuves : elles aident les adultes à faire cesser les messages.'
+      - levier: peur
+        truc: '« Tu crois que quelqu’un va encore te parler ? » : on cherche à te faire croire que tu es seul·e.'
+        parade: 'Tu n’es pas seul·e. La CPE, l’infirmerie ou le 3018 peuvent agir avec toi.'
+      - levier: reflexe
+        truc: 'Effacer un message qui fait mal, c’est un geste pour se protéger. Mais il efface aussi la preuve.'
+        parade: 'Avant d’effacer, fais une capture, puis range-la dans un dossier à part.'
+
+  - type: scenario
+    id: raid-commentaires
+    role: temoin
+    ecran:
+      app: social
+      appNom: SnapTalk
+      contact: '@maya.dessine'
+      messages:
+        - de: contact
+          texte: 'Mon premier dessin exposé au festival BD de la ville 🎨✨ Merci à tous ceux qui sont venus !'
+      commentaires:
+        - { de: zk_77, texte: 'grosse fraude' }
+        - { de: tim.b, texte: '🤡🤡🤡' }
+        - { de: lol_xx, texte: 'supprime ton compte' }
+        - { de: r.cas, texte: 'tout le monde sait que t’as copié' }
+    question: 'Hier à 21 h, Axel a écrit dans le groupe de ta classe : « Raid sur Maya, tout le monde commente 🤡 ». Maya est en 1re dans ton lycée, tu la connais un peu. Que fais-tu ?'
+    choix:
+      - id: emoji
+        texte: 'Je mets juste un 🤡 : avec 312 commentaires, un de plus ne changera rien pour elle.'
+        qualite: risque
+        geste: repondre
+        reponse: '🤡'
+        consequence: 'Ton 🤡 devient le 313e. Le lendemain, Maya passe son compte en privé et ne vient pas au lycée. C’est Axel qui a organisé le raid. Mais dans un raid, chaque commentaire pèse, même un emoji. Tu peux encore retirer ton 🤡 et aider Maya.'
+        reaction: 'Ce compte est maintenant privé.'
+      - id: signale
+        texte: 'Je signale les commentaires, je ne relaie rien, et j’écris à Maya en privé que je suis là.'
+        qualite: bon
+        geste: signaler
+        consequence: 'Plusieurs commentaires disparaissent. Maya te répond : « Merci, je pensais que tout le lycée était contre moi. » Elle accepte d’en parler à un adulte.'
+        reaction: 'Merci, je pensais que tout le lycée était contre moi.'
+      - id: aide
+        texte: 'Je montre le message d’Axel et les commentaires au CPE, demain dès 8 h.'
+        qualite: aide
+        consequence: 'Le CPE contacte Maya et sa famille. Le lycée déclenche le protocole contre le harcèlement, et les commentaires sont signalés au 3018, qui demande leur retrait. Axel est convoqué. Le CPE fait attention à ne pas citer ton nom.'
+    indices:
+      - { id: nombre, libelle: 'Les moqueries s’enchaînent contre une seule personne', passage: '🤡🤡🤡' }
+      - { id: violence, libelle: 'Des commentaires lui demandent de supprimer son compte', passage: 'supprime ton compte' }
+    explicationIndices: 'Un raid, c’est le harcèlement en accéléré : beaucoup de monde, en même temps, contre une seule personne. La loi le reconnaît comme du harcèlement, même si chacun n’a écrit qu’un message : elle protège la personne visée.'
+    aRetenir: 'Dans un raid, chaque commentaire compte, dans un sens comme dans l’autre. Témoin, tu peux signaler, ne rien relayer, écrire en privé à la personne visée et prévenir un adulte. Le 3018 peut demander le retrait des contenus.'
+    recuperation: { action: soutenir, siChoix: [emoji] }
+    pourquoi:
+      - levier: groupe
+        truc: '« Tout le monde commente » : avec 312 messages, un de plus semble ne rien peser.'
+        parade: 'Que beaucoup de gens le fassent ne rend pas le raid moins violent pour Maya.'
+      - levier: humour
+        truc: 'Un « 🤡 », ça a l’air d’une blague légère, pas d’une attaque.'
+        parade: 'Pour la personne visée, 312 emojis moqueurs ne sont pas une blague.'
+      - levier: reflexe
+        truc: 'Commenter prend deux secondes, entre deux vidéos.'
+        parade: 'Avant de commenter, imagine la personne lire les 312 messages d’affilée.'
+
+  - type: scenario
+    id: video-soiree
+    role: auteur
+    ecran:
+      app: chat
+      appNom: ChatCord
+      contact: 'Adam'
+      messages:
+        - de: contact
+          texte: 'Mdr t’as filmé Hugo hier soir ?? Quand il chante en pleurant sur la chaise et qu’il tombe 😂😂'
+          heure: '11:24'
+        - de: contact
+          texte: 'Balance-la dans le groupe de la promo, ça va faire un carton'
+          heure: '11:24'
+        - de: contact
+          texte: 'Il le prendra bien, c’est Hugo 😂'
+          heure: '11:25'
+    question: 'Hier, à la soirée de Sarah, tu as filmé Hugo. Il venait de se faire quitter. Il chantait en pleurant, debout sur une chaise, puis il est tombé. Tout le monde a ri, Hugo aussi, à la fin. Que fais-tu de la vidéo ?'
+    choix:
+      - id: publie
+        texte: 'Tout le monde était là et a ri, Hugo compris : je la publie dans le groupe de la promo.'
+        qualite: risque
+        geste: partager
+        consequence: 'La vidéo fait 600 vues en une heure, puis circule dans d’autres lycées avec des montages. Hugo ne rit plus : il demande qu’on la retire et ne veut plus sortir. Tu ne voulais pas ça, et tu peux encore réparer.'
+        reaction: 'Ça tourne déjà dans d’autres lycées 😳'
+      - id: demande
+        texte: 'Je l’envoie seulement à Hugo et je lui demande s’il veut que je l’efface.'
+        qualite: bon
+        geste: repondre
+        reponse: 'Je demande d’abord à Hugo ce qu’il en pense.'
+        consequence: 'Hugo répond : « Efface-la stp, j’étais pas bien hier. » Tu la supprimes. Le lendemain, il te remercie.'
+        reaction: 'Sérieux ? Bon, comme tu veux…'
+      - id: aide
+        texte: 'Je demande l’avis de ma mère avant de faire quoi que ce soit avec cette vidéo, même si Adam insiste.'
+        qualite: aide
+        consequence: 'Ta mère te rappelle que diffuser l’image de quelqu’un sans son accord peut le blesser longtemps. Tu demandes à Hugo ce qu’il en pense : il préfère qu’elle soit effacée. Tu la supprimes, et Adam laisse tomber.'
+    indices:
+      - { id: accord, libelle: 'Hugo n’a pas donné son accord pour que la vidéo soit publiée', passage: 'Il le prendra bien, c’est Hugo' }
+      - { id: moment, libelle: 'C’est un moment où il allait mal', passage: 'il chante en pleurant' }
+      - { id: promo, libelle: 'Le groupe de la promo compte des centaines de personnes', passage: 'le groupe de la promo' }
+    explicationIndices: 'Rire sur le moment, entre amis, ne veut pas dire accepter d’être vu par tout le lycée. Hugo allait mal, et une vidéo publiée est très difficile à rattraper : elle peut être copiée et montée.'
+    aRetenir: 'Tout le monde peut déraper, et c’est réparable : retire la vidéo, excuse-toi, demande aux autres de l’effacer. Un adulte ou le 3018 peut t’aider à demander son retrait là où elle circule. Diffuser une vidéo humiliante peut devenir du harcèlement ; le harcèlement scolaire est un délit (loi du 2 mars 2022).'
+    recuperation: { action: retirer-publication, siChoix: [publie] }
+    pourquoi:
+      - levier: humour
+        truc: '« Il le prendra bien, c’est Hugo » : on se dit que c’est juste drôle.'
+        parade: 'Demande-toi si Hugo rirait en voyant 600 personnes regarder ce moment.'
+      - levier: groupe
+        truc: '« Ça va faire un carton » : Adam te pousse, et tout le monde a ri à la soirée.'
+        parade: 'Le rire du groupe ne remplace pas l’accord de Hugo. Demande-lui avant.'
+      - levier: reflexe
+        truc: 'Poster une vidéo drôle, c’est un geste qu’on fait dix fois par jour.'
+        parade: 'Avant de poster quelqu’un, demande-toi si tu voudrais être à sa place.'
+
+  - type: minijeu
+    id: tri-blague-harcelement
+    jeu: tri
+    config:
+      consigne: 'Blague partagée, conflit ponctuel ou harcèlement ? Classe chaque situation. Quelle que soit la case, tu as le droit d’en parler.'
+      categories:
+        - { id: blague, libelle: Blague partagée }
+        - { id: conflit, libelle: Conflit ponctuel }
+        - { id: harcelement, libelle: Harcèlement }
+      cartes:
+        - { id: c1, texte: 'Dans ta bande, vous vous surnommez avec des noms de légumes depuis la seconde, et tout le monde en rit.', categorie: blague, explication: 'Tout le monde participe et peut dire stop : c’est une blague partagée. Elle cesse de l’être dès que quelqu’un ne rit plus.' }
+        - { id: c2, texte: 'Deux élèves de terminale s’accrochent une fois en commentaires sur un sujet politique, puis passent à autre chose.', categorie: conflit, explication: 'Un désaccord, une fois, à égalité : c’est un conflit. Même ponctuel, il peut blesser, et tu peux en parler.' }
+        - { id: c3, texte: 'Après une rupture, un élève envoie chaque soir des messages insultants à son ex, depuis des comptes différents.', categorie: harcelement, explication: 'Répété, et la personne ne peut pas l’arrêter en bloquant : c’est du harcèlement, et c’est un délit. Preuves, adulte, 3018.' }
+        - { id: c4, texte: 'Un compte « confessions » du lycée publie des rumeurs anonymes sur la même élève, semaine après semaine.', categorie: harcelement, explication: 'Répétition, public nombreux, auteur caché : l’élève ne peut pas se défendre. C’est du harcèlement. Le 3018 peut demander la fermeture de ce type de compte.' }
+        - { id: c5, texte: 'Un ami poste une photo de toi déguisé·e au carnaval, après t’avoir demandé ton accord. Tu adores.', categorie: blague, explication: 'Il t’a demandé ton accord et tu en ris : c’est une blague partagée. L’accord fait toute la différence.' }
+        - { id: c6, texte: 'Pendant un exposé de groupe, Chloé reproche sèchement à Yanis de ne rien faire, une fois.', categorie: conflit, explication: 'Un reproche, une fois, entre deux élèves qui peuvent se répondre : c’est un conflit. En parler aide à le régler.' }
+        - { id: c7, texte: 'Une vidéo de Théo en train de pleurer circule. Chaque personne ne la partage « qu’une fois ».', categorie: harcelement, explication: 'Chacun ne l’a partagée qu’une fois, mais à plusieurs, l’humiliation se répète : c’est du harcèlement en meute, reconnu par la loi.' }
+        - { id: c8, texte: 'Kim et Lou ne se parlent plus depuis une dispute, sans rien publier l’une sur l’autre.', categorie: conflit, explication: 'Une dispute qui laisse un froid, sans attaques : c’est un conflit. Ça peut peser, et tu peux en parler à quelqu’un.' }
+debrief:
+  questions:
+    - 'Pourquoi un seul commentaire dans un raid, ou un seul partage, peut-il compter autant ?'
+    - 'Qu’est-ce qui rend difficile d’en parler quand on est visé, et qu’est-ce qui peut aider ?'
+    - 'Que dit la loi, et à quoi sert-elle pour la personne visée ?'
+  reponses: 'Dans un raid ou une vidéo qui circule, chaque geste s’additionne : pour la personne visée, la répétition vient du groupe. La honte, la peur que ce soit pire ou l’idée qu’il faut gérer seul empêchent souvent d’en parler ; un adulte de confiance, la CPE, l’infirmerie ou le 3018 écoutent sans juger et agissent. Le harcèlement scolaire est un délit depuis la loi du 2 mars 2022, et le harcèlement en meute est reconnu depuis 2018 : la loi sert d’abord à protéger la personne visée et à obtenir le retrait des contenus. Celui qui a dérapé peut réparer : retirer, s’excuser, demander aux autres d’effacer. Ce n’est jamais la faute de la personne visée.'
+  erreursFrequentes:
+    - 'Croire qu’un seul emoji ou un seul partage ne fait pas partie du harcèlement.'
+    - 'Effacer les messages blessants avant d’avoir gardé des preuves.'
+    - 'Penser que si tout le monde a ri sur le moment, la personne est d’accord pour être publiée.'
+fiche:
+  deroulement: |
+    5 min : cadre. Les prénoms sont fictifs. Situations inventées : personne ne raconte une histoire vraie devant la classe. Qui veut en parler peut venir vous voir après. Si une situation de harcèlement est connue dans la classe, en parler au CPE avant la séance.
+    20 min : jeu, en binômes ou en classe entière vidéoprojetée. Trois rôles : la personne visée, un témoin, celui ou celle qui a dérapé.
+    15 min : débrief des 3 questions, puis retour sur le mini-jeu (harcèlement en meute, rôle de l’accord).
+    5 min : la loi (délit de harcèlement scolaire, loi du 2 mars 2022) présentée comme une protection, et où trouver de l’aide (CPE, infirmerie, 3018, PHAROS, plainte).
+    5 min : engagement. Avant de poster ou de commenter quelqu’un, je me demande si cette personne serait d’accord.
+  siRevelation: 'Si un élève se confie pendant ou après la séance : l’écouter calmement, le croire et le remercier d’avoir parlé. Ne pas promettre le secret : lui expliquer qu’on va prévenir des adultes qui peuvent l’aider. Ne pas l’interroger ni chercher les détails, ne pas confronter les élèves mis en cause ; noter ses mots exacts, la date et l’heure. Prévenir le jour même le CPE, l’infirmier·e scolaire et le chef d’établissement, qui déclenchent le protocole pHARe. Si l’élève est en danger ou si sa situation est préoccupante, transmettre une information préoccupante à la CRIP du département (signalement au procureur en cas de danger grave ; 119 pour conseil). Lui indiquer le 3018 (gratuit et confidentiel, 7 j/7 de 9 h à 23 h), qui peut demander en priorité le retrait de contenus, et la possibilité de porter plainte avec ses représentants légaux. Si l’élève paraît en grande détresse ou parle de mourir : ne pas le laisser seul, prévenir immédiatement l’infirmier·e et le chef d’établissement, et appeler le 3114 (prévention du suicide, 24 h/24). Si un élève dit avoir participé ou être témoin : l’écouter sans l’humilier, le remercier d’en parler, et prévenir les mêmes adultes. Le harcèlement scolaire est un délit depuis la loi du 2 mars 2022 : on peut le dire aux lycéens comme une protection, sans en faire une menace.'

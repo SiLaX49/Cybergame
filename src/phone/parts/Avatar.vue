@@ -15,5 +15,5 @@ const lettres = computed(() => initiales(props.nom))
 </template>
 
 <style scoped>
-.avatar { flex: none; display: inline-grid; place-items: center; width: 2.2em; height: 2.2em; border-radius: 50%; color: #fff; font-size: 0.85em; font-weight: 700; }
+.avatar { flex: none; display: inline-grid; place-items: center; width: 2.2em; height: 2.2em; border-radius: 50%; color: var(--tel-blanc); font-size: 0.85em; font-weight: 700; }
 </style>

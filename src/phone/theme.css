@@ -1,9 +1,15 @@
 /* Mini-tablette en portrait (environ 3:4) quand la page défile. En mode scène, MissionPage la recalcule sur l'espace disponible. */
 :root { --tel-largeur: 34rem; --tel-hauteur: min(46rem, 85svh); }
+/* Surlignage des indices : partagé avec les numéros du panneau d'explication (hors du téléphone). */
+:root { --tel-passage: #fff1a8; --tel-passage-texte: #1b1b2f; }
 :root[data-taille='tres-grand'] { --tel-largeur: 40rem; }
 
 /* Variables du faux téléphone, par appli. Aplats opaques ; texte d'au moins 4.5:1 sur son fond. */
+/* Palette claire de téléphone, même quand le site est en thème sombre : repère de focus du thème clair. */
 .telephone {
+  color-scheme: light;
+  --focus: #b35c00;
+  --focus-lisere: #1f1a3a;
   --tel-coque: #1b1b2f;
   --tel-fond: #ffffff;
   --tel-texte: #1b1b2f;
@@ -15,13 +21,22 @@
   --tel-envoye: #2f5bd3;
   --tel-envoye-texte: #ffffff;
   --tel-lien: #1d4ed8;
-  /* Retour du choix : halos (fixes, jamais clignotants), bandeaux du verdict (texte blanc ≥ 4.5:1), surlignage des indices. */
+  /* Retour du choix : halos (fixes, jamais clignotants), bandeaux du verdict (texte blanc ≥ 4.5:1). */
   --tel-halo-piege: #ff2d55;
   --tel-halo-bon: #16a34a;
   --tel-verdict-piege: #b3123a;
   --tel-verdict-bon: #15803d;
-  --tel-passage: #fff1a8;
-  --tel-passage-texte: #1b1b2f;
+  /* Couleurs fixes des applis et des coques (pastilles, anneaux, bandeaux). */
+  --tel-blanc: #ffffff;
+  --tel-noir: #000000;
+  --tel-encre: #1b1b2f;
+  --tel-alerte: #c8102e;
+  --tel-danger: #a3200f;
+  --tel-ombre: rgb(0 0 0 / 25%);
+  --tel-chatcord-serveurs: #2b2540;
+  --tel-chatcord-pastille: #e4e0f4;
+  --tel-snaptalk-story: #7a2fd0;
+  --tel-snaptalk-photo: #2563d9;
 }
 .telephone[data-app='sms'] { --tel-accent: #1f7a3a; --tel-envoye: #1f7a3a; }
 .telephone[data-app='chat'] { --tel-fond: #f3f2fb; --tel-recu: #ffffff; --tel-accent: #5a3fc0; --tel-envoye: #5a3fc0; }

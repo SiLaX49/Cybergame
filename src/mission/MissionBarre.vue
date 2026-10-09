@@ -31,5 +31,6 @@ const emit = defineEmits<{ indice: [] }>()
 .retour { font-weight: 700; }
 h1 { flex: 1 1 10rem; min-width: 0; margin: 0; font-size: 1.1em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .progression { display: flex; align-items: center; gap: 0.5rem; margin: 0; }
+.progression label { font-weight: 700; white-space: nowrap; }
 progress { width: 6rem; height: 0.6rem; }
 </style>

@@ -13,6 +13,6 @@ defineProps<{ geste: Geste }>()
 </template>
 
 <style scoped>
-.banniere { display: flex; align-items: center; gap: 0.4rem; margin: 0.75rem auto 0; padding: 0.4rem 0.8rem; width: fit-content; max-width: 100%; border-radius: 999px; background: var(--tel-coque); color: #fff; font-size: 0.9em; animation: apparaitre 150ms ease-out; }
+.banniere { display: flex; align-items: center; gap: 0.4rem; margin: 0.75rem auto 0; padding: 0.4rem 0.8rem; width: fit-content; max-width: 100%; border-radius: 999px; background: var(--tel-coque); color: var(--tel-blanc); font-size: 0.9em; animation: apparaitre 150ms ease-out; }
 @keyframes apparaitre { from { opacity: 0; } to { opacity: 1; } }
 </style>

@@ -129,6 +129,8 @@ watch(
 }
 @media (max-width: 48em) { .telephone { position: static; } }
 .ecran { flex: 1; min-height: 0; padding: 0.75rem; overflow-y: auto; scrollbar-width: thin; background: var(--tel-fond); }
+/* Anneau intérieur : la coque (overflow: hidden) rognerait un anneau extérieur. */
+.ecran:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; box-shadow: inset 0 0 0 6px var(--focus-lisere); }
 .choix-joue { display: flex; flex-direction: column; gap: 0.5rem; }
 .verdict-colle { position: sticky; bottom: 0; }
 /* Verdict : halo en fondu de 200 ms puis fixe ; secousse ou rebond seulement sans préférence de mouvement réduit. */

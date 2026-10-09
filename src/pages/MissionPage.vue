@@ -28,6 +28,9 @@ import ParcoursScene from '@/parcours/ParcoursScene.vue'
 import type { PersonnageId } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
 import BandeauAide from '@/ui/BandeauAide.vue'
+import BandeauBrouillon from '@/ui/BandeauBrouillon.vue'
+import Hulotte from '@/ui/Hulotte.vue'
+import { contexteSensible } from '@/recovery/textes'
 
 const route = useRoute()
 const store = useProgress()
@@ -36,7 +39,9 @@ const store = useProgress()
 const mission = getMission(String(route.params.id))
 const theme = mission?.theme ? getTheme(mission.theme) : undefined
 const sensible = theme?.sensible ?? false
+const contexte = sensible ? contexteSensible(theme?.id) : undefined
 const leviers = getLeviers()
+const brouillon = mission?.relecture?.statut === 'a-relire'
 
 const parcours = mission?.format === 'parcours'
 const ile = theme && estIle(theme.id) ? theme.id : null
@@ -102,7 +107,7 @@ function recommencer() {
 </script>
 
 <template>
-  <main class="conteneur mission" :class="{ 'mission--scene': scene }">
+  <main class="conteneur mission" :class="{ 'mission--scene': scene, 'mission--brouillon': brouillon }">
     <template v-if="!mission || !etat">
       <MissionBarre titre="Cette mission n’existe plus" />
       <p>Elle a peut-être été renommée ou retirée.</p>
@@ -116,6 +121,7 @@ function recommencer() {
         :indice="indice"
         @indice="envoyer({ type: 'indice' })"
       />
+      <BandeauBrouillon v-if="brouillon" />
       <ParcoursScene
         v-if="surIle && ile && store.etat.personnage"
         :ile="ile"
@@ -127,11 +133,14 @@ function recommencer() {
 
       <SensibleAvertissement v-if="sensible && !avertissementLu" @commencer="avertissementLu = true" />
       <section v-else-if="surIle && !store.etat.personnage" class="choix-depart">
-        <h2 ref="titreDepart" tabindex="-1">Avant de partir</h2>
+        <div class="depart-titre">
+          <Hulotte expression="accueil" :taille="96" />
+          <h2 ref="titreDepart" tabindex="-1">Avant de partir</h2>
+        </div>
         <ChoixPersonnage v-model="personnageChoisi" />
         <button type="button" class="btn btn-primaire" :disabled="!personnageChoisi" @click="commencerParcours">C’est parti !</button>
       </section>
-      <FinMission v-else-if="etat.termine" :mission="mission" :etat="etat" :leviers="leviers" @rejouer="recommencer" />
+      <FinMission v-else-if="etat.termine" :mission="mission" :etat="etat" :leviers="leviers" :sensible="sensible" @rejouer="recommencer" />
       <template v-else-if="etape">
         <ScenarioStep
           v-if="etape.type === 'scenario'"
@@ -144,13 +153,14 @@ function recommencer() {
           :leviers="leviers"
           :choix-id="etat.choixId"
           :indice-visible="etat.indiceUtilise"
+          :contexte="contexte"
           @evenement="envoyer"
         />
         <MinijeuStep
           v-else-if="etape.type === 'minijeu'"
           :key="etape.id"
           :etape="etape"
-          :chrono="store.etat.reglages.chrono"
+          :chrono="store.etat.reglages.chrono && !sensible"
           @evenement="envoyer"
         />
         <LieuStep
@@ -162,6 +172,7 @@ function recommencer() {
           :mode="mode"
           :sensible="sensible"
           :leviers="leviers"
+          :contexte="contexte"
           @evenement="envoyer"
         />
         <FilStep v-else-if="etape.type === 'fil'" :key="etape.id" :fil="etape" @evenement="envoyer" />
@@ -194,5 +205,13 @@ function recommencer() {
     --tel-largeur: min(clamp(30rem, (100cqh - 1rem) * 9 / 10, 46rem), 58cqw);
     max-width: 90rem;
   }
+  /* Bandeau « Brouillon » (relecture) : une ligne de plus entre la barre et la zone de jeu. */
+  :root:not([data-taille='tres-grand'], [data-interligne='large']) .mission--scene.mission--brouillon:not(:has(#panneau-reglages)) {
+    grid-template-rows: auto auto 1fr auto;
+  }
 }
+.mission { display: grid; gap: 1rem; align-content: start; }
+.choix-depart { display: grid; gap: 1rem; justify-items: start; }
+.depart-titre { display: flex; align-items: center; gap: 1rem; }
+.depart-titre h2 { margin: 0; }
 </style>

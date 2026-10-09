@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { Compass } from '@lucide/vue'
 import { computed, ref } from 'vue'
 import type { Leviers, Lieu } from '@/content/schema'
 import type { LieuResultat, PhaseScenario, RunEvent } from '@/engine/mission-runner'
-import { RECUPERATIONS } from '@/recovery/registry'
+import { propsRecuperation, RECUPERATIONS } from '@/recovery/registry'
+import type { ContexteSensible } from '@/recovery/textes'
 import type { Mode } from '@/store/progress'
 import { focusAuChangement, focusAuMontage } from '@/ui/focus'
+import Hulotte from '@/ui/Hulotte.vue'
 import { useTexte } from '@/ui/useTexte'
 import ChoixList from './ChoixList.vue'
 import DecorScene from './DecorScene.vue'
 import PourquoiForm from './PourquoiForm.vue'
 import ReactionPanel from './ReactionPanel.vue'
+import { PASSER } from './textesSensibles'
 
 const props = defineProps<{
   lieu: Lieu
@@ -19,6 +21,8 @@ const props = defineProps<{
   mode: Mode
   sensible: boolean
   leviers: Leviers
+  /** Thème sensible de la mission : adapte les textes des gestes de récupération. */
+  contexte?: ContexteSensible
 }>()
 const emit = defineEmits<{ evenement: [evenement: RunEvent] }>()
 const t = useTexte()
@@ -48,13 +52,13 @@ focusAuChangement(() => props.phase, titre)
       </figure>
       <div class="lieu-panneau">
         <div class="recit carte">
-          <Compass aria-hidden="true" class="recit-icone" />
+          <Hulotte :expression="phase === 'situation' ? 'reflechit' : 'encourage'" :taille="56" class="recit-icone" />
           <p>{{ t(lieu.guide, lieu.guideSimple) }}</p>
         </div>
         <h2 ref="titre" tabindex="-1" :aria-describedby="retour ? idRester : undefined">
           {{ phase === 'situation' ? lieu.question : TITRES[phase] }}
         </h2>
-        <p v-if="retour" :id="idRester" class="rester">Retour au même moment : essaie un autre choix.</p>
+        <p v-if="retour" :id="idRester" class="rester encadre encadre-info">Retour au même moment : essaie un autre choix.</p>
         <ChoixList
           v-if="phase === 'situation'"
           :choix="lieu.choix"
@@ -76,17 +80,19 @@ focusAuChangement(() => props.phase, titre)
           :lieu="lieu"
           :resultat="resultat"
           :leviers="leviers"
+          :sensible="sensible"
           @continuer="emit('evenement', { type: 'continuer' })"
           @rejouer="emit('evenement', { type: 'rejouer' })"
         />
         <component
           :is="RECUPERATIONS[lieu.recuperation.action]"
           v-else-if="phase === 'recuperation' && lieu.recuperation"
+          v-bind="propsRecuperation(lieu.recuperation.action, contexte)"
           @fait="emit('evenement', { type: 'recuperation-faite' })"
         />
         <div v-if="sensible" class="actions">
           <button type="button" class="btn btn-discret" @click="emit('evenement', { type: 'passer' })">
-            Passer ce lieu
+            {{ PASSER.lieu }}
           </button>
         </div>
       </div>
@@ -100,7 +106,7 @@ focusAuChangement(() => props.phase, titre)
 @media (max-width: 48rem) { .lieu-grille { grid-template-columns: minmax(0, 1fr); } }
 .lieu-decor { margin: 0; }
 .lieu-decor figcaption { margin-top: 0.4rem; font-weight: 700; font-size: 1.1em; }
-.recit { display: flex; gap: 0.75rem; align-items: flex-start; border-left: 6px solid var(--primaire); }
-.recit p { margin: 0; }
-.recit-icone { flex: none; color: var(--primaire); margin-top: 0.2em; }
+.recit { display: flex; gap: 0.75rem; align-items: flex-start; border-radius: 20px 20px 20px 6px; }
+.recit p { margin: 0; align-self: center; }
+.recit-icone { flex: none; }
 </style>

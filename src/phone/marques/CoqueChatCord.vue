@@ -40,10 +40,10 @@ const titre = computed(() => {
 <style scoped>
 .corps { flex: 1; min-height: 0; display: flex; }
 .principal { min-width: 0; }
-.serveurs { flex: none; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 0.5rem 0.35rem; background: #2b2540; }
+.serveurs { flex: none; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 0.5rem 0.35rem; background: var(--tel-chatcord-serveurs); }
 .serveur {
   display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 30%;
-  background: #e4e0f4; color: #1b1b2f; font-size: 0.75rem; font-weight: 700;
+  background: var(--tel-chatcord-pastille); color: var(--tel-encre); font-size: 0.75rem; font-weight: 700;
 }
 .serveur.actif { background: var(--marque-accent); color: var(--marque-texte); }
 </style>

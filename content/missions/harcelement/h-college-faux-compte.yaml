@@ -1,0 +1,211 @@
+id: h-college-faux-compte
+theme: harcelement
+tranches: ['5e-3e']
+titre: Le faux compte
+resume: 'Exclu du groupe puis imité par un faux compte, témoin d’un sondage « le plus moche de la classe », tenté de se venger avec une capture : comment réagir, aider et réparer.'
+duree: 18
+objectifs:
+  - 'Distinguer blague, conflit et harcèlement : répétition, effet de groupe, personne qui ne peut pas se défendre'
+  - 'Réagir face à un faux compte ou à une exclusion : garder des preuves, signaler, en parler (3018)'
+  - 'Agir en témoin sans se mettre en danger, et réparer quand on a soi-même dérapé'
+competences:
+  crcn: ['2.4', '4.3']
+  programmes: ['EMC cycle 4', 'EMI cycle 4']
+  phare: true
+relecture: { statut: a-relire }
+etapes:
+  - type: scenario
+    id: faux-compte
+    role: victime
+    ecran:
+      app: chat
+      appNom: SnapTalk
+      contact: 'Yasmine'
+      messages:
+        - de: contact
+          texte: 'T’as vu ?? Il y a un compte « le_vrai_toi_officiel » avec ta photo et ton prénom 😳'
+          heure: '19:12'
+        - de: contact
+          texte: 'Il se moque des profs et il a écrit à toute la classe en se faisant passer pour toi.'
+          heure: '19:12'
+        - de: contact
+          texte: 'Et depuis lundi, ils ont créé un nouveau groupe de classe… sans toi.'
+          heure: '19:13'
+    question: 'Depuis une semaine, ta bande ne te parle plus et t’a retiré·e du groupe de classe. Maintenant, ce faux compte parle en ton nom. Tu te sens humilié·e. Que fais-tu ?'
+    choix:
+      - id: garde-pour-soi
+        texte: 'Je n’en parle à personne : j’ai trop honte, et si les adultes s’en mêlent, ce sera pire.'
+        qualite: risque
+        geste: ignorer
+        consequence: 'Le faux compte continue. Il écrit en ton nom à des élèves d’autres classes, et certains y croient. Ce n’est pas ta faute : le responsable, c’est celui qui a créé ce compte. Il n’est pas trop tard : commence par garder des preuves, puis parles-en.'
+        reaction: 'Ça va ? Le faux compte vient encore de publier 😟'
+      - id: signale
+        texte: 'Je fais des captures du faux compte et de ses messages, puis je le signale à SnapTalk pour usurpation d’identité.'
+        qualite: bon
+        geste: signaler
+        consequence: 'Tu as gardé les preuves avant que le compte disparaisse. SnapTalk examine ton signalement. Reste l’exclusion du groupe, qui fait aussi partie du harcèlement : avec tes captures, un adulte du collège pourra agir.'
+        reaction: 'Bien joué. Je le signale aussi de mon côté 💪'
+      - id: aide
+        texte: 'J’appelle le 3018 : je n’ose pas encore en parler au collège.'
+        qualite: aide
+        consequence: 'Une écoutante du 3018 t’écoute sans te juger. Elle peut demander à SnapTalk de fermer le faux compte. Elle t’aide aussi à préparer ce que tu diras au CPE.'
+    indices:
+      - { id: photo, libelle: 'Le compte utilise ma photo et mon prénom', passage: 'avec ta photo et ton prénom' }
+      - { id: exclusion, libelle: 'On m’a retiré·e du groupe de classe', passage: 'un nouveau groupe de classe… sans toi' }
+      - { id: duree, libelle: 'Ça dure depuis une semaine et ça empire', passage: 'depuis lundi' }
+    explicationIndices: 'Se faire passer pour quelqu’un en ligne pour lui nuire est interdit : c’est une usurpation d’identité. Avec l’exclusion du groupe, qui dure depuis une semaine, c’est du harcèlement.'
+    aRetenir: 'Un faux compte à ton nom, ce n’est pas ta faute. Fais des captures (le compte, ses publications, les dates), signale-le pour usurpation d’identité, et parles-en à un adulte. Le 3018 peut demander la fermeture d’un faux compte.'
+    recuperation: { action: capture-preuve, siChoix: [garde-pour-soi] }
+    pourquoi:
+      - levier: honte
+        truc: 'Tu as honte de ce que le faux compte écrit en ton nom. Pourtant, ce n’est pas toi qui l’as écrit.'
+        parade: 'Ce n’est pas à toi d’avoir honte. En parler, c’est ce qui fait que ça s’arrête.'
+      - levier: peur
+        truc: 'Tu as peur que ce soit pire si les adultes s’en mêlent, et que la bande t’en veuille encore plus.'
+        parade: 'Le CPE ou le 3018 t’écoutent et t’expliquent ce qu’ils vont faire avant de le faire. Tu peux leur dire ce qui te fait peur.'
+      - levier: groupe
+        truc: 'Toute ta bande t’a retiré·e du groupe : on se sent seul·e contre tous, alors on se tait.'
+        parade: 'Tu n’es pas seul·e : Yasmine t’a prévenu·e. Et un adulte peut agir sur tout un groupe.'
+
+  - type: scenario
+    id: sondage
+    role: temoin
+    ecran:
+      app: chat
+      appNom: ChatCord
+      contact: 'Groupe 4e C'
+      messages:
+        - de: contact
+          texte: 'Kenzo : 📊 SONDAGE : qui est le plus moche de la classe ? 😂'
+          heure: '21:03'
+        - de: contact
+          texte: 'Kenzo : 1. Clara · 2. Rayan · 3. Mehdi'
+          heure: '21:03'
+        - de: contact
+          texte: 'Anaïs : Mdr Clara déjà 14 votes 😭😭'
+          heure: '21:10'
+        - de: contact
+          texte: 'Kenzo : Votez tous, sinon c’est vous qu’on met dedans 😏'
+          heure: '21:11'
+    question: 'Clara est assise à côté de toi en maths. Elle n’est plus dans le groupe depuis la semaine dernière, mais quelqu’un finira par lui montrer les résultats. Que fais-tu ?'
+    choix:
+      - id: vote
+        texte: 'Je vote, comme tout le monde : si je ne le fais pas, c’est moi qui finis dans le sondage.'
+        qualite: risque
+        geste: repondre
+        reponse: '📊 Vote envoyé'
+        consequence: 'Le sondage atteint 27 votes. Le lendemain, Clara voit la capture : elle reste seule à la récré et ne lève plus la main en cours. Tu avais peur, et c’est compréhensible. Kenzo a lancé le sondage et la menace : c’est lui le premier responsable. Toi, tu peux encore soutenir Clara.'
+        reaction: 'Kenzo : Et un vote de plus 😏'
+      - id: signale
+        texte: 'Je ne vote pas. Je signale le sondage dans ChatCord et j’écris à Clara en privé.'
+        qualite: bon
+        geste: signaler
+        consequence: 'Ton signalement part à ChatCord, qui va l’examiner. Clara te répond qu’elle se sentait seule depuis une semaine. Tu lui proposes d’en parler ensemble à un adulte, et elle accepte.'
+        reaction: 'Kenzo : Qui n’a pas encore voté ? 😏'
+      - id: aide
+        texte: 'Je fais une capture du sondage et de la menace de Kenzo, et je la montre à mon professeur principal demain matin.'
+        qualite: aide
+        consequence: 'Ton professeur principal prévient le CPE. Le CPE fait supprimer le sondage et Kenzo est convoqué avec sa famille. Clara est reçue, écoutée, et le collège la suit dans les semaines qui viennent. Le CPE fait attention à ne pas citer ton nom.'
+    indices:
+      - { id: humilier, libelle: 'Le sondage nomme des élèves pour les humilier', passage: 'qui est le plus moche de la classe' }
+      - { id: menace, libelle: 'Kenzo menace ceux qui ne votent pas', passage: 'sinon c’est vous qu’on met dedans' }
+      - { id: absente, libelle: 'Clara n’est pas dans le groupe pour se défendre', passage: '1. Clara' }
+    explicationIndices: 'Un sondage pour classer des élèves, c’est humilier à plusieurs. La menace de Kenzo sert à faire voter tout le monde. Clara ne peut pas répondre : elle n’est même plus dans le groupe.'
+    aRetenir: 'Un vote ou un like, même pour rire, ajoute du poids au groupe. Témoin, tu peux ne pas relayer, signaler, écrire à la personne visée en privé et prévenir un adulte. Le 3018 répond aussi aux témoins.'
+    recuperation: { action: soutenir, siChoix: [vote] }
+    pourquoi:
+      - levier: peur
+        truc: '« Votez tous, sinon c’est vous qu’on met dedans » : Kenzo te fait peur pour que tu votes.'
+        parade: 'Une menace pour forcer à participer, c’est un signal d’alerte. Ne vote pas et préviens un adulte.'
+      - levier: groupe
+        truc: '« Clara déjà 14 votes » : quand tout le monde vote, on a l’impression que c’est normal.'
+        parade: 'Que beaucoup de gens votent ne rend pas le sondage moins blessant pour Clara.'
+      - levier: humour
+        truc: 'Le sondage est présenté comme un jeu, avec des 😂. Pour Clara, ce n’en est pas un.'
+        parade: 'Un jeu où une seule personne sert de cible n’est pas un jeu. Ne vote pas, même pour rire.'
+
+  - type: scenario
+    id: capture-vengeance
+    role: auteur
+    ecran:
+      app: chat
+      appNom: SnapTalk
+      contact: 'Nora'
+      messages:
+        - de: contact
+          texte: '(il y a 2 mois) Promets que tu le dis à personne… Mes parents se séparent, je pleure tous les soirs.'
+        - de: moi
+          texte: '(il y a 2 mois) Promis. Je suis là 💛'
+        - de: contact
+          texte: '(aujourd’hui) De toute façon t’es qu’une balance, tout le monde le sait.'
+    question: 'Ce matin, Nora t’a traité·e de « balance » devant toute la classe. Tu es furieux·se. Tu as encore la capture de sa confidence, et le groupe de classe compte 28 personnes. Que fais-tu ?'
+    choix:
+      - id: transfere
+        texte: 'Elle m’a humilié·e devant tout le monde : j’envoie la capture au groupe, elle verra ce que ça fait.'
+        qualite: risque
+        geste: partager
+        consequence: 'En dix minutes, la capture fait le tour du collège. Des élèves posent des questions à Nora sur ses parents, et elle part en pleurant. Ta colère était compréhensible. Mais exposer sa confidence la blesse autrement, devant tout le monde. Tu peux encore limiter les dégâts.'
+        reaction: 'Pourquoi t’as fait ça ? C’était un secret…'
+      - id: en-face
+        texte: 'Je pose mon téléphone. Demain, je dis à Nora en face que sa phrase m’a blessé·e.'
+        qualite: bon
+        geste: ignorer
+        consequence: 'Nora est gênée. Elle reconnaît qu’elle a parlé sous le coup de la colère. La dispute n’est pas finie, mais sa confidence est restée privée.'
+        reaction: 'Tu réponds même pas ? 🙄'
+      - id: aide
+        texte: 'J’en parle d’abord à l’infirmière scolaire, avant de faire quoi que ce soit : là, je suis trop en colère.'
+        qualite: aide
+        consequence: 'L’infirmière t’écoute et t’aide à te calmer. Elle te propose une médiation avec Nora, en présence d’un adulte. La capture reste dans ton téléphone, et tu finis par l’effacer.'
+    indices:
+      - { id: confidence, libelle: 'La capture contient un secret que Nora m’a confié', passage: 'Promets que tu le dis à personne' }
+      - { id: colere, libelle: 'Je suis en colère et je veux répondre tout de suite', passage: 't’es qu’une balance' }
+    explicationIndices: 'Une confidence partagée à tout le groupe est très difficile à rattraper. La colère pousse à frapper fort et vite. Que Nora ait été blessante ne rend pas la vengeance juste : elle ajoute une deuxième blessure.'
+    aRetenir: 'Partager la conversation privée de quelqu’un pour se venger, c’est l’exposer devant tout le monde. Si tu l’as fait, tu peux réparer : supprime, excuse-toi, demande aux autres d’effacer. Un adulte ou le 3018 peut t’aider. Et parler à un adulte, ce n’est pas « balancer ».'
+    recuperation: { action: retirer-publication, siChoix: [transfere] }
+    pourquoi:
+      - levier: colere
+        truc: 'Nora t’a traité·e de « balance » devant tout le monde. La colère donne envie de répondre fort, tout de suite.'
+        parade: 'Quand tu es en colère, n’envoie rien. Attends le lendemain, ou parles-en d’abord à quelqu’un.'
+      - levier: groupe
+        truc: 'Tu imagines les 28 du groupe de ton côté, contre Nora.'
+        parade: 'Le groupe ne règle pas une dispute. À deux, ou avec un adulte, si.'
+      - levier: reflexe
+        truc: 'La capture est déjà dans ton téléphone : deux clics suffisent pour la transférer.'
+        parade: 'Avant de transférer une capture, demande-toi si la personne serait d’accord.'
+
+  - type: minijeu
+    id: tri-blague-harcelement
+    jeu: tri
+    config:
+      consigne: 'Blague partagée, conflit ponctuel ou harcèlement ? Classe chaque situation. Quelle que soit ta réponse, tu as le droit d’en parler.'
+      categories:
+        - { id: blague, libelle: Blague partagée }
+        - { id: conflit, libelle: Conflit ponctuel }
+        - { id: harcelement, libelle: Harcèlement }
+      cartes:
+        - { id: c1, texte: 'Lina et toi vous envoyez des memes l’un sur l’autre depuis des mois, et vous en riez tous les deux.', categorie: blague, explication: 'Vous riez tous les deux et chacun peut dire stop : c’est une blague partagée. Si un jour elle blesse, dis-le.' }
+        - { id: c2, texte: 'Après un match perdu, Adam et Iris s’envoient des messages énervés, puis s’excusent le lendemain.', categorie: conflit, explication: 'Une dispute, une fois, entre deux personnes qui peuvent se répondre : c’est un conflit. Il peut faire mal, et tu peux en parler.' }
+        - { id: c3, texte: 'Depuis un mois, un compte anonyme publie chaque semaine une photo de Sofiane avec un nouveau surnom.', categorie: harcelement, explication: 'Ça se répète et Sofiane ne sait même pas à qui répondre : c’est du harcèlement. Captures, signalement, et un adulte ou le 3018.' }
+        - { id: c4, texte: 'La bande crée un groupe « sans Elsa » pour organiser les sorties et se moquer d’elle.', categorie: harcelement, explication: 'Exclure exprès et se moquer à plusieurs, c’est aussi du harcèlement. Elsa peut en parler, et toi aussi si tu le vois.' }
+        - { id: c5, texte: 'Ton groupe d’amis rit d’une photo ratée de vous tous au voyage scolaire, toi compris.', categorie: blague, explication: 'Tout le monde est sur la photo et tout le monde en rit : c’est une blague partagée.' }
+        - { id: c6, texte: 'Deux élèves se disputent une fois en commentaires sur le meilleur joueur de foot.', categorie: conflit, explication: 'Un désaccord, une fois, à égalité : c’est un conflit. Si ça devient des insultes répétées, ça change.' }
+        - { id: c7, texte: 'Chaque matin, des élèves imitent Nathan quand il parle, et le filment pour leur story.', categorie: harcelement, explication: 'Répété, à plusieurs, et filmé pour être vu de tous : c’est du harcèlement. Nathan ne peut pas se défendre seul. Parles-en à un adulte.' }
+        - { id: c8, texte: 'Mia dit à Jules, en privé, qu’il l’a vexée en répondant sèchement à son message.', categorie: conflit, explication: 'Mia dit ce qui l’a blessée, une fois, et Jules peut répondre : c’est un conflit. En parler, c’est déjà le régler.' }
+debrief:
+  questions:
+    - 'Qu’est-ce qui fait passer une blague ou une dispute au harcèlement ?'
+    - 'Pourquoi est-il plus facile de voter ou de liker que de dire stop ?'
+    - 'Que peut-on faire quand on est visé, témoin, ou quand on a dérapé ?'
+  reponses: 'Trois critères : la répétition, l’effet de groupe et la personne visée qui ne peut pas se défendre. L’exclusion d’un groupe et le faux compte en font partie. Voter ou liker est facile parce qu’on se sent caché dans le groupe, ou qu’on a peur d’être le prochain visé ; mais chaque vote ajoute du poids. Visé : garder des captures, signaler, en parler (parent, professeur, CPE, infirmier·e, 3018). Témoin : ne pas relayer, signaler, soutenir en privé, prévenir un adulte. Auteur : supprimer, s’excuser, demander aux autres d’effacer, et se faire aider. Ce n’est jamais la faute de la personne visée.'
+  erreursFrequentes:
+    - 'Penser qu’un faux compte « pour rire » n’est pas grave.'
+    - 'Croire qu’on ne fait rien de mal en votant ou en likant seulement.'
+    - 'Croire que se venger avec une capture, c’est juste rendre la pareille.'
+fiche:
+  deroulement: |
+    5 min : cadre. Les prénoms sont fictifs. Situations inventées : personne ne raconte une histoire vraie devant la classe. Qui veut en parler peut venir vous voir après. Si une situation de harcèlement est connue dans la classe, en parler au CPE avant la séance.
+    18 min : jeu, en binômes ou en classe entière vidéoprojetée. Trois rôles : la personne visée, un témoin, celui ou celle qui a dérapé.
+    15 min : débrief des 3 questions, puis retour sur le mini-jeu et ses trois critères.
+    5 min : où trouver de l’aide (parents, professeur principal, CPE, infirmier·e, 3018, qui peut demander la fermeture d’un faux compte). Écrire le 3018 au tableau.
+    5 min : engagement. Si je vois un sondage ou une capture qui humilie quelqu’un, je ne vote pas, je ne transfère pas, et j’écris à la personne visée.
+  siRevelation: 'Si un élève se confie pendant ou après la séance : l’écouter calmement, le croire et le remercier d’avoir parlé. Ne pas promettre le secret : lui expliquer qu’on va prévenir des adultes qui peuvent l’aider. Ne pas l’interroger ni chercher les détails, ne pas confronter les élèves mis en cause ; noter ses mots exacts, la date et l’heure. Prévenir le jour même le CPE, l’infirmier·e scolaire et le chef d’établissement, qui déclenchent le protocole pHARe. Si l’élève est en danger ou si sa situation est préoccupante, transmettre une information préoccupante à la CRIP du département (signalement au procureur en cas de danger grave ; 119 pour conseil). Lui indiquer le 3018 (gratuit et confidentiel, 7 j/7 de 9 h à 23 h), qui peut demander en priorité le retrait de contenus ou la fermeture d’un faux compte. Si l’élève paraît en grande détresse ou parle de mourir : ne pas le laisser seul, prévenir immédiatement l’infirmier·e et le chef d’établissement, et appeler le 3114 (prévention du suicide, 24 h/24). Si un élève dit avoir participé ou être témoin : l’écouter sans l’humilier, le remercier d’en parler, et prévenir les mêmes adultes. Pour l’enseignant : le harcèlement scolaire est un délit depuis la loi du 2 mars 2022, et l’usurpation d’identité en ligne est aussi punie. Ces informations ne sont pas à présenter aux élèves comme une menace.'
