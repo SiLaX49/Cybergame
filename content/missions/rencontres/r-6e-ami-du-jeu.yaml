@@ -17,36 +17,43 @@ etapes:
     role: victime
     ecran:
       app: chat
-      appNom: Planète Bloc
+      appNom: GameBox Chat
       contact: 'Kiro_77'
       messages:
         - de: contact
           texte: 'T’es trop fort, franchement ! J’ai 15 ans et je joue jamais avec des gens aussi doués que toi 😄'
           texteSimple: 'T’es trop fort ! J’ai 15 ans et je joue jamais avec des gens aussi doués 😄'
+          heure: '18:32'
         - de: contact
           texte: 'Tiens, je t’offre 500 gemmes, cadeau 🎁 Par contre, c’est notre secret. Dis rien à tes parents, ils comprendraient pas.'
           texteSimple: 'Je t’offre 500 gemmes, cadeau 🎁 C’est notre secret. Dis rien à tes parents.'
+          heure: '18:33'
     question: Kiro joue avec toi depuis une semaine. Il est toujours sympa. Que fais-tu ?
     choix:
       - id: accepte
         texte: 'Il est sympa, et 500 gemmes, c’est énorme ! J’accepte et je garde le secret.'
         qualite: risque
+        geste: repondre
+        reponse: 'Merci !! Promis, c’est notre secret.'
         consequence: 'Les jours suivants, Kiro t’offre encore des cadeaux. Puis il demande des choses en échange : ton numéro, puis de lui parler le soir. Tu te sens mal, mais tu as peur de le dire. Ce n’est pas ta faute : c’est Kiro qui se sert des cadeaux pour te manipuler. Tu peux encore le bloquer et en parler.'
         consequenceSimple: 'Kiro offre d’autres cadeaux. Puis il demande des choses en échange. Ce n’est pas ta faute. Tu peux le bloquer et en parler.'
+        reaction: 'Trop bien 😄 On fait une super équipe, toi et moi.'
       - id: refuse
         texte: 'Je refuse les gemmes : un ami qui veut que je cache tout à mes parents, c’est bizarre.'
         qualite: bon
+        geste: repondre
+        reponse: 'Non merci. Je ne cache rien à mes parents.'
         consequence: 'Kiro insiste un peu, puis il se vexe. Tu le bloques et tu racontes tout à tes parents. Ils te disent que tu as très bien réagi.'
+        reaction: 'Pff, t’es pas drôle… C’était juste un cadeau 😒'
       - id: aide
         texte: 'Je demande de l’aide à mes parents : je leur montre les messages de Kiro.'
         qualite: aide
         consequence: 'Ton père lit les messages avec toi, sans te gronder. Il t’aide à bloquer et à signaler Kiro dans le jeu. Il te dit aussi que le 3018 peut aider si un inconnu insiste.'
     indices:
-      - { id: compliments, libelle: 'Kiro me fait beaucoup de compliments, très vite', pertinent: true }
-      - { id: cadeau, libelle: 'Il m’offre un gros cadeau sans raison', pertinent: true }
-      - { id: secret, libelle: 'Il me demande de ne rien dire à mes parents', pertinent: true }
-      - { id: emojis, libelle: 'Il met des emojis dans ses messages', pertinent: false }
-    explicationIndices: 'Des compliments rapides, un cadeau et un secret : certains adultes font comme ça pour gagner ta confiance. On ne sait jamais qui se cache derrière un pseudo, même s’il dit avoir 15 ans. Les emojis ne prouvent rien.'
+      - { id: compliments, libelle: 'Kiro me fait beaucoup de compliments, très vite', passage: 'T’es trop fort' }
+      - { id: cadeau, libelle: 'Il m’offre un gros cadeau sans raison', passage: '500 gemmes, cadeau' }
+      - { id: secret, libelle: 'Il me demande de ne rien dire à mes parents', passage: 'Dis rien à tes parents' }
+    explicationIndices: 'Des compliments rapides, un cadeau et un secret : certains adultes font comme ça pour gagner ta confiance. On ne sait jamais qui se cache derrière un pseudo, même s’il dit avoir 15 ans.'
     aRetenir: 'Un ami en ligne qui t’offre des cadeaux et te demande de garder le secret, c’est un signal d’alerte. Un secret qui te met mal à l’aise, tu as le droit de le raconter. Parles-en à un adulte de confiance ou appelle le 3018 : c’est gratuit et confidentiel.'
     aRetenirSimple: 'Cadeau et secret : c’est un signal d’alerte. Tu as le droit d’en parler. Parles-en à un adulte ou appelle le 3018.'
     recuperation: { action: bloquer-signaler, siChoix: [accepte] }
@@ -69,36 +76,40 @@ etapes:
     role: victime
     ecran:
       app: chat
-      appNom: Planète Bloc
+      appNom: GameBox Chat
       contact: 'Kiro_77'
       messages:
         - de: contact
           texte: 'Ici on peut pas parler tranquille, les modos lisent tout. Installe Pixo, c’est mieux 😉'
           texteSimple: 'Ici on peut pas parler tranquille. Installe Pixo, c’est mieux 😉'
+          heure: '19:02'
         - de: contact
           texte: 'Et envoie-moi une photo de toi, pour voir à quoi tu ressembles. Allez, sinon t’es pas mon ami.'
           texteSimple: 'Envoie-moi une photo de toi, pour voir à quoi tu ressembles. Sinon t’es pas mon ami.'
+          heure: '19:04'
     question: Tu n’as jamais envoyé de photo à Kiro. Il insiste depuis hier. Que fais-tu ?
     choix:
       - id: installe
         texte: 'J’installe Pixo pour continuer à discuter, mais je ne lui envoie pas de photo.'
         qualite: risque
+        geste: installer
         consequence: 'Sur Pixo, personne ne surveille les messages. Kiro te demande la photo encore et encore, même tard le soir. Il dit que tu n’es pas gentil avec lui. Ce n’est pas ta faute : c’est lui qui te met la pression. Tu peux le bloquer et le signaler.'
         consequenceSimple: 'Sur Pixo, Kiro insiste encore plus pour la photo. Ce n’est pas ta faute : c’est lui qui te met la pression. Bloque-le et parles-en.'
+        reaction: 'Cool, on sera tranquilles sur Pixo 😉 Et ta photo, alors ?'
       - id: bloque
         texte: 'Je ne vais pas sur Pixo et je n’envoie rien. Je bloque Kiro et je le signale dans le jeu.'
         qualite: bon
+        geste: bloquer
         consequence: 'Kiro ne peut plus t’écrire. Les modérateurs du jeu examinent son compte. Tu racontes aussi tout à tes parents, et ça fait du bien.'
       - id: aide
         texte: 'Je demande de l’aide : j’appelle le 3018 avec ma mère.'
         qualite: aide
         consequence: 'Une écoutante du 3018 vous explique quoi faire : ne rien envoyer, garder les messages, bloquer et signaler. Elle explique aussi comment signaler le compte au jeu. Ta mère te dit que tu as eu raison d’en parler.'
     indices:
-      - { id: appli, libelle: 'Il veut que je change d’appli, là où les modos ne lisent pas', pertinent: true }
-      - { id: photo, libelle: 'Il me demande une photo de moi', pertinent: true }
-      - { id: pression, libelle: 'Il dit que je ne suis plus son ami si je refuse', pertinent: true }
-      - { id: gratuite, libelle: 'Pixo est une appli gratuite', pertinent: false }
-    explicationIndices: 'Il veut t’emmener là où personne ne surveille. Il réclame une photo et te met la pression. Ce sont trois signaux d’alerte. Que l’appli soit gratuite ne change rien.'
+      - { id: appli, libelle: 'Il veut que je change d’appli, là où les modos ne lisent pas', passage: 'Installe Pixo' }
+      - { id: photo, libelle: 'Il me demande une photo de moi', passage: 'une photo de toi' }
+      - { id: pression, libelle: 'Il dit que je ne suis plus son ami si je refuse', passage: 't’es pas mon ami' }
+    explicationIndices: 'Il veut t’emmener là où personne ne surveille. Il réclame une photo et te met la pression. Ce sont trois signaux d’alerte.'
     aRetenir: 'Si quelqu’un en ligne veut changer d’appli et te demande une photo, tu as le droit de dire non et de bloquer. Tu n’as rien fait de mal. Garde les messages, bloque, signale, et parles-en à un adulte ou au 3018.'
     aRetenirSimple: 'Tu as le droit de dire non. Bloque, signale, et parles-en à un adulte ou au 3018.'
     recuperation: { action: bloquer-signaler, siChoix: [installe] }
@@ -124,29 +135,36 @@ etapes:
         - de: contact
           texte: 'Samedi je vais voir Max, un ami du jeu ! Il m’attend devant le centre commercial 😃'
           texteSimple: 'Samedi je vais voir Max, un ami du jeu ! Il m’attend devant le centre commercial.'
+          heure: '17:46'
         - de: contact
           texte: 'Il m’a dit de venir seul et de rien dire à mes parents. Promets-moi de garder le secret !'
           texteSimple: 'Il m’a dit de venir seul et de rien dire à mes parents. Promets-moi de garder le secret !'
+          heure: '17:47'
     question: Lucas n’a jamais vu Max en vrai. Il est tout content. Que fais-tu ?
     choix:
       - id: promet
         texte: 'Lucas est mon meilleur ami et il me fait confiance : je promets de ne rien dire.'
         qualite: risque
+        geste: repondre
+        reponse: 'Promis, je dirai rien 🤐'
         consequence: 'Lucas compte sur toi et ne dit rien. Samedi, il irait seul voir quelqu’un qu’il n’a jamais vu, et personne ne saurait où il est. Ce n’est pas ta faute : c’est Max qui a demandé le secret. Il est encore temps : écris à Lucas et préviens un adulte.'
         consequenceSimple: 'Personne ne sait où Lucas va samedi. Ce n’est pas ta faute : c’est Max qui a demandé le secret. Il est encore temps d’agir.'
+        reaction: 'Merci, t’es trop sympa ! Samedi soir, je te raconte 😃'
       - id: dit-non
         texte: 'Je dis à Lucas que ce secret me fait peur. Je lui propose d’en parler à ses parents avec moi.'
         qualite: bon
+        geste: repondre
+        reponse: 'Ce secret me fait peur. On en parle à tes parents, ensemble ?'
         consequence: 'Lucas est un peu fâché, puis il accepte. Ses parents l’écoutent sans le gronder. Ils signalent le compte de Max, et Lucas ne va pas au rendez-vous.'
+        reaction: 'Pff… Bon, d’accord. Mais tu viens avec moi.'
       - id: aide
         texte: 'Je demande de l’aide : j’en parle ce soir à mes parents, ou demain matin à la CPE.'
         qualite: aide
         consequence: 'Tes parents t’écoutent et te remercient. Ils préviennent les parents de Lucas, qui annulent le rendez-vous. Lucas n’est pas puni : c’est Max qui a mal agi.'
     indices:
-      - { id: jamais-vu, libelle: 'Lucas n’a jamais vu Max en vrai', pertinent: true }
-      - { id: seul, libelle: 'Max veut que Lucas vienne seul', pertinent: true }
-      - { id: secret, libelle: 'Max demande de ne rien dire aux parents', pertinent: true }
-      - { id: lieu-connu, libelle: 'Le rendez-vous est dans un lieu connu', pertinent: false }
+      - { id: jamais-vu, libelle: 'Lucas n’a jamais vu Max en vrai', passage: 'un ami du jeu' }
+      - { id: seul, libelle: 'Max veut que Lucas vienne seul', passage: 'de venir seul' }
+      - { id: secret, libelle: 'Max demande de ne rien dire aux parents', passage: 'rien dire à mes parents' }
     explicationIndices: 'Retrouver seul et en secret quelqu’un qu’on n’a jamais vu, c’est un vrai danger. Un lieu connu ne rend pas ce rendez-vous sûr. On ne sait pas qui est vraiment Max.'
     aRetenir: 'Si un ami va retrouver en secret quelqu’un rencontré en ligne, ne garde pas ce secret : préviens un adulte. Ce n’est pas trahir ton ami, c’est le protéger. Le 3018 peut aussi vous conseiller. Si le rendez-vous est tout de suite, l’adulte peut appeler le 17.'
     aRetenirSimple: 'Ce secret-là, on ne le garde pas. Préviens un adulte ou appelle le 3018. C’est protéger ton ami. Si c’est tout de suite, l’adulte appelle le 17.'

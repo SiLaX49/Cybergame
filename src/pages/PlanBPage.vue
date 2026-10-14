@@ -4,6 +4,7 @@ import { getLeviers, getMission, getTheme } from '@/content'
 import { FIL_ACTIONS } from '@/content/schema'
 import { ordreAffichage } from '@/engine/ordre'
 import { CONSEILS, EXEMPLE_PHRASE, LIBELLES_NIVEAU } from '@/minigames/robustesse'
+import { lignesPapier } from '@/phone/papier'
 import BandeauAide from '@/ui/BandeauAide.vue'
 import BandeauBrouillon from '@/ui/BandeauBrouillon.vue'
 
@@ -44,15 +45,14 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
         <template v-if="e.type === 'scenario'">
           <h2>Situation {{ i + 1 }}</h2>
           <div class="carte">
-            <p><strong>{{ e.ecran.appNom }} · {{ e.ecran.contact }}</strong></p>
-            <p v-if="e.ecran.sujet">Objet : {{ e.ecran.sujet }}</p>
-            <p v-if="e.ecran.url">Adresse : {{ e.ecran.url }}</p>
-            <p v-for="(m, j) in e.ecran.messages" :key="j">{{ m.de === 'moi' ? 'Moi' : e.ecran.contact }} : {{ m.texte }}</p>
+            <p v-for="(ligne, j) in lignesPapier(e.ecran)" :key="j">
+              <strong v-if="j === 0">{{ ligne }}</strong>
+              <template v-else>{{ ligne }}</template>
+            </p>
           </div>
           <p><strong>{{ e.question }}</strong></p>
           <ul class="cases"><li v-for="c in ordreAffichage(e.choix, e.id)" :key="c.id">☐ {{ c.texte }}</li></ul>
-          <p>Quel indice t’a décidé ?</p>
-          <ul class="cases"><li v-for="ind in ordreAffichage(e.indices, e.id)" :key="ind.id">☐ {{ ind.libelle }}</li></ul>
+          <p>Souligne dans le message ce qui devait t’alerter.</p>
           <template v-if="e.pourquoi">
             <p>{{ questionPourquoi }}</p>
             <ul class="cases">
@@ -155,7 +155,10 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
           <template v-if="e.type === 'scenario'">
             <h3>Situation {{ i + 1 }}</h3>
             <p>Bons choix : {{ e.choix.filter((c) => c.qualite !== 'risque').map((c) => c.texte).join(' / ') }}</p>
-            <p>Vrais indices : {{ e.indices.filter((x) => x.pertinent).map((x) => x.libelle).join(' / ') }}</p>
+            <p>
+              Vrais indices :
+              {{ e.indices.map((x) => (x.passage ? `${x.libelle} (« ${x.passage} »)` : x.libelle)).join(' / ') }}
+            </p>
             <p>À retenir : {{ e.aRetenir }}</p>
             <template v-if="e.pourquoi">
               <p>{{ corrigePourquoi }}</p>

@@ -73,7 +73,10 @@ describe('PlanBPage', () => {
     const w = await monter(PlanBPage, '/enseignants/m-test/plan-b')
     expect(w.text()).toContain('☐ Je clique et je paie')
     expect(w.text()).toContain('Corrigé (pour l’adulte)')
-    expect(w.text()).toContain('Vrais indices : L’adresse est bizarre / On me presse')
+    expect(w.text()).toContain('Souligne dans le message ce qui devait t’alerter.')
+    expect(w.text()).not.toContain('Quel indice t’a décidé ?')
+    expect(w.text()).not.toContain('☐ L’adresse est bizarre')
+    expect(w.text()).toContain('Vrais indices : L’adresse est bizarre (« colis-expres.info ») / On me presse')
     expect(w.findAll('table tbody tr')).toHaveLength(4)
   })
 

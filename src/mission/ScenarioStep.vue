@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import type { Leviers, Scenario } from '@/content/schema'
 import type { PhaseScenario, RunEvent, ScenarioResultat } from '@/engine/mission-runner'
-import EcranTelephone from '@/phone/EcranTelephone.vue'
+import { ordreAffichage } from '@/engine/ordre'
+import { ordreLecture, textesLus } from '@/phone/ordreLecture'
+import SceneTelephone from '@/phone/SceneTelephone.vue'
 import { propsRecuperation, RECUPERATIONS } from '@/recovery/registry'
 import type { ContexteSensible } from '@/recovery/textes'
 import type { Mode } from '@/store/progress'
 import { focusAuChangement, focusAuMontage } from '@/ui/focus'
-import ChoixList from './ChoixList.vue'
+import { useTexte } from '@/ui/useTexte'
 import ConsequencePanel from './ConsequencePanel.vue'
-import IndicesForm from './IndicesForm.vue'
+import ExplicationPanel from './ExplicationPanel.vue'
 import PourquoiForm from './PourquoiForm.vue'
 import { PASSER, TITRE_RECUPERATION_VICTIME } from './textesSensibles'
 
@@ -20,6 +22,9 @@ const props = defineProps<{
   mode: Mode
   sensible: boolean
   leviers: Leviers
+  choixId?: string | null
+  /** Indice demandé (moteur) : passages surlignés sans numéros avant le choix. */
+  indiceVisible?: boolean
   /** Thème sensible de la mission : adapte les textes des gestes de récupération. */
   contexte?: ContexteSensible
 }>()
@@ -27,16 +32,14 @@ const emit = defineEmits<{ evenement: [evenement: RunEvent] }>()
 
 const TITRES: Record<Exclude<PhaseScenario, 'situation'>, string> = {
   pourquoi: 'Qu’est-ce qui t’a donné envie de le faire ?',
-  indices: 'Qu’est-ce qui t’a décidé ?',
   consequence: 'Et alors, que se passe-t-il ?',
   recuperation: 'Maintenant, limite les dégâts',
 }
-/** Quand on joue la personne visée, le geste sert d’abord à se protéger. */
-const titrePhase = computed(() => {
-  if (props.phase === 'situation') return props.scenario.question
-  if (props.phase === 'recuperation' && props.scenario.role === 'victime') return TITRE_RECUPERATION_VICTIME
-  return TITRES[props.phase]
-})
+const CONSIGNES: Record<Mode, string> = {
+  solo: 'Ouvre la notification, puis choisis ta réponse à droite.',
+  binome: 'Discutez à deux, puis choisissez à droite.',
+  classe: 'Votez à main levée, puis l’adulte valide le choix de la classe à droite.',
+}
 const ROLES = { victime: 'la personne visée', temoin: 'un·e témoin', auteur: 'celui ou celle qui a dérapé' } as const
 
 /** Nom accessible de la situation, selon le type d’écran simulé. */
@@ -47,10 +50,53 @@ const nomSituation = computed(() => {
   return `Situation : message de ${contact} dans ${appNom}`
 })
 
+/**
+ * Indices dans l’ordre de lecture de l’écran (① lu avant ②) : même liste pour le téléphone et le panneau, donc
+ * mêmes numéros. Le mélange stable ne départage que les indices sans passage visible.
+ */
+const t = useTexte()
+const indices = computed(() => ordreLecture(ordreAffichage(props.scenario.indices, props.scenario.id), textesLus(props.scenario.ecran, t)))
+const choixJoue = computed(() => (props.phase === 'situation' ? null : (props.choixId ?? null)))
+const scene = computed(() => ({
+  ecran: props.scenario.ecran,
+  choix: props.scenario.choix,
+  mode: props.mode,
+  graine: props.scenario.id,
+  choixJoue: choixJoue.value,
+  indices: indices.value,
+  indiceVisible: props.indiceVisible,
+  entree: true,
+}))
+
+// Après un choix, le panneau garde la question jusqu’à la fin de la séquence jouée dans le téléphone.
+const sequenceFinie = ref(false)
+watch(
+  () => props.phase,
+  (phase) => {
+    if (phase === 'situation') sequenceFinie.value = false
+  },
+)
+// Le téléphone peut émettre `sequence-finie` pendant le rendu de ce composant (séquence instantanée) : une
+// modification faite à cet instant ne relancerait pas son rendu, d’où l’attente du tick suivant.
+async function finirSequence() {
+  await nextTick()
+  sequenceFinie.value = true
+}
+const phaseAffichee = computed<PhaseScenario>(() => (!choixJoue.value || sequenceFinie.value ? props.phase : 'situation'))
+const choix = computed(() => props.scenario.choix.find((c) => c.id === props.choixId))
+/** Quand on joue la personne visée, le geste sert d’abord à se protéger. */
+const titrePhase = computed(() => {
+  const phase = phaseAffichee.value
+  if (phase === 'situation') return props.scenario.question
+  if (phase === 'recuperation' && props.scenario.role === 'victime') return TITRE_RECUPERATION_VICTIME
+  return TITRES[phase]
+})
+
 const situation = ref<HTMLElement | null>(null)
 const titre = ref<HTMLElement | null>(null)
 focusAuMontage(situation)
-focusAuChangement(() => props.phase, titre)
+// Focus sur le titre au choix (le bouton cliqué disparaît), puis à l’affichage de la phase suivante.
+focusAuChangement(() => `${props.phase} ${phaseAffichee.value}`, titre)
 </script>
 
 <template>
@@ -60,61 +106,54 @@ focusAuChangement(() => props.phase, titre)
     tabindex="-1"
     :aria-label="nomSituation"
   >
-    <p v-if="scenario.role" class="role">Dans ce scénario, tu joues {{ ROLES[scenario.role] }}.</p>
-    <div class="scenario-grille">
-      <EcranTelephone :ecran="scenario.ecran" />
-      <div class="scenario-panneau">
-        <h2 ref="titre" tabindex="-1">{{ titrePhase }}</h2>
-        <ChoixList
-          v-if="phase === 'situation'"
-          :choix="scenario.choix"
-          :graine="scenario.id"
-          :mode="mode"
-          @choisir="(id) => emit('evenement', { type: 'choisir', choixId: id })"
-        />
+    <SceneTelephone
+      :scene="scene"
+      @choisir="(id) => emit('evenement', { type: 'choisir', choixId: id })"
+      @sequence-finie="finirSequence"
+    >
+      <template #entete="{ idQuestion }">
+        <p v-if="scenario.role" class="role">Dans ce scénario, tu joues {{ ROLES[scenario.role] }}.</p>
+        <h2 :id="idQuestion" ref="titre" tabindex="-1">{{ titrePhase }}</h2>
+        <p v-if="phase === 'situation'" class="consigne-mode">{{ CONSIGNES[mode] }}</p>
+      </template>
+      <template v-if="phaseAffichee === 'pourquoi' && scenario.pourquoi">
+        <ExplicationPanel v-if="choix" :indices="indices" :explication="scenario.explicationIndices" :qualite="choix.qualite" :sensible="sensible" />
         <PourquoiForm
-          v-else-if="phase === 'pourquoi' && scenario.pourquoi"
           :pourquoi="scenario.pourquoi"
           :leviers="leviers"
           :graine="scenario.id"
           :mode="mode"
           @expliquer="(levier) => emit('evenement', { type: 'expliquer', levier })"
         />
-        <IndicesForm
-          v-else-if="phase === 'indices'"
-          :indices="scenario.indices"
-          :graine="scenario.id"
-          @valider="(ids) => emit('evenement', { type: 'valider-indices', indices: ids })"
-        />
-        <ConsequencePanel
-          v-else-if="phase === 'consequence' && resultat"
-          :scenario="scenario"
-          :resultat="resultat"
-          :leviers="leviers"
-          :sensible="sensible"
-          @continuer="emit('evenement', { type: 'continuer' })"
-          @rejouer="emit('evenement', { type: 'rejouer' })"
-        />
-        <component
-          :is="RECUPERATIONS[scenario.recuperation.action]"
-          v-else-if="phase === 'recuperation' && scenario.recuperation"
-          v-bind="propsRecuperation(scenario.recuperation.action, contexte)"
-          @fait="emit('evenement', { type: 'recuperation-faite' })"
-        />
-        <div v-if="sensible" class="actions">
-          <button type="button" class="btn btn-discret" @click="emit('evenement', { type: 'passer' })">
-            {{ PASSER.scenario }}
-          </button>
-        </div>
+      </template>
+      <ConsequencePanel
+        v-if="phaseAffichee === 'consequence' && resultat"
+        :scenario="scenario"
+        :resultat="resultat"
+        :leviers="leviers"
+        :indices="indices"
+        :sensible="sensible"
+        @continuer="emit('evenement', { type: 'continuer' })"
+        @rejouer="emit('evenement', { type: 'rejouer' })"
+      />
+      <component
+        :is="RECUPERATIONS[scenario.recuperation.action]"
+        v-if="phaseAffichee === 'recuperation' && scenario.recuperation"
+        v-bind="propsRecuperation(scenario.recuperation.action, contexte)"
+        @fait="emit('evenement', { type: 'recuperation-faite' })"
+      />
+      <div v-if="sensible" class="actions">
+        <button type="button" class="btn btn-discret" @click="emit('evenement', { type: 'passer' })">
+          {{ PASSER.scenario }}
+        </button>
       </div>
-    </div>
+    </SceneTelephone>
   </article>
 </template>
 
 <style scoped>
 .scenario:focus { outline: none; }
-.scenario:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
-.scenario-grille { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); align-items: start; }
-@media (max-width: 48rem) { .scenario-grille { grid-template-columns: minmax(0, 1fr); } }
+.consigne-mode { font-weight: 700; }
+.scenario { min-height: 0; }
 .role { font-weight: 700; color: var(--primaire); }
 </style>

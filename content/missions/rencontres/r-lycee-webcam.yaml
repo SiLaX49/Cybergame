@@ -18,30 +18,35 @@ etapes:
     ecran:
       app: mail
       appNom: Mail
-      contact: 'Inconnu <hk.admin@secu-alerte.xyz>'
+      contact: 'Inconnu'
+      adresse: 'hk.admin@secu-alerte.xyz'
       sujet: 'Ton mot de passe : tournesol2019'
       messages:
         - de: contact
           texte: 'Je connais ton mot de passe : tournesol2019. J’ai piraté ta webcam et ton ordinateur, et j’ai enregistré des vidéos de toi. Envoie 300 € en cryptomonnaie sous 48 h, ou je les envoie à tous tes contacts. Ne parle de ce mail à personne.'
+          heure: '03:12'
     question: 'Tournesol2019, c’est un vieux mot de passe que tu as vraiment utilisé il y a quelques années. Que fais-tu ?'
     choix:
       - id: paie
         texte: 'Il connaît mon vrai mot de passe, donc il dit peut-être vrai : je paie pour être tranquille.'
         qualite: risque
+        geste: payer
         consequence: 'Aucune vidéo n’existait : ce mail est envoyé à des milliers de personnes, avec des mots de passe volés lors d’anciennes fuites de données. Après ton paiement, un nouveau mail réclame plus. Ce n’est pas ta faute : ces arnaqueurs savent exactement comment faire peur. Ne paie plus, n’envoie rien de plus, garde le mail comme preuve et signale-le.'
+        reaction: 'Paiement reçu. Ce n’est pas assez : encore 300 € sous 24 h.'
       - id: ignore
         texte: 'Je ne réponds pas, je signale le mail comme arnaque et je change ce vieux mot de passe partout où il sert encore.'
         qualite: bon
+        geste: signaler
         consequence: 'Rien ne se passe après 48 h : c’était un bluff. Le mot de passe venait d’une ancienne fuite de données. En le changeant, tu fermes aussi la porte aux vrais pirates.'
+        reaction: 'Dernier rappel : il te reste 24 h.'
       - id: aide
         texte: 'Je demande de l’aide : j’appelle le 3018 avant de faire quoi que ce soit.'
         qualite: aide
         consequence: 'L’écoutante du 3018 reconnaît tout de suite ce mail : des milliers de personnes reçoivent le même. Elle t’explique que c’est un bluff, qu’il ne faut pas payer, et comment le signaler. Tu changes ton vieux mot de passe, et tu te sens plus léger·e.'
     indices:
-      - { id: sans-preuve, libelle: 'Le mail ne montre aucune preuve, à part un vieux mot de passe', pertinent: true }
-      - { id: crypto, libelle: 'Il réclame de la cryptomonnaie sous 48 h', pertinent: true }
-      - { id: silence, libelle: 'Il me demande de n’en parler à personne', pertinent: true }
-      - { id: mdp-reel, libelle: 'Le mot de passe cité est vraiment l’un des miens', pertinent: false }
+      - { id: sans-preuve, libelle: 'Le mail ne montre aucune preuve, à part un vieux mot de passe', passage: 'Je connais ton mot de passe' }
+      - { id: crypto, libelle: 'Il réclame de la cryptomonnaie sous 48 h', passage: '300 € en cryptomonnaie sous 48 h' }
+      - { id: silence, libelle: 'Il me demande de n’en parler à personne', passage: 'Ne parle de ce mail à personne' }
     explicationIndices: 'Le mot de passe vient d’une ancienne fuite de données : c’est la seule « preuve », et elle ne dit rien sur ta webcam. Aucune vidéo montrée, un délai, de la cryptomonnaie et une demande de silence : c’est une arnaque envoyée en masse.'
     aRetenir: 'Un mail « j’ai piraté ta webcam » est presque toujours un bluff envoyé en masse. Ne paie pas, ne réponds pas, n’envoie rien de plus. Garde le mail, signale-le et change le mot de passe cité. Si ça t’inquiète, le 3018 t’écoute : ce n’est pas ta faute.'
     recuperation: { action: capture-preuve, siChoix: [paie] }
@@ -60,35 +65,40 @@ etapes:
     id: profil-sans-visio
     role: victime
     ecran:
-      app: social
-      appNom: Kalio
+      app: chat
+      appNom: SnapTalk
       contact: 'Sam, 17 ans'
       messages:
         - de: contact
           texte: 'Désolé pour la visio, ma caméra marche toujours pas 😕 Mais je te jure que je suis comme sur mes photos.'
+          heure: '20:14'
         - de: contact
           texte: 'Tu peux m’envoyer des photos de toi ? Des vraies, juste pour moi.'
+          heure: '20:15'
         - de: contact
           texte: 'Et j’ai un souci : tu pourrais me prêter 40 € pour mon forfait ? Je te rembourse lundi, promis.'
-    question: Vous vous êtes connus sur Kalio, une appli pour se faire des amis. Vous parlez depuis un mois, et Sam a toujours refusé les appels vidéo. Que fais-tu ?
+          heure: '20:17'
+    question: Vous vous êtes connus sur SnapTalk. Vous parlez depuis un mois, et Sam a toujours refusé les appels vidéo. Que fais-tu ?
     choix:
       - id: prete
         texte: 'Je lui prête les 40 €, il me remboursera lundi. Sam m’a tellement soutenu·e ce mois-ci.'
         qualite: risque
+        geste: payer
         consequence: 'Lundi, pas de remboursement : Sam demande 80 € de plus et insiste pour les photos. Quand tu hésites, il dit que tu ne tiens pas à lui. Le profil était faux : ses photos avaient été volées à quelqu’un d’autre. Ce n’est pas ta faute : c’est lui qui ment depuis le début. Bloque, signale, et parles-en.'
+        reaction: 'Merci ❤️ Tu vois, on se fait confiance. Tu m’envoies les photos ?'
       - id: refuse
         texte: 'Je n’envoie ni photo ni argent. Un mois sans visio, c’est louche : je bloque et je signale ce profil.'
         qualite: bon
+        geste: bloquer
         consequence: 'Le profil de Sam disparaît quelques jours plus tard : d’autres personnes l’avaient signalé. Ses photos étaient volées. Tu n’as rien perdu, et tu as protégé d’autres utilisateurs.'
       - id: aide
         texte: 'Je demande de l’aide à l’infirmière du lycée avant de répondre à Sam.'
         qualite: aide
         consequence: 'L’infirmière t’écoute sans juger. Elle t’explique que refuser la visio puis demander photos et argent, c’est le schéma d’un faux profil. Vous signalez le compte, et elle te donne le numéro du 3018 au cas où Sam insisterait.'
     indices:
-      - { id: visio, libelle: 'Sam refuse toute visio depuis un mois', pertinent: true }
-      - { id: photos, libelle: 'Il me demande des photos « juste pour moi »', pertinent: true }
-      - { id: argent, libelle: 'Il me demande de l’argent', pertinent: true }
-      - { id: age, libelle: 'Son profil affiche 17 ans', pertinent: false }
+      - { id: visio, libelle: 'Sam refuse toute visio depuis un mois', passage: 'ma caméra marche toujours pas' }
+      - { id: photos, libelle: 'Il me demande des photos « juste pour moi »', passage: 'juste pour moi' }
+      - { id: argent, libelle: 'Il me demande de l’argent', passage: 'me prêter 40 €' }
     explicationIndices: 'Refuser toute visio permet de cacher qui on est vraiment. Demander des photos puis de l’argent, c’est le schéma classique des faux profils. L’âge affiché ne prouve rien.'
     aRetenir: 'Quelqu’un qui refuse de se montrer mais réclame photos et argent cache quelque chose. Tu ne dois rien envoyer, ni photo ni argent. Bloque, signale, et parles-en : le 3018 aide aussi dans ces situations.'
     recuperation: { action: bloquer-signaler, siChoix: [prete] }
@@ -108,32 +118,37 @@ etapes:
     role: temoin
     ecran:
       app: chat
-      appNom: Pixo
+      appNom: SnapTalk
       contact: 'Inès'
       messages:
         - de: contact
           texte: 'Une photo de moi qui devait rester privée tourne sur un compte anonyme. Plein de gens du lycée l’ont vue.'
+          heure: '21:52'
         - de: contact
           texte: 'Je sais plus quoi faire. J’ose même plus aller en cours demain.'
+          heure: '21:53'
     question: Inès est ton amie. Sous la photo, des commentaires moqueurs s’accumulent. Que fais-tu ?
     choix:
       - id: commente
         texte: 'Je vais sous la publication répondre à ceux qui se moquent. Il faut bien que quelqu’un défende Inès !'
         qualite: risque
+        geste: ouvrir-lien
         consequence: 'Ton commentaire part d’une bonne intention, mais il fait remonter la publication, et d’autres la voient. Ce n’est pas ta faute : le seul responsable est celui qui a publié la photo. Il est encore temps : écris à Inès en privé, et aidez-la à demander son retrait.'
+        reaction: 'Merci de vouloir me défendre… mais là, encore plus de gens la voient 😣'
       - id: prive
         texte: 'J’écris à Inès que ce n’est pas sa faute. Je l’aide à noter le nom du compte et le lien de la publication, sans enregistrer la photo, et à le signaler.'
         qualite: bon
+        geste: repondre
+        reponse: 'Ce n’est pas ta faute. On note le nom du compte et le lien, et on le signale ensemble ?'
         consequence: 'Inès se sent moins seule. Vous signalez le compte et gardez des preuves des messages, sans repartager l’image. Elle accepte de prévenir la CPE le lendemain matin.'
+        reaction: 'Merci… Ça m’aide de ne pas être seule.'
       - id: aide
         texte: 'Je demande de l’aide au 3018 avec Inès ce soir : il peut demander le retrait de la photo.'
         qualite: aide
         consequence: 'Le 3018 écoute Inès et signale la publication aux plateformes, qui peuvent la retirer rapidement. Il lui explique que diffuser une photo privée sans accord est puni par la loi, et comment porter plainte si elle le souhaite.'
     indices:
-      - { id: detresse, libelle: 'Inès n’ose plus aller en cours', pertinent: true }
-      - { id: diffusion, libelle: 'Beaucoup de gens du lycée ont déjà vu la photo', pertinent: true }
-      - { id: moqueries, libelle: 'Les commentaires moqueurs s’accumulent', pertinent: true }
-      - { id: anonyme, libelle: 'Le compte qui publie est anonyme, on ne peut rien faire', pertinent: false }
+      - { id: detresse, libelle: 'Inès n’ose plus aller en cours', passage: 'J’ose même plus aller en cours' }
+      - { id: diffusion, libelle: 'Beaucoup de gens du lycée ont déjà vu la photo', passage: 'Plein de gens du lycée l’ont vue' }
     explicationIndices: 'Inès va mal et la photo se répand vite : il faut agir sans attendre. Un compte anonyme n’empêche rien : il peut être signalé, et la justice peut retrouver qui est derrière.'
     aRetenir: 'Si une photo d’un ami circule : ne la repartage pas (la transférer, c’est aussi la diffuser), ne commente pas, écris-lui en privé que ce n’est pas sa faute. Signalez la publication et appelez le 3018 : il peut demander son retrait. Diffuser une photo privée sans accord est puni par la loi.'
     recuperation: { action: soutenir, siChoix: [commente] }
@@ -178,7 +193,7 @@ fiche:
     5 min : cadre. Les prénoms sont fictifs. Personne n’a à raconter sa vie ; « Passer ce scénario » est possible ; l’infirmier·e ou la CPE reste disponible après la séance.
     20 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (les 5 signaux d’alerte). Rappeler que le chantage et la diffusion d’une image privée sans accord sont des délits.
-    5 min : où trouver de l’aide (CPE, infirmier·e, 3018 qui peut demander le retrait d’un contenu, 119, Pharos sur internet-signalement.gouv.fr, cybermalveillance.gouv.fr pour le mail « webcam », 17 en cas de danger immédiat). Kalio est présentée comme une appli pour se faire des amis : les applis de rencontre amoureuse sont réservées aux majeurs.
+    5 min : où trouver de l’aide (CPE, infirmier·e, 3018 qui peut demander le retrait d’un contenu, 119, Pharos sur internet-signalement.gouv.fr, cybermalveillance.gouv.fr pour le mail « webcam », 17 en cas de danger immédiat). SnapTalk et Kalio sont présentées comme des applis pour se faire des amis : les applis de rencontre amoureuse sont réservées aux majeurs.
     5 min : engagement. Je change aujourd’hui un vieux mot de passe que j’utilise encore, et je note le 3018.
   siRevelation: 'Si un élève se confie pendant ou après la séance : l’écouter au calme, sans juger et sans promettre le secret (lui dire qu’on va en parler à des personnes qui peuvent le protéger). Ne pas l’interroger, ne pas demander à voir ni copier les images, et ne pas les transférer, même pour les montrer à un collègue ; noter ses mots exacts, avec la date. Lui dire de ne pas payer et de ne plus répondre. Ne pas contacter soi-même l’auteur. Prévenir sans attendre le ou la CPE, l’infirmier·e scolaire et le chef d’établissement. Si d’autres élèves sont impliqués (diffusion, moqueries), appliquer le protocole pHARe. Si l’élève est en danger ou risque de l’être, le chef d’établissement transmet une information préoccupante à la cellule départementale (CRIP), ou un signalement au procureur en cas de danger grave et immédiat. Orienter vers le 3018, qui peut demander le retrait d’un contenu, et vers le 119. Si l’élève paraît en grande détresse ou parle de mourir : ne pas le laisser seul, prévenir immédiatement l’infirmier·e et le chef d’établissement, et appeler le 3114 (prévention du suicide, 24 h/24). Repère légal : une image à caractère sexuel d’un mineur est, pour la loi, une image pédopornographique. La détenir ou la transférer est interdit, même avec l’accord de la personne et même entre mineurs. Ne jamais demander à la voir ; la signaler au 3018 ou sur Pharos (internet-signalement.gouv.fr).'
 relecture:

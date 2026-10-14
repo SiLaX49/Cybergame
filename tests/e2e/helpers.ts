@@ -23,7 +23,12 @@ async function personnageSiAffiche(page: Page) {
   await partir.click()
 }
 
-/** Joue la mission affichée jusqu'à la fin en choisissant toujours « demander de l'aide » et « Je ne sais pas ». */
+/** Un scénario démarre sur l’écran verrouillé : toucher la notification ouvre l’appli et ses choix. */
+export async function ouvrirNotification(page: Page) {
+  await page.locator('[data-notification]').click()
+}
+
+/** Joue la mission affichée jusqu'à la fin en choisissant toujours « demander de l'aide ». */
 export async function jouerMission(page: Page) {
   const fin = page.getByRole('heading', { name: 'Mission terminée !' })
   for (let i = 0; i < 300; i++) {
@@ -32,17 +37,17 @@ export async function jouerMission(page: Page) {
     const suivant = page.getByRole('button', { name: /^(Suivant|Terminer le mini-jeu|Appli suivante)$/ })
     const validerClasse = page.getByRole('button', { name: 'Valider le choix de la classe' })
     const aide = page.locator('[data-qualite="aide"]')
-    const jeNeSaisPas = page.getByRole('button', { name: 'Je ne sais pas' })
     const continuer = page.getByRole('button', { name: 'Continuer', exact: true })
     const categorie = page.locator('.tri-categories button:not([disabled])').first()
     const solution = page.getByRole('button', { name: 'Voir la solution' })
-    const verifier = page.getByRole('radio', { name: 'Je vérifie autrement' })
+    const notifs = page.locator('[data-notif]')
     const commencerSensible = page.getByRole('button', { name: 'Commencer' })
     const jePasse = page.getByRole('button', { name: 'Je passe' })
     const verifierProfil = page.getByRole('button', { name: 'Vérifier mon profil' })
     const douteux = page.locator('[data-verdict="douteux"]:not([disabled])')
     const refuser = page.getByRole('radio', { name: 'Refuser' })
     const validerPermissions = page.getByRole('button', { name: 'Valider les permissions' })
+    const notification = page.locator('[data-notification]')
     // Gestes de récupération des thèmes sensibles : premier bon message, étapes dans l’ordre.
     const messageSoutien = page.locator('input[name="message-soutien"]').first()
     const excuses = page.locator('input[name="excuses"]').first()
@@ -50,16 +55,19 @@ export async function jouerMission(page: Page) {
     const demanderNePasRepartager = page.getByRole('button', { name: 'Demander aux autres de ne pas repartager' })
     const envoyer = page.getByRole('button', { name: 'Envoyer', exact: true })
 
-    if (await suivant.isVisible()) await suivant.click()
+    if (await notification.isVisible()) await notification.click()
+    else if (await suivant.isVisible()) await suivant.click()
     else if ((await validerClasse.isVisible()) && (await validerClasse.isEnabled())) await validerClasse.click()
     else if (await aide.isVisible()) await aide.click()
     else if (await page.locator('[data-levier="autre"]').isVisible()) await page.locator('[data-levier="autre"]').click()
-    else if (await jeNeSaisPas.isVisible()) await jeNeSaisPas.click()
     else if (await continuer.isVisible()) await continuer.click()
     else if (await categorie.isVisible()) await categorie.click()
     else if (await solution.isVisible()) await solution.click()
-    else if (await verifier.first().isVisible()) {
-      for (const radio of await verifier.all()) await radio.check()
+    else if (await notifs.first().isVisible()) {
+      for (const n of await notifs.all()) {
+        await n.click()
+        await page.getByRole('button', { name: 'Je vérifie autrement' }).click()
+      }
       await page.getByRole('button', { name: 'Valider mes choix' }).click()
     } else if (await commencerSensible.isVisible()) await commencerSensible.click()
     else if (await jePasse.isVisible()) await jePasse.click()
@@ -88,10 +96,10 @@ export async function jouerJusquAuMiniJeu(page: Page) {
   for (let i = 0; i < 100; i++) {
     if (await titre.isVisible()) return
     const aide = page.locator('[data-qualite="aide"]')
-    const jeNeSaisPas = page.getByRole('button', { name: 'Je ne sais pas' })
     const continuer = page.getByRole('button', { name: 'Continuer', exact: true })
-    if (await aide.isVisible()) await aide.click()
-    else if (await jeNeSaisPas.isVisible()) await jeNeSaisPas.click()
+    const notification = page.locator('[data-notification]')
+    if (await notification.isVisible()) await notification.click()
+    else if (await aide.isVisible()) await aide.click()
     else if (await continuer.isVisible()) await continuer.click()
     else await page.waitForTimeout(100)
   }
@@ -103,6 +111,9 @@ export async function tabJusqua(page: Page, texte: string) {
     await page.keyboard.press('Tab')
     const actif = await page.evaluate(() => {
       const el = document.activeElement
+      // Firefox rend focalisables les zones défilantes (liste des choix du téléphone) : on les ignore,
+      // car leur texte contient celui des boutons qu’elles englobent.
+      if (!el?.matches('a, button, input, select, textarea, summary')) return ''
       // Pour une case ou un bouton radio, on lit le texte de son libellé.
       return (el?.closest('label') ?? el)?.textContent?.trim() ?? ''
     })
@@ -118,6 +129,23 @@ export async function tabJusquaSelecteur(page: Page, selecteur: string) {
     if (await page.evaluate((s) => document.activeElement?.matches(s) ?? false, selecteur)) return
   }
   throw new Error(`Élément introuvable au clavier : ${selecteur}`)
+}
+
+/**
+ * Joue les scénarios de la mission affichée jusqu’à l’appli dont la coque porte `data-marque="<marque>"` : chaque
+ * notification est ouverte au clavier, les scénarios d’avant sont passés avec le choix « aide ».
+ */
+export async function allerALaMarque(page: Page, marque: string) {
+  for (let i = 0; i < 6; i++) {
+    await expect(page.locator('[data-notification]')).toBeVisible()
+    await tabJusquaSelecteur(page, '[data-notification]')
+    await page.keyboard.press('Enter')
+    await expect(page.locator('[data-choix]').first()).toBeVisible()
+    if ((await page.locator(`[data-marque="${marque}"]`).count()) > 0) return
+    await page.locator('[data-qualite="aide"]').click()
+    await page.getByRole('button', { name: 'Continuer', exact: true }).click()
+  }
+  throw new Error(`Aucune appli de marque ${marque} dans cette mission`)
 }
 
 /** Vérifie que le focus n'est pas retombé sur <body> (WCAG 2.4.3). */

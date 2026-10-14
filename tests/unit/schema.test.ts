@@ -45,9 +45,9 @@ describe('missionSchema', () => {
     )
   })
 
-  it('exige au moins un indice pertinent', () => {
+  it('exige au moins un indice', () => {
     const sc = rawScenario()
-    sc.indices = sc.indices.map((i) => ({ ...i, pertinent: false }))
+    sc.indices = []
     expect(problemes(rawMission({ etapes: [sc] }))).toContainEqual(
       expect.objectContaining({ chemin: 'etapes.0.indices' }),
     )

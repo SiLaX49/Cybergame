@@ -35,9 +35,4 @@ describe('ordreAffichage', () => {
       expect(qualitesEnPosition.size, `position ${i + 1}`).toBeGreaterThan(1)
     }
   })
-
-  it('l’indice non pertinent n’est plus toujours le dernier', () => {
-    const derniersNonPertinents = scenarios.filter((s) => ordreAffichage(s.indices, s.id).at(-1)?.pertinent === false)
-    expect(derniersNonPertinents.length).toBeLessThan(scenarios.length / 2)
-  })
 })

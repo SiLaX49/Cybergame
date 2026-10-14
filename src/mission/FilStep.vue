@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
-import { FIL_ACTIONS, type Fil, type FilAction } from '@/content/schema'
+import type { Fil, FilAction } from '@/content/schema'
 import type { RunEvent } from '@/engine/mission-runner'
+import SceneTelephone from '@/phone/SceneTelephone.vue'
 import { focusAuMontage } from '@/ui/focus'
 
 const props = defineProps<{ fil: Fil }>()
@@ -9,14 +10,11 @@ const emit = defineEmits<{ evenement: [evenement: RunEvent] }>()
 const titre = ref<HTMLElement | null>(null)
 focusAuMontage(titre)
 
-const LIBELLES: Record<FilAction, string> = {
-  ouvrir: 'J’ouvre / je clique',
-  verifier: 'Je vérifie autrement',
-  signaler: 'Je signale',
-  ignorer: 'J’ignore',
-}
 const actions = reactive<Record<string, FilAction>>({})
-const complet = computed(() => props.fil.notifications.every((n) => actions[n.id]))
+const traitees = computed(() => props.fil.notifications.filter((n) => actions[n.id]).length)
+const complet = computed(() => traitees.value === props.fil.notifications.length)
+
+const scene = computed(() => ({ ecran: { app: 'verrouillage' as const, notifications: props.fil.notifications }, actionsNotif: actions }))
 
 function valider() {
   if (complet.value) emit('evenement', { type: 'fil-termine', actions: { ...actions } })
@@ -24,26 +22,17 @@ function valider() {
 </script>
 
 <template>
-  <section class="fil carte">
-    <h2 ref="titre" tabindex="-1">{{ fil.consigne }}</h2>
-    <form @submit.prevent="valider">
-      <fieldset v-for="n in fil.notifications" :key="n.id" class="carte notification">
-        <legend><span class="app">{{ n.appNom }}</span> &middot; <strong>{{ n.de }}</strong></legend>
-        <p>{{ n.texte }}</p>
-        <div class="actions-notif">
-          <label v-for="a in FIL_ACTIONS" :key="a" class="option">
-            <input v-model="actions[n.id]" type="radio" :name="`notif-${n.id}`" :value="a" /> {{ LIBELLES[a] }}
-          </label>
-        </div>
-      </fieldset>
-      <button type="submit" class="btn btn-primaire" :disabled="!complet">Valider mes choix</button>
-    </form>
+  <section class="fil">
+    <SceneTelephone :scene="scene" @agir="(id, a) => (actions[id] = a)">
+      <template #entete>
+        <h2 ref="titre" tabindex="-1">{{ fil.consigne }}</h2>
+      </template>
+      <p role="status">Notifications traitées : {{ traitees }} sur {{ fil.notifications.length }}</p>
+      <button type="button" class="btn btn-primaire" :disabled="!complet" @click="valider">Valider mes choix</button>
+    </SceneTelephone>
   </section>
 </template>
 
 <style scoped>
-.fil h2 { margin-top: 0; }
-.notification { margin-bottom: 1rem; background: var(--surface-2); }
-.app { color: var(--texte-doux); }
-.actions-notif { display: flex; flex-wrap: wrap; gap: 0 0.75rem; }
+.fil { min-height: 0; }
 </style>

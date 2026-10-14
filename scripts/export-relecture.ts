@@ -27,6 +27,39 @@ function minijeuEnMarkdown(e: Minijeu): string[] {
   return [...l, '']
 }
 
+/** Tout le texte lu du faux écran : en-tête, notification, messages (et aperçus de lien), puis les champs propres à l’appli. */
+function ecranEnMarkdown(ecran: Scenario['ecran']): string[] {
+  const entete = [`Faux écran : ${ecran.appNom} (${ecran.app}), contact « ${ecran.contact} »`]
+  if (ecran.app === 'mail') {
+    if (ecran.adresse) entete.push(`adresse « ${ecran.adresse} »`)
+    if (ecran.sujet) entete.push(`sujet « ${ecran.sujet} »`)
+  }
+  const l = [entete.join(', '), '']
+  if (ecran.notification) l.push(`Notification : « ${ecran.notification} »`, '')
+  if (ecran.app === 'social' && ecran.bio) l.push(`Bio du compte : « ${ecran.bio} »`, '')
+  for (const m of ecran.messages) {
+    l.push(citation(`**${m.de === 'moi' ? 'Moi' : ecran.contact}** : ${m.texte}`), '')
+    if (m.texteSimple) l.push(citation(`(simplifié) ${m.texteSimple}`), '')
+    if (m.apercu) l.push(citation(`(aperçu du lien) ${m.apercu.titre}, ${m.apercu.domaine}`), '')
+  }
+  if (ecran.app === 'mail' && ecran.pieceJointe) l.push(`Pièce jointe : « ${ecran.pieceJointe.nom} »`, '')
+  if (ecran.app === 'web' && ecran.boutons) l.push(`Boutons de la page : ${ecran.boutons.map((b) => `« ${b} »`).join(', ')}`, '')
+  if (ecran.app === 'social') {
+    if (ecran.media) {
+      l.push(`Média : ${ecran.media.description}`, '')
+      if (ecran.media.descriptionSimple) l.push(`Média (simplifié) : ${ecran.media.descriptionSimple}`, '')
+    }
+    if (ecran.commentaires) {
+      l.push('**Commentaires**', '')
+      for (const c of ecran.commentaires) {
+        l.push(citation(`**${c.de}** : ${c.texte}`), '')
+        if (c.texteSimple) l.push(citation(`(simplifié) ${c.texteSimple}`), '')
+      }
+    }
+  }
+  return l
+}
+
 function etapeEnMarkdown(e: Etape, leviers: Leviers): string[] {
   if (e.type === 'minijeu') return minijeuEnMarkdown(e)
   if (e.type === 'fil') {
@@ -43,17 +76,18 @@ function etapeEnMarkdown(e: Etape, leviers: Leviers): string[] {
   const levierLibelle = (id: string) => (id === 'autre' ? leviers.autre.libelle : (leviers.leviers[id as keyof Leviers['leviers']]?.libelle ?? id))
   if (e.type === 'scenario') {
     l.push(`### Scénario ${e.id}${e.role ? ` (rôle : ${e.role})` : ''}`, '')
-    l.push(`Faux écran : ${e.ecran.appNom} (${e.ecran.app}), contact « ${e.ecran.contact} »${e.ecran.sujet ? `, sujet « ${e.ecran.sujet} »` : ''}`, '')
-    for (const m of e.ecran.messages) {
-      l.push(citation(`**${m.de === 'moi' ? 'Moi' : e.ecran.contact}** : ${m.texte}`), '')
-      if (m.texteSimple) l.push(citation(`(simplifié) ${m.texteSimple}`), '')
-    }
+    l.push(...ecranEnMarkdown(e.ecran))
     l.push(`**Question** : ${e.question}`, '', '**Choix**', '')
     for (const c of e.choix) {
-      l.push(`- (${QUALITES[c.qualite]}) ${c.texte}`, `  - Conséquence : ${c.consequence}`)
+      l.push(`- (${QUALITES[c.qualite]}) ${c.texte}`)
+      if (c.reponse) l.push(`  - Message envoyé : ${c.reponse}`)
+      if (c.reponseSimple) l.push(`  - Message envoyé (simplifié) : ${c.reponseSimple}`)
+      if (c.reaction) l.push(`  - Réaction du contact : ${c.reaction}`)
+      if (c.reactionSimple) l.push(`  - Réaction du contact (simplifiée) : ${c.reactionSimple}`)
+      l.push(`  - Conséquence : ${c.consequence}`)
       if (c.consequenceSimple) l.push(`  - Conséquence (simplifiée) : ${c.consequenceSimple}`)
     }
-    l.push('', '**Indices**', '', ...e.indices.map((i) => `- ${i.pertinent ? '[pertinent]' : '[non pertinent]'} ${i.libelle}`), '', `Explication des indices : ${e.explicationIndices}`, '')
+    l.push('', '**Indices**', '', ...e.indices.map((i) => `- ${i.libelle} : passage surligné « ${i.passage} »`), '', `Explication des indices : ${e.explicationIndices}`, '')
   } else {
     l.push(`### Lieu ${e.id} : ${e.lieu} (${e.decor})`, '', e.guide, '')
     if (e.guideSimple) l.push(`Guide (simplifié) : ${e.guideSimple}`, '')

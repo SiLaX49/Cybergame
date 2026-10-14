@@ -35,7 +35,7 @@ export default defineConfig({
     environment: 'jsdom',
     include: ['tests/unit/**/*.test.ts'],
     // Les tests lisent ces feuilles via `?raw` ; sans cela Vitest renvoie une chaîne vide.
-    css: { include: [/(tokens|print)\.css/] },
+    css: { include: [/(tokens|print|base)\.css/] },
     alias: {
       'virtual:pwa-register/vue': fileURLToPath(new URL('./tests/unit/pwa-register-stub.ts', import.meta.url)),
     },

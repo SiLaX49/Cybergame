@@ -29,7 +29,6 @@ const t = useTexte()
 
 const TITRES: Record<Exclude<PhaseScenario, 'situation'>, string> = {
   pourquoi: 'Qu’est-ce qui t’a donné envie de le faire ?',
-  indices: 'Qu’est-ce qui t’a décidé ?',
   consequence: 'Et alors, que se passe-t-il ?',
   recuperation: 'Maintenant, limite les dégâts',
 }
@@ -103,7 +102,6 @@ focusAuChangement(() => props.phase, titre)
 
 <style scoped>
 .lieu:focus { outline: none; }
-.lieu:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
 .lieu-grille { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); align-items: start; }
 @media (max-width: 48rem) { .lieu-grille { grid-template-columns: minmax(0, 1fr); } }
 .lieu-decor { margin: 0; }

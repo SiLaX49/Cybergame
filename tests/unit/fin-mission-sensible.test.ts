@@ -47,7 +47,7 @@ describe('FinMission : réponse « Autre chose » et badges en thème sensible',
     leviersCedes: levier ? [levier] : [],
     resultats: {
       'sc-1': {
-        type: 'scenario', choixId: 'verif', qualite: 'bon', indicesChoisis: ['url'], indicesJustes: 1, indicesFaux: 0,
+        type: 'scenario', choixId: 'verif', qualite: 'bon', indiceUtilise: false,
         levier, recuperationFaite: null, passe: false,
       },
     },
@@ -60,9 +60,9 @@ describe('FinMission : réponse « Autre chose » et badges en thème sensible',
 
   it('« Œil de lynx » sans « piéger » en thème sensible, inchangé ailleurs', async () => {
     const sensible = (await monterAvec(avecResultat(null), true)).find('.badges').text()
-    expect(sensible).toContain('Œil de lynx : Tu as repéré de vrais indices sans te laisser tromper par les faux.')
+    expect(sensible).toContain('Œil de lynx : Tu as repéré les signaux d’alerte toi-même, sans demander d’indice.')
     expect(sensible).not.toMatch(/pi[eè]g/)
     const normal = (await monterAvec(avecResultat(null), false)).find('.badges').text()
-    expect(normal).toContain('Œil de lynx : Tu as repéré de vrais indices sans te laisser piéger par les faux.')
+    expect(normal).toContain('Œil de lynx : Tu as déjoué les pièges sans demander d’indice.')
   })
 })

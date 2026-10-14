@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
-import { jouerMission } from './helpers'
+import { jouerMission, ouvrirNotification } from './helpers'
 
 // Missions sensibles jouées en entier, sur trois navigateurs : plus longues que le délai par défaut.
 test.describe.configure({ timeout: 90_000 })
@@ -49,6 +49,7 @@ test('harcèlement, témoin : un choix risqué mène à « soutenir »', async (
   await page.goto('/#/mission/h-6e-surnom')
   await page.getByRole('button', { name: 'Commencer' }).click()
   await passerScenarios(page, 1)
+  await ouvrirNotification(page)
   await page.locator('[data-choix="envoie-ami"]').click()
   await page.locator('[data-levier="autre"]').click()
   await page.getByRole('button', { name: 'Continuer', exact: true }).click()
@@ -68,6 +69,7 @@ test('harcèlement, auteur : un choix risqué mène à « retirer la publication
   await page.goto('/#/mission/h-6e-surnom')
   await page.getByRole('button', { name: 'Commencer' }).click()
   await passerScenarios(page, 2)
+  await ouvrirNotification(page)
   await page.locator('[data-choix="laisse"]').click()
   await page.locator('[data-levier="autre"]').click()
   await page.getByRole('button', { name: 'Continuer', exact: true }).click()
@@ -88,6 +90,7 @@ test('harcèlement, auteur : un choix risqué mène à « retirer la publication
 test('rencontres : « protège-toi », motif « mineur » au signalement, et « soutenir » adapté', async ({ page }) => {
   await page.goto('/#/mission/r-6e-ami-du-jeu')
   await page.getByRole('button', { name: 'Commencer' }).click()
+  await ouvrirNotification(page)
   await page.locator('[data-choix="accepte"]').click()
   await page.locator('[data-levier="autre"]').click()
   await expect(page.getByRole('heading', { name: 'Ce qui a pu peser' })).toBeVisible()
@@ -101,6 +104,7 @@ test('rencontres : « protège-toi », motif « mineur » au signalement, et « 
   await expect(page.getByText('Étape 2 sur')).toBeVisible()
   await page.getByRole('button', { name: 'Passer ce scénario' }).click()
   await expect(page.getByText('Étape 3 sur')).toBeVisible()
+  await ouvrirNotification(page)
   await page.locator('[data-choix="promet"]').click()
   await page.locator('[data-levier="autre"]').click()
   await page.getByRole('button', { name: 'Continuer', exact: true }).click()

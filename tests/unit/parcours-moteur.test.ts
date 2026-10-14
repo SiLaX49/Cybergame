@@ -106,7 +106,7 @@ describe('moteur : lieux d’un parcours', () => {
       essais: [],
       passe: false,
     })
-    expect(() => reduire(m, etat, { type: 'valider-indices', indices: [] })).toThrow(RunError)
+    expect(() => reduire(m, demarrer(m), { type: 'indice' })).toThrow(RunError)
   })
 
   it('un choix risqué : pourquoi, réaction, récupération, puis retour au même lieu', () => {

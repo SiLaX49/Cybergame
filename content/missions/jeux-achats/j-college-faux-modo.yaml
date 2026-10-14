@@ -21,28 +21,33 @@ etapes:
       messages:
         - de: contact
           texte: 'Oups, j’ai signalé ton compte par erreur 😬 Il va être banni sous 24 h ! Écris vite à @Support_ChatCord pour annuler, ils sont super rapides.'
+          heure: '21:03'
         - de: moi
           texte: 'Sérieux ?! Ok je leur écris.'
+          heure: '21:04'
     question: 'Lucas, tu joues avec lui depuis des mois sur ton serveur. Tu écris à @Support_ChatCord, qui te répond en message privé : « Pour annuler le bannissement, envoie-moi le code à 6 chiffres que tu vas recevoir par SMS. » Le SMS arrive. Que fais-tu ?'
     choix:
       - id: donne-code
         texte: 'C’est le support, et je ne veux pas perdre des mois de parties : j’envoie le code.'
         qualite: risque
+        geste: repondre
+        reponse: 'Voilà le code : 518 204'
         consequence: 'C’était un code de connexion : il a permis au pirate d’entrer dans ton compte depuis son propre appareil. Ton appli te déconnecte, ton pseudo change et ton compte envoie la même arnaque à tes amis. Grâce à « Mot de passe oublié » et à ton adresse mail, tu changes ton mot de passe et tu reprends la main. Reste à fermer la porte pour de bon.'
+        reaction: 'Merci pour le code 😈 Ton compte ChatCord est à moi maintenant.'
       - id: verifie
         texte: Je n’envoie rien et je regarde moi-même dans les paramètres de mon compte s’il y a un avertissement.
         qualite: bon
+        geste: verifier
         consequence: 'Aucun avertissement dans ton compte. En vocal, Lucas tombe des nues : il n’a jamais écrit ce message, son compte a été piraté hier. Vous signalez le faux support.'
+        reaction: 'T’as écrit au support ? Fais vite, ton compte va être banni !'
       - id: aide
         texte: Je demande de l’aide à un adulte de confiance avant de répondre.
         qualite: aide
         consequence: 'Ta tante lit la conversation et est formelle : « Le vrai support ne t’écrit jamais en message privé et ne demande jamais de code. N’importe qui peut s’appeler Support. » Tu ne réponds pas et tu signales le faux compte aux modérateurs du serveur.'
     indices:
-      - { id: message-prive, libelle: 'Le « support » m’écrit en message privé, comme n’importe quel utilisateur', pertinent: true }
-      - { id: code, libelle: 'On me demande le code reçu par SMS', pertinent: true }
-      - { id: urgence, libelle: 'On me menace d’un bannissement sous 24 h', pertinent: true }
-      - { id: ami, libelle: 'Lucas est vraiment mon ami', pertinent: false }
-    explicationIndices: 'N’importe qui peut créer un compte nommé « Support_ChatCord ». Un vrai support ne demande jamais ton code ni ton mot de passe, et la peur du bannissement sert à te faire agir vite. Le message de Lucas ne prouve rien : son compte a pu être piraté.'
+      - { id: message-prive, libelle: 'Le « support » m’écrit en message privé, comme n’importe quel utilisateur', passage: '@Support_ChatCord' }
+      - { id: urgence, libelle: 'On me menace d’un bannissement sous 24 h', passage: 'banni sous 24 h' }
+    explicationIndices: 'N’importe qui peut créer un compte nommé « Support_ChatCord » et t’écrire en message privé. Un vrai support passe par l’appli, pas par un message privé. La menace d’un bannissement sous 24 h sert à te faire agir vite.'
     aRetenir: 'Un code reçu par SMS ne se donne à personne, même au « support ». Pour vérifier une menace sur ton compte, regarde toi-même dans l’appli. La double authentification protège ton compte tant que tu gardes ses codes pour toi.'
     recuperation: { action: activer-2fa, siChoix: [donne-code] }
     pourquoi:
@@ -68,28 +73,33 @@ etapes:
       messages:
         - de: contact
           texte: 'Salut ! J’ai vu tes parties, t’as un vrai talent 🔥 J’ai codé un jeu, tu veux bien le tester ? Ton avis m’aiderait trop.'
+          heure: '17:12'
         - de: contact
           texte: '📎 NovaQuest_beta.exe (48 Mo)'
+          heure: '17:13'
     question: 'Nova_Dev t’a ajouté hier sur un serveur de jeux, tu ne le connais pas. Et « NovaQuest », ça a l’air stylé. Que fais-tu ?'
     choix:
       - id: lance
         texte: 'Il trouve que j’ai du talent, et tester un jeu en avant-première, c’est trop bien : je le lance.'
         qualite: risque
+        geste: installer
         consequence: 'Le « jeu » affiche un écran noir puis se ferme. En silence, il a copié les mots de passe enregistrés dans ton navigateur et tes connexions ouvertes. Le soir, tes comptes ChatCord et GameBox sont piratés. Tu peux encore reprendre la main : fais analyser l’ordinateur avec un adulte, puis change tes mots de passe.'
+        reaction: 'Merci pour le test 😈 Ton ordi travaille pour moi maintenant.'
       - id: refuse
         texte: 'Je refuse poliment : je ne lance jamais un programme envoyé par quelqu’un que je connais depuis hier.'
         qualite: bon
+        geste: repondre
+        reponse: 'Merci, mais je lance jamais un fichier d’inconnu, désolé !'
         consequence: 'Nova_Dev insiste, puis quitte le serveur. Quelques jours plus tard, une annonce dans le salon officiel du serveur prévient que ce compte a piraté plusieurs membres avec un faux jeu.'
+        reaction: 'Dommage, t’aurais adoré… Tant pis pour toi.'
       - id: aide
         texte: Je demande de l’aide à un adulte avant d’ouvrir le fichier.
         qualite: aide
         consequence: 'Ton grand frère voit « .exe » : « C’est un programme, il peut faire ce qu’il veut sur l’ordi. » Vous ne l’ouvrez pas et vous signalez le compte.'
     indices:
-      - { id: exe, libelle: 'Le fichier est un programme (.exe)', pertinent: true }
-      - { id: inconnu, libelle: 'Il vient d’une personne rencontrée hier', pertinent: true }
-      - { id: flatterie, libelle: 'Il me flatte (« t’as un vrai talent »)', pertinent: true }
-      - { id: nom, libelle: 'Le nom du jeu est stylé', pertinent: false }
-    explicationIndices: 'Un fichier .exe est un programme : l’ouvrir, c’est le laisser agir sur ton ordinateur. La flatterie sert à baisser ta garde. Un nom stylé ne dit rien de ce que fait vraiment le programme.'
+      - { id: exe, libelle: 'Le fichier est un programme (.exe)', passage: 'NovaQuest_beta.exe' }
+      - { id: flatterie, libelle: 'Il me flatte (« t’as un vrai talent »)', passage: 't’as un vrai talent' }
+    explicationIndices: 'Un fichier .exe est un programme : l’ouvrir, c’est le laisser agir sur ton ordinateur. La flatterie sert à baisser ta garde. Un faux jeu peut voler tes mots de passe en silence.'
     aRetenir: 'N’ouvre jamais un programme envoyé par un inconnu, même présenté comme un jeu à tester. Les vrais jeux s’installent depuis des boutiques officielles.'
     recuperation: { action: changer-mdp, siChoix: [lance] }
     pourquoi:
@@ -122,21 +132,24 @@ etapes:
       - id: desactive
         texte: '1 243 avis, ils ne peuvent pas tous mentir : je coupe l’antivirus cinq minutes pour installer le mod.'
         qualite: risque
+        geste: installer
         consequence: 'Le mod ne débloque rien. Mais l’ordinateur devient très lent, des pubs s’ouvrent partout et l’antivirus refuse de se réactiver. Ce n’est pas trop tard : préviens un adulte pour faire nettoyer l’ordinateur, puis changer les mots de passe de la famille.'
+        reaction: 'Installation réussie ✔ Profite de tes skins !'
       - id: ferme
         texte: 'Je ferme le site : un vrai mod n’a jamais besoin qu’on coupe l’antivirus.'
         qualite: bon
+        geste: fermer
         consequence: 'L’ordinateur reste sain. Sur le forum officiel de GameBox, un message épinglé prévient justement : « Les sites de skins gratuits installent des virus. »'
+        reaction: 'Attends ! 1 243 joueurs l’ont déjà installé, et toi ?'
       - id: aide
         texte: 'Je demande de l’aide à un adulte avant d’installer quoi que ce soit : c’est l’ordinateur de toute la famille.'
         qualite: aide
         consequence: 'Ton père lit la ligne sur l’antivirus : « Si l’antivirus bloque, c’est justement parce que c’est dangereux ! » Vous fermez le site.'
     indices:
-      - { id: antivirus, libelle: 'On me demande de désactiver l’antivirus', pertinent: true }
-      - { id: non-officiel, libelle: 'Le site n’est pas celui de GameBox, qui ne parle pas de ce mod', pertinent: true }
-      - { id: illimite, libelle: 'Tout est « gratuit et illimité »', pertinent: true }
-      - { id: avis, libelle: 'Il y a beaucoup d’avis positifs', pertinent: false }
-    explicationIndices: 'Un antivirus qui bloque un fichier a souvent une bonne raison. Des avis se fabriquent en quelques minutes. Et un mod de triche peut aussi faire bannir ton compte du jeu.'
+      - { id: antivirus, libelle: 'On me demande de désactiver l’antivirus', passage: 'Désactive ton antivirus' }
+      - { id: non-officiel, libelle: 'Le site n’est pas celui de GameBox, qui ne parle pas de ce mod', passage: 'gamebox-mods-free.xyz' }
+      - { id: illimite, libelle: 'Tout est « gratuit et illimité »', passage: 'SKINS ILLIMITÉS' }
+    explicationIndices: 'Un antivirus qui bloque un fichier a souvent une bonne raison. Un mod « gratuit et illimité » absent du site de GameBox n’est vérifié par personne. Et un mod de triche peut aussi faire bannir ton compte du jeu.'
     aRetenir: 'Ne désactive jamais ton antivirus pour installer quelque chose. Pour les mods et les skins, reste sur la boutique du jeu ou les plateformes qu’il reconnaît officiellement.'
     recuperation: { action: demander-aide, siChoix: [desactive] }
     pourquoi:

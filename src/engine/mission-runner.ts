@@ -1,20 +1,19 @@
 import type { Etape, FilAction, LevierId, Mission, Qualite, ReponseLevier } from '@/content/schema'
 
-export type PhaseScenario = 'situation' | 'pourquoi' | 'indices' | 'consequence' | 'recuperation'
+export type PhaseScenario = 'situation' | 'pourquoi' | 'consequence' | 'recuperation'
 export type SurpriseResultat = 'verifie' | 'ignore' | 'signale' | 'piege'
 
 export interface ScenarioResultat {
   type: 'scenario'
   choixId: string | null
   qualite: Qualite | null
-  indicesChoisis: string[]
-  indicesJustes: number
-  indicesFaux: number
   levier: ReponseLevier | null
   recuperationFaite: boolean | null
   passe: boolean
+  /** L'élève a demandé l'indice (bouton d'aide) avant de choisir. */
+  indiceUtilise: boolean
 }
-/** Résultat d’un lieu de parcours : comme un scénario, sans étape « indices ». */
+/** Résultat d’un lieu de parcours : comme un scénario, sans indice. */
 export interface LieuResultat {
   type: 'lieu'
   choixId: string | null
@@ -46,11 +45,13 @@ export interface RunState {
   termine: boolean
   /** Leviers choisis pendant le run, dans l'ordre, sans doublon ; conservés même après « rejouer ». En mémoire seulement. */
   leviersCedes: ReponseLevier[]
+  /** Indice demandé pendant l'étape courante ; remis à faux à l'étape suivante, conservé après « rejouer ». */
+  indiceUtilise: boolean
 }
 
 export type RunEvent =
   | { type: 'choisir'; choixId: string }
-  | { type: 'valider-indices'; indices: string[] }
+  | { type: 'indice' }
   | { type: 'continuer' }
   | { type: 'recuperation-faite' }
   | { type: 'rejouer' }
@@ -72,22 +73,20 @@ const phaseInitiale = (etape: Etape | undefined): PhaseScenario | null =>
 const resultatVide = (etape: Etape): ChoixResultat =>
   etape.type === 'lieu'
     ? { type: 'lieu', choixId: null, qualite: null, levier: null, recuperationFaite: null, essais: [], passe: false }
-    : {
-        type: 'scenario',
-        choixId: null,
-        qualite: null,
-        indicesChoisis: [],
-        indicesJustes: 0,
-        indicesFaux: 0,
-        levier: null,
-        recuperationFaite: null,
-        passe: false,
-      }
+    : { type: 'scenario', choixId: null, qualite: null, levier: null, recuperationFaite: null, passe: false, indiceUtilise: false }
 
 const essaisDe = (r: EtapeResultat | undefined): string[] => (r?.type === 'lieu' ? r.essais : [])
 
 export function demarrer(mission: Mission): RunState {
-  return { index: 0, phase: phaseInitiale(mission.etapes[0]), choixId: null, resultats: {}, termine: false, leviersCedes: [] }
+  return {
+    index: 0,
+    phase: phaseInitiale(mission.etapes[0]),
+    choixId: null,
+    resultats: {},
+    termine: false,
+    leviersCedes: [],
+    indiceUtilise: false,
+  }
 }
 
 export function etapeCourante(mission: Mission, etat: RunState): Etape | null {
@@ -97,7 +96,15 @@ export function etapeCourante(mission: Mission, etat: RunState): Etape | null {
 function suivante(mission: Mission, etat: RunState, resultats: Record<string, EtapeResultat>): RunState {
   const index = etat.index + 1
   const termine = index >= mission.etapes.length
-  return { ...etat, index, phase: termine ? null : phaseInitiale(mission.etapes[index]), choixId: null, resultats, termine }
+  return {
+    ...etat,
+    index,
+    phase: termine ? null : phaseInitiale(mission.etapes[index]),
+    choixId: null,
+    resultats,
+    termine,
+    indiceUtilise: false,
+  }
 }
 
 const SURPRISES: Record<FilAction, SurpriseResultat> = {
@@ -124,8 +131,15 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
         throw new RunError(`choix déjà essayé : ${choix.id}`)
       }
       if (choix.qualite === 'risque' && etape.pourquoi) return { ...etat, phase: 'pourquoi', choixId: choix.id }
-      if (etape.type === 'scenario') return { ...etat, phase: 'indices', choixId: choix.id }
-      // Un lieu n'a pas d'étape « indices » : la réaction suit directement le choix.
+      if (etape.type === 'scenario') {
+        const resultat: ScenarioResultat = {
+          ...(resultatVide(etape) as ScenarioResultat),
+          choixId: choix.id,
+          qualite: choix.qualite,
+          indiceUtilise: etat.indiceUtilise,
+        }
+        return { ...etat, phase: 'consequence', choixId: choix.id, resultats: { ...etat.resultats, [etape.id]: resultat } }
+      }
       const resultat: LieuResultat = {
         ...(resultatVide(etape) as LieuResultat),
         essais: essaisDe(etat.resultats[etape.id]),
@@ -146,7 +160,9 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
       const base = resultatVide(etape)
       const resultat: ChoixResultat = {
         ...base,
-        ...(base.type === 'lieu' ? { essais: [...essaisDe(etat.resultats[etape.id]), choix.id] } : {}),
+        ...(base.type === 'lieu'
+          ? { essais: [...essaisDe(etat.resultats[etape.id]), choix.id] }
+          : { indiceUtilise: etat.indiceUtilise }),
         choixId: choix.id,
         qualite: choix.qualite,
         levier: evenement.levier,
@@ -156,25 +172,9 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
         : [...etat.leviersCedes, evenement.levier]
       return { ...etat, phase: 'consequence', resultats: { ...etat.resultats, [etape.id]: resultat }, leviersCedes }
     }
-    case 'valider-indices': {
-      if (etape.type !== 'scenario' || etat.phase !== 'indices') return refuser()
-      const choix = etape.choix.find((c) => c.id === etat.choixId)
-      if (!choix) return refuser()
-      const pertinents = new Set(etape.indices.filter((i) => i.pertinent).map((i) => i.id))
-      const connus = new Set(etape.indices.map((i) => i.id))
-      const indices = evenement.indices.filter((id) => connus.has(id))
-      const resultat: ScenarioResultat = {
-        type: 'scenario',
-        choixId: choix.id,
-        qualite: choix.qualite,
-        indicesChoisis: indices,
-        indicesJustes: indices.filter((id) => pertinents.has(id)).length,
-        indicesFaux: indices.filter((id) => !pertinents.has(id)).length,
-        levier: null,
-        recuperationFaite: null,
-        passe: false,
-      }
-      return { ...etat, phase: 'consequence', resultats: { ...etat.resultats, [etape.id]: resultat } }
+    case 'indice': {
+      if (etape.type !== 'scenario' || etat.phase !== 'situation') return refuser()
+      return etat.indiceUtilise ? etat : { ...etat, indiceUtilise: true }
     }
     case 'continuer': {
       if ((etape.type !== 'scenario' && etape.type !== 'lieu') || etat.phase !== 'consequence') return refuser()

@@ -1,5 +1,7 @@
 import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
+import { nextTick } from 'vue'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import baseCss from '@/styles/base.css?raw'
 import type { Fil, Scenario } from '@/content/schema'
 import ConfidentialiteGame from '@/minigames/ConfidentialiteGame.vue'
 import PermissionsGame from '@/minigames/PermissionsGame.vue'
@@ -18,7 +20,7 @@ import PrevenirContacts from '@/recovery/PrevenirContacts.vue'
 import CorrigerPartage from '@/recovery/CorrigerPartage.vue'
 import RetirerPublication from '@/recovery/RetirerPublication.vue'
 import Soutenir from '@/recovery/Soutenir.vue'
-import { creerStore, definirStore } from '@/store/useProgress'
+import { creerStore, definirStore, type ProgressStore } from '@/store/useProgress'
 import AppHeader from '@/ui/AppHeader.vue'
 import {
   confidentialiteFixture,
@@ -37,12 +39,17 @@ import { routerTest } from './router-test'
 vi.mock('@/content', async () => (await import('./content-mock')).contentMock)
 
 let montes: VueWrapper[] = []
+let store: ProgressStore
 beforeEach(() => {
-  definirStore(creerStore(new MemoryStorage()))
+  store = creerStore(new MemoryStorage())
+  definirStore(store)
+  // Séquence de retour instantanée : le panneau suit le choix sans minuterie.
+  store.modifierReglages({ animations: false })
 })
 afterEach(() => {
   montes.forEach((w) => w.unmount())
   montes = []
+  vi.useRealTimers()
 })
 
 function monter<T>(composant: T, options: Record<string, unknown> = {}): VueWrapper {
@@ -61,9 +68,25 @@ describe('gestion du focus', () => {
     await flushPromises()
     expect(actif()?.tagName).toBe('ARTICLE')
     expect(actif()?.getAttribute('aria-label')).toBe('Situation : message de Colis Express dans Messages')
-    await w.setProps({ phase: 'indices' })
+    await w.setProps({ phase: 'pourquoi', choixId: 'clic' })
     await flushPromises()
-    expect(actif()?.textContent).toBe('Qu’est-ce qui t’a décidé ?')
+    expect(actif()?.textContent).toBe('Qu’est-ce qui t’a donné envie de le faire ?')
+  })
+
+  it('ScenarioStep avec animations : focus sur la question au choix, puis sur le titre quand le panneau s’affiche', async () => {
+    vi.useFakeTimers()
+    store.modifierReglages({ animations: true })
+    const scenario = missionFixture().etapes[0] as Scenario
+    const w = monter(ScenarioStep, {
+      props: { scenario, phase: 'situation', mode: 'solo', sensible: false, leviers: leviersFixture() },
+    })
+    await w.setProps({ phase: 'pourquoi', choixId: 'clic' })
+    await nextTick()
+    expect(actif()?.textContent).toBe('Que fais-tu ?')
+    // Choix sans réaction : la séquence finit à 1 400 ms ; puis émission, rendu et focus.
+    vi.advanceTimersByTime(1400)
+    for (let i = 0; i < 4; i++) await nextTick()
+    expect(actif()?.textContent).toBe('Qu’est-ce qui t’a donné envie de le faire ?')
   })
 
   it('MinijeuStep et FilStep : le titre reçoit le focus à l’affichage', async () => {
@@ -79,8 +102,11 @@ describe('gestion du focus', () => {
   it('fin de mission : le titre reçoit le focus', async () => {
     const router = await routerTest('/mission/r-test')
     const w = monter(MissionPage, { global: { plugins: [router] } })
-    for (const n of ['n1', 'n2', 'n3']) await w.find(`input[name="notif-${n}"][value="ouvrir"]`).setValue()
-    await w.find('form').trigger('submit')
+    for (const n of ['n1', 'n2', 'n3']) {
+      await w.find(`[data-notif="${n}"]`).trigger('click')
+      await cliquer(w, 'J’ouvre / je clique')
+    }
+    await cliquer(w, 'Valider mes choix')
     await flushPromises()
     expect(actif()?.textContent).toBe('Mission terminée !')
   })
@@ -88,8 +114,11 @@ describe('gestion du focus', () => {
   it('débrief en grand : focus sur « Fermer », Échap ferme et rend le focus au bouton d’ouverture', async () => {
     const router = await routerTest('/mission/r-test')
     const w = monter(MissionPage, { global: { plugins: [router] } })
-    for (const n of ['n1', 'n2', 'n3']) await w.find(`input[name="notif-${n}"][value="ouvrir"]`).setValue()
-    await w.find('form').trigger('submit')
+    for (const n of ['n1', 'n2', 'n3']) {
+      await w.find(`[data-notif="${n}"]`).trigger('click')
+      await cliquer(w, 'J’ouvre / je clique')
+    }
+    await cliquer(w, 'Valider mes choix')
     await cliquer(w, 'Afficher les questions en grand')
     await flushPromises()
     expect(actif()?.textContent?.trim()).toBe('Fermer')
@@ -199,6 +228,17 @@ describe('gestion du focus', () => {
     await flushPromises()
     expect(w.find('#panneau-reglages').exists()).toBe(false)
     expect(actif()?.getAttribute('aria-controls')).toBe('panneau-reglages')
+  })
+})
+
+describe('repère de focus (base.css)', () => {
+  it('anneau orange et liseré sur les éléments interactifs, pas sur les blocs focalisés par programme', () => {
+    expect(baseCss).toMatch(
+      /:focus-visible:where\(:not\(\[tabindex='-1'\]\)\) \{\s*outline: 3px solid var\(--focus\);[^}]*box-shadow: 0 0 0 6px var\(--focus-lisere\);/,
+    )
+  })
+  it('aucun contour sur les blocs et titres focalisés au changement d’étape', () => {
+    expect(baseCss).toContain("[tabindex='-1']:focus { outline: none; }")
   })
 })
 

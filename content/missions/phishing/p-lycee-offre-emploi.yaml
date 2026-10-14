@@ -21,30 +21,36 @@ etapes:
       messages:
         - de: contact
           texte: 'Salut ! Job étudiant 100 % à distance : 30 €/h pour liker des vidéos depuis ton téléphone, 1 h par jour. Rejoins l’équipe ici : team-likes-job.net'
+          heure: '13:02'
         - de: moi
           texte: 'Ça m’intéresse, c’est quoi le principe ?'
+          heure: '13:09'
         - de: contact
           texte: 'Super ! Pour activer ton compte, il y a juste 25 € de frais d’inscription, remboursés dès ta première mission. Les places partent vite 😉'
+          heure: '13:10'
     question: Tu cherches justement un petit job pour financer ton permis. Que fais-tu ?
     choix:
       - id: inscrit
         texte: 'Il me faut de l’argent pour le permis, et les 25 € sont remboursés dès la première mission : je m’inscris.'
         qualite: risque
+        geste: payer
         consequence: 'Ton espace affiche vite 60 € de « gains ». Pour les retirer, on te réclame 80 € de « frais de déblocage », puis encore davantage. Tu ne récupères rien. Arrête de payer maintenant : en gardant les preuves, tu peux signaler l’arnaque et porter plainte.'
+        reaction: 'Paiement reçu 💸 Ta première mission arrive bientôt !'
       - id: recherche
         texte: Je ne paie rien et je cherche le nom de l’offre suivi du mot « arnaque » sur un moteur de recherche.
         qualite: bon
+        geste: verifier
         consequence: 'Des dizaines de témoignages décrivent exactement la même offre : on paie des frais, puis des « déblocages », et on ne touche jamais rien. Tu bloques le numéro et tu transfères le SMS au 33700, le service de signalement des SMS indésirables.'
+        reaction: 'Plus que 2 places, décide-toi vite 😉'
       - id: aide
         texte: Je demande de l’aide à quelqu’un qui travaille déjà, avant de payer quoi que ce soit.
         qualite: aide
         consequence: 'Ta tante, qui recrute dans son entreprise, est catégorique : « Un employeur ne te fait jamais payer pour travailler. Et 30 €/h pour liker des vidéos, ça n’existe pas. » Tu bloques le numéro.'
     indices:
-      - { id: salaire, libelle: 'Le salaire est irréaliste pour une tâche aussi simple', pertinent: true }
-      - { id: payer, libelle: 'On me demande de payer pour pouvoir travailler', pertinent: true }
-      - { id: inconnu, libelle: 'L’offre arrive d’un numéro inconnu, sans nom d’entreprise', pertinent: true }
-      - { id: poli, libelle: 'Le message est poli et sympathique', pertinent: false }
-    explicationIndices: 'Un vrai employeur te paie, il ne te fait jamais payer. Un salaire très élevé pour une tâche simple, c’est l’appât. Le ton amical ne prouve rien : c’est justement une technique pour gagner ta confiance.'
+      - { id: salaire, libelle: 'Le salaire est irréaliste pour une tâche aussi simple', passage: '30 €/h pour liker des vidéos' }
+      - { id: payer, libelle: 'On me demande de payer pour pouvoir travailler', passage: '25 € de frais d’inscription' }
+      - { id: inconnu, libelle: 'L’offre arrive d’un numéro inconnu, sans nom d’entreprise', passage: '+33 6 39 98 20 35' }
+    explicationIndices: 'Un vrai employeur te paie, il ne te fait jamais payer. Un salaire très élevé pour une tâche simple, c’est l’appât. Et un numéro inconnu, sans nom d’entreprise, ne dit rien de qui recrute.'
     aRetenir: 'Un vrai job ne demande jamais de frais d’inscription. Avant de payer quoi que ce soit, fais une recherche sur l’offre. Si tu as déjà payé, arrête tout de suite et garde les preuves.'
     recuperation: { action: capture-preuve, siChoix: [inscrit] }
     pourquoi:
@@ -66,31 +72,37 @@ etapes:
     ecran:
       app: mail
       appNom: Mail
-      contact: 'Julie Martin <julie.location75@mail-perso.com>'
+      contact: 'Julie Martin'
+      adresse: 'julie.location75@mail-perso.com'
       sujet: 'Studio 350 €/mois centre-ville'
       messages:
         - de: contact
           texte: 'Bonjour, mon studio de 25 m² en plein centre-ville est libre dès le mois prochain, 350 € charges comprises. Je vis à l’étranger pour mon travail, les visites ne sont donc pas possibles. Pour le réserver, il suffit de virer la caution de 700 € : je vous envoie les clés par courrier dès réception. Plusieurs étudiants sont intéressés, merci de répondre rapidement. Photos en pièce jointe.'
+          heure: '09:41'
     question: Tu cherches un logement pour tes études l’an prochain, et les photos sont superbes. Dans ce quartier, les studios se louent plutôt 600 €. Que fais-tu ?
     choix:
       - id: vire
         texte: 'Un studio à 350 € en plein centre, je n’en retrouverai pas : je vire la caution avant les autres.'
         qualite: risque
+        geste: payer
         consequence: 'Julie ne répond plus et l’annonce a disparu : les photos avaient été copiées sur un autre site. La caution n’est pas forcément perdue : avec les preuves, ta banque peut tenter de récupérer le virement, et tu peux porter plainte.'
+        reaction: 'Merci, caution bien reçue. Les clés partent bientôt.'
       - id: visite
         texte: Je réponds que je ne verse rien sans avoir visité le studio, moi ou un proche, et signé un bail.
         qualite: bon
+        geste: repondre
+        reponse: 'Bonjour, je ne verse rien avant d’avoir visité, moi ou un proche, et signé un bail.'
         consequence: 'Julie insiste, puis ne répond plus. En cherchant les photos en ligne, tu les retrouves sur une annonce dans une autre ville. C’était une arnaque, et tu n’as rien perdu.'
+        reaction: 'Désolée, le studio vient d’être réservé par un autre étudiant.'
       - id: aide
         texte: Je demande de l’aide à mes parents avant de répondre.
         qualite: aide
         consequence: 'Ton père compare avec les autres annonces du quartier : les studios y sont plutôt à 600 €. « Pas de visite et virement d’abord : c’est une arnaque classique. » Vous signalez l’annonce.'
     indices:
-      - { id: prix, libelle: 'Le loyer est très en dessous des prix du quartier', pertinent: true }
-      - { id: pas-de-visite, libelle: 'Aucune visite n’est possible', pertinent: true }
-      - { id: paiement-avant, libelle: 'On me demande de payer avant toute visite et tout contrat', pertinent: true }
-      - { id: photos, libelle: 'L’annonce contient des photos de l’appartement', pertinent: false }
-    explicationIndices: 'Des photos se copient en deux clics depuis n’importe quelle annonce. Le signal, c’est l’ensemble : prix trop bas, propriétaire injoignable, pression et paiement avant la visite. Un vrai propriétaire fait visiter et signe un bail avant de demander une caution.'
+      - { id: prix, libelle: 'Le loyer est très en dessous des prix du quartier', passage: '350 € charges comprises' }
+      - { id: pas-de-visite, libelle: 'Aucune visite n’est possible', passage: 'les visites ne sont donc pas possibles' }
+      - { id: paiement-avant, libelle: 'On me demande de payer avant toute visite et tout contrat', passage: 'il suffit de virer la caution de 700 €' }
+    explicationIndices: 'Un studio à 350 € là où les autres sont à 600 €, c’est l’appât. Le signal, c’est l’ensemble : prix trop bas, aucune visite possible, pression et paiement avant la visite. Un vrai propriétaire fait visiter et signe un bail avant de demander une caution.'
     aRetenir: 'On ne paie jamais un logement avant de l’avoir visité (soi-même ou par une personne de confiance) et d’avoir signé un bail. Un prix trop bas associé à l’urgence est un signal d’alerte.'
     recuperation: { action: capture-preuve, siChoix: [vire] }
     pourquoi:
@@ -119,21 +131,24 @@ etapes:
       - id: valide
         texte: 'La page connaît mon prénom et le conseiller veut bloquer les 600 € : je valide dans mon appli.'
         qualite: risque
+        geste: payer
         consequence: 'Valider une opération ne l’annule jamais : tu viens d’autoriser le paiement. 600 € partent vers un compte inconnu et le « conseiller » raccroche. Préviens tout de suite un parent et appelle ta banque au numéro officiel pour faire opposition : plus tu agis vite, plus tu as de chances de récupérer l’argent.'
+        reaction: 'Opération validée ✔ Merci de votre confiance, Camille.'
       - id: rappelle
         texte: Je raccroche et j’appelle moi-même ma banque au numéro inscrit au dos de ma carte.
         qualite: bon
+        geste: verifier
         consequence: 'La vraie conseillère de BanqueNova confirme : aucune opération suspecte sur ton compte, et personne de la banque ne t’a appelé. La page et l’appel étaient faux. Tu n’as rien validé, ton argent est en sécurité.'
+        reaction: 'Attention : sans validation, les 600 € partiront dans 5 minutes.'
       - id: aide
         texte: Je demande de l’aide à un parent avant de faire quoi que ce soit, même si le conseiller insiste.
         qualite: aide
         consequence: 'Ta mère prend le téléphone et le « conseiller » raccroche aussitôt. Elle appelle la banque au numéro officiel : c’était une tentative de fraude. Aucun argent n’est parti.'
     indices:
-      - { id: adresse, libelle: 'L’adresse (banquenova-securite.com) n’est pas celle du site de ma banque', pertinent: true }
-      - { id: valider-pour-annuler, libelle: 'On me demande de valider une opération pour l’annuler', pertinent: true }
-      - { id: pression, libelle: 'Le conseiller me presse au téléphone', pertinent: true }
-      - { id: prenom, libelle: 'La page connaît mon prénom', pertinent: false }
-    explicationIndices: 'Ton prénom, ton numéro ou le nom de ta banque se trouvent facilement (fuites de données, réseaux sociaux) : ça ne prouve pas que c’est ta banque. Une validation dans l’appli sert toujours à autoriser un paiement, jamais à l’annuler. Le faux conseiller joue sur l’urgence pour t’empêcher de réfléchir.'
+      - { id: adresse, libelle: 'L’adresse (banquenova-securite.com) n’est pas celle du site de ma banque', passage: 'banquenova-securite.com' }
+      - { id: valider-pour-annuler, libelle: 'On me demande de valider une opération pour l’annuler', passage: 'Pour l’annuler, saisissez votre code personnel' }
+      - { id: pression, libelle: 'Le conseiller me presse au téléphone', passage: 'Un conseiller va vous appeler dans quelques instants' }
+    explicationIndices: 'L’adresse banquenova-securite.com n’est pas celle du site de ta banque. Une validation dans l’appli sert toujours à autoriser un paiement, jamais à l’annuler. Le faux conseiller joue sur l’urgence pour t’empêcher de réfléchir.'
     aRetenir: 'Ta banque ne te demandera jamais ton code ni de valider une opération pour l’annuler. En cas de doute, raccroche et rappelle-la toi-même au numéro officiel.'
     recuperation: { action: demander-aide, siChoix: [valide] }
     pourquoi:

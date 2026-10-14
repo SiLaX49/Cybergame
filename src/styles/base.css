@@ -24,12 +24,13 @@ input, select, textarea, button { font: inherit; color: inherit; }
 input[type='radio'], input[type='checkbox'] { accent-color: var(--primaire); width: 1.25em; height: 1.25em; flex: none; }
 
 /* Repère de focus : anneau orange + liseré (lisible sur toutes les surfaces, clair comme sombre). */
-:focus-visible {
+:focus-visible:where(:not([tabindex='-1'])) {
   outline: 3px solid var(--focus);
   outline-offset: 0;
   box-shadow: 0 0 0 6px var(--focus-lisere);
 }
-[tabindex='-1']:focus:not(:focus-visible) { outline: none; }
+/* Blocs et titres qui reçoivent le focus par programme (changement d’étape) : pas de cadre, ils ne sont pas cliquables. */
+[tabindex='-1']:focus { outline: none; }
 
 .conteneur { max-width: 64rem; margin: 0 auto; padding: 1rem; }
 .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
