@@ -18,6 +18,14 @@ jouable hors ligne. Aucune donnée ne quitte l’appareil.
 
 Variable optionnelle `VITE_CONTACT_URL` : lien « Signaler une erreur » de l’espace enseignants.
 
+## Archipel
+
+`/carte` est un archipel : chaque île est un thème. Les six premières suivent le chemin conseillé, les îles calmes
+(« Île de l’entraide », « Île du phare ») sont dans le lagon, hors du chemin. Chaque île mène à `/ile/:theme`, qui liste
+ses missions. La progression (missions terminées, île complétée) est calculée à partir de la sauvegarde par
+`src/archipel/progression.ts`, sans rien stocker de plus. Le bouton « Vue liste » affiche l’ancienne grille de missions ;
+le choix est mémorisé dans `reglages.vueCarte`.
+
 ## Écrire une mission
 
 Une mission est un fichier YAML dans `content/missions/<thème>/<id>.yaml`. Le schéma complet est dans

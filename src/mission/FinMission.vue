@@ -2,6 +2,7 @@
 import { Award } from '@lucide/vue'
 import { computed, nextTick, ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import { nomIle } from '@/archipel/archipel'
 import type { Leviers, Lieu, Mission, Scenario } from '@/content/schema'
 import { BADGES, calculerBadges, descriptionBadge } from '@/engine/badges'
 import { leviersDeLaMission, leviersDuRun, type RunState, type SurpriseResultat } from '@/engine/mission-runner'
@@ -16,6 +17,7 @@ const t = useTexte()
 const titre = ref<HTMLElement | null>(null)
 focusAuMontage(titre)
 
+const ile = computed(() => (props.mission.theme && nomIle(props.mission.theme) ? props.mission.theme : null))
 const badges = computed(() => calculerBadges(props.etat))
 const leviersChoisis = computed(() =>
   leviersDuRun(props.mission, props.etat).map((id) =>
@@ -131,7 +133,9 @@ async function fermerPleinEcran() {
 
     <div class="actions">
       <button type="button" class="btn" @click="emit('rejouer')">Rejouer la mission</button>
-      <RouterLink class="btn btn-primaire" to="/carte">Retour à la carte</RouterLink>
+      <RouterLink class="btn btn-primaire" :to="ile ? { name: 'ile', params: { theme: ile } } : '/carte'">
+        {{ ile ? 'Retour à l’île' : 'Retour à la carte' }}
+      </RouterLink>
     </div>
 
     <dialog

@@ -6,6 +6,7 @@ import {
   commencer,
   jouerJusquAuMiniJeu,
   jouerMission,
+  ouvrirMission,
   ouvrirNotification,
   tabJusquaSelecteur,
 } from './helpers'
@@ -25,7 +26,7 @@ test('pages élève', async ({ page }) => {
   await verifierA11y(page, 'accueil')
   await commencer(page, '6e', 'Solo')
   await verifierA11y(page, 'carte')
-  await page.getByRole('link', { name: 'Le colis mystère' }).click()
+  await ouvrirMission(page, 'Île aux hameçons', 'Le colis mystère')
   await verifierA11y(page, 'situation')
   await ouvrirNotification(page)
   await page.locator('[data-qualite="aide"]').click()
@@ -37,7 +38,7 @@ test('pages élève', async ({ page }) => {
 
 test('mode classe entière (grands textes)', async ({ page }) => {
   await commencer(page, '6e', 'Classe entière')
-  await page.getByRole('link', { name: 'Le colis mystère' }).click()
+  await ouvrirMission(page, 'Île aux hameçons', 'Le colis mystère')
   await verifierA11y(page, 'situation classe')
   await ouvrirNotification(page)
   await page.locator('[data-qualite="aide"]').click()
@@ -110,7 +111,7 @@ for (const [nom, id] of [
 
 test('parcours de l’île : lieu, pourquoi, réaction, récupération et fin', async ({ page }) => {
   await commencer(page, '6e', 'Solo')
-  await page.getByRole('link', { name: 'La traversée de l’île des clés' }).click()
+  await ouvrirMission(page, 'Île des clés', 'La traversée de l’île des clés')
   await verifierA11y(page, 'choix du personnage')
   await choisirPersonnageSiDemande(page)
   await verifierA11y(page, 'lieu')
@@ -136,7 +137,7 @@ test('parcours de l’île : lieu, pourquoi, réaction, récupération et fin', 
 
 test('parcours en classe entière (grands textes)', async ({ page }) => {
   await commencer(page, '6e', 'Classe entière')
-  await page.getByRole('link', { name: 'La traversée de l’île aux hameçons' }).click()
+  await ouvrirMission(page, 'Île aux hameçons', 'La traversée de l’île aux hameçons')
   await choisirPersonnageSiDemande(page)
   await verifierA11y(page, 'lieu classe')
 })
