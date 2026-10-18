@@ -8,6 +8,7 @@ import { descriptionBadge } from '../../../src/engine/badges'
 import { leviersDeLaMission } from '../../../src/engine/mission-runner'
 import { AVERTISSEMENT, FIN_SENSIBLE, TITRE_RECUPERATION_VICTIME, TITRE_REPONSE_SENSIBLE } from '../../../src/mission/textesSensibles'
 import { SOUTENIR, texteRecuperation } from '../../../src/recovery/textes'
+import { fourcheFixture, leviersFixture, parcoursFixture } from '../fixtures'
 
 const bundle = buildContent(join(process.cwd(), 'content'))
 const mission = bundle.missions.find((m) => m.type === 'mission' && m.etapes.some((e) => e.type === 'scenario'))
@@ -126,5 +127,25 @@ describe('export pour la relecture : tout le texte lu du téléphone', () => {
       const m: Mission = { ...base, etapes: [{ ...scenario, ecran, choix: scenario.choix.map((c) => ({ ...c, reactionSimple: 'Réaction simplifiée' })) }] }
       expect(absents(m)).toEqual([])
     }
+  })
+})
+
+describe('export pour la relecture : parcours à deux routes', () => {
+  const fourche = fourcheFixture()
+  const md = missionEnMarkdown(fourche, leviersFixture())
+
+  it('numérote chaque lieu et nomme la route sur les lieux de route', () => {
+    expect(md).toContain('### Lieu 3a (route « Je garde mon mot de passe ») : Lieu a3')
+    expect(md).toContain('### Lieu 4b (route « Je demande de l’aide à un adulte ») : Lieu b4')
+  })
+  it('tronc commun et jonction : sans mention de route', () => {
+    for (const n of ['1', '2', '5']) {
+      const ligne = md.split('\n').find((x) => x.startsWith(`### Lieu ${n} `))
+      expect(ligne).toBeDefined()
+      expect(ligne).not.toContain('route')
+    }
+  })
+  it('parcours linéaire : titres inchangés', () => {
+    expect(missionEnMarkdown(parcoursFixture(), leviersFixture())).toContain('### Lieu l1 : La cour (cour)')
   })
 })

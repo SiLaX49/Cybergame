@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { Etape } from '@/content/schema'
-import { aVenir, bifurcation, etapeSuivante, longueurRoute, routesDe, successeurs, verifierRoutes } from '@/engine/routes'
+import { aVenir, bifurcation, etapeSuivante, longueurRoute, numerosLieux, routesDe, schemaRoutes, successeurs, verifierRoutes } from '@/engine/routes'
 
 type C = { id: string; qualite: 'bon' | 'risque' | 'aide'; suite?: string }
 const lieu = (id: string, choix: C[] = [{ id: 'b', qualite: 'bon' }, { id: 'r', qualite: 'risque' }, { id: 'a', qualite: 'aide' }], suite?: string) =>
@@ -79,5 +79,18 @@ describe('routes', () => {
       lieu('a3'), lieu('a4', undefined, 'l5'), lieu('b3'), lieu('b4'), lieu('l5'),
     ]
     expect(verifierRoutes(deuxBons).map((e) => e.message).join('\n')).toMatch(/bon.*aide/)
+  })
+})
+
+describe('numéros affichés des lieux', () => {
+  it('fourche : tronc commun, a/b sur les routes, jonction', () => {
+    expect(numerosLieux(fourche)).toEqual({ l1: '1', l2: '2', a3: '3a', a4: '4a', b3: '3b', b4: '4b', l5: '5' })
+  })
+  it('linéaire : 1 à n', () => {
+    expect(numerosLieux(lineaire)).toEqual({ l1: '1', l2: '2', l3: '3', l4: '4', l5: '5' })
+  })
+  it('schéma en texte des routes', () => {
+    expect(schemaRoutes(fourche)).toBe('Lieux 1 – 2, puis selon le choix : 3a – 4a ou 3b – 4b, puis 5')
+    expect(schemaRoutes(lineaire)).toBeNull()
   })
 })

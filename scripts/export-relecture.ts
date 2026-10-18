@@ -2,6 +2,7 @@ import { mkdirSync, rmSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import type { Aide, Etape, LevierId, Leviers, Lieu, Minijeu, Mission, Scenario, Theme } from '../src/content/schema'
+import { choixDeBifurcation, numerosLieux, routesDe } from '../src/engine/routes'
 import { BADGES, descriptionBadge, type BadgeId } from '../src/engine/badges'
 import { AVERTISSEMENT, FIN_SENSIBLE, PASSER, TITRE_RECUPERATION_VICTIME, TITRE_REPONSE_SENSIBLE } from '../src/mission/textesSensibles'
 import { contexteSensible, texteRecuperation } from '../src/recovery/textes'
@@ -60,7 +61,10 @@ function ecranEnMarkdown(ecran: Scenario['ecran']): string[] {
   return l
 }
 
-function etapeEnMarkdown(e: Etape, leviers: Leviers): string[] {
+/** Numéro du lieu et route (sur un parcours à deux routes seulement) ; sans lui, le titre garde l’identifiant. */
+type Repere = { numero: string; route?: string }
+
+function etapeEnMarkdown(e: Etape, leviers: Leviers, repere?: Repere): string[] {
   if (e.type === 'minijeu') return minijeuEnMarkdown(e)
   if (e.type === 'fil') {
     return [
@@ -89,7 +93,8 @@ function etapeEnMarkdown(e: Etape, leviers: Leviers): string[] {
     }
     l.push('', '**Indices**', '', ...e.indices.map((i) => `- ${i.libelle} : passage surligné « ${i.passage} »`), '', `Explication des indices : ${e.explicationIndices}`, '')
   } else {
-    l.push(`### Lieu ${e.id} : ${e.lieu} (${e.decor})`, '', e.guide, '')
+    const titre = repere ? `${repere.numero}${repere.route ? ` (route « ${repere.route} »)` : ''}` : e.id
+    l.push(`### Lieu ${titre} : ${e.lieu} (${e.decor})`, '', e.guide, '')
     if (e.guideSimple) l.push(`Guide (simplifié) : ${e.guideSimple}`, '')
     l.push(`**Question** : ${e.question}`, '', '**Choix**', '')
     for (const c of e.choix) {
@@ -169,9 +174,23 @@ function annexeEnMarkdown(mission: Mission, leviers: Leviers, theme: Theme | und
   return l
 }
 
+/** Repères de chaque étape d’un parcours à deux routes (numéro, et route pour les lieux de bifurcation) ; vide sinon. */
+function reperesDesRoutes(mission: Mission): Record<string, Repere> {
+  if (routesDe(mission.etapes).length < 2) return {}
+  const numeros = numerosLieux(mission.etapes)
+  const choix = choixDeBifurcation(mission.etapes)
+  const reperes: Record<string, Repere> = {}
+  for (const [id, numero] of Object.entries(numeros)) {
+    const lettre = numero.slice(-1)
+    reperes[id] = { numero, route: lettre === 'a' ? choix?.bon : lettre === 'b' ? choix?.aide : undefined }
+  }
+  return reperes
+}
+
 /** Une mission au format Markdown, pour la relecture par un adulte (ton, sensibilité, exactitude). */
 export function missionEnMarkdown(mission: Mission, leviers: Leviers, theme?: Theme): string {
   const r = mission.relecture
+  const reperes = reperesDesRoutes(mission)
   const l: string[] = [
     `# ${mission.titre}`,
     '',
@@ -189,7 +208,7 @@ export function missionEnMarkdown(mission: Mission, leviers: Leviers, theme?: Th
     '',
     '## Étapes',
     '',
-    ...mission.etapes.flatMap((e) => etapeEnMarkdown(e, leviers)),
+    ...mission.etapes.flatMap((e) => etapeEnMarkdown(e, leviers, reperes[e.id])),
     '## Débrief',
     '',
     ...mission.debrief.questions.map((q, i) => `${i + 1}. ${q}`),

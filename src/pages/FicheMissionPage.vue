@@ -2,6 +2,7 @@
 import { RouterLink, useRoute } from 'vue-router'
 import { getLeviers, getMission, getTheme } from '@/content'
 import { TRANCHE_LIBELLES } from '@/content/schema'
+import { choixDeBifurcation, longueurRoute, numerosLieux, routesDe, schemaRoutes } from '@/engine/routes'
 import BandeauAide from '@/ui/BandeauAide.vue'
 import BandeauBrouillon from '@/ui/BandeauBrouillon.vue'
 import PastilleTheme from '@/ui/PastilleTheme.vue'
@@ -10,12 +11,28 @@ const route = useRoute()
 const mission = getMission(String(route.params.id))
 const theme = mission?.theme ? getTheme(mission.theme) : undefined
 const leviers = getLeviers()
+const numeros = numerosLieux(mission?.etapes ?? [])
 const scenariosAvecLeviers = (mission?.etapes ?? []).flatMap((e, i) =>
   (e.type === 'scenario' || e.type === 'lieu') && e.pourquoi
-    ? [{ id: e.id, numero: i + 1, question: e.question, pourquoi: e.pourquoi }]
+    ? [{ id: e.id, numero: numeros[e.id] ?? String(i + 1), question: e.question, pourquoi: e.pourquoi }]
     : [],
 )
 const lieux = (mission?.etapes ?? []).flatMap((e) => (e.type === 'lieu' ? [e.lieu] : []))
+const nomLieu = (id: string) => {
+  const e = mission?.etapes.find((x) => x.id === id)
+  return e?.type === 'lieu' ? e.lieu : id
+}
+// Parcours à deux routes : le schéma, et pour chaque route le choix de bifurcation et ses lieux propres.
+const schema = schemaRoutes(mission?.etapes ?? [])
+const choixFourche = choixDeBifurcation(mission?.etapes ?? [])
+const routes = (() => {
+  const toutes = routesDe(mission?.etapes ?? [])
+  if (toutes.length < 2) return []
+  return toutes.map((r, k) => ({
+    choix: k === 0 ? choixFourche?.bon : choixFourche?.aide,
+    lieux: r.filter((id) => /[a-z]$/.test(numeros[id] ?? '')).map((id) => `${numeros[id]} ${nomLieu(id)}`),
+  }))
+})()
 const imprimer = () => window.print()
 </script>
 
@@ -43,7 +60,7 @@ const imprimer = () => window.print()
           <span>{{ theme?.titre ?? 'Rappel (plusieurs thèmes)' }}</span>
         </dd>
         <dt v-if="mission.format === 'parcours'">Format</dt>
-        <dd v-if="mission.format === 'parcours'">Parcours de l’île en {{ lieux.length }} lieux : {{ lieux.join(', ') }}</dd>
+        <dd v-if="mission.format === 'parcours'">Parcours de l’île en {{ schema ? `${longueurRoute(mission.etapes)} lieux par route` : `${lieux.length} lieux` }} : {{ lieux.join(', ') }}</dd>
         <dt>Compétences CRCN</dt><dd>{{ mission.competences.crcn.join(', ') }}</dd>
         <dt v-if="mission.competences.programmes.length">Programmes</dt>
         <dd v-if="mission.competences.programmes.length">{{ mission.competences.programmes.join(' ; ') }}</dd>
@@ -53,13 +70,24 @@ const imprimer = () => window.print()
         <h2>Objectifs</h2>
         <ol><li v-for="o in mission.objectifs" :key="o">{{ o }}</li></ol>
       </section>
+      <section v-if="schema" class="carte">
+        <h2>Les deux routes</h2>
+        <p>{{ schema }}</p>
+        <ul>
+          <li v-for="r in routes" :key="r.choix">Si les élèves choisissent « {{ r.choix }} » : {{ r.lieux.join(', ') }}</li>
+        </ul>
+        <p>Les deux routes sont bonnes : toutes deux terminent la mission.</p>
+      </section>
       <section class="carte">
         <h2>Déroulé suggéré</h2>
         <p class="pre">{{ mission.fiche.deroulement }}</p>
       </section>
       <section class="carte">
         <h2>Débrief</h2>
-        <ol><li v-for="q in mission.debrief.questions" :key="q">{{ q }}</li></ol>
+        <ol>
+          <li v-for="q in mission.debrief.questions" :key="q">{{ q }}</li>
+          <li v-if="schema">Comparez les deux routes : les deux sont bonnes, qu’est-ce qui change ?</li>
+        </ol>
         <div class="encadre encadre-info">
           <h3>Éléments de réponse</h3>
           <p class="pre">{{ mission.debrief.reponses }}</p>

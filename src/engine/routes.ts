@@ -131,3 +131,52 @@ export function verifierRoutes(etapes: Etape[]): { chemin: (string | number)[]; 
   })
   return [...new Map(erreurs.map((e) => [e.message, e])).values()]
 }
+
+/**
+ * Numéros affichés des lieux : tronc commun et jonction « rang + 1 », puis « 3a, 4a » sur la route « bon »
+ * et « 3b, 4b » sur la route « aide » (un parcours linéaire donne 1 à n).
+ */
+export function numerosLieux(etapes: Etape[]): Record<string, string> {
+  const routes = routesDe(etapes)
+  const numeros: Record<string, string> = {}
+  routes.forEach((route, k) => {
+    route.forEach((id, rang) => {
+      if (id in numeros) return
+      const partout = routes.every((r) => r[rang] === id)
+      numeros[id] = `${rang + 1}${partout ? '' : String.fromCharCode(97 + k)}`
+    })
+  })
+  return numeros
+}
+
+/** Texte du schéma des routes (« Lieux 1 – 2, puis selon le choix : 3a – 4a ou 3b – 4b, puis 5 »), `null` si une seule route. */
+export function schemaRoutes(etapes: Etape[]): string | null {
+  const routes = routesDe(etapes)
+  if (routes.length < 2) return null
+  const numeros = numerosLieux(etapes)
+  const longueur = routes[0]!.length
+  let debut = 0
+  while (debut < longueur && routes.every((r) => r[debut] === routes[0]![debut])) debut++
+  let fin = 0
+  while (fin < longueur - debut && routes.every((r) => r.at(-1 - fin) === routes[0]!.at(-1 - fin))) fin++
+  const suite = (ids: string[]) => ids.map((id) => numeros[id]).join(' – ')
+  const tronc = routes[0]!.slice(0, debut)
+  const branches = routes.map((r) => suite(r.slice(debut, longueur - fin))).join(' ou ')
+  const fermeture = suite(routes[0]!.slice(longueur - fin))
+  return [
+    tronc.length ? `${tronc.length > 1 ? 'Lieux' : 'Lieu'} ${suite(tronc)}, puis ` : '',
+    `selon le choix : ${branches}`,
+    fermeture ? `, puis ${fermeture}` : '',
+  ].join('')
+}
+
+/** Textes des deux choix de la bifurcation (route « bon » et route « aide »), `null` sans bifurcation. */
+export function choixDeBifurcation(etapes: Etape[]): { id: string; bon: string; aide: string } | null {
+  for (const e of etapes) {
+    if (e.type !== 'lieu' || !bifurcation(etapes, e.id)) continue
+    const bon = e.choix.find((c) => c.qualite === 'bon')
+    const aide = e.choix.find((c) => c.qualite === 'aide')
+    if (bon && aide) return { id: e.id, bon: bon.texte, aide: aide.texte }
+  }
+  return null
+}
