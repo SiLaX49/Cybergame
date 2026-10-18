@@ -1,0 +1,133 @@
+import type { Etape } from '../content/schema'
+
+type Choix = { id: string; qualite: 'bon' | 'risque' | 'aide'; suite?: string }
+const choixDe = (e: Etape): Choix[] => (e.type === 'lieu' ? (e.choix as Choix[]) : [])
+const suiteDe = (e: Etape): string | undefined => (e.type === 'lieu' ? e.suite : undefined)
+const index = (etapes: Etape[], id: string) => etapes.findIndex((e) => e.id === id)
+
+/** Étape suivante après le choix `choixId` (ou après une étape sans choix). `null` : arrivée. */
+export function etapeSuivante(etapes: Etape[], id: string, choixId: string | null): string | null {
+  const i = index(etapes, id)
+  const e = etapes[i]
+  if (!e) return null
+  const c = choixId ? choixDe(e).find((x) => x.id === choixId) : undefined
+  return c?.suite ?? suiteDe(e) ?? etapes[i + 1]?.id ?? null
+}
+
+/** Étapes suivantes possibles après une bonne réponse (sans doublon). */
+export function successeurs(etapes: Etape[], id: string): string[] {
+  const e = etapes[index(etapes, id)]
+  if (!e) return []
+  const bons = choixDe(e).filter((c) => c.qualite !== 'risque')
+  const ids = bons.length ? bons.map((c) => etapeSuivante(etapes, id, c.id)) : [etapeSuivante(etapes, id, null)]
+  return [...new Set(ids.filter((x): x is string => x !== null))]
+}
+
+/** Si l’étape est une bifurcation : la cible de la route « bon » et celle de la route « aide ». */
+export function bifurcation(etapes: Etape[], id: string): { bon: string; aide: string } | null {
+  if (successeurs(etapes, id).length < 2) return null
+  const e = etapes[index(etapes, id)]!
+  const cible = (q: 'bon' | 'aide') => {
+    const c = choixDe(e).find((x) => x.qualite === q)
+    return c ? etapeSuivante(etapes, id, c.id) : null
+  }
+  const bon = cible('bon')
+  const aide = cible('aide')
+  return bon && aide ? { bon, aide } : null
+}
+
+/** Toutes les routes depuis la première étape (route « bon » d’abord). S’arrête sur une boucle. */
+export function routesDe(etapes: Etape[]): string[][] {
+  const routes: string[][] = []
+  const explorer = (id: string, chemin: string[]) => {
+    if (chemin.includes(id)) return
+    const suivants = successeurs(etapes, id)
+    if (!suivants.length) routes.push([...chemin, id])
+    for (const s of suivants) explorer(s, [...chemin, id])
+  }
+  if (etapes[0]) explorer(etapes[0].id, [])
+  return routes
+}
+
+export const longueurRoute = (etapes: Etape[]): number => routesDe(etapes)[0]?.length ?? 0
+
+/** Étapes après `depuis` sur la route ; `null` pour celles qui dépendent d’une bifurcation non décidée. */
+export function aVenir(etapes: Etape[], depuis: string): (string | null)[] {
+  const longueur = longueurRoute(etapes)
+  const route = routesDe(etapes).find((r) => r.includes(depuis))
+  const rang = route ? route.indexOf(depuis) : -1
+  const resultat: (string | null)[] = []
+  let courant: string | null = depuis
+  for (let pos = rang + 1; pos < longueur; pos++) {
+    const suivants: string[] = courant ? successeurs(etapes, courant) : []
+    courant = suivants.length === 1 ? suivants[0]! : null
+    // Après une bifurcation, toutes les routes se rejoignent sur l’arrivée : on la reconnaît si toutes les routes la partagent à ce rang.
+    if (courant === null) {
+      const communs = new Set(routesDe(etapes).map((r) => r[pos]))
+      if (communs.size === 1) courant = [...communs][0] ?? null
+    }
+    resultat.push(courant)
+  }
+  return resultat
+}
+
+/** Erreurs de forme d’un parcours (vide si valide). */
+export function verifierRoutes(etapes: Etape[]): { chemin: (string | number)[]; message: string }[] {
+  const erreurs: { chemin: (string | number)[]; message: string }[] = []
+  const ids = new Set(etapes.map((e) => e.id))
+  etapes.forEach((e, i) => {
+    const s = suiteDe(e)
+    if (s && !ids.has(s)) erreurs.push({ chemin: ['etapes', i, 'suite'], message: `suite inconnue : ${s}` })
+    if (s === e.id) erreurs.push({ chemin: ['etapes', i, 'suite'], message: 'une étape ne peut pas mener à elle-même' })
+    choixDe(e).forEach((c, j) => {
+      if (!c.suite) return
+      const chemin = ['etapes', i, 'choix', j, 'suite']
+      if (c.qualite === 'risque') erreurs.push({ chemin, message: 'un choix risqué fait rester sur place : pas de suite' })
+      if (!ids.has(c.suite)) erreurs.push({ chemin, message: `suite inconnue : ${c.suite}` })
+      if (c.suite === e.id) erreurs.push({ chemin, message: 'une étape ne peut pas mener à elle-même' })
+    })
+  })
+  if (erreurs.length) return erreurs
+
+  // Boucles (parcours en profondeur avec pile).
+  const pile = new Set<string>()
+  const vus = new Set<string>()
+  let boucle = false
+  const visiter = (id: string) => {
+    if (pile.has(id)) { boucle = true; return }
+    if (vus.has(id)) return
+    vus.add(id); pile.add(id)
+    for (const s of successeurs(etapes, id)) visiter(s)
+    pile.delete(id)
+  }
+  if (etapes[0]) visiter(etapes[0].id)
+  if (boucle) return [{ chemin: ['etapes'], message: 'les étapes forment une boucle' }]
+
+  etapes.forEach((e, i) => {
+    if (!vus.has(e.id)) erreurs.push({ chemin: ['etapes', i], message: `étape inatteignable : ${e.id}` })
+  })
+  const derniere = etapes.at(-1)?.id
+  const routes = routesDe(etapes)
+  if (routes.some((r) => r.at(-1) !== derniere)) erreurs.push({ chemin: ['etapes'], message: 'toutes les routes doivent finir sur la dernière étape' })
+  const lieux = (r: string[]) => r.filter((id) => etapes[index(etapes, id)]?.type === 'lieu').length
+  if (new Set(routes.map((r) => r.length)).size > 1) erreurs.push({ chemin: ['etapes'], message: 'toutes les routes doivent avoir la même longueur' })
+  for (const r of routes) {
+    const n = lieux(r)
+    if (n < 4 || n > 6) erreurs.push({ chemin: ['etapes'], message: `un parcours compte 4 à 6 lieux par route (trouvé : ${n})` })
+  }
+  etapes.forEach((e, i) => {
+    const s = successeurs(etapes, e.id)
+    if (s.length < 2) return
+    const parQualite = new Map<string, Set<string>>()
+    for (const c of choixDe(e).filter((x) => x.qualite !== 'risque')) {
+      const cible = etapeSuivante(etapes, e.id, c.id)!
+      parQualite.set(c.qualite, (parQualite.get(c.qualite) ?? new Set()).add(cible))
+    }
+    const bon = parQualite.get('bon')
+    const aide = parQualite.get('aide')
+    if (s.length !== 2 || !bon || !aide || bon.size !== 1 || aide.size !== 1 || [...bon][0] === [...aide][0]) {
+      erreurs.push({ chemin: ['etapes', i], message: 'une bifurcation sépare exactement le choix « bon » et le choix « aide »' })
+    }
+  })
+  return [...new Map(erreurs.map((e) => [e.message, e])).values()]
+}

@@ -61,11 +61,11 @@ describe('schéma : format parcours', () => {
     expect(messages(missionSchema.safeParse(m))).toContain('un parcours ne contient que des lieux et au plus un mini-jeu')
   })
 
-  it('exige 4 à 6 lieux et au plus un mini-jeu', () => {
+  it('exige 4 à 6 lieux par route et au plus un mini-jeu', () => {
     const court = rawParcours({ etapes: [rawLieu('l1'), rawLieu('l2'), rawLieu('l3')] })
-    expect(messages(missionSchema.safeParse(court))).toContain('un parcours compte 4 à 6 lieux (trouvé : 3)')
+    expect(messages(missionSchema.safeParse(court))).toContain('un parcours compte 4 à 6 lieux par route (trouvé : 3)')
     const long = rawParcours({ etapes: ['a', 'b', 'c', 'd', 'e', 'f', 'g'].map(rawLieu) })
-    expect(messages(missionSchema.safeParse(long))).toContain('un parcours compte 4 à 6 lieux (trouvé : 7)')
+    expect(messages(missionSchema.safeParse(long))).toContain('un parcours compte 4 à 6 lieux par route (trouvé : 7)')
     const jeux = rawParcours({
       etapes: [
         ...['a', 'b', 'c', 'd'].map(rawLieu),

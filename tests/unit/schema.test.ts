@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { missionSchema } from '@/content/schema'
-import { rawMission, rawRappel, rawScenario } from './fixtures'
+import { rawLieu, rawMission, rawParcours, rawRappel, rawScenario } from './fixtures'
 
 function problemes(raw: unknown) {
   const res = missionSchema.safeParse(raw)
@@ -117,5 +117,36 @@ describe('missionSchema', () => {
     expect(problemes(rawRappel({ themesCouverts: [] }))).toContainEqual(
       expect.objectContaining({ chemin: 'themesCouverts' }),
     )
+  })
+})
+
+describe('parcours à routes', () => {
+  const lieu = (id: string, extra: Record<string, unknown> = {}, choixSuites: Record<string, string> = {}) => {
+    const l = rawLieu(id)
+    return { ...l, recuperation: undefined, ...extra, choix: l.choix.map((c) => (choixSuites[c.id] ? { ...c, suite: choixSuites[c.id] } : c)) }
+  }
+  const deuxRoutes = (suiteBon = 'a3') => [
+    lieu('l1'),
+    lieu('l2', {}, { garde: suiteBon, aide: 'b3' }),
+    lieu('a3'),
+    lieu('a4', { suite: 'l5' }),
+    lieu('b3'),
+    lieu('b4'),
+    lieu('l5'),
+  ]
+  it('accepte un parcours à deux routes (7 lieux, routes de 5)', () => {
+    expect(problemes(rawParcours({ etapes: deuxRoutes() }))).toEqual([])
+  })
+  it('refuse une suite inconnue', () => {
+    const p = problemes(rawParcours({ etapes: deuxRoutes('zz') }))
+    expect(p.map((x) => x.message).join('\n')).toMatch(/inconnue/)
+  })
+  it('refuse un parcours linéaire de 7 lieux', () => {
+    const etapes = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7'].map((id) => lieu(id))
+    const p = problemes(rawParcours({ etapes }))
+    expect(p.map((x) => x.message).join('\n')).toMatch(/4 à 6 lieux par route/)
+  })
+  it('garde valide un parcours linéaire de 5 lieux', () => {
+    expect(problemes(rawParcours({ etapes: ['l1', 'l2', 'l3', 'l4', 'l5'].map((id) => lieu(id)) }))).toEqual([])
   })
 })
