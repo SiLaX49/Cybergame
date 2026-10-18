@@ -21,7 +21,7 @@ etapes:
     question: Ta story est prête. Que fais-tu ?
     choix:
       - id: sticker
-        texte: 'Je publie avec le sticker de lieu, pour que ça fasse plus stylé.'
+        texte: 'Je laisse le sticker de lieu proposé par l’appli et je publie.'
         qualite: risque
         reaction: 'Ta story montre à 380 personnes l’adresse de Jade et le jour de la fête. Le soir, deux garçons que personne ne connaît sonnent à la porte : « On a vu la story. » La mère de Jade les renvoie, mais l’ambiance retombe d’un coup. Ce sticker proposé par l’appli, beaucoup le laissent sans y penser. Tu peux encore le retirer de ta story.'
       - id: sans-lieu
@@ -92,7 +92,7 @@ etapes:
         qualite: risque
         reaction: 'Tes amis t’identifient maintenant en un clic, et ces photos arrivent seules sur ton profil, même celles où tu n’es pas à ton avantage. L’appli reconnaît ton visage partout. Cette bulle avait l’air pratique, elle est faite pour ça. Tu peux revenir dans les réglages et tout couper.'
       - id: valider
-        texte: 'Je choisis « Mes amis » et je valide chaque photo avant qu’elle s’affiche.'
+        texte: 'Une photo de moi, c’est moi qui décide : « Mes amis », et je valide chaque photo.'
         qualite: bon
         reaction: 'Désormais, seuls tes amis peuvent t’identifier, et rien n’arrive sur ton profil sans ton accord. Tu laisses aussi les suggestions de visage éteintes.'
       - id: aide
@@ -122,7 +122,7 @@ etapes:
       - id: poste
         texte: 'Je la publie pour tout le monde : sur le moment, ils riaient tous.'
         qualite: risque
-        reaction: 'La vidéo fait 2 000 vues en une journée. Sacha, lui, ne rit pas : sa chute tourne dans tout le collège et il te demande de l’enlever. Samedi, c’est toi qui demandais à Malo de retirer une photo. Tu peux encore retirer la vidéo et t’excuser.'
+        reaction: 'La vidéo fait 2 000 vues en une journée. Sacha, lui, ne rit pas : sa chute tourne dans tout le collège et il te demande de l’enlever. Samedi, tu as ressenti cette gêne avec la photo de Malo. Tu peux encore retirer la vidéo et t’excuser.'
       - id: accord
         texte: 'J’envoie d’abord la vidéo à Sacha, Jade et Lina pour savoir s’ils sont d’accord.'
         qualite: bon
@@ -152,11 +152,11 @@ etapes:
     question: Que fais-tu ?
     choix:
       - id: commente
-        texte: 'Je réponds sous la photo pour remettre à sa place celui qui se moque.'
+        texte: 'Je réponds sous la photo à celui qui se moque, devant tout le monde.'
         qualite: risque
         reaction: 'Ton commentaire énervé fait remonter la photo chez tout le monde, et les moqueries repartent de plus belle. Répondre à chaud, c’est tentant quand on est vexé·e. Tu peux supprimer ton commentaire, puis parler à Malo au calme.'
       - id: parle
-        texte: 'J’attends Malo avec elle et je lui explique au calme ce qui me gêne.'
+        texte: 'Au calme, Malo m’écoutera : je l’attends avec elle pour lui expliquer.'
         qualite: bon
         reaction: 'Malo arrive, un peu gêné : « Je pensais que ça te faisait rire. » Il retire la photo et ton identification devant vous. La mère de Jade lui rappelle qu’on demande toujours avant de publier quelqu’un.'
       - id: aide
@@ -179,7 +179,7 @@ etapes:
     id: compte-ragots
     lieu: Le salon
     decor: salon
-    guide: 'Dimanche, dans le salon, tu racontes la fête à ton père. Malo a bien retiré la photo, mais un compte inconnu, « ragots.college.ville », l’avait déjà copiée. Il l’a remise dans une story avec la légende « La reine du gâteau 🎂 ». Ce compte publie les photos de plein d’élèves. Ton père dit : « Pas de panique, on s’en occupe ensemble. »'
+    guide: 'Dimanche, dans le salon, tu racontes la fête à ton père. Malo a bien retiré la photo, mais un compte inconnu, « ragots.college.ville », l’avait déjà copiée. Il l’a remise dans une story avec la légende « Mode gâteau activé 🎂 ». Ce compte publie les photos de plein d’élèves. Ton père dit : « Pas de panique, on s’en occupe ensemble. »'
     question: La photo circule encore sur ce compte. Que fais-tu ?
     choix:
       - id: laisse-tomber
@@ -189,22 +189,22 @@ etapes:
       - id: signale
         texte: 'Je fais une capture, puis je signale la story à SnapTalk avec mon père.'
         qualite: bon
-        reaction: 'Ton père t’explique : publier ta photo sans ton accord porte atteinte à ton droit à l’image. Vous signalez la story pour ce motif. Si la plateforme ne la retire pas, il pourra porter plainte auprès de la CNIL ou appeler le 3018.'
+        reaction: 'Ton père t’explique : publier ta photo sans ton accord porte atteinte à ton droit à l’image. Vous signalez la story pour ce motif. Si la plateforme ne la retire pas, il pourra appeler le 3018, qui peut demander le retrait à la plateforme, ou adresser une plainte à la CNIL.'
       - id: aide
         texte: 'Je demande de l’aide au 3018 avec mon père, pour faire retirer la photo.'
         qualite: aide
-        reaction: 'Ton père appelle le 3018, gratuit et anonyme. La conseillère vous explique comment signaler la story, et elle peut demander elle-même son retrait à la plateforme. Deux jours plus tard, la photo a disparu.'
+        reaction: 'Ton père appelle le 3018, gratuit et anonyme, que tu peux aussi appeler toi-même. L’écoutante vous explique comment signaler la story, et elle peut demander elle-même son retrait à la plateforme. Deux jours plus tard, la photo a disparu.'
     pourquoi:
       - levier: honte
-        truc: '« La reine du gâteau 🎂 » : la légende te met mal à l’aise, et tu voudrais que personne n’en parle plus.'
+        truc: '« Mode gâteau activé 🎂 » : la légende te met mal à l’aise, et tu voudrais que personne n’en parle plus.'
         parade: 'Ce n’est pas à toi d’avoir honte. Signaler, c’est ce qui fait disparaître la photo.'
       - levier: groupe
         truc: 'Ce compte publie les photos de plein d’élèves. Ça finit par sembler banal.'
         parade: 'Que beaucoup soient visés ne rend pas ça normal. Chaque signalement compte.'
       - levier: peur
         truc: 'Signaler, c’est risquer que le compte s’en prenne à toi, pense-t-on.'
-        parade: 'Un signalement est anonyme : le compte ne sait pas qui l’a fait.'
-    aRetenir: 'Une photo de toi publiée sans ton accord peut être signalée à la plateforme, même quand elle a été copiée. Si elle reste en ligne, un adulte peut saisir la CNIL ou appeler le 3018.'
+        parade: 'Dans l’appli, le compte signalé n’est pas prévenu de qui l’a signalé. Et s’il s’en prend à toi, c’est encore un motif de signalement : parles-en à un adulte.'
+    aRetenir: 'Une photo de toi publiée sans ton accord peut être signalée à la plateforme, même quand elle a été copiée. Si elle reste en ligne, un adulte peut appeler le 3018, qui peut demander le retrait à la plateforme, ou adresser une plainte à la CNIL.'
     recuperation: { action: bloquer-signaler, siChoix: [laisse-tomber] }
 
   - type: lieu
@@ -219,9 +219,9 @@ etapes:
         qualite: risque
         reaction: 'Le lien est copié dans un groupe, puis dans un autre. Trois jours plus tard, des inconnus regardent les photos de la fête, avec vos visages et la maison de Jade. Cette option était la plus simple, c’est pour ça qu’on la choisit souvent. Jade peut encore désactiver le lien.'
       - id: invites
-        texte: 'Un album réservé aux invités, où chacun peut retirer une photo de lui.'
+        texte: 'Une fête entre invités, un album entre invités : chacun peut retirer sa photo.'
         qualite: bon
-        reaction: 'Jade ajoute les invités un par un. Chacun peut retirer une photo de lui s’il ne l’aime pas. L’album reste entre vous.'
+        reaction: 'Jade ajoute les invités un par un. Chacun peut retirer sa photo s’il ne l’aime pas. L’album reste entre vous.'
       - id: aide
         texte: 'Je demande de l’aide au père de Jade pour choisir qui verra l’album.'
         qualite: aide
@@ -242,7 +242,7 @@ debrief:
     - Pendant la fête, quelle publication était la plus difficile à refuser ?
     - Comment demander à quelqu’un de retirer une photo de toi ?
     - Que faire si une photo de toi circule encore, même après avoir été retirée ?
-  reponses: 'Les secrets de l’île : l’adresse d’une amie dans une story, une photo publiée et identifiée sans accord, une vidéo drôle pour certains mais pas pour tous, un lien d’album ouvert à tous. Pour faire retirer une photo, on peut le dire soi-même à la personne, en privé et au calme, ou se faire aider par un adulte : les deux marchent. Si la photo a été copiée ailleurs : capture, signalement à la plateforme pour atteinte au droit à l’image, et si elle reste en ligne, un adulte peut saisir la CNIL ou appeler le 3018. Et dans l’autre sens : avant de publier quelqu’un, on lui demande.'
+  reponses: 'Les secrets de l’île : l’adresse d’une amie dans une story, une photo publiée et identifiée sans accord, une vidéo drôle pour certains mais pas pour tous, un lien d’album ouvert à tous. Pour faire retirer une photo, on peut le dire soi-même à la personne, en privé et au calme, ou se faire aider par un adulte : les deux marchent. Si la photo a été copiée ailleurs : capture, signalement à la plateforme pour atteinte au droit à l’image, et si elle reste en ligne, un adulte peut appeler le 3018, qui peut demander le retrait à la plateforme, ou adresser une plainte à la CNIL. Pour une photo publiée quand on est mineur, on peut demander son effacement : c’est le droit à l’effacement. Et dans l’autre sens : avant de publier quelqu’un, on lui demande.'
   erreursFrequentes:
     - 'Croire qu’une photo prise entre amis peut être publiée parce que tout le monde riait.'
     - 'Penser qu’il est trop tard pour agir quand une photo a déjà été vue ou copiée.'
@@ -252,5 +252,5 @@ fiche:
     5 min : cadre. Qui décide de ce qu’on publie de nous ? (sans obligation de raconter une situation vécue)
     20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. Après la fête, deux routes : régler soi-même avec Malo, ou avec la mère de Jade. Si plusieurs binômes jouent, répartir les deux routes.
     20 min : débrief des 3 questions. Faire raconter chaque route : ce qu’on règle soi-même (message à Malo, réglages d’identification, accord avant de publier), ce qu’un adulte rend possible (médiation, signalement, 3018).
-    5 min : où trouver de l’aide (adulte de confiance, CPE, signalement dans l’appli, 3018, plainte auprès de la CNIL si une photo reste en ligne).
+    5 min : où trouver de l’aide (adulte de confiance, CPE, signalement dans l’appli, 3018, qui peut demander le retrait à la plateforme, ou plainte adressée à la CNIL si une photo reste en ligne).
     5 min : engagement. Cette semaine, je vérifie qui peut m’identifier sur mes applis, et je demande avant de publier la photo d’un ami.

@@ -21,13 +21,13 @@ etapes:
     question: Que fais-tu ?
     choix:
       - id: ecrit
-        texte: 'J’écris vite à Vexo en privé pour réserver un des trois Dragons.'
+        texte: 'J’écris à Vexo en privé pour réserver un des trois Dragons.'
         qualite: risque
         reaction: 'Vexo répond en dix secondes : « Envoie la photo du code, je te donne le Dragon juste après. » Tu l’envoies. Le Dragon n’arrive jamais, et les 15 € de la carte sont dépensés dans la minute. Ces offres « limitées » pressent tout le monde. Parles-en vite à un adulte : avec le ticket de caisse, il peut contacter le service client de la carte.'
       - id: passe
-        texte: 'Je laisse passer l’offre et je continue d’économiser pour la boutique.'
+        texte: 'Un skin rare à moitié prix, ça cache quelque chose : je laisse passer.'
         qualite: bon
-        reaction: 'Bien vu. Un code de carte cadeau, c’est comme de l’argent liquide : une fois envoyé, il ne revient pas. Et un objet rare bradé à des inconnus, c’est presque toujours un appât.'
+        reaction: 'Un code de carte cadeau, c’est comme de l’argent liquide : une fois envoyé, il ne revient pas. Et un objet rare bradé à des inconnus, c’est presque toujours un appât.'
       - id: aide
         texte: 'Je demande de l’aide à mon cousin, qui joue à GameBox depuis des années.'
         qualite: aide
@@ -49,7 +49,7 @@ etapes:
     id: intermediaire
     lieu: La salle de jeux
     decor: salle-jeux
-    guide: 'Le lendemain, à la salle de jeux du quartier, Nyx_Trader t’écrit en privé : « J’ai vu que t’as le skin Néon. Je te l’échange contre mon Dragon d’Obsidienne, tu rajoutes juste 5 €. Pour la sécurité, on passe par @Garant_Trade, l’intermédiaire du serveur : tu lui donnes ton Néon, il vérifie, puis il te passe le Dragon. » Le pseudo de Garant_Trade affiche « ✔ Trusted · 2 300 échanges ».'
+    guide: 'Le lendemain, à la salle de jeux du quartier, Nyx_Trader t’écrit en privé : « J’ai vu que t’as le skin Néon. Je te l’échange contre mon Dragon d’Obsidienne, tu rajoutes juste 5 € en code de carte cadeau. Pour la sécurité, on passe par @Garant_Trade, l’intermédiaire du serveur : tu lui donnes ton Néon, il vérifie, puis il te passe le Dragon. » Le pseudo de Garant_Trade affiche « ✔ Trusted · 2 300 échanges ».'
     question: Garant_Trade t’attend pour l’échange. Que fais-tu ?
     choix:
       - id: donne
@@ -92,7 +92,7 @@ etapes:
       - id: aide-signaler
         texte: 'Je l’aide à bloquer Recup_Pro et à signaler le vol au support du jeu.'
         qualite: bon
-        reaction: 'Vous signalez Recup_Pro aux modérateurs, puis vous écrivez au support officiel depuis l’appli du jeu. Rien n’est garanti, mais le support peut parfois rendre un objet volé, et gratuitement.'
+        reaction: 'Vous signalez Recup_Pro aux modérateurs, puis vous écrivez au support officiel depuis l’appli du jeu. Le support ne rend pas toujours un objet perdu dans une arnaque, mais il peut bloquer les comptes des arnaqueurs, et lui ne demande jamais d’argent.'
       - id: aide
         texte: 'Je demande de l’aide aux parents d’Ilyes avec lui, ce soir, avant tout achat.'
         qualite: aide
@@ -100,14 +100,14 @@ etapes:
     pourquoi:
       - levier: confiance
         truc: 'C’est Ilyes, ton pote, qui te demande. Refuser, c’est comme le laisser tomber.'
-        parade: 'Aider un ami, c’est l’empêcher de perdre encore de l’argent. Proposez-lui de signaler ensemble.'
+        parade: 'Aider un ami, c’est l’empêcher de perdre encore de l’argent. Propose-lui de signaler ensemble.'
       - levier: gain
         truc: '« Résultat garanti » : Recup_Pro promet de rendre le skin à coup sûr.'
-        parade: 'Personne ne peut garantir de récupérer un objet volé. Seul le support du jeu peut aider.'
+        parade: 'Personne ne peut garantir de récupérer un objet volé. Le support du jeu, lui, ne fait jamais payer : contacte-le avec un adulte.'
       - levier: petit-montant
         truc: '« Tu me prêtes 10 € pour la carte ? » Dix euros, pour récupérer un skin, ça paraît peu.'
         parade: 'Après les 10 €, il y a toujours d’autres « frais ». Le petit montant ouvre la porte.'
-    aRetenir: 'Personne ne récupère un objet volé contre des « frais » : c’est une deuxième arnaque. Seul le support officiel du jeu peut aider, et il ne demande jamais de carte cadeau.'
+    aRetenir: 'Personne ne récupère un objet volé contre des « frais » : c’est une deuxième arnaque. Le support officiel du jeu ne fait jamais payer : c’est lui qu’on contacte, avec un adulte.'
     recuperation: { action: demander-aide, siChoix: [prete] }
 
   - type: lieu
@@ -119,7 +119,7 @@ etapes:
     question: Ton père est dans la pièce à côté. Que fais-tu ?
     choix:
       - id: paie
-        texte: 'Je clique sur « Payer » : pour 9,99 €, papa ne verra pas la différence.'
+        texte: 'Je paie avec la carte enregistrée : je rendrai les 9,99 € à papa ce soir.'
         qualite: risque
         reaction: 'Le Dragon n’arrive jamais. Le site a gardé les numéros de la carte, et deux jours plus tard, ton père découvre 240 € d’achats inconnus. Un petit prix et un seul clic : c’est ce qui rend ce piège efficace. Préviens ton père tout de suite, c’est lui qui fait opposition auprès de sa banque. Toi, bloque ce nouveau compte.'
       - id: rebloque
@@ -140,7 +140,7 @@ etapes:
       - levier: urgence
         truc: '« Livraison en 2 min » : tout va très vite, et tu n’as pas le temps de douter.'
         parade: 'Un vendeur pressé est un signal d’alerte. Les vrais achats se font dans la boutique du jeu.'
-    aRetenir: 'Une carte bancaire, même enregistrée, appartient à l’adulte qui l’a : on ne l’utilise jamais sans lui. Si ses numéros sont partis, c’est lui qui fait opposition auprès de sa banque, le plus vite possible.'
+    aRetenir: 'Une carte bancaire, même enregistrée, appartient à l’adulte qui l’a : on ne l’utilise jamais sans lui. Si ses numéros sont partis, c’est lui qui fait opposition auprès de sa banque, le plus vite possible, et conteste les achats qu’il n’a pas faits.'
     recuperation: { action: bloquer-signaler, siChoix: [paie] }
 
   - type: lieu
@@ -151,7 +151,7 @@ etapes:
     question: Ta mère te demande ce que tu proposes. Que fais-tu ?
     choix:
       - id: repond
-        texte: 'Je réponds vite à Nyx que je ne suis pas un arnaqueur, pour éviter le signalement.'
+        texte: 'Je réponds à Nyx que je ne suis pas un arnaqueur et qu’il me laisse tranquille.'
         qualite: risque
         reaction: 'Nyx répond aussitôt : « Prouve-le : fais l’échange maintenant. » Plus tu te justifies, plus il insiste. Avoir peur pour son compte, c’est normal : il comptait là-dessus. Bloque-le et signale-le, avec ta mère.'
       - id: captures
@@ -159,13 +159,13 @@ etapes:
         qualite: bon
         reaction: 'Les captures gardent les pseudos et les messages. Ta mère t’explique : « Si tu avais donné ma carte, j’aurais appelé la banque tout de suite pour faire opposition. Là, pas besoin. »'
       - id: aide
-        texte: 'Je demande de l’aide au support officiel du jeu, depuis l’appli, avec ma mère et mon père.'
+        texte: 'Je demande de l’aide à mon père pour savoir si mon compte risque vraiment quelque chose.'
         qualite: aide
-        reaction: 'Le support répond le lendemain : le serveur n’a aucun intermédiaire officiel, et chaque signalement est vérifié avant une sanction. Les deux comptes sont suspendus.'
+        reaction: 'Ton père lit les règles du jeu avec toi : un signalement est examiné avant toute sanction, et vos captures montrent qui a menacé qui. Vous signalez les deux comptes aux modérateurs du serveur.'
     pourquoi:
       - levier: peur
         truc: '« Je te signale pour arnaque et ton compte saute ! » Perdre ton compte fait peur.'
-        parade: 'Un signalement est vérifié avant toute sanction. Une menace, c’est le moment de bloquer, pas d’obéir.'
+        parade: 'Un signalement est examiné, et tes captures prouvent ta bonne foi. Une menace, c’est le moment de bloquer, pas d’obéir.'
       - levier: urgence
         truc: '« Dans 5 min » : il te presse pour que tu agisses avant de réfléchir avec tes parents.'
         parade: 'Personne n’a de délai à te fixer. Prends le temps de garder des preuves.'
@@ -179,21 +179,21 @@ etapes:
     id: carte-cadeau
     lieu: Le magasin
     decor: magasin
-    guide: 'Samedi, au magasin, ton père t’offre une carte cadeau GameBox de 15 € pour ton anniversaire, en avance. Pendant qu’il paie, un nouveau compte t’écrit, Nyx_Shop : « Promo flash : le Dragon ET un skin bonus contre une carte cadeau de 15 €. Envoie juste la photo du code ! » Sur le présentoir, une affiche prévient : « Ne communiquez jamais le code d’une carte cadeau. »'
-    question: Ton père est à la caisse. Que fais-tu du code ?
+    guide: 'Samedi, au magasin, ton père t’offre une carte cadeau GameBox de 15 € pour ton anniversaire, en avance. Il vient de payer et te tend la carte. Au même moment, un nouveau compte t’écrit, Nyx_Shop : « Promo flash : le Dragon ET un skin bonus contre une carte cadeau de 15 €. Envoie juste la photo du code ! »'
+    question: La carte est dans ta main. Que fais-tu du code ?
     choix:
       - id: envoie
         texte: 'J’envoie la photo du code : le Dragon et un bonus pour 15 €, c’est une affaire.'
         qualite: risque
         reaction: 'Le code est dépensé dans la minute, et Nyx_Shop disparaît. Ton père garde son calme : avec le ticket, il appelle le service client de la carte pour tenter de bloquer le code, et vous signalez le compte. Ces « bonus » font craquer beaucoup de joueurs.'
       - id: boutique
-        texte: 'Je garde le code et je l’entre moi-même dans la boutique du jeu.'
+        texte: 'Ce code, c’est l’argent de la carte : je l’entre moi-même dans la boutique.'
         qualite: bon
         reaction: 'Les 15 € s’ajoutent à ton compte GameBox. Le Dragon coûte 30 € en boutique : tu continues d’économiser, mais personne ne peut te prendre cet argent.'
       - id: aide
-        texte: 'Je demande de l’aide à mon père et je lui montre ce message à la caisse.'
+        texte: 'Je demande de l’aide à mon père et je lui montre ce message tout de suite.'
         qualite: aide
-        reaction: 'Ton père lit le message et montre l’affiche du présentoir : « Le code, c’est l’argent de la carte. Il ne sort pas de ton compte. » Vous bloquez Nyx_Shop ensemble.'
+        reaction: 'Ton père lit le message, puis te montre l’affiche du présentoir : « Ne communiquez jamais le code d’une carte cadeau. » Il ajoute : « Le code, c’est l’argent de la carte. » Vous bloquez Nyx_Shop ensemble.'
     pourquoi:
       - levier: gain
         truc: '« Le Dragon ET un skin bonus » : deux fois plus que ce que vaut la carte.'
