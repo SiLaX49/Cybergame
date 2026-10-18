@@ -2,6 +2,7 @@
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { buildContent } from '../../../scripts/build-content'
+import { bifurcation, routesDe } from '../../../src/engine/routes'
 import { TRANCHES, type Mission } from '../../../src/content/schema'
 import { atteint, evaluerRobustesse } from '../../../src/minigames/robustesse'
 import * as TEXTES_SENSIBLES from '../../../src/mission/textesSensibles'
@@ -341,12 +342,58 @@ describe('contenu réel', () => {
     expect(parcours.filter((m) => m.theme === theme && m.tranches.includes('6e'))).toHaveLength(1)
   })
 
-  it.each(parcours.map((m) => [m.id, m] as const))('%s : 5 lieux, 2 récupérations ou plus, 15 min', (_id, m) => {
+  it.each(parcours.map((m) => [m.id, m] as const))('%s : 5 lieux par route, 2 récupérations ou plus, durée de la tranche', (_id, m) => {
     const lieux = m.etapes.filter((e) => e.type === 'lieu')
-    expect(lieux).toHaveLength(5)
+    for (const route of routesDe(m.etapes)) {
+      const deLaRoute = lieux.filter((l) => route.includes(l.id))
+      expect(deLaRoute, `route ${route.join(' > ')}`).toHaveLength(5)
+      expect(new Set(deLaRoute.map((l) => l.decor)).size, 'un décor différent par lieu sur chaque route').toBe(deLaRoute.length)
+    }
     expect(lieux.filter((l) => l.recuperation).length).toBeGreaterThanOrEqual(2)
-    expect(m.duree).toBe(15)
-    expect(new Set(lieux.map((l) => l.decor)).size, 'un décor différent par lieu').toBe(lieux.length)
+    expect(m.duree).toBe(m.tranches.includes('6e') ? 15 : 20)
+  })
+
+  // Ne peut passer qu’une fois les six parcours 5e – 3e écrits.
+  it.skip.each(THEMES_PARCOURS)('%s : un parcours de l’île pour les 5e – 3e', (theme) => {
+    expect(parcours.filter((m) => m.theme === theme && m.tranches.includes('5e-3e'))).toHaveLength(1)
+  })
+
+  describe('parcours 5e – 3e : deux routes', () => {
+    const college = parcours.filter((m) => m.tranches.includes('5e-3e')).map((m) => [m.id, m] as const)
+    if (!college.length) it.skip('aucun parcours 5e – 3e pour l’instant', () => {})
+    const lieuxPropres = (m: Mission, route: string[]) =>
+      routesDe(m.etapes).filter((r) => r !== route).length ? route.filter((id) => routesDe(m.etapes).some((r) => r !== route && !r.includes(id))) : []
+
+    it.each(college)('%s : une bifurcation et deux routes', (_id, m) => {
+      expect(m.etapes.filter((e) => bifurcation(m.etapes, e.id))).toHaveLength(1)
+      expect(routesDe(m.etapes)).toHaveLength(2)
+    })
+
+    it.each(college)('%s : au moins un lieu avec récupération sur chaque route', (_id, m) => {
+      for (const route of routesDe(m.etapes)) {
+        const recup = m.etapes.filter((e) => e.type === 'lieu' && route.includes(e.id) && e.recuperation)
+        expect(recup.length, `route ${route.join(' > ')}`).toBeGreaterThanOrEqual(1)
+      }
+    })
+
+    it.each(college)('%s : aucun texte de route ne compare les routes', (_id, m) => {
+      const COMPARE = /meilleur|aurais dû|l’autre route/i
+      const trouves = routesDe(m.etapes).flatMap((route) =>
+        m.etapes.flatMap((e) => {
+          if (e.type !== 'lieu' || !lieuxPropres(m, route).includes(e.id)) return []
+          return [e.guide, e.guideSimple ?? '', ...e.choix.flatMap((c) => [c.reaction, c.reactionSimple ?? '']), e.aRetenir, e.aRetenirSimple ?? '']
+            .filter((t) => COMPARE.test(t.replace(/'/g, '’')))
+            .map((t) => `${e.id} : « ${t} »`)
+        }),
+      )
+      expect(trouves).toEqual([])
+    })
+
+    it.each(college)('%s : le choix « bon » de la bifurcation ne commence pas par « Je demande »', (_id, m) => {
+      const e = m.etapes.find((x) => bifurcation(m.etapes, x.id))
+      const bon = e?.type === 'lieu' ? e.choix.find((c) => c.qualite === 'bon') : undefined
+      expect(bon?.texte.startsWith('Je demande'), e?.id).toBe(false)
+    })
   })
 
   it.each(parcours.filter((m) => m.tranches.includes('6e')).map((m) => [m.id, m] as const))(

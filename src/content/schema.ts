@@ -217,6 +217,7 @@ export const scenarioSchema = z
 /** Décors dessinés des lieux d’un parcours (un SVG par décor dans src/mission/DecorScene.vue). */
 export const DECORS = [
   'cour', 'cantine', 'cdi', 'classe', 'parc', 'salle-jeux', 'salon', 'chambre', 'cuisine', 'gare', 'magasin', 'rue', 'bus',
+  'gymnase', 'musee', 'fete',
 ] as const
 export type Decor = (typeof DECORS)[number]
 
