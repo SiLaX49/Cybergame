@@ -1,0 +1,267 @@
+id: p-college-parcours
+theme: phishing
+format: parcours
+tranches: ['5e-3e']
+titre: La traversée de l’île aux hameçons
+resume: 'Une chaîne dans le groupe de classe, un DM « tu as gagné », une fausse boutique, un QR code au tournoi : traverse l’île sans mordre à l’hameçon, et choisis ta route pour démasquer le faux compte.'
+duree: 20
+objectifs:
+  - Reconnaître un faux compte ou un faux site qui imite une personnalité ou une marque
+  - Vérifier soi-même par le compte ou le site officiel, jamais par le lien reçu
+  - Signaler, prévenir son groupe et réagir vite si quelqu’un a déjà payé ou tapé son mot de passe
+competences:
+  crcn: ['4.1', '2.1']
+  programmes: ['EMI cycle 4']
+etapes:
+  - type: lieu
+    id: chaine
+    lieu: La cour
+    decor: cour
+    guide: 'À la récré, tout le monde parle du concours de Zélie Nova, la streameuse que suit la moitié de la classe : elle fait gagner trois casques Orkan Gear. Dans le groupe « 3eA 🔥 », Enzo relaie un message : « Zélie fait gagner 50 casques en plus ! Remplis le formulaire (nom, date de naissance, numéro, adresse) et partage à 10 amis pour valider. Fin ce soir minuit ! » Le message a déjà quatorze réactions.'
+    question: Trois copains viennent de le partager à leur tour. Que fais-tu ?
+    choix:
+      - id: partage
+        texte: Je remplis le formulaire et je le partage à dix amis, comme tout le groupe.
+        qualite: risque
+        reaction: 'Aucun casque n’arrive. Ton nom, ta date de naissance, ton numéro et ton adresse sont dans une liste revendue à des arnaqueurs, et tes dix amis ont reçu le piège de ta part. Ces chaînes marchent justement parce que tout le monde les fait tourner. Préviens ceux à qui tu l’as envoyée.'
+      - id: reglement
+        texte: Avant de remplir quoi que ce soit, je lis le règlement épinglé par Zélie Nova.
+        qualite: bon
+        reaction: 'Bien vu. Sur le vrai compte de Zélie, le règlement est clair : pour participer, il suffit de commenter son post. Aucun formulaire, aucun partage obligatoire. Tu le dis dans le groupe, pour que personne ne remplisse le formulaire.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma grande sœur, qui suit Zélie Nova depuis des années.'
+        qualite: aide
+        reaction: 'Ta sœur fronce les sourcils : « Partager à dix amis pour valider ? C’est une chaîne, pas un concours. » Elle te montre le règlement épinglé par Zélie : il suffit de commenter son post.'
+    pourquoi:
+      - levier: groupe
+        truc: 'Quatorze réactions, trois copains qui partagent : quand tout le groupe s’y met, le message paraît sûr.'
+        parade: 'Un message qui tourne beaucoup n’est pas plus vrai pour autant. Les chaînes sont faites pour passer de groupe en groupe sans être vérifiées.'
+      - levier: gain
+        truc: '« Zélie fait gagner 50 casques en plus » : plus de cadeaux, plus de chances. C’est très tentant.'
+        parade: 'Un vrai concours a un règlement, publié par son organisateur. Va le lire sur son compte officiel.'
+      - levier: urgence
+        truc: '« Fin ce soir minuit » : le message te presse pour que tu remplisses sans réfléchir.'
+        parade: 'Plus un message fixe un délai court, plus tu prends le temps de vérifier.'
+      - levier: confiance
+        truc: 'Le message vient d’Enzo, un copain de la classe. Mais il l’a seulement relayé, sans le vérifier.'
+        parade: 'Un ami peut transférer un piège sans le savoir. Ce qui compte, c’est qui a écrit le message au départ.'
+    aRetenir: 'Un vrai concours ne demande ni ton adresse sur un formulaire inconnu, ni de partager un message à dix amis. Le règlement se lit sur le compte officiel de l’organisateur.'
+    recuperation: { action: corriger-partage, siChoix: [partage] }
+
+  - type: lieu
+    id: dm-gagnant
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Le soir, dans ta chambre, un DM arrive sur SnapTalk. Le compte zelie.nova.officiel, avec la photo de Zélie et ses vidéos, t’écrit : « Bravo 🎉 Tu fais partie des 3 gagnants du casque Orkan Gear ! Règle juste 2,99 € de frais d’envoi sur la boutique avant 22 h, sinon ton lot passe au suivant. » Tu avais vraiment commenté sous son post du concours.'
+    question: Il est 21 h 40. Que fais-tu ?
+    choix:
+      - id: paie
+        texte: 'Un casque à 150 € pour 2,99 € de frais : je paie vite avec ma carte ado.'
+        qualite: risque
+        reaction: 'La « boutique » garde les numéros de ta carte. Le lendemain, trois achats que tu n’as pas faits apparaissent, et aucun casque n’arrive. Ce piège vise ceux qui ont vraiment participé au concours : il trompe beaucoup de monde. Préviens vite tes parents pour faire bloquer la carte.'
+      - id: verifie
+        texte: Je vérifie moi-même sur le vrai compte de Zélie qui sont les gagnants.
+        qualite: bon
+        suite: fausse-boutique
+        reaction: 'Bien vu. Sur le vrai compte, zelie.nova, une story épinglée prévient : « Je n’écris jamais aux gagnants en DM. Orkan Gear les contacte par mail. » Le compte qui t’a écrit a un mot en plus dans son nom, et il a été créé il y a neuf jours.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère avant de payer quoi que ce soit, même 2,99 €.'
+        qualite: aide
+        suite: avec-maman
+        reaction: 'Ta mère pose son téléphone : « Montre-moi ça. » Vous vous installez dans le salon pour regarder ce compte de plus près.'
+    pourquoi:
+      - levier: petit-montant
+        truc: '2,99 €, ça paraît trois fois rien à côté d’un casque. Mais le faux compte veut surtout les numéros de ta carte.'
+        parade: 'Un vrai gagnant ne paie jamais de frais pour recevoir son lot. Même 1 €, c’est non.'
+      - levier: urgence
+        truc: '« Avant 22 h, sinon ton lot passe au suivant » : il te reste vingt minutes, pas assez pour réfléchir.'
+        parade: 'Un vrai concours laisse du temps aux gagnants. Un délai très court sert à t’empêcher de vérifier.'
+      - levier: autorite
+        truc: 'Le compte a la photo de Zélie, ses vidéos et presque son nom. Tout ça se copie en quelques minutes.'
+        parade: 'Cherche toi-même le vrai compte, en tapant son nom. Compare le nom exact, la date de création et le nombre d’abonnés.'
+      - levier: gain
+        truc: 'Tu as vraiment commenté sous le post : alors gagner paraît possible, et ça fait plaisir.'
+        parade: 'Les faux comptes écrivent justement à ceux qui ont commenté un concours. Avoir participé ne prouve pas que tu as gagné.'
+    aRetenir: 'Les faux comptes de personnalités écrivent à ceux qui commentent leurs concours. Un vrai gagnant ne paie jamais de frais. Vérifie sur le vrai compte, en le cherchant toi-même.'
+    recuperation: { action: demander-aide, siChoix: [paie] }
+
+  - type: lieu
+    id: fausse-boutique
+    lieu: Le CDI
+    decor: cdi
+    guide: 'Le lendemain au CDI, tu veux savoir si Orkan Gear parle de ces faux gagnants. Tu tapes « Orkan Gear » dans un moteur de recherche. Le premier résultat, marqué « Sponsorisé », annonce : « Orkan Gear – Boutique officielle – Espace gagnants Zélie Nova ». Son adresse : orkan-gear-gagnants.shop. Juste en dessous apparaît orkan-gear.fr. Lina, à côté de toi, montre le premier : « Il y a écrit officiel, vas-y. »'
+    question: Le lien sponsorisé est sous ton doigt. Que fais-tu ?
+    choix:
+      - id: premier
+        texte: Je clique sur le premier résultat, celui qui est marqué « officiel ».
+        qualite: risque
+        reaction: 'La page copie parfaitement Orkan Gear. Pour entrer dans ton « espace gagnant », elle demande ton mail et un mot de passe. Tu mets le même que pour SnapTalk, comme beaucoup de gens. Le soir, quelqu’un s’en sert pour essayer d’entrer dans ton compte SnapTalk. Change-le vite.'
+      - id: adresse
+        texte: Je compare les deux adresses avec celle que donne le vrai compte de la marque.
+        qualite: bon
+        reaction: 'Bien vu. Le vrai compte de Orkan Gear renvoie vers orkan-gear.fr, où un bandeau prévient : « De faux sites utilisent notre nom. Nous ne demandons jamais de frais aux gagnants. » L’autre adresse a juste payé pour apparaître en premier. Tu signales cette publicité au moteur de recherche.'
+      - id: aide
+        texte: Je demande de l’aide à la documentaliste pour trouver avec Lina laquelle est la vraie.
+        qualite: aide
+        reaction: 'La documentaliste vous montre le mot « Sponsorisé » : « C’est une publicité. N’importe qui peut en acheter une. » Sur le compte officiel de la marque, vous trouvez la vraie adresse, orkan-gear.fr, et vous signalez la fausse publicité.'
+    pourquoi:
+      - levier: autorite
+        truc: '« Boutique officielle », le logo, les couleurs : la page a tout pour faire vrai.'
+        parade: 'Le mot « officiel » s’écrit en deux secondes. Ce qui compte, c’est l’adresse exacte, vérifiée sur le compte officiel de la marque.'
+      - levier: reflexe
+        truc: 'On clique presque toujours sur le premier résultat, sans lire l’adresse.'
+        parade: 'Avant de cliquer, lis l’adresse en entier. Un mot en plus, comme « gagnants » ou « promo », suffit à changer de site.'
+      - levier: confiance
+        truc: 'Lina te dit « vas-y ». Elle veut t’aider, mais elle n’a rien vérifié non plus.'
+        parade: 'Un conseil d’ami ne remplace pas une vérification. Regardez l’adresse ensemble.'
+    aRetenir: 'Un résultat « Sponsorisé » est une publicité, et un faux site peut en acheter une. Trouve la vraie adresse sur le compte officiel de la marque, et lis-la en entier avant de cliquer.'
+    recuperation: { action: changer-mdp, siChoix: [premier] }
+
+  - type: lieu
+    id: groupe-classe
+    lieu: Le parc
+    decor: parc
+    suite: tournoi
+    guide: 'Après les cours, au parc, tu viens de signaler le faux compte zelie.nova.officiel. Dans le groupe « 3eA 🔥 », Enzo écrit : « Moi aussi j’ai gagné un casque 😎 Je paie les frais ce soir, ça a l’air réglo. » Deux autres répondent « moi aussi ! ». Tu sais que c’est faux, mais Enzo est populaire, et le contredire devant toute la classe peut le vexer.'
+    question: Le groupe s’emballe. Que fais-tu ?
+    choix:
+      - id: silence
+        texte: 'Je ne dis rien dans le groupe, pour ne pas vexer Enzo devant tout le monde.'
+        qualite: risque
+        reaction: 'Le soir, Enzo et deux autres paient les « frais ». Le lendemain, leurs cartes servent à des achats en ligne. Se taire pour ne pas vexer, c’est très humain, et l’arnaque compte aussi là-dessus. Il est encore temps de prévenir le groupe.'
+      - id: explique
+        texte: 'J’explique dans le groupe comment j’ai repéré le faux compte, captures à l’appui.'
+        qualite: bon
+        reaction: 'Bien vu. Tu postes les deux profils côte à côte : le vrai, et le faux avec son mot en plus. Enzo répond : « Ah ouais… merci, j’allais payer. » D’autres signalent le faux compte à leur tour.'
+      - id: aide
+        texte: Je demande de l’aide à mon père pour trouver comment le dire à Enzo sans le vexer.
+        qualite: aide
+        reaction: 'Ton père te conseille d’écrire d’abord à Enzo en privé : « Je crois que c’est un faux compte, regarde. » Enzo te remercie, puis prévient lui-même le groupe.'
+    pourquoi:
+      - levier: honte
+        truc: 'Contredire un copain populaire devant toute la classe, c’est gênant. Alors on préfère se taire.'
+        parade: 'Prévenir, ce n’est pas se moquer. Tu peux aussi écrire d’abord en privé : l’important, c’est que personne ne paie.'
+      - levier: groupe
+        truc: 'Deux autres répondent « moi aussi ! ». Quand plusieurs y croient, on finit par douter de soi.'
+        parade: 'Plus il y a de « gagnants », plus c’est louche : le vrai concours n’en a que trois.'
+      - levier: confiance
+        truc: '« Ça a l’air réglo » : Enzo a l’air sûr de lui, et on a envie de le croire.'
+        parade: 'L’assurance d’un copain ne prouve rien. Montre-lui ce que tu as vérifié.'
+    aRetenir: 'Quand tu as repéré une arnaque, préviens ton groupe, en public avec des captures ou d’abord en privé. Signale aussi le faux compte, pour protéger ceux qui ne sont pas dans le groupe.'
+    recuperation: { action: prevenir-contacts, siChoix: [silence] }
+
+  - type: lieu
+    id: avec-maman
+    lieu: Le salon
+    decor: salon
+    guide: 'Dans le salon, ta mère compare avec toi le compte qui t’a écrit et le vrai compte de Zélie. Le vrai, zelie.nova, a une story épinglée : « Je n’écris jamais aux gagnants en DM. » Le faux s’appelle zelie.nova.officiel et a été créé il y a neuf jours. Tu as un peu honte d’y avoir cru. Ta mère te rassure : « Ils sont très forts, ils trompent aussi des adultes. »'
+    question: Que fais-tu de cette conversation avec le faux compte ?
+    choix:
+      - id: efface
+        texte: 'J’efface la conversation et on n’en parle plus : j’ai honte d’y avoir cru.'
+        qualite: risque
+        reaction: 'La conversation disparaît, mais le faux compte, lui, reste en ligne. Ce soir, il écrit à d’autres élèves qui ont commenté le concours. Avoir honte est normal, et les arnaqueurs comptent sur ce silence. Tu peux encore signaler le compte depuis son profil.'
+      - id: signale
+        texte: Je fais des captures du message et du profil, puis je signale le faux compte.
+        qualite: bon
+        reaction: 'Bien vu. Tu gardes les captures et tu signales le compte pour usurpation dans SnapTalk. Ta mère ajoute : « Montre-les demain à la CPE. D’autres élèves ont peut-être reçu le même message. »'
+      - id: aide
+        texte: Je demande de l’aide à ma mère pour savoir qui d’autre il faudrait prévenir.
+        qualite: aide
+        reaction: 'Ta mère réfléchit : « Toute ta classe a pu recevoir ce message. Demain, va voir la CPE avec des captures, elle préviendra les élèves. » Vous faites les captures, puis vous signalez le compte ensemble.'
+    pourquoi:
+      - levier: honte
+        truc: 'Tu as un peu honte d’y avoir cru. Alors effacer et oublier paraît plus simple.'
+        parade: 'Se faire presque avoir par un faux compte n’est pas une faute : il est fait pour tromper. En parler protège les autres.'
+      - levier: reflexe
+        truc: 'Effacer une conversation gênante, on le fait souvent sans y penser.'
+        parade: 'Avant d’effacer, fais une capture : c’est la preuve qui permet de signaler.'
+      - levier: peur
+        truc: 'Tu as peur qu’on te reproche d’avoir failli payer.'
+        parade: 'Personne ne te reprochera d’avoir signalé une arnaque. C’est le bon réflexe, même après avoir hésité.'
+    aRetenir: 'Avant d’effacer un message piège, fais une capture, puis signale le faux compte dans l’appli. En parler protège ceux qui le recevront ensuite.'
+    recuperation: { action: bloquer-signaler, siChoix: [efface] }
+
+  - type: lieu
+    id: cpe
+    lieu: La classe
+    decor: classe
+    guide: 'Le lendemain matin, tu montres tes captures à la CPE. Elle passe dans les classes : « Un faux compte de Zélie Nova écrit à des élèves. Ne payez rien. Si vous avez payé, venez me voir : vous ne serez pas punis. » En sortant, Maël te glisse : « J’ai payé hier avec ma carte ado. Ce matin, il y a trois achats que j’ai pas faits. Dis rien à personne, mes parents vont me tuer. »'
+    question: Maël te regarde, inquiet. Que fais-tu ?
+    choix:
+      - id: secret
+        texte: Je garde son secret, puisque c’est son histoire et qu’il me fait confiance.
+        qualite: risque
+        reaction: 'Maël ne dit rien chez lui. Sa carte n’est pas bloquée, et deux nouveaux achats passent dans la journée. Garder le secret d’un ami, c’est loyal, mais celui-là l’empêche d’être aidé. Propose-lui d’aller voir un adulte avec toi.'
+      - id: parents
+        texte: 'Sa carte peut encore servir : j’encourage Maël à appeler ses parents ce midi.'
+        qualite: bon
+        reaction: 'Bien vu. Maël appelle sa mère à midi. Elle fait opposition sur la carte depuis l’appli de sa banque, puis conteste les achats. Le soir, Maël t’écrit : « Elle m’a même pas crié dessus. »'
+      - id: aide
+        texte: 'Je demande de l’aide à la CPE avec Maël, comme elle l’a proposé à la classe.'
+        qualite: aide
+        reaction: 'La CPE rassure Maël : « Tu n’es pas puni. On appelle tes parents ensemble. » En dix minutes, la carte est bloquée, et sa mère va contester les achats auprès de la banque.'
+    pourquoi:
+      - levier: secret
+        truc: '« Dis rien à personne » : Maël te demande de garder le secret, et tu ne veux pas le trahir.'
+        parade: 'Un secret qui empêche un ami d’être aidé ne se garde pas. Propose-lui d’aller voir un adulte avec toi.'
+      - levier: peur
+        truc: '« Mes parents vont me tuer » : Maël a peur de se faire gronder, et sa peur devient la tienne.'
+        parade: 'Une carte se bloque en quelques minutes. Plus on attend, plus les arnaqueurs ont le temps de s’en servir.'
+      - levier: confiance
+        truc: 'Maël t’a choisi pour se confier. Le trahir te paraît pire que tout.'
+        parade: 'L’aider à parler, ce n’est pas le trahir. C’est même ce que fait un vrai ami.'
+    aRetenir: 'Si quelqu’un a payé sur un faux site, il faut faire bloquer la carte tout de suite (faire opposition), puis contester les achats auprès de la banque. Personne n’est puni pour s’être fait avoir.'
+    recuperation: { action: demander-aide, siChoix: [secret] }
+
+  - type: lieu
+    id: tournoi
+    lieu: Le gymnase
+    decor: gymnase
+    guide: 'Samedi, c’est le tournoi de futsal du collège au gymnase. Sur l’affiche officielle, près de la buvette, quelqu’un a collé un autocollant : « Tirage au sort Orkan Gear 🎧 Scanne et connecte-toi avec SnapTalk pour participer. Tirage à la fin du tournoi ! » Autour de toi, des élèves de 5e scannent déjà. Le dernier match commence dans cinq minutes.'
+    question: Ton téléphone est dans ta poche. Que fais-tu ?
+    choix:
+      - id: scanne
+        texte: 'Les 5e le font tous et le tirage est bientôt : je scanne et je me connecte.'
+        qualite: risque
+        reaction: 'La page ressemble à SnapTalk, mais elle garde ton mot de passe. Pendant le match, quelqu’un entre dans ton compte et envoie la photo de l’autocollant à tous tes contacts. Ce piège reprend tous les appâts de l’île : il est fait pour tromper. Change ton mot de passe tout de suite.'
+      - id: officiel
+        texte: Je cherche ce tirage sur le compte officiel de l’association sportive du collège.
+        qualite: bon
+        reaction: 'Bien vu. Le compte de l’association sportive ne parle d’aucun tirage. Tu montres l’autocollant aux 5e, qui arrêtent de scanner, et un surveillant le décolle. Le tournoi se termine sans qu’aucun compte ne soit volé.'
+      - id: aide
+        texte: 'Je demande de l’aide au prof d’EPS qui organise, avant que d’autres élèves scannent.'
+        qualite: aide
+        reaction: 'Le prof regarde l’autocollant : « Ce n’est pas nous. » Il le décolle et, au micro, entre deux matchs, il prévient tout le gymnase de ne pas scanner. Le tournoi se termine sans qu’aucun compte ne soit volé.'
+    pourquoi:
+      - levier: groupe
+        truc: 'Des élèves de 5e scannent déjà. S’ils le font, ça paraît sans danger.'
+        parade: 'Que d’autres scannent ne prouve rien. Ils n’ont sans doute rien vérifié non plus.'
+      - levier: autorite
+        truc: 'L’autocollant est collé sur l’affiche officielle du tournoi. Il profite de son sérieux.'
+        parade: 'N’importe qui peut coller un QR code sur une affiche. Cherche le tirage sur le compte officiel de l’organisateur.'
+      - levier: urgence
+        truc: '« Tirage à la fin du tournoi ! » et le dernier match qui commence : tout pousse à scanner vite.'
+        parade: 'Un QR code est un lien caché. Plus on te presse, plus tu prends le temps de regarder qui l’a posé.'
+      - levier: gain
+        truc: 'Un casque Orkan Gear, comme dans le concours de Zélie : la marque est connue, l’envie aussi.'
+        parade: 'Si tu as déjà croisé cet appât cette semaine, c’est peut-être la même arnaque qui revient sous une autre forme.'
+    aRetenir: 'Un QR code est un lien caché : avant de te connecter sur la page qu’il ouvre, demande-toi qui l’a posé. Sur toute l’île, le même réflexe protège : passer soi-même par le compte ou le site officiel, et prévenir les autres.'
+    recuperation: { action: changer-mdp, siChoix: [scanne] }
+debrief:
+  questions:
+    - 'Quel hameçon t’a paru le plus crédible : la chaîne, le DM du faux compte, la fausse boutique ou le QR code ?'
+    - Comment vérifier qu’un compte ou un site est vraiment celui d’une personnalité ou d’une marque ?
+    - Que faire si quelqu’un a déjà payé, rempli le formulaire ou tapé son mot de passe ?
+  reponses: 'Les hameçons de l’île : la pression du groupe (chaîne, « moi aussi ! »), le gain (casque, tirage au sort), le petit montant (2,99 €), l’urgence (ce soir minuit, avant 22 h) et l’air officiel (photo copiée, « Boutique officielle », résultat sponsorisé, autocollant sur une affiche). Pour vérifier : chercher soi-même le compte ou le site officiel, comparer le nom exact et l’adresse, lire le règlement chez l’organisateur. Une route règle la situation par soi-même, l’autre avec un adulte : les deux protègent. Si c’est déjà fait : faire bloquer la carte (opposition) et contester les achats, changer son mot de passe, prévenir ceux à qui on a transféré le message, garder des captures et signaler le faux compte. Se faire avoir n’est pas une faute : ces pièges sont faits pour tromper tout le monde.'
+  erreursFrequentes:
+    - 'Croire qu’un compte avec la photo et les vidéos d’une personnalité est forcément le sien.'
+    - 'Penser que le premier résultat d’une recherche, ou un résultat « Sponsorisé », est forcément le site officiel.'
+    - 'Garder le secret d’un ami qui a payé, alors qu’il faut faire bloquer sa carte très vite.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qui a déjà participé à un concours sur les réseaux ? Comment savoir qu’il est vrai ?
+    20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. À la bifurcation, la classe choisit sa route.
+    15 min : débrief des 3 questions, en comparant les deux routes : qu’est-ce qu’on règle soi-même, qu’est-ce qu’un adulte rend possible ?
+    5 min : où trouver de l’aide (adulte de confiance, CPE, signalement dans l’appli, cybermalveillance.gouv.fr pour les parents).
+    5 min : engagement. Cette semaine, avant de participer à un concours, je lis son règlement sur le compte officiel de l’organisateur.

@@ -1,0 +1,258 @@
+id: c-college-parcours
+theme: comptes
+format: parcours
+tranches: ['5e-3e']
+titre: La traversée de l’île des clés
+resume: 'Un mot de passe d’équipe posté dans le groupe, un code de sécurité réclamé, une vieille tablette encore connectée : protège le compte du club, seul·e ou avec ton entraîneuse.'
+duree: 20
+objectifs:
+  - Garder secret le mot de passe d’un compte partagé, même entre coéquipiers
+  - Ne jamais donner un code de sécurité, et réagir quand il arrive sans l’avoir demandé
+  - Reprendre la main sur un compte avec un nouveau mot de passe, la liste des appareils connectés et la double authentification
+competences:
+  crcn: ['4.1', '4.2']
+  programmes: ['EMI cycle 4']
+etapes:
+  - type: lieu
+    id: mdp-groupe
+    lieu: Le gymnase
+    decor: gymnase
+    guide: 'Après l’entraînement de hand, au gymnase, tu ouvres le groupe « Albatros U15 🤾 ». Tu es capitaine et, avec Jules, tu gères le compte SnapTalk du club, albatros.u15. Jules vient de poster : « Le mdp du compte c’est Albatros15!, comme ça tout le monde peut poster les photos du match samedi 📸 » Le groupe compte 26 membres : l’équipe, d’anciens joueurs, des parents. Déjà neuf pouces levés.'
+    question: Jules est fier de son idée. Que fais-tu ?
+    choix:
+      - id: laisse
+        texte: Je laisse son message en ligne, l’équipe a l’air ravie de l’idée.
+        qualite: risque
+        reaction: 'Le message reste. Le soir, un ancien joueur, parti du club fâché, se connecte et change la photo du compte pour se moquer de l’équipe. Un mot de passe connu de 26 personnes n’est plus un secret. Partager pour aller plus vite, ça arrive souvent. Change-le vite.'
+      - id: admins
+        texte: J’écris à Jules qu’il efface son message et que chacun nous envoie ses photos.
+        qualite: bon
+        reaction: 'Bien vu. Jules efface le message au bout de deux minutes, et tu annonces la règle dans le groupe : les photos s’envoient aux deux admins, qui les postent. Personne d’autre n’a besoin du mot de passe. Mais deux minutes, c’est assez pour qu’il ait été lu.'
+      - id: aide
+        texte: 'Je demande de l’aide à Karine, l’entraîneuse, qui a créé le compte du club.'
+        qualite: aide
+        reaction: 'Karine demande à Jules d’effacer le message et rappelle la règle au groupe : seuls les deux admins connaissent le mot de passe, les autres leur envoient leurs photos. Mais le message est resté en ligne quelques minutes.'
+    pourquoi:
+      - levier: groupe
+        truc: 'Neuf pouces levés : tout le monde trouve l’idée pratique, alors elle paraît bonne.'
+        parade: 'Que beaucoup approuvent ne rend pas un mot de passe moins secret. Plus il circule, plus il risque d’arriver chez quelqu’un de mal intentionné.'
+      - levier: confiance
+        truc: 'C’est le groupe du club : on a l’impression d’être entre nous. Mais il compte 26 membres, dont d’anciens joueurs.'
+        parade: 'Un groupe change : des gens partent, d’autres arrivent, des captures circulent. Un mot de passe n’y a pas sa place.'
+      - levier: reflexe
+        truc: 'Partager le mot de passe, c’est la solution la plus rapide pour que tout le monde poste.'
+        parade: 'Pour publier, le groupe n’a pas besoin du mot de passe : il suffit d’envoyer les photos aux admins.'
+    aRetenir: 'Le mot de passe d’un compte partagé ne se met jamais dans un groupe. Seuls quelques admins le connaissent, et les autres leur envoient ce qu’ils veulent publier.'
+    recuperation: { action: changer-mdp, siChoix: [laisse] }
+
+  - type: lieu
+    id: code-securite
+    lieu: Le car du match
+    decor: bus
+    guide: 'Samedi, dans le car du retour de match, ton téléphone affiche un SMS : « SnapTalk : connexion inhabituelle au compte albatros.u15. Code de sécurité : 518 204. Ne le communique à personne. » Au même moment, un certain Ilyes écrit dans le groupe : « Salut, j’aide Karine pour la com du club 👋 Je me connecte pour poster le score, le code est arrivé chez le capitaine, tu me l’envoies ? Faut que ce soit en ligne avant 20 h. » Jules répond : « Ah oui, Karine cherchait quelqu’un ! »'
+    question: Il est 19 h 45, et Karine est rentrée dans une autre voiture. Que fais-tu ?
+    choix:
+      - id: envoie
+        texte: 'Il connaît Karine et Jules le confirme : j’envoie le code à Ilyes.'
+        qualite: risque
+        reaction: 'Une minute plus tard, le mot de passe du compte change, et tu ne peux plus y entrer. Le soir, le compte publie une fausse vente de maillots avec un lien de paiement. Personne au club ne connaît Ilyes : il est entré dans le groupe par un lien d’invitation qui traînait. Quand un coéquipier confirme, tout le monde peut s’y laisser prendre. Préviens vite tes contacts et les abonnés.'
+      - id: garde
+        texte: Je garde le code pour moi et je change tout de suite le mot de passe du compte.
+        qualite: bon
+        suite: appareils
+        reaction: 'Bien vu. Ce code sert à entrer dans le compte : quelqu’un essaie de se connecter avec le mot de passe qui a circulé. Depuis ton téléphone, tu en choisis un nouveau, puis tu retires Ilyes du groupe en attendant que Karine confirme. Elle répond : « Je ne le connais pas. Bien joué. »'
+      - id: aide
+        texte: 'Je demande de l’aide à Karine, l’entraîneuse : je l’appelle avant de répondre.'
+        qualite: aide
+        suite: appel-karine
+        reaction: 'Karine décroche : « Ilyes ? Je ne connais personne de ce nom. Surtout, n’envoie rien. Je reprends le compte en rentrant, je te rappelle ce soir. »'
+    pourquoi:
+      - levier: autorite
+        truc: '« J’aide Karine pour la com du club » : Ilyes se présente comme quelqu’un d’officiel.'
+        parade: 'N’importe qui peut dire qu’il travaille pour le club. Vérifie auprès de Karine elle-même, par un autre moyen que le groupe.'
+      - levier: urgence
+        truc: '« Avant 20 h » : il reste un quart d’heure, pas le temps de vérifier.'
+        parade: 'Un score peut attendre une heure. Un compte volé, lui, est long à récupérer.'
+      - levier: groupe
+        truc: 'Jules confirme dans le groupe. Quand un coéquipier y croit, on a moins de doutes.'
+        parade: 'Jules n’a rien vérifié : il a juste réagi vite. Un « oui » dans le groupe n’est pas une preuve.'
+    aRetenir: 'Un code de sécurité ne se donne à personne, même à quelqu’un qui dit venir du club. S’il arrive sans que tu l’aies demandé, quelqu’un essaie d’entrer : change le mot de passe.'
+    recuperation: { action: prevenir-contacts, siChoix: [envoie] }
+
+  - type: lieu
+    id: appareils
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Le soir, dans ta chambre, tu ouvres « Appareils connectés » dans les paramètres du compte du club. Il y a ton téléphone, et une tablette connectée depuis huit mois, active hier à 23 h 52. Jules reconnaît son ancienne tablette, vendue le mois dernier sur Revendo : « Je l’ai vendue vite fait, mais je crois que je m’étais déconnecté. »'
+    question: Ton nouveau mot de passe est déjà en place. Que fais-tu de cette tablette ?
+    choix:
+      - id: laisse
+        texte: Je laisse la tablette, puisque Jules pense s’être déconnecté et que le mot de passe a changé.
+        qualite: risque
+        reaction: 'Sur beaucoup d’applis, changer le mot de passe ne ferme pas les autres sessions. La tablette reste connectée, et son nouveau propriétaire lit les messages privés du club, avec les numéros des parents pour le covoiturage. Croire que c’est réglé, ça arrive à tout le monde. Ferme cette session et active la double authentification.'
+      - id: ferme
+        texte: 'Une tablette vendue n’a rien à faire là : je la déconnecte et j’active la double authentification.'
+        qualite: bon
+        reaction: 'Bien vu. La tablette disparaît de la liste. Désormais, chaque nouvelle connexion demandera aussi un code envoyé sur ton téléphone : même avec le mot de passe, personne n’entre sans ce code. Tu transmets les codes de secours à Karine.'
+      - id: aide
+        texte: Je demande de l’aide à mon père pour savoir ce que cette tablette peut encore voir.
+        qualite: aide
+        reaction: 'Ton père regarde : « Tant qu’elle est connectée, elle voit tout le compte, comme toi. » Vous fermez la session ensemble, puis vous activez la double authentification.'
+    pourquoi:
+      - levier: confiance
+        truc: '« Je crois que je m’étais déconnecté » : Jules a l’air sûr, alors on le croit sur parole.'
+        parade: 'Ne te fie pas à un « je crois ». La liste des appareils connectés, elle, montre ce qui est vrai.'
+      - levier: reflexe
+        truc: 'Le mot de passe vient d’être changé : on pense que tout est réglé.'
+        parade: 'Après un changement de mot de passe, regarde aussi les appareils connectés et ferme ceux que tu ne reconnais pas.'
+      - levier: peur
+        truc: 'Toucher aux paramètres du compte du club, on a peur de tout casser.'
+        parade: 'Fermer une session ne supprime rien : l’appareil devra juste se reconnecter, avec le mot de passe et le code.'
+    aRetenir: 'Un appareil reste connecté tant qu’on ne ferme pas sa session, même une fois vendu. Vérifie la liste des appareils connectés, ferme les inconnus, puis active la double authentification.'
+    recuperation: { action: activer-2fa, siChoix: [laisse] }
+
+  - type: lieu
+    id: nouvelle-regle
+    lieu: La cantine
+    decor: cantine
+    suite: fete-club
+    guide: 'Lundi, à la cantine, plusieurs Albatros t’entourent. Tu as annoncé dans le groupe que le mot de passe a changé et que seuls les deux admins le connaissent. Ça ne plaît pas à tout le monde. Léo : « Franchement, donne-nous le nouveau en privé, on le dira à personne. » Sami : « Sinon on poste plus rien, c’est nul. »'
+    question: Toute la table te regarde. Que fais-tu ?
+    choix:
+      - id: prive
+        texte: 'En privé, entre coéquipiers, ça reste entre nous : je leur donne le nouveau.'
+        qualite: risque
+        reaction: 'En une semaine, le mot de passe passe de Léo à son cousin, puis apparaît sur une capture dans un autre groupe. Un secret confié à dix personnes n’en est plus un, même en privé. Céder quand toute la table insiste, c’est humain. Change-le encore une fois et garde-le pour les admins.'
+      - id: montre
+        texte: Je leur montre comment m’envoyer une photo pour que je la publie dans la minute.
+        qualite: bon
+        reaction: 'Bien vu. Léo envoie une photo du match, et tu la publies devant lui, avec son pseudo en légende. « Ah ouais, c’est rapide en fait. » Tu ajoutes une règle dans le groupe : si quelqu’un demande le mot de passe ou un code, on prévient un admin.'
+      - id: aide
+        texte: Je demande de l’aide à Karine pour qu’elle explique la règle au prochain entraînement.
+        qualite: aide
+        reaction: 'À l’entraînement, Karine explique : « Samedi, le compte a failli être volé. Les admins postent, vous leur envoyez vos photos. » Plus personne ne réclame le mot de passe.'
+    pourquoi:
+      - levier: groupe
+        truc: 'Toute la table insiste. Dire non à toute l’équipe, c’est difficile.'
+        parade: 'Tu peux dire non au mot de passe et oui aux photos. Personne n’est privé de rien : seul celui qui appuie sur « publier » change.'
+      - levier: confiance
+        truc: '« On le dira à personne » : ce sont tes coéquipiers, et ils sont sincères.'
+        parade: 'Même sincère, un ami peut se faire voler son téléphone ou montrer son écran. Moins de gens savent, moins il y a de risques.'
+      - levier: reflexe
+        truc: 'Donner le mot de passe en privé paraît plus sûr que dans le groupe.'
+        parade: 'En privé ou en public, un mot de passe partagé circule. La seule façon de le garder secret, c’est de ne pas le donner.'
+    aRetenir: 'Un mot de passe partagé, même en privé, finit par circuler. Pour un compte d’équipe, quelques admins publient, et les autres leur envoient leurs photos.'
+    recuperation: { action: changer-mdp, siChoix: [prive] }
+
+  - type: lieu
+    id: appel-karine
+    lieu: Le salon
+    decor: salon
+    guide: 'Le soir, dans le salon, Karine t’appelle. Elle a repris la main sur le compte : nouveau mot de passe, double authentification sur son téléphone, et la session de la vieille tablette de Jules, restée ouverte après sa vente, est fermée. Pendant l’appel, Ilyes t’écrit en privé : « T’as fait bloquer le compte 😡 Donne-moi le nouveau mot de passe, ou je dis à tout le club que c’est ta faute si le score est pas en ligne. »'
+    question: Karine est toujours au téléphone. Que fais-tu du message d’Ilyes ?
+    choix:
+      - id: repond
+        texte: 'Je lui réponds que je n’y suis pour rien, pour que le club ne me croie pas responsable.'
+        qualite: risque
+        reaction: 'Ilyes enchaîne les messages : il menace, puis te flatte, puis réclame ton propre mot de passe « pour prouver ta bonne foi ». Répondre à un pirate lui montre qu’il peut encore te faire réagir. Vouloir se défendre, c’est normal. Bloque-le et signale son compte.'
+      - id: capture
+        texte: Je fais une capture du message, puis je bloque et je signale le compte d’Ilyes.
+        qualite: bon
+        reaction: 'Bien vu. Tu envoies la capture à Karine, qui la garde avec les autres. Ilyes ne peut plus t’écrire, et son compte est signalé pour arnaque. Karine le retire aussi du groupe.'
+      - id: aide
+        texte: 'Je demande de l’aide à Karine tout de suite : je lui lis le message d’Ilyes.'
+        qualite: aide
+        reaction: 'Karine reste calme : « Personne ne va te reprocher quoi que ce soit, tu as protégé le compte. Ne lui réponds pas. Fais une capture, puis bloque-le. » Elle le retire aussi du groupe.'
+    pourquoi:
+      - levier: peur
+        truc: 'Ilyes menace de te faire passer pour le responsable devant tout le club.'
+        parade: 'Les menaces d’un pirate servent à te faire réagir. Les adultes du club savent ce qui s’est passé.'
+      - levier: colere
+        truc: 'Être accusé à tort, ça énerve. On a envie de répondre tout de suite.'
+        parade: 'Répondre à chaud lui donne prise. Garde une capture, bloque, et laisse les adultes s’en occuper.'
+      - levier: reflexe
+        truc: 'Quand un message arrive, on répond presque sans y penser.'
+        parade: 'Un pirate n’a pas droit à une réponse. Une capture et un signalement suffisent.'
+    aRetenir: 'Quand un pirate menace ou insiste, ne réponds pas : fais une capture, bloque et signale son compte, puis montre la capture à un adulte.'
+    recuperation: { action: bloquer-signaler, siChoix: [repond] }
+
+  - type: lieu
+    id: compte-bis
+    lieu: La cour
+    decor: cour
+    guide: 'Lundi, à la récré, Léo a une idée : « Karine garde le mot de passe pour elle ? On n’a qu’à créer albatros.u15.officiel, avec un mot de passe que toute l’équipe connaît 😎 » Sami est partant, et deux autres choisissent déjà la photo de profil.'
+    question: Léo te demande si tu es dans le coup. Que fais-tu ?
+    choix:
+      - id: bis
+        texte: Je crée le compte avec eux, il sera bien plus vivant avec toute l’équipe.
+        qualite: risque
+        reaction: 'Deux semaines plus tard, le mot de passe du compte bis circule bien au-delà de l’équipe. Quelqu’un y publie une fausse cagnotte « pour le tournoi », et des parents paient en croyant que c’est le club. Suivre la bande, c’est tentant. Préviens tes contacts et les abonnés que ce compte n’est pas celui du club.'
+      - id: photos
+        texte: Je montre à Léo comment envoyer ses photos aux admins, qui les publient le soir même.
+        qualite: bon
+        reaction: 'Bien vu. Léo envoie trois photos du match. Le soir, elles sont en ligne, avec son pseudo en légende. « Bon, ça marche aussi. » Un seul compte officiel, c’est aussi plus clair pour les abonnés : ils savent où est le vrai.'
+      - id: aide
+        texte: Je demande de l’aide à Karine pour qu’elle explique à l’équipe pourquoi elle garde le mot de passe.
+        qualite: aide
+        reaction: 'Karine réunit l’équipe : « Samedi, le compte a failli être volé parce que le mot de passe circulait. Un deuxième compte, ce serait pareil, et on pourrait le confondre avec un faux. » Léo range son idée.'
+    pourquoi:
+      - levier: groupe
+        truc: 'Sami et deux autres sont partants : refuser, c’est se mettre à part.'
+        parade: 'Tu peux refuser l’idée sans refuser l’équipe. Propose une solution qui marche pour tous.'
+      - levier: gain
+        truc: 'Un compte où tout le monde publie, ça promet plus de photos et plus d’abonnés.'
+        parade: 'Un mot de passe connu de tous finit chez quelqu’un d’extérieur. Et un compte bis peut être confondu avec un faux.'
+      - levier: confiance
+        truc: 'Ce sont tes coéquipiers : tu te dis qu’entre vous, rien ne peut mal tourner.'
+        parade: 'Le problème n’est pas l’équipe : c’est qu’un mot de passe connu de tous finit toujours par sortir du groupe.'
+    aRetenir: 'Un compte d’équipe dont tout le monde connaît le mot de passe finit par être volé ou imité. Un seul compte officiel, quelques admins, et les autres envoient leurs photos.'
+    recuperation: { action: prevenir-contacts, siChoix: [bis] }
+
+  - type: lieu
+    id: fete-club
+    lieu: La fête du club
+    decor: fete
+    guide: 'Fin de saison : c’est la fête du club. Le compte des Albatros est protégé, avec deux admins, un mot de passe que personne d’autre ne connaît et la double authentification. Karine présente le nouveau site du club pour les inscriptions de l’an prochain, avec une tombola : chacun crée son compte sur son téléphone, avec un mail et un mot de passe. Autour de toi : « Mets le même que SnapTalk, c’est plus simple ! »'
+    question: C’est à ton tour de créer ton compte. Que fais-tu ?
+    choix:
+      - id: meme
+        texte: 'Je reprends le mot de passe de mon SnapTalk, comme ça je ne l’oublierai pas.'
+        qualite: risque
+        reaction: 'Trois mois plus tard, le site du club se fait pirater et la liste des comptes fuite. Avec ton mail et ce mot de passe, quelqu’un entre dans ton SnapTalk. Réutiliser un mot de passe est très courant, et les pirates essaient toujours les mots de passe volés ailleurs. Change-le partout où il servait.'
+      - id: phrase
+        texte: J’invente une phrase de passe que je n’utilise pour aucun autre compte.
+        qualite: bon
+        reaction: 'Bien vu. Trois mots sans lien et un chiffre : même si le site se fait pirater un jour, tes autres comptes restent fermés. Karine remercie l’équipe : le compte des Albatros finit la saison sans s’être fait voler.'
+      - id: aide
+        texte: Je demande de l’aide à Karine pour retenir un mot de passe de plus sans l’écrire partout.
+        qualite: aide
+        reaction: 'Karine te montre sa méthode : trois mots qui n’ont rien à voir, plus un chiffre. Tu en inventes une en dix secondes. Puis elle remercie l’équipe : le compte des Albatros finit la saison sans s’être fait voler.'
+    pourquoi:
+      - levier: groupe
+        truc: '« Mets le même que SnapTalk, c’est plus simple ! » Autour de toi, tout le monde fait pareil.'
+        parade: 'Un mot de passe réutilisé, c’est une seule clé pour toutes tes portes. Que les autres le fassent ne la rend pas plus sûre.'
+      - levier: reflexe
+        truc: 'Un mot de passe de plus à retenir, c’est pénible : on reprend celui qu’on connaît par cœur.'
+        parade: 'Une phrase de passe, ce sont trois ou quatre mots sans lien : elle se retient sans effort.'
+      - levier: confiance
+        truc: 'C’est le site du club : on se dit qu’il ne risque rien.'
+        parade: 'Même un site honnête peut se faire pirater. Avec un mot de passe unique, la fuite s’arrête à ce site.'
+    aRetenir: 'Un mot de passe différent pour chaque compte : si un site fuit, les autres restent fermés. Sur toute l’île, les mêmes clés protègent : un secret qu’on ne partage pas, un code qu’on ne donne jamais, la double authentification.'
+    recuperation: { action: changer-mdp, siChoix: [meme] }
+debrief:
+  questions:
+    - Pourquoi un mot de passe partagé « entre nous » finit-il presque toujours par circuler ?
+    - 'Tu reçois un code de sécurité sans l’avoir demandé : qu’est-ce que ça veut dire, et que fais-tu ?'
+    - 'Pour reprendre la main sur un compte, quelles sont les étapes, et qui peut t’aider ?'
+  reponses: 'Un mot de passe partagé passe de main en main : groupe, privé, captures, anciens membres. Pour un compte d’équipe, quelques admins le connaissent et les autres leur envoient leurs photos. Un code de sécurité reçu sans l’avoir demandé veut dire que quelqu’un essaie d’entrer : on ne le donne à personne, même à quelqu’un qui dit venir du club, et on change le mot de passe. Pour reprendre la main : nouveau mot de passe, fermer les appareils inconnus (même une tablette vendue), activer la double authentification, prévenir le groupe. On peut le faire soi-même ou avec un adulte responsable du compte : les deux routes protègent. Enfin, un mot de passe différent pour chaque compte, pour qu’une fuite reste limitée à un site.'
+  erreursFrequentes:
+    - 'Croire qu’un mot de passe donné en privé, entre coéquipiers, reste secret.'
+    - 'Penser que changer le mot de passe déconnecte toujours les autres appareils.'
+    - 'Donner un code de sécurité à quelqu’un qui se présente comme un membre de l’équipe ou du club.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qui gère un compte à plusieurs (club, classe, chaîne de jeu) ? Qui connaît le mot de passe ?
+    20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. À la bifurcation, la classe choisit sa route.
+    15 min : débrief des 3 questions, en comparant les deux routes : sécuriser soi-même ou prévenir l’entraîneuse, qu’est-ce qui change ?
+    5 min : où trouver de l’aide (adulte responsable du compte, aide officielle de l’appli, cybermalveillance.gouv.fr pour les parents).
+    5 min : engagement. Ce soir, je regarde la liste des appareils connectés à l’un de mes comptes.
