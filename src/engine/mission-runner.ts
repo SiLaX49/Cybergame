@@ -1,4 +1,5 @@
 import type { Etape, FilAction, LevierId, Mission, Qualite, ReponseLevier } from '@/content/schema'
+import { bifurcation, etapeSuivante } from './routes'
 
 export type PhaseScenario = 'situation' | 'pourquoi' | 'consequence' | 'recuperation'
 export type SurpriseResultat = 'verifie' | 'ignore' | 'signale' | 'piege'
@@ -38,7 +39,12 @@ export type EtapeResultat = ScenarioResultat | LieuResultat | MinijeuResultat | 
 export type ChoixResultat = ScenarioResultat | LieuResultat
 
 export interface RunState {
+  /** Rang de l’étape courante dans la route (0 = première), pour le compteur et la scène. */
   index: number
+  /** Identifiant de l’étape courante (null quand la mission est terminée). */
+  etapeId: string | null
+  /** Étapes déjà quittées, dans l’ordre de la route jouée. */
+  chemin: string[]
   phase: PhaseScenario | null
   choixId: string | null
   resultats: Record<string, EtapeResultat>
@@ -78,31 +84,43 @@ const resultatVide = (etape: Etape): ChoixResultat =>
 const essaisDe = (r: EtapeResultat | undefined): string[] => (r?.type === 'lieu' ? r.essais : [])
 
 export function demarrer(mission: Mission): RunState {
+  const premiere = mission.etapes[0]
   return {
     index: 0,
-    phase: phaseInitiale(mission.etapes[0]),
+    etapeId: premiere?.id ?? null,
+    chemin: [],
+    phase: phaseInitiale(premiere),
     choixId: null,
     resultats: {},
-    termine: false,
+    termine: !premiere,
     leviersCedes: [],
     indiceUtilise: false,
   }
 }
 
 export function etapeCourante(mission: Mission, etat: RunState): Etape | null {
-  return etat.termine ? null : (mission.etapes[etat.index] ?? null)
+  return etat.termine || !etat.etapeId ? null : (mission.etapes.find((e) => e.id === etat.etapeId) ?? null)
 }
 
-function suivante(mission: Mission, etat: RunState, resultats: Record<string, EtapeResultat>): RunState {
-  const index = etat.index + 1
-  const termine = index >= mission.etapes.length
+/** Passe à l’étape suivante sur la route décidée par `choixId` (le choix fait à l’étape courante, ou null). */
+function suivante(
+  mission: Mission,
+  etat: RunState,
+  resultats: Record<string, EtapeResultat>,
+  choixId: string | null,
+): RunState {
+  const courante = etat.etapeId!
+  const id = etapeSuivante(mission.etapes, courante, choixId)
+  const prochaine = id ? mission.etapes.find((e) => e.id === id) : undefined
   return {
     ...etat,
-    index,
-    phase: termine ? null : phaseInitiale(mission.etapes[index]),
+    index: etat.index + 1,
+    etapeId: prochaine?.id ?? null,
+    chemin: [...etat.chemin, courante],
+    phase: prochaine ? phaseInitiale(prochaine) : null,
     choixId: null,
     resultats,
-    termine,
+    termine: !prochaine,
     indiceUtilise: false,
   }
 }
@@ -188,7 +206,7 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
           resultats: { ...etat.resultats, [etape.id]: { ...resultat, recuperationFaite: false } },
         }
       }
-      return suivante(mission, etat, etat.resultats)
+      return suivante(mission, etat, etat.resultats, resultat.choixId)
     }
     case 'recuperation-faite': {
       if ((etape.type !== 'scenario' && etape.type !== 'lieu') || etat.phase !== 'recuperation') return refuser()
@@ -201,7 +219,7 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
           resultats: { ...etat.resultats, [etape.id]: { ...resultat, recuperationFaite: true } },
         }
       }
-      return suivante(mission, etat, { ...etat.resultats, [etape.id]: { ...resultat, recuperationFaite: true } })
+      return suivante(mission, etat, { ...etat.resultats, [etape.id]: { ...resultat, recuperationFaite: true } }, resultat.choixId)
     }
     case 'rejouer': {
       if ((etape.type !== 'scenario' && etape.type !== 'lieu') || etat.phase !== 'consequence') return refuser()
@@ -226,14 +244,16 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
       const base = resultatVide(etape)
       const resultat: ChoixResultat =
         base.type === 'lieu' ? { ...base, essais: essaisDe(etat.resultats[etape.id]), passe: true } : { ...base, passe: true }
-      return suivante(mission, etat, { ...etat.resultats, [etape.id]: resultat })
+      // Sur une bifurcation, passer suit la route « bon ».
+      const bon = bifurcation(mission.etapes, etape.id) ? etape.choix.find((c) => c.qualite === 'bon')?.id : undefined
+      return suivante(mission, etat, { ...etat.resultats, [etape.id]: resultat }, bon ?? null)
     }
     case 'minijeu-termine': {
       if (etape.type !== 'minijeu') return refuser()
       return suivante(mission, etat, {
         ...etat.resultats,
         [etape.id]: { type: 'minijeu', reussites: evenement.reussites, erreurs: evenement.erreurs },
-      })
+      }, null)
     }
     case 'fil-termine': {
       if (etape.type !== 'fil') return refuser()
@@ -249,7 +269,7 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
           actions: { ...evenement.actions },
           surprise: surprise ? surpriseResultat(evenement.actions[surprise.id]!) : null,
         },
-      })
+      }, null)
     }
   }
 }
