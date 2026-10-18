@@ -13,6 +13,7 @@ import {
   type RunEvent,
   type RunState,
 } from '@/engine/mission-runner'
+import { aVenir, longueurRoute } from '@/engine/routes'
 import FilStep from '@/mission/FilStep.vue'
 import CheminIle from '@/mission/CheminIle.vue'
 import FinMission from '@/mission/FinMission.vue'
@@ -47,11 +48,12 @@ const parcours = mission?.format === 'parcours'
 const ile = theme && estIle(theme.id) ? theme.id : null
 // Personnage et scène seulement pour un parcours sur une île ; sinon, la progression classique.
 const surIle = parcours && !!ile
-const etapesScene = (mission?.etapes ?? []).map((e) =>
-  e.type === 'lieu'
-    ? { id: e.id, nom: e.lieu, emoji: DECORS_EMOJI[e.decor] }
-    : { id: e.id, nom: 'Mini-jeu', emoji: EMOJI_MINIJEU },
-)
+const longueur = mission ? longueurRoute(mission.etapes) : 0
+const elementScene = (id: string | null, rang: number) => {
+  const e = id ? mission?.etapes.find((x) => x.id === id) : undefined
+  if (!e) return { id: `inconnu-${rang}`, nom: 'selon ton choix', emoji: '❔' }
+  return e.type === 'lieu' ? { id: e.id, nom: e.lieu, emoji: DECORS_EMOJI[e.decor] } : { id: e.id, nom: 'Mini-jeu', emoji: EMOJI_MINIJEU }
+}
 const personnageChoisi = ref<PersonnageId | null>(null)
 const titreDepart = ref<HTMLElement | null>(null)
 // Le titre de l’écran de départ reçoit le focus dès qu’il s’affiche (après l’avertissement éventuel).
@@ -63,6 +65,13 @@ function commencerParcours() {
 const mode = computed(() => store.etat.mode ?? 'solo')
 const avertissementLu = ref(false)
 const etat = ref<RunState | null>(mission ? demarrer(mission) : null)
+/** La route jouée pour la scène : étapes déjà quittées, étape courante, puis à venir (« selon ton choix » tant qu’une bifurcation n’est pas décidée). */
+const etapesScene = computed(() => {
+  const e = etat.value
+  if (!mission || !e) return []
+  const ids: (string | null)[] = e.termine || !e.etapeId ? e.chemin : [...e.chemin, e.etapeId, ...aVenir(mission.etapes, e.etapeId)]
+  return ids.slice(0, longueur).map((id, rang) => elementScene(id, rang))
+})
 
 const etape = computed(() => (mission && etat.value ? etapeCourante(mission, etat.value) : null))
 const resultatEtape = computed(() => (etape.value && etat.value ? etat.value.resultats[etape.value.id] : undefined))
@@ -117,7 +126,7 @@ function recommencer() {
       <MissionBarre
         :titre="mission.titre"
         :etape="etat.termine || surIle ? undefined : etat.index + 1"
-        :total="mission.etapes.length"
+        :total="longueur"
         :indice="indice"
         @indice="envoyer({ type: 'indice' })"
       />
@@ -126,10 +135,10 @@ function recommencer() {
         v-if="surIle && ile && store.etat.personnage"
         :ile="ile"
         :etapes="etapesScene"
-        :position="etat.termine ? etapesScene.length : etat.index"
+        :position="etat.termine ? longueur : etat.index"
         :personnage="store.etat.personnage"
       />
-      <CheminIle v-if="mission.format === 'parcours' && !etat.termine" :mission="mission" :index="etat.index" />
+      <CheminIle v-if="mission.format === 'parcours' && !etat.termine" :mission="mission" :chemin="etat.chemin" :courante="etat.etapeId" />
 
       <SensibleAvertissement v-if="sensible && !avertissementLu" :theme="theme?.id" @commencer="avertissementLu = true" />
       <section v-else-if="surIle && !store.etat.personnage" class="choix-depart">

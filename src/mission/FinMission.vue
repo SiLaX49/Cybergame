@@ -5,6 +5,7 @@ import { RouterLink } from 'vue-router'
 import { nomIle } from '@/archipel/archipel'
 import type { Leviers, Lieu, Mission, Scenario } from '@/content/schema'
 import { BADGES, calculerBadges, descriptionBadge } from '@/engine/badges'
+import { bifurcation, routesDe } from '@/engine/routes'
 import { leviersDeLaMission, leviersDuRun, type RunState, type SurpriseResultat } from '@/engine/mission-runner'
 import { focusAuMontage } from '@/ui/focus'
 import Hulotte from '@/ui/Hulotte.vue'
@@ -45,6 +46,16 @@ const aRetenir = computed(() =>
     return (r?.type === 'scenario' || r?.type === 'lieu') && !r.passe
   }),
 )
+
+/** Parcours à deux routes : le choix fait à la bifurcation (texte court), pour dire quelle route a été prise. */
+const routePrise = computed(() => {
+  if (routesDe(props.mission.etapes).length < 2) return null
+  const id = props.etat.chemin.find((x) => bifurcation(props.mission.etapes, x))
+  const r = id ? props.etat.resultats[id] : undefined
+  const lieu = props.mission.etapes.find((e) => e.id === id)
+  if (r?.type !== 'lieu' || lieu?.type !== 'lieu') return null
+  return lieu.choix.find((c) => c.id === r.choixId)?.texte ?? null
+})
 
 const MESSAGES_SURPRISE: Record<SurpriseResultat, string> = {
   piege: 'Tu as ouvert ce message piège. Pas de panique : l’important, c’est de reconnaître les signaux la prochaine fois.',
@@ -107,6 +118,11 @@ async function fermerPleinEcran() {
           <li v-for="l in aSurveiller" :key="l">{{ l }}</li>
         </ul>
       </template>
+    </section>
+
+    <section v-if="routePrise" class="encadre encadre-info route-prise">
+      <p>Tu as pris la route « {{ routePrise }} ». Il existe une autre bonne route.</p>
+      <button type="button" class="btn" @click="emit('rejouer')">Rejouer pour découvrir l’autre route</button>
     </section>
 
     <section v-if="surprise" class="encadre encadre-info surprise">

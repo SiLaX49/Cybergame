@@ -151,7 +151,7 @@ describe('LieuStep', () => {
 
 describe('CheminIle', () => {
   it('indique en texte les lieux visités, le lieu actuel et ceux à venir', () => {
-    const w = mount(CheminIle, { props: { mission: parcoursFixture(), index: 1 } })
+    const w = mount(CheminIle, { props: { mission: parcoursFixture(), chemin: ['l1'], courante: 'l2' } })
     const haltes = w.findAll('li')
     expect(haltes).toHaveLength(4)
     expect(haltes[0]!.text()).toContain('déjà visité')
