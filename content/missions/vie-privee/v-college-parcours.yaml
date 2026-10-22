@@ -2,7 +2,7 @@ id: v-college-parcours
 theme: vie-privee
 format: parcours
 tranches: ['5e-3e']
-titre: La traversée de l’île aux secrets
+titre: 'L’île aux secrets : la fête d’anniversaire'
 resume: 'Une story qui dit où est la fête, une photo où l’on t’identifie sans te demander, une vidéo qui fait rire tout le monde sauf un : traverse l’île en gardant la main sur ton image et sur celle des autres.'
 duree: 20
 objectifs:
@@ -59,11 +59,13 @@ etapes:
         texte: 'J’écris à Malo en privé pour qu’il retire la photo et mon nom.'
         qualite: bon
         suite: reglages
+        route: j’écris à Malo
         reaction: 'Malo répond : « Ah, désolé, je pensais que ça te faisait rire. » Il retire la photo dans la minute. Tu as dit simplement ce qui te gênait, et ça a suffi.'
       - id: aide
         texte: 'Je demande de l’aide à la mère de Jade, qui prépare les crêpes à côté.'
         qualite: aide
         suite: cuisine
+        route: je demande à la mère de Jade
         reaction: 'La mère de Jade t’écoute sans rire : « Tu as le droit de ne pas vouloir être en ligne. On va régler ça calmement. » Elle t’emmène dans la cuisine.'
     pourquoi:
       - levier: groupe
@@ -251,6 +253,6 @@ fiche:
   deroulement: |
     5 min : cadre. Qui décide de ce qu’on publie de nous ? (sans obligation de raconter une situation vécue)
     20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. Après la fête, deux routes : régler soi-même avec Malo, ou avec la mère de Jade. Si plusieurs binômes jouent, répartir les deux routes.
-    20 min : débrief des 3 questions. Faire raconter chaque route : ce qu’on règle soi-même (message à Malo, réglages d’identification, accord avant de publier), ce qu’un adulte rend possible (médiation, signalement, 3018).
+    20 min : débrief des questions. Faire raconter chaque route : ce qu’on règle soi-même (message à Malo, réglages d’identification, accord avant de publier), ce qu’un adulte rend possible (médiation, signalement, 3018).
     5 min : où trouver de l’aide (adulte de confiance, CPE, signalement dans l’appli, 3018, qui peut demander le retrait à la plateforme, ou plainte adressée à la CNIL si une photo reste en ligne).
     5 min : engagement. Cette semaine, je vérifie qui peut m’identifier sur mes applis, et je demande avant de publier la photo d’un ami.

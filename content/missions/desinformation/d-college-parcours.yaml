@@ -2,7 +2,7 @@ id: d-college-parcours
 theme: desinformation
 format: parcours
 tranches: ['5e-3e']
-titre: La traversée de l’île aux rumeurs
+titre: 'L’île aux rumeurs : la sortie annulée'
 resume: 'Un vocal transféré, une capture retouchée, une photo sortie de son contexte, des parents inquiets : la sortie au musée est-elle vraiment annulée ? Traverse l’île en remontant à la source.'
 duree: 20
 objectifs:
@@ -60,11 +60,13 @@ etapes:
         texte: 'Je vérifie moi-même sur le site du musée et sur l’ENT.'
         qualite: bon
         suite: photo
+        route: je vérifie moi-même
         reaction: 'Sur le site du musée, aucun bandeau : il est ouvert toute la semaine. Sur l’ENT, le dernier message de Mme Roussel rappelle : « Départ du car à 8 h 15. » Reste la photo de la salle inondée. D’où vient-elle ?'
       - id: prof
         texte: 'Je demande de l’aide à Mme Roussel, la prof qui organise la sortie.'
         qualite: aide
         suite: doute
+        route: je demande à Mme Roussel
         reaction: 'Mme Roussel regarde la capture et écoute le vocal. À la récréation, elle appelle le musée : la visite de jeudi est bien prévue. Pour la photo, elle lance une recherche d’image inversée : elle vient d’un article de 2016, sur un autre musée. « Je publie un message sur l’ENT avant midi. Merci de m’avoir prévenue. »'
     pourquoi:
       - levier: autorite
@@ -250,6 +252,6 @@ fiche:
   deroulement: |
     5 min : cadre. D’où viennent les infos qui circulent dans vos groupes de classe ? (sans obligation de raconter, et sans nommer personne)
     20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. Au lieu 2, la classe choisit sa route.
-    15 min : débrief des 3 questions, en listant les sources fiables et les gestes de vérification de la classe.
+    15 min : débrief des questions, en listant les sources fiables et les gestes de vérification de la classe.
     5 min : démonstration d’une recherche d’image inversée, ressources (CLEMI, documentaliste).
     5 min : engagement. Avant de relayer une annonce, je vais la lire là où elle est vraiment publiée.

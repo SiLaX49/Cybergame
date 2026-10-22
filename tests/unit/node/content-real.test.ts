@@ -2,7 +2,7 @@
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { buildContent } from '../../../scripts/build-content'
-import { bifurcation, routesDe } from '../../../src/engine/routes'
+import { bifurcation, choixDeBifurcation, routesDe } from '../../../src/engine/routes'
 import { TRANCHES, type Mission } from '../../../src/content/schema'
 import { atteint, evaluerRobustesse } from '../../../src/minigames/robustesse'
 import * as TEXTES_SENSIBLES from '../../../src/mission/textesSensibles'
@@ -376,16 +376,28 @@ describe('contenu réel', () => {
     })
 
     it.each(college)('%s : aucun texte de route ne compare les routes', (_id, m) => {
-      const COMPARE = /meilleur|aurais dû|l’autre route/i
+      const COMPARE = /meilleur|aurais dû|l’autre (route|chemin)/i
       const trouves = routesDe(m.etapes).flatMap((route) =>
         m.etapes.flatMap((e) => {
           if (e.type !== 'lieu' || !lieuxPropres(m, route).includes(e.id)) return []
-          return [e.guide, e.guideSimple ?? '', ...e.choix.flatMap((c) => [c.reaction, c.reactionSimple ?? '']), e.aRetenir, e.aRetenirSimple ?? '']
+          return [e.guide, e.guideSimple ?? '', ...e.choix.flatMap((c) => [c.texte, c.reaction, c.reactionSimple ?? '']), e.aRetenir, e.aRetenirSimple ?? '']
             .filter((t) => COMPARE.test(t.replace(/'/g, '’')))
             .map((t) => `${e.id} : « ${t} »`)
         }),
       )
       expect(trouves).toEqual([])
+    })
+
+    it.each(college)('%s : étiquettes de route courtes sur la bifurcation, titre « L’île … : … »', (_id, m) => {
+      const fourche = choixDeBifurcation(m.etapes)
+      expect(fourche).not.toBeNull()
+      for (const e of [fourche!.bon, fourche!.aide]) {
+        expect(e).toMatch(/^[a-zéèêàâîôûç’j]/)
+        expect(e).not.toMatch(/[.!?]$/)
+        expect(e.split(' ').length).toBeLessThanOrEqual(8)
+      }
+      expect(fourche!.bon).not.toBe(fourche!.aide)
+      expect(m.titre).toMatch(/^L’île (aux|des) [^:]+ : \S/)
     })
 
     it.each(college)('%s : le choix « bon » de la bifurcation ne commence pas par « Je demande »', (_id, m) => {

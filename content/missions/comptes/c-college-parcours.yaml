@@ -60,11 +60,13 @@ etapes:
         texte: Je garde le code pour moi et je change tout de suite le mot de passe.
         qualite: bon
         suite: appareils
+        route: je change le mot de passe
         reaction: 'Bien vu. Ce code sert à entrer dans le compte : quelqu’un essaie de se connecter avec le mot de passe qui a circulé. Depuis ton téléphone, tu en choisis un nouveau, puis tu retires Ilyes du groupe en attendant que Karine confirme. Elle répond : « Je ne le connais pas. Bien joué. »'
       - id: aide
         texte: 'Je demande de l’aide à Karine, l’entraîneuse : je l’appelle avant de répondre.'
         qualite: aide
         suite: appel-karine
+        route: j’appelle Karine
         reaction: 'Karine décroche : « Ilyes ? Je ne connais personne de ce nom. Surtout, n’envoie rien. Je reprends le compte en rentrant, je te rappelle ce soir. »'
     pourquoi:
       - levier: autorite
@@ -253,6 +255,6 @@ fiche:
   deroulement: |
     5 min : cadre. Qui gère un compte à plusieurs (club, classe, chaîne de jeu) ? Qui connaît le mot de passe ?
     20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. À la bifurcation, la classe choisit sa route.
-    15 min : débrief des 3 questions, en comparant les deux routes : sécuriser soi-même ou prévenir l’entraîneuse, qu’est-ce qui change ?
+    15 min : débrief des questions, en comparant les deux routes : sécuriser soi-même ou prévenir l’entraîneuse, qu’est-ce qui change ?
     5 min : où trouver de l’aide (adulte responsable du compte, aide officielle de l’appli, cybermalveillance.gouv.fr pour les parents).
     5 min : engagement. Ce soir, je regarde la liste des appareils connectés à l’un de mes comptes.

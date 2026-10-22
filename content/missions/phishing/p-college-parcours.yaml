@@ -63,11 +63,13 @@ etapes:
         texte: Je vérifie moi-même sur le vrai compte de Zélie qui sont les gagnants.
         qualite: bon
         suite: fausse-boutique
+        route: je vérifie moi-même
         reaction: 'Bien vu. Sur le vrai compte, zelie.nova, une story épinglée prévient : « Je n’écris jamais aux gagnants en DM. Orkan Gear les contacte par mail. » Le compte qui t’a écrit a un mot en plus dans son nom, et il a été créé il y a neuf jours.'
       - id: aide
         texte: 'Je demande de l’aide à ma mère avant de payer quoi que ce soit, même 2,99 €.'
         qualite: aide
         suite: avec-maman
+        route: je demande à ma mère
         reaction: 'Ta mère pose son téléphone : « Montre-moi ça. » Vous vous installez dans le salon pour regarder ce compte de plus près.'
     pourquoi:
       - levier: petit-montant
@@ -250,7 +252,7 @@ etapes:
     recuperation: { action: changer-mdp, siChoix: [scanne] }
 debrief:
   questions:
-    - 'Quel hameçon t’a paru le plus crédible : la chaîne, le DM du faux compte, la fausse boutique ou le QR code ?'
+    - 'Quel hameçon t’a paru le plus crédible : la chaîne, le DM du faux compte, la fausse page ou le QR code ?'
     - Comment vérifier qu’un compte ou un site est vraiment celui d’une personnalité ou d’une marque ?
     - Que faire si quelqu’un a déjà payé, rempli le formulaire ou tapé son mot de passe ?
   reponses: 'Les hameçons de l’île : la pression du groupe (chaîne, « moi aussi ! »), le gain (casque, tirage au sort), le petit montant (2,99 €), l’urgence (ce soir minuit, avant 22 h) et l’air officiel (photo copiée, « Boutique officielle », résultat sponsorisé, autocollant sur une affiche). Pour vérifier : chercher soi-même le compte ou le site officiel, comparer le nom exact et l’adresse, lire le règlement chez l’organisateur. Une route règle la situation par soi-même, l’autre avec un adulte : les deux protègent. Si c’est déjà fait : faire bloquer la carte (opposition) et contester les achats, changer son mot de passe, prévenir ceux à qui on a transféré le message, garder des captures et signaler le faux compte. Se faire avoir n’est pas une faute : ces pièges sont faits pour tromper tout le monde.'
@@ -262,6 +264,6 @@ fiche:
   deroulement: |
     5 min : cadre. Qui a déjà participé à un concours sur les réseaux ? Comment savoir qu’il est vrai ?
     20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. À la bifurcation, la classe choisit sa route.
-    15 min : débrief des 3 questions, en comparant les deux routes : qu’est-ce qu’on règle soi-même, qu’est-ce qu’un adulte rend possible ?
+    15 min : débrief des questions, en comparant les deux routes : qu’est-ce qu’on règle soi-même, qu’est-ce qu’un adulte rend possible ?
     5 min : où trouver de l’aide (adulte de confiance, CPE, signalement dans l’appli, internet-signalement.gouv.fr (Pharos) pour signaler une arnaque en ligne, cybermalveillance.gouv.fr pour les parents).
     5 min : engagement. Cette semaine, avant de participer à un concours, je lis son règlement sur le compte officiel de l’organisateur.

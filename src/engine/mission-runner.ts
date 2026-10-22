@@ -292,11 +292,15 @@ export function leviersDuRun(_mission: Mission, etat: RunState): ReponseLevier[]
   return [...etat.leviersCedes]
 }
 
-/** Leviers travaillés par la mission (blocs « pourquoi »), dans l'ordre d'apparition, sans doublon. */
-export function leviersDeLaMission(mission: Mission): LevierId[] {
+/**
+ * Leviers travaillés par la mission (blocs « pourquoi »), dans l'ordre d'apparition, sans doublon.
+ * Avec `ids` (le chemin parcouru), seules les étapes jouées comptent : une route non prise n'est pas évoquée.
+ */
+export function leviersDeLaMission(mission: Mission, ids?: readonly string[]): LevierId[] {
   const leviers: LevierId[] = []
   for (const e of mission.etapes) {
     if (e.type !== 'scenario' && e.type !== 'lieu') continue
+    if (ids && !ids.includes(e.id)) continue
     for (const p of e.pourquoi ?? []) if (!leviers.includes(p.levier)) leviers.push(p.levier)
   }
   return leviers

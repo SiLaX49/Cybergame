@@ -228,6 +228,8 @@ const choixLieuSchema = z.object({
   reaction: texte,
   reactionSimple: texte.optional(),
   suite: slug.optional(),
+  /** Étiquette courte (2 à 5 mots, sans point final) du choix d’une bifurcation, pour nommer la route. */
+  route: z.string().trim().min(2, 'étiquette de route vide').max(60, 'étiquette de route trop longue').regex(/[^.\s]$/, 'étiquette de route sans point final').optional(),
 })
 
 /** Étape d’un parcours : un lieu de l’île, une situation racontée, un choix. */

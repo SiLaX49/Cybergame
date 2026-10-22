@@ -2,7 +2,7 @@ id: a-college-parcours
 theme: appareils
 format: parcours
 tranches: ['5e-3e']
-titre: La traversée de l’île aux antennes
+titre: 'L’île aux antennes : le car de la sortie'
 resume: 'Une appli d’album trop curieuse, des images reçues sans fil, un Wi-Fi qui se fait passer pour un autre, un code de téléphone, une borne de recharge : traverse l’île le temps d’une sortie en car, sans perdre la main sur ton téléphone.'
 duree: 20
 objectifs:
@@ -60,11 +60,13 @@ etapes:
         texte: 'Ça ne s’arrêtera pas tout seul : je règle moi-même le partage sur « Contacts uniquement ».'
         qualite: bon
         suite: wifi
+        route: je règle le partage moi-même
         reaction: 'Dans les réglages, tu passes le partage sans fil sur « Contacts uniquement », et tu renommes ton téléphone avec ton prénom seulement. Plus rien n’arrive : Le_Boss_du_fond ne voit même plus ton téléphone.'
       - id: accompagnateur
         texte: 'Je demande de l’aide à M. Lambert, l’accompagnateur assis à l’avant du car.'
         qualite: aide
         suite: profil
+        route: je demande à M. Lambert
         reaction: 'M. Lambert remonte l’allée et demande qui envoie ces images : au fond, un élève de 3e range son téléphone. Puis il montre à tes voisins et à toi comment régler le partage sans fil sur « Contacts uniquement ».'
     pourquoi:
       - levier: gain
@@ -250,6 +252,6 @@ fiche:
   deroulement: |
     5 min : cadre. Qu’est-ce qui se passe avec vos téléphones pendant une sortie scolaire ? (sans obligation de raconter)
     20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. Au lieu 2, la classe choisit sa route.
-    15 min : débrief des 3 questions, en listant au tableau les réglages qui protègent un téléphone.
+    15 min : débrief des questions, en listant au tableau les réglages qui protègent un téléphone.
     5 min : où trouver de l’aide (adulte accompagnateur, accueil d’un lieu public pour le vrai Wi-Fi, cybermalveillance.gouv.fr pour se faire aider). Pour les bornes de recharge, un bloqueur de données USB existe aussi.
     5 min : engagement. Ce soir, je vérifie le réglage de mon partage sans fil, le nom de mon téléphone et son verrouillage automatique.

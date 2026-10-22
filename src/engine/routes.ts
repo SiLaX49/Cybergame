@@ -1,6 +1,6 @@
 import type { Etape } from '../content/schema'
 
-type Choix = { id: string; qualite: 'bon' | 'risque' | 'aide'; suite?: string }
+type Choix = { id: string; texte: string; qualite: 'bon' | 'risque' | 'aide'; suite?: string; route?: string }
 const choixDe = (e: Etape): Choix[] => (e.type === 'lieu' ? (e.choix as Choix[]) : [])
 const suiteDe = (e: Etape): string | undefined => (e.type === 'lieu' ? e.suite : undefined)
 const index = (etapes: Etape[], id: string) => etapes.findIndex((e) => e.id === id)
@@ -18,7 +18,8 @@ export function etapeSuivante(etapes: Etape[], id: string, choixId: string | nul
 export function successeurs(etapes: Etape[], id: string): string[] {
   const e = etapes[index(etapes, id)]
   if (!e) return []
-  const bons = choixDe(e).filter((c) => c.qualite !== 'risque')
+  // Le choix « bon » d’abord : l’ordre des routes ne dépend pas de l’ordre des choix dans le fichier.
+  const bons = choixDe(e).filter((c) => c.qualite !== 'risque').sort((x, y) => Number(y.qualite === 'bon') - Number(x.qualite === 'bon'))
   const ids = bons.length ? bons.map((c) => etapeSuivante(etapes, id, c.id)) : [etapeSuivante(etapes, id, null)]
   return [...new Set(ids.filter((x): x is string => x !== null))]
 }
@@ -127,7 +128,13 @@ export function verifierRoutes(etapes: Etape[]): { chemin: (string | number)[]; 
     const aide = parQualite.get('aide')
     if (s.length !== 2 || !bon || !aide || bon.size !== 1 || aide.size !== 1 || [...bon][0] === [...aide][0]) {
       erreurs.push({ chemin: ['etapes', i], message: 'une bifurcation sépare exactement le choix « bon » et le choix « aide »' })
+      return
     }
+    choixDe(e).forEach((c, j) => {
+      if (c.qualite !== 'risque' && !c.route) {
+        erreurs.push({ chemin: ['etapes', i, 'choix', j, 'route'], message: 'les choix « bon » et « aide » d’une bifurcation ont chacun une étiquette « route » courte' })
+      }
+    })
   })
   return [...new Map(erreurs.map((e) => [e.message, e])).values()]
 }
@@ -170,13 +177,19 @@ export function schemaRoutes(etapes: Etape[]): string | null {
   ].join('')
 }
 
-/** Textes des deux choix de la bifurcation (route « bon » et route « aide »), `null` sans bifurcation. */
-export function choixDeBifurcation(etapes: Etape[]): { id: string; bon: string; aide: string } | null {
+/** Étiquette courte d’un choix de bifurcation ; à défaut, son texte sans point final. */
+export const etiquetteRoute = (c: { texte: string; route?: string }): string => c.route ?? c.texte.replace(/[.\s]+$/, '')
+
+/**
+ * Choix de la bifurcation (route « bon » et route « aide »), `null` sans bifurcation :
+ * `bon` et `aide` sont les étiquettes courtes (« route »), `texteBon` et `texteAide` les textes entiers des choix.
+ */
+export function choixDeBifurcation(etapes: Etape[]): { id: string; bon: string; aide: string; texteBon: string; texteAide: string } | null {
   for (const e of etapes) {
     if (e.type !== 'lieu' || !bifurcation(etapes, e.id)) continue
     const bon = e.choix.find((c) => c.qualite === 'bon')
     const aide = e.choix.find((c) => c.qualite === 'aide')
-    if (bon && aide) return { id: e.id, bon: bon.texte, aide: aide.texte }
+    if (bon && aide) return { id: e.id, bon: etiquetteRoute(bon), aide: etiquetteRoute(aide), texteBon: bon.texte, texteAide: aide.texte }
   }
   return null
 }

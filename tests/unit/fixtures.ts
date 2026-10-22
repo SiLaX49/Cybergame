@@ -292,7 +292,7 @@ export function rawFourche(overrides: Record<string, unknown> = {}) {
       lieu: nomLieuFourche(id),
       recuperation: undefined,
       ...(suite ? { suite } : {}),
-      choix: base.choix.map((c) => (suites && c.id === 'garde' ? { ...c, suite: suites.garde } : suites && c.id === 'aide' ? { ...c, suite: suites.aide } : c)),
+      choix: base.choix.map((c) => (suites && c.id === 'garde' ? { ...c, suite: suites.garde, route: 'je garde mon mot de passe' } : suites && c.id === 'aide' ? { ...c, suite: suites.aide, route: 'je demande à un adulte' } : c)),
     }
   }
   return rawParcours({

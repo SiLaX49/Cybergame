@@ -121,13 +121,13 @@ describe('missionSchema', () => {
 })
 
 describe('parcours à routes', () => {
-  const lieu = (id: string, extra: Record<string, unknown> = {}, choixSuites: Record<string, string> = {}) => {
+  const lieu = (id: string, extra: Record<string, unknown> = {}, choixSuites: Record<string, string> = {}, avecRoute = false) => {
     const l = rawLieu(id)
-    return { ...l, recuperation: undefined, ...extra, choix: l.choix.map((c) => (choixSuites[c.id] ? { ...c, suite: choixSuites[c.id] } : c)) }
+    return { ...l, recuperation: undefined, ...extra, choix: l.choix.map((c) => (choixSuites[c.id] ? { ...c, suite: choixSuites[c.id], ...(avecRoute ? { route: `route ${c.id}` } : {}) } : c)) }
   }
   const deuxRoutes = (suiteBon = 'a3') => [
     lieu('l1'),
-    lieu('l2', {}, { garde: suiteBon, aide: 'b3' }),
+    lieu('l2', {}, { garde: suiteBon, aide: 'b3' }, true),
     lieu('a3'),
     lieu('a4', { suite: 'l5' }),
     lieu('b3'),
@@ -136,6 +136,17 @@ describe('parcours à routes', () => {
   ]
   it('accepte un parcours à deux routes (7 lieux, routes de 5)', () => {
     expect(problemes(rawParcours({ etapes: deuxRoutes() }))).toEqual([])
+  })
+  it('refuse une bifurcation sans étiquette « route » sur un choix bon ou aide', () => {
+    const etapes = deuxRoutes()
+    const sans = etapes.map((e, i) => (i === 1 ? { ...e, choix: (e as { choix: Record<string, unknown>[] }).choix.map((c) => Object.fromEntries(Object.entries(c).filter(([k]) => k !== 'route'))) } : e))
+    const p = problemes(rawParcours({ etapes: sans }))
+    expect(p.map((x) => x.message).join(' | ')).toMatch(/étiquette « route »/)
+    expect(p[0]!.chemin).toMatch(/^etapes\.1\.choix\.\d\.route$/)
+  })
+  it('refuse une étiquette de route avec point final', () => {
+    const etapes = deuxRoutes().map((e, i) => (i === 1 ? { ...e, choix: (e as { choix: Record<string, unknown>[] }).choix.map((c) => (c.route ? { ...c, route: 'je demande.' } : c)) } : e))
+    expect(problemes(rawParcours({ etapes })).map((x) => x.message).join(' | ')).toMatch(/sans point final/)
   })
   it('refuse une suite inconnue', () => {
     const p = problemes(rawParcours({ etapes: deuxRoutes('zz') }))

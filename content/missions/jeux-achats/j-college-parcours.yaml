@@ -2,7 +2,7 @@ id: j-college-parcours
 theme: jeux-achats
 format: parcours
 tranches: ['5e-3e']
-titre: La traversée de l’île aux pièces d’or
+titre: 'L’île aux pièces d’or : le skin à moitié prix'
 resume: 'Un skin rare à moitié prix, un « intermédiaire » au badge rassurant, des frais pour récupérer un objet volé, une carte cadeau convoitée : traverse l’île sans laisser filer ton trésor ni la carte de tes parents.'
 duree: 20
 objectifs:
@@ -60,11 +60,13 @@ etapes:
         texte: 'Je bloque Nyx_Trader et Garant_Trade, puis je les signale aux modérateurs.'
         qualite: bon
         suite: recup-ilyes
+        route: je bloque et je signale
         reaction: 'Un modérateur te répond : « Le serveur n’a aucun intermédiaire officiel. Merci, on les bannit. » Il épingle une alerte pour les autres joueurs.'
       - id: aide
         texte: 'Je demande de l’aide à mes parents avant de répondre quoi que ce soit.'
         qualite: aide
         suite: preuves
+        route: je demande à mes parents
         reaction: 'Tu rentres et tu montres la conversation à tes parents. Ta mère pose son téléphone : « Raconte-moi depuis le début. On regarde ça ensemble. »'
     pourquoi:
       - levier: autorite
@@ -161,7 +163,7 @@ etapes:
       - id: aide
         texte: 'Je demande de l’aide à mon père pour savoir si mon compte risque vraiment quelque chose.'
         qualite: aide
-        reaction: 'Ton père lit les règles du jeu avec toi : un signalement est examiné avant toute sanction, et vos captures montrent qui a menacé qui. Vous signalez les deux comptes aux modérateurs du serveur.'
+        reaction: 'Ton père lit les règles du jeu avec toi : un signalement est examiné avant toute sanction, et des captures montreront qui a menacé qui. Vous signalez les deux comptes aux modérateurs du serveur.'
     pourquoi:
       - levier: peur
         truc: '« Je te signale pour arnaque et ton compte saute ! » Perdre ton compte fait peur.'
@@ -250,6 +252,6 @@ fiche:
   deroulement: |
     5 min : cadre. Qu’échange-t-on dans les jeux, et comment ? (sans obligation de raconter)
     20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. Après le faux intermédiaire, deux routes : bloquer et signaler soi-même, ou prévenir ses parents. Si plusieurs binômes jouent, répartir les deux routes.
-    20 min : débrief des 3 questions. Faire raconter chaque route : ce qu’on règle soi-même (blocage, signalement, aider un ami), ce qu’un adulte rend possible (vérifier ses comptes, opposition bancaire, service client de la carte cadeau).
+    20 min : débrief des questions. Faire raconter chaque route : ce qu’on règle soi-même (blocage, signalement, aider un ami), ce qu’un adulte rend possible (vérifier ses comptes, opposition bancaire, service client de la carte cadeau).
     5 min : où trouver de l’aide (adulte de confiance, modérateurs et support du jeu, cybermalveillance.gouv.fr pour les parents).
     5 min : engagement. Ce soir, je regarde avec un adulte si une carte est enregistrée sur nos consoles et navigateurs, et si un code protège les achats.

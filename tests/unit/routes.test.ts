@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import type { Etape } from '@/content/schema'
-import { aVenir, bifurcation, etapeSuivante, longueurRoute, numerosLieux, routesDe, schemaRoutes, successeurs, verifierRoutes } from '@/engine/routes'
+import { aVenir, bifurcation, choixDeBifurcation, etiquetteRoute, etapeSuivante, longueurRoute, numerosLieux, routesDe, schemaRoutes, successeurs, verifierRoutes } from '@/engine/routes'
 
-type C = { id: string; qualite: 'bon' | 'risque' | 'aide'; suite?: string }
+type C = { id: string; qualite: 'bon' | 'risque' | 'aide'; suite?: string; route?: string }
 const lieu = (id: string, choix: C[] = [{ id: 'b', qualite: 'bon' }, { id: 'r', qualite: 'risque' }, { id: 'a', qualite: 'aide' }], suite?: string) =>
   ({ type: 'lieu', id, lieu: id, decor: 'cour', guide: 'g', question: 'q', aRetenir: 'x', suite,
      choix: choix.map((c) => ({ texte: c.id, reaction: 'r', ...c })) }) as unknown as Etape
@@ -10,7 +10,7 @@ const lieu = (id: string, choix: C[] = [{ id: 'b', qualite: 'bon' }, { id: 'r', 
 const lineaire = ['l1', 'l2', 'l3', 'l4', 'l5'].map((id) => lieu(id))
 const fourche = [
   lieu('l1'),
-  lieu('l2', [{ id: 'b', qualite: 'bon', suite: 'a3' }, { id: 'r', qualite: 'risque' }, { id: 'a', qualite: 'aide', suite: 'b3' }]),
+  lieu('l2', [{ id: 'b', qualite: 'bon', suite: 'a3', route: 'je fais seul' }, { id: 'r', qualite: 'risque' }, { id: 'a', qualite: 'aide', suite: 'b3', route: 'je demande' }]),
   lieu('a3'),
   lieu('a4', undefined, 'l5'),
   lieu('b3'),
@@ -79,6 +79,34 @@ describe('routes', () => {
       lieu('a3'), lieu('a4', undefined, 'l5'), lieu('b3'), lieu('b4'), lieu('l5'),
     ]
     expect(verifierRoutes(deuxBons).map((e) => e.message).join('\n')).toMatch(/bon.*aide/)
+  })
+})
+
+describe('ordre des choix dans le fichier', () => {
+  const aideAvantBon = [
+    lieu('l1'),
+    lieu('l2', [
+      { id: 'a', qualite: 'aide', suite: 'b3', route: 'je demande' },
+      { id: 'r', qualite: 'risque' },
+      { id: 'b', qualite: 'bon', suite: 'a3', route: 'je fais seul' },
+    ]),
+    lieu('a3'), lieu('a4', undefined, 'l5'), lieu('b3'), lieu('b4'), lieu('l5'),
+  ]
+  it('la route « bon » reste la première, donc « a », même si le choix aide est écrit avant', () => {
+    expect(routesDe(aideAvantBon)).toEqual(routesDe(fourche))
+    expect(numerosLieux(aideAvantBon)).toEqual(numerosLieux(fourche))
+    expect(successeurs(aideAvantBon, 'l2')).toEqual(['a3', 'b3'])
+    expect(bifurcation(aideAvantBon, 'l2')).toEqual({ bon: 'a3', aide: 'b3' })
+    expect(verifierRoutes(aideAvantBon)).toEqual([])
+  })
+  it('étiquettes courtes des choix de la bifurcation', () => {
+    expect(choixDeBifurcation(aideAvantBon)).toMatchObject({ id: 'l2', bon: 'je fais seul', aide: 'je demande' })
+    expect(etiquetteRoute({ texte: 'Je vérifie moi-même.' })).toBe('Je vérifie moi-même')
+  })
+  it('refuse une bifurcation sans étiquette « route »', () => {
+    const sans = [lieu('l1'), lieu('l2', [{ id: 'b', qualite: 'bon', suite: 'a3' }, { id: 'a', qualite: 'aide', suite: 'b3', route: 'je demande' }]),
+      lieu('a3'), lieu('a4', undefined, 'l5'), lieu('b3'), lieu('b4'), lieu('l5')]
+    expect(verifierRoutes(sans)).toEqual([{ chemin: ['etapes', 1, 'choix', 0, 'route'], message: expect.stringMatching(/étiquette « route »/) }])
   })
 })
 
