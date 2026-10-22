@@ -353,8 +353,7 @@ describe('contenu réel', () => {
     expect(m.duree).toBe(m.tranches.includes('6e') ? 15 : 20)
   })
 
-  // Ne peut passer qu’une fois les six parcours 5e – 3e écrits.
-  it.skip.each(THEMES_PARCOURS)('%s : un parcours de l’île pour les 5e – 3e', (theme) => {
+  it.each(THEMES_PARCOURS)('%s : un parcours de l’île pour les 5e – 3e', (theme) => {
     expect(parcours.filter((m) => m.theme === theme && m.tranches.includes('5e-3e'))).toHaveLength(1)
   })
 
