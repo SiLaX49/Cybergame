@@ -21,7 +21,7 @@ etapes:
     question: Trois copains viennent de le partager à leur tour. Que fais-tu ?
     choix:
       - id: partage
-        texte: Je remplis le formulaire et je le partage à dix amis, comme tout le groupe.
+        texte: Je remplis le formulaire avec mes infos, puis je partage le message à dix amis.
         qualite: risque
         reaction: 'Aucun casque n’arrive. Ton nom, ta date de naissance, ton numéro et ton adresse sont dans une liste revendue à des arnaqueurs, et tes dix amis ont reçu le piège de ta part. Ces chaînes marchent justement parce que tout le monde les fait tourner. Préviens ceux à qui tu l’as envoyée.'
       - id: reglement
@@ -93,11 +93,11 @@ etapes:
     question: Le lien sponsorisé est sous ton doigt. Que fais-tu ?
     choix:
       - id: premier
-        texte: Je clique sur le premier résultat, celui qui est marqué « officiel ».
+        texte: Je clique sur le premier résultat de la liste et j’ouvre l’espace gagnants Zélie Nova.
         qualite: risque
         reaction: 'La page copie parfaitement Orkan Gear. Pour entrer dans ton « espace gagnant », elle demande ton mail et un mot de passe. Tu mets le même que pour SnapTalk, comme beaucoup de gens. Le soir, quelqu’un s’en sert pour essayer d’entrer dans ton compte SnapTalk. Change-le vite.'
       - id: adresse
-        texte: Je compare les deux adresses avec celle que donne le vrai compte de la marque.
+        texte: 'Une pub peut mentir : je cherche l’adresse donnée par le vrai compte de la marque.'
         qualite: bon
         reaction: 'Bien vu. Le vrai compte de Orkan Gear renvoie vers orkan-gear.fr, où un bandeau prévient : « De faux sites utilisent notre nom. Nous ne demandons jamais de frais aux gagnants. » L’autre adresse a juste payé pour apparaître en premier. Tu signales cette publicité au moteur de recherche.'
       - id: aide
@@ -130,7 +130,7 @@ etapes:
         qualite: risque
         reaction: 'Le soir, Enzo et deux autres paient les « frais ». Le lendemain, leurs cartes servent à des achats en ligne. Se taire pour ne pas vexer, c’est très humain, et l’arnaque compte aussi là-dessus. Il est encore temps de prévenir le groupe.'
       - id: explique
-        texte: 'J’explique dans le groupe comment j’ai repéré le faux compte, captures à l’appui.'
+        texte: 'Enzo risque de payer ce soir : j’explique dans le groupe comment j’ai repéré le faux compte.'
         qualite: bon
         reaction: 'Bien vu. Tu postes les deux profils côte à côte : le vrai, et le faux avec son mot en plus. Enzo répond : « Ah ouais… merci, j’allais payer. » D’autres signalent le faux compte à leur tour.'
       - id: aide
@@ -158,7 +158,7 @@ etapes:
     question: Que fais-tu de cette conversation avec le faux compte ?
     choix:
       - id: efface
-        texte: 'J’efface la conversation et on n’en parle plus : j’ai honte d’y avoir cru.'
+        texte: J’efface la conversation avec le faux compte et je passe à autre chose.
         qualite: risque
         reaction: 'La conversation disparaît, mais le faux compte, lui, reste en ligne. Ce soir, il écrit à d’autres élèves qui ont commenté le concours. Avoir honte est normal, et les arnaqueurs comptent sur ce silence. Tu peux encore signaler le compte depuis son profil.'
       - id: signale
@@ -186,33 +186,33 @@ etapes:
     id: cpe
     lieu: La classe
     decor: classe
-    guide: 'Le lendemain matin, tu montres tes captures à la CPE. Elle passe dans les classes : « Un faux compte de Zélie Nova écrit à des élèves. Ne payez rien. Si vous avez payé, venez me voir : vous ne serez pas punis. » En sortant, Maël te glisse : « J’ai payé hier avec ma carte ado. Ce matin, il y a trois achats que j’ai pas faits. Dis rien à personne, mes parents vont me tuer. »'
-    question: Maël te regarde, inquiet. Que fais-tu ?
+    guide: 'Le lendemain matin, tu montres tes captures à la CPE. Elle passe dans les classes : « Un faux compte de Zélie Nova écrit à des élèves. Ne payez rien. Si vous avez payé, venez me voir : vous ne serez pas punis. » En sortant, Maël te glisse : « J’ai payé les 2,99 € hier avec ma carte ado. Ce matin, il y a un achat de 4 € que j’ai pas fait. C’est pas grand-chose, je vais attendre de voir si ça continue. »'
+    question: Maël range déjà son téléphone. Que fais-tu ?
     choix:
-      - id: secret
-        texte: Je garde son secret, puisque c’est son histoire et qu’il me fait confiance.
+      - id: attendre
+        texte: Je lui conseille d’attendre ce soir pour voir si d’autres achats passent sur sa carte.
         qualite: risque
-        reaction: 'Maël ne dit rien chez lui. Sa carte n’est pas bloquée, et deux nouveaux achats passent dans la journée. Garder le secret d’un ami, c’est loyal, mais celui-là l’empêche d’être aidé. Propose-lui d’aller voir un adulte avec toi.'
+        reaction: 'Dans la journée, deux achats de 60 € passent sur la carte. Le petit achat du matin servait à vérifier qu’elle marchait. Attendre paraît raisonnable, et beaucoup de gens font pareil. Il est encore temps de faire bloquer la carte avec un adulte.'
       - id: parents
-        texte: 'Sa carte peut encore servir : j’encourage Maël à appeler ses parents ce midi.'
+        texte: 'Chaque heure compte pour une carte : j’encourage Maël à appeler ses parents ce midi.'
         qualite: bon
-        reaction: 'Bien vu. Maël appelle sa mère à midi. Elle fait opposition sur la carte depuis l’appli de sa banque, puis conteste les achats. Le soir, Maël t’écrit : « Elle m’a même pas crié dessus. »'
+        reaction: 'Bien vu. Maël appelle sa mère à midi. Elle fait opposition sur la carte depuis l’appli de sa banque, puis conteste l’achat de 4 €. Le soir, Maël t’écrit : « Elle m’a même pas crié dessus. »'
       - id: aide
         texte: 'Je demande de l’aide à la CPE avec Maël, comme elle l’a proposé à la classe.'
         qualite: aide
-        reaction: 'La CPE rassure Maël : « Tu n’es pas puni. On appelle tes parents ensemble. » En dix minutes, la carte est bloquée, et sa mère va contester les achats auprès de la banque.'
+        reaction: 'La CPE rassure Maël : « Tu n’es pas puni. On appelle tes parents ensemble. » En dix minutes, la carte est bloquée, et sa mère va contester l’achat auprès de la banque.'
     pourquoi:
-      - levier: secret
-        truc: '« Dis rien à personne » : Maël te demande de garder le secret, et tu ne veux pas le trahir.'
-        parade: 'Un secret qui empêche un ami d’être aidé ne se garde pas. Propose-lui d’aller voir un adulte avec toi.'
-      - levier: peur
-        truc: '« Mes parents vont me tuer » : Maël a peur de se faire gronder, et sa peur devient la tienne.'
+      - levier: petit-montant
+        truc: '« C’est pas grand-chose » : 4 €, ça ne paraît pas valoir la peine de déranger qui que ce soit.'
+        parade: 'Un petit achat inconnu sert souvent à tester une carte volée avant de plus gros achats. Il faut réagir tout de suite.'
+      - levier: reflexe
+        truc: 'Attendre de voir, ça paraît prudent. On se dit que ça va peut-être s’arrêter tout seul.'
         parade: 'Une carte se bloque en quelques minutes. Plus on attend, plus les arnaqueurs ont le temps de s’en servir.'
       - levier: confiance
-        truc: 'Maël t’a choisi pour se confier. Le trahir te paraît pire que tout.'
-        parade: 'L’aider à parler, ce n’est pas le trahir. C’est même ce que fait un vrai ami.'
-    aRetenir: 'Si quelqu’un a payé sur un faux site, il faut faire bloquer la carte tout de suite (faire opposition), puis contester les achats auprès de la banque. Personne n’est puni pour s’être fait avoir.'
-    recuperation: { action: demander-aide, siChoix: [secret] }
+        truc: 'Maël a l’air sûr de lui, et c’est sa carte : tu ne veux pas lui dire quoi faire.'
+        parade: 'Aider un ami, c’est aussi lui dire franchement qu’il faut agir vite. Propose-lui d’aller voir un adulte avec toi.'
+    aRetenir: 'Si quelqu’un a payé sur un faux site, il faut faire bloquer la carte tout de suite (faire opposition), même pour un petit achat inconnu, puis contester les achats auprès de la banque. Personne n’est puni pour s’être fait avoir.'
+    recuperation: { action: demander-aide, siChoix: [attendre] }
 
   - type: lieu
     id: tournoi
@@ -257,7 +257,7 @@ debrief:
   erreursFrequentes:
     - 'Croire qu’un compte avec la photo et les vidéos d’une personnalité est forcément le sien.'
     - 'Penser que le premier résultat d’une recherche, ou un résultat « Sponsorisé », est forcément le site officiel.'
-    - 'Garder le secret d’un ami qui a payé, alors qu’il faut faire bloquer sa carte très vite.'
+    - 'Attendre de voir après un petit achat inconnu, alors qu’il faut faire bloquer la carte très vite.'
 fiche:
   deroulement: |
     5 min : cadre. Qui a déjà participé à un concours sur les réseaux ? Comment savoir qu’il est vrai ?
