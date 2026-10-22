@@ -38,7 +38,7 @@ for (const route of ['bon', 'aide'] as const) {
       await jouerLieu(page, i === 0 ? 'bon' : route)
     }
     await expect(page.getByRole('heading', { name: 'Mission terminée !' })).toBeVisible()
-    await expect(page.getByText('Tu as pris la route')).toBeVisible()
+    await expect(page.getByText(route === 'bon' ? 'Tu as pris la route « je vérifie moi-même ».' : 'Tu as pris la route « je demande à ma mère ».')).toBeVisible()
     await expect(page.getByRole('button', { name: 'Rejouer pour découvrir l’autre route' })).toBeVisible()
     const lieux = lieuxVus.join(' | ')
     if (route === 'bon') {

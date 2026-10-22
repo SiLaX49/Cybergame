@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router'
 import { nomIle } from '@/archipel/archipel'
 import type { Leviers, Lieu, Mission, Scenario } from '@/content/schema'
 import { BADGES, calculerBadges, descriptionBadge } from '@/engine/badges'
-import { bifurcation, routesDe } from '@/engine/routes'
+import { bifurcation, etiquetteRoute, routesDe } from '@/engine/routes'
 import { leviersDeLaMission, leviersDuRun, type RunState, type SurpriseResultat } from '@/engine/mission-runner'
 import { focusAuMontage } from '@/ui/focus'
 import Hulotte from '@/ui/Hulotte.vue'
@@ -27,10 +27,12 @@ const leviersChoisis = computed(() =>
       : { id, libelle: props.leviers.leviers[id].libelle, parade: props.leviers.leviers[id].parade },
   ),
 )
-const aSurveiller = computed(() => leviersDeLaMission(props.mission).map((id) => props.leviers.leviers[id].libelle))
+// Seules les étapes jouées comptent : sur un parcours à deux routes, la route non prise n’est pas évoquée.
+const joues = computed(() => (props.etat.chemin.length ? props.etat.chemin : undefined))
+const aSurveiller = computed(() => leviersDeLaMission(props.mission, joues.value).map((id) => props.leviers.leviers[id].libelle))
 /** Tous les scénarios ont été passés : on ne peut rien dire de ce qui a marché ou non. */
 const avecChoix = computed(() =>
-  props.mission.etapes.filter((e): e is Scenario | Lieu => e.type === 'scenario' || e.type === 'lieu'),
+  props.mission.etapes.filter((e): e is Scenario | Lieu => (e.type === 'scenario' || e.type === 'lieu') && (!joues.value || joues.value.includes(e.id))),
 )
 const estPasse = (id: string) => {
   const r = props.etat.resultats[id]
@@ -54,7 +56,9 @@ const routePrise = computed(() => {
   const r = id ? props.etat.resultats[id] : undefined
   const lieu = props.mission.etapes.find((e) => e.id === id)
   if (r?.type !== 'lieu' || lieu?.type !== 'lieu') return null
-  return lieu.choix.find((c) => c.id === r.choixId)?.texte ?? null
+  // Bifurcation passée : la route « bon » est suivie.
+  const choix = r.passe ? lieu.choix.find((c) => c.qualite === 'bon') : lieu.choix.find((c) => c.id === r.choixId)
+  return choix ? etiquetteRoute(choix) : null
 })
 
 const MESSAGES_SURPRISE: Record<SurpriseResultat, string> = {
@@ -121,6 +125,7 @@ async function fermerPleinEcran() {
     </section>
 
     <section v-if="routePrise" class="encadre encadre-info route-prise">
+      <h3>Ta route</h3>
       <p>Tu as pris la route « {{ routePrise }} ». Il existe une autre bonne route.</p>
       <button type="button" class="btn" @click="emit('rejouer')">Rejouer pour découvrir l’autre route</button>
     </section>

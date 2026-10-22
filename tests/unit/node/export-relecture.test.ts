@@ -135,8 +135,8 @@ describe('export pour la relecture : parcours à deux routes', () => {
   const md = missionEnMarkdown(fourche, leviersFixture())
 
   it('numérote chaque lieu et nomme la route sur les lieux de route', () => {
-    expect(md).toContain('### Lieu 3a (route « Je garde mon mot de passe ») : Lieu a3')
-    expect(md).toContain('### Lieu 4b (route « Je demande de l’aide à un adulte ») : Lieu b4')
+    expect(md).toContain('### Lieu 3a (route « je garde mon mot de passe ») : Lieu a3')
+    expect(md).toContain('### Lieu 4b (route « je demande à un adulte ») : Lieu b4')
   })
   it('tronc commun et jonction : sans mention de route', () => {
     for (const n of ['1', '2', '5']) {

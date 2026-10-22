@@ -23,11 +23,13 @@ const numeros = numerosLieux(etapes)
 const numero = (id: string, i: number) => numeros[id] ?? String(i + 1)
 const deuxRoutes = routesDe(etapes).length > 1
 const choixFourche = choixDeBifurcation(etapes)
+// Le texte du choix est cité entre guillemets : son point final ferait deux ponctuations de suite.
+const sansPoint = (t: string) => t.replace(/[.\s]+$/, '')
 function renvoi(id: string): string | null {
   if (!deuxRoutes) return null
   const fourche = bifurcation(etapes, id)
   if (fourche && choixFourche) {
-    return `Si tu choisis « ${choixFourche.bon} », va au lieu ${numeros[fourche.bon]}. Si tu choisis « ${choixFourche.aide} », va au lieu ${numeros[fourche.aide]}.`
+    return `Si tu choisis « ${sansPoint(choixFourche.texteBon)} », va au lieu ${numeros[fourche.bon]}. Si tu choisis « ${sansPoint(choixFourche.texteAide)} », va au lieu ${numeros[fourche.aide]}. Si tu as coché un autre choix, relis la situation et choisis à nouveau.`
   }
   const suivant = successeurs(etapes, id)[0]
   const enRoute = /[a-z]$/.test(numeros[id] ?? '')
@@ -85,7 +87,6 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
           <div class="carte"><p>{{ e.guide }}</p></div>
           <p><strong>{{ e.question }}</strong></p>
           <ul class="cases"><li v-for="c in ordreAffichage(e.choix, e.id)" :key="c.id">☐ {{ c.texte }}</li></ul>
-          <p v-if="renvoi(e.id)" class="renvoi"><strong>{{ renvoi(e.id) }}</strong></p>
           <template v-if="e.pourquoi">
             <p>{{ questionPourquoi }}</p>
             <ul class="cases">
@@ -95,6 +96,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
               <li>☐ {{ leviers.autre.libelle }}</li>
             </ul>
           </template>
+          <p v-if="renvoi(e.id)" class="renvoi"><strong>{{ renvoi(e.id) }}</strong></p>
         </template>
         <template v-else-if="e.type === 'minijeu' && e.jeu === 'tri'">
           <h2>Mini-jeu {{ i + 1 }} : {{ e.config.consigne }}</h2>

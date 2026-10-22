@@ -88,14 +88,14 @@ describe('FinMission avec deux routes', () => {
     expect(etat.termine).toBe(true)
     expect(etat.chemin).toEqual(['l1', 'l2', 'b3', 'b4', 'l5'])
     const w = await monter(etat)
-    expect(w.find('.encadre-info').text()).toContain('Tu as pris la route « Je demande de l’aide à un adulte »')
+    expect(w.find('.encadre-info').text()).toContain('Tu as pris la route « je demande à un adulte ». Il existe')
     expect(w.text()).toContain('Il existe une autre bonne route.')
     await cliquer(w, 'Rejouer pour découvrir l’autre route')
     expect(w.emitted('rejouer')).toHaveLength(1)
   })
   it('route « bon » : le texte du choix fait', async () => {
     const w = await monter(jouer(...bien, ...bien, ...bien, ...bien, ...bien))
-    expect(w.text()).toContain('Tu as pris la route « Je garde mon mot de passe »')
+    expect(w.text()).toContain('Tu as pris la route « je garde mon mot de passe ». Il existe')
   })
   it('fin d’un parcours linéaire : aucune mention de route', async () => {
     const lineaire = parcoursFixture()
@@ -104,5 +104,52 @@ describe('FinMission avec deux routes', () => {
     const w = await monter(etat, lineaire)
     expect(w.text()).not.toContain('route')
     expect(w.text()).not.toContain('Rejouer pour découvrir')
+  })
+})
+
+describe('FinMission : seuls les lieux joués comptent', () => {
+  const pourquoi = (...leviers: string[]) => leviers.map((levier) => ({ levier, truc: 'Un truc.', parade: 'Une parade.' }))
+  const base = fourcheFixture({ theme: 'jeux-achats' })
+  const m = fourcheFixture({
+    theme: 'jeux-achats',
+    etapes: (base.etapes as unknown as Record<string, unknown>[]).map((e) =>
+      e.id === 'a3' ? { ...e, pourquoi: pourquoi('groupe', 'humour', 'secret') } : e.id === 'b3' ? { ...e, pourquoi: pourquoi('colere', 'honte', 'flatterie') } : e,
+    ),
+  })
+  const leviers = leviersFixture()
+  const libelle = (id: 'groupe' | 'colere') => leviers.leviers[id].libelle
+  const parcourir = (...evenements: RunEvent[]) => evenements.reduce((e, ev) => reduire(m, e, ev), demarrer(m))
+  const monter = async (etat: RunState) =>
+    mount(FinMission, { props: { mission: m, etat, leviers }, global: { plugins: [await routerTest()] } })
+
+  it('leviersDeLaMission(mission, chemin) : tronc et route jouée seulement', async () => {
+    const { leviersDeLaMission } = await import('@/engine/mission-runner')
+    expect(leviersDeLaMission(m)).toContain('groupe')
+    expect(leviersDeLaMission(m)).toContain('colere')
+    expect(leviersDeLaMission(m, ['l1', 'l2', 'a3', 'a4', 'l5'])).toEqual(['confiance', 'gain', 'urgence', 'groupe', 'humour', 'secret'])
+    expect(leviersDeLaMission(m, ['l1', 'l2', 'b3', 'b4', 'l5'])).toEqual(['confiance', 'gain', 'urgence', 'colere', 'honte', 'flatterie'])
+  })
+  it('« À surveiller » : aucun levier de la route non prise', async () => {
+    const etat = parcourir(...bien, ...bien, ...bien, ...bien, ...bien)
+    expect(etat.chemin).toEqual(['l1', 'l2', 'a3', 'a4', 'l5'])
+    const w = await monter(etat)
+    expect(w.text()).toContain('Aucun piège n’a marché sur toi')
+    expect(w.find('.craquer').text()).toContain(libelle('groupe'))
+    expect(w.find('.craquer').text()).not.toContain(libelle('colere'))
+  })
+  it('tous les lieux joués passés : pas de « Aucun piège n’a marché sur toi »', async () => {
+    const passer: RunEvent = { type: 'passer' }
+    const etat = parcourir(passer, passer, passer, passer, passer)
+    expect(etat.termine).toBe(true)
+    const w = await monter(etat)
+    expect(w.text()).not.toContain('Aucun piège n’a marché sur toi')
+    expect(w.find('.craquer').exists()).toBe(false)
+  })
+  it('bifurcation passée : la ligne de route donne la route « bon » et l’offre de rejouer', async () => {
+    const passer: RunEvent = { type: 'passer' }
+    const w = await monter(parcourir(passer, passer, passer, passer, passer))
+    expect(w.find('.route-prise h3').text()).toBe('Ta route')
+    expect(w.find('.route-prise').text()).toContain('Tu as pris la route « je garde mon mot de passe ».')
+    expect(w.text()).toContain('Rejouer pour découvrir l’autre route')
   })
 })

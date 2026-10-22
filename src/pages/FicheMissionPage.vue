@@ -2,7 +2,7 @@
 import { RouterLink, useRoute } from 'vue-router'
 import { getLeviers, getMission, getTheme } from '@/content'
 import { TRANCHE_LIBELLES } from '@/content/schema'
-import { choixDeBifurcation, longueurRoute, numerosLieux, routesDe, schemaRoutes } from '@/engine/routes'
+import { bifurcation, choixDeBifurcation, numerosLieux, routesDe, schemaRoutes } from '@/engine/routes'
 import BandeauAide from '@/ui/BandeauAide.vue'
 import BandeauBrouillon from '@/ui/BandeauBrouillon.vue'
 import PastilleTheme from '@/ui/PastilleTheme.vue'
@@ -28,11 +28,14 @@ const choixFourche = choixDeBifurcation(mission?.etapes ?? [])
 const routes = (() => {
   const toutes = routesDe(mission?.etapes ?? [])
   if (toutes.length < 2) return []
-  return toutes.map((r, k) => ({
-    choix: k === 0 ? choixFourche?.bon : choixFourche?.aide,
+  // L’étiquette suit la cible du choix « bon » de la bifurcation, pas l’ordre des routes ni des choix dans le fichier.
+  const cibleBon = choixFourche ? bifurcation(mission?.etapes ?? [], choixFourche.id)?.bon : undefined
+  return toutes.map((r) => ({
+    choix: cibleBon && r.includes(cibleBon) ? choixFourche?.bon : choixFourche?.aide,
     lieux: r.filter((id) => /[a-z]$/.test(numeros[id] ?? '')).map((id) => `${numeros[id]} ${nomLieu(id)}`),
   }))
 })()
+const longueurLieux = routesDe(mission?.etapes ?? [])[0]?.length ?? 0
 const imprimer = () => window.print()
 </script>
 
@@ -60,7 +63,7 @@ const imprimer = () => window.print()
           <span>{{ theme?.titre ?? 'Rappel (plusieurs thèmes)' }}</span>
         </dd>
         <dt v-if="mission.format === 'parcours'">Format</dt>
-        <dd v-if="mission.format === 'parcours'">Parcours de l’île en {{ schema ? `${longueurRoute(mission.etapes)} lieux par route` : `${lieux.length} lieux` }} : {{ lieux.join(', ') }}</dd>
+        <dd v-if="mission.format === 'parcours'">Parcours de l’île en {{ schema ? `${lieux.length} lieux, ${longueurLieux} par route` : `${lieux.length} lieux` }} : {{ lieux.join(', ') }}</dd>
         <dt>Compétences CRCN</dt><dd>{{ mission.competences.crcn.join(', ') }}</dd>
         <dt v-if="mission.competences.programmes.length">Programmes</dt>
         <dd v-if="mission.competences.programmes.length">{{ mission.competences.programmes.join(' ; ') }}</dd>
