@@ -17,7 +17,7 @@ etapes:
     id: vocal
     lieu: Ta chambre
     decor: chambre
-    guide: 'Lundi soir, dans ta chambre. Dans « 4eB 🔥 », le groupe de ta classe, un message vocal de 40 secondes arrive, marqué « Transféré plusieurs fois ». Une voix de femme, pressée : « Bonjour, je suis la maman d’un élève de 4e. J’ai eu le principal : la sortie au musée de jeudi est annulée, les cars sont en grève. Faites tourner aux autres classes ! » En dix minutes, le vocal a 23 réactions.'
+    guide: 'Lundi soir, dans ta chambre. Dans « 4e B 🔥 », le groupe de ta classe, un message vocal de 40 secondes arrive, marqué « Transféré plusieurs fois ». Une voix de femme, pressée : « Bonjour, je suis la maman d’un élève de 4e. J’ai eu le principal : la sortie au musée de jeudi est annulée, les cars sont en grève. Faites tourner aux autres classes ! » En dix minutes, le vocal a 23 réactions.'
     question: Ton ami Malik, en 4e A, ne l’a pas encore reçu. Que fais-tu ?
     choix:
       - id: transfere
@@ -25,7 +25,7 @@ etapes:
         qualite: risque
         reaction: 'Malik le fait suivre à toute la 4e A, et des parents commencent à s’inquiéter. Pourtant, personne ne sait qui parle dans ce vocal, et le collège n’a rien annoncé. Beaucoup d’élèves auraient transféré : la voix avait l’air si sûre d’elle. Tu peux encore prévenir Malik que rien n’est confirmé.'
       - id: source
-        texte: 'Je cherche d’abord qui parle et si le collège a annoncé quelque chose.'
+        texte: 'Personne ne sait qui parle : je cherche d’abord si le collège a annoncé quelque chose.'
         qualite: bon
         reaction: 'Bonne idée. « Transféré plusieurs fois » : le vocal a voyagé de groupe en groupe, et personne ne sait qui parle. Sur l’ENT, aucun message du collège. Tu ne relaies rien pour l’instant.'
       - id: aide
@@ -41,7 +41,7 @@ etapes:
         parade: 'Une info du principal se trouve sur l’ENT ou dans les messages aux familles, pas dans un vocal anonyme.'
       - levier: groupe
         truc: '23 réactions en dix minutes : toute la classe a l’air d’y croire.'
-        parade: 'Le nombre de réactions ne prouve rien. Une rumeur va toujours plus vite qu’une vérification.'
+        parade: 'Le nombre de réactions ne prouve rien. Une rumeur va souvent plus vite qu’une vérification.'
     aRetenir: 'Un message vocal transféré ne dit ni qui parle, ni si c’est vrai. Une voix sûre d’elle n’est pas une source. Avant de relayer, vérifie là où le collège publie vraiment : l’ENT et les messages aux familles.'
     recuperation: { action: corriger-partage, siChoix: [transfere] }
 
@@ -65,7 +65,7 @@ etapes:
         texte: 'Je demande de l’aide à Mme Roussel, la prof qui organise la sortie.'
         qualite: aide
         suite: doute
-        reaction: 'Mme Roussel regarde la capture et écoute le vocal. À la récréation, elle appelle le musée : la visite de jeudi est bien prévue. « Je publie un message sur l’ENT avant midi. Merci de m’avoir prévenue. »'
+        reaction: 'Mme Roussel regarde la capture et écoute le vocal. À la récréation, elle appelle le musée : la visite de jeudi est bien prévue. Pour la photo, elle lance une recherche d’image inversée : elle vient d’un article de 2016, sur un autre musée. « Je publie un message sur l’ENT avant midi. Merci de m’avoir prévenue. »'
     pourquoi:
       - levier: autorite
         truc: '« Fermeture exceptionnelle » sur le site du musée, avec une photo : ça ressemble à une annonce officielle.'
@@ -86,7 +86,7 @@ etapes:
     question: Que fais-tu de cette photo ?
     choix:
       - id: croit-photo
-        texte: 'Yanis a raison : une photo pareille, ça ne s’invente pas.'
+        texte: 'Je laisse tomber la recherche : la photo parle d’elle-même.'
         qualite: risque
         reaction: 'Tu recommences à douter : et si le site n’était pas à jour ? Une image forte fait cet effet à tout le monde. Pourtant, une photo prouve seulement qu’une scène a existé quelque part, un jour. Il te reste dix minutes pour chercher d’où elle sort.'
       - id: inversee
@@ -100,7 +100,7 @@ etapes:
     pourquoi:
       - levier: reflexe
         truc: '« Tu l’expliques comment ? » : une image forte ressemble à une preuve, et on oublie de demander d’où elle vient.'
-        parade: 'Une photo prouve qu’une scène a existé, pas où ni quand. La recherche inversée retrouve souvent sa première publication.'
+        parade: 'Une photo prouve qu’une scène a existé, pas où ni quand. La recherche inversée retrouve souvent des publications plus anciennes.'
       - levier: confiance
         truc: 'Yanis est ton ami, et il a l’air très sûr de lui. Tu n’as pas envie de passer pour quelqu’un qui doute de tout.'
         parade: 'Vérifier, ce n’est pas accuser Yanis. Tu cherches juste d’où vient l’image, pour lui aussi.'
@@ -114,7 +114,7 @@ etapes:
     lieu: Le salon
     decor: salon
     suite: sortie
-    guide: 'Mardi soir, dans le salon. Tu as tout : le site du musée, le message de l’ENT, l’article de 2016. Dans « 4eB 🔥 », certains se moquent déjà de ceux qui « croient encore à la sortie ». Tu as de quoi leur clouer le bec, et tu en as un peu marre de cette rumeur.'
+    guide: 'Mardi soir, dans le salon. Tu as tout : le site du musée, le message de l’ENT, l’article de 2016. Dans « 4e B 🔥 », certains se moquent déjà de ceux qui « croient encore à la sortie ». Tu as de quoi leur clouer le bec, et tu en as un peu marre de cette rumeur.'
     question: Comment corriges-tu la rumeur dans le groupe ?
     choix:
       - id: moque
@@ -171,7 +171,7 @@ etapes:
       - levier: confiance
         truc: 'Inès a raison sur un point : une capture se truque. Alors on la suit sur le reste.'
         parade: 'Une capture se truque, la vraie page de l’ENT non. C’est elle qu’il faut lire.'
-    aRetenir: 'Douter d’une capture, c’est un bon réflexe. Mais douter de tout fait le jeu des rumeurs. Il existe des sources fiables : va lire l’annonce là où elle est publiée, sur l’ENT ou le site officiel.'
+    aRetenir: 'Douter d’une capture, c’est un bon réflexe. Mais douter de tout fait le jeu des rumeurs. Il existe des sources fiables : va lire l’annonce là où elle est publiée, sur l’ENT ou le site officiel. Et pour une photo, la recherche d’image inversée montre d’où elle vient.'
     recuperation: { action: corriger-partage, siChoix: [rien-croire] }
 
   - type: lieu
@@ -182,7 +182,7 @@ etapes:
     question: Le car part demain à 8 h 15. Que fais-tu ?
     choix:
       - id: laisse
-        texte: 'Si tous les parents le disent, ils doivent savoir quelque chose.'
+        texte: 'Je ne dis rien et je ne prépare pas mon sac.'
         qualite: risque
         reaction: 'Pas de pique-nique, pas de réveil. Jeudi matin, ta mère lit l’ENT par hasard et découvre que la sortie est maintenue : course contre la montre jusqu’au car. Les rumeurs touchent aussi les adultes. Tu peux encore lui montrer le message ce soir.'
       - id: ent

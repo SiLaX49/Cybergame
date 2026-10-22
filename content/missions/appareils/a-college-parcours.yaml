@@ -17,13 +17,13 @@ etapes:
     id: album
     lieu: La cour
     decor: cour
-    guide: 'Jeudi, 7 h 50, dans la cour. Le car pour le musée des Étoiles part dans dix minutes. Rayan, le délégué, a créé un album « Sortie 4eB » sur l’appli PhotoBocal : « Installez-la, tout le monde y met ses photos ! » Au premier lancement, l’appli demande l’accès à tes contacts, à ta position « toujours », à ton micro et à toutes tes photos. Le bouton « Tout autoriser » est en gros.'
+    guide: 'Jeudi, 7 h 50, dans la cour. Le car pour le musée des Étoiles part dans dix minutes. Rayan, le délégué, a créé un album « Sortie 4e B » sur l’appli PhotoBocal : « Installez-la, tout le monde y met ses photos ! » Au premier lancement, un écran de l’appli affiche en gros « Tout autoriser » : accès à tes contacts, à ta position, à ton micro et à toutes tes photos.'
     question: Le car arrive. Que fais-tu ?
     choix:
       - id: tout
-        texte: 'Toute la classe l’a déjà installée : je touche « Tout autoriser ».'
+        texte: 'Je touche « Tout autoriser », comme le reste de la classe.'
         qualite: risque
-        reaction: 'L’album marche. Mais PhotoBocal voit maintenant toutes tes photos, même celles qui n’ont rien à voir avec la sortie, ainsi que tes contacts et ta position jour et nuit. Beaucoup d’élèves acceptent sans lire. Avec un adulte, tu peux retirer ces accès dans les réglages.'
+        reaction: 'L’album marche. Mais PhotoBocal voit maintenant toutes tes photos, même celles qui n’ont rien à voir avec la sortie, ainsi que tes contacts et ta position. Beaucoup d’élèves acceptent sans lire. Avec un adulte, tu peux retirer ces accès dans les réglages.'
       - id: choisir
         texte: 'J’autorise seulement les photos que je choisis, et je refuse le reste.'
         qualite: bon
@@ -31,7 +31,7 @@ etapes:
       - id: aide
         texte: 'Je demande de l’aide à mon père, encore devant le collège, pour lire ce que l’appli demande.'
         qualite: aide
-        reaction: 'Ton père lit avec toi : « Un album photo n’a pas besoin de savoir où tu es jour et nuit. » Vous choisissez ensemble les photos à partager, et vous refusez le reste.'
+        reaction: 'Ton père lit avec toi : « Un album photo n’a pas besoin de savoir où tu es. » Vous choisissez ensemble les photos à partager, et vous refusez le reste.'
     pourquoi:
       - levier: groupe
         truc: '« Tout le monde y met ses photos ! » : si toute la classe l’a installée, elle a l’air sans risque.'
@@ -49,15 +49,15 @@ etapes:
     id: partage
     lieu: Le car
     decor: bus
-    guide: 'Dans le car, sur l’autoroute. Ton téléphone affiche : « Le_Boss_du_fond veut te partager une image. Accepter ou Refuser ? » L’aperçu est flou. Tu refuses. Une minute après, ça recommence. Au fond du car, des rires. Ton partage sans fil est réglé sur « Tout le monde », et ton téléphone porte ton prénom et ton nom.'
+    guide: 'Dans le car, sur l’autoroute. Ton téléphone affiche : « Le_Boss_du_fond veut te partager une image. Accepter ou Refuser ? » L’aperçu est flou. Tu refuses. Une minute après, ça recommence. Au fond du car, des rires. Ton partage sans fil est resté ouvert à « Tout le monde », et ton téléphone porte ton prénom et ton nom.'
     question: L’image revient pour la troisième fois. Que fais-tu ?
     choix:
       - id: accepte
         texte: 'J’accepte pour voir ce que c’est : je pourrai l’effacer après.'
         qualite: risque
-        reaction: 'L’image est un montage moqueur d’un élève de 3e, et elle est maintenant dans ta galerie. D’autres l’ont acceptée et la font déjà tourner. La curiosité, tout le monde connaît. Tu peux encore l’effacer sans la transférer, puis changer ton réglage.'
+        reaction: 'L’image est un montage moqueur d’un élève de 3e, et elle est maintenant dans ta galerie. D’autres l’ont acceptée et la font déjà tourner. La curiosité, tout le monde connaît. Tu peux encore l’effacer sans la transférer, prévenir M. Lambert, puis changer ton réglage. Ce montage vise quelqu’un : il n’a pas à circuler.'
       - id: regle
-        texte: 'Je règle moi-même le partage sans fil sur « Contacts uniquement ».'
+        texte: 'Ça ne s’arrêtera pas tout seul : je règle moi-même le partage sur « Contacts uniquement ».'
         qualite: bon
         suite: wifi
         reaction: 'Dans les réglages, tu passes le partage sans fil sur « Contacts uniquement », et tu renommes ton téléphone avec ton prénom seulement. Plus rien n’arrive : Le_Boss_du_fond ne voit même plus ton téléphone.'
@@ -88,11 +88,11 @@ etapes:
       - id: plus-fort
         texte: 'Je prends celui qui capte le mieux et je me connecte à mon compte.'
         qualite: risque
-        reaction: 'Ton téléphone se connecte, mais « AireDuVal_Gratuit_5G » n’est pas le réseau de l’aire : la boutique n’en a qu’un. N’importe qui peut créer un réseau avec un nom rassurant, et y afficher de fausses pages de connexion. Cette fois, rien de grave. Beaucoup de gens choisissent le réseau qui capte le mieux. Tu peux encore te déconnecter et chercher le vrai nom.'
+        reaction: 'Ton téléphone se connecte, mais « AireDuVal_Gratuit_5G » n’est pas le réseau de l’aire : la boutique n’en a qu’un. N’importe qui peut créer un réseau avec un nom rassurant, et y afficher de fausses pages de connexion : l’appli chiffre ses échanges, mais une fausse page, elle, peut voler ton mot de passe. Cette fois, rien de grave. Beaucoup de gens choisissent le réseau qui capte le mieux. Tu peux encore te déconnecter et chercher le vrai nom.'
       - id: affiche
         texte: 'Je cherche le vrai nom du réseau sur l’affiche de la boutique.'
         qualite: bon
-        reaction: 'Bien vu : l’affiche près de la caisse indique « AireDuVal ». Tu t’y connectes, et dans les réglages, tu décoches « Rejoindre automatiquement », pour que ton téléphone ne se connecte pas tout seul, ailleurs, à un réseau du même nom.'
+        reaction: 'Bien vu : l’affiche près de la caisse indique « AireDuVal ». Tu t’y connectes, et dans les réglages, tu décoches « Rejoindre automatiquement », pour que ton téléphone ne se connecte pas tout seul, ailleurs, à un réseau du même nom. Ta récompense attendra le réseau mobile : pas de mot de passe sur un Wi-Fi public.'
       - id: aide
         texte: 'Je demande de l’aide à la vendeuse pour savoir lequel des deux est le réseau de l’aire.'
         qualite: aide
@@ -103,7 +103,7 @@ etapes:
         parade: 'La force du signal ne dit pas qui a créé le réseau. Cherche son vrai nom, affiché par le lieu.'
       - levier: urgence
         truc: 'La récompense expire à midi, et la pause dure dix minutes.'
-        parade: 'Une récompense de jeu peut attendre. Récupérer un compte piraté prend des semaines.'
+        parade: 'Une récompense de jeu peut attendre : tu la récupéreras avec le réseau mobile, ou en rentrant.'
       - levier: autorite
         truc: 'Les deux réseaux portent le nom de l’aire : ils ont l’air officiels tous les deux.'
         parade: 'Un nom de réseau se choisit librement. Seul le lieu peut te dire lequel est le sien.'
@@ -118,9 +118,9 @@ etapes:
     question: Noé tend déjà la main. Que fais-tu ?
     choix:
       - id: donne
-        texte: 'C’est mon ami depuis la 6e : je lui dis mon code.'
+        texte: 'Je lui dis mon code tout bas, et je continue à manger.'
         qualite: risque
-        reaction: 'Noé met la musique. Mais Ethan a entendu ton code. Pendant ta partie de foot, ton téléphone reste sur la nappe, et il publie dans ta story une photo de Noé la bouche pleine : « Le goinfre de la sortie 🐷 ». Noé est vexé. Ça arrive souvent entre amis. Tu peux retirer la story, t’excuser auprès de Noé, et changer ton code ce soir.'
+        reaction: 'Noé met la musique. Mais Ethan, assis à côté, a entendu ton code. Pendant ta partie de foot, ton téléphone reste sur la nappe, et Ethan envoie depuis ton compte, au groupe de la classe : « Je paie les glaces à tout le monde au retour ! 🍦 » Toute la classe te réclame sa glace. Ce n’est pas toi qui l’as écrit. Tu peux prévenir tes contacts que ce message ne vient pas de toi, et changer ton code ce soir.'
       - id: musique
         texte: 'Je lance la musique moi-même et je lui passe le téléphone.'
         qualite: bon
@@ -140,7 +140,7 @@ etapes:
         truc: 'D’autres élèves sont autour de la nappe, et dire non devant eux paraît vexant.'
         parade: 'Un code dit à voix haute ou tapé devant les autres peut être retenu. Tape-le à l’abri des regards.'
     aRetenir: 'Ton code de verrouillage ouvre tes messages, tes photos et tes comptes : il ne se prête pas, même à un ami. Si quelqu’un l’a vu ou entendu, change-le. Et règle le verrouillage automatique pour un téléphone posé sans surveillance.'
-    recuperation: { action: retirer-publication, siChoix: [donne] }
+    recuperation: { action: prevenir-contacts, siChoix: [donne] }
 
   - type: lieu
     id: profil
@@ -182,9 +182,9 @@ etapes:
     question: Mathis attend, la main tendue. Que fais-tu ?
     choix:
       - id: prete
-        texte: 'Il doit appeler sa mère : je le déverrouille et il sort.'
+        texte: 'Je le déverrouille et je le laisse sortir appeler.'
         qualite: risque
-        reaction: 'Mathis appelle sa mère. Mais dehors, avec deux copains, il ouvre aussi ta messagerie et envoie dans le groupe de la classe une photo de Jules endormi dans le car : « Le roi de la sieste 😴 ». Jules est vexé, et le message vient de ton compte. Prêter, c’est gentil. Tu peux retirer la photo et t’excuser auprès de Jules.'
+        reaction: 'Mathis appelle sa mère. Mais dehors, avec deux copains, il ouvre aussi ta messagerie et envoie au groupe de la classe, depuis ton compte : « Je quitte le groupe, vous êtes nuls. » Des élèves te répondent, vexés. Ce n’est pas toi qui l’as écrit, et prêter, c’est gentil. Tu peux prévenir tes contacts que ce message ne vient pas de toi.'
       - id: compose
         texte: 'Je compose le numéro moi-même et je reste à côté de lui.'
         qualite: bon
@@ -204,7 +204,7 @@ etapes:
         truc: 'Prêter son téléphone, ça se fait sans y penser, en un geste.'
         parade: 'Avant de prêter, demande-toi ce que la personne pourrait ouvrir. Reste à côté, ou appelle pour elle.'
     aRetenir: 'Un téléphone déverrouillé donne accès à tout : messages, photos, comptes. Si quelqu’un doit appeler, compose le numéro toi-même et reste à côté. Ne laisse pas ton téléphone ouvert partir loin de toi.'
-    recuperation: { action: retirer-publication, siChoix: [prete] }
+    recuperation: { action: prevenir-contacts, siChoix: [prete] }
 
   - type: lieu
     id: borne
@@ -241,7 +241,7 @@ debrief:
     - À quel moment de la sortie ton téléphone était-il le plus exposé ?
     - Quels réglages protègent ton téléphone en dehors de chez toi ?
     - Que faire si tu as déjà accepté, installé ou prêté quelque chose ?
-  reponses: 'Les pièges de la sortie : une appli d’album qui demande tout, des images envoyées sans fil par un inconnu, un faux réseau Wi-Fi au nom rassurant, un profil à installer pour un Wi-Fi, un code de téléphone qui circule, un téléphone prêté déverrouillé, une borne qui demande l’accès aux données. Les réglages qui protègent : n’autoriser que les accès utiles (quelques photos choisies, la position pendant l’utilisation), partage sans fil sur « Contacts uniquement », un nom de téléphone sans nom de famille, « Rejoindre automatiquement » décoché pour les Wi-Fi publics, un code personnel et le verrouillage automatique, refuser l’accès aux données sur une borne. Les deux façons de faire marchent : régler soi-même, ou demander à un adulte. Si c’est déjà fait : retirer les accès ou le profil avec un adulte, effacer sans transférer, changer son code, réparer ce qui a été publié.'
+  reponses: 'Les pièges de la sortie : une appli d’album qui demande tout, des images envoyées sans fil par un inconnu, un faux réseau Wi-Fi au nom rassurant, un profil à installer pour un Wi-Fi, un code de téléphone qui circule, un téléphone prêté déverrouillé, une borne qui demande l’accès aux données. Les réglages qui protègent : n’autoriser que les accès utiles (quelques photos choisies, la position pendant l’utilisation), partage sans fil sur « Contacts uniquement », un nom de téléphone sans nom de famille, « Rejoindre automatiquement » décoché pour les Wi-Fi publics, un code personnel et le verrouillage automatique, refuser l’accès aux données sur une borne. Les deux façons de faire marchent : régler soi-même, ou demander à un adulte. Si c’est déjà fait : retirer les accès ou le profil avec un adulte, effacer sans transférer et prévenir un adulte, changer son code, prévenir ses contacts qu’un message envoyé depuis son compte ne venait pas de soi.'
   erreursFrequentes:
     - 'Croire qu’un Wi-Fi qui porte le nom du lieu est forcément le sien.'
     - 'Penser que donner son code à un ami ne regarde que lui et soi.'
@@ -251,5 +251,5 @@ fiche:
     5 min : cadre. Qu’est-ce qui se passe avec vos téléphones pendant une sortie scolaire ? (sans obligation de raconter)
     20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. Au lieu 2, la classe choisit sa route.
     15 min : débrief des 3 questions, en listant au tableau les réglages qui protègent un téléphone.
-    5 min : où trouver de l’aide (adulte accompagnateur, accueil d’un lieu public pour le vrai Wi-Fi, cybermalveillance.gouv.fr pour se faire aider).
+    5 min : où trouver de l’aide (adulte accompagnateur, accueil d’un lieu public pour le vrai Wi-Fi, cybermalveillance.gouv.fr pour se faire aider). Pour les bornes de recharge, un bloqueur de données USB existe aussi.
     5 min : engagement. Ce soir, je vérifie le réglage de mon partage sans fil, le nom de mon téléphone et son verrouillage automatique.
