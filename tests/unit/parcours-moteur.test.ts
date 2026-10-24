@@ -7,6 +7,7 @@ import {
   leviersDeLaMission,
   reduire,
   RunError,
+  vaVersReparation,
   type RunEvent,
   type RunState,
 } from '@/engine/mission-runner'
@@ -320,5 +321,94 @@ describe('parcours à deux routes', () => {
     }
     expect(e.termine).toBe(true)
     expect(e.chemin).toEqual(p.etapes.map((x) => x.id))
+  })
+})
+
+describe('parcours à trois routes : la réparation', () => {
+  type C = { id: string; qualite: 'bon' | 'risque' | 'aide'; suite?: string }
+  const lieu = (id: string, choix?: C[], suite?: string, pourquoi?: unknown) =>
+    ({
+      type: 'lieu', id, lieu: id, decor: 'cour', guide: 'g', question: 'q', aRetenir: 'x', suite, pourquoi,
+      choix: (choix ?? [{ id: 'b', qualite: 'bon' }, { id: 'r', qualite: 'risque' }, { id: 'a', qualite: 'aide' }]).map((c) => ({
+        texte: c.id, reaction: 'r', ...c,
+      })),
+    }) as unknown as Mission['etapes'][number]
+  const m = {
+    ...parcoursFixture(),
+    etapes: [
+      lieu('l1'),
+      lieu(
+        'l2',
+        [
+          { id: 'b', qualite: 'bon', suite: 'a3' },
+          { id: 'r', qualite: 'risque', suite: 'c3' },
+          { id: 'r2', qualite: 'risque' },
+          { id: 'a', qualite: 'aide', suite: 'b3' },
+        ],
+        undefined,
+        [{ levier: 'reflexe', truc: 't', parade: 'p' }],
+      ),
+      lieu('a3'),
+      lieu('a4', undefined, 'l5'),
+      lieu('b3'),
+      lieu('b4', undefined, 'l5'),
+      lieu('c3'),
+      lieu('c4'),
+      lieu('l5'),
+    ],
+  } as Mission
+  const bien = (e: RunState): RunState => reduire(m, reduire(m, e, { type: 'choisir', choixId: 'b' }), { type: 'continuer' })
+  const apresR = (): RunState =>
+    jouer(m, { type: 'choisir', choixId: 'b' }, { type: 'continuer' }, { type: 'choisir', choixId: 'r' }, { type: 'expliquer', levier: 'reflexe' })
+
+  it('réparation : pourquoi, conséquence, puis Continuer mène à c3', () => {
+    let e = jouer(m, { type: 'choisir', choixId: 'b' }, { type: 'continuer' }, { type: 'choisir', choixId: 'r' })
+    expect(e.phase).toBe('pourquoi')
+    e = reduire(m, e, { type: 'expliquer', levier: 'reflexe' })
+    expect(e.phase).toBe('consequence')
+    expect(vaVersReparation(m, e)).toBe(true)
+    e = reduire(m, e, { type: 'continuer' })
+    expect(e.etapeId).toBe('c3')
+    expect(e.chemin.at(-1)).toBe('l2')
+    expect(e.resultats.l2).toMatchObject({ qualite: 'risque' })
+    expect((e.resultats.l2 as { essais: string[] }).essais).toContain('r')
+  })
+
+  it('réparation : jouée jusqu’au bout', () => {
+    let e = reduire(m, apresR(), { type: 'continuer' })
+    e = bien(bien(bien(e)))
+    expect(e.termine).toBe(true)
+    expect(e.chemin).toEqual(['l1', 'l2', 'c3', 'c4', 'l5'])
+  })
+
+  it('réparation : Réessayer puis bon', () => {
+    let e = reduire(m, apresR(), { type: 'rejouer' })
+    expect(e.phase).toBe('situation')
+    expect(() => reduire(m, e, { type: 'choisir', choixId: 'r' })).toThrow(RunError)
+    e = reduire(m, reduire(m, e, { type: 'choisir', choixId: 'b' }), { type: 'continuer' })
+    expect(e.etapeId).toBe('a3')
+  })
+
+  it('risque ordinaire sur la bifurcation', () => {
+    const e = jouer(
+      m, { type: 'choisir', choixId: 'b' }, { type: 'continuer' }, { type: 'choisir', choixId: 'r2' }, { type: 'expliquer', levier: 'reflexe' },
+    )
+    expect(vaVersReparation(m, e)).toBe(false)
+    expect(() => reduire(m, e, { type: 'continuer' })).toThrow(RunError)
+  })
+
+  it('passer la bifurcation suit la route bon', () => {
+    expect(reduire(m, bien(demarrer(m)), { type: 'passer' }).etapeId).toBe('a3')
+  })
+
+  it('Classe entière : mêmes événements, mêmes états', () => {
+    const evts: RunEvent[] = [
+      { type: 'choisir', choixId: 'b' }, { type: 'continuer' }, { type: 'choisir', choixId: 'r' },
+      { type: 'expliquer', levier: 'reflexe' }, { type: 'continuer' },
+    ]
+    const solo = jouer(m, ...evts)
+    const classe = jouer({ ...m } as Mission, ...evts)
+    expect(classe).toEqual(solo)
+    expect(classe.etapeId).toBe('c3')
   })
 })
