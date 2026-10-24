@@ -1,0 +1,344 @@
+id: d-lycee-parcours
+theme: desinformation
+format: parcours
+tranches: ['lycee']
+titre: 'L’île aux rumeurs : l’audio du proviseur'
+resume: 'Une référence d’IA introuvable, la voix du proviseur qui « reporte » le bac blanc, une vidéo sortie de son contexte : vérifie l’origine, demande à la bonne personne ou, si tu as relayé, corrige sans republier.'
+duree: 25
+objectifs:
+  - Vérifier l’origine d’un message vocal, d’une vidéo ou d’une référence donnée par une IA avant de la relayer ou de la citer
+  - Chercher une confirmation par un canal déjà connu, et demander l’aide de la bonne personne
+  - Réparer après avoir relayé un faux, dans l’ordre (arrêter de relayer, retrouver l’origine, corriger auprès du même groupe sans republier), et choisir le bon recours
+competences:
+  crcn: ['1.1', '2.2']
+  programmes: ['SNT 2de', 'EMC lycée']
+etapes:
+  - type: lieu
+    id: expose
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Dimanche soir, dans ta chambre, tu prépares un exposé de SES sur le covoiturage. Tu demandes à une IA un chiffre pour ton introduction. Réponse immédiate : « D’après le rapport “Bouger ensemble” de l’Institut Trajectoires (2021), le nombre de trajets partagés a doublé en cinq ans. » La phrase est parfaite, avec une source précise. L’exposé est pour mardi.'
+    question: Il est 22 h. Que fais-tu de cette phrase ?
+    choix:
+      - id: copie
+        texte: 'Je la recopie avec sa source : l’IA cite un rapport précis, avec son année.'
+        qualite: risque
+        reaction: 'Mardi, ton professeur demande où trouver ce rapport. Tu le cherches devant lui : il n’existe nulle part, et l’Institut Trajectoires non plus. Une IA peut inventer une référence qui a l’air parfaite. Retire la phrase, ou remplace-la par une source que tu as retrouvée et lue.'
+      - id: cherche
+        texte: 'Je cherche ce rapport moi-même, pour le lire avant de le citer.'
+        qualite: bon
+        reaction: 'Bien vu. Ni le rapport ni l’Institut Trajectoires n’existent : la référence a été inventée. Tu cherches une vraie source, tu la lis avant de la citer, et tu notes son auteur et sa date.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma sœur, en licence, qui doit vérifier les sources de chacun de ses devoirs.'
+        qualite: aide
+        reaction: 'Ta sœur tape le titre du rapport : rien. « Une IA peut inventer une référence très crédible. Tu ne cites que ce que tu as retrouvé et lu. » Vous trouvez ensemble une vraie source, avec son auteur et sa date.'
+    pourquoi:
+      - levier: autorite
+        truc: 'Un nom d’institut, un titre de rapport, une année : la référence a tout d’une vraie source.'
+        parade: 'Une référence se vérifie en la retrouvant et en la lisant. Introuvable, elle ne se cite pas.'
+      - levier: reflexe
+        truc: '« La phrase est parfaite » : elle tombe pile pour ton introduction, on la colle sans chercher.'
+        parade: 'Une phrase parfaite peut être inventée. Retrouve la source avant de la coller.'
+      - levier: urgence
+        truc: 'Il est 22 h, l’exposé est pour mardi : vérifier paraît une perte de temps.'
+        parade: 'Chercher une référence prend deux minutes. La découvrir inventée pendant l’exposé prend bien plus.'
+    aRetenir: 'Une réponse d’IA se vérifie comme toute autre source : on retrouve la référence citée et on la lit. Introuvable, elle ne se cite pas.'
+
+  - type: lieu
+    id: vocal
+    lieu: Le bus
+    decor: bus
+    guide: 'Lundi, 7 h 30, dans le bus. Dans « Terminales Tilleuls », le groupe des terminales du lycée, Lou poste un message vocal de 25 secondes. Une voix grave et posée, celle de M. Garnier, le proviseur : « Bonjour à toutes et à tous. En raison d’un problème d’organisation, le bac blanc de jeudi est reporté. Merci de faire passer l’information. » Lou ajoute : « Ça vient d’un délégué 🙏 ». Les réactions pleuvent : « ENFIN », « je dors ce week-end ».'
+    question: Tu as révisé tout le week-end. Ta classe, la Tle 3, a son propre groupe. Que fais-tu ?
+    choix:
+      - id: relaie
+        texte: 'Je transfère le vocal au groupe de la Tle 3 : tout le monde doit le savoir avant de réviser.'
+        qualite: risque
+        suite: annonce
+        route: je relaie dans le groupe
+        reaction: 'Ton transfert part à 7 h 34. Dans « Tle 3 », les cœurs et les « merci » s’enchaînent, et deux élèves le font suivre dans d’autres groupes. Ce que tu ne sais pas encore, c’est que M. Garnier n’a jamais enregistré ce message.'
+      - id: verifie
+        texte: 'Avant de relayer, je cherche d’où vient ce vocal, et si le lycée l’annonce sur l’ENT.'
+        qualite: bon
+        suite: origine
+        route: je vérifie l’origine
+        reaction: 'Sur l’ENT, rien : le calendrier du bac blanc n’a pas bougé. Et Lou ne sait pas qui a enregistré ce vocal : « Le délégué l’a eu dans un autre groupe. » Tu ne relaies rien.'
+      - id: aide
+        texte: 'Je demande de l’aide à Mme Benali, la professeure documentaliste, dès l’ouverture du CDI.'
+        qualite: aide
+        suite: cdi
+        route: je demande à la documentaliste
+        reaction: 'Tu ne relaies rien, et tu files au CDI en descendant du bus. Mme Benali écoute le vocal deux fois : « Bonne question. On regarde ça ensemble. »'
+    pourquoi:
+      - levier: autorite
+        truc: 'La voix grave et posée de M. Garnier : on reconnaît le proviseur.'
+        parade: 'Une voix reconnaissable ne prouve pas qui parle : elle peut être imitée. Vérifie par un canal que tu connais déjà.'
+      - levier: groupe
+        truc: '« ENFIN », « je dors ce week-end » : tout le groupe semble y croire.'
+        parade: 'Des dizaines de réactions ne confirment rien : personne n’a vérifié. Cherche l’origine.'
+      - levier: gain
+        truc: 'Plus de bac blanc jeudi : après un week-end de révisions, c’est un vrai soulagement.'
+        parade: 'Quand une nouvelle fait très plaisir, on a envie d’y croire. C’est justement le moment de la vérifier.'
+      - levier: urgence
+        truc: '« Merci de faire passer l’information » : le message demande lui-même à être relayé.'
+        parade: 'Un message qui réclame d’être relayé se vérifie avant. Ne fais passer que ce que tu as vérifié.'
+    aRetenir: 'Une voix reconnaissable n’authentifie pas un message. Avant de relayer, on cherche d’où il vient, et on vérifie par un canal déjà connu, comme l’ENT du lycée.'
+
+  - type: lieu
+    id: origine
+    lieu: La cour
+    decor: cour
+    guide: 'À 8 h, dans la cour, tu remontes le fil avec Lou. Le délégué a trouvé le vocal dans « Tilleuls Bons Plans », un groupe ouvert à tous. Il y a été posté dimanche à 23 h 40 par « garnier.off », un compte sans photo, créé la veille. Lou hésite : « Le compte est bizarre, mais c’est sa voix, non ? Écoute. »'
+    question: Que réponds-tu à Lou ?
+    choix:
+      - id: voix
+        texte: 'Que c’est bien sa voix : un compte bizarre peut quand même partager un vrai message.'
+        qualite: risque
+        reaction: 'Lou est soulagée, et fait suivre le vocal à ses amies. Pourtant, une voix reconnaissable n’authentifie pas un message : elle peut être imitée. Et le premier compte à l’avoir publié, créé la veille, n’a aucun lien avec le lycée. Il manque une confirmation par un canal déjà connu.'
+      - id: compte
+        texte: 'Qu’une voix peut s’imiter, et que ce compte créé la veille n’a rien à voir avec le lycée.'
+        qualite: bon
+        reaction: 'Bien vu. Lou fronce les sourcils : « Et l’ENT ne dit rien… » Elle ne relaie pas. À 8 h 30, une annonce apparaît sur l’ENT : « Le bac blanc de jeudi est maintenu. Un faux message vocal imitant la voix du proviseur circule. »'
+      - id: aide
+        texte: 'Je demande de l’aide à M. Roux, le CPE, qui traverse la cour, pour savoir si c’est vrai.'
+        qualite: aide
+        reaction: 'M. Roux écoute dix secondes : « M. Garnier n’a enregistré aucun message. Le bac blanc est maintenu, une annonce part sur l’ENT ce matin. » À 8 h 30, elle y est. Lou range son téléphone.'
+    pourquoi:
+      - levier: confiance
+        truc: '« c’est sa voix, non ? » : la voix ressemble tellement qu’on doute de son propre doute.'
+        parade: 'Une voix peut être imitée. Ce qui compte : qui a publié en premier, et ce que dit un canal déjà connu.'
+      - levier: autorite
+        truc: 'Le compte s’appelle « garnier.off » : le nom du proviseur donne un air officiel.'
+        parade: 'N’importe qui peut prendre un nom. Un compte créé la veille, sans lien avec le lycée, ne prouve rien.'
+      - levier: groupe
+        truc: 'Le vocal est déjà passé par plusieurs groupes : il paraît confirmé.'
+        parade: 'Plus un message circule, plus on oublie d’où il vient. Remonte jusqu’à la première publication.'
+    aRetenir: 'Retrouver l’origine d’un message, c’est chercher qui l’a publié en premier, quand, et dans quel contexte. Un compte inconnu et une voix ressemblante ne suffisent pas.'
+
+  - type: lieu
+    id: faux-compte
+    lieu: La cantine
+    decor: cantine
+    suite: bon-recours
+    guide: 'À midi, à la cantine, Lou te montre une nouvelle publication. Le compte « Lycée des Tilleuls – Officiel », avec le logo du lycée et 900 abonnés, publie : « COMMUNIQUÉ : le bac blanc est reporté, malgré les rumeurs. » Le vocal est en dessous. Sur l’ENT, l’annonce du matin dit toujours que le bac blanc est maintenu.'
+    question: 'Lou te regarde : « Alors, qui croire ? » Que fais-tu ?'
+    choix:
+      - id: partage
+        texte: 'Je partage ce communiqué dans « Tle 3 » : il vient du compte officiel du lycée, avec son logo.'
+        qualite: risque
+        reaction: 'Ton message tourne vite. Mais ce compte n’est pas celui du lycée : il a été créé samedi, et son logo est copié. Il contredit l’ENT, où le lycée a vraiment publié. Préviens « Tle 3 » que c’était faux, sans republier le communiqué.'
+      - id: qui
+        texte: 'Je regarde qui publie : depuis quand ce compte existe, et si l’ENT du lycée y renvoie.'
+        qualite: bon
+        reaction: 'Bien vu. Le compte a été créé samedi, et l’ENT ne le mentionne nulle part. Ses 900 abonnés ne prouvent pas qui il est. Lou et toi ne partagez rien, et vous signalez le compte dans l’appli.'
+      - id: aide
+        texte: 'Je demande de l’aide à Mme Okafor, notre professeure principale, qui déjeune à la table voisine.'
+        qualite: aide
+        reaction: 'Mme Okafor regarde le compte : « Je ne le connais pas. L’annonce de ce matin, elle, est sur l’ENT, signée par la direction. » Elle prévient la direction. Lou et toi ne partagez rien.'
+    pourquoi:
+      - levier: autorite
+        truc: '« Lycée des Tilleuls – Officiel », le logo, le mot « COMMUNIQUÉ » : tout imite le lycée.'
+        parade: 'Un nom et un logo se copient. Regarde qui publie, et depuis quand.'
+      - levier: groupe
+        truc: 'Le compte a 900 abonnés : beaucoup de gens le suivent, il paraît sérieux.'
+        parade: 'Des abonnés ne prouvent pas l’identité d’un compte. Cherche si le lycée lui-même y renvoie.'
+      - levier: reflexe
+        truc: '« malgré les rumeurs » : le compte se présente comme celui qui dit vrai.'
+        parade: 'Accuser les autres de rumeur ne rend pas vrai. Compare avec un canal que tu connais déjà : l’ENT.'
+    aRetenir: 'Pour savoir si un compte est vraiment celui d’un établissement ou d’un média, on regarde qui publie et depuis quand, et si l’établissement lui-même y renvoie.'
+    recuperation: { action: corriger-partage, siChoix: [partage] }
+
+  - type: lieu
+    id: cdi
+    lieu: Le CDI
+    decor: cdi
+    guide: 'Au CDI, Mme Benali a réécouté le vocal : « Je ne vais pas enquêter à ta place, mais je peux te montrer comment vérifier. La voix ressemble à celle de M. Garnier, c’est vrai. Alors, par où commencerais-tu ? »'
+    question: Comment vérifies-tu ce vocal ?
+    choix:
+      - id: ecoute
+        texte: 'Je le réécoute en boucle, au casque, pour repérer un défaut dans la voix.'
+        qualite: risque
+        reaction: 'Au bout de dix écoutes, tu ne trouves rien de bizarre : la voix ressemble vraiment. Mme Benali hoche la tête : « Une voix reconnaissable n’authentifie pas un message. Cherche plutôt par un canal que tu connais déjà. »'
+      - id: ent
+        texte: 'Je cherche l’annonce là où le lycée publie d’habitude : l’ENT et l’affichage du hall.'
+        qualite: bon
+        reaction: 'Bien vu. Sur l’ENT, le calendrier du bac blanc n’a pas bougé, et rien n’est affiché dans le hall. À 8 h 30, une annonce apparaît sur l’ENT : « Le bac blanc de jeudi est maintenu. Un faux message vocal imitant la voix du proviseur circule. »'
+      - id: aide
+        texte: 'Je demande de l’aide à Mme Benali pour apprendre à retrouver qui a publié le vocal en premier.'
+        qualite: aide
+        reaction: 'Mme Benali te montre comment remonter le fil : le vocal vient de « Tilleuls Bons Plans », un groupe ouvert à tous, où un compte créé la veille l’a posté dimanche soir. À 8 h 30, l’ENT annonce : « Le bac blanc de jeudi est maintenu. Un faux message vocal imitant la voix du proviseur circule. »'
+    pourquoi:
+      - levier: reflexe
+        truc: 'Pour savoir si une voix est fausse, on pense d’abord à bien l’écouter.'
+        parade: 'Une voix imitée peut être très réussie. Ce qui tranche, c’est la vérification par un canal déjà connu.'
+      - levier: autorite
+        truc: '« La voix ressemble à celle de M. Garnier, c’est vrai » : même la documentaliste le reconnaît.'
+        parade: 'Qu’une voix ressemble ne dit pas qui a enregistré le message. Cherche l’annonce là où le lycée publie.'
+      - levier: urgence
+        truc: 'Le bac blanc est jeudi : tu veux savoir tout de suite si tu dois réviser.'
+        parade: 'Deux minutes sur l’ENT en disent plus qu’une heure à écouter une voix.'
+    aRetenir: 'Pour vérifier un message vocal, on ne se fie pas à la voix : on cherche l’information par un canal déjà connu, comme l’ENT du lycée, et on retrouve qui l’a publié en premier.'
+
+  - type: lieu
+    id: video
+    lieu: La cour
+    decor: cour
+    suite: bon-recours
+    guide: 'À la récré, dans la cour, Lou n’est pas convaincue par l’annonce de l’ENT. Elle brandit son téléphone : « La preuve ! » Une vidéo circule : M. Garnier, au micro, dans le hall du lycée, annonce : « Les épreuves de cette semaine sont reportées. » Pas de date, pas de légende, juste « regardez 👀 ». Elle tourne dans plusieurs groupes de terminales.'
+    question: Lou veut la poster dans « Tle 3 ». Que fais-tu ?
+    choix:
+      - id: transfere
+        texte: 'Je la transfère moi-même dans « Tle 3 » : cette fois, on le voit vraiment parler.'
+        qualite: risque
+        reaction: 'La vidéo est vraie, mais elle date d’il y a trois ans : ce jour-là, une tempête avait fermé le lycée. Présentée aujourd’hui, elle fait croire au report. Une vidéo ancienne peut tromper sans être truquée. Préviens « Tle 3 » qu’elle était sortie de son contexte, sans la republier.'
+      - id: date
+        texte: 'Je cherche quand et où cette vidéo a été publiée pour la première fois.'
+        qualite: bon
+        reaction: 'Bien vu. La vidéo a été publiée il y a trois ans, le jour d’une tempête qui avait fermé le lycée. Rien à voir avec jeudi. Lou renonce à la mettre dans le groupe.'
+      - id: aide
+        texte: 'Je demande de l’aide à M. Roux, le CPE, qui était déjà au lycée il y a trois ans.'
+        qualite: aide
+        reaction: 'M. Roux reconnaît tout de suite la scène : « La tempête, il y a trois ans ! Les épreuves avaient été reportées d’une semaine. » Rien à voir avec jeudi. Lou range la vidéo.'
+    pourquoi:
+      - levier: autorite
+        truc: 'On voit M. Garnier parler, au micro, dans le hall : ça a tout d’une preuve.'
+        parade: 'Une vidéo vraie peut tromper si elle est sortie de son contexte. Cherche sa date et sa première publication.'
+      - levier: groupe
+        truc: 'Elle tourne dans plusieurs groupes de terminales : tout le monde l’a vue.'
+        parade: 'Être partout ne donne pas de date à une vidéo. Remonte à sa première publication.'
+      - levier: reflexe
+        truc: '« regardez 👀 » : pas de date, pas de légende, on regarde et on transfère.'
+        parade: 'Une vidéo sans date ni contexte se vérifie avant de circuler : quand, où, par qui ?'
+    aRetenir: 'Une vidéo ancienne présentée comme récente trompe sans être truquée. Avant de la partager, on vérifie sa date, son contexte et sa première publication.'
+    recuperation: { action: corriger-partage, siChoix: [transfere] }
+
+  - type: lieu
+    id: annonce
+    lieu: La cour
+    decor: cour
+    guide: 'À 8 h 30, dans la cour, une annonce tombe sur l’ENT : « Le bac blanc de jeudi est maintenu. Un faux message vocal imitant la voix du proviseur circule. » Dans « Tle 3 », ton transfert a été vu 28 fois, et deux élèves l’ont fait suivre ailleurs. Tu as relayé un faux, comme des dizaines d’élèves ce matin, et ça se répare, en commençant par le bon geste.'
+    question: Par quoi commences-tu ?
+    choix:
+      - id: laisse
+        texte: 'Je laisse mon transfert : le vocal était déjà partout, un de plus ne change rien.'
+        qualite: risque
+        reaction: 'Pendant la matinée, ton transfert continue d’être écouté et transféré : chaque nouveau transfert relance le faux. Que d’autres l’aient relayé avant toi ne l’arrête pas. Arrête de le faire circuler : supprime ton transfert.'
+      - id: supprime
+        texte: 'Je supprime tout de suite mon transfert dans « Tle 3 », pour arrêter de le faire circuler.'
+        qualite: bon
+        reaction: 'C’est le premier geste : arrêter de relayer. Ton transfert disparaît du groupe. Puis tu demandes à Lou d’où venait le vocal : « garnier.off », un compte créé la veille, l’avait posté dimanche à 23 h 40 dans un groupe ouvert à tous.'
+      - id: aide
+        texte: 'Je demande de l’aide à Mme Okafor, ma professeure principale, pour savoir comment réparer.'
+        qualite: aide
+        reaction: 'Mme Okafor t’écoute sans te faire de reproche : « D’abord, on arrête de le faire circuler. » Tu supprimes ton transfert. Avec Lou, tu retrouves d’où venait le vocal : « garnier.off », un compte créé la veille.'
+    pourquoi:
+      - levier: groupe
+        truc: 'Des dizaines d’élèves l’ont relayé : ton transfert paraît noyé dans la masse.'
+        parade: 'Chaque transfert relance le faux. Supprimer le tien, c’est une copie de moins qui circule.'
+      - levier: honte
+        truc: 'Tu t’en veux d’avoir relayé, et tu préférerais que plus personne n’y pense.'
+        parade: 'Se faire avoir par une voix bien imitée n’est pas une faute. Réparer, c’est ce qui compte maintenant.'
+      - levier: reflexe
+        truc: 'Un message envoyé, on le laisse : revenir dessus n’est pas un geste habituel.'
+        parade: 'On peut revenir sur un transfert. Le supprimer arrête au moins cette copie-là.'
+    aRetenir: 'Après avoir relayé un faux : d’abord, arrêter de le faire circuler. Ensuite, retrouver d’où il venait, puis corriger auprès des mêmes personnes.'
+    recuperation: { action: demander-aide, siChoix: [laisse] }
+
+  - type: lieu
+    id: correction
+    lieu: La cantine
+    decor: cantine
+    suite: bon-recours
+    guide: 'À midi, à la cantine. Ton transfert est supprimé, et tu sais d’où venait le vocal. Mais dans « Tle 3 », Enzo vient d’écrire : « Donc pas de bac blanc jeudi, je ne révise pas 😎 ». Plusieurs ont mis un pouce. Ceux qui ont écouté ton transfert ne savent pas encore que c’était faux.'
+    question: Comment corriges-tu, dans « Tle 3 » ?
+    choix:
+      - id: republie
+        texte: 'Je republie le vocal dans le groupe, avec en légende « FAUX, fait par IA », pour que chacun l’entende.'
+        qualite: risque
+        reaction: 'Ta légende part d’une bonne intention, mais republier le vocal, c’est le remettre en circulation : il peut être transféré sans elle. Diffuser un faux contenu représentant une personne peut engager ta responsabilité. Écrire “IA” ne rend pas automatiquement toute diffusion licite. Corrige sans republier le vocal.'
+      - id: message
+        texte: 'J’écris à « Tle 3 » que le vocal était faux, avec l’annonce de l’ENT, sans le remettre.'
+        qualite: bon
+        reaction: 'C’est le geste qui répare : corriger auprès des mêmes personnes, avec la source, sans republier le faux. Enzo répond « ah mince, ok », et deux élèves font suivre ta correction là où ils avaient transféré le vocal.'
+      - id: aide
+        texte: 'Je demande de l’aide à Mme Benali, la documentaliste, pour choisir la source à joindre.'
+        qualite: aide
+        reaction: 'Mme Benali te conseille l’annonce de l’ENT : « Elle vient du lycée, elle est datée, et elle ne répète pas le faux. » Tu écris à « Tle 3 » que le vocal était faux, avec cette annonce, sans le republier.'
+    pourquoi:
+      - levier: reflexe
+        truc: 'Pour prouver qu’un vocal est faux, on pense à le remontrer avec un gros avertissement.'
+        parade: 'Remontrer le faux, c’est le refaire circuler. Une correction claire, avec la source, suffit.'
+      - levier: groupe
+        truc: '« je ne révise pas 😎 » : plusieurs ont mis un pouce, le faux s’installe dans le groupe.'
+        parade: 'Ceux qui ont reçu le faux doivent recevoir la correction. Écris au même groupe, avec la source.'
+      - levier: honte
+        truc: 'Écrire au groupe que tu t’es trompé·e, devant toute la classe, c’est gênant.'
+        parade: 'Beaucoup se sont fait avoir. Corriger devant ceux qui ont reçu ton message, c’est ce qui répare.'
+    aRetenir: 'Pour corriger un faux qu’on a relayé, on écrit aux mêmes personnes que c’était faux, avec une source fiable, sans republier le contenu trompeur.'
+    recuperation: { action: corriger-partage, siChoix: [republie] }
+
+  - type: minijeu
+    id: bon-recours
+    jeu: tri
+    config:
+      consigne: 'Que faire ? Classe chaque situation vers le bon recours.'
+      categories:
+        - { id: corriger, libelle: 'Je corrige auprès du même groupe' }
+        - { id: documentaliste, libelle: 'Je demande au professeur documentaliste' }
+        - { id: signaler, libelle: 'Je signale le compte dans l’appli' }
+      cartes:
+        - { id: vocal, texte: 'Tu as transféré dans le groupe de ta classe un vocal qui s’est révélé faux.', categorie: corriger, explication: 'Tu écris au même groupe que c’était faux, avec une source fiable, sans republier le vocal.' }
+        - { id: video, texte: 'Tu as partagé dans le groupe de ton club une vidéo ancienne présentée comme récente.', categorie: corriger, explication: 'Les mêmes personnes doivent recevoir la correction : tu donnes la vraie date et le contexte, sans remettre la vidéo.' }
+        - { id: reference, texte: 'Pour ton exposé, une IA t’a donné une référence que tu ne retrouves nulle part.', categorie: documentaliste, explication: 'Le professeur documentaliste t’aide à vérifier une information et à trouver des sources fiables. Une référence introuvable ne se cite pas.' }
+        - { id: photo, texte: 'Tu veux apprendre à retrouver quand et où une photo a été publiée pour la première fois.', categorie: documentaliste, explication: 'Vérifier une information, c’est son domaine : il te montre comment chercher, sans enquêter à ta place.' }
+        - { id: faux-lycee, texte: 'Un compte qui se fait passer pour le lycée publie de fausses annonces.', categorie: signaler, explication: 'Tu signales ce compte dans l’appli, comme un compte qui se fait passer pour un autre, et tu ne relaies rien de ce qu’il publie.' }
+        - { id: faux-media, texte: 'Un compte qui imite une chaîne d’info publie des « alertes » inventées.', categorie: signaler, explication: 'Tu signales ce compte dans l’appli, et tu cherches l’info auprès du vrai média ou d’une source indépendante.' }
+
+  - type: lieu
+    id: festival
+    lieu: Le festival
+    decor: festival
+    guide: 'En juillet, tu tiens le stand de crêpes de l’association de ton quartier au festival Les Nuits du Port. Vers 20 h, un client te montre une publication du compte « Ouest Direct 24 », au logo rouge de chaîne d’info : « URGENT : le festival va être évacué dans une heure, alerte orage. Partagez ! » Autour du stand, des gens commencent à ranger leurs affaires.'
+    question: 'Le client te demande : « Vous savez, vous ? » Que fais-tu ?'
+    choix:
+      - id: repete
+        texte: 'Je lui dis que c’est une chaîne d’info, et je conseille aux clients du stand de partir.'
+        qualite: risque
+        reaction: 'Une dizaine de personnes quittent le festival. Pourtant, « Ouest Direct 24 » n’a rien d’une chaîne d’info : le compte a été créé il y a un mois et publie surtout des « alertes » inventées. L’organisation n’a rien annoncé. Retourne voir les clients du stand pour leur dire que l’info était fausse.'
+      - id: officiel
+        texte: 'Je regarde qui publie, et je cherche l’info sur le compte officiel du festival.'
+        qualite: bon
+        reaction: 'Bien vu. « Ouest Direct 24 » a été créé il y a un mois et n’a rien d’une chaîne d’info. Le compte officiel du festival n’annonce aucune évacuation. Tu le montres au client, qui se rassoit.'
+      - id: aide
+        texte: 'Je demande de l’aide à Karim, l’organisateur, au point info juste à côté du stand.'
+        qualite: aide
+        reaction: 'Karim lève les yeux de sa radio : « Aucune évacuation prévue. S’il y en avait une, on l’annoncerait au micro et sur notre compte. » Tu le répètes au client, qui se rassoit.'
+    pourquoi:
+      - levier: autorite
+        truc: '« Ouest Direct 24 », un logo rouge de chaîne d’info : le compte a l’air d’un média.'
+        parade: 'Un nom et un logo se copient. Qui publie ? Cherche la même info auprès d’une source indépendante.'
+      - levier: urgence
+        truc: '« URGENT », « dans une heure » : il faudrait décider tout de suite.'
+        parade: 'L’organisation du festival est la mieux placée pour annoncer une évacuation. Vérifie auprès d’elle.'
+      - levier: groupe
+        truc: 'Des gens commencent à ranger leurs affaires : l’inquiétude se propage.'
+        parade: 'Que d’autres partent ne confirme pas l’info : ils ont vu la même publication que toi.'
+    aRetenir: 'Un compte qui imite un média ne devient pas une source. Sur toute l’île, le même réflexe : qui publie ? quelle confirmation indépendante ? Et si on a relayé un faux, on corrige auprès des mêmes personnes.'
+    recuperation: { action: corriger-partage, siChoix: [repete] }
+debrief:
+  questions:
+    - 'Qu’est-ce qui rendait le vocal de « M. Garnier » si crédible, et comment pouvait-on le vérifier ?'
+    - 'Comparez les trois routes : qu’est-ce qu’on peut encore faire après une erreur ? Qui aide pour quoi ?'
+    - 'Que faire dans chaque cas : corriger auprès du même groupe, demander au professeur documentaliste, ou signaler le compte ?'
+  reponses: 'Les rumeurs de l’île : une voix reconnaissable (le proviseur), une nouvelle qui soulage (plus de bac blanc), le nombre (des dizaines de réactions, des centaines d’abonnés), l’air officiel (un nom, un logo, « COMMUNIQUÉ », une chaîne d’info) et une vidéo vraie sortie de son contexte. Une voix reconnaissable n’authentifie pas un message ; une référence donnée par une IA se retrouve et se lit avant d’être citée. Pour vérifier : retrouver l’origine (qui a publié en premier, quand, dans quel contexte) et chercher une confirmation indépendante, par un canal déjà connu comme l’ENT. Trois routes : vérifier soi-même, demander à la bonne personne (professeure documentaliste, CPE, professeure principale), ou réparer après avoir relayé. Réparer, dans l’ordre : arrêter de relayer, retrouver l’origine, corriger auprès du même groupe avec une source, sans republier le contenu trompeur. À retenir aussi : « Diffuser un faux contenu représentant une personne peut engager ta responsabilité. Écrire “IA” ne rend pas automatiquement toute diffusion licite. » Recours : corriger soi-même auprès du même groupe ; le professeur documentaliste pour apprendre à vérifier une information ; le signalement dans l’appli pour un compte qui se fait passer pour un autre.'
+  erreursFrequentes:
+    - 'Croire qu’une voix reconnaissable prouve qui parle.'
+    - 'Republier un faux avec « FAUX » écrit dessus pour le corriger, au lieu d’écrire une correction sans le contenu.'
+    - 'Citer une référence donnée par une IA sans l’avoir retrouvée ni lue.'
+fiche:
+  deroulement: |
+    5 min : cadre. Avez-vous déjà reçu un vocal ou une vidéo qui annonçait un changement au lycée ? Qu’en avez-vous fait ? (sans obligation de répondre)
+    25 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. Au vocal de « M. Garnier », trois routes : vérifier l’origine, demander à la professeure documentaliste, ou relayer puis réparer. Si plusieurs binômes jouent, répartir les trois routes.
+    10 min : débrief. Comparez les trois routes : qu’est-ce qu’on peut encore faire après une erreur ? Qui aide pour quoi ? Puis retour sur le tri « le bon recours ».
+    5 min : où trouver de l’aide (professeur documentaliste pour vérifier une information, CPE ou professeur principal pour trouver le bon interlocuteur, signalement dans l’appli pour un compte qui en imite un autre).
+    5 min : engagement. Avant de transférer un vocal ou une vidéo qui annonce une nouvelle, je cherche qui l’a publié en premier et si un canal que je connais déjà le confirme.
