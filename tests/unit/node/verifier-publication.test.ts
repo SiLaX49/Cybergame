@@ -42,14 +42,13 @@ function dossierAssets(fichiers: Record<string, string>) {
 }
 
 describe('garde-fou de publication (contenu réel)', () => {
-  it('le build de production ne contient aucune mission sensible à relire', () => {
+  it('le build de production ne contient aucune mission à relire, sensible ou non', () => {
     const prod = buildContent(CONTENU, { brouillons: false })
-    const sensibles = new Set(prod.themes.filter((t) => t.sensible).map((t) => t.id))
-    const fuites = prod.missions.filter((m) => m.theme && sensibles.has(m.theme) && m.relecture?.statut === 'a-relire')
+    const fuites = prod.missions.filter((m) => m.relecture?.statut === 'a-relire')
     expect(fuites.map((m) => m.id)).toEqual([])
   })
 
-  it('idsABloquer correspond aux missions sensibles « a-relire » lues à part dans les YAML', () => {
+  it('idsABloquer correspond aux missions « a-relire », sensibles ou non, lues à part dans les YAML', () => {
     const attendus = brouillonsLusAPart(CONTENU)
     expect(attendus.length).toBeGreaterThan(0)
     expect([...idsABloquer(CONTENU)].sort()).toEqual(attendus)
@@ -72,7 +71,7 @@ describe('verifierPublication', () => {
     expect(r.messages.join('\n')).toContain('m-sensible dans index.js')
   })
 
-  it('échoue si la liste des brouillons est vide alors qu’une mission sensible est à relire', () => {
+  it('échoue si la liste des brouillons est vide alors qu’une mission est à relire', () => {
     const r = verifierPublication(racine(), dossierAssets({ 'index.js': 'rien' }), () => [])
     expect(r.ok).toBe(false)
     expect(r.messages.join('\n')).toContain('m-sensible')
