@@ -1,0 +1,342 @@
+id: p-lycee-parcours
+theme: phishing
+format: parcours
+tranches: ['lycee']
+titre: 'L’île aux hameçons : le stage de seconde'
+resume: 'Un QR code collé dans le bus, une offre de stage qui réclame tes papiers avant ce soir, un SMS de « dossier incomplet » : vérifie, demande à la bonne personne ou répare une erreur, et trouve le bon recours.'
+duree: 25
+objectifs:
+  - Repérer une fausse offre de stage ou de PFMP qui réclame des documents en urgence
+  - Vérifier un interlocuteur par un canal indépendant, et demander l’aide de la bonne personne
+  - Réparer après un envoi de documents, dans l’ordre, et choisir le bon recours (33700, 17Cyber, l’entreprise elle-même)
+competences:
+  crcn: ['4.1', '2.1']
+  programmes: ['SNT 2de', 'EMC lycée']
+etapes:
+  - type: lieu
+    id: autocollant
+    lieu: Le bus
+    decor: bus
+    guide: 'Dans le bus du matin, tu relis la liste des entreprises que tu as contactées pour ton stage de seconde : six candidatures, aucune réponse. Sur la vitre, un autocollant affiche un QR code : « Stage de seconde ? Trouve-le en 48 h ! Scanne et dépose ta candidature, 20 entreprises de ta ville recrutent. » Deux élèves de ta classe le prennent en photo. Yanis, ton voisin, en première bac pro, regarde aussi.'
+    question: Il reste trois arrêts avant le lycée. Que fais-tu ?
+    choix:
+      - id: scanne
+        texte: Je scanne le QR code et je remplis le formulaire avec mes coordonnées et mon CV.
+        qualite: risque
+        reaction: 'Le formulaire demande ton nom, ton téléphone, ton adresse mail, ton lycée et ta classe, puis ton CV. Aucune entreprise n’est nommée, et aucune réponse n’arrive. Ces informations sont maintenant entre les mains d’inconnus : elles peuvent servir à t’écrire un message très crédible. Garde-le en tête si une offre arrive bientôt.'
+      - id: cherche
+        texte: Je cherche ce service moi-même sur internet avant de scanner quoi que ce soit.
+        qualite: bon
+        reaction: 'Bien vu. En cherchant le texte de l’autocollant, tu ne trouves aucune entreprise ni aucun organisme derrière, seulement des élèves qui se demandent qui l’a collé. Un QR code collé sur une vitre peut mener n’importe où. Tu continues à chercher ton stage auprès des entreprises elles-mêmes.'
+      - id: aide
+        texte: 'Je demande de l’aide à Yanis, qui a déjà cherché plusieurs PFMP pour son bac pro.'
+        qualite: aide
+        reaction: 'Yanis hausse les épaules : « Pour mes PFMP, je passe par les entreprises elles-mêmes et par mes profs. Un autocollant dans un bus, on ne sait même pas qui l’a collé. » Tu ranges ton téléphone sans scanner.'
+    pourquoi:
+      - levier: gain
+        truc: 'Après six candidatures sans réponse, « Trouve-le en 48 h » sonne comme une solution.'
+        parade: 'Une offre trop facile mérite plus de méfiance, pas moins. Cherche d’abord qui la propose.'
+      - levier: groupe
+        truc: 'Deux élèves de ta classe le prennent en photo : si d’autres s’y intéressent, ça paraît sérieux.'
+        parade: 'Que d’autres s’y intéressent ne dit rien de qui a collé l’autocollant. Ils n’ont rien vérifié non plus.'
+      - levier: reflexe
+        truc: 'Scanner un QR code est devenu banal : menus, billets, affiches. On le fait sans y penser.'
+        parade: 'Un QR code est un lien caché. Avant de donner tes coordonnées, demande-toi qui l’a posé.'
+    aRetenir: 'Un QR code imprimé ou collé peut mener vers n’importe quelle page. Avant d’y laisser tes coordonnées, demande-toi qui l’a posé, et cherche le service toi-même.'
+
+  - type: lieu
+    id: offre
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Le soir, dans ta chambre, un mail arrive : « Bonjour, votre candidature a retenu notre attention : Atelier Boréal vous accueille en stage. Pour préparer la convention, merci d’envoyer avant 20 h la photo recto verso de votre carte d’identité et votre RIB. Passé ce délai, la place ira à un autre candidat. Hugo Martel, recrutement. » Atelier Boréal, une menuiserie de ta ville, fait partie des entreprises que tu as contactées. Le mail porte son logo.'
+    question: Il est 19 h 15. Que fais-tu ?
+    choix:
+      - id: envoie
+        texte: 'Une place en stage, enfin : j’envoie ma carte d’identité et mon RIB avant 20 h.'
+        qualite: risque
+        suite: faux-recruteur
+        route: j’envoie les documents
+        reaction: 'Hugo répond aussitôt : « Merci, c’est parfait. » Tu es soulagé·e : ton stage est trouvé. Ce que tu ne sais pas encore, c’est qu’Hugo ne travaille pas chez Atelier Boréal. Ta carte d’identité et ton RIB sont maintenant entre ses mains.'
+      - id: verifie
+        texte: 'Avant d’envoyer quoi que ce soit, j’appelle Atelier Boréal au numéro de son site officiel.'
+        qualite: bon
+        suite: atelier
+        route: je vérifie l’entreprise
+        reaction: 'La secrétaire d’Atelier Boréal est formelle : personne ne s’appelle Hugo Martel chez eux, et ils ne demandent jamais de documents par mail. « D’autres élèves nous ont appelés pour le même message. Passez samedi à l’atelier, la responsable veut le voir. »'
+      - id: aide
+        texte: 'Je demande de l’aide à ma professeure principale, qui suit les conventions de stage de la classe.'
+        qualite: aide
+        suite: cdi
+        route: je demande à ma professeure principale
+        reaction: 'Tu écris à Mme Diallo sur la messagerie du lycée. Elle répond dans la soirée : « N’envoie rien pour l’instant. On regarde ça ensemble demain au CDI. »'
+    pourquoi:
+      - levier: gain
+        truc: 'Après six candidatures sans réponse, une place en stage : on a très envie d’y croire.'
+        parade: 'Une offre qui réclame tes papiers avant toute convention se vérifie, même quand elle tombe à pic.'
+      - levier: urgence
+        truc: '« avant 20 h », sinon « la place ira à un autre candidat » : il te reste quarante-cinq minutes.'
+        parade: 'Un délai très court sert à t’empêcher de vérifier. Une vraie entreprise peut attendre un appel.'
+      - levier: autorite
+        truc: 'Le logo d’Atelier Boréal, une signature, le mot « convention » : tout a l’air sérieux.'
+        parade: 'Un logo et une signature se copient. Vérifie l’interlocuteur par un canal indépendant : le site ou le numéro officiel, trouvé toi-même.'
+    aRetenir: 'Une offre qui réclame des documents en urgence se vérifie par un canal indépendant : le numéro ou le site officiel de l’entreprise, trouvé toi-même, ou le lycée, qui prépare la convention.'
+
+  - type: lieu
+    id: atelier
+    lieu: L’atelier Boréal
+    decor: entreprise
+    guide: 'Samedi, à l’atelier Boréal, ça sent le bois. Mme Lemoine, la responsable, compare le mail avec les siens : « Notre adresse, c’est atelier-boreal.fr. Celle-ci ajoute “-recrutement”. Quelqu’un se sert de notre nom pour piéger des élèves. » Pendant qu’elle parle, ton téléphone vibre. Hugo relance : « Toujours intéressé·e ? Il ne reste qu’une place. »'
+    question: Que fais-tu de ta conversation avec Hugo ?
+    choix:
+      - id: efface
+        texte: Je supprime toute la conversation avec Hugo et je bloque son adresse, c’est réglé.
+        qualite: risque
+        reaction: 'Hugo ne peut plus t’écrire, mais l’offre et ses relances ont disparu. Mme Lemoine voulait les joindre à son signalement : sans eux, difficile de montrer ce qui s’est passé. Bloquer est utile, mais après avoir gardé les preuves. Regarde s’il en reste une copie dans ta corbeille.'
+      - id: captures
+        texte: 'Je fais des captures de l’offre et des messages, puis je bloque l’adresse d’Hugo.'
+        qualite: bon
+        reaction: 'Bien vu. Tu gardes l’offre, ses relances et leurs heures d’envoi, et tu les transfères à Mme Lemoine pour son signalement. Ensuite seulement, tu bloques Hugo. Mme Lemoine ajoute : « Si tu veux un vrai stage ici, dépose ta candidature comme tout le monde. »'
+      - id: aide
+        texte: 'Je demande de l’aide à Mme Lemoine pour savoir ce qui peut servir à l’entreprise.'
+        qualite: aide
+        reaction: 'Mme Lemoine est précise : « Gardez l’offre et tous ses messages, avec les heures. Nous allons signaler l’usurpation de notre nom. » Tu fais les captures avec elle, puis tu bloques Hugo.'
+    pourquoi:
+      - levier: reflexe
+        truc: 'Effacer et bloquer, c’est le geste qu’on fait d’habitude pour ne plus être embêté.'
+        parade: 'Bloquer, oui, mais en dernier. Une fois la conversation effacée, il ne reste plus rien à montrer.'
+      - levier: honte
+        truc: 'Tu as failli y croire : on a envie de faire disparaître ce message au plus vite.'
+        parade: 'Une offre bien imitée trompe beaucoup de monde. La garder, c’est aider l’entreprise et les autres élèves.'
+      - levier: urgence
+        truc: '« Il ne reste qu’une place » : Hugo relance encore pour te presser.'
+        parade: 'Tu n’as plus rien à lui répondre. Ses relances sont des preuves : elles montrent comment il presse.'
+    aRetenir: 'Face à une fausse offre, on garde l’offre et tous les échanges avant de bloquer. Ces preuves servent à l’entreprise dont le nom est usurpé, et à tout signalement.'
+    recuperation: { action: capture-preuve, siChoix: [efface] }
+
+  - type: lieu
+    id: sms-dossier
+    lieu: La gare
+    decor: gare
+    suite: bon-recours
+    guide: 'Dimanche, à la gare, en attendant ton train, un SMS arrive d’un numéro inconnu : « Atelier Boréal : ton dossier de stage est incomplet. Termine ton inscription avant ce soir : boreal-stage-dossier.fr ». Hier, tu as justement déposé une vraie candidature à l’atelier.'
+    question: Le train arrive dans dix minutes. Que fais-tu ?
+    choix:
+      - id: clique
+        texte: 'Je clique pour compléter mon dossier : c’est peut-être la suite de ma vraie candidature.'
+        qualite: risque
+        reaction: 'La page, aux couleurs d’Atelier Boréal, demande ton adresse mail et un mot de passe pour « accéder à ton dossier ». Tu tapes celui de ta messagerie. Ce SMS vient des mêmes escrocs : il tombe juste quand tu attends une réponse. Change tout de suite ce mot de passe, et partout où tu l’utilises.'
+      - id: signale
+        texte: 'Je ne clique pas : je garde ce SMS et je le signale au 33700.'
+        qualite: bon
+        reaction: 'Bien vu. Le 33700 sert à signaler les SMS et les appels frauduleux. Lundi, tu appelles l’atelier au numéro de son site : ta vraie candidature n’a rien d’« incomplet », et Mme Lemoine ajoute ce SMS à son signalement.'
+      - id: aide
+        texte: 'Je demande de l’aide à Mme Lemoine, au numéro de l’atelier, avant de remplir quoi que ce soit.'
+        qualite: aide
+        reaction: 'Lundi, Mme Lemoine est formelle : l’atelier n’envoie pas de SMS pour les candidatures. « Ne cliquez pas, et signalez-le au 33700 : c’est fait pour ça. » Tu le signales en raccrochant.'
+    pourquoi:
+      - levier: autorite
+        truc: 'Le SMS commence par « Atelier Boréal » : on croit qu’il vient de l’entreprise.'
+        parade: 'N’importe qui peut écrire un nom en début de SMS. Vérifie en passant toi-même par l’entreprise.'
+      - levier: urgence
+        truc: '« avant ce soir » : le SMS te presse, et ton train arrive.'
+        parade: 'Un dossier de stage ne se joue pas en dix minutes. Le délai sert à t’empêcher de vérifier.'
+      - levier: reflexe
+        truc: 'Tu attends vraiment une réponse de l’atelier : un message sur ton dossier paraît logique.'
+        parade: 'Les escrocs visent justement ceux qui attendent une réponse. Ne clique pas sur un lien reçu par SMS : passe par le site de l’entreprise.'
+    aRetenir: 'Je ne clique pas sur les liens d’un SMS suspect, même s’il parle de mon dossier. Je le garde, je le signale au 33700, et je vérifie en passant moi-même par l’entreprise.'
+    recuperation: { action: changer-mdp, siChoix: [clique] }
+
+  - type: lieu
+    id: cdi
+    lieu: Le CDI
+    decor: cdi
+    guide: 'Le lendemain, au CDI, Mme Diallo lit le mail sur un ordinateur : « La convention, c’est le lycée qui la prépare avec l’entreprise. Une carte d’identité et un RIB par mail, avant même la convention, ça m’étonne. » Avant de prévenir la classe, elle veut être sûre que l’offre est fausse. Hugo, lui, a déjà relancé : « Sans nouvelles de vous, je donne la place à midi. »'
+    question: Comment vérifier que ce mail vient vraiment d’Atelier Boréal ?
+    choix:
+      - id: repond
+        texte: 'Je réponds à Hugo pour lui demander une preuve qu’il travaille chez Atelier Boréal.'
+        qualite: risque
+        reaction: 'Hugo répond en deux minutes, avec un « contrat » au logo de l’atelier, ton prénom, le nom de ton lycée et ta classe. Ça a l’air solide, mais tout vient de lui : il ne peut pas se vérifier lui-même. Connaître ton prénom et ta classe ne prouve pas qu’il travaille chez eux. Bloque-le et signale son message.'
+      - id: cherche
+        texte: 'Je tape moi-même le nom de l’atelier pour trouver son site et son numéro officiels.'
+        qualite: bon
+        reaction: 'Bien vu. Sur atelier-boreal.fr, un bandeau prévient : « De faux recruteurs utilisent notre nom. » Mme Diallo appelle le numéro du site depuis le lycée : aucun Hugo Martel chez eux. Tu bloques son adresse, et Mme Diallo garde le mail pour prévenir la classe.'
+      - id: aide
+        texte: 'Je demande de l’aide au professeur documentaliste pour retrouver le site officiel de l’atelier.'
+        qualite: aide
+        reaction: 'M. Perrin, le documentaliste, te montre comment chercher l’entreprise par son nom, sans passer par le mail. Sur le vrai site, un bandeau prévient : « De faux recruteurs utilisent notre nom. » Mme Diallo appelle l’atelier : aucun Hugo Martel chez eux.'
+    pourquoi:
+      - levier: reflexe
+        truc: 'Répondre au mail, c’est le plus simple : la personne est juste là, au bout du message.'
+        parade: 'Pour vérifier quelqu’un, on ne lui demande pas de se prouver lui-même. On passe par un accès trouvé soi-même.'
+      - levier: urgence
+        truc: '« je donne la place à midi » : il reste peu de temps pour chercher plus loin.'
+        parade: 'Plus on te presse, plus tu prends le temps de vérifier par un autre chemin.'
+      - levier: autorite
+        truc: 'Le mail porte le logo de l’atelier et parle de convention : il a tout d’un mail officiel.'
+        parade: 'Un logo se copie. Le site et le numéro officiels, trouvés par toi, disent qui travaille vraiment chez eux.'
+    aRetenir: 'Pour vérifier un interlocuteur, on ne lui demande pas de se prouver lui-même. On passe par un accès indépendant : le site ou le numéro officiel, trouvé soi-même.'
+    recuperation: { action: bloquer-signaler, siChoix: [repond] }
+
+  - type: lieu
+    id: cour-lea
+    lieu: La cour
+    decor: cour
+    suite: bon-recours
+    guide: 'À la récré, dans la cour, Léa annonce au groupe : « Atelier Boréal m’a prise en stage ! J’ai envoyé mes papiers à Hugo hier soir. » Trois élèves lui demandent déjà l’adresse d’Hugo pour postuler aussi. Mme Diallo prévient la classe cet après-midi, mais d’ici là, d’autres peuvent envoyer leurs documents. Léa a l’air si contente.'
+    question: Tout le monde regarde Léa. Que fais-tu ?
+    choix:
+      - id: attend
+        texte: 'Je ne dis rien devant tout le monde : Mme Diallo prévient la classe cet après-midi.'
+        qualite: risque
+        reaction: 'À midi, deux élèves ont écrit à Hugo, et l’un d’eux a déjà envoyé sa carte d’identité. Ne pas vouloir gâcher la joie de Léa devant les autres, c’est très humain. Il est encore temps : dis au groupe de ne rien envoyer, et parle à Léa en privé.'
+      - id: explique
+        texte: 'J’explique au groupe que cette offre est fausse, et je propose à Léa de venir voir Mme Diallo.'
+        qualite: bon
+        reaction: 'Bien vu. Tu racontes ce que tu as vérifié avec Mme Diallo : aucun Hugo Martel chez Atelier Boréal. Les autres renoncent à écrire. Léa pâlit, puis te suit chez Mme Diallo : elle garde ses échanges avec Hugo, et le lycée l’aide pour la suite.'
+      - id: aide
+        texte: 'Je demande de l’aide à la CPE, tout de suite, pour Léa et pour ceux qui veulent postuler.'
+        qualite: aide
+        reaction: 'La CPE réunit le groupe : « Cette offre utilise le nom d’une vraie entreprise. N’envoyez rien. » Puis elle prend Léa à part, sans la gronder : elle va l’aider à garder ses échanges et à prévenir sa famille.'
+    pourquoi:
+      - levier: honte
+        truc: 'Contredire Léa devant tout le monde, alors qu’elle est si contente, c’est gênant.'
+        parade: 'Prévenir, ce n’est pas se moquer. Tu peux parler au groupe sans viser Léa, puis lui parler en privé.'
+      - levier: groupe
+        truc: 'Trois élèves veulent postuler : l’offre a l’air d’une bonne nouvelle pour tout le monde.'
+        parade: 'Plus l’offre circule, plus il y a de documents envoyés. C’est le moment de parler.'
+      - levier: reflexe
+        truc: '« Mme Diallo prévient la classe cet après-midi » : on se dit que ce n’est pas à nous d’agir.'
+        parade: 'Quelques heures suffisent pour que d’autres envoient leurs papiers. Un avertissement maintenant compte.'
+    aRetenir: 'Quand une fausse offre circule, préviens vite les autres, sans te moquer de celui qui y a cru. Celui qui a déjà envoyé ses documents en parle au lycée : il n’a rien à se reprocher.'
+    recuperation: { action: prevenir-contacts, siChoix: [attend] }
+
+  - type: lieu
+    id: faux-recruteur
+    lieu: Devant chez toi
+    decor: rue
+    guide: 'Le lendemain matin, devant chez toi, ton téléphone vibre. Hugo : « Merci ! Dernière étape avant midi : la carte d’identité d’un de vos parents, pour l’autorisation. » Tu ouvres enfin le site officiel d’Atelier Boréal. Un bandeau prévient : « De faux recruteurs utilisent notre nom. Nous ne demandons jamais de documents par message. » Tu as envoyé ta carte d’identité et ton RIB à un faux recruteur. L’offre était bien faite, et ça se répare.'
+    question: Hugo attend ta réponse. Par quoi commences-tu ?
+    choix:
+      - id: exige
+        texte: 'Je lui réponds que j’ai compris son manège, et j’exige qu’il supprime tout de suite mes documents.'
+        qualite: risque
+        reaction: 'Hugo ignore ta demande et relance : « Il manque juste la carte de votre mère. » Il ne supprimera rien, et lui répondre garde l’échange ouvert : il a une nouvelle occasion de te convaincre. Arrête de lui répondre, et garde tout ce qu’il a écrit.'
+      - id: stoppe
+        texte: 'Je ne lui réponds plus, et je fais des captures de l’offre et de toute la conversation.'
+        qualite: bon
+        reaction: 'C’est le premier geste : arrêter d’envoyer quoi que ce soit, et garder l’offre et les échanges, avec les heures. Hugo relance deux fois, puis se tait. Tu as tout ce qu’il faut pour la suite.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère tout de suite, puisqu’il réclame maintenant sa carte.'
+        qualite: aide
+        reaction: 'Ta mère t’écoute jusqu’au bout, sans te gronder : « On ne lui répond plus, et on garde tout. » Vous faites ensemble les captures de l’offre et des messages. Ton RIB a été transmis : elle prévient aussi votre banque.'
+    pourquoi:
+      - levier: colere
+        truc: 'Tu t’es fait avoir, et tu as envie de lui dire ce que tu penses.'
+        parade: 'Répondre à chaud garde l’échange ouvert. Ce qui compte maintenant : arrêter, et garder les preuves.'
+      - levier: peur
+        truc: 'Tes documents sont chez lui : tu voudrais à tout prix qu’il les efface.'
+        parade: 'Un escroc n’efface rien sur demande. Les démarches, avec des preuves, servent davantage que sa promesse.'
+      - levier: urgence
+        truc: '« avant midi » : Hugo fixe encore un délai.'
+        parade: 'Tu n’as aucun délai à respecter : c’est lui qui les invente, pas l’entreprise.'
+    aRetenir: 'Après avoir envoyé des documents à un faux recruteur, on arrête l’échange et on garde l’offre et les messages : ce sont les preuves des démarches suivantes.'
+    recuperation: { action: bloquer-signaler, siChoix: [exige] }
+
+  - type: lieu
+    id: salon-17cyber
+    lieu: Le salon
+    decor: salon
+    guide: 'Le soir, au salon, tu as gardé l’offre et les messages, et tu ne réponds plus à Hugo. Ta mère a prévenu votre banque, puisque ton RIB a été transmis. Reste ta carte d’identité, qu’Hugo a toujours. Tu soupires : tu as entendu dire qu’à ton âge, on ne peut pas porter plainte.'
+    question: Que faites-vous maintenant ?
+    choix:
+      - id: abandon
+        texte: 'Je suis mineur·e, donc je ne peux pas porter plainte : on en reste là pour ce soir.'
+        qualite: risque
+        reaction: 'En fait, un mineur peut porter plainte, au commissariat ou à la gendarmerie. Seuls certains services en ligne demandent d’être majeur : c’est alors un parent qui fait la démarche. Beaucoup de gens pensent comme toi. Reprenez où vous en étiez : le diagnostic de 17Cyber peut vous orienter.'
+      - id: diagnostic
+        texte: 'Avec ma mère, je fais le diagnostic sur 17cyber.gouv.fr pour savoir quelles démarches faire.'
+        qualite: bon
+        reaction: 'Le diagnostic vous oriente pas à pas et propose d’échanger avec un policier ou un gendarme. Il ne porte pas plainte à votre place : la plainte se décide selon le préjudice. Demain, tu préviens aussi Mme Diallo : d’autres élèves ont pu recevoir la même offre.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma professeure principale dès demain, pour que le lycée soit au courant.'
+        qualite: aide
+        reaction: 'Le lendemain, Mme Diallo t’écoute sans te faire le moindre reproche, et prévient les autres classes de seconde. Elle vous conseille, à ta mère et à toi, de faire le diagnostic sur 17cyber.gouv.fr : il vous orientera, plainte comprise, selon le préjudice.'
+    pourquoi:
+      - levier: honte
+        truc: 'Tu t’en veux, et tu préfères que le moins de monde possible soit au courant.'
+        parade: 'Se faire piéger par une offre bien imitée n’est pas une faute. Prévenir le lycée protège les autres élèves.'
+      - levier: reflexe
+        truc: 'Tu as entendu dire qu’à ton âge, on ne peut pas porter plainte : on le répète sans vérifier.'
+        parade: 'Un mineur peut porter plainte, au commissariat ou à la gendarmerie. Seuls certains services en ligne exigent d’être majeur.'
+      - levier: peur
+        truc: 'Parler à la police paraît intimidant, et tu as peur que ça se retourne contre toi.'
+        parade: 'Tu es victime, pas coupable. 17Cyber t’oriente, et un parent peut t’accompagner.'
+    aRetenir: 'Après une fausse offre : arrêter l’échange, garder les preuves, prévenir le lycée, puis faire le diagnostic sur 17cyber.gouv.fr. Selon le préjudice, une plainte : un mineur peut porter plainte au commissariat ou à la gendarmerie.'
+    recuperation: { action: demander-aide, siChoix: [abandon] }
+
+  - type: minijeu
+    id: bon-recours
+    jeu: tri
+    config:
+      consigne: 'À qui t’adresser ? Classe chaque situation vers le bon recours.'
+      categories:
+        - { id: n33700, libelle: '33700' }
+        - { id: dix-sept-cyber, libelle: 17Cyber }
+        - { id: service-officiel, libelle: 'Le service lui-même, par son site officiel' }
+      cartes:
+        - { id: sms, texte: 'Un SMS d’un numéro inconnu : « ton dossier de stage est incomplet », avec un lien.', categorie: n33700, explication: 'Le 33700 reçoit les SMS et les appels indésirables ou frauduleux. Il ne récupère pas d’argent et ne remplace pas les autres démarches si tu as déjà cliqué ou payé.' }
+        - { id: appel, texte: 'Un appel d’un numéro inconnu : un « service des stages » veut ton RIB.', categorie: n33700, explication: 'Un appel frauduleux se signale aussi au 33700. Raccroche, et ne donne rien au téléphone.' }
+        - { id: documents, texte: 'Tu as envoyé ta carte d’identité à un faux recruteur et tu ne sais pas par où commencer.', categorie: dix-sept-cyber, explication: '17Cyber fait un diagnostic et t’oriente vers les bonnes démarches. Ce n’est pas un numéro de téléphone, et ce n’est pas automatiquement une plainte.' }
+        - { id: plainte, texte: 'Après une arnaque, tu ne sais pas si c’est grave ni s’il faut porter plainte.', categorie: dix-sept-cyber, explication: 'Le diagnostic de 17cyber.gouv.fr aide à choisir les démarches, et propose d’échanger avec un policier ou un gendarme.' }
+        - { id: offre, texte: 'Une offre de stage d’une entreprise te paraît trop belle, et tu veux savoir si elle est vraie.', categorie: service-officiel, explication: 'Tu cherches toi-même le site de l’entreprise, et tu l’appelles au numéro qui y figure, pas à celui du message.' }
+        - { id: messagerie, texte: 'Un mail annonce que ta messagerie sera fermée si tu ne te reconnectes pas par son lien.', categorie: service-officiel, explication: 'Tu ouvres toi-même ta messagerie, par l’appli ou l’adresse habituelle. S’il y a un vrai problème, c’est là que tu le verras.' }
+
+  - type: lieu
+    id: pfmp
+    lieu: Le parc
+    decor: parc
+    guide: 'Quelques semaines plus tard, au parc après les cours, Yanis te montre un message : « Bonjour Yanis, le lycée nous a transmis ta demande de PFMP en électricité. Envoie la photo de ta carte d’identité avant vendredi, pour préparer ton badge d’accès. Service RH, Électro Vallon. » Yanis : « Ils connaissent mon lycée et ma spécialité, c’est forcément sérieux. Je l’envoie ce soir. »'
+    question: Yanis tape déjà sa réponse. Que lui dis-tu ?
+    choix:
+      - id: rassure
+        texte: 'Ils connaissent son lycée et sa spécialité : je lui dis que ça a l’air sérieux.'
+        qualite: risque
+        reaction: 'Yanis envoie sa carte d’identité. Électro Vallon n’a jamais écrit ce message : ces détails venaient d’informations collectées ailleurs. Connaître ton lycée ne prouve pas qu’on est l’entreprise. Yanis peut encore réagir : arrêter l’échange, garder les messages, et prévenir le professeur qui suit ses PFMP.'
+      - id: numero
+        texte: 'Je lui conseille d’appeler l’entreprise au numéro de son site, pas à celui du message.'
+        qualite: bon
+        reaction: 'Bien vu. Yanis appelle Électro Vallon au numéro de son site : leur service RH n’a rien envoyé, et le badge est remis le premier jour, sur place. Yanis garde le message et le montre à son professeur.'
+      - id: aide
+        texte: 'Je demande de l’aide, avec Yanis, au professeur qui suit ses PFMP au lycée.'
+        qualite: aide
+        reaction: 'Le professeur de Yanis est net : « Le lycée n’a transmis aucune demande de ce genre. » Il appelle l’entreprise avec Yanis, au numéro qu’il connaît déjà : le message est faux. Yanis le garde pour le signaler.'
+    pourquoi:
+      - levier: confiance
+        truc: '« Ils connaissent mon lycée et ma spécialité » : on croit que le message passe par quelqu’un de connu.'
+        parade: 'Des informations sur toi peuvent avoir été collectées ailleurs. Elles rendent un message crédible, pas vrai.'
+      - levier: autorite
+        truc: '« le lycée nous a transmis ta demande » : citer le lycée donne un air officiel.'
+        parade: 'Si le lycée est cité, demande au lycée. Le professeur qui suit les PFMP sait ce qui a été transmis.'
+      - levier: urgence
+        truc: '« avant vendredi » : il faut se dépêcher pour ne pas rater sa PFMP.'
+        parade: 'Un vrai lieu de PFMP peut attendre un appel. Prends le temps de vérifier.'
+    aRetenir: 'Qu’un message connaisse ton lycée ou ta spécialité ne prouve pas qu’il vient de l’entreprise. Sur toute l’île, le même réflexe : vérifier par un accès que tu trouves toi-même, et savoir à qui t’adresser si c’est déjà fait.'
+    recuperation: { action: demander-aide, siChoix: [rassure] }
+debrief:
+  questions:
+    - 'Qu’est-ce qui rendait l’offre d’Atelier Boréal crédible, et comment pouvait-on la vérifier ?'
+    - 'Comparez les trois routes : qu’est-ce qu’on peut encore faire après une erreur ? Qui aide pour quoi ?'
+    - 'Quel recours pour quelle situation : le 33700, 17Cyber, ou l’entreprise elle-même ?'
+  reponses: 'Les hameçons de l’île : l’opportunité (un stage après six candidatures sans réponse), l’urgence (avant 20 h, avant midi), l’air officiel (logo, signature, « convention »), et des informations connues sur l’élève (lycée, classe, spécialité), qui rendent un message crédible sans le rendre vrai. Pour vérifier : passer par un canal indépendant, le site ou le numéro officiel trouvé soi-même, jamais par le message. Trois routes : vérifier soi-même, demander à la bonne personne (professeure principale, documentaliste, CPE, professeur qui suit les PFMP), ou réparer après avoir envoyé ses documents. Réparer, dans l’ordre : arrêter l’échange, garder l’offre et les messages, prévenir le lycée, faire le diagnostic sur 17cyber.gouv.fr, et porter plainte selon le préjudice (un mineur peut porter plainte au commissariat ou à la gendarmerie). Recours : le 33700 pour les SMS et appels frauduleux ; 17Cyber pour un diagnostic et une orientation, qui n’est ni un numéro de téléphone ni une plainte automatique ; l’entreprise elle-même, par son site officiel, pour vérifier une offre.'
+  erreursFrequentes:
+    - 'Demander à l’interlocuteur suspect de prouver qui il est, au lieu de passer par le site ou le numéro officiel.'
+    - 'Croire qu’un message qui connaît ton nom, ton lycée ou ta classe vient forcément de l’entreprise.'
+    - 'Penser qu’un mineur ne peut pas porter plainte.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qui cherche ou a cherché un stage ou une PFMP ? Comment une entreprise vous contacte-t-elle, et que vous demande-t-elle ?
+    25 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. À l’offre d’Atelier Boréal, trois routes : vérifier l’entreprise, demander à la professeure principale, ou envoyer les documents puis réparer. Si plusieurs binômes jouent, répartir les trois routes.
+    10 min : débrief. Comparez les trois routes : qu’est-ce qu’on peut encore faire après une erreur ? Qui aide pour quoi ? Puis retour sur le tri « le bon recours ».
+    5 min : où trouver de l’aide (professeur principal, CPE, professeur qui suit les PFMP, 17cyber.gouv.fr pour un diagnostic, 33700 pour les SMS et appels frauduleux).
+    5 min : engagement. La prochaine fois qu’une offre me réclame des documents, je l’appelle d’abord au numéro de son site officiel, trouvé moi-même.

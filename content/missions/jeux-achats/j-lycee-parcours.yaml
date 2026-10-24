@@ -1,0 +1,349 @@
+id: j-lycee-parcours
+theme: jeux-achats
+format: parcours
+tranches: ['lycee']
+titre: 'L’île aux pièces d’or : la calculatrice vendue avant le bac'
+resume: 'Un acheteur qui veut sortir de l’appli, un lien « pour recevoir tes 45 € », un conseiller qui sait tout de toi : vends ta calculatrice sans y laisser ta carte et, si elle est déjà partie, répare dans le bon ordre.'
+duree: 25
+objectifs:
+  - Repérer un faux paiement dans une vente entre particuliers, un faux placement et un faux conseiller bancaire
+  - Vérifier dans l’appli de la plateforme et dans celle de sa banque, et demander l’aide d’un parent ou de sa banque
+  - Réparer dans l’ordre après une fraude à la carte (opposition, relevé, Perceval si les conditions sont réunies, contestation) et choisir le bon recours
+competences:
+  crcn: ['4.1', '1.1']
+  programmes: ['SNT 2de', 'EMC lycée']
+etapes:
+  - type: lieu
+    id: annonce
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Tu es en terminale. Ta calculatrice graphique de seconde ne te sert plus : tu la mets en vente 45 € sur ReBoucle, pour en racheter une plus récente avant le bac. Dix minutes plus tard, Maxence_92 écrit dans la messagerie de l’appli : « Je la prends au prix affiché ! Je suis pas souvent sur ReBoucle, on continue sur TchatUp ? Donne-moi ton numéro, ce sera plus rapide. »'
+    question: Que réponds-tu à Maxence_92 ?
+    choix:
+      - id: numero
+        texte: 'Je lui donne mon numéro pour continuer la vente sur TchatUp, ce sera plus simple.'
+        qualite: risque
+        reaction: 'Sur TchatUp, Maxence_92 est très sympathique. Mais la vente n’apparaît plus dans ReBoucle, et il a maintenant ton numéro. Faire sortir le vendeur de la plateforme, c’est la première étape d’un faux paiement. Reviens dans la messagerie de ReBoucle, et bloque-le sur TchatUp.'
+      - id: reste
+        texte: 'Je lui réponds qu’on reste dans la messagerie de ReBoucle jusqu’à la fin de la vente.'
+        qualite: bon
+        reaction: 'Bien vu. Maxence_92 répond « ok ok » et continue dans l’appli. Toute la discussion reste visible dans ReBoucle, et ton numéro reste à toi.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon cousin Samir, qui revend souvent ses affaires sur ReBoucle.'
+        qualite: aide
+        reaction: 'Samir n’hésite pas : « Quelqu’un qui veut sortir de l’appli dès le premier message, je m’en méfie. Reste sur ReBoucle, comme ça tout est gardé. » Tu réponds à Maxence_92 que tout se fera dans l’appli.'
+    pourquoi:
+      - levier: gain
+        truc: '« Je la prends au prix affiché ! » : une vente en dix minutes, c’est inespéré.'
+        parade: 'Un acheteur rapide n’est pas forcément honnête. Ce qui compte, c’est que tout reste dans l’appli.'
+      - levier: urgence
+        truc: '« ce sera plus rapide » : changer d’appli paraît juste pratique.'
+        parade: 'Tu n’as aucune raison de te presser. La vente peut se faire entièrement dans ReBoucle.'
+      - levier: reflexe
+        truc: 'Donner son numéro, on le fait tout le temps : ça paraît sans importance.'
+        parade: 'Hors de la plateforme, la vente ne laisse plus de trace dans l’appli. Garde la discussion là où elle a commencé.'
+    aRetenir: 'Sur une plateforme de vente, la discussion et le paiement restent dans l’appli. Un acheteur qui veut en sortir dès le début, c’est un signal.'
+    recuperation: { action: bloquer-signaler, siChoix: [numero] }
+
+  - type: lieu
+    id: lien-paiement
+    lieu: Le bus
+    decor: bus
+    guide: 'Le lendemain, dans le bus, Maxence_92 écrit : « C’est payé ! Pour recevoir tes 45 €, clique ici et entre ta carte bancaire : reboucle-paiement-securise.com. Le lien expire dans 30 minutes. » La page affiche le logo de ReBoucle, ton annonce et sa photo. Tu as ta première carte bancaire depuis deux mois, à 17 ans.'
+    question: Il reste 25 minutes. Que fais-tu ?
+    choix:
+      - id: saisit
+        texte: 'Pour ne pas perdre la vente, je saisis ma carte sur le lien avant qu’il expire.'
+        qualite: risque
+        suite: soir-opposition
+        route: je saisis ma carte
+        reaction: 'La page demande le numéro de ta carte, sa date et le cryptogramme, puis affiche « Paiement en cours ». Les 45 € n’arrivent pas. Une heure plus tard, ton appli bancaire montre deux paiements en ligne que tu n’as jamais faits. Ta carte est toujours dans ton portefeuille, mais ses numéros sont partis.'
+      - id: verifie
+        texte: 'Je vérifie dans l’appli ReBoucle et dans celle de ma banque si un paiement existe.'
+        qualite: bon
+        suite: quai
+        route: je vérifie dans les applis
+        reaction: 'Dans ReBoucle, aucune vente n’est enregistrée. Dans l’appli de ta banque, aucun paiement en attente. Et l’aide de ReBoucle le dit : « Pour recevoir un paiement, vous n’avez jamais à saisir votre carte. » La page était fausse.'
+      - id: aide
+        texte: 'Je demande de l’aide à mes parents ce soir, avant de taper le moindre chiffre de ma carte.'
+        qualite: aide
+        suite: salon-sms
+        route: je demande à mes parents
+        reaction: 'Le soir, ton père fronce les sourcils : « Pour recevoir de l’argent, on ne donne pas sa carte. » Ta mère ouvre avec toi l’appli de ta banque, puis celle de ReBoucle : aucune vente, aucun paiement.'
+    pourquoi:
+      - levier: autorite
+        truc: 'Le logo de ReBoucle, ton annonce, sa photo : la page a tout d’une page officielle.'
+        parade: 'Une page convaincante n’identifie pas le service. Ouvre toi-même l’appli ReBoucle : si un paiement existe, il y apparaît.'
+      - levier: urgence
+        truc: '« Le lien expire dans 30 minutes » : tu as peur de perdre la vente.'
+        parade: 'Un vrai paiement n’expire pas pendant ton trajet en bus. Le délai sert à t’empêcher de vérifier.'
+      - levier: reflexe
+        truc: 'Taper sa carte, c’est le geste de tous les paiements en ligne. On le fait sans réfléchir.'
+        parade: 'Avant de saisir ta carte, demande-toi : est-ce que je paie, ou est-ce que je reçois ?'
+    aRetenir: 'Une page qui imite la plateforme ne prouve rien. Pour savoir si tu as été payé·e, ouvre toi-même l’appli de la plateforme et celle de ta banque, sans passer par le lien.'
+
+  - type: lieu
+    id: quai
+    lieu: La gare
+    decor: gare
+    guide: 'À la gare, en attendant ton train, tu écris à Maxence_92 que tu ne passeras pas par son lien. Il s’agace : « Si tu ne valides pas dans 10 minutes, je te mets un avis négatif et je te signale comme arnaqueur. » Ton annonce est toujours en ligne, et d’autres vendeurs de ReBoucle reçoivent peut-être le même lien.'
+    question: Que fais-tu de cette conversation ?
+    choix:
+      - id: efface
+        texte: 'Je supprime toute la conversation et je republie mon annonce, sans rien signaler à ReBoucle.'
+        qualite: risque
+        reaction: 'Maxence_92 disparaît de ta messagerie, mais pas de ReBoucle : le soir même, il écrit à d’autres vendeurs avec le même lien. Sa menace t’a mis la pression, et elle était faite pour ça. Il est encore temps de signaler son profil depuis l’appli.'
+      - id: signale
+        texte: 'Je fais des captures du message et du lien, puis je signale son profil dans ReBoucle.'
+        qualite: bon
+        reaction: 'Bien vu. Avec les captures, ton signalement montre exactement ce qu’il a envoyé. Tu bloques Maxence_92. Son « avis négatif » n’arrive jamais : son profil est suspendu le lendemain.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon frère, qui a déjà signalé un faux acheteur sur ReBoucle.'
+        qualite: aide
+        reaction: 'Ton frère te répond tout de suite : « Capture d’abord, puis tu signales son profil depuis l’appli, et tu le bloques. Son avis négatif, c’est du vent. » Tu le fais depuis le quai.'
+    pourquoi:
+      - levier: peur
+        truc: '« je te signale comme arnaqueur » : être accusé, même à tort, ça inquiète.'
+        parade: 'Ses menaces servent à te faire agir vite. Ton signalement, avec des captures, montre qui a vraiment triché.'
+      - levier: urgence
+        truc: '« dans 10 minutes » : il te met encore la pression.'
+        parade: 'Tu n’as rien à valider. Prends le temps de garder les preuves avant de bloquer.'
+      - levier: reflexe
+        truc: 'Supprimer un message pénible et passer à autre chose, c’est ce qu’on fait d’habitude.'
+        parade: 'Avant de supprimer, capture et signale : sinon, il continue avec d’autres vendeurs.'
+    aRetenir: 'Face à un faux acheteur : captures, signalement de son profil dans l’appli, puis blocage. Ses menaces servent à te faire agir vite.'
+    recuperation: { action: bloquer-signaler, siChoix: [efface] }
+
+  - type: lieu
+    id: anniversaire
+    lieu: L’anniversaire de Noé
+    decor: fete
+    suite: bon-recours
+    guide: 'Samedi, tu as vendu ta calculatrice dans ReBoucle à une vraie acheteuse, et tu mets de côté pour le permis. À l’anniversaire de Noé, il te montre un groupe « Objectif permis » : « Place ton argent chez CapiJeunes et double-le en un mois, gains garantis. Plus que 5 places ce mois-ci ! » Le site de CapiJeunes a l’air très pro, avec des témoignages et un tableau de gains en direct. Noé y a déjà mis 20 €.'
+    question: Noé te tend son téléphone. Que fais-tu ?
+    choix:
+      - id: teste
+        texte: 'Je verse juste 20 € pour tester, comme Noé : je verrai bien si ça marche.'
+        qualite: risque
+        reaction: 'Ton tableau de gains grimpe tous les jours. Mais quand tu veux retirer ton argent, impossible : le groupe te pousse à verser plus pour « débloquer » tes gains. C’est un faux placement. Préviens tout de suite ta banque avec un parent, et garde les captures du groupe et du site.'
+      - id: refuse
+        texte: 'Je ne verse rien à un service trouvé dans un groupe, même avec un site très pro.'
+        qualite: bon
+        reaction: 'Bien vu. Tu expliques à Noé qu’un site soigné, des témoignages et un tableau de gains se fabriquent. Il essaie de retirer ses 20 € : impossible. Il prévient sa banque avec sa mère et garde ses captures.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma conseillère bancaire, lundi, pour mettre de côté pour le permis.'
+        qualite: aide
+        reaction: 'Lundi, la conseillère regarde le site avec toi : « Un service découvert dans un groupe, qui promet de doubler votre argent : c’est un faux placement. » Elle t’aide à mettre de côté sur ton compte. Noé, lui, prévient sa banque pour ses 20 €.'
+    pourquoi:
+      - levier: gain
+        truc: '« double-le en un mois » : le permis paraît tout à coup beaucoup plus proche.'
+        parade: 'Si c’est trop beau pour être vrai, c’est que ce n’est pas vrai. Un gain « garanti » est un appât.'
+      - levier: urgence
+        truc: '« Plus que 5 places ce mois-ci ! » : la rareté pousse à décider tout de suite.'
+        parade: 'Un vrai placement ne disparaît pas en une soirée. La rareté annoncée sert à t’empêcher de demander conseil.'
+      - levier: confiance
+        truc: 'Noé, ton ami, y a déjà mis 20 € : s’il le fait, ça paraît sûr.'
+        parade: 'Noé ne sait pas encore s’il pourra récupérer son argent. Un ami peut être piégé lui aussi.'
+      - levier: petit-montant
+        truc: 'Vingt euros pour essayer, ça paraît sans risque.'
+        parade: 'Le premier petit versement sert à t’en faire verser d’autres. Ne verse rien du tout.'
+    aRetenir: 'Un placement découvert dans un groupe, qui promet de doubler ton argent, est un appât. Avant de verser quoi que ce soit, parles-en à ta banque ou à un parent.'
+    recuperation: { action: demander-aide, siChoix: [teste] }
+
+  - type: lieu
+    id: salon-sms
+    lieu: Le salon
+    decor: salon
+    guide: 'Le soir, au salon, ta mère a vérifié avec toi : aucune vente sur ReBoucle, aucun paiement à la banque. Ton père propose de vendre plutôt la calculatrice en main propre. Un SMS arrive, d’un numéro inconnu : « ReBoucle : un paiement de 45 € vous attend. Confirmez votre identité sous 24 h : reboucle-confirmation.com ».'
+    question: Ton doigt est déjà sur le lien. Que fais-tu ?
+    choix:
+      - id: clique
+        texte: 'Je clique juste pour voir, sans rien remplir : c’est peut-être le paiement de Maxence_92.'
+        qualite: risque
+        reaction: 'La page imite ReBoucle et demande ta carte. Tu la fermes sans rien taper : ouvrir un lien ne veut pas dire que tu es piraté·e. Mais ce lien vient des mêmes escrocs. Garde le SMS et signale-le au 33700. En cas de doute, le diagnostic de 17cyber.gouv.fr peut t’orienter.'
+      - id: signale
+        texte: 'Je ne clique pas : je signale ce SMS au 33700, puis je regarde dans l’appli ReBoucle.'
+        qualite: bon
+        reaction: 'Bien vu. Le 33700 reçoit les SMS frauduleux. Dans l’appli ReBoucle, toujours aucun paiement : le SMS venait des mêmes escrocs que le lien de Maxence_92.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père, qui reçoit souvent ce genre de SMS, avant de cliquer.'
+        qualite: aide
+        reaction: 'Ton père sourit : « Moi aussi, j’en reçois. On ne clique pas, on le signale au 33700. » Il te montre comment faire, puis tu supprimes le SMS.'
+    pourquoi:
+      - levier: gain
+        truc: '« un paiement de 45 € vous attend » : c’est exactement le prix de ta calculatrice.'
+        parade: 'Les escrocs savent ce que tu attends. Un paiement réel apparaît dans l’appli, pas dans un SMS.'
+      - levier: urgence
+        truc: '« sous 24 h » : on a peur de laisser filer l’argent.'
+        parade: 'Un paiement ne disparaît pas parce que tu ne cliques pas. Vérifie dans l’appli.'
+      - levier: autorite
+        truc: 'Le SMS commence par « ReBoucle » : on croit que c’est la plateforme.'
+        parade: 'N’importe qui peut écrire un nom en début de SMS. Passe toi-même par l’appli.'
+    aRetenir: 'Un SMS qui annonce un paiement ne prouve rien : vérifie dans l’appli. Un SMS frauduleux se signale au 33700. Si tu as seulement ouvert le lien, sans rien taper, ferme la page et garde le message.'
+    recuperation: { action: capture-preuve, siChoix: [clique] }
+
+  - type: lieu
+    id: commande
+    lieu: La cuisine
+    decor: cuisine
+    suite: bon-recours
+    guide: 'Deux semaines plus tard, tu as vendu l’ancienne calculatrice en main propre. Pour la nouvelle, tu as payé 79 € à CalcuPro, une boutique en ligne. Trois semaines après, rien n’est arrivé, et tes mails restent sans réponse. Dans la cuisine, ton père regarde la commande avec toi.'
+    question: Que fais-tu ?
+    choix:
+      - id: abandon
+        texte: 'Je laisse tomber : contre une boutique en ligne qui ne répond plus, on ne peut rien faire.'
+        qualite: risque
+        reaction: 'CalcuPro garde tes 79 €, et d’autres clients attendent peut-être comme toi. Penser qu’on ne peut rien faire, c’est très courant. Pour un problème avec un professionnel, il existe SignalConso. Garde ta commande et tes mails, et fais le signalement avec un parent.'
+      - id: signalconso
+        texte: 'Je garde la commande et les mails, et je fais un signalement sur SignalConso.'
+        qualite: bon
+        reaction: 'Bien vu. SignalConso sert aux problèmes avec une entreprise ou un professionnel : « Votre signalement est envoyé à l’entreprise. » Ton père ajoute que pour une vente entre particuliers, ce ne serait pas le bon recours.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père pour choisir le bon recours contre cette boutique.'
+        qualite: aide
+        reaction: 'Ton père cherche avec toi : pour un problème avec un professionnel, c’est SignalConso. Vous joignez la commande et les mails, et le site prévient : « Votre signalement est envoyé à l’entreprise. »'
+    pourquoi:
+      - levier: reflexe
+        truc: 'Laisser tomber, c’est ce qu’on fait quand on ne sait pas à qui s’adresser.'
+        parade: 'Un problème avec un professionnel a son recours : SignalConso.'
+      - levier: honte
+        truc: 'Tu t’en veux d’avoir choisi cette boutique, alors tu préfères ne plus y penser.'
+        parade: 'Commander dans une boutique qui ne livre pas n’est pas une faute. Le signalement est envoyé à l’entreprise.'
+      - levier: peur
+        truc: 'Les démarches paraissent compliquées, ou réservées aux adultes.'
+        parade: 'Un parent peut faire le signalement avec toi. Garde la commande et les mails : ce sont tes preuves.'
+    aRetenir: 'Un problème avec une entreprise ou un professionnel se signale sur SignalConso. Pour une vente entre particuliers, ce n’est pas le bon recours.'
+    recuperation: { action: demander-aide, siChoix: [abandon] }
+
+  - type: lieu
+    id: soir-opposition
+    lieu: Le salon
+    decor: salon
+    guide: 'Le soir, au salon, tu regardes encore l’appli de ta banque : deux paiements en ligne que tu n’as pas faits, 120 € et 80 €. Ta carte est dans ton portefeuille, mais ses numéros sont entre les mains de quelqu’un d’autre. Tu as saisi ta carte sur une fausse page, comme beaucoup de gens avant toi. Ça se répare, en commençant par le bon geste.'
+    question: Par quoi commences-tu ?
+    choix:
+      - id: pharos
+        texte: 'Je signale tout de suite le faux lien sur PHAROS, pour récupérer mon argent au plus vite.'
+        qualite: risque
+        reaction: 'PHAROS sert à signaler des contenus ou des comportements illicites en ligne. Il ne bloque pas ta carte et ne te rend pas d’argent. Pendant ce temps, les numéros de ta carte peuvent encore servir. Le premier geste, c’est ta banque : faire opposition.'
+      - id: opposition
+        texte: 'Je fais opposition sur ma carte tout de suite, depuis l’appli de ma banque.'
+        qualite: bon
+        reaction: 'C’est le premier geste. En deux minutes, ta carte est en opposition : c’est ce qui sert à empêcher de nouveaux paiements avec ses numéros. Tu préviens ta mère dans la foulée : à 17 ans, c’est elle qui t’accompagne pour la suite.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère tout de suite, pour appeler la banque ensemble.'
+        qualite: aide
+        reaction: 'Ta mère ne te fait aucun reproche : « On appelle la banque, maintenant. » Elle compose le numéro affiché dans l’appli de ta banque, et ta carte est mise en opposition. Tu gardes les captures de la conversation et de la fausse page.'
+    pourquoi:
+      - levier: autorite
+        truc: 'PHAROS est un service officiel : on pense qu’il s’occupe de tout.'
+        parade: 'Signaler ne bloque pas une carte et ne rend pas d’argent. Pour la carte, c’est ta banque, et d’abord l’opposition.'
+      - levier: peur
+        truc: 'Tu veux récupérer tes 200 € le plus vite possible.'
+        parade: 'Avant de penser à récupérer l’argent, empêche de nouveaux paiements : l’opposition, auprès de ta banque.'
+      - levier: honte
+        truc: 'Tu n’as pas envie d’annoncer à ta banque, ou à tes parents, que tu t’es fait avoir.'
+        parade: 'Se faire piéger par une fausse page n’est pas une faute. Ta banque et tes parents sont là pour t’aider.'
+    aRetenir: 'Après avoir saisi sa carte sur une fausse page : la banque d’abord, pour faire opposition. PHAROS signale des contenus illicites, mais il ne bloque pas une carte et ne rend pas d’argent.'
+    recuperation: { action: demander-aide, siChoix: [pharos] }
+
+  - type: lieu
+    id: agence
+    lieu: L’agence bancaire
+    decor: banque
+    guide: 'Le lendemain, ta mère et toi êtes à l’agence de la Banque Hirondelle. La conseillère, Mme Roche, imprime le relevé des opérations : les deux paiements y figurent. « Vous pourrez les contester avec ce relevé et vos captures. Et comme la carte est en opposition, toujours en votre possession, ces paiements peuvent être signalés sur Perceval. » En sortant, il reste à vous organiser.'
+    question: Qui fait quoi maintenant ?
+    choix:
+      - id: seul
+        texte: 'Je fais le signalement Perceval seul·e ce soir, pour ne pas déranger encore ma mère.'
+        qualite: risque
+        reaction: 'Perceval est réservé à une victime majeure ou à son représentant légal : à 17 ans, ce n’est pas à toi de faire ce signalement. Vouloir régler ça sans déranger personne, c’est compréhensible. C’est ta mère, ta représentante légale, qui le fait, avec toi à côté pour retrouver les captures.'
+      - id: ensemble
+        texte: 'Ce soir, ma mère fait le signalement Perceval, et je l’aide avec les captures.'
+        qualite: bon
+        reaction: 'Les conditions sont réunies : des paiements en ligne non autorisés, ta carte toujours en ta possession, l’opposition déjà faite. Ta mère remplit le signalement, tu retrouves les captures. La contestation auprès de la banque suit son cours : aucun résultat n’est garanti, mais chaque étape a été faite dans l’ordre.'
+      - id: aide
+        texte: 'Je demande de l’aide à Mme Roche pour savoir quelles preuves garder pour la contestation.'
+        qualite: aide
+        reaction: 'Mme Roche liste : le relevé, les captures de la conversation et de la fausse page, l’heure de l’opposition. « Gardez tout au même endroit. Et le signalement Perceval, c’est votre mère qui le fait, comme représentante légale. »'
+    pourquoi:
+      - levier: honte
+        truc: 'Tu préfères régler la suite seul·e, pour ne pas mêler encore ta mère à tout ça.'
+        parade: 'Ta mère n’est pas dérangée : à ton âge, certaines démarches passent par elle. C’est la règle, pas un reproche.'
+      - levier: reflexe
+        truc: 'Remplir un formulaire en ligne, tu sais faire : ça paraît une simple formalité.'
+        parade: 'Certains services exigent d’être majeur. Pour Perceval, c’est la victime majeure ou son représentant légal.'
+      - levier: urgence
+        truc: 'Tu voudrais que tout soit réglé ce soir, le plus vite possible.'
+        parade: 'L’opposition est faite : le plus urgent est derrière toi. La suite se fait bien, à deux.'
+    aRetenir: 'Après des paiements non autorisés : opposition, relevé des opérations, signalement Perceval si ses conditions sont réunies (par un parent pour un mineur), puis contestation avec les justificatifs. Rien ne garantit de récupérer l’argent.'
+    recuperation: { action: demander-aide, siChoix: [seul] }
+
+  - type: minijeu
+    id: bon-recours
+    jeu: tri
+    config:
+      consigne: 'À qui t’adresser en premier ? Classe chaque situation vers le bon recours.'
+      categories:
+        - { id: banque, libelle: Ma banque d’abord }
+        - { id: n33700, libelle: '33700' }
+        - { id: signalconso, libelle: SignalConso }
+      cartes:
+        - { id: carte, texte: 'Tu as saisi ta carte bancaire sur une fausse page de paiement.', categorie: banque, explication: 'Ta banque d’abord, pour faire opposition, avec un parent. Le relevé, Perceval si ses conditions sont réunies et la contestation viennent après.' }
+        - { id: paiement, texte: 'Ton appli bancaire affiche un paiement en ligne que tu n’as jamais fait.', categorie: banque, explication: 'Ta banque d’abord : opposition, puis relevé des opérations pour contester. Aucun remboursement n’est automatique.' }
+        - { id: sms, texte: 'Un SMS d’un numéro inconnu : « ReBoucle : un paiement vous attend », avec un lien.', categorie: n33700, explication: 'Le 33700 reçoit les SMS frauduleux. Il ne récupère pas d’argent et ne remplace pas une opposition.' }
+        - { id: appel, texte: 'Un numéro inconnu t’appelle plusieurs fois pour te proposer un placement qui « double ton argent ».', categorie: n33700, explication: 'Les appels indésirables ou frauduleux se signalent au 33700. Ne donne rien au téléphone.' }
+        - { id: boutique, texte: 'Une boutique en ligne ne t’a jamais livré ta commande et ne répond plus.', categorie: signalconso, explication: 'SignalConso sert aux problèmes avec une entreprise ou un professionnel : « Votre signalement est envoyé à l’entreprise. »' }
+        - { id: auto-ecole, texte: 'Ton auto-école ne te donne pas les heures de conduite prévues dans ton contrat.', categorie: signalconso, explication: 'Une auto-école est une entreprise : c’est SignalConso. Pour un litige avec un particulier, ce n’est pas le bon recours.' }
+
+  - type: lieu
+    id: coursier
+    lieu: La rue
+    decor: rue
+    guide: 'Une semaine plus tard, en rentrant du lycée, ton téléphone sonne : « Bonjour, service sécurité de la Banque Hirondelle. Nous avons repéré une opération suspecte liée à votre vente de calculatrice. Pour vous protéger, un coursier passe récupérer votre carte dans une heure. Mettez-la dans une enveloppe avec votre code. » Il connaît ton nom, ton adresse, ta banque et le prix de ta calculatrice.'
+    question: Le « conseiller » attend ta réponse. Que fais-tu ?
+    choix:
+      - id: enveloppe
+        texte: 'Il connaît mon nom, ma banque et ma vente : je prépare l’enveloppe pour le coursier.'
+        qualite: risque
+        reaction: 'Le coursier repart avec ta carte et ton code. Une heure plus tard, des retraits et des paiements s’enchaînent. Ce « conseiller » savait beaucoup de choses sur toi, mais des données volées rendent un appel crédible. Fais opposition tout de suite auprès de ta banque, avec un parent.'
+      - id: rappelle
+        texte: 'Je raccroche, puis j’appelle moi-même ma banque au numéro affiché dans son appli.'
+        qualite: bon
+        reaction: 'Bien vu. La vraie Banque Hirondelle confirme : aucune opération suspecte, et elle n’envoie jamais de coursier chercher une carte. Tu préviens tes parents, et tu signales le numéro au 33700.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère avant de répondre quoi que ce soit au « conseiller ».'
+        qualite: aide
+        reaction: 'Ta mère prend le téléphone, et le « conseiller » raccroche aussitôt. Elle appelle la banque au numéro de l’appli : aucune opération suspecte, aucun coursier prévu. Elle signale l’appel au 33700.'
+    pourquoi:
+      - levier: confiance
+        truc: 'Il connaît ton nom, ton adresse et ta vente : on croit qu’il ne peut être que de ta banque.'
+        parade: 'Des données volées rendent un appel crédible. Connaître ton identité ne prouve pas qu’on est ta banque.'
+      - levier: autorite
+        truc: '« service sécurité de la Banque Hirondelle » : le ton est sérieux, le vocabulaire aussi.'
+        parade: 'Raccroche et rappelle toi-même ta banque, au numéro de son appli. La vraie banque te dira ce qu’il en est.'
+      - levier: peur
+        truc: '« une opération suspecte » : on a peur pour son argent, et on veut agir vite.'
+        parade: 'Quand un appel te fait peur, c’est le moment de raccrocher et de vérifier, pas d’obéir.'
+      - levier: urgence
+        truc: '« dans une heure » : le coursier arrive bientôt.'
+        parade: 'Personne ne peut t’obliger à agir pendant un appel. Dis « je rappelle ma banque », et raccroche.'
+    aRetenir: 'Un appel qui connaît ton identité ne prouve pas qu’il vient de ta banque. Raccroche et rappelle-la toi-même. Sur toute l’île, le même réflexe : vérifier par l’appli officielle, et savoir à qui t’adresser si c’est déjà fait.'
+    recuperation: { action: demander-aide, siChoix: [enveloppe] }
+debrief:
+  questions:
+    - 'Qu’est-ce qui rendait le lien de paiement et l’appel du « conseiller » si crédibles ?'
+    - 'Comparez les trois routes : qu’est-ce qu’on peut encore faire après une erreur ? Qui aide pour quoi ?'
+    - 'Ta banque, le 33700, SignalConso, Perceval, PHAROS : à quoi sert chacun, et à quoi ne sert-il pas ?'
+  reponses: 'Les appâts de l’île : la vente rapide, la page qui imite la plateforme (logo, annonce, photo), l’urgence (lien qui expire, avis négatif, coursier dans une heure), le gain (placement qui « double » l’argent) et des données connues sur toi, qui rendent un appel crédible sans le rendre vrai. Pour vérifier : ouvrir soi-même l’appli de la plateforme et celle de sa banque, rappeler sa banque au numéro de son appli. Trois routes : vérifier soi-même, demander à ses parents, ou réparer après avoir saisi sa carte. Réparer, dans l’ordre : banque et opposition, relevé des opérations, signalement Perceval si ses conditions sont réunies (paiements en ligne non autorisés, carte toujours détenue, opposition faite ; par la victime majeure ou son représentant légal), contestation avec les justificatifs. Aucun remboursement n’est garanti. Recours : le 33700 pour les SMS et appels frauduleux (il ne récupère pas l’argent) ; SignalConso pour un problème avec un professionnel, pas entre particuliers ; PHAROS signale des contenus illicites, il ne bloque pas une carte et ne rend pas d’argent.'
+  erreursFrequentes:
+    - 'Croire qu’il faut saisir sa carte pour recevoir le paiement d’une vente.'
+    - 'Penser que PHAROS permet de récupérer son argent : signaler ne bloque pas une carte et ne rend pas d’argent.'
+    - 'Croire qu’un appel qui connaît ton nom et ta banque vient forcément de ta banque.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qui a déjà vendu ou acheté entre particuliers ? Qui a une carte bancaire ? (sans obligation de répondre ; certains élèves n’en ont pas)
+    25 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. Au lien « pour recevoir le paiement », trois routes : vérifier dans les applis, demander à ses parents, ou saisir sa carte puis réparer. Si plusieurs binômes jouent, répartir les trois routes.
+    10 min : débrief. Comparez les trois routes : qu’est-ce qu’on peut encore faire après une erreur ? Qui aide pour quoi ? Puis retour sur le tri « le bon recours ».
+    5 min : où trouver de l’aide (parents ou représentant légal, sa banque, 33700 pour les SMS et appels frauduleux, SignalConso pour un problème avec un professionnel, 17cyber.gouv.fr pour un diagnostic).
+    5 min : engagement. Je note où trouver le numéro de ma banque (ou de celle de mes parents) dans son appli, pour pouvoir la rappeler moi-même.
