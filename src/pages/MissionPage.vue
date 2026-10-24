@@ -12,6 +12,7 @@ import {
   RunError,
   type RunEvent,
   type RunState,
+  vaVersReparation,
 } from '@/engine/mission-runner'
 import { aVenir, longueurRoute } from '@/engine/routes'
 import FilStep from '@/mission/FilStep.vue'
@@ -76,6 +77,8 @@ const etapesScene = computed(() => {
 const etape = computed(() => (mission && etat.value ? etapeCourante(mission, etat.value) : null))
 const resultatEtape = computed(() => (etape.value && etat.value ? etat.value.resultats[etape.value.id] : undefined))
 const resultatCourant = computed(() => (resultatEtape.value?.type === 'scenario' ? resultatEtape.value : undefined))
+/** Le choix qui vient d’être fait ouvre la route de réparation : la réaction le dit et propose de continuer. */
+const versReparation = computed(() => !!mission && !!etat.value && vaVersReparation(mission, etat.value))
 const resultatLieu = computed(() => (resultatEtape.value?.type === 'lieu' ? resultatEtape.value : undefined))
 /** Mode scène (plein écran, sans défilement de page) : l’étape montre le téléphone. Mêmes conditions que le gabarit. */
 const scene = computed(
@@ -182,6 +185,7 @@ function recommencer() {
           :sensible="sensible"
           :leviers="leviers"
           :contexte="contexte"
+          :vers-reparation="versReparation"
           @evenement="envoyer"
         />
         <FilStep v-else-if="etape.type === 'fil'" :key="etape.id" :fil="etape" @evenement="envoyer" />

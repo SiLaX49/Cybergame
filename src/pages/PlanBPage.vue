@@ -29,7 +29,8 @@ function renvoi(id: string): string | null {
   if (!deuxRoutes) return null
   const fourche = bifurcation(etapes, id)
   if (fourche && choixFourche) {
-    return `Si tu choisis « ${sansPoint(choixFourche.texteBon)} », va au lieu ${numeros[fourche.bon]}. Si tu choisis « ${sansPoint(choixFourche.texteAide)} », va au lieu ${numeros[fourche.aide]}. Si tu as coché un autre choix, relis la situation et choisis à nouveau.`
+    const reparation = fourche.reparation && choixFourche.texteReparation ? ` Si tu choisis « ${sansPoint(choixFourche.texteReparation)} », va au lieu ${numeros[fourche.reparation]}.` : ''
+    return `Si tu choisis « ${sansPoint(choixFourche.texteBon)} », va au lieu ${numeros[fourche.bon]}. Si tu choisis « ${sansPoint(choixFourche.texteAide)} », va au lieu ${numeros[fourche.aide]}.${reparation} Si tu as coché un autre choix, relis la situation et choisis à nouveau.`
   }
   const suivant = successeurs(etapes, id)[0]
   const enRoute = /[a-z]$/.test(numeros[id] ?? '')

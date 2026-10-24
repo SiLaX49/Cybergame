@@ -5,7 +5,10 @@ import type { LieuResultat } from '@/engine/mission-runner'
 import { useTexte } from '@/ui/useTexte'
 import { reponseLevier, titreReponse, VERDICTS } from './reponseLevier'
 
-const props = withDefaults(defineProps<{ lieu: Lieu; resultat: LieuResultat; leviers: Leviers; sensible?: boolean }>(), { sensible: false })
+const props = withDefaults(
+  defineProps<{ lieu: Lieu; resultat: LieuResultat; leviers: Leviers; sensible?: boolean; versReparation?: boolean }>(),
+  { sensible: false, versReparation: false },
+)
 const emit = defineEmits<{ continuer: []; rejouer: [] }>()
 const t = useTexte()
 
@@ -27,7 +30,10 @@ const reponse = computed(() => reponseLevier(props.lieu.pourquoi, props.resultat
     <p class="verdict encadre" :class="[choix.qualite, classeEncadre(choix.qualite)]">
       <span aria-hidden="true">{{ VERDICTS[choix.qualite].icone }}</span> <strong>{{ VERDICTS[choix.qualite].titre }}</strong>
     </p>
-    <p v-if="risque" class="deplacement">
+    <p v-if="risque && versReparation" class="deplacement">
+      <strong>Tu avances quand même.</strong> Dans la vraie vie, une erreur se répare : la suite te montre comment.
+    </p>
+    <p v-else-if="risque" class="deplacement">
       <strong>Tu restes sur ta plateforme.</strong> Dans la vraie vie, on ne revient pas en arrière ; ici, tu peux rejouer ce moment.
     </p>
     <p v-else class="deplacement"><strong>Tu avances !</strong></p>
@@ -44,7 +50,11 @@ const reponse = computed(() => reponseLevier(props.lieu.pourquoi, props.resultat
       <p>{{ t(lieu.aRetenir, lieu.aRetenirSimple) }}</p>
     </div>
     <div class="actions">
-      <template v-if="risque">
+      <template v-if="risque && versReparation">
+        <button type="button" class="btn" @click="emit('rejouer')">Réessayer</button>
+        <button type="button" class="btn btn-primaire" @click="emit('continuer')">Continuer</button>
+      </template>
+      <template v-else-if="risque">
         <button v-if="recupSuit" type="button" class="btn btn-primaire" @click="emit('continuer')">Continuer</button>
         <button v-else type="button" class="btn btn-primaire" @click="emit('rejouer')">Réessayer</button>
       </template>

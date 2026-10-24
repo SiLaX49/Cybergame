@@ -3,9 +3,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { demarrer, reduire, type RunEvent, type RunState } from '@/engine/mission-runner'
 import CheminIle from '@/mission/CheminIle.vue'
 import FinMission from '@/mission/FinMission.vue'
+import ReactionPanel from '@/mission/ReactionPanel.vue'
 import MissionPage from '@/pages/MissionPage.vue'
 import { creerStore, definirStore } from '@/store/useProgress'
-import { fourcheFixture, leviersFixture, nomLieuFourche as nomDe, parcoursFixture } from './fixtures'
+import { fourcheFixture, leviersFixture, nomLieuFourche as nomDe, parcoursFixture, troisRoutesFixture } from './fixtures'
 import { cliquer } from './helpers'
 import { MemoryStorage } from './memory-storage'
 import { routerTest } from './router-test'
@@ -151,5 +152,61 @@ describe('FinMission : seuls les lieux joués comptent', () => {
     expect(w.find('.route-prise h3').text()).toBe('Ta route')
     expect(w.find('.route-prise').text()).toContain('Tu as pris la route « je garde mon mot de passe ».')
     expect(w.text()).toContain('Rejouer pour découvrir l’autre route')
+  })
+})
+
+describe('ReactionPanel : risque à suite (route de réparation)', () => {
+  const m = troisRoutesFixture()
+  const lieu = m.etapes.find((e) => e.id === 'l2') as Extract<(typeof m.etapes)[number], { type: 'lieu' }>
+  const resultat = (choixId: string) => ({ type: 'lieu' as const, choixId, qualite: 'risque' as const, levier: null, recuperationFaite: null, essais: [choixId], passe: false })
+  const monter = (choixId: string, versReparation: boolean) =>
+    mount(ReactionPanel, { props: { lieu, resultat: resultat(choixId), leviers: leviersFixture(), versReparation } })
+
+  it('« Tu avances quand même », Réessayer (secondaire) et Continuer (principal)', async () => {
+    const w = monter('donne', true)
+    expect(w.find('.deplacement').text()).toContain('Tu avances quand même. Dans la vraie vie, une erreur se répare : la suite te montre comment.')
+    expect(w.find('.deplacement strong').text()).toBe('Tu avances quand même.')
+    expect(w.text()).not.toContain('Tu restes sur ta plateforme')
+    const boutons = w.findAll('.actions button')
+    expect(boutons.map((b) => b.text())).toEqual(['Réessayer', 'Continuer'])
+    expect(boutons[0]!.classes()).not.toContain('btn-primaire')
+    expect(boutons[1]!.classes()).toContain('btn-primaire')
+    await boutons[1]!.trigger('click')
+    expect(w.emitted('continuer')).toHaveLength(1)
+    await boutons[0]!.trigger('click')
+    expect(w.emitted('rejouer')).toHaveLength(1)
+    expect(w.find('.verdict').classes()).toContain('encadre-risque')
+  })
+  it('risque ordinaire : « Tu restes sur ta plateforme » et seul Réessayer', () => {
+    const w = monter('donne', false)
+    expect(w.find('.deplacement').text()).toContain('Tu restes sur ta plateforme.')
+    expect(w.findAll('.actions button').map((b) => b.text())).toEqual(['Réessayer'])
+  })
+})
+
+describe('FinMission avec trois routes', () => {
+  const m3 = troisRoutesFixture()
+  const jouer3 = (...evenements: RunEvent[]): RunState => evenements.reduce((e, ev) => reduire(m3, e, ev), demarrer(m3))
+  const monter3 = async (etat: RunState) =>
+    mount(FinMission, { props: { mission: m3, etat, leviers: leviersFixture() }, global: { plugins: [await routerTest()] } })
+  const ok: RunEvent[] = [{ type: 'choisir', choixId: 'garde' }, { type: 'continuer' }]
+  const reparation: RunEvent[] = [{ type: 'choisir', choixId: 'donne' }, { type: 'expliquer', levier: 'confiance' }, { type: 'continuer' }]
+
+  it('route de réparation : route prise, autres routes, erreur réparée', async () => {
+    const etat = jouer3(...ok, ...reparation, ...ok, ...ok, ...ok)
+    expect(etat.termine).toBe(true)
+    expect(etat.chemin).toEqual(['l1', 'l2', 'c3', 'c4', 'l5'])
+    const w = await monter3(etat)
+    const t = w.find('.route-prise').text()
+    expect(t).toContain('Tu as pris la route « je fonce ». Il existe d’autres routes.')
+    expect(t).not.toContain('autre bonne route')
+    expect(t).toContain('Tu as fait une erreur et tu l’as réparée : c’est aussi un réflexe.')
+    await cliquer(w, 'Rejouer pour découvrir les autres routes')
+    expect(w.emitted('rejouer')).toHaveLength(1)
+  })
+  it('route « bon » à trois routes : pas de phrase de réparation', async () => {
+    const w = await monter3(jouer3(...ok, ...ok, ...ok, ...ok, ...ok))
+    expect(w.find('.route-prise').text()).toContain('Tu as pris la route « je garde mon mot de passe ». Il existe d’autres routes.')
+    expect(w.text()).not.toContain('c’est aussi un réflexe')
   })
 })

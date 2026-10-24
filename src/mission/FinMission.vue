@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router'
 import { nomIle } from '@/archipel/archipel'
 import type { Leviers, Lieu, Mission, Scenario } from '@/content/schema'
 import { BADGES, calculerBadges, descriptionBadge } from '@/engine/badges'
-import { bifurcation, etiquetteRoute, routesDe } from '@/engine/routes'
+import { bifurcation, choixReparation, etiquetteRoute, routesDe } from '@/engine/routes'
 import { leviersDeLaMission, leviersDuRun, type RunState, type SurpriseResultat } from '@/engine/mission-runner'
 import { focusAuMontage } from '@/ui/focus'
 import Hulotte from '@/ui/Hulotte.vue'
@@ -59,6 +59,14 @@ const routePrise = computed(() => {
   // Bifurcation passée : la route « bon » est suivie.
   const choix = r.passe ? lieu.choix.find((c) => c.qualite === 'bon') : lieu.choix.find((c) => c.id === r.choixId)
   return choix ? etiquetteRoute(choix) : null
+})
+/** Trois routes (une route de réparation) : le texte parle « des autres routes », sans en classer aucune. */
+const troisRoutes = computed(() => routesDe(props.mission.etapes).length > 2)
+/** La route de réparation a été prise : une erreur, puis sa réparation. */
+const reparationPrise = computed(() => {
+  const id = props.etat.chemin.find((x) => bifurcation(props.mission.etapes, x))
+  const r = id ? props.etat.resultats[id] : undefined
+  return !!id && r?.type === 'lieu' && !r.passe && choixReparation(props.mission.etapes, id) === r.choixId
 })
 
 const MESSAGES_SURPRISE: Record<SurpriseResultat, string> = {
@@ -126,8 +134,15 @@ async function fermerPleinEcran() {
 
     <section v-if="routePrise" class="encadre encadre-info route-prise">
       <h3>Ta route</h3>
-      <p>Tu as pris la route « {{ routePrise }} ». Il existe une autre bonne route.</p>
-      <button type="button" class="btn" @click="emit('rejouer')">Rejouer pour découvrir l’autre route</button>
+      <template v-if="troisRoutes">
+        <p>Tu as pris la route « {{ routePrise }} ». Il existe d’autres routes.</p>
+        <p v-if="reparationPrise">Tu as fait une erreur et tu l’as réparée : c’est aussi un réflexe.</p>
+        <button type="button" class="btn" @click="emit('rejouer')">Rejouer pour découvrir les autres routes</button>
+      </template>
+      <template v-else>
+        <p>Tu as pris la route « {{ routePrise }} ». Il existe une autre bonne route.</p>
+        <button type="button" class="btn" @click="emit('rejouer')">Rejouer pour découvrir l’autre route</button>
+      </template>
     </section>
 
     <section v-if="surprise" class="encadre encadre-info surprise">

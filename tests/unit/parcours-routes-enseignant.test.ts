@@ -14,7 +14,7 @@ vi.mock('@/content', async () => {
     generatedAt: '2026-10-05T10:00:00.000Z',
     themes: f.themesFixture(),
     leviers: f.leviersFixture(),
-    missions: [f.fourcheFixture({ theme: 'jeux-achats' })],
+    missions: [f.fourcheFixture({ theme: 'jeux-achats' }), f.troisRoutesFixture({ theme: 'jeux-achats' })],
   })
 })
 
@@ -56,5 +56,27 @@ describe('plan B d’un parcours à deux routes', () => {
     const w = await monter(PlanBPage, `/enseignants/${mission.id}/plan-b`)
     const section = w.findAll('section.etape-papier').find((x) => x.text().includes(`Lieu 2 : ${nomDe('l2')}`))!
     expect(section.element.lastElementChild?.classList.contains('renvoi')).toBe(true)
+  })
+})
+
+describe('parcours à trois routes : fiche et plan B', () => {
+  it('fiche : schéma, routes, piste de débrief et ligne « Réessayer »', async () => {
+    const w = await monter(FicheMissionPage, '/enseignants/p-trois-routes')
+    const t = w.text()
+    expect(t).toContain('Lieux 1 – 2, puis selon le choix : 3a – 4a ou 3b – 4b ou 3c – 4c, puis 5')
+    expect(t).toContain('Si les élèves choisissent « je fonce » : 3c')
+    expect(t).toContain('Comparez les trois routes : qu’est-ce qu’on peut encore faire après une erreur ? Qui aide pour quoi ?')
+    expect(t).not.toContain('Comparez les deux routes')
+    expect(t).toContain('Si l’élève clique « Réessayer » après le choix qui ouvre la route de réparation, ce choix reste grisé : rejouez la mission pour la découvrir.')
+    expect(t).toContain('Les trois routes')
+    expect(t).not.toContain('sont bonnes')
+  })
+  it('plan B : trois renvois et corrigé des 9 lieux', async () => {
+    const w = await monter(PlanBPage, '/enseignants/p-trois-routes/plan-b')
+    const t = w.text()
+    expect(t).toContain('Si tu choisis « Je garde mon mot de passe », va au lieu 3a. Si tu choisis « Je demande de l’aide à un adulte », va au lieu 3b. Si tu choisis « Je lui donne », va au lieu 3c. Si tu as coché un autre choix, relis la situation et choisis à nouveau.')
+    expect(t.match(/Va au lieu 5\./g)).toHaveLength(3)
+    const corrige = w.find('.corrige').text()
+    for (const n of ['1', '2', '3a', '4a', '3b', '4b', '3c', '4c', '5']) expect(corrige).toContain(`Lieu ${n} :`)
   })
 })

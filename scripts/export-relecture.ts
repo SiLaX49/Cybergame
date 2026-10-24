@@ -182,7 +182,7 @@ function reperesDesRoutes(mission: Mission): Record<string, Repere> {
   const reperes: Record<string, Repere> = {}
   for (const [id, numero] of Object.entries(numeros)) {
     const lettre = numero.slice(-1)
-    reperes[id] = { numero, route: lettre === 'a' ? choix?.bon : lettre === 'b' ? choix?.aide : undefined }
+    reperes[id] = { numero, route: lettre === 'a' ? choix?.bon : lettre === 'b' ? choix?.aide : lettre === 'c' ? choix?.reparation : undefined }
   }
   return reperes
 }

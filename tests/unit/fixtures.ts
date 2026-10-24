@@ -303,3 +303,31 @@ export function rawFourche(overrides: Record<string, unknown> = {}) {
   })
 }
 export const fourcheFixture = (overrides: Record<string, unknown> = {}): Mission => missionSchema.parse(rawFourche(overrides))
+
+/** Parcours à trois routes : l1, l2 (bifurcation), puis a3-a4, b3-b4 ou c3-c4 (réparation), et l5 (9 lieux dans le fichier, 5 par route). */
+export function rawTroisRoutes(overrides: Record<string, unknown> = {}) {
+  const lieu = (id: string, suite?: string, suites?: { garde: string; aide: string; donne: string }) => {
+    const base = rawLieu(id)
+    return {
+      ...base,
+      lieu: nomLieuFourche(id),
+      recuperation: undefined,
+      ...(suite ? { suite } : {}),
+      choix: base.choix.map((c) =>
+        suites && c.id === 'garde' ? { ...c, suite: suites.garde, route: 'je garde mon mot de passe' }
+        : suites && c.id === 'aide' ? { ...c, suite: suites.aide, route: 'je demande à un adulte' }
+        : suites && c.id === 'donne' ? { ...c, suite: suites.donne, route: 'je fonce' }
+        : c),
+    }
+  }
+  return rawParcours({
+    id: 'p-trois-routes',
+    titre: 'La traversée à trois routes',
+    etapes: [
+      lieu('l1'), lieu('l2', undefined, { garde: 'a3', aide: 'b3', donne: 'c3' }),
+      lieu('a3'), lieu('a4', 'l5'), lieu('b3'), lieu('b4', 'l5'), lieu('c3'), lieu('c4', 'l5'), lieu('l5'),
+    ],
+    ...overrides,
+  })
+}
+export const troisRoutesFixture = (overrides: Record<string, unknown> = {}): Mission => missionSchema.parse(rawTroisRoutes(overrides))
