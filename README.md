@@ -157,7 +157,7 @@ Les thèmes marqués `sensible: true` dans `content/themes.yaml` (cyberharcèlem
 avertissement avant de commencer, un bandeau d’aide permanent (3018…) et un bouton « Passer ce scénario ». Le
 chronomètre du tri n’y tourne jamais.
 
-**Statut de relecture.** Chaque mission d’un thème sensible porte un bloc obligatoire dans son YAML :
+**Statut de relecture.** Chaque mission d’un thème sensible porte un bloc obligatoire dans son YAML ; toute autre mission peut aussi l’avoir (par exemple une mission lycée à faire relire) :
 
 ```yaml
 relecture:
@@ -166,13 +166,13 @@ relecture:
   date: 2026-10-20                                   # obligatoire sauf a-relire
 ```
 
-**Brouillons visibles en local, cachés en ligne.** Une mission au statut `a-relire` est incluse avec un bandeau
+**Brouillons visibles en local, cachés en ligne.** Toute mission au statut `a-relire`, sensible ou non, est incluse avec un bandeau
 « Brouillon » (en tête de mission, sur la fiche enseignant et sur la version papier) dans `npm run dev` et dans un build avec `VITE_BROUILLONS=1` (c’est celui des tests E2E). Elle est
 exclue de `npm run build`, donc du site publié : le thème reste « Bientôt disponible » tant qu’il n’a aucune mission
-publiable. Le contrôle de production n’est pas dans `npm run test:e2e` (qui tourne sur le build avec brouillons) : c’est
+publiable. Une mission sans bloc `relecture` (hors thème sensible) est publiée normalement. Le contrôle de production n’est pas dans `npm run test:e2e` (qui tourne sur le build avec brouillons) : c’est
 la CI qui exécute, après le build de production, `npx tsx scripts/verifier-publication.ts`. Ce script échoue si
 l’identifiant d’un brouillon se retrouve dans `dist/assets/*.js`, ou si la liste des brouillons à bloquer ne correspond
-pas aux missions sensibles `a-relire` relues directement dans les YAML. En local : `npm run build`, puis le même script.
+pas aux missions `a-relire` relues directement dans les YAML. En local : `npm run build`, puis le même script.
 Les tests de contenu chargent toujours tous les brouillons.
 
 **Les 3 verrous de la relecture interne** (une mission passe à `relue-interne` quand ils sont tous passés) :
@@ -181,7 +181,7 @@ Les tests de contenu chargent toujours tous les brouillons.
 3. une relecture humaine par Noa, si possible aussi par un enseignant, un ou une CPE ou un infirmier scolaire, à
    partir de la fiche enseignant imprimable et de l’export ci-dessous.
 
-**Exporter pour la relecture.** `npm run export:relecture` écrit un fichier Markdown par mission sensible dans
+**Exporter pour la relecture.** `npm run export:relecture` écrit un fichier Markdown par mission sensible ou `a-relire` dans
 `dist-relecture/` (option `--toutes` pour toutes les missions). Chaque fichier se termine par une annexe avec les textes
 affichés autour des étapes : avertissement, numéros d’aide du thème, texte complet des gestes de récupération utilisés,
 leviers avec leur parade (dont « Autre chose »), textes de fin de mission. Ces textes viennent de

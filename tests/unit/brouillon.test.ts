@@ -17,16 +17,20 @@ async function monter(composant: Component, chemin: string) {
 }
 
 describe('bandeau Brouillon', () => {
-  it('MissionPage : seulement pour la mission sensible à relire', async () => {
+  it('MissionPage : pour toute mission à relire', async () => {
     const brouillon = await monter(MissionPage, '/mission/m-sensible')
     expect(brouillon.find('.bandeau-brouillon').text()).toContain('Brouillon')
+    const nonSensible = await monter(MissionPage, '/mission/m-a-relire')
+    expect(nonSensible.find('.bandeau-brouillon').text()).toContain('Brouillon')
     const normale = await monter(MissionPage, '/mission/m-test')
     expect(normale.find('.bandeau-brouillon').exists()).toBe(false)
   })
 
-  it('FicheMissionPage : seulement pour la mission sensible à relire', async () => {
+  it('FicheMissionPage : pour toute mission à relire', async () => {
     const brouillon = await monter(FicheMissionPage, '/enseignants/m-sensible')
     expect(brouillon.find('.bandeau-brouillon').text()).toContain('ne pas utiliser en classe')
+    const nonSensible = await monter(FicheMissionPage, '/enseignants/m-a-relire')
+    expect(nonSensible.find('.bandeau-brouillon').text()).toContain('ne pas utiliser en classe')
     const normale = await monter(FicheMissionPage, '/enseignants/m-test')
     expect(normale.find('.bandeau-brouillon').exists()).toBe(false)
   })

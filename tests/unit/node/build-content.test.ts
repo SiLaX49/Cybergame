@@ -5,7 +5,7 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { stringify } from 'yaml'
 import { buildContent, ContentError, estBrouillon, listContentFiles } from '../../../scripts/build-content'
-import { missionFixture, rawLeviers, rawMission, rawMissionSensible, rawThemes, themesFixture } from '../fixtures'
+import { missionFixture, rawLeviers, rawMission, rawMissionSensible, rawThemes } from '../fixtures'
 
 function dossier(missions: Record<string, string>, themes = stringify(rawThemes())) {
   const racine = mkdtempSync(join(tmpdir(), 'cr-contenu-'))
@@ -97,9 +97,15 @@ describe('buildContent', () => {
       expect(ids(racine, false)).toEqual(['m-sensible'])
     })
 
-    it('ne filtre jamais une mission non sensible', () => {
+    it('retire aussi une mission non sensible à relire en production', () => {
       const racine = dossier({ 'phishing/m.yaml': stringify(rawMission({ relecture: { statut: 'a-relire' } })) })
-      expect(ids(racine, false)).toEqual(['m-test'])
+      expect(ids(racine, true)).toEqual(['m-test'])
+      expect(ids(racine, false)).toEqual([])
+    })
+
+    it('garde une mission non sensible relue ou sans bloc de relecture', () => {
+      expect(ids(dossier({ 'phishing/m.yaml': stringify(rawMission({ relecture: relue })) }), false)).toEqual(['m-test'])
+      expect(ids(dossier({ 'phishing/m.yaml': stringify(rawMission()) }), false)).toEqual(['m-test'])
     })
 
     it('valide un brouillon avant de le retirer', () => {
@@ -108,10 +114,11 @@ describe('buildContent', () => {
     })
 
     it('estBrouillon', () => {
-      const themes = themesFixture()
-      expect(estBrouillon(missionFixture(rawMissionSensible()), themes)).toBe(true)
-      expect(estBrouillon(missionFixture(rawMissionSensible({ relecture: relue })), themes)).toBe(false)
-      expect(estBrouillon(missionFixture({ relecture: { statut: 'a-relire' } }), themes)).toBe(false)
+      expect(estBrouillon(missionFixture(rawMissionSensible()))).toBe(true)
+      expect(estBrouillon(missionFixture(rawMissionSensible({ relecture: relue })))).toBe(false)
+      expect(estBrouillon(missionFixture({ relecture: { statut: 'a-relire' } }))).toBe(true)
+      expect(estBrouillon(missionFixture({ relecture: relue }))).toBe(false)
+      expect(estBrouillon(missionFixture())).toBe(false)
     })
   })
 

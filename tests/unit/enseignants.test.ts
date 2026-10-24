@@ -38,7 +38,7 @@ describe('verifierPoste', () => {
 describe('EnseignantsPage', () => {
   it('liste et filtre les missions, affiche la date de mise à jour', async () => {
     const w = await monter(EnseignantsPage, '/enseignants')
-    expect(w.findAll('tbody tr')).toHaveLength(3)
+    expect(w.findAll('tbody tr')).toHaveLength(4)
     expect(w.text()).toContain('1 septembre 2026')
     await w.find('select#filtre-theme').setValue('harcelement')
     expect(w.findAll('tbody tr')).toHaveLength(1)

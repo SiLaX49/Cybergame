@@ -236,7 +236,7 @@ function main() {
   const bundle = buildContent(join(racineProjet, 'content'), { brouillons: true })
   const sensibles = new Set(bundle.themes.filter((t) => t.sensible).map((t) => t.id))
   const toutes = process.argv.includes('--toutes')
-  const missions = bundle.missions.filter((m) => m.type === 'mission' && (toutes || (m.theme && sensibles.has(m.theme))))
+  const missions = bundle.missions.filter((m) => m.type === 'mission' && (toutes || m.relecture?.statut === 'a-relire' || (m.theme && sensibles.has(m.theme))))
   rmSync(sortie, { recursive: true, force: true })
   mkdirSync(sortie, { recursive: true })
   for (const m of missions) writeFileSync(join(sortie, `${m.id}.md`), missionEnMarkdown(m, bundle.leviers, bundle.themes.find((t) => t.id === m.theme)), 'utf-8')

@@ -5,15 +5,13 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { parse, stringify } from 'yaml'
 import { buildContent } from '../../../scripts/build-content'
-import { brouillonsSensiblesBruts, idsABloquer, verifierPublication } from '../../../scripts/verifier-publication'
+import { brouillonsBruts, idsABloquer, verifierPublication } from '../../../scripts/verifier-publication'
 import { rawLeviers, rawMission, rawMissionSensible, rawThemes } from '../fixtures'
 
 const CONTENU = join(process.cwd(), 'content')
 
 /** Lecture indépendante du moteur : YAML brut, sans schéma ni buildContent. */
 function brouillonsLusAPart(racine: string): string[] {
-  const themes = parse(readFileSync(join(racine, 'themes.yaml'), 'utf8')) as { id: string; sensible?: boolean }[]
-  const sensibles = new Set(themes.filter((t) => t.sensible === true).map((t) => t.id))
   const fichiers = (dossier: string): string[] =>
     readdirSync(dossier).flatMap((n) => {
       const p = join(dossier, n)
@@ -21,7 +19,7 @@ function brouillonsLusAPart(racine: string): string[] {
     })
   return fichiers(join(racine, 'missions'))
     .map((f) => parse(readFileSync(f, 'utf8')) as { id: string; theme?: string; relecture?: { statut?: string } })
-    .filter((m) => !!m.theme && sensibles.has(m.theme) && m.relecture?.statut === 'a-relire')
+    .filter((m) => m.relecture?.statut === 'a-relire')
     .map((m) => m.id)
     .sort()
 }
@@ -55,7 +53,7 @@ describe('garde-fou de publication (contenu réel)', () => {
     const attendus = brouillonsLusAPart(CONTENU)
     expect(attendus.length).toBeGreaterThan(0)
     expect([...idsABloquer(CONTENU)].sort()).toEqual(attendus)
-    expect(brouillonsSensiblesBruts(CONTENU)).toEqual(attendus)
+    expect(brouillonsBruts(CONTENU)).toEqual(attendus)
   })
 })
 
@@ -78,6 +76,14 @@ describe('verifierPublication', () => {
     const r = verifierPublication(racine(), dossierAssets({ 'index.js': 'rien' }), () => [])
     expect(r.ok).toBe(false)
     expect(r.messages.join('\n')).toContain('m-sensible')
+  })
+
+  it('échoue si un brouillon non sensible est dans les fichiers publiés', () => {
+    const r = dossierContenu({ 'phishing/m.yaml': rawMission({ relecture: { statut: 'a-relire' } }) })
+    expect(brouillonsBruts(r)).toEqual(['m-test'])
+    const v = verifierPublication(r, dossierAssets({ 'index.js': '"m-test"' }))
+    expect(v.ok).toBe(false)
+    expect(v.messages.join('\n')).toContain('m-test dans index.js')
   })
 
   it('échoue sans fichier JS publié', () => {
