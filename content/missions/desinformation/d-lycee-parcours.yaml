@@ -68,7 +68,7 @@ etapes:
         qualite: aide
         suite: cdi
         route: je demande à la documentaliste
-        reaction: 'Tu ne relaies rien, et tu files au CDI en descendant du bus. Mme Benali écoute le vocal deux fois : « Bonne question. On regarde ça ensemble. »'
+        reaction: 'Tu ne relaies rien. Depuis le bus, tu transmets le vocal à Mme Benali par la messagerie de l’ENT, et tu files au CDI en arrivant. Elle l’a déjà écouté sur l’ordinateur du CDI : « Bonne question. On regarde ça ensemble. »'
     pourquoi:
       - levier: autorite
         truc: 'La voix grave et posée de M. Garnier : on reconnaît le proviseur.'
@@ -86,9 +86,9 @@ etapes:
 
   - type: lieu
     id: origine
-    lieu: La cour
-    decor: cour
-    guide: 'À 8 h, dans la cour, tu remontes le fil avec Lou. Le délégué a trouvé le vocal dans « Tilleuls Bons Plans », un groupe ouvert à tous. Il y a été posté dimanche à 23 h 40 par « garnier.off », un compte sans photo, créé la veille. Lou hésite : « Le compte est bizarre, mais c’est sa voix, non ? Écoute. »'
+    lieu: Devant le lycée
+    decor: rue
+    guide: 'À 7 h 45, devant le lycée, avant d’entrer, tu remontes le fil avec Lou. Le délégué a trouvé le vocal dans « Tilleuls Bons Plans », un groupe ouvert à tous. Il y a été posté dimanche à 23 h 40 par « garnier.off », un compte sans photo, créé la veille. Lou hésite : « Le compte est bizarre, mais c’est sa voix, non ? Écoute. »'
     question: Que réponds-tu à Lou ?
     choix:
       - id: voix
@@ -98,11 +98,11 @@ etapes:
       - id: compte
         texte: 'Qu’une voix peut s’imiter, et que ce compte créé la veille n’a rien à voir avec le lycée.'
         qualite: bon
-        reaction: 'Bien vu. Lou fronce les sourcils : « Et l’ENT ne dit rien… » Elle ne relaie pas. À 8 h 30, une annonce apparaît sur l’ENT : « Le bac blanc de jeudi est maintenu. Un faux message vocal imitant la voix du proviseur circule. »'
+        reaction: 'Bien vu. Lou fronce les sourcils : « Et l’ENT ne dit rien… » Elle ne relaie pas. À 7 h 50, une annonce apparaît sur l’ENT : « Le bac blanc de jeudi est maintenu. Un faux message vocal imitant la voix du proviseur circule. »'
       - id: aide
-        texte: 'Je demande de l’aide à M. Roux, le CPE, qui traverse la cour, pour savoir si c’est vrai.'
+        texte: 'Je demande de l’aide à M. Roux, le CPE, qui arrive au portail, pour savoir si c’est vrai.'
         qualite: aide
-        reaction: 'M. Roux écoute dix secondes : « M. Garnier n’a enregistré aucun message. Le bac blanc est maintenu, une annonce part sur l’ENT ce matin. » À 8 h 30, elle y est. Lou range son téléphone.'
+        reaction: 'M. Roux écoute dix secondes : « M. Garnier n’a enregistré aucun message. Le bac blanc est maintenu, une annonce part sur l’ENT dans quelques minutes. » À 7 h 50, elle y est. Lou range son téléphone.'
     pourquoi:
       - levier: confiance
         truc: '« c’est sa voix, non ? » : la voix ressemble tellement qu’on doute de son propre doute.'
@@ -117,10 +117,10 @@ etapes:
 
   - type: lieu
     id: faux-compte
-    lieu: La cantine
-    decor: cantine
+    lieu: Le parc
+    decor: parc
     suite: bon-recours
-    guide: 'À midi, à la cantine, Lou te montre une nouvelle publication. Le compte « Lycée des Tilleuls – Officiel », avec le logo du lycée et 900 abonnés, publie : « COMMUNIQUÉ : le bac blanc est reporté, malgré les rumeurs. » Le vocal est en dessous. Sur l’ENT, l’annonce du matin dit toujours que le bac blanc est maintenu.'
+    guide: 'À 17 h, au parc en face du lycée, Lou te montre une nouvelle publication. Le compte « Lycée des Tilleuls – Officiel », avec le logo du lycée et 900 abonnés, publie : « COMMUNIQUÉ : le bac blanc est reporté, malgré les rumeurs. » Le vocal est en dessous. Sur l’ENT, l’annonce du matin dit toujours que le bac blanc est maintenu.'
     question: 'Lou te regarde : « Alors, qui croire ? » Que fais-tu ?'
     choix:
       - id: partage
@@ -132,9 +132,9 @@ etapes:
         qualite: bon
         reaction: 'Bien vu. Le compte a été créé samedi, et l’ENT ne le mentionne nulle part. Ses 900 abonnés ne prouvent pas qui il est. Lou et toi ne partagez rien, et vous signalez le compte dans l’appli.'
       - id: aide
-        texte: 'Je demande de l’aide à Mme Okafor, notre professeure principale, qui déjeune à la table voisine.'
+        texte: 'Je demande de l’aide à Mme Okafor, notre professeure principale, par la messagerie de l’ENT.'
         qualite: aide
-        reaction: 'Mme Okafor regarde le compte : « Je ne le connais pas. L’annonce de ce matin, elle, est sur l’ENT, signée par la direction. » Elle prévient la direction. Lou et toi ne partagez rien.'
+        reaction: 'Mme Okafor répond dans l’heure : « Je ne connais pas ce compte. L’annonce de ce matin, elle, est sur l’ENT, signée par la direction. Ne partagez rien : je préviens la direction. »'
     pourquoi:
       - levier: autorite
         truc: '« Lycée des Tilleuls – Officiel », le logo, le mot « COMMUNIQUÉ » : tout imite le lycée.'
@@ -152,21 +152,21 @@ etapes:
     id: cdi
     lieu: Le CDI
     decor: cdi
-    guide: 'Au CDI, Mme Benali a réécouté le vocal : « Je ne vais pas enquêter à ta place, mais je peux te montrer comment vérifier. La voix ressemble à celle de M. Garnier, c’est vrai. Alors, par où commencerais-tu ? »'
+    guide: 'Au CDI, sur son ordinateur, Mme Benali a réécouté le vocal : « Je ne vais pas enquêter à ta place, mais je peux te montrer comment vérifier. La voix ressemble à celle de M. Garnier, c’est vrai. Alors, par où commencerais-tu ? »'
     question: Comment vérifies-tu ce vocal ?
     choix:
       - id: ecoute
-        texte: 'Je le réécoute en boucle, au casque, pour repérer un défaut dans la voix.'
+        texte: 'Je le réécoute en boucle, au casque de l’ordinateur, pour repérer un défaut dans la voix.'
         qualite: risque
         reaction: 'Au bout de dix écoutes, tu ne trouves rien de bizarre : la voix ressemble vraiment. Mme Benali hoche la tête : « Une voix reconnaissable n’authentifie pas un message. Cherche plutôt par un canal que tu connais déjà. »'
       - id: ent
-        texte: 'Je cherche l’annonce là où le lycée publie d’habitude : l’ENT et l’affichage du hall.'
+        texte: 'Sur l’ordinateur du CDI, je cherche l’annonce là où le lycée publie : l’ENT et l’affichage du hall.'
         qualite: bon
-        reaction: 'Bien vu. Sur l’ENT, le calendrier du bac blanc n’a pas bougé, et rien n’est affiché dans le hall. À 8 h 30, une annonce apparaît sur l’ENT : « Le bac blanc de jeudi est maintenu. Un faux message vocal imitant la voix du proviseur circule. »'
+        reaction: 'Bien vu. Sur l’ENT, le calendrier du bac blanc n’a pas bougé, et rien n’est affiché dans le hall. Quelques minutes plus tard, une annonce apparaît sur l’ENT : « Le bac blanc de jeudi est maintenu. Un faux message vocal imitant la voix du proviseur circule. »'
       - id: aide
         texte: 'Je demande de l’aide à Mme Benali pour apprendre à retrouver qui a publié le vocal en premier.'
         qualite: aide
-        reaction: 'Mme Benali te montre comment remonter le fil : le vocal vient de « Tilleuls Bons Plans », un groupe ouvert à tous, où un compte créé la veille l’a posté dimanche soir. À 8 h 30, l’ENT annonce : « Le bac blanc de jeudi est maintenu. Un faux message vocal imitant la voix du proviseur circule. »'
+        reaction: 'Mme Benali te montre comment remonter le fil : le vocal vient de « Tilleuls Bons Plans », un groupe ouvert à tous, où un compte créé la veille l’a posté dimanche soir. Quelques minutes plus tard, l’ENT annonce : « Le bac blanc de jeudi est maintenu. Un faux message vocal imitant la voix du proviseur circule. »'
     pourquoi:
       - levier: reflexe
         truc: 'Pour savoir si une voix est fausse, on pense d’abord à bien l’écouter.'
@@ -181,10 +181,10 @@ etapes:
 
   - type: lieu
     id: video
-    lieu: La cour
-    decor: cour
+    lieu: Le parc
+    decor: parc
     suite: bon-recours
-    guide: 'À la récré, dans la cour, Lou n’est pas convaincue par l’annonce de l’ENT. Elle brandit son téléphone : « La preuve ! » Une vidéo circule : M. Garnier, au micro, dans le hall du lycée, annonce : « Les épreuves de cette semaine sont reportées. » Pas de date, pas de légende, juste « regardez 👀 ». Elle tourne dans plusieurs groupes de terminales.'
+    guide: 'À 17 h, au parc en face du lycée, Lou n’est pas convaincue par l’annonce de l’ENT. Elle brandit son téléphone : « La preuve ! » Une vidéo circule : M. Garnier, au micro, dans le hall du lycée, annonce : « Les épreuves de cette semaine sont reportées. » Pas de date, pas de légende, juste « regardez 👀 ». Elle tourne dans plusieurs groupes de terminales.'
     question: Lou veut la poster dans « Tle 3 ». Que fais-tu ?
     choix:
       - id: transfere
@@ -196,7 +196,7 @@ etapes:
         qualite: bon
         reaction: 'Bien vu. La vidéo a été publiée il y a trois ans, le jour d’une tempête qui avait fermé le lycée. Rien à voir avec jeudi. Lou renonce à la mettre dans le groupe.'
       - id: aide
-        texte: 'Je demande de l’aide à M. Roux, le CPE, qui était déjà au lycée il y a trois ans.'
+        texte: 'Je demande de l’aide à M. Roux, le CPE, qui sort du lycée et le connaît depuis longtemps.'
         qualite: aide
         reaction: 'M. Roux reconnaît tout de suite la scène : « La tempête, il y a trois ans ! Les épreuves avaient été reportées d’une semaine. » Rien à voir avec jeudi. Lou range la vidéo.'
     pourquoi:
@@ -214,23 +214,23 @@ etapes:
 
   - type: lieu
     id: annonce
-    lieu: La cour
-    decor: cour
-    guide: 'À 8 h 30, dans la cour, une annonce tombe sur l’ENT : « Le bac blanc de jeudi est maintenu. Un faux message vocal imitant la voix du proviseur circule. » Dans « Tle 3 », ton transfert a été vu 28 fois, et deux élèves l’ont fait suivre ailleurs. Tu as relayé un faux, comme des dizaines d’élèves ce matin, et ça se répare, en commençant par le bon geste.'
+    lieu: Devant le lycée
+    decor: rue
+    guide: 'À 7 h 50, en descendant du bus devant le lycée, tu vois une annonce sur l’ENT : « Le bac blanc de jeudi est maintenu. Un faux message vocal imitant la voix du proviseur circule. » Dans « Tle 3 », ton transfert a été vu 28 fois, et deux élèves l’ont fait suivre ailleurs. Tu as relayé un faux, comme des dizaines d’élèves ce matin, et ça se répare, en commençant par le bon geste.'
     question: Par quoi commences-tu ?
     choix:
       - id: laisse
         texte: 'Je laisse mon transfert : le vocal était déjà partout, un de plus ne change rien.'
         qualite: risque
-        reaction: 'Pendant la matinée, ton transfert continue d’être écouté et transféré : chaque nouveau transfert relance le faux. Que d’autres l’aient relayé avant toi ne l’arrête pas. Arrête de le faire circuler : supprime ton transfert.'
+        reaction: 'Pendant les minutes qui suivent, ton transfert continue d’être écouté et transféré : chaque nouveau transfert relance le faux. Que d’autres l’aient relayé avant toi ne l’arrête pas. Arrête de le faire circuler : supprime ton transfert.'
       - id: supprime
         texte: 'Je supprime tout de suite mon transfert dans « Tle 3 », pour arrêter de le faire circuler.'
         qualite: bon
         reaction: 'C’est le premier geste : arrêter de relayer. Ton transfert disparaît du groupe. Puis tu demandes à Lou d’où venait le vocal : « garnier.off », un compte créé la veille, l’avait posté dimanche à 23 h 40 dans un groupe ouvert à tous.'
       - id: aide
-        texte: 'Je demande de l’aide à Mme Okafor, ma professeure principale, pour savoir comment réparer.'
+        texte: 'Je demande de l’aide à Lou, qui a vu l’annonce avec moi, pour savoir par où commencer.'
         qualite: aide
-        reaction: 'Mme Okafor t’écoute sans te faire de reproche : « D’abord, on arrête de le faire circuler. » Tu supprimes ton transfert. Avec Lou, tu retrouves d’où venait le vocal : « garnier.off », un compte créé la veille.'
+        reaction: 'Lou ne te fait aucun reproche : « Moi aussi, j’y ai cru. D’abord, on arrête de le faire circuler. » Tu supprimes ton transfert. Puis elle t’aide à retrouver d’où venait le vocal : « garnier.off », un compte créé la veille.'
     pourquoi:
       - levier: groupe
         truc: 'Des dizaines d’élèves l’ont relayé : ton transfert paraît noyé dans la masse.'
@@ -246,10 +246,10 @@ etapes:
 
   - type: lieu
     id: correction
-    lieu: La cantine
-    decor: cantine
+    lieu: Le parc
+    decor: parc
     suite: bon-recours
-    guide: 'À midi, à la cantine. Ton transfert est supprimé, et tu sais d’où venait le vocal. Mais dans « Tle 3 », Enzo vient d’écrire : « Donc pas de bac blanc jeudi, je ne révise pas 😎 ». Plusieurs ont mis un pouce. Ceux qui ont écouté ton transfert ne savent pas encore que c’était faux.'
+    guide: 'À 7 h 55, sur un banc du parc en face du lycée, avant la sonnerie. Ton transfert est supprimé, et tu sais d’où venait le vocal. Mais dans « Tle 3 », Enzo vient d’écrire : « Donc pas de bac blanc jeudi, je ne révise pas 😎 ». Plusieurs ont mis un pouce. Ceux qui ont écouté ton transfert ne savent pas encore que c’était faux.'
     question: Comment corriges-tu, dans « Tle 3 » ?
     choix:
       - id: republie
@@ -261,9 +261,9 @@ etapes:
         qualite: bon
         reaction: 'C’est le geste qui répare : corriger auprès des mêmes personnes, avec la source, sans republier le faux. Enzo répond « ah mince, ok », et deux élèves font suivre ta correction là où ils avaient transféré le vocal.'
       - id: aide
-        texte: 'Je demande de l’aide à Mme Benali, la documentaliste, pour choisir la source à joindre.'
+        texte: 'Je demande de l’aide à ma sœur, par message, pour choisir la source à joindre.'
         qualite: aide
-        reaction: 'Mme Benali te conseille l’annonce de l’ENT : « Elle vient du lycée, elle est datée, et elle ne répète pas le faux. » Tu écris à « Tle 3 » que le vocal était faux, avec cette annonce, sans le republier.'
+        reaction: 'Ta sœur répond tout de suite : « L’annonce de l’ENT : elle vient du lycée, elle est datée, et elle ne répète pas le faux. » Tu écris à « Tle 3 » que le vocal était faux, avec cette annonce, sans le republier.'
     pourquoi:
       - levier: reflexe
         truc: 'Pour prouver qu’un vocal est faux, on pense à le remontrer avec un gros avertissement.'
