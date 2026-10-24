@@ -441,6 +441,7 @@ describe('contenu réel', () => {
     const lieuxDe = (m: Mission) => m.etapes.filter((e) => e.type === 'lieu')
     // Ordre des routes : « bon », « aide », puis la réparation.
     const routeReparation = (m: Mission) => routesDe(m.etapes)[2] ?? []
+    const SEUIL_RECUP = (i: number) => (i === 2 ? 2 : 1)
     const textesDuLieu = (e: Extract<Mission['etapes'][number], { type: 'lieu' }>) => [
       e.guide,
       e.guideSimple ?? '',
@@ -465,8 +466,8 @@ describe('contenu réel', () => {
 
     it.each(lycee)('%s : récupération sur chaque route, deux ou plus sur la route de réparation', (_id, m) => {
       const recup = (route: string[]) => lieuxDe(m).filter((e) => route.includes(e.id) && e.recuperation).length
-      for (const route of routesDe(m.etapes)) {
-        expect(recup(route), `route ${route.join(' > ')}`).toBeGreaterThanOrEqual(route === routeReparation(m) ? 2 : 1)
+      for (const [i, route] of routesDe(m.etapes).entries()) {
+        expect(recup(route), `route ${route.join(' > ')}`).toBeGreaterThanOrEqual(SEUIL_RECUP(i))
       }
     })
 
@@ -525,7 +526,7 @@ describe('contenu réel', () => {
       })
       for (const t of textes) {
         const n = normaliser(t)
-        if (n.includes('PHAROS')) expect(n, t).not.toMatch(/injure|diffamation/i)
+        if (/pharos/i.test(n)) expect(n, t).not.toMatch(/injure|diffamation/i)
         expect(n, t).not.toMatch(/rembours\w*\s+garanti/i)
         expect(n, t).not.toMatch(/\d+\s?%/)
       }
