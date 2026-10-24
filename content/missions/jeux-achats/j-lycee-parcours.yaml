@@ -3,7 +3,7 @@ theme: jeux-achats
 format: parcours
 tranches: ['lycee']
 titre: 'L’île aux pièces d’or : la calculatrice vendue avant le bac'
-resume: 'Un acheteur qui veut sortir de l’appli, un lien « pour recevoir tes 45 € », un conseiller qui sait tout de toi : vends ta calculatrice sans y laisser ta carte et, si elle est déjà partie, répare dans le bon ordre.'
+resume: 'Un acheteur qui veut sortir de l’appli, un lien « pour recevoir tes 55 € », un conseiller qui sait tout de toi : vends ta calculatrice sans y laisser ta carte et, si elle est déjà partie, répare dans le bon ordre.'
 duree: 25
 objectifs:
   - Repérer un faux paiement dans une vente entre particuliers, un faux placement et un faux conseiller bancaire
@@ -17,13 +17,13 @@ etapes:
     id: annonce
     lieu: Ta chambre
     decor: chambre
-    guide: 'Tu es en terminale. Ta calculatrice graphique de seconde ne te sert plus : tu la mets en vente 45 € sur ReBoucle, pour en racheter une plus récente avant le bac. Dix minutes plus tard, Maxence_92 écrit dans la messagerie de l’appli : « Je la prends au prix affiché ! Je suis pas souvent sur ReBoucle, on continue sur TchatUp ? Donne-moi ton numéro, ce sera plus rapide. »'
+    guide: 'Tu es en terminale. Ta calculatrice graphique de seconde ne te sert plus : tu la mets en vente 55 € sur ReBoucle, pour en racheter une plus récente avant le bac. Dix minutes plus tard, Maxence_92 écrit dans la messagerie de l’appli : « Je la prends au prix affiché ! Je suis pas souvent sur ReBoucle, on continue sur TchatUp ? Donne-moi ton numéro, ce sera plus rapide. »'
     question: Que réponds-tu à Maxence_92 ?
     choix:
       - id: numero
         texte: 'Je lui donne mon numéro pour continuer la vente sur TchatUp, ce sera plus simple.'
         qualite: risque
-        reaction: 'Sur TchatUp, Maxence_92 est très sympathique. Mais la vente n’apparaît plus dans ReBoucle, et il a maintenant ton numéro. Faire sortir le vendeur de la plateforme, c’est la première étape d’un faux paiement. Reviens dans la messagerie de ReBoucle, et bloque-le sur TchatUp.'
+        reaction: 'Sur TchatUp, Maxence_92 est très sympathique. Mais la discussion n’apparaît plus dans ReBoucle, et il a maintenant ton numéro. Faire sortir le vendeur de la plateforme, c’est la première étape d’un faux paiement. Reviens dans la messagerie de ReBoucle, et bloque-le sur TchatUp.'
       - id: reste
         texte: 'Je lui réponds qu’on reste dans la messagerie de ReBoucle jusqu’à la fin de la vente.'
         qualite: bon
@@ -49,7 +49,7 @@ etapes:
     id: lien-paiement
     lieu: Le bus
     decor: bus
-    guide: 'Le lendemain, dans le bus, Maxence_92 écrit : « C’est payé ! Pour recevoir tes 45 €, clique ici et entre ta carte bancaire : reboucle-paiement-securise.com. Le lien expire dans 30 minutes. » La page affiche le logo de ReBoucle, ton annonce et sa photo. Tu as ta première carte bancaire depuis deux mois, à 17 ans.'
+    guide: 'Le lendemain, dans le bus, Maxence_92 écrit : « C’est payé ! Pour recevoir tes 55 €, clique ici et entre ta carte bancaire : reboucle-paiement-securise.com. Le lien expire dans 30 minutes. » La page affiche le logo de ReBoucle, ton annonce et sa photo. Tu as ta première carte bancaire depuis deux mois, à 17 ans.'
     question: Il reste 25 minutes. Que fais-tu ?
     choix:
       - id: saisit
@@ -57,7 +57,7 @@ etapes:
         qualite: risque
         suite: soir-opposition
         route: je saisis ma carte
-        reaction: 'La page demande le numéro de ta carte, sa date et le cryptogramme, puis affiche « Paiement en cours ». Les 45 € n’arrivent pas. Une heure plus tard, ton appli bancaire montre deux paiements en ligne que tu n’as jamais faits. Ta carte est toujours dans ton portefeuille, mais ses numéros sont partis.'
+        reaction: 'La page demande le numéro de ta carte, sa date et le cryptogramme, puis affiche « Paiement en cours ». Les 55 € n’arrivent pas. Ta carte est toujours dans ton portefeuille, mais ses numéros sont maintenant entre les mains de quelqu’un d’autre.'
       - id: verifie
         texte: 'Je vérifie dans l’appli ReBoucle et dans celle de ma banque si un paiement existe.'
         qualite: bon
@@ -90,7 +90,7 @@ etapes:
     question: Que fais-tu de cette conversation ?
     choix:
       - id: efface
-        texte: 'Je supprime toute la conversation et je republie mon annonce, sans rien signaler à ReBoucle.'
+        texte: 'Je supprime toute la conversation et je republie mon annonce, pour passer à autre chose.'
         qualite: risque
         reaction: 'Maxence_92 disparaît de ta messagerie, mais pas de ReBoucle : le soir même, il écrit à d’autres vendeurs avec le même lien. Sa menace t’a mis la pression, et elle était faite pour ça. Il est encore temps de signaler son profil depuis l’appli.'
       - id: signale
@@ -154,7 +154,7 @@ etapes:
     id: salon-sms
     lieu: Le salon
     decor: salon
-    guide: 'Le soir, au salon, ta mère a vérifié avec toi : aucune vente sur ReBoucle, aucun paiement à la banque. Ton père propose de vendre plutôt la calculatrice en main propre. Un SMS arrive, d’un numéro inconnu : « ReBoucle : un paiement de 45 € vous attend. Confirmez votre identité sous 24 h : reboucle-confirmation.com ».'
+    guide: 'Le soir, au salon, ta mère a vérifié avec toi : aucune vente sur ReBoucle, aucun paiement à la banque. Ton père propose de vendre plutôt la calculatrice en main propre. Un SMS arrive, d’un numéro inconnu : « ReBoucle : un paiement de 55 € vous attend. Confirmez votre identité sous 24 h : reboucle-confirmation.com ».'
     question: Ton doigt est déjà sur le lien. Que fais-tu ?
     choix:
       - id: clique
@@ -171,7 +171,7 @@ etapes:
         reaction: 'Ton père sourit : « Moi aussi, j’en reçois. On ne clique pas, on le signale au 33700. » Il te montre comment faire, puis tu supprimes le SMS.'
     pourquoi:
       - levier: gain
-        truc: '« un paiement de 45 € vous attend » : c’est exactement le prix de ta calculatrice.'
+        truc: '« un paiement de 55 € vous attend » : c’est exactement le prix de ta calculatrice.'
         parade: 'Les escrocs savent ce que tu attends. Un paiement réel apparaît dans l’appli, pas dans un SMS.'
       - levier: urgence
         truc: '« sous 24 h » : on a peur de laisser filer l’argent.'
@@ -187,31 +187,31 @@ etapes:
     lieu: La cuisine
     decor: cuisine
     suite: bon-recours
-    guide: 'Deux semaines plus tard, tu as vendu l’ancienne calculatrice en main propre. Pour la nouvelle, tu as payé 79 € à CalcuPro, une boutique en ligne. Trois semaines après, rien n’est arrivé, et tes mails restent sans réponse. Dans la cuisine, ton père regarde la commande avec toi.'
+    guide: 'Deux semaines plus tard, tu as vendu l’ancienne calculatrice en main propre. La nouvelle, tu l’as commandée 79 € sur le site de CalcuPro, le magasin du centre-ville où ta famille achète les fournitures chaque année. Le colis arrive : ce n’est pas le modèle commandé. Le service client répond, mais refuse l’échange et ne propose rien. Dans la cuisine, ton père regarde la commande avec toi.'
     question: Que fais-tu ?
     choix:
       - id: abandon
-        texte: 'Je laisse tomber : contre une boutique en ligne qui ne répond plus, on ne peut rien faire.'
+        texte: 'Je laisse tomber : si le magasin refuse l’échange, de toute façon, on ne peut rien faire.'
         qualite: risque
-        reaction: 'CalcuPro garde tes 79 €, et d’autres clients attendent peut-être comme toi. Penser qu’on ne peut rien faire, c’est très courant. Pour un problème avec un professionnel, il existe SignalConso. Garde ta commande et tes mails, et fais le signalement avec un parent.'
+        reaction: 'Tu gardes, pour 79 €, un modèle dont tu ne voulais pas. Penser qu’on ne peut rien faire, c’est très courant. Pour un problème avec un professionnel, il existe SignalConso. Garde ta commande et les réponses du magasin, et fais le signalement avec un parent.'
       - id: signalconso
-        texte: 'Je garde la commande et les mails, et je fais un signalement sur SignalConso.'
+        texte: 'Je garde la commande et les réponses du magasin, et je fais un signalement sur SignalConso.'
         qualite: bon
         reaction: 'Bien vu. SignalConso sert aux problèmes avec une entreprise ou un professionnel : « Votre signalement est envoyé à l’entreprise. » Ton père ajoute que pour une vente entre particuliers, ce ne serait pas le bon recours.'
       - id: aide
-        texte: 'Je demande de l’aide à mon père pour choisir le bon recours contre cette boutique.'
+        texte: 'Je demande de l’aide à mon père pour choisir le bon recours face à ce magasin.'
         qualite: aide
-        reaction: 'Ton père cherche avec toi : pour un problème avec un professionnel, c’est SignalConso. Vous joignez la commande et les mails, et le site prévient : « Votre signalement est envoyé à l’entreprise. »'
+        reaction: 'Ton père cherche avec toi : pour un problème avec un professionnel, c’est SignalConso. Vous joignez la commande et les réponses du magasin, et le site prévient : « Votre signalement est envoyé à l’entreprise. »'
     pourquoi:
       - levier: reflexe
         truc: 'Laisser tomber, c’est ce qu’on fait quand on ne sait pas à qui s’adresser.'
         parade: 'Un problème avec un professionnel a son recours : SignalConso.'
-      - levier: honte
-        truc: 'Tu t’en veux d’avoir choisi cette boutique, alors tu préfères ne plus y penser.'
-        parade: 'Commander dans une boutique qui ne livre pas n’est pas une faute. Le signalement est envoyé à l’entreprise.'
+      - levier: autorite
+        truc: 'Le service client a dit non : on croit que sa réponse est la dernière.'
+        parade: 'La réponse du magasin n’est pas la fin de l’histoire. Un signalement SignalConso est envoyé à l’entreprise.'
       - levier: peur
         truc: 'Les démarches paraissent compliquées, ou réservées aux adultes.'
-        parade: 'Un parent peut faire le signalement avec toi. Garde la commande et les mails : ce sont tes preuves.'
+        parade: 'Un parent peut faire le signalement avec toi. Garde la commande et les réponses du magasin : ce sont tes preuves.'
     aRetenir: 'Un problème avec une entreprise ou un professionnel se signale sur SignalConso. Pour une vente entre particuliers, ce n’est pas le bon recours.'
     recuperation: { action: demander-aide, siChoix: [abandon] }
 
@@ -219,7 +219,7 @@ etapes:
     id: soir-opposition
     lieu: Le salon
     decor: salon
-    guide: 'Le soir, au salon, tu regardes encore l’appli de ta banque : deux paiements en ligne que tu n’as pas faits, 120 € et 80 €. Ta carte est dans ton portefeuille, mais ses numéros sont entre les mains de quelqu’un d’autre. Tu as saisi ta carte sur une fausse page, comme beaucoup de gens avant toi. Ça se répare, en commençant par le bon geste.'
+    guide: 'En rentrant chez toi, à peine posé·e au salon, ton appli bancaire t’alerte : deux paiements en ligne que tu n’as pas faits, 120 € et 80 €. Ta carte est dans ton portefeuille, mais quelqu’un d’autre se sert de ses numéros. Tu as saisi ta carte sur une fausse page, comme beaucoup de gens avant toi. Ça se répare, en commençant par le bon geste.'
     question: Par quoi commences-tu ?
     choix:
       - id: pharos
@@ -293,7 +293,7 @@ etapes:
         - { id: paiement, texte: 'Ton appli bancaire affiche un paiement en ligne que tu n’as jamais fait.', categorie: banque, explication: 'Ta banque d’abord : opposition, puis relevé des opérations pour contester. Aucun remboursement n’est automatique.' }
         - { id: sms, texte: 'Un SMS d’un numéro inconnu : « ReBoucle : un paiement vous attend », avec un lien.', categorie: n33700, explication: 'Le 33700 reçoit les SMS frauduleux. Il ne récupère pas d’argent et ne remplace pas une opposition.' }
         - { id: appel, texte: 'Un numéro inconnu t’appelle plusieurs fois pour te proposer un placement qui « double ton argent ».', categorie: n33700, explication: 'Les appels indésirables ou frauduleux se signalent au 33700. Ne donne rien au téléphone.' }
-        - { id: boutique, texte: 'Une boutique en ligne ne t’a jamais livré ta commande et ne répond plus.', categorie: signalconso, explication: 'SignalConso sert aux problèmes avec une entreprise ou un professionnel : « Votre signalement est envoyé à l’entreprise. »' }
+        - { id: boutique, texte: 'Un magasin t’a vendu le mauvais modèle de calculatrice et refuse de l’échanger.', categorie: signalconso, explication: 'SignalConso sert aux problèmes avec une entreprise ou un professionnel : « Votre signalement est envoyé à l’entreprise. »' }
         - { id: auto-ecole, texte: 'Ton auto-école ne te donne pas les heures de conduite prévues dans ton contrat.', categorie: signalconso, explication: 'Une auto-école est une entreprise : c’est SignalConso. Pour un litige avec un particulier, ce n’est pas le bon recours.' }
 
   - type: lieu

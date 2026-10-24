@@ -17,7 +17,7 @@ etapes:
     id: autocollant
     lieu: Le bus
     decor: bus
-    guide: 'Dans le bus du matin, tu relis la liste des entreprises que tu as contactées pour ton stage de seconde : six candidatures, aucune réponse. Sur la vitre, un autocollant affiche un QR code : « Stage de seconde ? Trouve-le en 48 h ! Scanne et dépose ta candidature, 20 entreprises de ta ville recrutent. » Deux élèves de ta classe le prennent en photo. Yanis, ton voisin, en première bac pro, regarde aussi.'
+    guide: 'Dans le bus du matin, tu relis la liste des entreprises que tu as contactées pour ton stage de seconde, dont Atelier Boréal, une menuiserie de ta ville : six candidatures, aucune réponse. Sur la vitre, un autocollant affiche un QR code : « Stage de seconde ? Trouve-le en 48 h ! Scanne et dépose ta candidature, 20 entreprises de ta ville recrutent. » Deux élèves de ta classe le prennent en photo. Yanis, ton voisin, en première bac pro, regarde aussi.'
     question: Il reste trois arrêts avant le lycée. Que fais-tu ?
     choix:
       - id: scanne
@@ -48,11 +48,11 @@ etapes:
     id: offre
     lieu: Ta chambre
     decor: chambre
-    guide: 'Le soir, dans ta chambre, un mail arrive : « Bonjour, votre candidature a retenu notre attention : Atelier Boréal vous accueille en stage. Pour préparer la convention, merci d’envoyer avant 20 h la photo recto verso de votre carte d’identité et votre RIB. Passé ce délai, la place ira à un autre candidat. Hugo Martel, recrutement. » Atelier Boréal, une menuiserie de ta ville, fait partie des entreprises que tu as contactées. Le mail porte son logo.'
-    question: Il est 19 h 15. Que fais-tu ?
+    guide: 'En fin d’après-midi, dans ta chambre, un mail arrive : « Bonjour, votre candidature a retenu notre attention : Atelier Boréal vous accueille en stage. Pour préparer la convention, merci d’envoyer avant 18 h la photo recto verso de votre carte d’identité et votre RIB. Passé ce délai, la place ira à un autre candidat. Hugo Martel, recrutement. » Tu as bien écrit à Atelier Boréal la semaine dernière, et le mail porte son logo.'
+    question: Il est 17 h 15. Que fais-tu ?
     choix:
       - id: envoie
-        texte: 'Une place en stage, enfin : j’envoie ma carte d’identité et mon RIB avant 20 h.'
+        texte: 'Une place en stage, enfin : j’envoie ma carte d’identité et mon RIB avant 18 h.'
         qualite: risque
         suite: faux-recruteur
         route: j’envoie les documents
@@ -74,12 +74,12 @@ etapes:
         truc: 'Après six candidatures sans réponse, une place en stage : on a très envie d’y croire.'
         parade: 'Une offre qui réclame tes papiers avant toute convention se vérifie, même quand elle tombe à pic.'
       - levier: urgence
-        truc: '« avant 20 h », sinon « la place ira à un autre candidat » : il te reste quarante-cinq minutes.'
+        truc: '« avant 18 h », sinon « la place ira à un autre candidat » : il te reste quarante-cinq minutes.'
         parade: 'Un délai très court sert à t’empêcher de vérifier. Une vraie entreprise peut attendre un appel.'
       - levier: autorite
         truc: 'Le logo d’Atelier Boréal, une signature, le mot « convention » : tout a l’air sérieux.'
         parade: 'Un logo et une signature se copient. Vérifie l’interlocuteur par un canal indépendant : le site ou le numéro officiel, trouvé toi-même.'
-    aRetenir: 'Une offre qui réclame des documents en urgence se vérifie par un canal indépendant : le numéro ou le site officiel de l’entreprise, trouvé toi-même, ou le lycée, qui prépare la convention.'
+    aRetenir: 'Une offre qui réclame des documents en urgence se vérifie par un canal indépendant : le numéro ou le site officiel de l’entreprise, trouvé toi-même, ou le lycée, par qui passe la convention.'
 
   - type: lieu
     id: atelier
@@ -95,7 +95,7 @@ etapes:
       - id: captures
         texte: 'Je fais des captures de l’offre et des messages, puis je bloque l’adresse d’Hugo.'
         qualite: bon
-        reaction: 'Bien vu. Tu gardes l’offre, ses relances et leurs heures d’envoi, et tu les transfères à Mme Lemoine pour son signalement. Ensuite seulement, tu bloques Hugo. Mme Lemoine ajoute : « Si tu veux un vrai stage ici, dépose ta candidature comme tout le monde. »'
+        reaction: 'Bien vu. Tu gardes l’offre, ses relances et leurs heures d’envoi, et tu les transfères à Mme Lemoine pour son signalement. Ensuite seulement, tu bloques Hugo. Mme Lemoine ajoute : « Ta vraie candidature, nous l’avons bien reçue. Nous te répondrons nous-mêmes, depuis notre adresse. »'
       - id: aide
         texte: 'Je demande de l’aide à Mme Lemoine pour savoir ce qui peut servir à l’entreprise.'
         qualite: aide
@@ -118,7 +118,7 @@ etapes:
     lieu: La gare
     decor: gare
     suite: bon-recours
-    guide: 'Dimanche, à la gare, en attendant ton train, un SMS arrive d’un numéro inconnu : « Atelier Boréal : ton dossier de stage est incomplet. Termine ton inscription avant ce soir : boreal-stage-dossier.fr ». Hier, tu as justement déposé une vraie candidature à l’atelier.'
+    guide: 'Dimanche, à la gare, en attendant ton train, un SMS arrive d’un numéro inconnu : « Atelier Boréal : ton dossier de stage est incomplet. Termine ton inscription avant ce soir : boreal-stage-dossier.fr ». Tu attends justement la réponse de l’atelier à ta vraie candidature.'
     question: Le train arrive dans dix minutes. Que fais-tu ?
     choix:
       - id: clique
@@ -150,7 +150,7 @@ etapes:
     id: cdi
     lieu: Le CDI
     decor: cdi
-    guide: 'Le lendemain, au CDI, Mme Diallo lit le mail sur un ordinateur : « La convention, c’est le lycée qui la prépare avec l’entreprise. Une carte d’identité et un RIB par mail, avant même la convention, ça m’étonne. » Avant de prévenir la classe, elle veut être sûre que l’offre est fausse. Hugo, lui, a déjà relancé : « Sans nouvelles de vous, je donne la place à midi. »'
+    guide: 'Le lendemain, au CDI, Mme Diallo lit le mail sur un ordinateur : « La convention passe par le lycée. Une carte d’identité et un RIB par mail, avant même la convention, ça m’étonne. » Avant de prévenir la classe, elle veut être sûre que l’offre est fausse. Hugo, lui, a déjà relancé : « Sans nouvelles de vous, je donne la place à midi. »'
     question: Comment vérifier que ce mail vient vraiment d’Atelier Boréal ?
     choix:
       - id: repond
@@ -253,11 +253,11 @@ etapes:
       - id: abandon
         texte: 'Je suis mineur·e, donc je ne peux pas porter plainte : on en reste là pour ce soir.'
         qualite: risque
-        reaction: 'En fait, un mineur peut porter plainte, au commissariat ou à la gendarmerie. Seuls certains services en ligne demandent d’être majeur : c’est alors un parent qui fait la démarche. Beaucoup de gens pensent comme toi. Reprenez où vous en étiez : le diagnostic de 17Cyber peut vous orienter.'
+        reaction: 'En fait, un mineur peut porter plainte, au commissariat ou à la gendarmerie. Pour certaines plaintes en ligne, c’est un parent qui fait la démarche. Beaucoup de gens pensent comme toi. Reprenez où vous en étiez : le diagnostic de 17Cyber peut vous orienter.'
       - id: diagnostic
-        texte: 'Avec ma mère, je fais le diagnostic sur 17cyber.gouv.fr pour savoir quelles démarches faire.'
+        texte: 'J’écris ce soir à Mme Diallo, puis je fais avec ma mère le diagnostic sur 17cyber.gouv.fr.'
         qualite: bon
-        reaction: 'Le diagnostic vous oriente pas à pas et propose d’échanger avec un policier ou un gendarme. Il ne porte pas plainte à votre place : la plainte se décide selon le préjudice. Demain, tu préviens aussi Mme Diallo : d’autres élèves ont pu recevoir la même offre.'
+        reaction: 'Mme Diallo te répond qu’elle préviendra demain les autres classes de seconde : d’autres élèves ont pu recevoir la même offre. Le diagnostic, lui, vous oriente pas à pas et propose d’échanger avec un policier ou un gendarme. Il ne porte pas plainte à votre place : la plainte se décide selon le préjudice.'
       - id: aide
         texte: 'Je demande de l’aide à ma professeure principale dès demain, pour que le lycée soit au courant.'
         qualite: aide
@@ -268,7 +268,7 @@ etapes:
         parade: 'Se faire piéger par une offre bien imitée n’est pas une faute. Prévenir le lycée protège les autres élèves.'
       - levier: reflexe
         truc: 'Tu as entendu dire qu’à ton âge, on ne peut pas porter plainte : on le répète sans vérifier.'
-        parade: 'Un mineur peut porter plainte, au commissariat ou à la gendarmerie. Seuls certains services en ligne exigent d’être majeur.'
+        parade: 'Un mineur peut porter plainte, au commissariat ou à la gendarmerie. Pour certaines plaintes en ligne, c’est un parent qui fait la démarche.'
       - levier: peur
         truc: 'Parler à la police paraît intimidant, et tu as peur que ça se retourne contre toi.'
         parade: 'Tu es victime, pas coupable. 17Cyber t’oriente, et un parent peut t’accompagner.'
@@ -328,7 +328,7 @@ debrief:
     - 'Qu’est-ce qui rendait l’offre d’Atelier Boréal crédible, et comment pouvait-on la vérifier ?'
     - 'Comparez les trois routes : qu’est-ce qu’on peut encore faire après une erreur ? Qui aide pour quoi ?'
     - 'Quel recours pour quelle situation : le 33700, 17Cyber, ou l’entreprise elle-même ?'
-  reponses: 'Les hameçons de l’île : l’opportunité (un stage après six candidatures sans réponse), l’urgence (avant 20 h, avant midi), l’air officiel (logo, signature, « convention »), et des informations connues sur l’élève (lycée, classe, spécialité), qui rendent un message crédible sans le rendre vrai. Pour vérifier : passer par un canal indépendant, le site ou le numéro officiel trouvé soi-même, jamais par le message. Trois routes : vérifier soi-même, demander à la bonne personne (professeure principale, documentaliste, CPE, professeur qui suit les PFMP), ou réparer après avoir envoyé ses documents. Réparer, dans l’ordre : arrêter l’échange, garder l’offre et les messages, prévenir le lycée, faire le diagnostic sur 17cyber.gouv.fr, et porter plainte selon le préjudice (un mineur peut porter plainte au commissariat ou à la gendarmerie). Recours : le 33700 pour les SMS et appels frauduleux ; 17Cyber pour un diagnostic et une orientation, qui n’est ni un numéro de téléphone ni une plainte automatique ; l’entreprise elle-même, par son site officiel, pour vérifier une offre.'
+  reponses: 'Les hameçons de l’île : l’opportunité (un stage après six candidatures sans réponse), l’urgence (avant 18 h, avant midi), l’air officiel (logo, signature, « convention »), et des informations connues sur l’élève (lycée, classe, spécialité), qui rendent un message crédible sans le rendre vrai. Pour vérifier : passer par un canal indépendant, le site ou le numéro officiel trouvé soi-même, jamais par le message. Trois routes : vérifier soi-même, demander à la bonne personne (professeure principale, documentaliste, CPE, professeur qui suit les PFMP), ou réparer après avoir envoyé ses documents. Réparer, dans l’ordre : arrêter l’échange, garder l’offre et les messages, prévenir le lycée, faire le diagnostic sur 17cyber.gouv.fr, et porter plainte selon le préjudice (un mineur peut porter plainte au commissariat ou à la gendarmerie). Recours : le 33700 pour les SMS et appels frauduleux ; 17Cyber pour un diagnostic et une orientation, qui n’est ni un numéro de téléphone ni une plainte automatique ; l’entreprise elle-même, par son site officiel, pour vérifier une offre.'
   erreursFrequentes:
     - 'Demander à l’interlocuteur suspect de prouver qui il est, au lieu de passer par le site ou le numéro officiel.'
     - 'Croire qu’un message qui connaît ton nom, ton lycée ou ta classe vient forcément de l’entreprise.'
