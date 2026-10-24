@@ -194,6 +194,63 @@ defineProps<{ decor: Decor }>()
       </g>
       <rect x="290" y="0" width="6" height="130" fill="#ffd34d" />
     </template>
+
+    <template v-else-if="decor === 'gymnase'">
+      <rect width="320" height="160" fill="#eef1f7" />
+      <rect y="100" width="320" height="60" fill="#e8c88f" />
+      <rect y="100" width="320" height="4" fill="#c9a062" />
+      <rect v-for="x in [30, 100, 170, 240]" :key="x" :x="x" y="14" width="34" height="26" fill="#cfe8ff" stroke="#ffffff" stroke-width="3" />
+      <g v-for="i in [0, 1, 2]" :key="i">
+        <rect x="8" :y="52 + i * 12" width="110" height="12" fill="#9a9aa8" />
+        <rect x="8" :y="52 + i * 12" width="110" height="3" fill="#b9b9c6" />
+      </g>
+      <rect x="232" y="42" width="52" height="34" fill="#ffffff" stroke="#4a4a63" stroke-width="3" />
+      <rect x="244" y="56" width="28" height="20" fill="none" stroke="#e8590c" stroke-width="2" />
+      <rect x="256" y="76" width="4" height="26" fill="#4a4a63" />
+      <ellipse cx="258" cy="80" rx="12" ry="3" fill="none" stroke="#e8590c" stroke-width="3" />
+      <path d="M248 83 L252 96 M258 83 L258 98 M268 83 L264 96" stroke="#ffffff" stroke-width="1.5" fill="none" />
+      <line x1="0" y1="140" x2="320" y2="140" stroke="#ffffff" stroke-width="3" />
+      <circle cx="160" cy="140" r="16" fill="none" stroke="#ffffff" stroke-width="3" />
+      <line x1="160" y1="124" x2="160" y2="156" stroke="#ffffff" stroke-width="3" />
+      <circle cx="130" cy="118" r="9" fill="#ffd34d" stroke="#c46a4a" stroke-width="2" />
+      <path d="M121 118 Q130 112 139 118 M130 109 Q134 118 130 127" stroke="#c46a4a" stroke-width="1.5" fill="none" />
+    </template>
+
+    <template v-else-if="decor === 'musee'">
+      <rect width="320" height="160" fill="#cfe8ff" />
+      <rect y="132" width="320" height="28" fill="#9a9aa8" />
+      <path d="M70 62 L160 20 L250 62 Z" fill="#e3d9c3" stroke="#b9a98f" stroke-width="3" />
+      <circle cx="160" cy="48" r="7" fill="#b9a98f" />
+      <rect x="70" y="62" width="180" height="8" fill="#d9ccb0" />
+      <rect v-for="x in [82, 112, 142, 172, 202, 226]" :key="x" :x="x" y="70" width="12" height="50" fill="#f3efe4" stroke="#b9a98f" stroke-width="1.5" />
+      <rect x="148" y="86" width="24" height="34" fill="#7a4f2a" />
+      <rect x="60" y="120" width="200" height="6" fill="#d9ccb0" />
+      <rect x="50" y="126" width="220" height="6" fill="#c9bb9a" />
+      <rect x="6" y="92" width="76" height="34" rx="6" fill="#ffd34d" />
+      <rect v-for="x in [12, 30, 48, 66]" :key="x" :x="x" y="98" width="12" height="11" fill="#cfe8ff" />
+      <rect x="6" y="114" width="76" height="3" fill="#4a4a63" />
+      <circle cx="24" cy="128" r="7" fill="#1b1b2f" />
+      <circle cx="64" cy="128" r="7" fill="#1b1b2f" />
+      <circle cx="285" cy="28" r="14" fill="#ffd34d" />
+    </template>
+
+    <template v-else-if="decor === 'fete'">
+      <rect width="320" height="160" fill="#fde9f0" />
+      <rect y="122" width="320" height="38" fill="#c9a98a" />
+      <path d="M0 18 Q80 48 160 18 Q240 48 320 18" fill="none" stroke="#4a4a63" stroke-width="2" />
+      <path v-for="(c, i) in ['#e88a8a', '#ffd34d', '#7fb3e0', '#4f9a55', '#e88a8a', '#ffd34d', '#7fb3e0']" :key="i" :d="`M${12 + i * 44} ${i % 2 ? 40 : 30} l10 0 l-5 14 Z`" :fill="c" />
+      <g v-for="(b, i) in [{ x: 40, c: '#e88a8a' }, { x: 66, c: '#7fb3e0' }, { x: 252, c: '#ffd34d' }, { x: 280, c: '#4f9a55' }]" :key="i">
+        <ellipse :cx="b.x" :cy="82 - (i % 2) * 8" rx="12" ry="15" :fill="b.c" />
+        <path :d="`M${b.x} ${97 - (i % 2) * 8} Q${b.x - 4} 110 ${b.x} 122`" fill="none" stroke="#4a4a63" stroke-width="1.5" />
+      </g>
+      <rect x="95" y="96" width="130" height="8" fill="#ffffff" stroke="#c9c9d9" />
+      <rect x="105" y="104" width="6" height="22" fill="#8a5a33" />
+      <rect x="209" y="104" width="6" height="22" fill="#8a5a33" />
+      <rect x="135" y="76" width="50" height="20" rx="3" fill="#f3d2a0" />
+      <rect x="135" y="76" width="50" height="8" rx="3" fill="#ffffff" />
+      <rect v-for="x in [145, 158, 171]" :key="x" :x="x" y="62" width="4" height="14" fill="#7fb3e0" />
+      <ellipse v-for="x in [147, 160, 173]" :key="x" :cx="x" cy="59" rx="3" ry="4" fill="#ffd34d" />
+    </template>
   </svg>
 </template>
 

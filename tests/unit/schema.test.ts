@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { missionSchema } from '@/content/schema'
-import { rawMission, rawRappel, rawScenario } from './fixtures'
+import { rawLieu, rawMission, rawParcours, rawRappel, rawScenario } from './fixtures'
 
 function problemes(raw: unknown) {
   const res = missionSchema.safeParse(raw)
@@ -117,5 +117,47 @@ describe('missionSchema', () => {
     expect(problemes(rawRappel({ themesCouverts: [] }))).toContainEqual(
       expect.objectContaining({ chemin: 'themesCouverts' }),
     )
+  })
+})
+
+describe('parcours à routes', () => {
+  const lieu = (id: string, extra: Record<string, unknown> = {}, choixSuites: Record<string, string> = {}, avecRoute = false) => {
+    const l = rawLieu(id)
+    return { ...l, recuperation: undefined, ...extra, choix: l.choix.map((c) => (choixSuites[c.id] ? { ...c, suite: choixSuites[c.id], ...(avecRoute ? { route: `route ${c.id}` } : {}) } : c)) }
+  }
+  const deuxRoutes = (suiteBon = 'a3') => [
+    lieu('l1'),
+    lieu('l2', {}, { garde: suiteBon, aide: 'b3' }, true),
+    lieu('a3'),
+    lieu('a4', { suite: 'l5' }),
+    lieu('b3'),
+    lieu('b4'),
+    lieu('l5'),
+  ]
+  it('accepte un parcours à deux routes (7 lieux, routes de 5)', () => {
+    expect(problemes(rawParcours({ etapes: deuxRoutes() }))).toEqual([])
+  })
+  it('refuse une bifurcation sans étiquette « route » sur un choix bon ou aide', () => {
+    const etapes = deuxRoutes()
+    const sans = etapes.map((e, i) => (i === 1 ? { ...e, choix: (e as { choix: Record<string, unknown>[] }).choix.map((c) => Object.fromEntries(Object.entries(c).filter(([k]) => k !== 'route'))) } : e))
+    const p = problemes(rawParcours({ etapes: sans }))
+    expect(p.map((x) => x.message).join(' | ')).toMatch(/étiquette « route »/)
+    expect(p[0]!.chemin).toMatch(/^etapes\.1\.choix\.\d\.route$/)
+  })
+  it('refuse une étiquette de route avec point final', () => {
+    const etapes = deuxRoutes().map((e, i) => (i === 1 ? { ...e, choix: (e as { choix: Record<string, unknown>[] }).choix.map((c) => (c.route ? { ...c, route: 'je demande.' } : c)) } : e))
+    expect(problemes(rawParcours({ etapes })).map((x) => x.message).join(' | ')).toMatch(/sans point final/)
+  })
+  it('refuse une suite inconnue', () => {
+    const p = problemes(rawParcours({ etapes: deuxRoutes('zz') }))
+    expect(p.map((x) => x.message).join('\n')).toMatch(/inconnue/)
+  })
+  it('refuse un parcours linéaire de 7 lieux', () => {
+    const etapes = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7'].map((id) => lieu(id))
+    const p = problemes(rawParcours({ etapes }))
+    expect(p.map((x) => x.message).join('\n')).toMatch(/4 à 6 lieux par route/)
+  })
+  it('garde valide un parcours linéaire de 5 lieux', () => {
+    expect(problemes(rawParcours({ etapes: ['l1', 'l2', 'l3', 'l4', 'l5'].map((id) => lieu(id)) }))).toEqual([])
   })
 })

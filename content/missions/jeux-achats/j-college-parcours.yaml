@@ -1,0 +1,257 @@
+id: j-college-parcours
+theme: jeux-achats
+format: parcours
+tranches: ['5e-3e']
+titre: 'L’île aux pièces d’or : le skin à moitié prix'
+resume: 'Un skin rare à moitié prix, un « intermédiaire » au badge rassurant, des frais pour récupérer un objet volé, une carte cadeau convoitée : traverse l’île sans laisser filer ton trésor ni la carte de tes parents.'
+duree: 20
+objectifs:
+  - Reconnaître les arnaques aux échanges entre joueurs (faux intermédiaire, fausse récupération)
+  - Ne jamais envoyer un code de carte cadeau ni utiliser la carte bancaire d’un parent sans lui
+  - Savoir réagir après une arnaque (captures, blocage, signalement, opposition par le parent)
+competences:
+  crcn: ['4.1', '2.4']
+  programmes: ['EMI cycle 4']
+etapes:
+  - type: lieu
+    id: annonce
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Dans ta chambre, tu traînes sur « GameBox Trade FR », un serveur ChatCord de 12 000 joueurs. Vexo poste : « Dragon d’Obsidienne à moitié prix ! 15 € en code de carte cadeau GameBox, au lieu de 30 € en boutique. Seulement 3 dispo, premier qui m’écrit en privé ! » Ce skin, tu le veux depuis des semaines.'
+    question: Que fais-tu ?
+    choix:
+      - id: ecrit
+        texte: 'J’écris à Vexo en privé pour réserver un des trois Dragons.'
+        qualite: risque
+        reaction: 'Vexo répond en dix secondes : « Envoie la photo du code, je te donne le Dragon juste après. » Tu l’envoies. Le Dragon n’arrive jamais, et les 15 € de la carte sont dépensés dans la minute. Ces offres « limitées » pressent tout le monde. Parles-en vite à un adulte : avec le ticket de caisse, il peut contacter le service client de la carte.'
+      - id: passe
+        texte: 'Un skin rare à moitié prix, ça cache quelque chose : je laisse passer.'
+        qualite: bon
+        reaction: 'Un code de carte cadeau, c’est comme de l’argent liquide : une fois envoyé, il ne revient pas. Et un objet rare bradé à des inconnus, c’est presque toujours un appât.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon cousin, qui joue à GameBox depuis des années.'
+        qualite: aide
+        reaction: 'Ton cousin lève les yeux au ciel : « Moitié prix, en carte cadeau, en privé ? C’est l’arnaque classique. » Il te montre les alertes épinglées par les modérateurs du serveur.'
+    pourquoi:
+      - levier: urgence
+        truc: '« Seulement 3 dispo, premier qui m’écrit en privé ! » On a peur de rater l’affaire.'
+        parade: 'Une vraie bonne affaire te laisse le temps de vérifier. Le délai sert à t’empêcher de réfléchir.'
+      - levier: gain
+        truc: '« Dragon d’Obsidienne à moitié prix ! » Le skin dont tu rêves, pour la moitié du prix.'
+        parade: 'Un objet rare bradé par un inconnu, c’est un appât. Si c’est trop beau, c’est faux.'
+      - levier: petit-montant
+        truc: '15 €, c’est une seule carte cadeau. On se dit qu’on ne risque pas grand-chose.'
+        parade: 'Le code part en une photo, et l’argent avec. Même 15 € ne reviennent jamais.'
+    aRetenir: 'Un code de carte cadeau, c’est de l’argent : il ne s’envoie jamais à un joueur. Un objet rare à moitié prix, avec un délai très court, c’est presque toujours une arnaque.'
+    recuperation: { action: demander-aide, siChoix: [ecrit] }
+
+  - type: lieu
+    id: intermediaire
+    lieu: La salle de jeux
+    decor: salle-jeux
+    guide: 'Le lendemain, à la salle de jeux du quartier, Nyx_Trader t’écrit en privé : « J’ai vu que t’as le skin Néon. Je te l’échange contre mon Dragon d’Obsidienne, tu rajoutes juste 5 € en code de carte cadeau. Pour la sécurité, on passe par @Garant_Trade, l’intermédiaire du serveur : tu lui donnes ton Néon, il vérifie, puis il te passe le Dragon. » Le pseudo de Garant_Trade affiche « ✔ Trusted · 2 300 échanges ».'
+    question: Garant_Trade t’attend pour l’échange. Que fais-tu ?
+    choix:
+      - id: donne
+        texte: 'Je donne mon Néon à Garant_Trade : avec 2 300 échanges, il est sérieux.'
+        qualite: risque
+        reaction: 'Garant_Trade reçoit ton Néon… puis plus rien. Nyx_Trader et lui quittent le serveur : c’étaient deux comptes du même arnaqueur. Le badge « Trusted », il l’avait écrit lui-même dans son pseudo. Cette arnaque piège même des joueurs expérimentés. Tu peux encore les signaler aux modérateurs et au support du jeu.'
+      - id: bloque
+        texte: 'Je bloque Nyx_Trader et Garant_Trade, puis je les signale aux modérateurs.'
+        qualite: bon
+        suite: recup-ilyes
+        route: je bloque et je signale
+        reaction: 'Un modérateur te répond : « Le serveur n’a aucun intermédiaire officiel. Merci, on les bannit. » Il épingle une alerte pour les autres joueurs.'
+      - id: aide
+        texte: 'Je demande de l’aide à mes parents avant de répondre quoi que ce soit.'
+        qualite: aide
+        suite: preuves
+        route: je demande à mes parents
+        reaction: 'Tu rentres et tu montres la conversation à tes parents. Ta mère pose son téléphone : « Raconte-moi depuis le début. On regarde ça ensemble. »'
+    pourquoi:
+      - levier: autorite
+        truc: '« ✔ Trusted · 2 300 échanges » : le pseudo a l’air vérifié par le serveur.'
+        parade: 'N’importe qui peut écrire « Trusted » dans son pseudo. Un vrai badge ne se tape pas au clavier.'
+      - levier: confiance
+        truc: '« Pour la sécurité, on passe par » un intermédiaire : ça sonne prudent et rassurant.'
+        parade: 'Un intermédiaire choisi par l’autre joueur peut être son complice. Utilise l’outil d’échange du jeu.'
+      - levier: gain
+        truc: 'Ton Néon contre le Dragon, pour 5 € de plus : l’échange paraît très avantageux.'
+        parade: 'Plus l’échange t’avantage, plus il faut se méfier. Personne ne brade son plus beau skin.'
+    aRetenir: 'Un « intermédiaire » choisi par l’autre joueur peut être son complice. Échange seulement avec l’outil d’échange du jeu, où les deux objets passent en même temps. Le reste se bloque et se signale.'
+
+  - type: lieu
+    id: recup-ilyes
+    lieu: La cour
+    decor: cour
+    guide: 'Lundi, dans la cour, ton pote Ilyes est dépité : il avait fait l’échange avec Garant_Trade juste avant son bannissement, et il a perdu son skin. Un certain Recup_Pro lui a écrit : « Je récupère les skins volés. 20 € de frais en carte cadeau, résultat garanti. » Ilyes te demande : « Tu me prêtes 10 € pour la carte ? Je te rembourse vendredi. »'
+    question: Ilyes compte sur toi. Que fais-tu ?
+    choix:
+      - id: prete
+        texte: 'Je lui prête les 10 € : c’est mon pote, il veut juste récupérer son skin.'
+        qualite: risque
+        reaction: 'Ilyes envoie le code à Recup_Pro, qui réclame ensuite « 30 € de frais de déblocage ». Le skin ne revient jamais : Recup_Pro est un arnaqueur de plus. Vouloir aider un ami, c’est normal, et l’arnaque compte là-dessus. Parlez-en vite à un adulte : avec le ticket, il peut contacter le service client de la carte.'
+      - id: aide-signaler
+        texte: 'Je l’aide à bloquer Recup_Pro et à signaler le vol au support du jeu.'
+        qualite: bon
+        reaction: 'Vous signalez Recup_Pro aux modérateurs, puis vous écrivez au support officiel depuis l’appli du jeu. Le support ne rend pas toujours un objet perdu dans une arnaque, mais il peut bloquer les comptes des arnaqueurs, et lui ne demande jamais d’argent.'
+      - id: aide
+        texte: 'Je demande de l’aide aux parents d’Ilyes avec lui, ce soir, avant tout achat.'
+        qualite: aide
+        reaction: 'Le père d’Ilyes lit les messages : « Ceux qui promettent de récupérer contre de l’argent sont souvent les arnaqueurs eux-mêmes. » Il signale le compte avec vous et écrit au support du jeu.'
+    pourquoi:
+      - levier: confiance
+        truc: 'C’est Ilyes, ton pote, qui te demande. Refuser, c’est comme le laisser tomber.'
+        parade: 'Aider un ami, c’est l’empêcher de perdre encore de l’argent. Propose-lui de signaler ensemble.'
+      - levier: gain
+        truc: '« Résultat garanti » : Recup_Pro promet de rendre le skin à coup sûr.'
+        parade: 'Personne ne peut garantir de récupérer un objet volé. Le support du jeu, lui, ne fait jamais payer : contacte-le avec un adulte.'
+      - levier: petit-montant
+        truc: '« Tu me prêtes 10 € pour la carte ? » Dix euros, pour récupérer un skin, ça paraît peu.'
+        parade: 'Après les 10 €, il y a toujours d’autres « frais ». Le petit montant ouvre la porte.'
+    aRetenir: 'Personne ne récupère un objet volé contre des « frais » : c’est une deuxième arnaque. Le support officiel du jeu ne fait jamais payer : c’est lui qu’on contacte, avec un adulte.'
+    recuperation: { action: demander-aide, siChoix: [prete] }
+
+  - type: lieu
+    id: nouveau-compte
+    lieu: Le salon
+    decor: salon
+    suite: affiche
+    guide: 'Le soir, dans le salon, sur l’ordinateur familial, un nouveau compte t’écrit. Il s’appelle Nyx_Shop. « Pas rancunier ! Le Dragon à 9,99 € sur ma boutique gb-skins-market, paiement par carte, livraison en 2 min. » Sur le site, la carte de ton père est déjà enregistrée dans le navigateur : il suffit de cliquer sur « Payer ».'
+    question: Ton père est dans la pièce à côté. Que fais-tu ?
+    choix:
+      - id: paie
+        texte: 'Je paie avec la carte enregistrée : je rendrai les 9,99 € à papa ce soir.'
+        qualite: risque
+        reaction: 'Le Dragon n’arrive jamais. Le site a gardé les numéros de la carte, et deux jours plus tard, ton père découvre 240 € d’achats inconnus. Un petit prix et un seul clic : c’est ce qui rend ce piège efficace. Préviens ton père tout de suite, c’est lui qui fait opposition auprès de sa banque. Toi, bloque ce nouveau compte.'
+      - id: rebloque
+        texte: 'Je reconnais Nyx : je bloque aussi ce nouveau compte et je le signale.'
+        qualite: bon
+        reaction: 'Les modérateurs bannissent Nyx_Shop. Tu préviens les joueurs du serveur : « Nyx revient avec de nouveaux comptes, ne payez rien. » Le site ne verra jamais la carte de ton père.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père et je lui montre le message avant tout.'
+        qualite: aide
+        reaction: 'Ton père regarde l’adresse : « Ce n’est pas la boutique du jeu. » Il retire sa carte enregistrée du navigateur, et vous signalez le compte ensemble.'
+    pourquoi:
+      - levier: petit-montant
+        truc: '« Le Dragon à 9,99 € » : moins de 10 €, ça semble ne pas compter.'
+        parade: 'Le site ne veut pas tes 9,99 € : il veut les numéros de la carte, pour bien plus.'
+      - levier: reflexe
+        truc: 'La carte est déjà enregistrée : un clic sur « Payer » et c’est fait.'
+        parade: 'Une carte enregistrée reste celle de ton père. Sans lui, on ne clique pas.'
+      - levier: urgence
+        truc: '« Livraison en 2 min » : tout va très vite, et tu n’as pas le temps de douter.'
+        parade: 'Un vendeur pressé est un signal d’alerte. Les vrais achats se font dans la boutique du jeu.'
+    aRetenir: 'Une carte bancaire, même enregistrée, appartient à l’adulte qui l’a : on ne l’utilise jamais sans lui. Si ses numéros sont partis, c’est lui qui fait opposition auprès de sa banque, le plus vite possible, et conteste les achats qu’il n’a pas faits.'
+    recuperation: { action: bloquer-signaler, siChoix: [paie] }
+
+  - type: lieu
+    id: preuves
+    lieu: La cuisine
+    decor: cuisine
+    guide: 'Dans la cuisine, tu montres la conversation à tes parents. Pendant que ta mère lit, Nyx_Trader t’écrit encore : « T’es où ?? Si tu fais pas l’échange dans 5 min, je te signale pour arnaque et ton compte saute ! » Ta mère vérifie aussi son appli bancaire : aucun paiement bizarre.'
+    question: Ta mère te demande ce que tu proposes. Que fais-tu ?
+    choix:
+      - id: repond
+        texte: 'Je réponds à Nyx que je ne suis pas un arnaqueur et qu’il me laisse tranquille.'
+        qualite: risque
+        reaction: 'Nyx répond aussitôt : « Prouve-le : fais l’échange maintenant. » Plus tu te justifies, plus il insiste. Avoir peur pour son compte, c’est normal : il comptait là-dessus. Bloque-le et signale-le, avec ta mère.'
+      - id: captures
+        texte: 'Avec ma mère, on fait des captures, puis on bloque et on signale les deux comptes.'
+        qualite: bon
+        reaction: 'Les captures gardent les pseudos et les messages. Ta mère t’explique : « Si tu avais donné ma carte, j’aurais appelé la banque tout de suite pour faire opposition. Là, pas besoin. »'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père pour savoir si mon compte risque vraiment quelque chose.'
+        qualite: aide
+        reaction: 'Ton père lit les règles du jeu avec toi : un signalement est examiné avant toute sanction, et des captures montreront qui a menacé qui. Vous signalez les deux comptes aux modérateurs du serveur.'
+    pourquoi:
+      - levier: peur
+        truc: '« Je te signale pour arnaque et ton compte saute ! » Perdre ton compte fait peur.'
+        parade: 'Un signalement est examiné, et tes captures prouvent ta bonne foi. Une menace, c’est le moment de bloquer, pas d’obéir.'
+      - levier: urgence
+        truc: '« Dans 5 min » : il te presse pour que tu agisses avant de réfléchir avec tes parents.'
+        parade: 'Personne n’a de délai à te fixer. Prends le temps de garder des preuves.'
+      - levier: reflexe
+        truc: 'Quand on est accusé à tort, on a envie de se justifier tout de suite.'
+        parade: 'On ne discute pas avec un arnaqueur. Captures, blocage, signalement : c’est tout.'
+    aRetenir: 'Une menace de signalement pour te presser, c’est le dernier coup de l’arnaqueur. Garde des captures, bloque, signale. Si une carte a été donnée, le parent fait opposition auprès de sa banque.'
+    recuperation: { action: bloquer-signaler, siChoix: [repond] }
+
+  - type: lieu
+    id: carte-cadeau
+    lieu: Le magasin
+    decor: magasin
+    guide: 'Samedi, au magasin, ton père t’offre une carte cadeau GameBox de 15 € pour ton anniversaire, en avance. Il vient de payer et te tend la carte. Au même moment, un nouveau compte t’écrit, Nyx_Shop : « Promo flash : le Dragon ET un skin bonus contre une carte cadeau de 15 €. Envoie juste la photo du code ! »'
+    question: La carte est dans ta main. Que fais-tu du code ?
+    choix:
+      - id: envoie
+        texte: 'J’envoie la photo du code : le Dragon et un bonus pour 15 €, c’est une affaire.'
+        qualite: risque
+        reaction: 'Le code est dépensé dans la minute, et Nyx_Shop disparaît. Ton père garde son calme : avec le ticket, il appelle le service client de la carte pour tenter de bloquer le code, et vous signalez le compte. Ces « bonus » font craquer beaucoup de joueurs.'
+      - id: boutique
+        texte: 'Ce code, c’est l’argent de la carte : je l’entre moi-même dans la boutique.'
+        qualite: bon
+        reaction: 'Les 15 € s’ajoutent à ton compte GameBox. Le Dragon coûte 30 € en boutique : tu continues d’économiser, mais personne ne peut te prendre cet argent.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père et je lui montre ce message tout de suite.'
+        qualite: aide
+        reaction: 'Ton père lit le message, puis te montre l’affiche du présentoir : « Ne communiquez jamais le code d’une carte cadeau. » Il ajoute : « Le code, c’est l’argent de la carte. » Vous bloquez Nyx_Shop ensemble.'
+    pourquoi:
+      - levier: gain
+        truc: '« Le Dragon ET un skin bonus » : deux fois plus que ce que vaut la carte.'
+        parade: 'Personne ne te donne plus que ce que tu paies. Le bonus est l’hameçon.'
+      - levier: reflexe
+        truc: 'Envoyer une photo, c’est un geste de tous les jours. Ça part en une seconde.'
+        parade: 'Un code de carte cadeau ne se photographie pas pour quelqu’un. Il s’entre dans la boutique, par toi.'
+      - levier: confiance
+        truc: 'Ton père vient de payer la carte, tout semble sous contrôle. On baisse la garde.'
+        parade: 'Une carte achetée en magasin reste un piège si le code part. Montre le message à ton père.'
+    aRetenir: 'Le code d’une carte cadeau ne sert qu’à une chose : être entré par toi dans la boutique officielle. Le donner à quelqu’un, c’est lui donner l’argent.'
+
+  - type: lieu
+    id: affiche
+    lieu: Le CDI
+    decor: cdi
+    guide: 'Jeudi, au CDI, le club jeux vidéo du collège prépare une affiche sur les échanges en ligne. Nyx et Garant_Trade ont piégé plusieurs élèves. Sami, un élève de 4e, propose une règle : « Toujours passer par un intermédiaire avec beaucoup d’échanges, c’est plus sûr ! » La documentaliste vous demande quelle règle écrire en gros.'
+    question: Quelle règle mets-tu en premier sur l’affiche ?
+    choix:
+      - id: intermediaire-sur
+        texte: 'Je reprends l’idée de Sami : un intermédiaire avec beaucoup d’échanges.'
+        qualite: risque
+        reaction: 'L’affiche est collée. Une semaine plus tard, un élève de 6e fait confiance à un « intermédiaire » aux 5 000 échanges… écrits par l’arnaqueur lui-même. Un chiffre affiché ne prouve rien. Vous pouvez encore corriger l’affiche.'
+      - id: outil-jeu
+        texte: 'J’écris : échanges dans l’outil du jeu, jamais de code ni de carte.'
+        qualite: bon
+        reaction: 'La documentaliste écrit la règle en gros. En dessous, vous ajoutez : « Un doute ? On bloque, on signale, on en parle. »'
+      - id: aide
+        texte: 'Je demande de l’aide à la documentaliste pour lire les conseils de cybermalveillance.gouv.fr.'
+        qualite: aide
+        reaction: 'Sur cybermalveillance.gouv.fr, vous lisez les conseils contre les arnaques en ligne. Vous en tirez trois règles pour l’affiche, et la documentaliste les imprime.'
+    pourquoi:
+      - levier: autorite
+        truc: '« Un intermédiaire avec beaucoup d’échanges » : le chiffre donne l’air fiable.'
+        parade: 'Un nombre d’échanges s’invente. Seul l’outil du jeu échange les deux objets en même temps.'
+      - levier: groupe
+        truc: 'Sur le serveur, beaucoup passent par des intermédiaires. Ça a l’air d’être la règle.'
+        parade: 'Une habitude répandue n’est pas une protection. Les arnaqueurs comptent sur elle.'
+      - levier: confiance
+        truc: 'Sami joue depuis longtemps et a l’air de s’y connaître. On le croit sur parole.'
+        parade: 'Un joueur expérimenté peut se tromper. Vérifie la règle auprès d’une source officielle.'
+    aRetenir: 'Pour échanger dans un jeu : l’outil d’échange officiel, rien d’autre. Jamais de code de carte cadeau, jamais la carte de tes parents. Au moindre doute : tu bloques, tu signales, tu en parles.'
+debrief:
+  questions:
+    - Quel piège de l’île avait l’air le plus sérieux ?
+    - Qu’est-ce qui ne s’envoie jamais à un autre joueur ?
+    - Que faire si un code, un objet ou la carte d’un parent est déjà parti ?
+  reponses: 'Les pièges de l’île : un skin bradé contre un code de carte cadeau, un faux « intermédiaire » complice, une fausse récupération payante, une boutique pirate avec la carte enregistrée, un code de carte cadeau réclamé contre un « bonus ». On n’envoie jamais un code de carte cadeau, la carte bancaire d’un parent ni un objet à un « intermédiaire » : on échange seulement dans l’outil du jeu. Si c’est déjà parti : prévenir vite un adulte ; pour une carte bancaire, c’est le parent qui fait opposition auprès de sa banque ; pour une carte cadeau, il contacte le service client avec le ticket ; captures, blocage et signalement aux modérateurs et au support du jeu. On peut agir seul·e ou avec ses parents : les deux font avancer. Ces arnaques piègent aussi des joueurs expérimentés.'
+  erreursFrequentes:
+    - 'Croire qu’un badge « Trusted » ou un grand nombre d’échanges prouve qu’un intermédiaire est fiable.'
+    - 'Penser qu’on peut payer quelqu’un pour récupérer un objet volé.'
+    - 'Croire qu’une petite somme avec la carte enregistrée d’un parent ne compte pas.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qu’échange-t-on dans les jeux, et comment ? (sans obligation de raconter)
+    20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. Après le faux intermédiaire, deux routes : bloquer et signaler soi-même, ou prévenir ses parents. Si plusieurs binômes jouent, répartir les deux routes.
+    20 min : débrief des questions. Faire raconter chaque route : ce qu’on règle soi-même (blocage, signalement, aider un ami), ce qu’un adulte rend possible (vérifier ses comptes, opposition bancaire, service client de la carte cadeau).
+    5 min : où trouver de l’aide (adulte de confiance, modérateurs et support du jeu, cybermalveillance.gouv.fr pour les parents).
+    5 min : engagement. Ce soir, je regarde avec un adulte si une carte est enregistrée sur nos consoles et navigateurs, et si un code protège les achats.

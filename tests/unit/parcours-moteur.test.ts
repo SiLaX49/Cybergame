@@ -61,11 +61,11 @@ describe('schéma : format parcours', () => {
     expect(messages(missionSchema.safeParse(m))).toContain('un parcours ne contient que des lieux et au plus un mini-jeu')
   })
 
-  it('exige 4 à 6 lieux et au plus un mini-jeu', () => {
+  it('exige 4 à 6 lieux par route et au plus un mini-jeu', () => {
     const court = rawParcours({ etapes: [rawLieu('l1'), rawLieu('l2'), rawLieu('l3')] })
-    expect(messages(missionSchema.safeParse(court))).toContain('un parcours compte 4 à 6 lieux (trouvé : 3)')
+    expect(messages(missionSchema.safeParse(court))).toContain('un parcours compte 4 à 6 lieux par route (trouvé : 3)')
     const long = rawParcours({ etapes: ['a', 'b', 'c', 'd', 'e', 'f', 'g'].map(rawLieu) })
-    expect(messages(missionSchema.safeParse(long))).toContain('un parcours compte 4 à 6 lieux (trouvé : 7)')
+    expect(messages(missionSchema.safeParse(long))).toContain('un parcours compte 4 à 6 lieux par route (trouvé : 7)')
     const jeux = rawParcours({
       etapes: [
         ...['a', 'b', 'c', 'd'].map(rawLieu),
@@ -231,5 +231,94 @@ describe('badges d’un parcours', () => {
 
   it('pas d’explorateur si un lieu a été passé', () => {
     expect(calculerBadges(jouer(m, { type: 'passer' }, ...prudent(3)))).not.toContain('explorateur')
+  })
+})
+
+describe('parcours à deux routes', () => {
+  type C = { id: string; qualite: 'bon' | 'risque' | 'aide'; suite?: string }
+  const lieu = (id: string, choix?: C[], suite?: string) =>
+    ({
+      type: 'lieu', id, lieu: id, decor: 'cour', guide: 'g', question: 'q', aRetenir: 'x', suite,
+      choix: (choix ?? [{ id: 'b', qualite: 'bon' }, { id: 'r', qualite: 'risque' }, { id: 'a', qualite: 'aide' }]).map((c) => ({
+        texte: c.id, reaction: 'r', ...c,
+      })),
+    }) as unknown as Mission['etapes'][number]
+  const m = {
+    ...parcoursFixture(),
+    etapes: [
+      lieu('l1'),
+      lieu('l2', [{ id: 'b', qualite: 'bon', suite: 'a3' }, { id: 'r', qualite: 'risque' }, { id: 'a', qualite: 'aide', suite: 'b3' }]),
+      lieu('a3'),
+      lieu('a4', undefined, 'l5'),
+      lieu('b3'),
+      lieu('b4'),
+      lieu('l5'),
+    ],
+  } as Mission
+  const bien = (mission: Mission, e: RunState): RunState => {
+    const choix = (etapeCourante(mission, e) as { choix: C[] }).choix.find((c) => c.qualite !== 'risque')!
+    return reduire(mission, reduire(mission, e, { type: 'choisir', choixId: choix.id }), { type: 'continuer' })
+  }
+
+  it('le choix « bon » de la bifurcation mène à la route a, jusqu’à l’arrivée', () => {
+    let e = demarrer(m)
+    e = bien(m, e)
+    e = reduire(m, e, { type: 'choisir', choixId: 'b' })
+    e = reduire(m, e, { type: 'continuer' })
+    expect(e.etapeId).toBe('a3')
+    expect(e.index).toBe(2)
+    e = bien(m, e)
+    e = bien(m, e)
+    expect(e.etapeId).toBe('l5')
+    expect(e.index).toBe(4)
+    e = bien(m, e)
+    expect(e.termine).toBe(true)
+    expect(e.etapeId).toBeNull()
+    expect(e.chemin).toEqual(['l1', 'l2', 'a3', 'a4', 'l5'])
+  })
+
+  it('le choix « aide » mène à la route b', () => {
+    let e = bien(m, demarrer(m))
+    e = reduire(m, reduire(m, e, { type: 'choisir', choixId: 'a' }), { type: 'continuer' })
+    expect(e.etapeId).toBe('b3')
+    e = bien(m, bien(m, e))
+    expect(e.etapeId).toBe('l5')
+    e = bien(m, e)
+    expect(e.termine).toBe(true)
+    expect(e.chemin).toEqual(['l1', 'l2', 'b3', 'b4', 'l5'])
+  })
+
+  it('un choix risqué fait toujours rester sur place', () => {
+    let e = bien(m, demarrer(m))
+    e = reduire(m, e, { type: 'choisir', choixId: 'r' })
+    expect(() => reduire(m, e, { type: 'continuer' })).toThrow(RunError)
+    e = reduire(m, e, { type: 'rejouer' })
+    expect(e).toMatchObject({ etapeId: 'l2', index: 1, phase: 'situation' })
+  })
+
+  it('passer la bifurcation suit la route « bon »', () => {
+    const e = reduire(m, bien(m, demarrer(m)), { type: 'passer' })
+    expect(e.etapeId).toBe('a3')
+  })
+
+  it('rejouer sur la bifurcation après un bon choix permet de changer de route', () => {
+    let e = bien(m, demarrer(m))
+    e = reduire(m, e, { type: 'choisir', choixId: 'b' })
+    e = reduire(m, e, { type: 'rejouer' })
+    e = reduire(m, e, { type: 'choisir', choixId: 'a' })
+    e = reduire(m, e, { type: 'continuer' })
+    expect(e.etapeId).toBe('b3')
+    expect(e.chemin).toEqual(['l1', 'l2'])
+  })
+
+  it('un parcours linéaire se joue comme avant', () => {
+    const p = parcoursFixture()
+    let e = demarrer(p)
+    for (const [i, etape] of p.etapes.entries()) {
+      expect(e).toMatchObject({ etapeId: etape.id, index: i })
+      e = reduire(p, reduire(p, e, { type: 'choisir', choixId: 'garde' }), { type: 'continuer' })
+    }
+    expect(e.termine).toBe(true)
+    expect(e.chemin).toEqual(p.etapes.map((x) => x.id))
   })
 })

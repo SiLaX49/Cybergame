@@ -281,3 +281,25 @@ export function rawParcours(overrides: Record<string, unknown> = {}) {
 }
 export const parcoursFixture = (overrides: Record<string, unknown> = {}): Mission =>
   missionSchema.parse(rawParcours(overrides))
+
+/** Parcours à deux routes : l1, l2 (fourche), puis a3-a4 ou b3-b4, et l5 (7 lieux dans le fichier, 5 par route). */
+export const nomLieuFourche = (id: string) => `Lieu ${id}`
+export function rawFourche(overrides: Record<string, unknown> = {}) {
+  const lieu = (id: string, suite?: string, suites?: { garde: string; aide: string }) => {
+    const base = rawLieu(id)
+    return {
+      ...base,
+      lieu: nomLieuFourche(id),
+      recuperation: undefined,
+      ...(suite ? { suite } : {}),
+      choix: base.choix.map((c) => (suites && c.id === 'garde' ? { ...c, suite: suites.garde, route: 'je garde mon mot de passe' } : suites && c.id === 'aide' ? { ...c, suite: suites.aide, route: 'je demande à un adulte' } : c)),
+    }
+  }
+  return rawParcours({
+    id: 'p-fourche',
+    titre: 'La traversée à deux routes',
+    etapes: [lieu('l1'), lieu('l2', undefined, { garde: 'a3', aide: 'b3' }), lieu('a3'), lieu('a4', 'l5'), lieu('b3'), lieu('b4'), lieu('l5')],
+    ...overrides,
+  })
+}
+export const fourcheFixture = (overrides: Record<string, unknown> = {}): Mission => missionSchema.parse(rawFourche(overrides))

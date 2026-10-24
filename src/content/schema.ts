@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { NOMS_APPLIS } from '../phone/applis'
+import { verifierRoutes } from '../engine/routes'
 
 export const TRANCHES = ['6e', '5e-3e', 'lycee'] as const
 export const trancheSchema = z.enum(TRANCHES)
@@ -216,6 +217,7 @@ export const scenarioSchema = z
 /** Décors dessinés des lieux d’un parcours (un SVG par décor dans src/mission/DecorScene.vue). */
 export const DECORS = [
   'cour', 'cantine', 'cdi', 'classe', 'parc', 'salle-jeux', 'salon', 'chambre', 'cuisine', 'gare', 'magasin', 'rue', 'bus',
+  'gymnase', 'musee', 'fete',
 ] as const
 export type Decor = (typeof DECORS)[number]
 
@@ -225,6 +227,9 @@ const choixLieuSchema = z.object({
   qualite: z.enum(['bon', 'risque', 'aide']),
   reaction: texte,
   reactionSimple: texte.optional(),
+  suite: slug.optional(),
+  /** Étiquette courte (2 à 5 mots, sans point final) du choix d’une bifurcation, pour nommer la route. */
+  route: z.string().trim().min(2, 'étiquette de route vide').max(60, 'étiquette de route trop longue').regex(/[^.\s]$/, 'étiquette de route sans point final').optional(),
 })
 
 /** Étape d’un parcours : un lieu de l’île, une situation racontée, un choix. */
@@ -237,6 +242,7 @@ export const lieuSchema = z
     guide: texte,
     guideSimple: texte.optional(),
     question: texte,
+    suite: slug.optional(),
     choix: z.array(choixLieuSchema).min(2).max(4),
     aRetenir: texte,
     aRetenirSimple: texte.optional(),
@@ -392,7 +398,7 @@ export const filSchema = z
 export const etapeSchema = z.discriminatedUnion('type', [scenarioSchema, minijeuSchema, filSchema, lieuSchema])
 
 /** Un parcours n’enchaîne que des lieux (et au plus un mini-jeu) ; un lieu n’existe que dans un parcours. */
-function verifierFormat<T>(m: { type: string; format: string; etapes: { type: string }[] }, ctx: z.RefinementCtx<T>) {
+function verifierFormat<T>(m: { type: string; format: string; etapes: Etape[] }, ctx: z.RefinementCtx<T>) {
   if (m.format === 'classique') {
     m.etapes.forEach((e, i) => {
       if (e.type === 'lieu') {
@@ -409,10 +415,7 @@ function verifierFormat<T>(m: { type: string; format: string; etapes: { type: st
       ctx.addIssue({ code: 'custom', path: ['etapes', i, 'type'], message: 'un parcours ne contient que des lieux et au plus un mini-jeu' })
     }
   })
-  const lieux = m.etapes.filter((e) => e.type === 'lieu').length
-  if (lieux < 4 || lieux > 6) {
-    ctx.addIssue({ code: 'custom', path: ['etapes'], message: `un parcours compte 4 à 6 lieux (trouvé : ${lieux})` })
-  }
+  for (const err of verifierRoutes(m.etapes)) ctx.addIssue({ code: 'custom', path: err.chemin, message: err.message })
   if (m.etapes.filter((e) => e.type === 'minijeu').length > 1) {
     ctx.addIssue({ code: 'custom', path: ['etapes'], message: 'un parcours contient au plus un mini-jeu' })
   }

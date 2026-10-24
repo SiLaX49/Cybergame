@@ -1,0 +1,257 @@
+id: d-college-parcours
+theme: desinformation
+format: parcours
+tranches: ['5e-3e']
+titre: 'L’île aux rumeurs : la sortie annulée'
+resume: 'Un vocal transféré, une capture retouchée, une photo sortie de son contexte, des parents inquiets : la sortie au musée est-elle vraiment annulée ? Traverse l’île en remontant à la source.'
+duree: 20
+objectifs:
+  - Remonter à la source d’une annonce (ENT, site officiel) au lieu de croire un vocal ou une capture
+  - Retrouver l’origine d’une photo grâce à la recherche d’image inversée
+  - Corriger une rumeur sans moquerie, et ne jamais en fabriquer, même pour rire
+competences:
+  crcn: ['1.1', '1.2']
+  programmes: ['EMI cycle 4']
+etapes:
+  - type: lieu
+    id: vocal
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Lundi soir, dans ta chambre. Dans « 4e B 🔥 », le groupe de ta classe, un message vocal de 40 secondes arrive, marqué « Transféré plusieurs fois ». Une voix de femme, pressée : « Bonjour, je suis la maman d’un élève de 4e. J’ai eu le principal : la sortie au musée de jeudi est annulée, les cars sont en grève. Faites tourner aux autres classes ! » En dix minutes, le vocal a 23 réactions.'
+    question: Ton ami Malik, en 4e A, ne l’a pas encore reçu. Que fais-tu ?
+    choix:
+      - id: transfere
+        texte: 'Malik doit le savoir avant demain : je lui transfère le vocal.'
+        qualite: risque
+        reaction: 'Malik le fait suivre à toute la 4e A, et des parents commencent à s’inquiéter. Pourtant, personne ne sait qui parle dans ce vocal, et le collège n’a rien annoncé. Beaucoup d’élèves auraient transféré : la voix avait l’air si sûre d’elle. Tu peux encore prévenir Malik que rien n’est confirmé.'
+      - id: source
+        texte: 'Personne ne sait qui parle : je cherche d’abord si le collège a annoncé quelque chose.'
+        qualite: bon
+        reaction: 'Bonne idée. « Transféré plusieurs fois » : le vocal a voyagé de groupe en groupe, et personne ne sait qui parle. Sur l’ENT, aucun message du collège. Tu ne relaies rien pour l’instant.'
+      - id: aide
+        texte: 'Je demande de l’aide à mes parents pour savoir s’ils ont reçu un message du collège.'
+        qualite: aide
+        reaction: 'Ton père ouvre l’ENT et ses messages : le collège n’a rien envoyé aux familles. « Une vraie annulation, on la recevrait du collège, pas d’une voix inconnue. »'
+    pourquoi:
+      - levier: urgence
+        truc: '« Faites tourner aux autres classes ! » : la voix pousse tout le monde à relayer avant de réfléchir.'
+        parade: 'Une vraie annulation arrive à toutes les familles. Personne n’a besoin de toi pour la faire circuler.'
+      - levier: autorite
+        truc: '« J’ai eu le principal » : citer quelqu’un d’important donne l’air sérieux.'
+        parade: 'Une info du principal se trouve sur l’ENT ou dans les messages aux familles, pas dans un vocal anonyme.'
+      - levier: groupe
+        truc: '23 réactions en dix minutes : toute la classe a l’air d’y croire.'
+        parade: 'Le nombre de réactions ne prouve rien. Une rumeur va souvent plus vite qu’une vérification.'
+    aRetenir: 'Un message vocal transféré ne dit ni qui parle, ni si c’est vrai. Une voix sûre d’elle n’est pas une source. Avant de relayer, vérifie là où le collège publie vraiment : l’ENT et les messages aux familles.'
+    recuperation: { action: corriger-partage, siChoix: [transfere] }
+
+  - type: lieu
+    id: capture
+    lieu: La cour
+    decor: cour
+    guide: 'Mardi matin, dans la cour. Inès montre son téléphone à tout le monde : une capture d’écran du site du musée, avec un bandeau rouge, « Fermeture exceptionnelle du 12 au 16 mars : dégât des eaux ». En dessous, la photo d’une salle inondée. « Vous voyez, c’est confirmé ! » Jeudi, c’est le 14 mars.'
+    question: Tout le monde parle déjà de ce qu’on fera jeudi à la place. Que fais-tu ?
+    choix:
+      - id: confirme
+        texte: 'Cette fois, il y a une preuve : j’écris « confirmé ✅ » dans le groupe.'
+        qualite: risque
+        reaction: 'Ton « confirmé » fait le tour du groupe, et quelques élèves annoncent déjà à leurs parents qu’ils n’iront pas. Pourtant, une capture d’écran se modifie en deux minutes avec une appli photo. Tu peux encore vérifier à la source avant que ça aille plus loin.'
+      - id: verifie
+        texte: 'Je vérifie moi-même sur le site du musée et sur l’ENT.'
+        qualite: bon
+        suite: photo
+        route: je vérifie moi-même
+        reaction: 'Sur le site du musée, aucun bandeau : il est ouvert toute la semaine. Sur l’ENT, le dernier message de Mme Roussel rappelle : « Départ du car à 8 h 15. » Reste la photo de la salle inondée. D’où vient-elle ?'
+      - id: prof
+        texte: 'Je demande de l’aide à Mme Roussel, la prof qui organise la sortie.'
+        qualite: aide
+        suite: doute
+        route: je demande à Mme Roussel
+        reaction: 'Mme Roussel regarde la capture et écoute le vocal. À la récréation, elle appelle le musée : la visite de jeudi est bien prévue. Pour la photo, elle lance une recherche d’image inversée : elle vient d’un article de 2016, sur un autre musée. « Je publie un message sur l’ENT avant midi. Merci de m’avoir prévenue. »'
+    pourquoi:
+      - levier: autorite
+        truc: '« Fermeture exceptionnelle » sur le site du musée, avec une photo : ça ressemble à une annonce officielle.'
+        parade: 'Une capture n’est pas le site. Va voir toi-même la vraie page : si le bandeau existe, il y sera.'
+      - levier: groupe
+        truc: '« Vous voyez, c’est confirmé ! » : après le vocal d’hier, la capture semble le confirmer, et toute la cour y croit.'
+        parade: 'Deux rumeurs qui se répètent ne font pas une preuve. Elles viennent peut-être de la même personne.'
+      - levier: reflexe
+        truc: 'On croit ce qu’on voit : une salle pleine d’eau, ça paraît impossible à inventer.'
+        parade: 'Une photo peut venir d’un autre lieu ou d’une autre année. Cherche d’où elle sort avant de la croire.'
+    aRetenir: 'Une capture d’écran se retouche en quelques minutes. Pour savoir si une annonce existe, va la lire toi-même là où elle doit être publiée : le site officiel, l’ENT.'
+
+  - type: lieu
+    id: photo
+    lieu: Le CDI
+    decor: cdi
+    guide: 'Mardi midi, au CDI. Le site du musée et l’ENT ne parlent d’aucune fermeture. Mais Yanis insiste : « Le site du musée n’est jamais à jour. Et la photo de la salle inondée, tu l’expliques comment ? » Sur l’ordinateur du CDI, il te reste dix minutes avant la sonnerie.'
+    question: Que fais-tu de cette photo ?
+    choix:
+      - id: croit-photo
+        texte: 'Je laisse tomber la recherche : la photo parle d’elle-même.'
+        qualite: risque
+        reaction: 'Tu recommences à douter : et si le site n’était pas à jour ? Une image forte fait cet effet à tout le monde. Pourtant, une photo prouve seulement qu’une scène a existé quelque part, un jour. Il te reste dix minutes pour chercher d’où elle sort.'
+      - id: inversee
+        texte: 'Je lance une recherche d’image inversée sur la photo de la salle.'
+        qualite: bon
+        reaction: 'Le moteur de recherche d’images retrouve la même photo dans un article de 2016 : l’inondation d’un autre musée, à 600 kilomètres d’ici. Quelqu’un a collé un faux bandeau au-dessus d’une vieille image. Tu gardes le lien de l’article.'
+      - id: aide
+        texte: 'Je demande de l’aide à la documentaliste pour savoir d’où vient cette photo.'
+        qualite: aide
+        reaction: 'La documentaliste te montre la recherche d’image inversée : la photo vient d’un article de 2016, sur l’inondation d’un autre musée. « Une vieille image et un nouveau bandeau : c’est un montage très courant. » Tu gardes le lien.'
+    pourquoi:
+      - levier: reflexe
+        truc: '« Tu l’expliques comment ? » : une image forte ressemble à une preuve, et on oublie de demander d’où elle vient.'
+        parade: 'Une photo prouve qu’une scène a existé, pas où ni quand. La recherche inversée retrouve souvent des publications plus anciennes.'
+      - levier: confiance
+        truc: 'Yanis est ton ami, et il a l’air très sûr de lui. Tu n’as pas envie de passer pour quelqu’un qui doute de tout.'
+        parade: 'Vérifier, ce n’est pas accuser Yanis. Tu cherches juste d’où vient l’image, pour lui aussi.'
+      - levier: urgence
+        truc: 'La sonnerie va retentir dans dix minutes. Chercher semble trop long.'
+        parade: 'Une recherche d’image inversée prend moins d’une minute : tu déposes la photo dans un moteur de recherche d’images.'
+    aRetenir: 'Une photo peut être sortie de son contexte : prise ailleurs, ou des années plus tôt. La recherche d’image inversée retrouve où elle a déjà été publiée. C’est l’outil à utiliser pour toute image qui sert de « preuve ».'
+
+  - type: lieu
+    id: correction
+    lieu: Le salon
+    decor: salon
+    suite: sortie
+    guide: 'Mardi soir, dans le salon. Tu as tout : le site du musée, le message de l’ENT, l’article de 2016. Dans « 4e B 🔥 », certains se moquent déjà de ceux qui « croient encore à la sortie ». Tu as de quoi leur clouer le bec, et tu en as un peu marre de cette rumeur.'
+    question: Comment corriges-tu la rumeur dans le groupe ?
+    choix:
+      - id: moque
+        texte: 'J’envoie les preuves avec « Bande de moutons, vous gobez tout 🐑 ».'
+        qualite: risque
+        reaction: 'Ta réponse fait rire quelques élèves, mais Inès et d’autres se sentent humiliés. Ils se braquent : « De toute façon, tu te crois plus malin que tout le monde. » Tes preuves passent au second plan. Se moquer, c’est tentant quand on a raison. Tu peux retirer ton message et le réécrire autrement.'
+      - id: explique
+        texte: 'J’envoie le lien de l’article et le message de l’ENT, calmement.'
+        qualite: bon
+        reaction: 'Ton message est clair : la photo, l’article de 2016, le message de l’ENT. Inès répond : « Ah… je l’avais reçue d’une autre classe, désolée. » Plusieurs élèves suppriment leurs messages.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma grande sœur pour écrire un message qui ne lance pas de dispute.'
+        qualite: aide
+        reaction: 'Ta sœur t’aide à écrire : « La photo date de 2016, voici l’article. Et l’ENT confirme la sortie. » Pas de moquerie, juste les preuves. Inès remercie, et plusieurs élèves suppriment leurs messages.'
+    pourquoi:
+      - levier: colere
+        truc: 'Après deux jours de rumeur, tu en as marre, et tu as envie que ça se sente.'
+        parade: 'Corrige l’info, pas les gens. Personne ne change d’avis quand on le traite de mouton.'
+      - levier: humour
+        truc: 'Une réplique bien envoyée fait rire le groupe, et on aime avoir le dernier mot.'
+        parade: 'Une blague qui rabaisse fait oublier tes preuves. Garde l’humour pour ce qui ne blesse personne.'
+      - levier: flatterie
+        truc: 'Tu as trouvé la vérité avant tout le monde. On a envie de le faire savoir.'
+        parade: 'Ce qui compte, c’est que la vraie info circule. Un message calme convainc plus de monde.'
+    aRetenir: 'Pour corriger une fausse info, partage des preuves claires : un lien, une source officielle. Sans moquerie : celui qui s’est trompé doit pouvoir changer d’avis sans perdre la face.'
+    recuperation: { action: retirer-publication, siChoix: [moque] }
+
+  - type: lieu
+    id: doute
+    lieu: La cantine
+    decor: cantine
+    guide: 'Mardi midi, à la cantine. Sur l’ENT, Mme Roussel a publié : « La sortie au musée de jeudi est maintenue. Départ du car à 8 h 15. » Quelqu’un en a posté une capture dans le groupe. À ta table, Inès hausse les épaules : « Une capture de l’ENT, ça se truque aussi. Moi, je ne crois plus rien. » Tout le monde rigole.'
+    question: Que fais-tu ?
+    choix:
+      - id: rien-croire
+        texte: 'Elle a raison : je poste « On ne peut rien savoir 🤷 » dans le groupe.'
+        qualite: risque
+        reaction: 'Ton message fait le tour du groupe, et plusieurs élèves décident de ne plus rien croire, pas même l’ENT. Douter, c’est un bon début, et beaucoup s’arrêtent là. Mais douter de tout, c’est laisser gagner la rumeur. Tu peux encore corriger ton message.'
+      - id: page
+        texte: 'J’ouvre l’ENT avec eux sur mon téléphone : là, rien n’est retouché.'
+        qualite: bon
+        reaction: 'Sur ton téléphone, l’ENT affiche le message de Mme Roussel, avec son nom et l’heure. Inès lit par-dessus ton épaule : « Bon, d’accord. Là, c’est la vraie page. »'
+      - id: aide
+        texte: 'Je demande de l’aide à Mme Roussel pour qu’elle l’annonce elle-même à toute la classe.'
+        qualite: aide
+        reaction: 'En début de cours, Mme Roussel ouvre l’ENT au tableau : « La sortie est maintenue. Si vous doutez d’une capture, allez lire la source vous-mêmes. » Inès lève le pouce.'
+    pourquoi:
+      - levier: groupe
+        truc: 'Tout le monde rigole à la table : être d’accord avec Inès, c’est rester avec le groupe.'
+        parade: 'Tu peux douter avec eux, puis vérifier. Ouvrir la vraie page prend dix secondes.'
+      - levier: reflexe
+        truc: '« Moi, je ne crois plus rien » : après deux rumeurs, tout rejeter paraît malin.'
+        parade: 'Douter, c’est bien. La suite, c’est aller voir la source, pas tout rejeter.'
+      - levier: confiance
+        truc: 'Inès a raison sur un point : une capture se truque. Alors on la suit sur le reste.'
+        parade: 'Une capture se truque, la vraie page de l’ENT non. C’est elle qu’il faut lire.'
+    aRetenir: 'Douter d’une capture, c’est un bon réflexe. Mais douter de tout fait le jeu des rumeurs. Il existe des sources fiables : va lire l’annonce là où elle est publiée, sur l’ENT ou le site officiel. Et pour une photo, la recherche d’image inversée montre d’où elle vient.'
+    recuperation: { action: corriger-partage, siChoix: [rien-croire] }
+
+  - type: lieu
+    id: parents
+    lieu: La cuisine
+    decor: cuisine
+    guide: 'Mercredi soir, dans la cuisine. Ta mère pose son téléphone : « Dans le groupe des parents, ils disent tous que la sortie est annulée. Il y a même un vocal. Je ne te prépare pas de pique-nique, alors. » Elle n’a pas ouvert l’ENT depuis une semaine.'
+    question: Le car part demain à 8 h 15. Que fais-tu ?
+    choix:
+      - id: laisse
+        texte: 'Je ne dis rien et je ne prépare pas mon sac.'
+        qualite: risque
+        reaction: 'Pas de pique-nique, pas de réveil. Jeudi matin, ta mère lit l’ENT par hasard et découvre que la sortie est maintenue : course contre la montre jusqu’au car. Les rumeurs touchent aussi les adultes. Tu peux encore lui montrer le message ce soir.'
+      - id: ent
+        texte: 'Je lui montre le message de Mme Roussel, directement sur l’ENT.'
+        qualite: bon
+        reaction: 'Ta mère lit : « La sortie au musée de jeudi est maintenue. » Elle rit : « Bon, je vais dire aux autres parents d’aller voir l’ENT. » Le pique-nique sera prêt.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père pour qu’on regarde l’ENT des parents avec elle.'
+        qualite: aide
+        reaction: 'Ton père se connecte à l’ENT des parents : le message de Mme Roussel est là. Ta mère le transmet au groupe des parents, puis prépare le pique-nique.'
+    pourquoi:
+      - levier: groupe
+        truc: '« Ils disent tous » : si tous les parents y croient, ça paraît vrai.'
+        parade: 'Les adultes aussi relaient des rumeurs. Le nombre ne remplace pas la source.'
+      - levier: autorite
+        truc: 'C’est ta mère, et elle l’a lu chez d’autres parents : tu n’as pas envie de la contredire.'
+        parade: 'Montrer une source à un adulte, ce n’est pas lui manquer de respect. C’est l’aider.'
+      - levier: reflexe
+        truc: '« Il y a même un vocal » : entendre une voix rend une info plus vraie.'
+        parade: 'Un vocal ne dit pas qui parle. L’ENT dit qui publie, et quand.'
+    aRetenir: 'Les rumeurs circulent aussi chez les adultes. Quand tu connais la source officielle, tu peux la montrer à tes proches, calmement : c’est aider toute la famille à vérifier.'
+
+  - type: lieu
+    id: sortie
+    lieu: Le musée
+    decor: musee
+    guide: 'Jeudi, au musée. Dans la salle « Images trompeuses », une photo de 1937 montre quatre hommes au bord d’un canal. Sur la version publiée quelques années plus tard, l’un d’eux a disparu, effacé à la main. Sami rigole : « Et si on faisait une fausse annonce pour la sortie de juin ? Juste pour voir si ça marche encore 😂 »'
+    question: Sami ouvre déjà une appli de montage. Que fais-tu ?
+    choix:
+      - id: montage
+        texte: 'Je l’aide à faire le montage : c’est juste pour rire.'
+        qualite: risque
+        reaction: 'Le montage est réussi : en une heure, il tourne chez les 5e, et des parents appellent le collège. Sami ne pensait pas que ça irait si vite, et toi non plus. Une fausse annonce, même pour rire, inquiète de vraies personnes. Tu peux encore prévenir que c’était faux.'
+      - id: rappelle
+        texte: 'Je lui rappelle combien de gens la rumeur a inquiétés cette semaine.'
+        qualite: bon
+        reaction: 'Sami hésite, puis range son téléphone : « Ouais, t’as raison. On a eu assez de rumeurs pour l’année. » Vous passez à la salle suivante.'
+      - id: aide
+        texte: 'Je demande de l’aide à la guide pour qu’elle raconte à Sami l’histoire de cette photo.'
+        qualite: aide
+        reaction: 'La guide raconte : l’homme effacé était tombé en disgrâce, et on a voulu faire croire qu’il n’avait jamais été là. « Truquer une image, c’est aussi vieux que la photo. » Sami range son appli.'
+    pourquoi:
+      - levier: humour
+        truc: '« Juste pour voir si ça marche encore 😂 » : une blague entre copains, ça paraît sans conséquence.'
+        parade: 'Une fausse annonce ne reste jamais entre copains. Elle inquiète des gens qui ne savent pas que c’est une blague.'
+      - levier: groupe
+        truc: 'Sami et deux autres sont partants. Dire non, c’est casser l’ambiance.'
+        parade: 'Tu peux dire non sans faire la leçon : rappeler la semaine que vous venez de vivre suffit.'
+      - levier: gain
+        truc: 'Voir sa fausse annonce tourner partout, c’est grisant.'
+        parade: 'Ce qui tourne vite fait des dégâts vite. Et retrouver qui l’a lancée est souvent facile.'
+    aRetenir: 'Truquer une image ou inventer une annonce, c’est facile, et ça ne date pas d’hier. C’est pour ça qu’on vérifie la source. Et c’est pour ça qu’on ne fabrique pas de fausse info, même pour rire : elle inquiète de vraies personnes.'
+    recuperation: { action: corriger-partage, siChoix: [montage] }
+debrief:
+  questions:
+    - Quel « indice » de la rumeur t’a semblé le plus convaincant, et pourquoi ?
+    - Quelles sources permettent de vérifier une annonce du collège ou une photo ?
+    - Comment corriger une fausse info sans humilier ceux qui y ont cru ?
+  reponses: 'La rumeur de l’île : un vocal transféré dont personne ne connaît l’auteur, une capture du site du musée retouchée, une vieille photo d’inondation sortie de son contexte, puis des parents qui la font circuler à leur tour. Pour vérifier : aller lire l’annonce là où elle est publiée (l’ENT, le site officiel), pas sur une capture ; retrouver l’origine d’une photo avec une recherche d’image inversée ; se méfier d’une voix sûre d’elle ou d’un grand nombre de réactions. Douter est un bon début, mais douter de tout fait le jeu des rumeurs. Pour corriger : partager calmement les preuves, sans moquerie. Vérifier seul ou avec un adulte, les deux marchent. Et ne jamais fabriquer de fausse annonce, même pour rire.'
+  erreursFrequentes:
+    - 'Croire qu’une capture d’écran ou un vocal prouve qu’une annonce existe.'
+    - 'Penser qu’une photo impressionnante montre forcément ce que dit sa légende.'
+    - 'Croire que, puisque tout peut se truquer, plus rien n’est vérifiable.'
+fiche:
+  deroulement: |
+    5 min : cadre. D’où viennent les infos qui circulent dans vos groupes de classe ? (sans obligation de raconter, et sans nommer personne)
+    20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. Au lieu 2, la classe choisit sa route.
+    15 min : débrief des questions, en listant les sources fiables et les gestes de vérification de la classe.
+    5 min : démonstration d’une recherche d’image inversée, ressources (CLEMI, documentaliste).
+    5 min : engagement. Avant de relayer une annonce, je vais la lire là où elle est vraiment publiée.

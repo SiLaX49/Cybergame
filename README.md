@@ -132,6 +132,25 @@ Règles d’écriture propres à cette progression :
 - le retour en arrière est présenté à l’élève comme un jeu : « Dans la vraie vie, on ne revient pas en arrière ; ici,
   tu peux rejouer ce moment. », puis « Retour au même moment : essaie un autre choix. ».
 
+### Parcours à deux routes (5e – 3e)
+
+Les six parcours 5e – 3e (un par île) proposent deux routes qui se rejoignent au dernier lieu. Le format reste
+`format: parcours` ; l’enchaînement se décrit avec `suite`, un identifiant d’étape accepté sur un lieu ou sur l’un de ses
+choix. Une route est la suite d’étapes suivie de la première à la dernière étape du fichier, en suivant les `suite`.
+
+Règles :
+- une seule bifurcation : le choix `bon` et le choix `aide` d’un même lieu ont chacun un `suite` différent ; `suite` est
+  interdit sur un choix `risque`, qui fait toujours rester sur place et réessayer ;
+- `suite` n’existe pas sur un mini-jeu, qui enchaîne toujours sur l’étape suivante du fichier ;
+- toutes les routes ont la même longueur (4 à 6 lieux, 5 en pratique), avec un décor différent par lieu ;
+- aucune route n’est présentée comme meilleure : les deux terminent la mission et gagnent l’objet de l’île. L’écran de
+  fin indique la route prise et propose de rejouer l’autre.
+
+Les routes sont calculées et vérifiées dans `src/engine/routes.ts` (longueur égale, bifurcation unique, cibles
+valides), puis par `tests/unit/node/content-real.test.ts` sur le vrai contenu. Parcours de bout en bout :
+`tests/e2e/parcours-routes.spec.ts`. Ces parcours correspondent aux numéros 3a et 3b du plan B.
+Exemple de référence : `content/missions/phishing/p-college-parcours.yaml`.
+
 ## Thèmes sensibles
 
 Les thèmes marqués `sensible: true` dans `content/themes.yaml` (cyberharcèlement, rencontres en ligne) affichent un

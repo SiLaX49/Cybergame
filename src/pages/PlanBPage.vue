@@ -3,6 +3,7 @@ import { RouterLink, useRoute } from 'vue-router'
 import { getLeviers, getMission, getTheme } from '@/content'
 import { FIL_ACTIONS } from '@/content/schema'
 import { ordreAffichage } from '@/engine/ordre'
+import { bifurcation, choixDeBifurcation, numerosLieux, routesDe, successeurs } from '@/engine/routes'
 import { CONSEILS, EXEMPLE_PHRASE, LIBELLES_NIVEAU } from '@/minigames/robustesse'
 import { lignesPapier } from '@/phone/papier'
 import BandeauAide from '@/ui/BandeauAide.vue'
@@ -16,6 +17,24 @@ const leviers = getLeviers()
 // En thème sensible, l’élève n’est pas « piégé » : on parle du choix et de ce qui a pesé.
 const questionPourquoi = sensible ? 'Si tu as fait ce choix, qu’est-ce qui a pesé ?' : 'Si tu as choisi le piège, pourquoi ?'
 const corrigePourquoi = sensible ? 'Si l’élève a fait le choix risqué :' : 'Si l’élève a choisi le piège :'
+const etapes = mission?.etapes ?? []
+// Numéros des lieux (1 à n en linéaire ; 3a, 3b… sur un parcours à deux routes) et renvois « livre dont tu es le héros ».
+const numeros = numerosLieux(etapes)
+const numero = (id: string, i: number) => numeros[id] ?? String(i + 1)
+const deuxRoutes = routesDe(etapes).length > 1
+const choixFourche = choixDeBifurcation(etapes)
+// Le texte du choix est cité entre guillemets : son point final ferait deux ponctuations de suite.
+const sansPoint = (t: string) => t.replace(/[.\s]+$/, '')
+function renvoi(id: string): string | null {
+  if (!deuxRoutes) return null
+  const fourche = bifurcation(etapes, id)
+  if (fourche && choixFourche) {
+    return `Si tu choisis « ${sansPoint(choixFourche.texteBon)} », va au lieu ${numeros[fourche.bon]}. Si tu choisis « ${sansPoint(choixFourche.texteAide)} », va au lieu ${numeros[fourche.aide]}. Si tu as coché un autre choix, relis la situation et choisis à nouveau.`
+  }
+  const suivant = successeurs(etapes, id)[0]
+  const enRoute = /[a-z]$/.test(numeros[id] ?? '')
+  return suivant && enRoute && !/[a-z]$/.test(numeros[suivant] ?? '') ? `Va au lieu ${numeros[suivant]}.` : null
+}
 const imprimer = () => window.print()
 const ACTIONS_PAPIER: Record<(typeof FIL_ACTIONS)[number], string> = {
   ouvrir: 'J’ouvre',
@@ -64,7 +83,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
           </template>
         </template>
         <template v-else-if="e.type === 'lieu'">
-          <h2>Lieu {{ i + 1 }} : {{ e.lieu }}</h2>
+          <h2>Lieu {{ numero(e.id, i) }} : {{ e.lieu }}</h2>
           <div class="carte"><p>{{ e.guide }}</p></div>
           <p><strong>{{ e.question }}</strong></p>
           <ul class="cases"><li v-for="c in ordreAffichage(e.choix, e.id)" :key="c.id">☐ {{ c.texte }}</li></ul>
@@ -77,6 +96,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
               <li>☐ {{ leviers.autre.libelle }}</li>
             </ul>
           </template>
+          <p v-if="renvoi(e.id)" class="renvoi"><strong>{{ renvoi(e.id) }}</strong></p>
         </template>
         <template v-else-if="e.type === 'minijeu' && e.jeu === 'tri'">
           <h2>Mini-jeu {{ i + 1 }} : {{ e.config.consigne }}</h2>
@@ -170,7 +190,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
             </template>
           </template>
           <template v-else-if="e.type === 'lieu'">
-            <h3>Lieu {{ i + 1 }} : {{ e.lieu }}</h3>
+            <h3>Lieu {{ numero(e.id, i) }} : {{ e.lieu }}</h3>
             <p>Bons choix : {{ e.choix.filter((c) => c.qualite !== 'risque').map((c) => c.texte).join(' / ') }}</p>
             <p>À retenir : {{ e.aRetenir }}</p>
             <template v-if="e.pourquoi">

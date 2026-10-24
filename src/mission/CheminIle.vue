@@ -1,19 +1,28 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Mission } from '@/content/schema'
+import { aVenir } from '@/engine/routes'
 
-const props = defineProps<{ mission: Mission; index: number }>()
+const props = defineProps<{ mission: Mission; chemin: string[]; courante: string | null }>()
 
 const ETATS = { visite: 'déjà visité', ici: 'tu es ici', 'a-venir': 'à venir' } as const
 type Etat = keyof typeof ETATS
+type Halte = { id: string; nom: string; etat: Etat; inconnu?: boolean }
 
-const etapes = computed(() =>
-  props.mission.etapes.map((e, i) => ({
-    id: e.id,
-    nom: e.type === 'lieu' ? e.lieu : 'Mini-jeu',
-    etat: (i < props.index ? 'visite' : i === props.index ? 'ici' : 'a-venir') as Etat,
-  })),
-)
+const nom = (id: string) => {
+  const e = props.mission.etapes.find((x) => x.id === id)
+  return e?.type === 'lieu' ? e.lieu : 'Mini-jeu'
+}
+const etapes = computed<Halte[]>(() => {
+  const visites = props.chemin.map((id): Halte => ({ id, nom: nom(id), etat: 'visite' }))
+  if (!props.courante) return visites
+  const ici: Halte = { id: props.courante, nom: nom(props.courante), etat: 'ici' }
+  const suite = aVenir(props.mission.etapes, props.courante).map(
+    (id, i): Halte =>
+      id ? { id, nom: nom(id), etat: 'a-venir' } : { id: `inconnu-${i}`, nom: 'selon ton choix', etat: 'a-venir', inconnu: true },
+  )
+  return [...visites, ici, ...suite]
+})
 </script>
 
 <template>
@@ -28,7 +37,7 @@ const etapes = computed(() =>
         :aria-current="e.etat === 'ici' ? 'step' : undefined"
       >
         <span class="pastille" aria-hidden="true">{{ e.etat === 'visite' ? '✓' : i + 1 }}</span>
-        <span class="nom">{{ e.nom }}</span>
+        <span class="nom" :class="{ inconnu: e.inconnu }">{{ e.nom }}</span>
         <span class="visually-hidden"> ({{ ETATS[e.etat] }})</span>
       </li>
     </ol>
@@ -47,4 +56,5 @@ const etapes = computed(() =>
 .ici .pastille { background: var(--primaire); border-color: var(--primaire); color: var(--primaire-texte); box-shadow: 0 3px 0 var(--primaire-ombre); }
 .ici .nom { font-weight: 700; text-decoration: underline; text-underline-offset: 0.2em; }
 .a-venir .nom { color: var(--texte-doux); }
+.nom.inconnu { font-style: italic; }
 </style>
