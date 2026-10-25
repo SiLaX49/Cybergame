@@ -90,7 +90,7 @@ etapes:
     question: Deux sont d’accord, Karim non. Que fais-tu ?
     choix:
       - id: retrait
-        texte: 'Karim est sur le côté, on le remarque à peine : je la publie quand même.'
+        texte: 'Karim est sur le côté, on le remarque à peine : je vais la publier quand même.'
         qualite: risque
         reaction: 'Karim a dit non, et ses proches le reconnaîtraient au premier coup d’œil. Qu’il soit au bord ou au milieu, c’est son image, et c’est sa décision. Il est encore temps : ne publie pas cette photo-là.'
       - id: etabli
@@ -118,7 +118,7 @@ etapes:
     lieu: L’atelier Cycles Martel
     decor: entreprise
     suite: bon-recours
-    guide: 'Lundi, 8 h, à l’atelier. Sonia gère la page SnapTalk de Cycles Martel, publique, 2 000 abonnés. Elle te montre le texte qu’elle a préparé, sous une photo de toi à l’établi : « Bienvenue à notre stagiaire ! » suivi de ton prénom, ton nom, « 1re bac pro au lycée Jean-Moulin » et « avec nous tous les jours jusqu’au 20 décembre ». « Ça te va ? Je publie avant l’ouverture. »'
+    guide: 'Lundi, 8 h, à l’atelier. Sonia gère la page SnapTalk de Cycles Martel, publique, 2 000 abonnés. Elle te montre le texte qu’elle a préparé, sous une photo de toi à l’établi : « Bienvenue à notre stagiaire ! » suivi de ton prénom, ton nom, « 1re bac pro au lycée des Hauts-Prés » et « avec nous tous les jours jusqu’au 20 décembre ». « Ça te va ? Je publie avant l’ouverture. »'
     question: Sonia attend ta réponse. Que lui dis-tu ?
     choix:
       - id: tout
@@ -189,13 +189,13 @@ etapes:
         qualite: risque
         reaction: 'Nadia publie : Karim se retrouve sur un profil public, chez des inconnus. Pouvoir recevoir une photo ne signifie pas qu’on peut la publier librement, et ça vaut pour ta tante aussi. Il est encore temps : rappelle-la avant qu’elle ne la partage plus loin.'
       - id: explique
-        texte: 'Je lui explique que Karim ne veut pas être en ligne, et je lui envoie la photo de l’établi.'
+        texte: 'Je lui explique que Karim ne veut pas être en ligne, et je lui demande de la garder pour elle.'
         qualite: bon
-        reaction: 'Bien vu. Nadia comprend tout de suite : « Je n’y avais pas pensé. » Elle publie la photo de l’établi, avec Sonia, M. Martel et toi, qui étiez d’accord.'
+        reaction: 'Bien vu. Nadia comprend tout de suite : « Je n’y avais pas pensé. Je la garde pour moi, elle ne sortira pas de la famille. » Elle ne publie rien.'
       - id: aide
         texte: 'Je demande de l’aide à ma mère pour expliquer à ma tante pourquoi cette photo ne doit pas être publiée.'
         qualite: aide
-        reaction: 'Ta mère prend le téléphone : « Nadia, sur celle-là, il y a un collègue qui ne veut pas être en ligne. » Tu envoies à ta tante la photo de l’établi, que tout le monde a acceptée.'
+        reaction: 'Ta mère prend le téléphone : « Nadia, sur celle-là, il y a un collègue qui ne veut pas être en ligne. » Nadia promet de la garder pour elle, sans la publier ni la transférer.'
     pourquoi:
       - levier: flatterie
         truc: '« Trop fière de toi ! » : ça fait plaisir, on n’a pas envie de la refroidir.'
@@ -254,13 +254,13 @@ etapes:
         qualite: risque
         reaction: 'La copie de Tom reste visible, et Karim ne sait pas où ça en est. Ce que tu ne contrôles pas, tu peux le faire retirer : demande à Tom, puis, s’il ne le fait pas, à la plateforme. Et dis aux personnes de la photo ce que tu as fait.'
       - id: tom
-        texte: 'J’écris à Tom pour qu’il retire sa story, et je dis à Karim et à M. Martel ce que j’ai fait.'
+        texte: 'J’écris à Tom pour qu’il retire sa story, et je dis à Karim, Sonia et M. Martel ce que j’ai fait.'
         qualite: bon
         reaction: 'C’est l’étape suivante. Tom retire sa story dix minutes plus tard. Karim répond : « Merci d’avoir fait vite. » Tu ne peux pas savoir si quelqu’un l’a enregistrée entre-temps : si une copie réapparaît, tu demanderas le retrait à son auteur, puis à la plateforme. Dernier geste : dans SnapTalk, tu passes ton audience de « Public » à « Amis ».'
       - id: aide
         texte: 'Je demande de l’aide à mon père pour trouver les mots, pour Tom et pour Karim.'
         qualite: aide
-        reaction: 'Ton père t’aide à écrire, sans rien faire à ta place. À Tom : « Retire la photo stp, Karim n’était pas d’accord. » À Karim et à M. Martel : « Je l’ai retirée, et j’ai demandé à Tom de retirer sa copie. » Tom la retire. Puis tu passes ton audience SnapTalk de « Public » à « Amis ».'
+        reaction: 'Ton père t’aide à écrire, sans rien faire à ta place. À Tom : « Retire la photo stp, Karim n’était pas d’accord. » À Karim, Sonia et M. Martel : « Je l’ai retirée, et j’ai demandé à Tom de retirer sa copie. » Tom la retire. Puis tu passes ton audience SnapTalk de « Public » à « Amis ».'
     pourquoi:
       - levier: reflexe
         truc: '« Ta publication est retirée » : on se dit que le problème est réglé.'
@@ -289,7 +289,7 @@ etapes:
         - { id: ami, texte: 'Un ami a publié une photo de toi que tu ne veux pas voir en ligne, sans te demander.', categorie: auteur, explication: 'Tu lui demandes de la retirer. S’il ne le fait pas, tu peux demander le retrait à la plateforme.' }
         - { id: copie, texte: 'Une copie d’une photo que tu as retirée réapparaît sur un compte que tu ne connais pas.', categorie: auteur, explication: 'Tu gardes une trace (où, quand), puis tu demandes le retrait à l’auteur et à la plateforme. On ne peut pas promettre que toutes les copies disparaîtront.' }
         - { id: entreprise, texte: 'Ton lieu de PFMP veut publier ta photo avec ton nom et ton lycée, et tu n’oses pas dire non.', categorie: adulte-lycee, explication: 'Le professeur qui suit ta PFMP peut t’aider à trouver comment en parler avec ton tuteur.' }
-        - { id: sortie, texte: 'Une photo de ta classe, prise pendant une sortie du lycée, circule sur un compte public.', categorie: adulte-lycee, explication: 'Le CPE aide à trouver le bon interlocuteur quand une situation touche la classe ou le lycée.' }
+        - { id: sortie, texte: 'Une photo de ta classe, prise pendant une sortie du lycée, circule sur un compte public, sans que tu saches qui l’a publiée, et plusieurs élèves sont concernés.', categorie: adulte-lycee, explication: 'Le CPE aide à trouver le bon interlocuteur quand une situation touche la classe ou le lycée.' }
 
   - type: lieu
     id: sortie

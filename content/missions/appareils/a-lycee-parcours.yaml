@@ -57,7 +57,7 @@ etapes:
         qualite: risque
         suite: alerte
         route: j’installe l’outil
-        reaction: 'Tu installes, tu acceptes tout ce qu’il demande, et tu te connectes. Ça scanne, c’est vrai. Ce que tu ne sais pas encore : ScanRapide récupère aussi les identifiants et les mots de passe que tu tapes sur ton téléphone.'
+        reaction: 'Tu installes, tu acceptes tout ce qu’il demande, et tu te connectes. Ça scanne, c’est vrai. Ce que tu ne sais pas encore : ScanRapide récupère aussi tes identifiants et tes mots de passe sur ton téléphone.'
       - id: verifie
         texte: 'Avant tout, je regarde moi-même d’où vient cet outil et ce qu’il demande.'
         qualite: bon
@@ -76,11 +76,11 @@ etapes:
         parade: 'La file avancera aussi avec Rives Staff. Une minute pour vérifier ne bloque personne.'
       - levier: gain
         truc: '« deux fois plus vite » : un outil qui te facilite le travail, c’est tentant.'
-        parade: 'Un outil gratuit trouvé sur un forum peut voler ce que tu tapes. Regarde d’où il vient.'
+        parade: 'Un outil gratuit trouvé sur un forum peut voler tes identifiants et tes mots de passe. Regarde d’où il vient.'
       - levier: groupe
         truc: 'Théo l’utilise déjà, et ça a l’air de marcher pour lui.'
         parade: 'Que ça marche ne dit pas ce que l’outil fait d’autre. Sur un compte du festival, Malik décide.'
-    aRetenir: 'Une appli s’installe depuis sa source officielle. Un fichier trouvé sur un forum qui réclame tes identifiants peut voler ce que tu tapes : identifiants, mots de passe, cookies de session. Sur un appareil ou un compte de l’employeur, on n’installe rien sans le responsable ou le service informatique.'
+    aRetenir: 'Une appli s’installe depuis sa source officielle. Un fichier trouvé sur un forum qui réclame tes identifiants peut voler tes identifiants, tes mots de passe et tes cookies de session. Sur un appareil ou un compte de l’employeur, on n’installe rien sans le responsable ou le service informatique.'
 
   - type: lieu
     id: mise-a-jour
@@ -126,9 +126,9 @@ etapes:
         qualite: risque
         reaction: 'Sur l’ordinateur du festival, tu viens d’installer un programme dont tu ne sais rien. Cet ordinateur sert à tout le bureau, et il n’est pas à toi. Il est encore temps : préviens Malik, et ne tente pas de le nettoyer toi-même.'
       - id: rien
-        texte: 'Je n’installe rien sur cet ordinateur, et je vais demander à Malik comment ouvrir le fichier.'
+        texte: 'Je ferme la fenêtre sans rien installer, puis je vais voir Malik à la régie.'
         qualite: bon
-        reaction: 'Bien vu. Malik passe deux minutes plus tard : « Le lecteur est déjà installé, il faut juste ouvrir le fichier avec. Cette fenêtre, on ne clique jamais dessus. » La liste s’imprime.'
+        reaction: 'Bien vu. Malik revient avec toi : « Le lecteur est déjà installé, il faut juste ouvrir le fichier avec. Cette fenêtre, on ne clique jamais dessus. » La liste s’imprime.'
       - id: aide
         texte: 'Je demande de l’aide à Mme Okafor, ma responsable, quand elle raccroche.'
         qualite: aide
@@ -164,7 +164,7 @@ etapes:
       - id: aide
         texte: 'Je demande de l’aide à Mme Okafor pour accompagner Théo chez Malik.'
         qualite: aide
-        reaction: 'Mme Okafor écoute Théo, sans reproche : « Tu as bien fait d’en parler. On va voir Malik. » Malik bloque son identifiant Rives Staff, et lui conseille de changer ses mots de passe perso depuis un autre appareil.'
+        reaction: 'Mme Okafor écoute Théo, sans reproche : « Tu as bien fait d’en parler. On va voir Malik. » Malik bloque son identifiant Rives Staff, et lui conseille de changer ses mots de passe perso depuis un autre appareil, puis de faire examiner son téléphone.'
     pourquoi:
       - levier: honte
         truc: '« comme ça personne ne saura » : Théo a peur de passer pour celui qui a fait une bêtise.'
@@ -219,7 +219,7 @@ etapes:
       - id: change-ici
         texte: 'Je change tout de suite le mot de passe de ma messagerie, ici, sur mon téléphone.'
         qualite: risque
-        reaction: 'Tant que ScanRapide est sur ton téléphone, ce que tu y tapes peut lui être envoyé, nouveau mot de passe compris. Sur un appareil suspect, on ne saisit plus aucun secret. Arrête de taper et préviens Malik pour ton identifiant du festival.'
+        reaction: 'Tant que ScanRapide est sur ton téléphone, un nouveau mot de passe saisi dessus peut être volé lui aussi. Sur un appareil suspect, on ne saisit plus aucun secret. Arrête de taper et préviens Malik pour ton identifiant du festival.'
       - id: stop
         texte: 'Je ne tape plus rien sur ce téléphone, et je vais prévenir Malik, encore à la régie.'
         qualite: bon
@@ -327,7 +327,7 @@ debrief:
     - 'Qu’est-ce qui rendait ScanRapide si tentant, et comment pouvait-on vérifier ?'
     - 'Comparez les trois routes : qu’est-ce qu’on peut encore faire après une erreur ? Qui aide pour quoi ?'
     - 'Quel recours pour quelle situation : régler soi-même, le responsable ou le service informatique, ou 17Cyber ?'
-  reponses: 'Les pièges de l’île : l’urgence (la file d’attente, la relève), le gain (« deux fois plus vite », « gratuit »), le groupe (Théo l’utilise, Lou ne fait jamais ses mises à jour), l’air officiel (« l’appli officielle ») et le réflexe (autoriser tout, cliquer sur la fenêtre, se connecter au premier réseau). Pour vérifier : une appli s’installe depuis sa source officielle, avec les seules autorisations utiles. Un fichier trouvé sur un forum qui réclame des identifiants peut voler ce qu’on tape : identifiants, mots de passe, cookies de session. Sur un appareil ou un compte de l’employeur ou du lycée, on n’installe rien soi-même : on demande au responsable ou au service informatique, et pas de nettoyage improvisé. Sur un appareil partagé, on ferme sa session. Les mises à jour font partie des réflexes de base. Wi-Fi : « Évitez les réseaux Wi-Fi publics ou inconnus » ; on préfère ses données mobiles pour les opérations sensibles, sans croire pour autant que quelqu’un lit tout sur un réseau public. Aucun outil, pas même un VPN, ne protège de tout. Trois routes : vérifier soi-même, demander à la bonne personne (le service informatique pour l’appareil et les comptes du festival, la responsable, un parent), ou réparer après avoir installé l’outil. Réparer, dans l’ordre : ne plus saisir de secrets sur l’appareil (et prévenir le responsable si un compte de l’employeur est touché), sécuriser ses comptes depuis un appareil sain, la messagerie d’abord, puis faire examiner l’appareil. Désinstaller ne suffit pas : les données déjà volées sont parties. 17Cyber fait un diagnostic et oriente ; ce n’est ni un numéro de téléphone ni une plainte automatique.'
+  reponses: 'Les pièges de l’île : l’urgence (la file d’attente, la relève), le gain (« deux fois plus vite », « gratuit »), le groupe (Théo l’utilise, Lou ne fait jamais ses mises à jour), l’air officiel (« l’appli officielle ») et le réflexe (autoriser tout, cliquer sur la fenêtre, se connecter au premier réseau). Pour vérifier : une appli s’installe depuis sa source officielle, avec les seules autorisations utiles. Un fichier trouvé sur un forum qui réclame des identifiants peut voler les identifiants, les mots de passe et les cookies de session. Sur un appareil ou un compte de l’employeur ou du lycée, on n’installe rien soi-même : on demande au responsable ou au service informatique, et pas de nettoyage improvisé. Sur un appareil partagé, on ferme sa session. Les mises à jour font partie des réflexes de base. Wi-Fi : « Évitez les réseaux Wi-Fi publics ou inconnus » ; on préfère ses données mobiles pour les opérations sensibles, sans croire pour autant que quelqu’un lit tout sur un réseau public. Aucun outil, pas même un VPN, ne protège de tout. Trois routes : vérifier soi-même, demander à la bonne personne (le service informatique pour l’appareil et les comptes du festival, la responsable, un parent), ou réparer après avoir installé l’outil. Réparer, dans l’ordre : ne plus saisir de secrets sur l’appareil (et prévenir le responsable si un compte de l’employeur est touché), sécuriser ses comptes depuis un appareil sain, la messagerie d’abord, puis faire examiner l’appareil. Désinstaller ne suffit pas : les données déjà volées sont parties. 17Cyber fait un diagnostic et oriente ; ce n’est ni un numéro de téléphone ni une plainte automatique.'
   erreursFrequentes:
     - 'Installer un outil trouvé sur un forum parce qu’il promet d’aller plus vite, ou accepter toutes les autorisations d’une appli officielle.'
     - 'Changer ses mots de passe depuis l’appareil suspect, ou croire que désinstaller l’outil règle tout.'
