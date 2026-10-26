@@ -14,6 +14,8 @@ const TEXTE: Paire[] = [
   ['bon', 'bon-fond'], ['risque', 'risque-fond'], ['aide', 'aide-fond'],
   ['texte', 'bon-fond'], ['texte', 'risque-fond'], ['texte', 'aide-fond'],
   ['texte-doux', 'bon-fond'], ['texte-doux', 'risque-fond'], ['texte-doux', 'aide-fond'],
+  ['or', 'surface'], ['or', 'surface-2'], ['or', 'or-fond'], ['texte', 'or-fond'], ['or', 'fond'],
+  ['tuile-texte', 'tuile-a'], ['tuile-texte', 'tuile-b'], ['tuile-texte', 'tuile-c'],
   ...THEMES_COULEURS.flatMap((t): Paire[] => [['texte', `teinte-${t}`], ['texte-doux', `teinte-${t}`]]),
 ]
 const INTERFACE: Paire[] = [

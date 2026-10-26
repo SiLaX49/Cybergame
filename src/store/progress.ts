@@ -13,7 +13,8 @@ const reglagesSchema = z.object({
   lectureSimple: z.boolean().default(false),
   animations: z.boolean().default(true),
   chrono: z.boolean().default(false),
-  theme: z.enum(['auto', 'clair', 'sombre']).default('auto'),
+  // Bleu nuit par défaut (refonte V2) ; « Automatique » suit le réglage de l’appareil.
+  theme: z.enum(['auto', 'clair', 'sombre']).default('sombre'),
   vueCarte: z.enum(['archipel', 'liste']).default('archipel'),
 })
 
@@ -36,6 +37,24 @@ export const progressSchema = z.object({
       }),
     )
     .default({}),
+  /** Meilleur gain d’octets par mission (rejouer ne rapporte que ce qu’on fait de mieux). */
+  octets: z.record(z.string(), z.number().int().min(0)).default({}),
+  /** Jours (AAAA-MM-JJ, heure locale) où le défi du jour a été relevé. */
+  defis: z.array(z.string()).default([]),
+  /** Objets de la boutique achetés. */
+  achats: z.array(z.string()).default([]),
+  /** Titre de la boutique affiché sur le profil et dans l’en-tête. */
+  titre: z.string().nullable().default(null),
+  /** Ce qui a été fait aujourd’hui, pour les objectifs du jour ; repart de zéro chaque jour. */
+  journal: z
+    .object({
+      date: z.string(),
+      missions: z.number().int().min(0),
+      octets: z.number().int().min(0),
+      reparations: z.number().int().min(0),
+    })
+    .nullable()
+    .default(null),
 })
 
 export type Progress = z.infer<typeof progressSchema>

@@ -16,16 +16,21 @@ describe('progression', () => {
       version: 1,
       tranche: null,
       mode: null,
-      reglages: { taille: 'normal', interligne: 'normal', lectureSimple: false, animations: true, chrono: false, theme: 'auto', vueCarte: 'archipel' },
+      reglages: { taille: 'normal', interligne: 'normal', lectureSimple: false, animations: true, chrono: false, theme: 'sombre', vueCarte: 'archipel' },
       missions: {},
       rappels: {},
+      octets: {},
+      defis: [],
+      achats: [],
+      titre: null,
+      journal: null,
     })
   })
 
-  it('une sauvegarde sans réglage de thème passe en automatique', () => {
+  it('une sauvegarde sans réglage de thème passe en bleu nuit (sombre)', () => {
     const ancienne = { version: 1, reglages: { taille: 'grand', interligne: 'normal', lectureSimple: false, animations: true, chrono: false } }
     const etat = migrer(ancienne)
-    expect(etat?.reglages.theme).toBe('auto')
+    expect(etat?.reglages.theme).toBe('sombre')
     expect(etat?.reglages.taille).toBe('grand')
   })
 

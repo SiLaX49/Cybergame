@@ -133,3 +133,37 @@ select {
   font: inherit; color: var(--texte); background: var(--surface);
   border: 2px solid var(--bord-fort); border-radius: var(--rayon-btn);
 }
+
+/* ---------- Refonte V2 : octets, tuiles de mission, panneaux ---------- */
+.encadre-or { --encadre-fond: var(--or-fond); --encadre-trait: var(--or); }
+
+/* Tuile de mission colorée (texte blanc sur fond franc, contrastes vérifiés dans palette.test.ts). */
+.tuile-mission {
+  --tuile-fond: var(--tuile-a);
+  position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 0.5rem;
+  min-height: 9rem; padding: 1.1rem 1.25rem; border-radius: var(--rayon-carte);
+  background: var(--tuile-fond); color: var(--tuile-texte); text-decoration: none;
+  border: 2px solid transparent; box-shadow: 0 6px 0 var(--agent-ombre);
+  font-family: var(--police-titres); font-weight: 600; font-size: 1.1em; line-height: 1.25;
+  transition: transform var(--duree) ease;
+}
+@media (hover: hover) { .tuile-mission:hover { transform: translateY(-2px); } }
+.tuile-mission:focus-visible { border-color: var(--tuile-texte); }
+.tuile-illustration { font-size: 3rem; line-height: 1; }
+
+/* Panneau latéral (objectifs, classement) */
+.panneau {
+  background: var(--surface); border: 2px solid var(--bord); border-radius: var(--rayon-carte);
+  padding: 1rem 1.15rem;
+}
+.panneau > h2 { font-size: 1.1em; margin: 0 0 0.6rem; }
+
+/* Barre de progression en dégradé (bleu → cyan → or) */
+progress.barre-degrade::-webkit-progress-value { background: linear-gradient(90deg, var(--primaire), var(--accent-phishing), var(--or)); }
+progress.barre-degrade::-moz-progress-bar { background: linear-gradient(90deg, var(--primaire), var(--accent-phishing), var(--or)); }
+
+/* Grand bouton d’appel (« Lancer le défi du jour ») */
+.btn.btn-appel {
+  --btn-fond: var(--primaire); --btn-texte: var(--primaire-texte); --btn-bord: var(--or); --btn-ombre: var(--primaire-ombre);
+  border-radius: 999px; border-width: 3px; padding: 0.8em 2em; font-size: 1.1em;
+}

@@ -35,12 +35,12 @@ describe('appliquerReglages', () => {
     expect(racine.dataset.mode).toBe('classe')
   })
 
-  it('pose le thème choisi, automatique par défaut', () => {
+  it('pose le thème choisi, sombre (bleu nuit) par défaut', () => {
     const racine = document.createElement('div')
     appliquerReglages(store, racine)
-    expect(racine.dataset.theme).toBe('auto')
-    store.modifierReglages({ theme: 'sombre' })
-    return nextTick().then(() => expect(racine.dataset.theme).toBe('sombre'))
+    expect(racine.dataset.theme).toBe('sombre')
+    store.modifierReglages({ theme: 'auto' })
+    return nextTick().then(() => expect(racine.dataset.theme).toBe('auto'))
   })
 })
 
@@ -70,9 +70,9 @@ describe('ReglagesPanel — thème', () => {
     const groupe = w.findAll('fieldset').find((f) => f.find('legend').text() === 'Thème')
     expect(groupe).toBeDefined()
     expect(groupe!.findAll('label').map((l) => l.text())).toEqual(['Automatique (comme l’appareil)', 'Clair', 'Sombre'])
-    expect((groupe!.find('input[value="auto"]').element as HTMLInputElement).checked).toBe(true)
-    await groupe!.find('input[value="sombre"]').setValue(true)
-    expect(store.etat.reglages.theme).toBe('sombre')
+    expect((groupe!.find('input[value="sombre"]').element as HTMLInputElement).checked).toBe(true)
+    await groupe!.find('input[value="clair"]').setValue(true)
+    expect(store.etat.reglages.theme).toBe('clair')
   })
 })
 

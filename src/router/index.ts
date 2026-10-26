@@ -4,6 +4,7 @@ import { getMission, getTheme } from '@/content'
 import AccueilPage from '@/pages/AccueilPage.vue'
 import AtelierTelephonePage from '@/pages/AtelierTelephonePage.vue'
 import CartePage from '@/pages/CartePage.vue'
+import DefisPage from '@/pages/DefisPage.vue'
 import ConfidentialitePage from '@/pages/ConfidentialitePage.vue'
 import EnseignantsPage from '@/pages/EnseignantsPage.vue'
 import FicheMissionPage from '@/pages/FicheMissionPage.vue'
@@ -11,6 +12,7 @@ import IlePage from '@/pages/IlePage.vue'
 import IntrouvablePage from '@/pages/IntrouvablePage.vue'
 import MissionPage from '@/pages/MissionPage.vue'
 import PlanBPage from '@/pages/PlanBPage.vue'
+import ProfilPage from '@/pages/ProfilPage.vue'
 import TestTechniquePage from '@/pages/TestTechniquePage.vue'
 import { useProgress } from '@/store/useProgress'
 
@@ -21,13 +23,16 @@ declare module 'vue-router' {
   }
 }
 
+/** Pages qui demandent un niveau : sans tranche choisie, retour à l’accueil. */
+const avecTranche = () => (useProgress().etat.tranche ? true : { name: 'accueil' })
+
 export const routes: RouteRecordRaw[] = [
   { path: '/', name: 'accueil', component: AccueilPage },
   {
     path: '/carte',
     name: 'carte',
     component: CartePage,
-    beforeEnter: () => (useProgress().etat.tranche ? true : { name: 'accueil' }),
+    beforeEnter: avecTranche,
     meta: { titre: 'Choisis une île' },
   },
   {
@@ -36,6 +41,8 @@ export const routes: RouteRecordRaw[] = [
     component: IlePage,
     meta: { titre: '{ile}' },
   },
+  { path: '/defis', name: 'defis', component: DefisPage, beforeEnter: avecTranche, meta: { titre: 'Défis' } },
+  { path: '/profil', name: 'profil', component: ProfilPage, meta: { titre: 'Ton profil' } },
   { path: '/mission/:id', name: 'mission', component: MissionPage, meta: { titre: '{mission}' } },
   { path: '/enseignants', name: 'enseignants', component: EnseignantsPage, meta: { titre: 'Espace enseignants' } },
   { path: '/enseignants/:id', name: 'fiche', component: FicheMissionPage, meta: { titre: '{mission} : fiche enseignant' } },

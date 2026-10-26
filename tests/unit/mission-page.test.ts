@@ -65,6 +65,27 @@ describe('MissionPage', () => {
     })
   })
 
+  it('crédite les octets en fin de mission, une fois, et le défi du jour quand c’est lui', async () => {
+    store.choisirTranche('6e')
+    const jouer = async () => {
+      const w = await monter('m-test')
+      await choisir(w, 'aide')
+      await cliquer(w, 'Continuer')
+      await finirTri(w)
+      return w
+    }
+    const w = await jouer()
+    const section = w.find('.gain-octets')
+    expect(section.text()).toContain('Bon réflexe')
+    expect(section.text()).toContain('ajoutés à ta réserve')
+    // Seule mission éligible de la tranche : c’est forcément le défi du jour.
+    expect(section.text()).toContain('Défi du jour relevé')
+    expect(store.etat.octets['m-test']).toBeGreaterThan(0)
+    expect(store.etat.defis).toHaveLength(1)
+    const rejoue = await jouer()
+    expect(rejoue.find('.gain-octets').text()).toContain('Tu avais déjà gagné ces octets')
+  })
+
   it('ignore le double clic sur « Continuer »', async () => {
     const w = await monter('m-test')
     await choisir(w, 'aide')
