@@ -17,7 +17,7 @@ etapes:
     id: appli
     lieu: Ta chambre
     decor: chambre
-    guide: 'Jeudi soir, dans ta chambre. Tu es en terminale et tu finances ton permis : ce week-end, tu travailles à l’accueil du festival Rives Électriques, pour scanner les billets. Le mail de Mme Okafor, ta responsable, donne le lien de l’appli officielle « Rives Staff », dans le magasin d’applis de ton téléphone. Tu l’installes. Au premier lancement, elle demande tout : contacts, position « toujours », micro, photos, appareil photo.'
+    guide: 'Jeudi soir, dans ta chambre. Tu es en terminale et tu finances ton permis : ce week-end, tu travailles à l’accueil du festival Rives Électriques, pour scanner les billets. Le mail de Mme Vasseur, ta responsable, donne le lien de l’appli officielle « Rives Staff », dans le magasin d’applis de ton téléphone. Tu l’installes. Au premier lancement, elle demande tout : contacts, position « toujours », micro, photos, appareil photo.'
     question: Que fais-tu de ces demandes ?
     choix:
       - id: tout
@@ -25,7 +25,7 @@ etapes:
         qualite: risque
         reaction: 'Rives Staff peut maintenant lire tes contacts, voir ta position même après le festival et utiliser ton micro. Pour scanner des billets, elle n’a besoin que de l’appareil photo. Il est encore temps : dans les réglages, retire ce qui ne sert pas.'
       - id: photo
-        texte: 'J’autorise l’appareil photo pour scanner les billets, et je refuse le reste.'
+        texte: 'Pour scanner, seul l’appareil photo sert : je l’autorise, et je refuse le reste.'
         qualite: bon
         reaction: 'Bien vu. L’appli scanne les billets sans problème. Les contacts, le micro, les photos et ta position « toujours » ne servent pas à ton travail : ils restent fermés.'
       - id: aide
@@ -86,11 +86,11 @@ etapes:
     id: mise-a-jour
     lieu: La pelouse du parc
     decor: parc
-    guide: 'Samedi, 15 h, pause sur la pelouse du parc, loin des scènes. Ton téléphone affiche : « Mise à jour du système disponible. Vous l’avez reportée 6 fois. » Elle pèse 1,2 Go, et ton forfait est presque vide. Lou, ta collègue de stand : « Moi, je ne les fais jamais, mon téléphone marche très bien. »'
+    guide: 'Samedi, 15 h, pause sur la pelouse du parc, loin des scènes. Ton téléphone affiche : « Mise à jour du système disponible. Vous l’avez reportée 6 fois. » Elle pèse 1,2 Go, et ton forfait est presque vide. Jade, ta collègue de stand : « Moi, je ne les fais jamais, mon téléphone marche très bien. »'
     question: Il te reste vingt minutes de pause. Que fais-tu ?
     choix:
       - id: reporte
-        texte: 'Mon téléphone marche bien : je la reporte encore, comme Lou.'
+        texte: 'Je la reporte encore une fois, comme Jade, et j’y repenserai plus tard.'
         qualite: risque
         reaction: 'Septième report. Un téléphone qui marche bien peut quand même avoir besoin de sa mise à jour : c’est un des réflexes de base pour le protéger. Il est encore temps : programme-la pour ce soir.'
       - id: programme
@@ -103,7 +103,7 @@ etapes:
         reaction: 'Ton père répond : « Ce soir, on la lance sur le Wi-Fi de la maison, branché sur le chargeur. » À minuit, c’est fait.'
     pourquoi:
       - levier: groupe
-        truc: '« je ne les fais jamais » : Lou s’en passe, et tout va bien pour elle.'
+        truc: '« je ne les fais jamais » : Jade s’en passe, et tout va bien pour elle.'
         parade: 'Que rien ne se voie ne veut pas dire que rien ne manque. La mise à jour protège l’appareil.'
       - levier: reflexe
         truc: '« Vous l’avez reportée 6 fois » : reporter est devenu une habitude.'
@@ -118,7 +118,7 @@ etapes:
     lieu: Le bureau du festival
     decor: entreprise
     suite: bon-recours
-    guide: 'Samedi, 19 h, au bureau du festival, un préfabriqué derrière l’entrée. Mme Okafor te demande d’imprimer la liste des bénévoles depuis l’ordinateur du bureau. Le fichier ne s’ouvre pas. Une fenêtre propose : « Installez PDFLibre, gratuit, pour ouvrir ce fichier ». Mme Okafor est au téléphone, Malik à la régie.'
+    guide: 'Samedi, 19 h, au bureau du festival, un préfabriqué derrière l’entrée. Mme Vasseur te demande d’imprimer la liste des bénévoles depuis l’ordinateur du bureau. Le fichier ne s’ouvre pas. Une fenêtre propose : « Installez PDFLibre, gratuit, pour ouvrir ce fichier ». Mme Vasseur est au téléphone, Malik à la régie.'
     question: L’imprimante attend. Que fais-tu ?
     choix:
       - id: pdflibre
@@ -130,15 +130,15 @@ etapes:
         qualite: bon
         reaction: 'Bien vu. Malik revient avec toi : « Le lecteur est déjà installé, il faut juste ouvrir le fichier avec. Cette fenêtre, on ne clique jamais dessus. » La liste s’imprime.'
       - id: aide
-        texte: 'Je demande de l’aide à Mme Okafor, ma responsable, quand elle raccroche.'
+        texte: 'Je demande de l’aide à Mme Vasseur, ma responsable, quand elle raccroche.'
         qualite: aide
-        reaction: 'Mme Okafor raccroche et regarde l’écran : « On n’installe rien sur cet ordinateur. J’appelle Malik. » Il ouvre le fichier avec le lecteur déjà installé, et la liste s’imprime.'
+        reaction: 'Mme Vasseur raccroche et regarde l’écran : « On n’installe rien sur cet ordinateur. J’appelle Malik. » Il ouvre le fichier avec le lecteur déjà installé, et la liste s’imprime.'
     pourquoi:
       - levier: gain
         truc: '« gratuit » : un petit programme gratuit pour régler le problème, ça paraît anodin.'
         parade: 'Sur un ordinateur de l’employeur, même un outil gratuit passe par le responsable.'
       - levier: urgence
-        truc: 'Mme Okafor attend sa liste, et l’imprimante est prête.'
+        truc: 'Mme Vasseur attend sa liste, et l’imprimante est prête.'
         parade: 'Deux minutes pour demander à Malik, c’est moins long que réparer un ordinateur.'
       - levier: reflexe
         truc: '« Installez PDFLibre » : la fenêtre te dit quoi faire, on suit.'
@@ -162,9 +162,9 @@ etapes:
         qualite: bon
         reaction: 'Bien vu. Théo range son téléphone et va à la régie. Malik bloque son identifiant Rives Staff et lui en crée un nouveau : « Merci de m’avoir prévenu. Pour tes comptes perso, change tes mots de passe depuis un autre appareil, et fais examiner ton téléphone. »'
       - id: aide
-        texte: 'Je demande de l’aide à Mme Okafor pour accompagner Théo chez Malik.'
+        texte: 'Je demande de l’aide à Mme Vasseur pour accompagner Théo chez Malik.'
         qualite: aide
-        reaction: 'Mme Okafor écoute Théo, sans reproche : « Tu as bien fait d’en parler. On va voir Malik. » Malik bloque son identifiant Rives Staff, et lui conseille de changer ses mots de passe perso depuis un autre appareil, puis de faire examiner son téléphone.'
+        reaction: 'Mme Vasseur écoute Théo, sans reproche : « Tu as bien fait d’en parler. On va voir Malik. » Malik bloque son identifiant Rives Staff, et lui conseille de changer ses mots de passe perso depuis un autre appareil, puis de faire examiner son téléphone.'
     pourquoi:
       - levier: honte
         truc: '« comme ça personne ne saura » : Théo a peur de passer pour celui qui a fait une bêtise.'
@@ -182,24 +182,24 @@ etapes:
     lieu: Le bureau du festival
     decor: entreprise
     suite: bon-recours
-    guide: 'Samedi, 23 h, au bureau du festival. Fin de ton service. Sur la tablette de l’accueil, partagée par toute l’équipe, tu es connecté·e à Rives Staff avec ton identifiant pour noter les incidents. Léa prend la relève : « Laisse ta session ouverte, je continue dessus, ça ira plus vite. »'
-    question: Léa tend la main vers la tablette. Que fais-tu ?
+    guide: 'Samedi, 23 h, au bureau du festival. Fin de ton service. Sur la tablette de l’accueil, partagée par toute l’équipe, tu es connecté·e à Rives Staff avec ton identifiant pour noter les incidents. Maëlle prend la relève : « Laisse ta session ouverte, je continue dessus, ça ira plus vite. »'
+    question: Maëlle tend la main vers la tablette. Que fais-tu ?
     choix:
       - id: ouverte
-        texte: 'On est dans la même équipe : je laisse ma session ouverte pour Léa.'
+        texte: 'Je laisse ma session ouverte pour que Maëlle continue sans perdre de temps.'
         qualite: risque
-        reaction: 'Toute la nuit, ce que Léa et les suivants notent sur la tablette apparaît sous ton nom. Si une erreur est faite, c’est ton identifiant qui l’aura faite. Il est encore temps : ferme ta session.'
+        reaction: 'Toute la nuit, ce que Maëlle et les suivants notent sur la tablette apparaît sous ton nom. Si une erreur est faite, c’est ton identifiant qui l’aura faite. Il est encore temps : ferme ta session.'
       - id: ferme
-        texte: 'Je ferme ma session, et Léa se connecte avec son identifiant.'
+        texte: 'Je ferme ma session, et Maëlle se connecte avec son identifiant.'
         qualite: bon
-        reaction: 'Bien vu. Léa se connecte avec le sien, en dix secondes. Chacun signe ce qu’il fait, et ta session ne traîne pas sur la tablette.'
+        reaction: 'Bien vu. Maëlle se connecte avec le sien, en dix secondes. Chacun signe ce qu’il fait, et ta session ne traîne pas sur la tablette.'
       - id: aide
-        texte: 'Je demande de l’aide à Mme Okafor pour savoir comment se passe la relève sur la tablette.'
+        texte: 'Je demande de l’aide à Mme Vasseur pour savoir comment se passe la relève sur la tablette.'
         qualite: aide
-        reaction: 'Mme Okafor est claire : « Chacun son identifiant. Tu fermes ta session, Léa ouvre la sienne. » Tu te déconnectes, et Léa se connecte.'
+        reaction: 'Mme Vasseur est claire : « Chacun son identifiant. Tu fermes ta session, Maëlle ouvre la sienne. » Tu te déconnectes, et Maëlle se connecte.'
     pourquoi:
       - levier: confiance
-        truc: 'Léa est ta collègue, vous travaillez ensemble depuis hier.'
+        truc: 'Maëlle est ta collègue, vous travaillez ensemble depuis hier.'
         parade: 'Ce n’est pas une question de confiance : sur un appareil partagé, chacun sa session.'
       - levier: urgence
         truc: '« ça ira plus vite » : la relève est pressée, des gens attendent encore.'
@@ -295,30 +295,30 @@ etapes:
     id: navette
     lieu: La navette du retour
     decor: bus
-    guide: 'Dimanche, minuit, dans la navette des saisonniers, après le dernier concert. Lou, ta collègue de stand, doit valider sa feuille d’heures dans Rives Staff avant demain midi, et elle veut le faire maintenant. Ses données mobiles sont presque épuisées. Un réseau apparaît : « Navette_WiFi_Gratuit », ouvert, sans mot de passe. Malik est assis deux rangs devant.'
-    question: Lou te demande ce que tu en penses. Que lui dis-tu ?
+    guide: 'Dimanche, minuit, dans la navette des saisonniers, après le dernier concert. Jade, ta collègue de stand, doit valider sa feuille d’heures dans Rives Staff avant demain midi, et elle veut le faire maintenant. Ses données mobiles sont presque épuisées. Un réseau apparaît : « Navette_WiFi_Gratuit », ouvert, sans mot de passe. Malik est assis deux rangs devant.'
+    question: Jade te demande ce que tu en penses. Que lui dis-tu ?
     choix:
       - id: wifi
         texte: 'C’est juste une feuille d’heures : je lui dis de se connecter au Wi-Fi de la navette.'
         qualite: risque
-        reaction: 'Lou tape son identifiant du festival sur un réseau ouvert dont personne ne sait qui le gère. Ça ne veut pas dire que quelqu’un lit tout, mais c’est le genre de réseau à éviter pour se connecter à un compte. Il est encore temps : elle peut attendre ou garder ses données mobiles pour ça.'
+        reaction: 'Jade tape son identifiant du festival sur un réseau ouvert dont personne ne sait qui le gère. Ça ne veut pas dire que quelqu’un lit tout, mais c’est le genre de réseau à éviter pour se connecter à un compte. Il est encore temps : elle peut attendre ou garder ses données mobiles pour ça.'
       - id: attendre
-        texte: 'Je lui conseille d’attendre d’être chez elle, ou d’utiliser ses données mobiles.'
+        texte: 'Elle a jusqu’à demain midi : je lui conseille d’attendre, ou d’utiliser ses données mobiles.'
         qualite: bon
-        reaction: 'Bien vu. Lou valide sa feuille d’heures avec ce qui lui reste de données mobiles : quelques secondes suffisent. Le réseau de la navette reste fermé pour elle.'
+        reaction: 'Bien vu. Jade valide sa feuille d’heures avec ce qui lui reste de données mobiles : quelques secondes suffisent. Le réseau de la navette reste fermé pour elle.'
       - id: aide
         texte: 'Je demande de l’aide à Malik pour savoir si la feuille d’heures peut attendre demain.'
         qualite: aide
-        reaction: 'Malik se retourne : « Tu as jusqu’à demain midi, rien ne presse ce soir. Et pas sur un réseau ouvert : ton identifiant Rives Staff, tu le tapes chez toi ou avec tes données mobiles. » Lou attend d’être chez elle.'
+        reaction: 'Malik se retourne : « Tu as jusqu’à demain midi, rien ne presse ce soir. Et pas sur un réseau ouvert : ton identifiant Rives Staff, tu le tapes chez toi ou avec tes données mobiles. » Jade attend d’être chez elle.'
     pourquoi:
       - levier: reflexe
         truc: '« ouvert, sans mot de passe » : un réseau gratuit qui s’affiche, on se connecte.'
         parade: '« Évitez les réseaux Wi-Fi publics ou inconnus. » Pour un compte, préfère tes données mobiles.'
       - levier: petit-montant
         truc: 'Une feuille d’heures, ça paraît sans importance.'
-        parade: 'La feuille, peut-être. Mais pour la valider, Lou tape son identifiant du festival.'
+        parade: 'La feuille, peut-être. Mais pour la valider, Jade tape son identifiant du festival.'
       - levier: urgence
-        truc: '« avant demain midi » : Lou veut s’en débarrasser maintenant.'
+        truc: '« avant demain midi » : Jade veut s’en débarrasser maintenant.'
         parade: 'Demain midi, c’est dans douze heures. Elle a le temps de le faire chez elle.'
     aRetenir: '« Évitez les réseaux Wi-Fi publics ou inconnus » : pour se connecter à un compte ou faire une opération sensible, on préfère ses données mobiles, ou on attend. Sur toute l’île, le même réflexe : vérifier d’où vient ce qu’on installe et, si c’est déjà fait, ne plus saisir de secrets et sécuriser ses comptes depuis un appareil sain.'
     recuperation: { action: demander-aide, siChoix: [wifi] }
@@ -327,7 +327,7 @@ debrief:
     - 'Qu’est-ce qui rendait ScanRapide si tentant, et comment pouvait-on vérifier ?'
     - 'Comparez les trois routes : qu’est-ce qu’on peut encore faire après une erreur ? Qui aide pour quoi ?'
     - 'Quel recours pour quelle situation : régler soi-même, le responsable ou le service informatique, ou 17Cyber ?'
-  reponses: 'Les pièges de l’île : l’urgence (la file d’attente, la relève), le gain (« deux fois plus vite », « gratuit »), le groupe (Théo l’utilise, Lou ne fait jamais ses mises à jour), l’air officiel (« l’appli officielle ») et le réflexe (autoriser tout, cliquer sur la fenêtre, se connecter au premier réseau). Pour vérifier : une appli s’installe depuis sa source officielle, avec les seules autorisations utiles. Un fichier trouvé sur un forum qui réclame des identifiants peut voler les identifiants, les mots de passe et les cookies de session. Sur un appareil ou un compte de l’employeur ou du lycée, on n’installe rien soi-même : on demande au responsable ou au service informatique, et pas de nettoyage improvisé. Sur un appareil partagé, on ferme sa session. Les mises à jour font partie des réflexes de base. Wi-Fi : « Évitez les réseaux Wi-Fi publics ou inconnus » ; on préfère ses données mobiles pour les opérations sensibles, sans croire pour autant que quelqu’un lit tout sur un réseau public. Aucun outil, pas même un VPN, ne protège de tout. Trois routes : vérifier soi-même, demander à la bonne personne (le service informatique pour l’appareil et les comptes du festival, la responsable, un parent), ou réparer après avoir installé l’outil. Réparer, dans l’ordre : ne plus saisir de secrets sur l’appareil (et prévenir le responsable si un compte de l’employeur est touché), sécuriser ses comptes depuis un appareil sain, la messagerie d’abord, puis faire examiner l’appareil. Désinstaller ne suffit pas : les données déjà volées sont parties. 17Cyber fait un diagnostic et oriente ; ce n’est ni un numéro de téléphone ni une plainte automatique.'
+  reponses: 'Les pièges de l’île : l’urgence (la file d’attente, la relève), le gain (« deux fois plus vite », « gratuit »), le groupe (Théo l’utilise, Jade ne fait jamais ses mises à jour), l’air officiel (« l’appli officielle ») et le réflexe (autoriser tout, cliquer sur la fenêtre, se connecter au premier réseau). Pour vérifier : une appli s’installe depuis sa source officielle, avec les seules autorisations utiles. Un fichier trouvé sur un forum qui réclame des identifiants peut voler les identifiants, les mots de passe et les cookies de session. Sur un appareil ou un compte de l’employeur ou du lycée, on n’installe rien soi-même : on demande au responsable ou au service informatique, et pas de nettoyage improvisé. Sur un appareil partagé, on ferme sa session. Les mises à jour font partie des réflexes de base. Wi-Fi : « Évitez les réseaux Wi-Fi publics ou inconnus » ; on préfère ses données mobiles pour les opérations sensibles, sans croire pour autant que quelqu’un lit tout sur un réseau public. Aucun outil, pas même un VPN, ne protège de tout. Trois routes : vérifier soi-même, demander à la bonne personne (le service informatique pour l’appareil et les comptes du festival, la responsable, un parent), ou réparer après avoir installé l’outil. Réparer, dans l’ordre : ne plus saisir de secrets sur l’appareil (et prévenir le responsable si un compte de l’employeur est touché), sécuriser ses comptes depuis un appareil sain, la messagerie d’abord, puis faire examiner l’appareil. Désinstaller ne suffit pas : les données déjà volées sont parties. 17Cyber fait un diagnostic et oriente ; ce n’est ni un numéro de téléphone ni une plainte automatique.'
   erreursFrequentes:
     - 'Installer un outil trouvé sur un forum parce qu’il promet d’aller plus vite, ou accepter toutes les autorisations d’une appli officielle.'
     - 'Changer ses mots de passe depuis l’appareil suspect, ou croire que désinstaller l’outil règle tout.'

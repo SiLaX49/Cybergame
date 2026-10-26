@@ -3,7 +3,7 @@ theme: phishing
 format: parcours
 tranches: ['lycee']
 titre: 'L’île aux hameçons : le stage de seconde'
-resume: 'Un QR code collé dans le bus, une offre de stage qui réclame tes papiers avant ce soir, un SMS de « dossier incomplet » : vérifie, demande à la bonne personne ou répare une erreur, et trouve le bon recours.'
+resume: 'Un QR code collé dans le bus, une offre de stage qui réclame tes papiers avant 18 h, un SMS de « dossier incomplet » : vérifie, demande à la bonne personne ou répare une erreur, et trouve le bon recours.'
 duree: 25
 objectifs:
   - Repérer une fausse offre de stage ou de PFMP qui réclame des documents en urgence
@@ -48,7 +48,7 @@ etapes:
     id: offre
     lieu: Ta chambre
     decor: chambre
-    guide: 'En fin d’après-midi, dans ta chambre, un mail arrive : « Bonjour, votre candidature a retenu notre attention : Atelier Boréal vous accueille en stage. Pour préparer la convention, merci d’envoyer avant 18 h la photo recto verso de votre carte d’identité et votre RIB. Passé ce délai, la place ira à un autre candidat. Hugo Martel, recrutement. » Tu as bien écrit à Atelier Boréal la semaine dernière, et le mail porte son logo.'
+    guide: 'En fin d’après-midi, dans ta chambre, un mail arrive : « Bonjour, votre candidature a retenu notre attention : Atelier Boréal vous accueille en stage. Pour préparer la convention, merci d’envoyer avant 18 h la photo recto verso de votre carte d’identité et votre RIB. Passé ce délai, la place ira à un autre candidat. Hugo Mercier, recrutement. » Tu as bien écrit à Atelier Boréal la semaine dernière, et le mail porte son logo.'
     question: Il est 17 h 15. Que fais-tu ?
     choix:
       - id: envoie
@@ -62,9 +62,9 @@ etapes:
         qualite: bon
         suite: atelier
         route: je vérifie l’entreprise
-        reaction: 'La secrétaire d’Atelier Boréal est formelle : personne ne s’appelle Hugo Martel chez eux, et ils ne demandent jamais de documents par mail. « D’autres élèves nous ont appelés pour le même message. Passez samedi à l’atelier, la responsable veut le voir. »'
+        reaction: 'La secrétaire d’Atelier Boréal est formelle : personne ne s’appelle Hugo Mercier chez eux, et ils ne demandent jamais de documents par mail. « D’autres élèves nous ont appelés pour le même message. Passez samedi à l’atelier, la responsable veut le voir. »'
       - id: aide
-        texte: 'Je demande de l’aide à ma professeure principale, qui suit les conventions de stage de la classe.'
+        texte: 'Je demande de l’aide à Mme Diallo, ma professeure principale, que je connais bien.'
         qualite: aide
         suite: cdi
         route: je demande à ma professeure principale
@@ -79,7 +79,7 @@ etapes:
       - levier: autorite
         truc: 'Le logo d’Atelier Boréal, une signature, le mot « convention » : tout a l’air sérieux.'
         parade: 'Un logo et une signature se copient. Vérifie l’interlocuteur par un canal indépendant : le site ou le numéro officiel, trouvé toi-même.'
-    aRetenir: 'Une offre qui réclame des documents en urgence se vérifie par un canal indépendant : le numéro ou le site officiel de l’entreprise, trouvé toi-même, ou le lycée, par qui passe la convention.'
+    aRetenir: 'Une offre qui réclame des documents en urgence se vérifie par un canal indépendant : le numéro ou le site officiel de l’entreprise, trouvé toi-même, ou une personne de confiance au lycée, comme ta professeure principale.'
 
   - type: lieu
     id: atelier
@@ -150,7 +150,7 @@ etapes:
     id: cdi
     lieu: Le CDI
     decor: cdi
-    guide: 'Le lendemain, au CDI, Mme Diallo lit le mail sur un ordinateur : « La convention passe par le lycée. Une carte d’identité et un RIB par mail, avant même la convention, ça m’étonne. » Avant de prévenir la classe, elle veut être sûre que l’offre est fausse. Hugo, lui, a déjà relancé : « Sans nouvelles de vous, je donne la place à midi. »'
+    guide: 'Le lendemain, au CDI, Mme Diallo lit le mail sur un ordinateur : « Une carte d’identité et un RIB par mail, avant même de parler de convention, ça m’étonne. » Avant de prévenir la classe, elle veut être sûre que l’offre est fausse. Hugo, lui, a relancé ce matin, avant que tu entres au lycée : « Sans nouvelles de vous, je donne la place à midi. »'
     question: Comment vérifier que ce mail vient vraiment d’Atelier Boréal ?
     choix:
       - id: repond
@@ -160,11 +160,11 @@ etapes:
       - id: cherche
         texte: 'Je tape moi-même le nom de l’atelier pour trouver son site et son numéro officiels.'
         qualite: bon
-        reaction: 'Bien vu. Sur atelier-boreal.fr, un bandeau prévient : « De faux recruteurs utilisent notre nom. » Mme Diallo appelle le numéro du site depuis le lycée : aucun Hugo Martel chez eux. Tu bloques son adresse, et Mme Diallo garde le mail pour prévenir la classe.'
+        reaction: 'Bien vu. Sur atelier-boreal.fr, un bandeau prévient : « De faux recruteurs utilisent notre nom. » Mme Diallo appelle le numéro du site depuis le lycée : aucun Hugo Mercier chez eux. Tu bloques son adresse, et Mme Diallo garde le mail pour prévenir la classe.'
       - id: aide
         texte: 'Je demande de l’aide au professeur documentaliste pour retrouver le site officiel de l’atelier.'
         qualite: aide
-        reaction: 'M. Perrin, le documentaliste, te montre comment chercher l’entreprise par son nom, sans passer par le mail. Sur le vrai site, un bandeau prévient : « De faux recruteurs utilisent notre nom. » Mme Diallo appelle l’atelier : aucun Hugo Martel chez eux.'
+        reaction: 'M. Perrin, le documentaliste, te montre comment chercher l’entreprise par son nom, sans passer par le mail. Sur le vrai site, un bandeau prévient : « De faux recruteurs utilisent notre nom. » Mme Diallo appelle l’atelier : aucun Hugo Mercier chez eux.'
     pourquoi:
       - levier: reflexe
         truc: 'Répondre au mail, c’est le plus simple : la personne est juste là, au bout du message.'
@@ -183,17 +183,17 @@ etapes:
     lieu: La cour
     decor: cour
     suite: bon-recours
-    guide: 'À la récré, dans la cour, Léa annonce au groupe : « Atelier Boréal m’a prise en stage ! J’ai envoyé mes papiers à Hugo hier soir. » Trois élèves lui demandent déjà l’adresse d’Hugo pour postuler aussi. Mme Diallo prévient la classe cet après-midi, mais d’ici là, d’autres peuvent envoyer leurs documents. Léa a l’air si contente.'
+    guide: 'À la récré, dans la cour, Léa annonce au groupe : « Atelier Boréal m’a prise en stage ! J’ai envoyé mes papiers à Hugo hier soir. » Trois élèves d’autres classes lui demandent déjà l’adresse d’Hugo, pour lui écrire ce soir. Mme Diallo prévient votre classe cet après-midi, mais pas la leur. Léa a l’air si contente.'
     question: Tout le monde regarde Léa. Que fais-tu ?
     choix:
       - id: attend
         texte: 'Je ne dis rien devant tout le monde : Mme Diallo prévient la classe cet après-midi.'
         qualite: risque
-        reaction: 'À midi, deux élèves ont écrit à Hugo, et l’un d’eux a déjà envoyé sa carte d’identité. Ne pas vouloir gâcher la joie de Léa devant les autres, c’est très humain. Il est encore temps : dis au groupe de ne rien envoyer, et parle à Léa en privé.'
+        reaction: 'Le soir, deux d’entre eux ont écrit à Hugo, et l’un a déjà envoyé sa carte d’identité. Ne pas vouloir gâcher la joie de Léa devant les autres, c’est très humain. Il est encore temps pour les autres : dis au groupe de ne rien envoyer, et parle à Léa en privé.'
       - id: explique
         texte: 'J’explique au groupe que cette offre est fausse, et je propose à Léa de venir voir Mme Diallo.'
         qualite: bon
-        reaction: 'Bien vu. Tu racontes ce que tu as vérifié avec Mme Diallo : aucun Hugo Martel chez Atelier Boréal. Les autres renoncent à écrire. Léa pâlit, puis te suit chez Mme Diallo : elle garde ses échanges avec Hugo, et le lycée l’aide pour la suite.'
+        reaction: 'Bien vu. Tu racontes ce que tu as vérifié avec Mme Diallo : aucun Hugo Mercier chez Atelier Boréal. Les autres renoncent à écrire. Léa pâlit, puis te suit chez Mme Diallo : elle garde ses échanges avec Hugo, et le lycée l’aide pour la suite.'
       - id: aide
         texte: 'Je demande de l’aide à la CPE, tout de suite, pour Léa et pour ceux qui veulent postuler.'
         qualite: aide
@@ -206,8 +206,8 @@ etapes:
         truc: 'Trois élèves veulent postuler : l’offre a l’air d’une bonne nouvelle pour tout le monde.'
         parade: 'Plus l’offre circule, plus il y a de documents envoyés. C’est le moment de parler.'
       - levier: reflexe
-        truc: '« Mme Diallo prévient la classe cet après-midi » : on se dit que ce n’est pas à nous d’agir.'
-        parade: 'Quelques heures suffisent pour que d’autres envoient leurs papiers. Un avertissement maintenant compte.'
+        truc: '« Mme Diallo prévient votre classe cet après-midi » : on se dit que ce n’est pas à nous d’agir.'
+        parade: 'Les élèves des autres classes ne seront pas prévenus par Mme Diallo. Un avertissement maintenant compte.'
     aRetenir: 'Quand une fausse offre circule, préviens vite les autres, sans te moquer de celui qui y a cru. Celui qui a déjà envoyé ses documents en parle au lycée : il n’a rien à se reprocher.'
     recuperation: { action: prevenir-contacts, siChoix: [attend] }
 
@@ -317,7 +317,7 @@ etapes:
         parade: 'Des informations sur toi peuvent avoir été collectées ailleurs. Elles rendent un message crédible, pas vrai.'
       - levier: autorite
         truc: '« le lycée nous a transmis ta demande » : citer le lycée donne un air officiel.'
-        parade: 'Si le lycée est cité, demande au lycée. Le professeur qui suit les PFMP sait ce qui a été transmis.'
+        parade: 'Si le lycée est cité, vérifie auprès du lycée : le professeur qui suit les PFMP de Yanis pourra vous répondre.'
       - levier: urgence
         truc: '« avant vendredi » : il faut se dépêcher pour ne pas rater sa PFMP.'
         parade: 'Un vrai lieu de PFMP peut attendre un appel. Prends le temps de vérifier.'

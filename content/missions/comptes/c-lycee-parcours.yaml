@@ -21,7 +21,7 @@ etapes:
     question: C’est toi qui as créé le diaporama, et toi seul·e peux régler son partage. Que fais-tu ?
     choix:
       - id: laisse
-        texte: 'C’est notre classe, on se connaît : je laisse le lien ouvert, c’est plus pratique.'
+        texte: 'Je laisse le lien ouvert à toute la classe, comme Elias l’a proposé.'
         qualite: risque
         reaction: 'Mardi soir, deux diapos ont disparu, effacées par un « visiteur anonyme ». L’historique de Diapolia permet de les remettre, mais impossible de savoir qui c’était : un lien posté dans le groupe d’une classe peut être transféré bien au-delà. Il est encore temps de régler le partage.'
       - id: invite
@@ -89,7 +89,7 @@ etapes:
     question: Il est 22 h 20. Que fais-tu pour Inès et Bilal ?
     choix:
       - id: demain
-        texte: 'Il est tard : on leur expliquera tout demain matin, au lycée, ce sera plus clair en vrai.'
+        texte: 'Je leur expliquerai tout demain matin, avant les cours, ce sera plus clair en vrai.'
         qualite: risque
         reaction: 'À 23 h, Bilal, à moitié endormi, envoie son code au faux Elias. Vouloir tout expliquer en face, c’est logique, mais le pirate, lui, n’attend pas demain. Il est encore temps : préviens Inès et Bilal ce soir.'
       - id: previens
@@ -149,7 +149,7 @@ etapes:
     id: cdi
     lieu: Le CDI
     decor: cdi
-    guide: 'Avant de partir, tu as suivi le conseil de M. Ferrand : nouveau mot de passe NidMail, changé toi-même depuis l’appli. À 8 h, au CDI, il a ton message d’hier soir à l’écran. « Ce mot de passe, tu l’utilisais ailleurs ? » Oui : pour ScoreFoot et pour Diapolia. Et ScoreFoot a annoncé une fuite de mots de passe le mois dernier. « Alors tu les changeras toi-même, dès ta sortie à midi. Mais d’abord : est-ce vraiment Elias qui t’écrit ? » Pendant la nuit, « Elias » a relancé : « Allez stp, sans toi on rate l’oral. »'
+    guide: 'Avant de partir, tu as suivi le conseil de M. Ferrand : nouveau mot de passe NidMail, changé toi-même depuis l’appli. À 8 h, au CDI, il a ton message d’hier soir à l’écran. « Ce mot de passe, tu l’utilisais ailleurs ? » Oui : pour ScoreFoot et pour Diapolia. Et ScoreFoot a annoncé une fuite de mots de passe le mois dernier. « Alors change-les toi-même tout de suite, sur cet ordinateur, et ferme bien ta session après. » C’est fait en quelques minutes. « Maintenant : est-ce vraiment Elias qui t’écrit ? » Pendant la nuit, « Elias » a relancé : « Allez stp, sans toi on rate l’oral. »'
     question: Elias n’est pas encore arrivé en cours. Comment le savoir ?
     choix:
       - id: demande
@@ -157,9 +157,9 @@ etapes:
         qualite: risque
         reaction: 'À midi, « Elias » répond : « Bien sûr que c’est moi 😅 Envoie vite le code ! » La réponse vient du même compte, donc peut-être de la même personne : elle ne prouve rien. Pour vérifier quelqu’un, on passe par un autre canal que celui qui pose problème.'
       - id: face
-        texte: 'J’attends Elias devant la salle de cours pour lui poser la question en face.'
+        texte: 'Il arrive bientôt : j’attends Elias devant la salle pour lui poser la question en face.'
         qualite: bon
-        reaction: 'Bien vu. Elias arrive en courant : « Ce n’est pas moi ! Hier soir, j’ai tapé mon mot de passe sur une fausse page Diapolia, et c’était le même que pour TchatUp. » Ta messagerie est déjà protégée ; ScoreFoot et Diapolia, tu les changeras toi-même à midi.'
+        reaction: 'Bien vu. Elias arrive en courant : « Ce n’est pas moi ! Hier soir, j’ai tapé mon mot de passe sur une fausse page Diapolia, et c’était le même que pour TchatUp. » Ta messagerie, ScoreFoot et Diapolia ont déjà chacun un nouveau mot de passe.'
       - id: aide
         texte: 'Je demande de l’aide à M. Ferrand pour joindre Elias autrement que par TchatUp.'
         qualite: aide
@@ -181,7 +181,7 @@ etapes:
     lieu: Devant le lycée
     decor: rue
     suite: bon-recours
-    guide: 'À midi, devant le lycée. Tu viens de changer toi-même les mots de passe de ScoreFoot et de Diapolia, chacun différent. Inès hausse les épaules : « Moi, j’ai un seul mot de passe pour tout, mais il est super compliqué. Et je le change tous les mois, donc je suis tranquille. »'
+    guide: 'À midi, devant le lycée. Ce matin, au CDI, tu as changé toi-même les mots de passe de ScoreFoot et de Diapolia, chacun différent. Inès hausse les épaules : « Moi, j’ai un seul mot de passe pour tout, mais il est super compliqué. Et je le change tous les mois, donc je suis tranquille. »'
     question: Inès a l’air sûre d’elle. Que lui réponds-tu ?
     choix:
       - id: mois
@@ -302,7 +302,7 @@ etapes:
         qualite: risque
         reaction: 'Il n’y a pas de Kevin à l’imprimerie, et ce code ouvrait ton compte. Un code de connexion ne se donne à personne, même à quelqu’un qui dit être du service informatique. Va voir Mme Carvalho et Rachid tout de suite : ton compte peut encore être sécurisé.'
       - id: verifie
-        texte: 'Je ne donne aucun code, et je vais voir Rachid, au bureau d’à côté, pour vérifier.'
+        texte: 'Rachid est au bureau d’à côté : je ne donne aucun code, et je vais le voir.'
         qualite: bon
         reaction: 'Bien vu. Rachid lève les yeux : « Kevin ? Il n’y a pas de Kevin ici. Et un code, je ne le demande jamais. » Il prévient Mme Carvalho, et ton compte est prêt avant l’ouverture.'
       - id: aide

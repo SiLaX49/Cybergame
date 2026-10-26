@@ -152,7 +152,7 @@ etapes:
     id: cdi
     lieu: Le CDI
     decor: cdi
-    guide: 'Au CDI, sur son ordinateur, Mme Benali a réécouté le vocal : « Je ne vais pas enquêter à ta place, mais je peux te montrer comment vérifier. La voix ressemble à celle de M. Garnier, c’est vrai. Alors, par où commencerais-tu ? »'
+    guide: 'À 7 h 45, au CDI, sur son ordinateur, Mme Benali a réécouté le vocal : « Je ne vais pas enquêter à ta place, mais je peux te montrer comment vérifier. La voix ressemble à celle de M. Garnier, c’est vrai. Alors, par où commencerais-tu ? »'
     question: Comment vérifies-tu ce vocal ?
     choix:
       - id: ecoute
@@ -162,11 +162,11 @@ etapes:
       - id: ent
         texte: 'Sur l’ordinateur du CDI, je cherche l’annonce là où le lycée publie : l’ENT et l’affichage du hall.'
         qualite: bon
-        reaction: 'Bien vu. Sur l’ENT, le calendrier du bac blanc n’a pas bougé, et rien n’est affiché dans le hall. Quelques minutes plus tard, une annonce apparaît sur l’ENT : « Le bac blanc de jeudi est maintenu. Un faux message vocal imitant la voix du proviseur circule. »'
+        reaction: 'Bien vu. Sur l’ENT, le calendrier du bac blanc n’a pas bougé, et rien n’est affiché dans le hall. À 7 h 50, une annonce apparaît sur l’ENT : « Le bac blanc de jeudi est maintenu. Un faux message vocal imitant la voix du proviseur circule. »'
       - id: aide
         texte: 'Je demande de l’aide à Mme Benali pour apprendre à retrouver qui a publié le vocal en premier.'
         qualite: aide
-        reaction: 'Mme Benali te montre comment remonter le fil : le vocal vient de « Tilleuls Bons Plans », un groupe ouvert à tous, où un compte créé la veille l’a posté dimanche soir. Quelques minutes plus tard, l’ENT annonce : « Le bac blanc de jeudi est maintenu. Un faux message vocal imitant la voix du proviseur circule. »'
+        reaction: 'Mme Benali te montre comment remonter le fil : le vocal vient de « Tilleuls Bons Plans », un groupe ouvert à tous, où un compte créé la veille l’a posté dimanche soir. À 7 h 50, l’ENT annonce : « Le bac blanc de jeudi est maintenu. Un faux message vocal imitant la voix du proviseur circule. »'
     pourquoi:
       - levier: reflexe
         truc: 'Pour savoir si une voix est fausse, on pense d’abord à bien l’écouter.'
@@ -310,9 +310,9 @@ etapes:
         qualite: bon
         reaction: 'Bien vu. « Ouest Direct 24 » a été créé il y a un mois et n’a rien d’une chaîne d’info. Le compte officiel du festival n’annonce aucune évacuation. Tu le montres au client, qui se rassoit.'
       - id: aide
-        texte: 'Je demande de l’aide à Karim, l’organisateur, au point info juste à côté du stand.'
+        texte: 'Je demande de l’aide à Gaël, l’organisateur, au point info juste à côté du stand.'
         qualite: aide
-        reaction: 'Karim lève les yeux de sa radio : « Aucune évacuation prévue. S’il y en avait une, on l’annoncerait au micro et sur notre compte. » Tu le répètes au client, qui se rassoit.'
+        reaction: 'Gaël lève les yeux de sa radio : « Aucune évacuation prévue. S’il y en avait une, on l’annoncerait au micro et sur notre compte. » Tu le répètes au client, qui se rassoit.'
     pourquoi:
       - levier: autorite
         truc: '« Ouest Direct 24 », un logo rouge de chaîne d’info : le compte a l’air d’un média.'

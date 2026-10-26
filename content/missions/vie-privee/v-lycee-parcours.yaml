@@ -25,7 +25,7 @@ etapes:
         qualite: risque
         reaction: 'Mardi, CVclic t’indique que ton CV a été ouvert 37 fois. Ton adresse, ton numéro et ta date de naissance sont visibles par tous ceux qui passent sur ton profil, et le lien peut circuler. Il est encore temps : retire le lien de ta bio et coupe le lien public.'
       - id: pdf
-        texte: 'J’envoie un PDF à M. Martel seulement, sans mon adresse ni ma date de naissance.'
+        texte: 'Seul M. Martel en a besoin : je lui envoie un PDF, sans mon adresse ni ma date de naissance.'
         qualite: bon
         reaction: 'Bien vu. Ton CV va à la seule personne qui en a besoin, en version allégée : ton nom, ton numéro, ta formation. M. Martel répond : « Bien reçu, à demain 8 h. »'
       - id: aide
@@ -94,7 +94,7 @@ etapes:
         qualite: risque
         reaction: 'Karim a dit non, et ses proches le reconnaîtraient au premier coup d’œil. Qu’il soit au bord ou au milieu, c’est son image, et c’est sa décision. Il est encore temps : ne publie pas cette photo-là.'
       - id: etabli
-        texte: 'Je choisis la photo de l’établi, où Karim n’est pas, et je la publie pour mes amis seulement.'
+        texte: 'Karim a dit non : je publie la photo de l’établi, où il n’est pas, pour mes amis seulement.'
         qualite: bon
         reaction: 'Bien vu. Sur la photo de l’établi, il y a Sonia, M. Martel et toi. Tu la montres aux deux avant, puis tu la publies avec l’audience « Amis » plutôt que « Public ». Tu réponds à Karim : « Pas de souci, tu n’y seras pas. »'
       - id: aide
@@ -122,7 +122,7 @@ etapes:
     question: Sonia attend ta réponse. Que lui dis-tu ?
     choix:
       - id: tout
-        texte: 'C’est la page de l’atelier, c’est sérieux : je lui dis oui pour tout le texte.'
+        texte: 'Je lui dis oui pour tout le texte, puisque c’est la page officielle de l’atelier.'
         qualite: risque
         reaction: 'Le texte part tel quel : ton nom complet, ton lycée, ta classe et tes horaires, sur une page publique. Ce n’est pas un drame, mais n’importe qui sait maintenant où te trouver chaque jour jusqu’au 20 décembre. Tu as ton mot à dire sur ce qu’on publie de toi : il est encore temps de demander une version plus courte.'
       - id: prenom
@@ -199,7 +199,7 @@ etapes:
     pourquoi:
       - levier: flatterie
         truc: '« Trop fière de toi ! » : ça fait plaisir, on n’a pas envie de la refroidir.'
-        parade: 'Tu peux la remercier et lui proposer une autre photo. Sa fierté reste intacte.'
+        parade: 'Tu peux la remercier de bon cœur et lui demander de garder la photo pour elle. Sa fierté reste intacte.'
       - levier: confiance
         truc: 'C’est ta tante, c’est la famille : on ne s’attend pas à un problème.'
         parade: 'Sur son profil public, la photo sort de la famille. Karim ne connaît pas ta tante.'
@@ -266,7 +266,7 @@ etapes:
         truc: '« Ta publication est retirée » : on se dit que le problème est réglé.'
         parade: 'Ta publication, oui. Les copies, non : demande leur retrait à leur auteur, puis à la plateforme.'
       - levier: honte
-        truc: 'Écrire à Karim et à ton tuteur, c’est reconnaître ton erreur devant eux.'
+        truc: 'Écrire à Karim, à Sonia et à ton tuteur, c’est reconnaître ton erreur devant eux.'
         parade: 'Les prévenir, c’est leur montrer que tu répares. Ils sont sur la photo : ils ont le droit de savoir.'
       - levier: groupe
         truc: 'Tom l’a mise en story pour rigoler, comme tout le monde le fait.'
@@ -299,7 +299,7 @@ etapes:
     question: Lina et Bastien t’attendent. Que fais-tu ?
     choix:
       - id: tous
-        texte: 'Je valide comme c’est proposé : c’est juste pour nous retrouver cet après-midi.'
+        texte: 'Je valide le partage comme il est proposé, juste pour nous retrouver cet après-midi.'
         qualite: risque
         reaction: 'Le soir, ta position est toujours partagée, avec 412 personnes, jusqu’à chez toi. « Jusqu’à ce que je l’arrête », c’est jusqu’à ce que tu y penses. Il est encore temps : choisis qui te voit, et pour combien de temps.'
       - id: deux
