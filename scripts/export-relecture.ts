@@ -174,7 +174,7 @@ function annexeEnMarkdown(mission: Mission, leviers: Leviers, theme: Theme | und
   return l
 }
 
-/** Repères de chaque étape d’un parcours à deux routes (numéro, et route pour les lieux de bifurcation) ; vide sinon. */
+/** Repères de chaque étape d’un parcours à deux routes ou plus (numéro, et route pour les lieux de bifurcation) ; vide sinon. */
 function reperesDesRoutes(mission: Mission): Record<string, Repere> {
   if (routesDe(mission.etapes).length < 2) return {}
   const numeros = numerosLieux(mission.etapes)

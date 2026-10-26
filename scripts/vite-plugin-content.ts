@@ -8,7 +8,7 @@ const ID_RESOLU = '\0' + ID_VIRTUEL
 /** Expose le contenu validé via `import contenu from 'virtual:content'`.
  *  En dev, modifier un YAML recharge la page ; ajouter un fichier demande de relancer `npm run dev`. */
 export function contentPlugin(dossier = resolve(process.cwd(), 'content')): Plugin {
-  // Brouillons (missions sensibles à relire) : en dev et pour les e2e (VITE_BROUILLONS=1), jamais au déploiement.
+  // Brouillons (missions au statut `a-relire`, sensibles ou non) : en dev et pour les e2e (VITE_BROUILLONS=1), jamais au déploiement.
   let brouillons = true
   return {
     name: 'cyber-reflexes-contenu',

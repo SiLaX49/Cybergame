@@ -49,7 +49,7 @@ const aRetenir = computed(() =>
   }),
 )
 
-/** Parcours à deux routes : le choix fait à la bifurcation (texte court), pour dire quelle route a été prise. */
+/** Parcours à deux routes ou plus : le choix fait à la bifurcation (texte court), pour dire quelle route a été prise. */
 const routePrise = computed(() => {
   if (routesDe(props.mission.etapes).length < 2) return null
   const id = props.etat.chemin.find((x) => bifurcation(props.mission.etapes, x))

@@ -155,7 +155,7 @@ route :
 - les trois routes ont la même longueur et se rejoignent au dernier lieu ; la route de réparation n'est ni punie ni
   récompensée davantage : l'écran de fin dit « Tu as fait une erreur et tu l'as réparée : c'est aussi un réflexe. » et
   propose « Rejouer pour découvrir les autres routes » ;
-- les lieux de réparation montrent les gestes dans l'ordre (arrêter l'échange, garder les preuves, prévenir, 17Cyber).
+- les lieux de réparation montrent les gestes dans l'ordre (les gestes de réparation propres à l'incident, dans l'ordre).
 
 Le contenu lycée s'appuie sur le dossier de recherche `docs/recherche/2026-10-24-dossier-lycee.md` : chaque fait,
 dispositif et formulation juridique y est sourcé. Les parcours lycée « vie privée » et « appareils » sont des brouillons

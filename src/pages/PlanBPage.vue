@@ -18,15 +18,15 @@ const leviers = getLeviers()
 const questionPourquoi = sensible ? 'Si tu as fait ce choix, qu’est-ce qui a pesé ?' : 'Si tu as choisi le piège, pourquoi ?'
 const corrigePourquoi = sensible ? 'Si l’élève a fait le choix risqué :' : 'Si l’élève a choisi le piège :'
 const etapes = mission?.etapes ?? []
-// Numéros des lieux (1 à n en linéaire ; 3a, 3b… sur un parcours à deux routes) et renvois « livre dont tu es le héros ».
+// Numéros des lieux (1 à n en linéaire ; 3a, 3b… sur un parcours à plusieurs routes) et renvois « livre dont tu es le héros ».
 const numeros = numerosLieux(etapes)
 const numero = (id: string, i: number) => numeros[id] ?? String(i + 1)
-const deuxRoutes = routesDe(etapes).length > 1
+const plusieursRoutes = routesDe(etapes).length > 1
 const choixFourche = choixDeBifurcation(etapes)
 // Le texte du choix est cité entre guillemets : son point final ferait deux ponctuations de suite.
 const sansPoint = (t: string) => t.replace(/[.\s]+$/, '')
 function renvoi(id: string): string | null {
-  if (!deuxRoutes) return null
+  if (!plusieursRoutes) return null
   const fourche = bifurcation(etapes, id)
   if (fourche && choixFourche) {
     const reparation = fourche.reparation && choixFourche.texteReparation ? ` Si tu choisis « ${sansPoint(choixFourche.texteReparation)} », va au lieu ${numeros[fourche.reparation]}.` : ''

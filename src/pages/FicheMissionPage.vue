@@ -22,7 +22,7 @@ const nomLieu = (id: string) => {
   const e = mission?.etapes.find((x) => x.id === id)
   return e?.type === 'lieu' ? e.lieu : id
 }
-// Parcours à deux routes : le schéma, et pour chaque route le choix de bifurcation et ses lieux propres.
+// Parcours à deux routes ou plus : le schéma, et pour chaque route le choix de bifurcation et ses lieux propres.
 const schema = schemaRoutes(mission?.etapes ?? [])
 const choixFourche = choixDeBifurcation(mission?.etapes ?? [])
 const routes = (() => {

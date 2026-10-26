@@ -222,8 +222,8 @@ export function schemaRoutes(etapes: Etape[]): string | null {
 export const etiquetteRoute = (c: { texte: string; route?: string }): string => c.route ?? c.texte.replace(/[.\s]+$/, '')
 
 /**
- * Choix de la bifurcation (route « bon » et route « aide »), `null` sans bifurcation :
- * `bon` et `aide` sont les étiquettes courtes (« route »), `texteBon` et `texteAide` les textes entiers des choix.
+ * Choix de la bifurcation (route « bon », route « aide » et, s’il y en a une, route de réparation), `null` sans bifurcation :
+ * `bon`, `aide` et `reparation` sont les étiquettes courtes (« route »), `texteBon`, `texteAide` et `texteReparation` les textes entiers des choix.
  */
 export function choixDeBifurcation(etapes: Etape[]): { id: string; bon: string; aide: string; texteBon: string; texteAide: string; reparation?: string; texteReparation?: string } | null {
   for (const e of etapes) {
