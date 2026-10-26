@@ -18,16 +18,19 @@ beforeEach(() => {
 })
 
 describe('refonte : coquille et pages', () => {
-  it('l’en-tête a le logo Hulotte et un bouton Réglages secondaire', async () => {
+  it('l’en-tête a le logo bouclier, le menu principal et un bouton Réglages secondaire', async () => {
     const w = mount(AppHeader, { global: { plugins: [await routerTest('/')] } })
-    expect(w.find('.logo svg.hulotte').exists()).toBe(true)
+    expect(w.find('.logo svg.logo-bouclier').exists()).toBe(true)
+    expect(w.findAll('nav[aria-label="Menu principal"] a').map((a) => a.text())).toEqual(['Accueil', 'Parcours', 'Défis', 'Profil'])
+    expect(w.find('nav a[aria-current="page"]').text()).toBe('Accueil')
+    expect(w.find('.reserve').text()).toContain('0 octet')
     expect(w.find('.logo').text()).toContain('Cyber Réflexes')
     expect(w.find('button[aria-controls="panneau-reglages"]').classes()).toContain('btn-secondaire')
   })
 
-  it('l’accueil montre Hulotte et un titre de niveau 1', async () => {
+  it('l’accueil montre l’agent·e et un titre de niveau 1', async () => {
     const w = mount(AccueilPage, { global: { plugins: [await routerTest('/')] } })
-    expect(w.find('svg.hulotte[data-expression="accueil"]').exists()).toBe(true)
+    expect(w.find('svg.agente').exists()).toBe(true)
     expect(w.find('h1').text().length).toBeGreaterThan(0)
   })
 

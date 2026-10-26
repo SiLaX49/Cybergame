@@ -7,12 +7,17 @@ import type { Leviers, Lieu, Mission, Scenario } from '@/content/schema'
 import { BADGES, calculerBadges, descriptionBadge } from '@/engine/badges'
 import { bifurcation, choixReparation, etiquetteRoute, routesDe } from '@/engine/routes'
 import { leviersDeLaMission, leviersDuRun, type RunState, type SurpriseResultat } from '@/engine/mission-runner'
+import { GAINS, type GainMission } from '@/engine/octets'
 import { focusAuMontage } from '@/ui/focus'
+import Octets from '@/ui/Octets.vue'
 import Hulotte from '@/ui/Hulotte.vue'
 import { useTexte } from '@/ui/useTexte'
 import { FIN_SENSIBLE } from './textesSensibles'
 
-const props = withDefaults(defineProps<{ mission: Mission; etat: RunState; leviers: Leviers; sensible?: boolean }>(), { sensible: false })
+const props = withDefaults(
+  defineProps<{ mission: Mission; etat: RunState; leviers: Leviers; sensible?: boolean; gain?: (GainMission & { credites: number; defi: boolean }) | null }>(),
+  { sensible: false, gain: null },
+)
 const emit = defineEmits<{ rejouer: [] }>()
 const t = useTexte()
 const titre = ref<HTMLElement | null>(null)
@@ -118,6 +123,22 @@ async function fermerPleinEcran() {
       </li>
     </ul>
 
+    <section v-if="gain && !sensible" class="encadre encadre-or gain-octets" aria-labelledby="titre-octets">
+      <h3 id="titre-octets">Tes octets</h3>
+      <ul class="lignes-octets">
+        <li v-for="l in gain.lignes" :key="l.libelle">
+          <span>{{ l.libelle }}</span> <strong>+{{ l.octets }}</strong>
+        </li>
+        <li v-if="gain.defi"><span>Défi du jour relevé</span> <strong>+{{ GAINS.defiDuJour }}</strong></li>
+      </ul>
+      <p v-if="gain.credites > 0" class="credit">
+        <Octets :valeur="gain.credites + (gain.defi ? GAINS.defiDuJour : 0)" signe /> ajoutés à ta réserve.
+      </p>
+      <p v-else-if="gain.defi" class="credit"><Octets :valeur="GAINS.defiDuJour" signe /> ajoutés à ta réserve.</p>
+      <p v-else>Tu avais déjà gagné ces octets sur cette mission. Fais encore mieux pour en gagner plus !</p>
+      <p class="astuce">Une erreur réparée rapporte presque autant qu’un bon réflexe : c’est en se trompant qu’on apprend.</p>
+    </section>
+
     <section v-if="afficherCraquer" class="encadre encadre-aide craquer">
       <h3>{{ sensible ? FIN_SENSIBLE.titre : 'Ce qui t’a fait craquer' }}</h3>
       <ul v-if="leviersChoisis.length">
@@ -207,6 +228,11 @@ async function fermerPleinEcran() {
 .badges-animes .medaille { animation: medaille-apparait var(--duree) ease-out both; }
 @keyframes medaille-apparait { from { transform: translateY(6px); } to { transform: none; } }
 .debrief ol { padding-left: 1.4rem; }
+.lignes-octets { list-style: none; padding: 0; margin: 0 0 0.5rem; display: grid; gap: 0.25rem; }
+.lignes-octets li { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px dashed var(--bord-fort); }
+.lignes-octets strong { color: var(--or); }
+.credit { font-weight: 700; }
+.astuce { color: var(--texte-doux); }
 .plein-ecran {
   position: fixed; inset: 0; z-index: 20; background: var(--surface);
   width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; border: 0; color: var(--texte);

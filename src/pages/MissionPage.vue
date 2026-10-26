@@ -14,6 +14,8 @@ import {
   type RunState,
   vaVersReparation,
 } from '@/engine/mission-runner'
+import { aRepareUneErreur, octetsDuRun, type GainMission } from '@/engine/octets'
+import { dateDuJour } from '@/engine/portefeuille'
 import { aVenir, longueurRoute } from '@/engine/routes'
 import FilStep from '@/mission/FilStep.vue'
 import CheminIle from '@/mission/CheminIle.vue'
@@ -28,6 +30,7 @@ import ChoixPersonnage from '@/parcours/ChoixPersonnage.vue'
 import { estIle } from '@/parcours/iles'
 import ParcoursScene from '@/parcours/ParcoursScene.vue'
 import type { PersonnageId } from '@/store/progress'
+import { defiPour } from '@/profil/tableau'
 import { useProgress } from '@/store/useProgress'
 import BandeauAide from '@/ui/BandeauAide.vue'
 import BandeauBrouillon from '@/ui/BandeauBrouillon.vue'
@@ -107,13 +110,23 @@ function envoyer(evenement: RunEvent) {
   if (etat.value.termine) enregistrer(etat.value)
 }
 
+/** Octets de la partie qui vient de finir (jamais en thème sensible : pas de récompense chiffrée). */
+const gain = ref<(GainMission & { credites: number; defi: boolean }) | null>(null)
+
 function enregistrer(fin: RunState) {
   if (!mission) return
   if (mission.type === 'rappel') store.enregistrerRappel(mission.id, resultatSurprise(fin))
   else store.enregistrerMission(mission.id, calculerBadges(fin), choixDuRun(fin))
+  if (sensible) return
+  const g = octetsDuRun(mission, fin)
+  const credites = store.crediterMission(mission.id, g.total, aRepareUneErreur(mission, fin))
+  const tranche = store.etat.tranche
+  const defi = !!tranche && defiPour(tranche, dateDuJour())?.id === mission.id && store.releverDefi()
+  gain.value = { ...g, credites, defi }
 }
 
 function recommencer() {
+  gain.value = null
   if (mission) etat.value = demarrer(mission)
 }
 </script>
@@ -152,7 +165,7 @@ function recommencer() {
         <ChoixPersonnage v-model="personnageChoisi" />
         <button type="button" class="btn btn-primaire" :disabled="!personnageChoisi" @click="commencerParcours">C’est parti !</button>
       </section>
-      <FinMission v-else-if="etat.termine" :mission="mission" :etat="etat" :leviers="leviers" :sensible="sensible" @rejouer="recommencer" />
+      <FinMission v-else-if="etat.termine" :mission="mission" :etat="etat" :leviers="leviers" :sensible="sensible" :gain="gain" @rejouer="recommencer" />
       <template v-else-if="etape">
         <ScenarioStep
           v-if="etape.type === 'scenario'"

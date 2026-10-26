@@ -26,6 +26,20 @@ ses missions. La progression (missions terminées, île complétée) est calcul�
 `src/archipel/progression.ts`, sans rien stocker de plus. Le bouton « Vue liste » affiche l’ancienne grille de missions ;
 le choix est mémorisé dans `reglages.vueCarte`.
 
+## Tableau de bord, défis et octets (refonte V2)
+
+Le menu du haut mène à l’accueil, aux parcours (`/carte`), aux défis (`/defis`) et au profil (`/profil`) ; la pastille
+dorée affiche la réserve d’octets. Une fois le niveau et le mode choisis, l’accueil devient un tableau de bord : l’agent·e
+(le personnage de l’élève en uniforme), l’île en cours avec sa progression et ses missions, le bouton « Lancer le défi du
+jour », les objectifs du jour et le classement de tes îles (contre toi-même : aucun autre joueur, aucune donnée ne sort).
+
+**Octets.** La monnaie du jeu, calculée par `src/engine/octets.ts` en fin de mission. Le barème récompense le bon
+réflexe, mais aussi l’erreur réparée (geste de récupération, route de réparation) ou retentée, presque autant. Seul le
+meilleur gain de chaque mission est gardé (`octets` dans la sauvegarde) : rejouer ne rapporte que l’amélioration. Les
+thèmes sensibles ne rapportent pas d’octets. Le défi du jour (`src/engine/portefeuille.ts`, tirage stable selon la date,
+hors rappels et thèmes sensibles) ajoute un bonus une fois par jour. La boutique du profil (`src/profil/boutique.ts`)
+vend des titres et des écussons ; la réserve vaut gains + défis − achats. Tout reste dans `localStorage`, sans serveur.
+
 ## Écrire une mission
 
 Une mission est un fichier YAML dans `content/missions/<thème>/<id>.yaml`. Le schéma complet est dans
@@ -220,10 +234,10 @@ actif dans `playwright.config.ts`. Quand une mission est relue, retirer d’abor
 - **Jetons** : les couleurs, rayons, ombres et la durée d’animation vivent dans `src/styles/palette.ts` (valeurs) et `src/styles/tokens.css` (variables CSS). Il faut modifier les deux ; `tests/unit/palette.test.ts` vérifie qu’ils concordent.
 - **Contrastes** : `npm test` contrôle les rapports de contraste (≥ 4,5:1 pour le texte, ≥ 3:1 pour les composants et le focus), en clair comme en sombre.
 - **Briques** : les classes communes (boutons, cartes, encadrés, choix…) sont dans `src/styles/composants.css`.
-- **Hulotte** : la mascotte (`expression` selon l’état) est décorative (`aria-hidden`) et toujours accompagnée d’un texte ; `PastilleTheme` affiche l’icône et la couleur d’un thème.
+- **Hulotte et l’agent·e** : la mascotte Hulotte (`expression` selon l’état) et l’agent·e du tableau de bord (`AgenteCyber`, aux couleurs du personnage choisi) sont décoratives (`aria-hidden`) et toujours accompagnée d’un texte ; `PastilleTheme` affiche l’icône et la couleur d’un thème.
 - **Pas de couleur en dur** dans les `<style>` des `.vue` : utiliser `var(--…)` (vérifié par `tests/unit/styles-sans-hex.test.ts`). Seuls les dessins SVG du `<template>` et `print.css` gardent des couleurs littérales.
-- **Mode sombre** : automatique selon l’appareil, modifiable dans Réglages › Thème (Automatique, Clair, Sombre) ; l’attribut `data-theme` sur `<html>` porte le choix. Réglage « Animations » et `prefers-reduced-motion` coupent toutes les transitions.
-- **Audit** : `tests/e2e/a11y.spec.ts` (clair) et `tests/e2e/theme.spec.ts` (sombre) lancent axe sur les écrans principaux.
+- **Thème** : bleu nuit (sombre) par défaut depuis la refonte V2, modifiable dans Réglages › Thème (Automatique, Clair, Sombre) ; l’attribut `data-theme` sur `<html>` porte le choix. Réglage « Animations » et `prefers-reduced-motion` coupent toutes les transitions.
+- **Audit** : `tests/e2e/a11y.spec.ts`, `tests/e2e/theme.spec.ts` et `tests/e2e/refonte-v2.spec.ts` (tableau de bord, défis et profil en clair et en sombre) lancent axe sur les écrans principaux.
 
 ## Déploiement
 
