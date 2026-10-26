@@ -4,35 +4,33 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { parse } from 'yaml'
 import { buildContent, estBrouillon, listContentFiles } from './build-content'
 
-/** Identifiants des missions de thème sensible encore à relire : elles ne doivent jamais être publiées. */
+/** Identifiants des missions encore à relire (sensibles ou non) : elles ne doivent jamais être publiées. */
 export function idsABloquer(racineContenu: string): string[] {
   const bundle = buildContent(racineContenu, { brouillons: true })
-  return bundle.missions.filter((m) => estBrouillon(m, bundle.themes)).map((m) => m.id)
+  return bundle.missions.filter((m) => estBrouillon(m)).map((m) => m.id)
 }
 
 /**
  * Seconde lecture, volontairement indépendante du schéma et de estBrouillon : le YAML brut.
  * Si les deux lectures divergent (par exemple idsABloquer vide par erreur), la vérification échoue.
  */
-export function brouillonsSensiblesBruts(racineContenu: string): string[] {
-  const [cheminThemes, , ...cheminsMissions] = listContentFiles(racineContenu)
-  const themes = parse(readFileSync(cheminThemes!, 'utf8')) as { id?: unknown; sensible?: unknown }[]
-  const sensibles = new Set(themes.filter((t) => t.sensible === true).map((t) => String(t.id)))
+export function brouillonsBruts(racineContenu: string): string[] {
+  const [, , ...cheminsMissions] = listContentFiles(racineContenu)
   return cheminsMissions
-    .map((f) => parse(readFileSync(f, 'utf8')) as { id?: unknown; theme?: unknown; relecture?: { statut?: unknown } } | null)
-    .filter((m) => typeof m?.theme === 'string' && sensibles.has(m.theme) && m.relecture?.statut === 'a-relire')
+    .map((f) => parse(readFileSync(f, 'utf8')) as { id?: unknown; relecture?: { statut?: unknown } } | null)
+    .filter((m) => m?.relecture?.statut === 'a-relire')
     .map((m) => String(m!.id))
     .sort()
 }
 
-/** Vérifie qu’aucun brouillon sensible n’est présent dans les fichiers JS publiés. */
+/** Vérifie qu’aucun brouillon n’est présent dans les fichiers JS publiés. */
 export function verifierPublication(
   racineContenu: string,
   dossierAssets: string,
   lireIds: (racine: string) => string[] = idsABloquer,
 ): { ok: boolean; messages: string[] } {
   const ids = lireIds(racineContenu)
-  const bruts = brouillonsSensiblesBruts(racineContenu)
+  const bruts = brouillonsBruts(racineContenu)
   const oublies = bruts.filter((id) => !ids.includes(id))
   if (oublies.length) {
     return {
@@ -48,7 +46,7 @@ export function verifierPublication(
     fichiers.filter((f) => readFileSync(join(dossierAssets, f), 'utf-8').includes(id)).map((f) => `${id} dans ${f}`),
   )
   if (trouves.length) return { ok: false, messages: ['Brouillons présents dans dist/ :', ...trouves.map((t) => `- ${t}`)] }
-  return { ok: true, messages: [`Garde-fou de publication : aucun des ${ids.length} brouillon(s) sensible(s) n’est dans dist/.`] }
+  return { ok: true, messages: [`Garde-fou de publication : aucun des ${ids.length} brouillon(s) n’est dans dist/.`] }
 }
 
 function main() {

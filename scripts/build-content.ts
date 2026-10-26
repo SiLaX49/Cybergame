@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import { parse } from 'yaml'
-import { leviersFileSchema, missionSchema, themesFileSchema, type ContentBundle, type Leviers, type Mission, type Theme } from '../src/content/schema'
+import { leviersFileSchema, missionSchema, themesFileSchema, type ContentBundle, type Leviers, type Mission } from '../src/content/schema'
 import { formatIssue, validateCross, zodIssues, type ContentIssue } from '../src/content/validate'
 
 export class ContentError extends Error {
@@ -37,10 +37,9 @@ function lireYaml(racine: string, chemin: string, issues: ContentIssue[]): { ok:
   }
 }
 
-/** Mission d’un thème sensible pas encore relue : exclue du build de production. */
-export function estBrouillon(mission: Mission, themes: Theme[]): boolean {
-  const theme = themes.find((t) => t.id === mission.theme)
-  return !!theme?.sensible && mission.relecture?.statut === 'a-relire'
+/** Mission pas encore relue (thème sensible ou non) : exclue du build de production. */
+export function estBrouillon(mission: Mission): boolean {
+  return mission.relecture?.statut === 'a-relire'
 }
 
 export interface BuildOptions {
@@ -81,5 +80,5 @@ export function buildContent(racine: string, { maintenant = new Date(), brouillo
 
   if (themes.length) issues.push(...validateCross(themes, missions))
   if (issues.length) throw new ContentError(issues)
-  return { generatedAt: maintenant.toISOString(), themes, leviers: leviers!, missions: missions.map((m) => m.mission).filter((m) => brouillons || !estBrouillon(m, themes)) }
+  return { generatedAt: maintenant.toISOString(), themes, leviers: leviers!, missions: missions.map((m) => m.mission).filter((m) => brouillons || !estBrouillon(m)) }
 }

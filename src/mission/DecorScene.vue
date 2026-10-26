@@ -251,6 +251,68 @@ defineProps<{ decor: Decor }>()
       <rect v-for="x in [145, 158, 171]" :key="x" :x="x" y="62" width="4" height="14" fill="#7fb3e0" />
       <ellipse v-for="x in [147, 160, 173]" :key="x" :cx="x" cy="59" rx="3" ry="4" fill="#ffd34d" />
     </template>
+
+    <template v-else-if="decor === 'entreprise'">
+      <rect width="320" height="160" fill="#eef1f7" />
+      <rect y="120" width="320" height="40" fill="#b9b9c6" />
+      <rect x="14" y="16" width="86" height="64" fill="#cfe8ff" stroke="#ffffff" stroke-width="4" />
+      <line x1="57" y1="16" x2="57" y2="80" stroke="#ffffff" stroke-width="3" />
+      <line x1="14" y1="48" x2="100" y2="48" stroke="#ffffff" stroke-width="3" />
+      <rect x="130" y="82" width="180" height="8" fill="#8a5a33" />
+      <rect x="138" y="90" width="6" height="30" fill="#6b4426" />
+      <rect x="296" y="90" width="6" height="30" fill="#6b4426" />
+      <rect x="150" y="40" width="64" height="42" rx="3" fill="#1b1b2f" />
+      <rect x="155" y="45" width="54" height="30" fill="#7fb3e0" />
+      <rect x="226" y="70" width="38" height="12" rx="2" fill="#4a4a63" />
+      <rect x="272" y="60" width="22" height="22" fill="#ffd34d" />
+      <rect x="40" y="96" width="60" height="30" rx="6" fill="#3b2fc9" />
+      <rect x="44" y="84" width="52" height="16" rx="6" fill="#2b2650" />
+      <rect x="232" y="14" width="44" height="30" rx="3" fill="#ffffff" stroke="#4a4a63" stroke-width="2" />
+      <circle cx="254" cy="24" r="5" fill="#7fe0c4" />
+      <rect x="240" y="32" width="28" height="4" fill="#c9c9d9" />
+    </template>
+
+    <template v-else-if="decor === 'banque'">
+      <rect width="320" height="160" fill="#f3efe4" />
+      <rect y="124" width="320" height="36" fill="#9a9aa8" />
+      <rect x="0" y="124" width="320" height="4" fill="#b9b9c6" />
+      <rect x="10" y="12" width="140" height="22" rx="3" fill="#2b2650" />
+      <rect x="20" y="20" width="50" height="6" fill="#ffd34d" />
+      <rect x="80" y="20" width="60" height="6" fill="#7fe0c4" />
+      <rect x="10" y="84" width="170" height="40" fill="#8a5a33" />
+      <rect x="10" y="78" width="170" height="8" fill="#6b4426" />
+      <rect x="30" y="40" width="60" height="42" fill="#cfe8ff" stroke="#4a4a63" stroke-width="3" />
+      <line x1="46" y1="40" x2="46" y2="82" stroke="#4a4a63" stroke-width="2" />
+      <line x1="62" y1="40" x2="62" y2="82" stroke="#4a4a63" stroke-width="2" />
+      <line x1="78" y1="40" x2="78" y2="82" stroke="#4a4a63" stroke-width="2" />
+      <rect x="210" y="40" width="70" height="84" rx="4" fill="#3b2fc9" />
+      <rect x="220" y="50" width="50" height="28" fill="#1b1b2f" />
+      <rect x="225" y="55" width="40" height="18" fill="#7fb3e0" />
+      <rect x="222" y="86" width="26" height="14" fill="#c9c9d9" />
+      <rect x="252" y="86" width="16" height="4" fill="#ffd34d" />
+      <rect x="222" y="106" width="46" height="6" fill="#1b1b2f" />
+      <rect x="298" y="30" width="4" height="94" fill="#4a4a63" />
+      <circle cx="300" cy="28" r="9" fill="#ffd34d" />
+    </template>
+
+    <template v-else-if="decor === 'festival'">
+      <rect width="320" height="160" fill="#2b2650" />
+      <circle cx="40" cy="26" r="12" fill="#ffd34d" />
+      <rect y="128" width="320" height="32" fill="#4f9a55" />
+      <rect x="90" y="62" width="140" height="66" fill="#1b1b2f" />
+      <rect x="82" y="56" width="156" height="8" fill="#e88a8a" />
+      <rect x="104" y="72" width="112" height="26" fill="#3b2fc9" />
+      <circle cx="132" cy="85" r="8" fill="#ffd34d" />
+      <circle cx="160" cy="85" r="8" fill="#e88a8a" />
+      <circle cx="188" cy="85" r="8" fill="#7fe0c4" />
+      <path d="M0 22 Q80 52 160 22 Q240 52 320 22" fill="none" stroke="#ffffff" stroke-width="2" />
+      <circle v-for="(c, i) in ['#ffd34d', '#e88a8a', '#7fe0c4', '#7fb3e0', '#ffd34d', '#e88a8a', '#7fe0c4', '#7fb3e0']" :key="i" :cx="20 + i * 40" :cy="i % 2 ? 40 : 34" r="5" :fill="c" />
+      <path d="M6 128 L36 84 L66 128 Z" fill="#e88a8a" />
+      <path d="M254 128 L284 84 L314 128 Z" fill="#7fb3e0" />
+      <rect x="276" y="112" width="16" height="16" fill="#ffffff" />
+      <rect x="242" y="108" width="2" height="20" fill="#ffffff" />
+      <rect v-for="x in [4, 300]" :key="x" :x="x" y="56" width="3" height="72" fill="#c9c9d9" />
+    </template>
   </svg>
 </template>
 

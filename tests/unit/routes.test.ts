@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { Etape } from '@/content/schema'
-import { aVenir, bifurcation, choixDeBifurcation, etiquetteRoute, etapeSuivante, longueurRoute, numerosLieux, routesDe, schemaRoutes, successeurs, verifierRoutes } from '@/engine/routes'
+import { aVenir, bifurcation, choixDeBifurcation, choixReparation, etiquetteRoute, etapeSuivante, longueurRoute, numerosLieux, routesDe, schemaRoutes, successeurs, verifierRoutes } from '@/engine/routes'
 
 type C = { id: string; qualite: 'bon' | 'risque' | 'aide'; suite?: string; route?: string }
 const lieu = (id: string, choix: C[] = [{ id: 'b', qualite: 'bon' }, { id: 'r', qualite: 'risque' }, { id: 'a', qualite: 'aide' }], suite?: string) =>
@@ -120,5 +120,79 @@ describe('numéros affichés des lieux', () => {
   it('schéma en texte des routes', () => {
     expect(schemaRoutes(fourche)).toBe('Lieux 1 – 2, puis selon le choix : 3a – 4a ou 3b – 4b, puis 5')
     expect(schemaRoutes(lineaire)).toBeNull()
+  })
+})
+
+describe('route de réparation (troisième branche)', () => {
+  const trois = [
+    lieu('l1'),
+    lieu('l2', [
+      { id: 'b', qualite: 'bon', suite: 'a3', route: 'je fais seul' },
+      { id: 'r', qualite: 'risque', suite: 'c3', route: 'je fonce' },
+      { id: 'r2', qualite: 'risque' },
+      { id: 'a', qualite: 'aide', suite: 'b3', route: 'je demande' },
+    ]),
+    lieu('a3'), lieu('a4', undefined, 'l5'),
+    lieu('b3'), lieu('b4', undefined, 'l5'),
+    lieu('c3'), lieu('c4'),
+    lieu('l5'),
+  ]
+  const messages = (e: Etape[]) => verifierRoutes(e).map((x) => x.message).join('\n')
+  const avec = (choix: C[], extra: Etape[] = []) => [
+    lieu('l1'), lieu('l2', choix),
+    lieu('a3'), lieu('a4', undefined, 'l5'), lieu('b3'), lieu('b4', undefined, 'l5'), lieu('c3'), lieu('c4'), ...extra, lieu('l5'),
+  ]
+  const bonAide: C[] = [{ id: 'b', qualite: 'bon', suite: 'a3', route: 'je fais seul' }, { id: 'a', qualite: 'aide', suite: 'b3', route: 'je demande' }]
+
+  it('la réparation est la troisième route', () => {
+    expect(successeurs(trois, 'l2')).toEqual(['a3', 'b3', 'c3'])
+    expect(bifurcation(trois, 'l2')).toEqual({ bon: 'a3', aide: 'b3', reparation: 'c3' })
+    expect(routesDe(trois)).toEqual([
+      ['l1', 'l2', 'a3', 'a4', 'l5'],
+      ['l1', 'l2', 'b3', 'b4', 'l5'],
+      ['l1', 'l2', 'c3', 'c4', 'l5'],
+    ])
+    expect(verifierRoutes(trois)).toEqual([])
+    expect(choixReparation(trois, 'l2')).toBe('r')
+    expect(choixReparation(fourche, 'l2')).toBeNull()
+  })
+  it('numéros et schéma', () => {
+    expect(numerosLieux(trois)).toMatchObject({ c3: '3c', c4: '4c', l5: '5' })
+    expect(schemaRoutes(trois)).toBe('Lieux 1 – 2, puis selon le choix : 3a – 4a ou 3b – 4b ou 3c – 4c, puis 5')
+  })
+  it('choixDeBifurcation donne la réparation', () => {
+    expect(choixDeBifurcation(trois)).toMatchObject({ id: 'l2', reparation: 'je fonce', texteReparation: 'r' })
+  })
+  it('aVenir avant la bifurcation', () => {
+    expect(aVenir(trois, 'l1')).toEqual(['l2', null, null, 'l5'])
+  })
+  it('refuse : risque à suite hors bifurcation', () => {
+    const e = lineaire.map((l) => l)
+    e[1] = lieu('l2', [{ id: 'b', qualite: 'bon' }, { id: 'r', qualite: 'risque', suite: 'l4' }, { id: 'a', qualite: 'aide' }])
+    expect(messages(e)).toMatch(/un choix risqué fait rester sur place : pas de suite/)
+  })
+  it('refuse : deux risques à suite', () => {
+    const e = avec([...bonAide, { id: 'r', qualite: 'risque', suite: 'c3', route: 'x' }, { id: 'r2', qualite: 'risque', suite: 'c3', route: 'y' }])
+    expect(messages(e)).toMatch(/au plus un choix risqué qui mène à une route de réparation/)
+  })
+  it('refuse : risque vers la même cible que bon', () => {
+    const e = avec([...bonAide, { id: 'r', qualite: 'risque', suite: 'a3', route: 'x' }])
+    expect(messages(e)).toMatch(/les routes d’une bifurcation mènent à des lieux différents/)
+  })
+  it('refuse : risque à suite sans route', () => {
+    const e = avec([...bonAide, { id: 'r', qualite: 'risque', suite: 'c3' }])
+    expect(messages(e)).toMatch(/étiquette « route »/)
+  })
+  it('refuse : route de réparation plus longue', () => {
+    const e = [
+      lieu('l1'), lieu('l2', [...bonAide, { id: 'r', qualite: 'risque', suite: 'c3', route: 'x' }]),
+      lieu('a3'), lieu('a4', undefined, 'l5'), lieu('b3'), lieu('b4', undefined, 'l5'), lieu('c3'), lieu('c4'), lieu('c5'), lieu('l5'),
+    ]
+    expect(messages(e)).toMatch(/même longueur/)
+  })
+  it('refuse : récupération sur le choix de réparation', () => {
+    const e = avec([...bonAide, { id: 'r', qualite: 'risque', suite: 'c3', route: 'x' }])
+    ;(e[1] as unknown as { recuperation: unknown }).recuperation = { action: 'capture-preuve', siChoix: ['r'] }
+    expect(messages(e)).toMatch(/le choix qui mène à la route de réparation n’a pas de récupération : la route répare/)
   })
 })

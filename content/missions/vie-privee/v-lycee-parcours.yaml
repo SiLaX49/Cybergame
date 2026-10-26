@@ -1,0 +1,343 @@
+id: v-lycee-parcours
+theme: vie-privee
+format: parcours
+tranches: ['lycee']
+titre: 'L’île aux secrets : la PFMP'
+resume: 'Un CV en lien public, une photo d’équipe qu’on a envie de publier, une position partagée pendant une sortie : pendant ta PFMP, choisis qui voit quoi et, si une photo t’échappe, répare dans le bon ordre.'
+duree: 25
+objectifs:
+  - Choisir à qui l’on transmet ses informations (CV, nom, lycée) et qui voit ses publications et sa position, et pour combien de temps
+  - Demander l’accord de chacun avant de publier une photo de groupe, et savoir que la recevoir ne permet pas de la publier librement
+  - Réparer après avoir publié une photo sans accord, dans l’ordre (garder la trace des copies, retirer sa publication, demander le retrait des copies, prévenir les personnes, régler l’audience), sans croire que tout disparaît
+competences:
+  crcn: ['4.2', '2.2']
+  programmes: ['EMC lycée']
+etapes:
+  - type: lieu
+    id: cv
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Dimanche soir, dans ta chambre. Demain, tu commences ta PFMP de 1re bac pro à l’atelier Cycles Martel, un magasin de vélos avec un atelier de réparation. M. Martel, ton tuteur, t’a demandé ton CV. Tu l’as fait sur CVclic : nom, adresse, numéro de téléphone, date de naissance, photo. Pour l’envoyer, CVclic propose : « Copier le lien public : toute personne disposant du lien peut voir ton CV ». Bastien, de ta classe, a mis le sien dans sa bio SnapTalk, « pour que les patrons le trouvent ».'
+    question: Comment envoies-tu ton CV ?
+    choix:
+      - id: bio
+        texte: 'Je copie le lien public et je le mets aussi dans ma bio SnapTalk, comme Bastien.'
+        qualite: risque
+        reaction: 'Mardi, CVclic t’indique que ton CV a été ouvert 37 fois. Ton adresse, ton numéro et ta date de naissance sont visibles par tous ceux qui passent sur ton profil, et le lien peut circuler. Il est encore temps : retire le lien de ta bio et coupe le lien public.'
+      - id: pdf
+        texte: 'Seul M. Martel en a besoin : je lui envoie un PDF, sans mon adresse ni ma date de naissance.'
+        qualite: bon
+        reaction: 'Bien vu. Ton CV va à la seule personne qui en a besoin, en version allégée : ton nom, ton numéro, ta formation. M. Martel répond : « Bien reçu, à demain 8 h. »'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère, qui a refait son CV l’an dernier, pour choisir quoi y mettre.'
+        qualite: aide
+        reaction: 'Ta mère lit ton CV avec toi : « M. Martel a besoin de ton numéro et de ta formation. Ton adresse et ta date de naissance, pas forcément. Et envoie-le à lui seul, pas en lien public. » Tu fais un PDF allégé et tu l’envoies à M. Martel.'
+    pourquoi:
+      - levier: groupe
+        truc: 'Bastien a mis le lien de son CV dans sa bio, « pour que les patrons le trouvent ».'
+        parade: 'Ce que fait un camarade n’est pas une règle. Ton CV va d’abord à la personne qui te l’a demandé.'
+      - levier: reflexe
+        truc: '« Copier le lien public » : c’est le premier bouton proposé, on clique.'
+        parade: 'Un lien public s’ouvre pour n’importe qui. Choisis à qui tu envoies ton CV.'
+      - levier: gain
+        truc: 'Un CV visible par tout le monde, c’est peut-être un job de plus.'
+        parade: 'Avec ton CV, tu transmets ton adresse et ta date de naissance. Garde-les pour ceux qui en ont besoin.'
+    aRetenir: 'Un CV en lien public, c’est ton adresse et ton numéro ouverts à tous ceux qui ont le lien. On l’envoie aux personnes qui en ont besoin, nommément, et dans une version allégée.'
+    recuperation: { action: demander-aide, siChoix: [bio] }
+
+  - type: lieu
+    id: photo
+    lieu: Le bus du retour
+    decor: bus
+    guide: 'Vendredi, 17 h 30, dans le bus du retour. Ta première semaine de PFMP est finie. Avant la fermeture, un client a pris une photo de l’équipe avec ton téléphone : M. Martel, Sonia, Karim et toi, devant l’établi, tout sourire. Un peu avant, tu en avais pris une autre à l’établi, avec Sonia, M. Martel et toi seulement. La photo d’équipe, tu l’as déjà envoyée à ta mère, qui a répondu « Bravo ! 👏 ». Maintenant, tu as envie de la publier sur ton compte SnapTalk, qui est public : « Ma première semaine chez Cycles Martel 🔧 ».'
+    question: La photo est réussie. Que fais-tu ?
+    choix:
+      - id: publie
+        texte: 'Tout le monde sourit, ils ont posé exprès : je la publie sur mon compte, sans demander.'
+        qualite: risque
+        suite: karim
+        route: je publie sans demander
+        reaction: 'Tu publies. En une heure, la photo a 300 vues et des dizaines de cœurs. Ce que tu ne sais pas encore, c’est que Karim, lui, ne voulait pas être en ligne.'
+      - id: accord
+        texte: 'Avant de publier, je demande leur accord à chacun, et je choisis moi-même qui la verra.'
+        qualite: bon
+        suite: reponses
+        route: je règle moi-même qui voit quoi
+        reaction: 'Tu ne publies rien pour l’instant. Tu envoies la photo à M. Martel, Sonia et Karim : « Je peux la mettre sur SnapTalk ? » Tu attends leurs réponses.'
+      - id: aide
+        texte: 'Je demande de l’aide à M. Martel, mon tuteur, avant de publier quoi que ce soit.'
+        qualite: aide
+        suite: atelier
+        route: je demande à mon tuteur
+        reaction: 'Tu ne publies rien ce week-end. Tu notes de montrer la photo à M. Martel lundi matin, avant l’ouverture.'
+    pourquoi:
+      - levier: confiance
+        truc: '« tout sourire » : vous avez posé ensemble, l’ambiance est bonne, on se dit que tout le monde est d’accord.'
+        parade: 'Pouvoir prendre ou recevoir une photo ne signifie pas que tu peux la publier librement. Demande à chacun.'
+      - levier: gain
+        truc: '« Ma première semaine chez Cycles Martel » : tu es fier·e, et tu as envie de le montrer.'
+        parade: 'Tu peux en être fier·e et prendre une minute pour demander. Ta fierté ne décide pas pour les autres.'
+      - levier: reflexe
+        truc: 'Publier une photo, c’est un geste qu’on fait tous les jours, sans y penser.'
+        parade: 'Sur une photo de groupe, il n’y a pas que toi. Chacun a droit au respect de sa vie privée.'
+    aRetenir: 'Pouvoir prendre ou recevoir une photo ne signifie pas que tu peux la publier librement. « Chacun a droit au respect de sa vie privée » : avant de publier une photo de groupe, on demande l’accord de chacun, et on choisit qui la verra.'
+
+  - type: lieu
+    id: reponses
+    lieu: Le salon
+    decor: salon
+    guide: 'Vendredi, 19 h, au salon. Les réponses arrivent. Sonia : « Oui, avec plaisir ! » M. Martel : « D’accord, c’est sympa pour l’atelier. » Karim, un peu plus tard : « Je préfère ne pas être sur Internet, désolé. » Sur la photo, Karim est debout sur le côté, un peu en retrait.'
+    question: Deux sont d’accord, Karim non. Que fais-tu ?
+    choix:
+      - id: retrait
+        texte: 'Karim est sur le côté, on le remarque à peine : je vais la publier quand même.'
+        qualite: risque
+        reaction: 'Karim a dit non, et ses proches le reconnaîtraient au premier coup d’œil. Qu’il soit au bord ou au milieu, c’est son image, et c’est sa décision. Il est encore temps : ne publie pas cette photo-là.'
+      - id: etabli
+        texte: 'Karim a dit non : je publie la photo de l’établi, où il n’est pas, pour mes amis seulement.'
+        qualite: bon
+        reaction: 'Bien vu. Sur la photo de l’établi, il y a Sonia, M. Martel et toi. Tu la montres aux deux avant, puis tu la publies avec l’audience « Amis » plutôt que « Public ». Tu réponds à Karim : « Pas de souci, tu n’y seras pas. »'
+      - id: aide
+        texte: 'Je demande de l’aide à ma sœur, qui fait de la photo, pour choisir une image sans Karim.'
+        qualite: aide
+        reaction: 'Ta sœur fait défiler tes photos : « Celle de l’établi, sans Karim, elle est même plus belle. Et mets-la en “Amis”, pas en public. » Tu la montres à Sonia et à M. Martel, puis tu la publies.'
+    pourquoi:
+      - levier: groupe
+        truc: 'Sonia et M. Martel sont d’accord : deux sur trois, c’est la majorité.'
+        parade: 'Une photo n’est pas un vote. Chaque personne décide pour son image.'
+      - levier: reflexe
+        truc: '« Karim est debout sur le côté » : on se dit qu’il passera inaperçu.'
+        parade: 'Ses proches le reconnaîtront tout de suite. Au bord ou au milieu, il a dit non.'
+      - levier: confiance
+        truc: '« désolé » : Karim a l’air gêné de refuser, on se dit qu’il ne t’en voudra pas.'
+        parade: 'Il a pris la peine de répondre. Respecter son refus, c’est garder sa confiance.'
+    aRetenir: 'Sur une photo de groupe, chacun décide pour son image : si une personne refuse, on choisit une autre photo, ou on ne publie pas. Puis on choisit qui pourra la voir.'
+
+  - type: lieu
+    id: page-atelier
+    lieu: L’atelier Cycles Martel
+    decor: entreprise
+    suite: bon-recours
+    guide: 'Lundi, 8 h, à l’atelier. Sonia gère la page SnapTalk de Cycles Martel, publique, 2 000 abonnés. Elle te montre le texte qu’elle a préparé, sous une photo de toi à l’établi : « Bienvenue à notre stagiaire ! » suivi de ton prénom, ton nom, « 1re bac pro au lycée des Hauts-Prés » et « avec nous tous les jours jusqu’au 20 décembre ». « Ça te va ? Je publie avant l’ouverture. »'
+    question: Sonia attend ta réponse. Que lui dis-tu ?
+    choix:
+      - id: tout
+        texte: 'Je lui dis oui pour tout le texte, puisque c’est la page officielle de l’atelier.'
+        qualite: risque
+        reaction: 'Le texte part tel quel : ton nom complet, ton lycée, ta classe et tes horaires, sur une page publique. Ce n’est pas un drame, mais n’importe qui sait maintenant où te trouver chaque jour jusqu’au 20 décembre. Tu as ton mot à dire sur ce qu’on publie de toi : il est encore temps de demander une version plus courte.'
+      - id: prenom
+        texte: 'J’accepte la photo avec mon prénom seulement, sans mon nom, mon lycée ni mes dates.'
+        qualite: bon
+        reaction: 'Bien vu. Sonia corrige : « Bienvenue à notre stagiaire » et ton prénom. « Tu as raison, ça suffit largement. » La page parle de ton arrivée, sans dire qui tu es ni où te trouver.'
+      - id: aide
+        texte: 'Je demande de l’aide à M. Martel, mon tuteur, pour voir avec Sonia ce qui sera écrit.'
+        qualite: aide
+        reaction: 'M. Martel relit le texte avec vous deux : « C’est ta photo et ton nom : c’est toi qui décides. » Tu demandes ton prénom seulement, sans ton lycée ni tes dates. Sonia corrige.'
+    pourquoi:
+      - levier: autorite
+        truc: '« la page SnapTalk de Cycles Martel » : c’est l’entreprise qui publie, ça paraît forcément correct.'
+        parade: 'Une entreprise peut parler de toi, mais tu as ton mot à dire sur ce qu’elle publie de toi.'
+      - levier: flatterie
+        truc: '« Bienvenue à notre stagiaire ! » : c’est gentil, et ça fait plaisir d’être mis·e en avant.'
+        parade: 'Tu peux accepter l’accueil et refuser les détails. Ton prénom suffit pour dire bienvenue.'
+      - levier: reflexe
+        truc: '« Je publie avant l’ouverture » : il faut répondre vite, on dit oui sans relire.'
+        parade: 'Relire trois lignes prend dix secondes. Regarde ce qu’on dit de toi avant d’accepter.'
+    aRetenir: 'Même quand c’est une entreprise qui publie, tu as ton mot à dire sur ce qu’on dit de toi. On limite ce qu’on transmet : un prénom suffit, sans le nom du lycée ni les horaires.'
+
+  - type: lieu
+    id: atelier
+    lieu: L’atelier Cycles Martel
+    decor: entreprise
+    guide: 'Lundi, 8 h, à l’atelier, avant l’ouverture. Tu montres la photo à M. Martel. Il sourit : « Moi, ça ne me dérange pas, c’est sympa pour l’atelier. » Sonia et Karim ne sont pas encore arrivés.'
+    question: M. Martel est d’accord. Et la suite ?
+    choix:
+      - id: patron
+        texte: 'M. Martel est le patron : s’il dit oui, c’est oui pour toute l’équipe.'
+        qualite: risque
+        reaction: 'M. Martel lève les sourcils : « Je parlais pour moi ! Je ne peux pas décider pour l’image de Sonia ou de Karim. » Son accord ne vaut que pour lui. Il est encore temps : demande aux deux autres.'
+      - id: chacun
+        texte: 'Quand ils arrivent, je demande aussi à Sonia et à Karim s’ils sont d’accord.'
+        qualite: bon
+        reaction: 'Bien vu. Sonia dit oui. Karim, lui, préfère ne pas être sur Internet. Tu choisis la photo de l’établi, où il n’est pas, et tu la publieras pour tes amis seulement.'
+      - id: aide
+        texte: 'Je demande de l’aide à M. Martel pour en parler avec toute l’équipe à la pause.'
+        qualite: aide
+        reaction: 'À la pause, M. Martel lance : « Notre stagiaire voudrait publier une photo de nous. Chacun dit ce qu’il en pense. » Sonia dit oui, Karim préfère ne pas y être. Tu choisis la photo de l’établi, sans Karim.'
+    pourquoi:
+      - levier: autorite
+        truc: '« Moi, ça ne me dérange pas » : c’est ton tuteur et le patron, son avis compte.'
+        parade: 'Chacun décide pour son image, même dans une entreprise. Le patron ne répond que pour lui.'
+      - levier: reflexe
+        truc: 'Tu as eu une réponse : on se dit que c’est réglé.'
+        parade: 'Une réponse sur trois, c’est un accord sur trois. Demande aux autres.'
+      - levier: honte
+        truc: 'Aller demander à chacun, ça peut paraître lourd pour un stagiaire qui débute.'
+        parade: 'Demander n’est pas gênant : c’est du respect. Personne ne te reprochera d’avoir posé la question.'
+    aRetenir: 'L’accord d’une personne ne vaut que pour elle, même si c’est le patron. Sur une photo de groupe, on demande à chacun.'
+
+  - type: lieu
+    id: tante
+    lieu: Le salon
+    decor: salon
+    suite: bon-recours
+    guide: 'Mardi soir, au salon. Ta mère avait transféré la photo d’équipe dans le groupe de la famille. Ta tante Nadia t’appelle : « Trop fière de toi ! Je la mets sur mon profil, d’accord ? » Son profil est public. Sur cette photo, il y a Karim, qui ne veut pas être en ligne.'
+    question: Ta tante attend ta réponse au téléphone. Que lui dis-tu ?
+    choix:
+      - id: laisse
+        texte: 'Elle l’a reçue de ma mère, pas de moi : je la laisse faire ce qu’elle veut.'
+        qualite: risque
+        reaction: 'Nadia publie : Karim se retrouve sur un profil public, chez des inconnus. Pouvoir recevoir une photo ne signifie pas qu’on peut la publier librement, et ça vaut pour ta tante aussi. Il est encore temps : rappelle-la avant qu’elle ne la partage plus loin.'
+      - id: explique
+        texte: 'Je lui explique que Karim ne veut pas être en ligne, et je lui demande de la garder pour elle.'
+        qualite: bon
+        reaction: 'Bien vu. Nadia comprend tout de suite : « Je n’y avais pas pensé. Je la garde pour moi, elle ne sortira pas de la famille. » Elle ne publie rien.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère pour expliquer à ma tante pourquoi cette photo ne doit pas être publiée.'
+        qualite: aide
+        reaction: 'Ta mère prend le téléphone : « Nadia, sur celle-là, il y a un collègue qui ne veut pas être en ligne. » Nadia promet de la garder pour elle, sans la publier ni la transférer.'
+    pourquoi:
+      - levier: flatterie
+        truc: '« Trop fière de toi ! » : ça fait plaisir, on n’a pas envie de la refroidir.'
+        parade: 'Tu peux la remercier de bon cœur et lui demander de garder la photo pour elle. Sa fierté reste intacte.'
+      - levier: confiance
+        truc: 'C’est ta tante, c’est la famille : on ne s’attend pas à un problème.'
+        parade: 'Sur son profil public, la photo sort de la famille. Karim ne connaît pas ta tante.'
+      - levier: reflexe
+        truc: 'Ce n’est pas toi qui publies : on se dit que ce n’est plus ton affaire.'
+        parade: 'Tu sais que Karim a dit non, ta tante ne le sait pas. Toi seul·e peux la prévenir.'
+    aRetenir: 'Pouvoir prendre ou recevoir une photo ne signifie pas qu’on peut la publier librement : ça vaut aussi pour ceux à qui elle a été transférée. Une photo envoyée en privé peut voyager : on prévient ceux qui la reçoivent.'
+    recuperation: { action: demander-aide, siChoix: [laisse] }
+
+  - type: lieu
+    id: karim
+    lieu: La cuisine
+    decor: cuisine
+    guide: 'Vendredi, 18 h 40, dans la cuisine. Un message de Karim : « Tu peux enlever la photo ? Je ne veux pas être en ligne. » Et ce n’est pas tout : Tom, de ta classe, a enregistré la photo et l’a remise dans sa story publique, « La team de choc 🔧 ». Ta publication, tu peux la retirer. La copie de Tom, elle, est sur son compte. Tu as publié sans demander, comme beaucoup l’auraient fait, et ça se répare, en commençant par le bon geste.'
+    question: Par quoi commences-tu ?
+    choix:
+      - id: compte
+        texte: 'Je supprime mon compte SnapTalk : comme ça, la photo disparaît partout.'
+        qualite: risque
+        reaction: 'Supprimer ton compte retire ta publication, pas la story de Tom : elle est sur son compte, pas sur le tien. Et sans trace de la copie, ce sera plus dur de demander qu’on la retire. Commence par noter où elle est, puis retire ta publication, sans supprimer ton compte.'
+      - id: capture
+        texte: 'Je fais une capture de la story de Tom, avec l’heure, puis je retire ma publication.'
+        qualite: bon
+        reaction: 'C’est le premier geste : tu gardes la trace de la copie (où, quand, par qui), puis tu retires tout de suite ce que tu contrôles, ta publication. Elle n’est plus sur ton compte. Reste la copie de Tom.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père, qui fait à manger, pour savoir par quoi commencer.'
+        qualite: aide
+        reaction: 'Ton père pose sa cuillère, sans un reproche : « D’abord, une capture de la story de Tom, pour savoir où est la copie. Ensuite, tu retires ta publication. » Tu fais les deux, tout de suite. Reste la copie de Tom.'
+    pourquoi:
+      - levier: peur
+        truc: '« Je ne veux pas être en ligne » : tu paniques, et tu veux tout faire disparaître d’un coup.'
+        parade: 'Un geste après l’autre : noter où est la copie, puis retirer ce qui est à toi.'
+      - levier: honte
+        truc: 'Tu t’en veux, et tu voudrais effacer toute trace de cette photo, et même ton compte.'
+        parade: 'Avoir publié sans demander, ça arrive. Ce qui compte maintenant, c’est de réparer dans l’ordre.'
+      - levier: reflexe
+        truc: 'Supprimer son compte, c’est le bouton le plus radical : on croit qu’il règle tout.'
+        parade: 'Une copie sur le compte de quelqu’un d’autre ne dépend pas du tien. Distingue ce que tu contrôles.'
+    aRetenir: 'Quand une photo publiée sans accord pose problème, on garde la trace des copies (où, quand, par qui), puis on retire tout de suite sa propre publication. Ce qui est sur le compte des autres ne disparaît pas avec le sien.'
+    recuperation: { action: demander-aide, siChoix: [compte] }
+
+  - type: lieu
+    id: copies
+    lieu: Le salon
+    decor: salon
+    suite: bon-recours
+    guide: 'Vendredi, 18 h 50, au salon. Ta publication est retirée. Mais la story de Tom est toujours en ligne, et Karim attend ta réponse. M. Martel et Sonia sont aussi sur la photo.'
+    question: Ta publication est retirée. Et maintenant ?
+    choix:
+      - id: fini
+        texte: 'Ma publication est retirée : la story de Tom, ce n’est plus à moi de m’en occuper.'
+        qualite: risque
+        reaction: 'La copie de Tom reste visible, et Karim ne sait pas où ça en est. Ce que tu ne contrôles pas, tu peux le faire retirer : demande à Tom, puis, s’il ne le fait pas, à la plateforme. Et dis aux personnes de la photo ce que tu as fait.'
+      - id: tom
+        texte: 'J’écris à Tom pour qu’il retire sa story, et je dis à Karim, Sonia et M. Martel ce que j’ai fait.'
+        qualite: bon
+        reaction: 'C’est l’étape suivante. Tom retire sa story dix minutes plus tard. Karim répond : « Merci d’avoir fait vite. » Tu ne peux pas savoir si quelqu’un l’a enregistrée entre-temps : si une copie réapparaît, tu demanderas le retrait à son auteur, puis à la plateforme. Dernier geste : dans SnapTalk, tu passes ton audience de « Public » à « Amis ».'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père pour trouver les mots, pour Tom et pour Karim.'
+        qualite: aide
+        reaction: 'Ton père t’aide à écrire, sans rien faire à ta place. À Tom : « Retire la photo stp, Karim n’était pas d’accord. » À Karim, Sonia et M. Martel : « Je l’ai retirée, et j’ai demandé à Tom de retirer sa copie. » Tom la retire. Puis tu passes ton audience SnapTalk de « Public » à « Amis ».'
+    pourquoi:
+      - levier: reflexe
+        truc: '« Ta publication est retirée » : on se dit que le problème est réglé.'
+        parade: 'Ta publication, oui. Les copies, non : demande leur retrait à leur auteur, puis à la plateforme.'
+      - levier: honte
+        truc: 'Écrire à Karim, à Sonia et à ton tuteur, c’est reconnaître ton erreur devant eux.'
+        parade: 'Les prévenir, c’est leur montrer que tu répares. Ils sont sur la photo : ils ont le droit de savoir.'
+      - levier: groupe
+        truc: 'Tom l’a mise en story pour rigoler, comme tout le monde le fait.'
+        parade: 'Que ce soit courant ne change rien pour Karim. Demande à Tom de la retirer.'
+    aRetenir: 'Après sa propre publication : demander le retrait des copies à leur auteur, puis à la plateforme, prévenir les personnes de la photo, et régler son audience. On ne peut pas promettre qu’une copie déjà diffusée disparaîtra partout, mais on peut limiter la suite.'
+    recuperation: { action: demander-aide, siChoix: [fini] }
+
+  - type: minijeu
+    id: bon-recours
+    jeu: tri
+    config:
+      consigne: 'Qui peut agir ? Classe chaque situation vers le bon recours.'
+      categories:
+        - { id: moi-meme, libelle: 'Je retire ou je règle moi-même' }
+        - { id: auteur, libelle: 'Je demande le retrait à l’auteur, puis à la plateforme' }
+        - { id: adulte-lycee, libelle: 'Le CPE ou le professeur qui suit ma PFMP' }
+      cartes:
+        - { id: story, texte: 'Ta propre story montre l’adresse de ton lieu de PFMP, en public.', categorie: moi-meme, explication: 'C’est ta publication : tu peux la retirer ou changer son audience toi-même, tout de suite.' }
+        - { id: lien-cv, texte: 'Ton CV est en ligne avec un lien que n’importe qui peut ouvrir.', categorie: moi-meme, explication: 'Tu coupes le lien public toi-même, et tu l’envoies seulement aux personnes qui en ont besoin.' }
+        - { id: ami, texte: 'Un ami a publié une photo de toi que tu ne veux pas voir en ligne, sans te demander.', categorie: auteur, explication: 'Tu lui demandes de la retirer. S’il ne le fait pas, tu peux demander le retrait à la plateforme.' }
+        - { id: copie, texte: 'Une copie d’une photo que tu as retirée réapparaît sur un compte que tu ne connais pas.', categorie: auteur, explication: 'Tu gardes une trace (où, quand), puis tu demandes le retrait à l’auteur et à la plateforme. On ne peut pas promettre que toutes les copies disparaîtront.' }
+        - { id: entreprise, texte: 'Ton lieu de PFMP veut publier ta photo avec ton nom et ton lycée, et tu n’oses pas dire non.', categorie: adulte-lycee, explication: 'Le professeur qui suit ta PFMP peut t’aider à trouver comment en parler avec ton tuteur.' }
+        - { id: sortie, texte: 'Une photo de ta classe, prise pendant une sortie du lycée, circule sur un compte public, sans que tu saches qui l’a publiée, et plusieurs élèves sont concernés.', categorie: adulte-lycee, explication: 'Le CPE aide à trouver le bon interlocuteur quand une situation touche la classe ou le lycée.' }
+
+  - type: lieu
+    id: sortie
+    lieu: Le parc des Berges
+    decor: parc
+    guide: 'Le samedi suivant, sortie au parc des Berges avec Lina et Bastien. Le parc est immense, et vous arrivez chacun de votre côté. Lina propose : « Partagez vos positions, comme ça on se retrouve. » SnapTalk affiche : « Partager ma position avec : Tous mes amis (412) — Durée : jusqu’à ce que je l’arrête ». Tu peux changer les deux.'
+    question: Lina et Bastien t’attendent. Que fais-tu ?
+    choix:
+      - id: tous
+        texte: 'Je valide le partage comme il est proposé, juste pour nous retrouver cet après-midi.'
+        qualite: risque
+        reaction: 'Le soir, ta position est toujours partagée, avec 412 personnes, jusqu’à chez toi. « Jusqu’à ce que je l’arrête », c’est jusqu’à ce que tu y penses. Il est encore temps : choisis qui te voit, et pour combien de temps.'
+      - id: deux
+        texte: 'Je partage ma position avec Lina et Bastien seulement, pour une heure.'
+        qualite: bon
+        reaction: 'Bien vu. Lina et Bastien te voient sur la carte, personne d’autre. Vingt minutes plus tard, vous êtes ensemble, et le partage s’arrêtera tout seul.'
+      - id: aide
+        texte: 'Je demande de l’aide à Lina pour régler le partage seulement entre nous trois, et pas longtemps.'
+        qualite: aide
+        reaction: 'Lina te montre les deux réglages : « Choisis nous deux, et une heure. Moi, je fais pareil. » Vous vous retrouvez vite, et personne d’autre ne vous voit sur la carte.'
+    pourquoi:
+      - levier: reflexe
+        truc: '« Tous mes amis (412) » : c’est déjà rempli, on valide.'
+        parade: 'Ce qui est proposé n’est pas forcément ce que tu veux. Choisis qui te voit.'
+      - levier: confiance
+        truc: 'Ce sont « tous mes amis » : on se dit que ce sont des gens qu’on connaît.'
+        parade: 'Sur 412 amis, combien connais-tu vraiment ? Ta position, c’est où tu es, et où tu rentres.'
+      - levier: groupe
+        truc: '« Partagez vos positions » : tout le monde le fait pour se retrouver.'
+        parade: 'Partager pour se retrouver, oui. Avec ceux de la sortie, et le temps de se retrouver.'
+    aRetenir: 'Pour une position partagée, on choisit qui la voit et pour combien de temps. Sur toute l’île, le même réflexe : choisir qui voit quoi et, si une publication t’échappe, retirer ce que tu contrôles et demander le retrait du reste.'
+    recuperation: { action: demander-aide, siChoix: [tous] }
+debrief:
+  questions:
+    - 'Pourquoi avait-on envie de publier la photo d’équipe tout de suite, et qu’est-ce qu’il fallait faire avant ?'
+    - 'Comparez les trois routes : qu’est-ce qu’on peut encore faire après une erreur ? Qui aide pour quoi ?'
+    - 'Qu’est-ce que je peux retirer ou régler moi-même, et qu’est-ce que je dois demander à quelqu’un d’autre ?'
+  reponses: 'Les pièges de l’île : le réflexe (publier, valider ce qui est proposé), la confiance (« ils ont posé », « c’est la famille », « mes amis »), le groupe (deux sur trois sont d’accord, tout le monde partage sa position) et l’air officiel (le patron, la page de l’entreprise). Le repère : « Pouvoir prendre ou recevoir une photo ne signifie pas que tu peux la publier librement. » Chacun a droit au respect de sa vie privée (Code civil, article 9) : sur une photo de groupe, on demande l’accord de chacun, et l’accord d’une personne ne vaut que pour elle. On limite ce qu’on transmet (un CV allégé, envoyé à la bonne personne ; un prénom plutôt que son nom et son lycée) et on choisit qui voit sa position, et combien de temps. Trois routes : régler soi-même qui voit quoi, demander à la bonne personne (tuteur, parent, CPE ou professeur qui suit la PFMP), ou réparer après avoir publié. Réparer, dans l’ordre : garder la trace des copies (où, quand, par qui), retirer sa publication, demander le retrait des copies à leur auteur puis à la plateforme, prévenir les personnes, et régler son audience. Supprimer son compte ne fait pas disparaître les copies, et on ne peut pas promettre qu’une copie déjà diffusée disparaîtra partout. Si ça persiste, effacement, retrait d’image, déréférencement et plainte sont des démarches différentes : on se fait aider pour choisir.'
+  erreursFrequentes:
+    - 'Croire qu’une personne qui a posé, ou qui a reçu la photo, est d’accord pour qu’elle soit publiée.'
+    - 'Penser que supprimer sa publication ou son compte fait disparaître toutes les copies.'
+    - 'Laisser les réglages proposés (lien public, « tous mes amis », sans limite de durée) sans les regarder.'
+fiche:
+  deroulement: |
+    5 min : cadre. Qui a déjà vu une photo de lui ou d’elle publiée sans qu’on lui demande ? Qui a déjà partagé sa position pour retrouver quelqu’un ? (sans obligation de répondre)
+    25 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. À la photo d’équipe, trois routes : régler soi-même qui voit quoi, demander au tuteur, ou publier sans demander puis réparer. Si plusieurs binômes jouent, répartir les trois routes.
+    10 min : débrief. Comparez les trois routes : qu’est-ce qu’on peut encore faire après une erreur ? Qui aide pour quoi ? Puis retour sur le tri « le bon recours ».
+    5 min : où trouver de l’aide (tuteur et professeur qui suit la PFMP, CPE, parents). Rappeler qu’on ne peut pas promettre qu’une copie déjà diffusée disparaîtra partout.
+    5 min : engagement. Cette semaine, je regarde l’audience par défaut de mes publications et de ma position, et je la règle moi-même.
+relecture:
+  statut: a-relire

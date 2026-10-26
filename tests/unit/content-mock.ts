@@ -14,6 +14,7 @@ export const contentMock = creerAcces({
       relecture: { statut: 'a-relire' },
       fiche: { deroulement: 'Déroulé.', siRevelation: 'Prévenir le ou la CPE et l’infirmier·e scolaire.' },
     }),
+    missionFixture({ id: 'm-a-relire', titre: 'Mission à relire', relecture: { statut: 'a-relire' } }),
     rappelFixture(),
   ],
 })

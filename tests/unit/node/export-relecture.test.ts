@@ -8,7 +8,7 @@ import { descriptionBadge } from '../../../src/engine/badges'
 import { leviersDeLaMission } from '../../../src/engine/mission-runner'
 import { AVERTISSEMENT, FIN_SENSIBLE, TITRE_RECUPERATION_VICTIME, TITRE_REPONSE_SENSIBLE } from '../../../src/mission/textesSensibles'
 import { SOUTENIR, texteRecuperation } from '../../../src/recovery/textes'
-import { fourcheFixture, leviersFixture, parcoursFixture } from '../fixtures'
+import { fourcheFixture, leviersFixture, parcoursFixture, troisRoutesFixture } from '../fixtures'
 
 const bundle = buildContent(join(process.cwd(), 'content'))
 const mission = bundle.missions.find((m) => m.type === 'mission' && m.etapes.some((e) => e.type === 'scenario'))
@@ -147,5 +147,14 @@ describe('export pour la relecture : parcours à deux routes', () => {
   })
   it('parcours linéaire : titres inchangés', () => {
     expect(missionEnMarkdown(parcoursFixture(), leviersFixture())).toContain('### Lieu l1 : La cour (cour)')
+  })
+})
+
+describe('export pour la relecture : route de réparation', () => {
+  const md = missionEnMarkdown(troisRoutesFixture(), leviersFixture())
+  it('les lieux 3c et 4c portent l’étiquette de la route de réparation', () => {
+    expect(md).toContain('### Lieu 3c (route « je fonce ») : Lieu c3')
+    expect(md).toContain('### Lieu 4c (route « je fonce ») : Lieu c4')
+    expect(md).toContain('### Lieu 3a (route « je garde mon mot de passe ») : Lieu a3')
   })
 })

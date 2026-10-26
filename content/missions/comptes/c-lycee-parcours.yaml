@@ -1,0 +1,340 @@
+id: c-lycee-parcours
+theme: comptes
+format: parcours
+tranches: ['lycee']
+titre: 'L’île des clés : le projet de groupe'
+resume: 'Un diaporama ouvert à toute la classe, un ami qui réclame « le code que tu viens de recevoir » la veille de l’oral, un mot de passe qui sert partout : garde tes clés et, si l’une t’échappe, répare dans le bon ordre.'
+duree: 25
+objectifs:
+  - Repérer une demande de code envoyée depuis le compte piraté d’un ami, et la vérifier par un autre canal
+  - Choisir qui accède à un document de groupe, et utiliser un mot de passe différent pour chaque compte
+  - Réparer après avoir donné un code, dans l’ordre (messagerie, mots de passe réutilisés, récupération et appareils connectés, double authentification, contacts), et choisir le bon recours
+competences:
+  crcn: ['4.1', '4.2']
+  programmes: ['SNT 2de', 'EMC lycée']
+etapes:
+  - type: lieu
+    id: partage
+    lieu: Le parc
+    decor: parc
+    guide: 'Lundi, à la sortie des cours, au parc en face du lycée. Pour votre oral de jeudi sur les transports de la ville, ton groupe (Elias, Inès, Bilal et toi) prépare un diaporama sur Diapolia. Elias a posté le lien dans « 1re B », le groupe de toute la classe : « Comme ça, tout le monde peut voir notre plan, et personne n’a besoin de compte. » Sous le lien, Diapolia affiche : « Toute personne disposant du lien peut modifier ».'
+    question: C’est toi qui as créé le diaporama, et toi seul·e peux régler son partage. Que fais-tu ?
+    choix:
+      - id: laisse
+        texte: 'Je laisse le lien ouvert à toute la classe, comme Elias l’a proposé.'
+        qualite: risque
+        reaction: 'Mardi soir, deux diapos ont disparu, effacées par un « visiteur anonyme ». L’historique de Diapolia permet de les remettre, mais impossible de savoir qui c’était : un lien posté dans le groupe d’une classe peut être transféré bien au-delà. Il est encore temps de régler le partage.'
+      - id: invite
+        texte: 'Je règle le partage : seuls nous quatre, invités avec nos comptes, pouvons modifier.'
+        qualite: bon
+        reaction: 'Bien vu. Tu passes le lien en lecture seule pour la classe, et tu invites Elias, Inès et Bilal avec leurs comptes. Chacun reçoit une invitation de Diapolia, et l’historique montrera qui a modifié quoi.'
+      - id: aide
+        texte: 'Je demande de l’aide à Inès, qui a déjà réglé le partage d’un document pour un exposé.'
+        qualite: aide
+        reaction: 'Inès ouvre les réglages avec toi : « Lecture seule pour la classe, et on s’invite tous les quatre avec nos comptes. Comme ça, on sait qui modifie quoi. » Chacun reçoit une invitation de Diapolia.'
+    pourquoi:
+      - levier: reflexe
+        truc: '« personne n’a besoin de compte » : un lien ouvert à tous, c’est le plus simple.'
+        parade: 'Ce qui est simple pour vous l’est aussi pour n’importe qui d’autre. Choisis qui peut modifier.'
+      - levier: confiance
+        truc: 'C’est ta classe, vous vous connaissez : on ne voit pas qui pourrait abîmer votre travail.'
+        parade: 'Un lien posté dans un groupe peut être transféré ailleurs. Tu ne sais plus qui l’a.'
+      - levier: groupe
+        truc: '« tout le monde peut voir notre plan » : partager avec toute la classe paraît sympa.'
+        parade: 'La classe peut voir sans pouvoir modifier : la lecture seule suffit.'
+    aRetenir: 'Dans un projet de groupe, on choisit qui accède au document et qui peut le modifier : les membres du groupe, invités avec leurs comptes, plutôt qu’un lien ouvert à tous.'
+
+  - type: lieu
+    id: code
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Mercredi, 22 h 10, dans ta chambre. Votre oral est demain à 14 h. Ton téléphone vibre deux fois. D’abord un SMS : « NidMail : ton code de connexion est 482 913. Ne le donne à personne. » Puis Elias, sur TchatUp : « Dsl, j’ai mis ton numéro par erreur pour la vérif Diapolia 😅 Tu peux m’envoyer le code que tu viens de recevoir ? Sinon je peux pas finir le diapo ce soir !! »'
+    question: Elias est en ligne et attend ta réponse. Que fais-tu ?
+    choix:
+      - id: donne
+        texte: 'C’est Elias, et l’oral est demain : je lui envoie le code pour qu’il finisse le diapo.'
+        qualite: risque
+        suite: alerte
+        route: je donne le code
+        reaction: 'Elias répond « merci 👍 », puis plus rien. Tu te remets à tes fiches. Ce que tu ne sais pas encore, c’est que ce n’était pas Elias : quelqu’un d’autre se sert de son compte TchatUp, et ce code ouvrait ta messagerie NidMail.'
+      - id: appelle
+        texte: 'Avant de répondre quoi que ce soit, j’appelle Elias sur son numéro pour vérifier.'
+        qualite: bon
+        suite: appel
+        route: je vérifie auprès d’Elias
+        reaction: 'Elias décroche, étonné : « Je n’ai rien écrit ! Et je n’arrive plus à me connecter à TchatUp depuis ce soir. » Ce n’était pas lui. Tu n’envoies rien.'
+      - id: aide
+        texte: 'Je demande de l’aide à M. Ferrand, le référent numérique du lycée, et ce soir je n’envoie rien.'
+        qualite: aide
+        suite: cdi
+        route: je demande au référent numérique
+        reaction: 'Tu ne réponds pas à Elias, et tu écris à M. Ferrand sur la messagerie du lycée, en recopiant sa demande et le SMS. À 7 h, avant ton départ, il te répond : « N’envoie surtout pas ce code. Un code que tu n’as pas demandé, c’est que quelqu’un essaie d’entrer dans ton compte : sécurise ta messagerie toi-même, depuis l’appli, avant de partir. Puis passe me voir au CDI à 8 h. »'
+    pourquoi:
+      - levier: confiance
+        truc: 'Le message vient d’Elias, un ami de ton groupe : on ne pense pas à se méfier.'
+        parade: 'Un compte peut être piraté. Si un ami te demande un code, vérifie avec lui par un autre moyen : appelle-le.'
+      - levier: urgence
+        truc: '« Sinon je peux pas finir le diapo ce soir !! » : l’oral est demain, et tout le groupe compte sur lui.'
+        parade: 'Un vrai ami peut attendre une minute que tu l’appelles. L’urgence sert à t’empêcher de vérifier.'
+      - levier: reflexe
+        truc: '« le code que tu viens de recevoir » : il est là, sur ton écran, on le recopie sans réfléchir.'
+        parade: 'Relis le SMS : il vient de NidMail, pas de Diapolia, et il dit « Ne le donne à personne ».'
+    aRetenir: 'Un code de connexion ne se donne à personne, même à un ami : vérifie la demande par un autre canal. Un code que tu n’as pas demandé, c’est que quelqu’un essaie d’entrer dans ton compte : sécurise-le depuis l’appli, ta messagerie d’abord.'
+
+  - type: lieu
+    id: appel
+    lieu: Le salon
+    decor: salon
+    guide: 'Au salon, Elias t’explique au téléphone : ce soir, il a reçu un mail « Diapolia : un document a été partagé avec toi », et il a tapé son mot de passe sur la page. C’était le même que pour TchatUp. Depuis, quelqu’un d’autre écrit avec son compte. Dans « Projet transports », le groupe de votre oral, « Elias » vient de demander à Inès et à Bilal « le code que vous allez recevoir ».'
+    question: Il est 22 h 20. Que fais-tu pour Inès et Bilal ?
+    choix:
+      - id: demain
+        texte: 'Je leur expliquerai tout demain matin, avant les cours, ce sera plus clair en vrai.'
+        qualite: risque
+        reaction: 'À 23 h, Bilal, à moitié endormi, envoie son code au faux Elias. Vouloir tout expliquer en face, c’est logique, mais le pirate, lui, n’attend pas demain. Il est encore temps : préviens Inès et Bilal ce soir.'
+      - id: previens
+        texte: 'J’écris tout de suite dans « Projet transports » : Elias est piraté, n’envoyez aucun code.'
+        qualite: bon
+        reaction: 'Bien vu. Inès répond aussitôt : « Merci, j’allais le faire ! » Bilal met un pouce : il n’avait rien envoyé. Elias, de son côté, commence par sécuriser sa messagerie avec sa mère.'
+      - id: aide
+        texte: 'Je demande de l’aide à Inès, encore en ligne, pour qu’on prévienne Bilal par téléphone ce soir.'
+        qualite: aide
+        reaction: 'Inès appelle Bilal pendant que tu écris dans le groupe : « Le compte d’Elias est piraté, n’envoyez aucun code. » Bilal n’avait rien envoyé. Elias, lui, commence par sécuriser sa messagerie avec sa mère.'
+    pourquoi:
+      - levier: reflexe
+        truc: 'Il est 22 h 20 : on se dit que tout ça peut attendre demain matin.'
+        parade: 'Le pirate écrit maintenant. Un message ce soir protège Inès et Bilal dès ce soir.'
+      - levier: honte
+        truc: 'Annoncer que le compte d’Elias est piraté, c’est un peu l’exposer devant le groupe.'
+        parade: 'Être piraté n’est pas une faute. Prévenir protège Inès et Bilal, et Elias le sait.'
+      - levier: confiance
+        truc: '« le code que vous allez recevoir » : venant d’Elias, la demande paraît normale.'
+        parade: 'Inès et Bilal font confiance à Elias, comme toi tout à l’heure. Ils doivent savoir que ce n’est pas lui.'
+    aRetenir: 'Quand le compte d’un ami est piraté, on prévient tout de suite ceux à qui le pirate écrit : ne cliquez sur rien, n’envoyez aucun code.'
+
+  - type: lieu
+    id: cuisine
+    lieu: La cuisine
+    decor: cuisine
+    suite: bon-recours
+    guide: 'À 22 h 30, dans la cuisine, tu relis le SMS de NidMail. Un code que tu n’as pas demandé : quelqu’un essaie d’entrer dans ta messagerie. Et NidMail n’envoie ce code qu’après le bon mot de passe : quelqu’un a donc tapé le tien. Ce mot de passe, tu l’utilises aussi pour ScoreFoot et pour Diapolia. Et ScoreFoot a annoncé une fuite de mots de passe le mois dernier.'
+    question: Il est tard, et l’oral est demain. Que fais-tu ?
+    choix:
+      - id: rien
+        texte: 'Le pirate n’a pas eu le code : la double authentification l’a arrêté, je ne change rien.'
+        qualite: risque
+        reaction: 'Le code l’a arrêté ce soir, parce que tu ne l’as pas donné. Mais le pirate a toujours ton mot de passe, et il ouvre aussi ScoreFoot et Diapolia, qui ne demandent aucun code. La double authentification protège beaucoup, pas tout. Change ces mots de passe, ta messagerie d’abord.'
+      - id: change
+        texte: 'Je change le mot de passe de NidMail depuis l’appli, puis ceux de ScoreFoot et de Diapolia.'
+        qualite: bon
+        reaction: 'Bien vu. Ta messagerie d’abord, puis les deux autres comptes, chacun avec un mot de passe différent. Dans NidMail, tu vérifies aussi ton téléphone et ton adresse de récupération : ce sont bien les tiens. Une fuite n’ouvrira plus qu’un seul compte.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père, qui range la cuisine, pour tout sécuriser avec lui ce soir.'
+        qualite: aide
+        reaction: 'Ton père s’assoit à côté de toi : « La messagerie d’abord, depuis l’appli. Ensuite ScoreFoot et Diapolia, avec des mots de passe différents. » Tu fais chaque changement, il relit avec toi. Ton téléphone de récupération est bien le tien.'
+    pourquoi:
+      - levier: confiance
+        truc: 'Le code a bloqué le pirate : on se croit protégé pour de bon.'
+        parade: 'La double authentification n’empêche pas tout. Si quelqu’un a ton mot de passe, change-le.'
+      - levier: reflexe
+        truc: 'Tu n’as rien envoyé : on se dit qu’il ne s’est rien passé.'
+        parade: 'Un code que tu n’as pas demandé, c’est que quelqu’un essaie d’entrer. Sécurise ton compte depuis l’appli, ta messagerie d’abord.'
+      - levier: urgence
+        truc: 'Il est tard, et l’oral est demain : tu as surtout envie d’aller dormir.'
+        parade: 'Changer trois mots de passe prend quelques minutes. Commence par ta messagerie, ce soir.'
+    aRetenir: 'Un code que tu n’as pas demandé, c’est que quelqu’un essaie d’entrer dans ton compte. Sécurise-le depuis l’appli, ta messagerie d’abord, puis change le mot de passe partout où tu utilisais le même.'
+    recuperation: { action: changer-mdp, siChoix: [rien] }
+
+  - type: lieu
+    id: cdi
+    lieu: Le CDI
+    decor: cdi
+    guide: 'Avant de partir, tu as suivi le conseil de M. Ferrand : nouveau mot de passe NidMail, changé toi-même depuis l’appli. À 8 h, au CDI, il a ton message d’hier soir à l’écran. « Ce mot de passe, tu l’utilisais ailleurs ? » Oui : pour ScoreFoot et pour Diapolia. Et ScoreFoot a annoncé une fuite de mots de passe le mois dernier. « Alors change-les toi-même tout de suite, sur cet ordinateur, et ferme bien ta session après. » C’est fait en quelques minutes. « Maintenant : est-ce vraiment Elias qui t’écrit ? » Pendant la nuit, « Elias » a relancé : « Allez stp, sans toi on rate l’oral. »'
+    question: Elias n’est pas encore arrivé en cours. Comment le savoir ?
+    choix:
+      - id: demande
+        texte: 'Je lui écrirai sur TchatUp à midi, dehors, pour lui demander si c’est vraiment lui.'
+        qualite: risque
+        reaction: 'À midi, « Elias » répond : « Bien sûr que c’est moi 😅 Envoie vite le code ! » La réponse vient du même compte, donc peut-être de la même personne : elle ne prouve rien. Pour vérifier quelqu’un, on passe par un autre canal que celui qui pose problème.'
+      - id: face
+        texte: 'Il arrive bientôt : j’attends Elias devant la salle pour lui poser la question en face.'
+        qualite: bon
+        reaction: 'Bien vu. Elias arrive en courant : « Ce n’est pas moi ! Hier soir, j’ai tapé mon mot de passe sur une fausse page Diapolia, et c’était le même que pour TchatUp. » Ta messagerie, ScoreFoot et Diapolia ont déjà chacun un nouveau mot de passe.'
+      - id: aide
+        texte: 'Je demande de l’aide à M. Ferrand pour joindre Elias autrement que par TchatUp.'
+        qualite: aide
+        reaction: 'M. Ferrand te propose la messagerie du lycée, sur l’ordinateur du CDI : un autre canal que TchatUp. Tu écris à Elias, qui répond cinq minutes plus tard : « Ce n’est pas moi ! Hier soir, j’ai tapé mon mot de passe sur une fausse page Diapolia. »'
+    pourquoi:
+      - levier: reflexe
+        truc: 'Répondre sur TchatUp, c’est le plus simple : le fil de la conversation est déjà là.'
+        parade: 'Pour vérifier quelqu’un, on ne lui demande pas de se prouver sur le compte suspect. On passe par un autre canal.'
+      - levier: peur
+        truc: '« sans toi on rate l’oral » : tu as peur de faire échouer ton groupe.'
+        parade: 'Ce message cherche à te faire céder. Ton groupe ne rate rien parce que tu prends le temps de vérifier.'
+      - levier: confiance
+        truc: 'Les relances ont le ton d’Elias, ses abréviations, ses smileys : on croit le reconnaître.'
+        parade: 'Quelqu’un qui a lu ses messages peut imiter sa façon d’écrire. Vérifie en face ou par un autre canal.'
+    aRetenir: 'Pour vérifier qu’un message vient bien d’un ami, on ne lui répond pas sur le compte suspect : on lui parle en face, ou on passe par un autre canal.'
+
+  - type: lieu
+    id: sortie
+    lieu: Devant le lycée
+    decor: rue
+    suite: bon-recours
+    guide: 'À midi, devant le lycée. Ce matin, au CDI, tu as changé toi-même les mots de passe de ScoreFoot et de Diapolia, chacun différent. Inès hausse les épaules : « Moi, j’ai un seul mot de passe pour tout, mais il est super compliqué. Et je le change tous les mois, donc je suis tranquille. »'
+    question: Inès a l’air sûre d’elle. Que lui réponds-tu ?
+    choix:
+      - id: mois
+        texte: 'Je lui dis qu’elle a raison : très compliqué et changé tous les mois, c’est imbattable.'
+        qualite: risque
+        reaction: 'Inès est rassurée. Pourtant, si un seul de ses comptes fuit, son mot de passe, même très compliqué, ouvre tous les autres, comme le tien avec ScoreFoot. Et rien n’impose de le changer tous les mois : on le change quand il a pu être exposé. Ce qui protège, c’est un mot de passe par compte.'
+      - id: unique
+        texte: 'Je lui conseille un mot de passe différent par compte, à changer s’il a pu fuiter.'
+        qualite: bon
+        reaction: 'Bien vu. Tu lui racontes ScoreFoot : un seul site qui fuit, et le même mot de passe ouvrait ta messagerie. Inès fait la grimace : « Donc mon mot de passe compliqué, s’il fuit une fois, il ouvre tout. » Elle commence par sa messagerie.'
+      - id: aide
+        texte: 'Je demande de l’aide à Elias pour qu’il raconte à Inès comment il a perdu son compte TchatUp.'
+        qualite: aide
+        reaction: 'Elias raconte : « Je l’ai tapé une seule fois sur une fausse page, et comme c’était le même partout, j’ai perdu TchatUp aussi. » Inès réfléchit : un mot de passe différent par compte, à changer s’il fuit. Elle commence par sa messagerie.'
+    pourquoi:
+      - levier: reflexe
+        truc: '« je le change tous les mois » : on l’entend souvent, ça a l’air sérieux.'
+        parade: 'Rien n’impose de changer son mot de passe tous les mois. On le change quand il a pu être exposé.'
+      - levier: confiance
+        truc: '« il est super compliqué » : un mot de passe difficile à deviner rassure.'
+        parade: 'Compliqué ou pas, s’il fuit d’un site, il ouvre tous les comptes où il sert.'
+      - levier: groupe
+        truc: 'Inès est sûre d’elle, et beaucoup font comme elle : un seul mot de passe pour tout.'
+        parade: 'Que beaucoup le fassent ne protège personne. Un mot de passe par compte limite les dégâts d’une fuite.'
+    aRetenir: 'Un mot de passe par compte : si l’un fuit, il n’ouvre pas les autres. Rien n’impose de le changer tous les mois, mais on le change dès qu’il a pu être exposé.'
+
+  - type: lieu
+    id: alerte
+    lieu: Le salon
+    decor: salon
+    guide: 'Une minute plus tard, NidMail t’alerte : « Nouvelle connexion à ta messagerie depuis un ordinateur inconnu, à 22 h 11. » Tu descends au salon, ton téléphone à la main. Le code n’était pas pour Diapolia : il ouvrait ta messagerie, et quelqu’un vient d’y entrer. Tu as fait confiance à un message d’ami, comme beaucoup l’auraient fait, et ça se répare, en commençant par le bon geste.'
+    question: Par quoi commences-tu ?
+    choix:
+      - id: diapo
+        texte: 'Je vérifie d’abord sur Diapolia que notre diaporama est intact : l’oral est demain.'
+        qualite: risque
+        reaction: 'Le diaporama est intact. Mais pendant ces minutes, le pirate est resté dans ta messagerie : il a pu y lire tes mails et changer tes moyens de récupération. Ta messagerie d’abord : change son mot de passe tout de suite, depuis l’appli NidMail.'
+      - id: mdp
+        texte: 'Je change tout de suite le mot de passe de ma messagerie, depuis l’appli NidMail.'
+        qualite: bon
+        reaction: 'C’est le premier geste : ta messagerie, car c’est souvent par elle qu’on récupère ses autres comptes. Nouveau mot de passe, puis tu déconnectes l’ordinateur inconnu.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère, qui lit au salon, pour sécuriser ma messagerie tout de suite.'
+        qualite: aide
+        reaction: 'Ta mère pose son livre, sans un reproche : « On commence par ta messagerie. » Depuis l’appli NidMail, tu changes le mot de passe avec elle, puis tu déconnectes l’ordinateur inconnu.'
+    pourquoi:
+      - levier: urgence
+        truc: 'L’oral est demain : ton premier réflexe, c’est de vérifier le travail du groupe.'
+        parade: 'Le diaporama peut attendre cinq minutes. Ta messagerie, non : c’est elle qui protège tes autres comptes.'
+      - levier: peur
+        truc: '« Nouvelle connexion à ta messagerie » : tu paniques, et tu ne sais plus par où commencer.'
+        parade: 'Un seul geste d’abord : le mot de passe de ta messagerie, depuis l’appli. Le reste suit.'
+      - levier: honte
+        truc: 'Tu t’en veux d’avoir envoyé ce code, et tu préférerais régler ça sans en parler.'
+        parade: 'Se faire piéger par un message d’ami n’est pas une faute. Un parent peut t’aider dès maintenant.'
+    aRetenir: 'Après avoir donné un code, on sécurise d’abord sa messagerie : un nouveau mot de passe, depuis l’appli officielle, tout de suite.'
+    recuperation: { action: changer-mdp, siChoix: [diapo] }
+
+  - type: lieu
+    id: reutilises
+    lieu: La cuisine
+    decor: cuisine
+    suite: bon-recours
+    guide: 'À 22 h 30, dans la cuisine, ta messagerie a un nouveau mot de passe. Tu reprends le fil : NidMail n’envoie ce code qu’après le bon mot de passe. Quelqu’un avait donc déjà ton ancien mot de passe, celui que tu utilises aussi pour ScoreFoot et pour Diapolia. Et ScoreFoot a annoncé une fuite de mots de passe le mois dernier.'
+    question: Ta messagerie est protégée. Et maintenant ?
+    choix:
+      - id: juste
+        texte: 'Je change juste ce mot de passe-là : ma messagerie est protégée, c’est le principal.'
+        qualite: risque
+        reaction: 'Ta messagerie est protégée, mais ton ancien mot de passe ouvre toujours ScoreFoot et Diapolia : le pirate n’a qu’à l’essayer. Change aussi les comptes qui avaient le même, chacun avec un mot de passe différent.'
+      - id: tout
+        texte: 'Je change ScoreFoot et Diapolia, puis je vérifie ma récupération et mes appareils connectés.'
+        qualite: bon
+        reaction: 'C’est l’étape suivante. Dans NidMail, une adresse de récupération inconnue a été ajoutée : tu la supprimes. Dans les appareils connectés, il ne reste plus que les tiens. Restent deux gestes : la double authentification là où elle manque, et un message à tes contacts, à qui le pirate a pu écrire.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère pour lister mes comptes qui ont le même mot de passe.'
+        qualite: aide
+        reaction: 'Ta mère t’aide à faire la liste : ScoreFoot et Diapolia. Vous les changez, chacun avec un mot de passe différent. Dans NidMail, une adresse de récupération inconnue a été ajoutée : vous la supprimez. Puis la double authentification là où elle manque, et un message à tes contacts.'
+    pourquoi:
+      - levier: reflexe
+        truc: 'Tu as changé le mot de passe qui posait problème : on se dit que c’est réglé.'
+        parade: 'Si le même mot de passe sert ailleurs, il est exposé partout. Change chaque compte qui l’utilisait.'
+      - levier: confiance
+        truc: '« Ta messagerie est protégée » : on croit que le pirate est parti pour de bon.'
+        parade: 'Un pirate passé par ta messagerie a pu y changer des réglages. Vérifie ta récupération et tes appareils connectés.'
+      - levier: groupe
+        truc: 'Beaucoup de gens gardent le même mot de passe partout : ça paraît normal.'
+        parade: 'Après une fuite, ce mot de passe est essayé sur d’autres comptes. Un mot de passe par compte.'
+    aRetenir: 'Après la messagerie : changer les mots de passe réutilisés, vérifier ses moyens de récupération et ses appareils connectés, activer la double authentification là où elle manque, et prévenir ses contacts. La double authentification protège beaucoup, mais pas tout.'
+    recuperation: { action: changer-mdp, siChoix: [juste] }
+
+  - type: minijeu
+    id: bon-recours
+    jeu: tri
+    config:
+      consigne: 'À qui t’adresser ? Classe chaque situation vers le bon recours.'
+      categories:
+        - { id: moi-meme, libelle: 'Je sécurise moi-même, depuis l’appli officielle' }
+        - { id: referent, libelle: 'Le référent numérique du lycée' }
+        - { id: dix-sept-cyber, libelle: 17Cyber }
+      cartes:
+        - { id: fuite, texte: 'Un site où tu as un compte annonce une fuite, et tu y utilisais le mot de passe de ta messagerie.', categorie: moi-meme, explication: 'Tu changes ce mot de passe depuis l’appli officielle, ta messagerie d’abord, puis partout où il servait.' }
+        - { id: appareil, texte: 'Dans ton appli TchatUp, la liste des appareils connectés montre un ordinateur que tu ne connais pas.', categorie: moi-meme, explication: 'Depuis l’appli elle-même, tu changes ton mot de passe (ta messagerie d’abord si c’est le même) et tu déconnectes l’appareil inconnu.' }
+        - { id: ent, texte: 'Un message que tu n’as pas écrit est parti de ton compte ENT du lycée.', categorie: referent, explication: 'L’ENT est un outil du lycée : le référent numérique connaît les procédures de l’établissement.' }
+        - { id: poste, texte: 'Un ordinateur du CDI affiche une fenêtre étrange qui réclame ton mot de passe.', categorie: referent, explication: 'Un appareil du lycée, c’est l’affaire du référent ou du service informatique. Ne tape rien, et préviens-le.' }
+        - { id: argent, texte: 'Ton compte piraté a servi à demander de l’argent à tes contacts, et tu ne sais pas quelles démarches faire.', categorie: dix-sept-cyber, explication: '17Cyber fait un diagnostic et t’oriente vers les bonnes démarches. Ce n’est pas un numéro de téléphone, et ce n’est pas automatiquement une plainte.' }
+        - { id: police, texte: 'Après un piratage, tu te demandes s’il faut en parler à la police ou à la gendarmerie.', categorie: dix-sept-cyber, explication: 'Le diagnostic de 17cyber.gouv.fr propose d’échanger avec un policier ou un gendarme, et t’oriente, plainte comprise.' }
+
+  - type: lieu
+    id: job-ete
+    lieu: L’imprimerie Encre Vive
+    decor: entreprise
+    guide: 'En juillet, tu fais un job d’été à l’imprimerie Encre Vive. Premier matin : Mme Carvalho, ta tutrice, t’a créé un compte sur l’ordinateur de l’accueil, et t’a présenté Rachid, l’informaticien, au bureau d’à côté. Un message arrive d’un numéro inconnu : « Bonjour, ici Kevin, du service informatique d’Encre Vive. Pour activer ton compte, envoie-moi le code que tu vas recevoir par SMS. C’est urgent, l’accueil ouvre à 9 h. »'
+    question: Le SMS de code vient d’arriver. Que fais-tu ?
+    choix:
+      - id: envoie
+        texte: 'C’est le service informatique de l’imprimerie : j’envoie le code pour ne pas bloquer l’accueil.'
+        qualite: risque
+        reaction: 'Il n’y a pas de Kevin à l’imprimerie, et ce code ouvrait ton compte. Un code de connexion ne se donne à personne, même à quelqu’un qui dit être du service informatique. Va voir Mme Carvalho et Rachid tout de suite : ton compte peut encore être sécurisé.'
+      - id: verifie
+        texte: 'Rachid est au bureau d’à côté : je ne donne aucun code, et je vais le voir.'
+        qualite: bon
+        reaction: 'Bien vu. Rachid lève les yeux : « Kevin ? Il n’y a pas de Kevin ici. Et un code, je ne le demande jamais. » Il prévient Mme Carvalho, et ton compte est prêt avant l’ouverture.'
+      - id: aide
+        texte: 'Je demande de l’aide à Mme Carvalho, ma tutrice, avant de répondre quoi que ce soit.'
+        qualite: aide
+        reaction: 'Mme Carvalho fronce les sourcils : « Kevin ? Notre informaticien, c’est Rachid. » Elle va le voir avec toi : le message est faux. Rachid vérifie ton compte avant l’ouverture.'
+    pourquoi:
+      - levier: autorite
+        truc: '« du service informatique d’Encre Vive » : le message a l’air de venir de l’entreprise.'
+        parade: 'N’importe qui peut écrire le nom d’une entreprise. Vérifie en personne, auprès de ceux que tu connais.'
+      - levier: urgence
+        truc: '« C’est urgent, l’accueil ouvre à 9 h » : tu ne veux pas mal commencer ton premier jour.'
+        parade: 'Un premier jour, on a le droit de vérifier. Poser la question prend une minute.'
+      - levier: reflexe
+        truc: 'Un code arrive juste après la création de ton compte : la demande paraît logique.'
+        parade: 'Un code de connexion ne se donne à personne, même à quelqu’un qui dit être du service informatique.'
+    aRetenir: 'Un code de connexion ne se donne à personne, même à quelqu’un qui dit être du service informatique. Sur toute l’île, le même réflexe : vérifier par un autre canal et, si c’est déjà fait, sécuriser sa messagerie d’abord.'
+    recuperation: { action: demander-aide, siChoix: [envoie] }
+debrief:
+  questions:
+    - 'Qu’est-ce qui rendait la demande de code d’« Elias » si crédible, et comment pouvait-on vérifier ?'
+    - 'Comparez les trois routes : qu’est-ce qu’on peut encore faire après une erreur ? Qui aide pour quoi ?'
+    - 'Quel recours pour quelle situation : sécuriser soi-même, le référent numérique du lycée, ou 17Cyber ?'
+  reponses: 'Les pièges de l’île : la confiance (le message vient du compte d’un ami), l’urgence (l’oral est demain, l’accueil ouvre à 9 h), le réflexe (le code est là, on le recopie) et l’air officiel (« service informatique »). Le SMS disait pourtant « NidMail » et « Ne le donne à personne ». Pour vérifier : un autre canal, en face ou par téléphone, jamais le compte suspect. Un code qu’on n’a pas demandé, c’est que quelqu’un essaie d’entrer dans le compte : on le sécurise soi-même depuis l’appli, la messagerie d’abord. Dans l’histoire, NidMail n’envoie ce code qu’après le bon mot de passe : le pirate l’avait, car il était réutilisé sur un site qui avait fuité. Trois routes : vérifier soi-même, demander à la bonne personne (le référent numérique conseille et oriente, l’élève fait lui-même les changements ; parent ; tutrice), ou réparer après avoir donné le code. Réparer, dans l’ordre : la messagerie d’abord, puis les mots de passe réutilisés, les moyens de récupération et les appareils connectés, la double authentification là où elle manque, et un message aux contacts. La double authentification protège beaucoup, mais pas tout. Un mot de passe par compte ; rien n’impose de le changer tous les mois, on le change quand il a pu être exposé. Recours : sécuriser soi-même depuis l’appli officielle ; le référent numérique pour l’ENT et les appareils du lycée ; 17Cyber pour un diagnostic et une orientation, qui n’est ni un numéro de téléphone ni une plainte automatique.'
+  erreursFrequentes:
+    - 'Donner un code de connexion à un ami qui le demande, sans vérifier par un autre canal.'
+    - 'Changer seulement le mot de passe du compte touché, alors que le même servait ailleurs.'
+    - 'Croire que la double authentification empêche tout piratage, ou qu’il faut changer son mot de passe tous les mois.'
+fiche:
+  deroulement: |
+    5 min : cadre. Avez-vous déjà reçu un code de connexion que vous n’aviez pas demandé ? Combien de vos comptes partagent un mot de passe ? (sans obligation de répondre)
+    25 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. À la demande de code d’« Elias », trois routes : vérifier auprès d’Elias, demander au référent numérique, ou donner le code puis réparer. Si plusieurs binômes jouent, répartir les trois routes.
+    10 min : débrief. Comparez les trois routes : qu’est-ce qu’on peut encore faire après une erreur ? Qui aide pour quoi ? Puis retour sur le tri « le bon recours ».
+    5 min : où trouver de l’aide (référent numérique du lycée pour l’ENT et ses appareils, parents, 17cyber.gouv.fr pour un diagnostic).
+    5 min : engagement. Cette semaine, je vérifie quels comptes partagent le mot de passe de ma messagerie, et je commence par changer celui-là.

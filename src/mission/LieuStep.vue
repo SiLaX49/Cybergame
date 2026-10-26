@@ -23,6 +23,8 @@ const props = defineProps<{
   leviers: Leviers
   /** Thème sensible de la mission : adapte les textes des gestes de récupération. */
   contexte?: ContexteSensible
+  /** Le choix fait ouvre la route de réparation (réaction « Tu avances quand même »). */
+  versReparation?: boolean
 }>()
 const emit = defineEmits<{ evenement: [evenement: RunEvent] }>()
 const t = useTexte()
@@ -81,6 +83,7 @@ focusAuChangement(() => props.phase, titre)
           :resultat="resultat"
           :leviers="leviers"
           :sensible="sensible"
+          :vers-reparation="versReparation"
           @continuer="emit('evenement', { type: 'continuer' })"
           @rejouer="emit('evenement', { type: 'rejouer' })"
         />

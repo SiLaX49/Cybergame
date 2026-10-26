@@ -2,7 +2,7 @@
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { buildContent } from '../../../scripts/build-content'
-import { bifurcation, choixDeBifurcation, routesDe } from '../../../src/engine/routes'
+import { bifurcation, choixDeBifurcation, choixReparation, routesDe } from '../../../src/engine/routes'
 import { TRANCHES, type Mission } from '../../../src/content/schema'
 import { atteint, evaluerRobustesse } from '../../../src/minigames/robustesse'
 import * as TEXTES_SENSIBLES from '../../../src/mission/textesSensibles'
@@ -96,6 +96,25 @@ function textesSansVersionSimple(m: Mission): [string, string][] {
     return e.config.lignes.map((l): [string, string] => [`${e.id}.${l.id}.explication`, l.explication ?? ''])
   })
 }
+  const CULPABILISANT = [
+    /\bta faute\b/i,
+    /tu (?:n’)?aurais (?:pas |jamais )?d(?:û(?!\p{L})|u(?=\s*(?:[.,;:!?…]|$)|\s+\p{L}+(?:er|ir|re|oir)(?!\p{L})))/iu,
+    /c’est bien fait|bien fait pour (?:toi|lui|elle)/i,
+    /\bna(?:i|ï)(?:f|fs|ve|ves|vement)\b/i,
+    /\bbête\b/i,
+    /\bidiot/i,
+    /tu l’as cherché/i,
+    /à cause de toi/i,
+    /tu aurais pu/i,
+    /si tu n’avais pas/i,
+  ]
+  // Apostrophe droite et espaces insécables (U+00A0, U+202F) ramenées à la forme des contrôles.
+  const normaliser = (t: string) => t.normalize('NFC').replace(/'/g, '’').replace(/[  ]/g, ' ')
+  const culpabilisant = (t: string) => {
+    const propre = normaliser(t).replace(/ce n’(?:est|était) (?:vraiment |du tout )?(?:pas|jamais)(?: du tout)?(?: de| à)? ta faute/gi, '')
+    return CULPABILISANT.filter((re) => re.test(propre))
+  }
+
 const phrases = (texte: string) => texte.split(/(?<=[.!?…])\s+/).filter(Boolean)
 const mots = (phrase: string) => phrase.split(/\s+/).filter((m) => /[\p{L}\d]/u.test(m))
 
@@ -350,7 +369,7 @@ describe('contenu réel', () => {
       expect(new Set(deLaRoute.map((l) => l.decor)).size, 'un décor différent par lieu sur chaque route').toBe(deLaRoute.length)
     }
     expect(lieux.filter((l) => l.recuperation).length).toBeGreaterThanOrEqual(2)
-    expect(m.duree).toBe(m.tranches.includes('6e') ? 15 : 20)
+    expect(m.duree).toBe(m.tranches.includes('6e') ? 15 : m.tranches.includes('lycee') ? 25 : 20)
   })
 
   it.each(THEMES_PARCOURS)('%s : un parcours de l’île pour les 5e – 3e', (theme) => {
@@ -407,6 +426,118 @@ describe('contenu réel', () => {
     })
   })
 
+
+  it('les 6 îles ont un parcours lycée', () => {
+    for (const theme of THEMES_PARCOURS) {
+      expect(parcours.filter((m) => m.theme === theme && m.tranches.includes('lycee')), theme).toHaveLength(1)
+    }
+  })
+
+  describe('parcours lycée : trois routes', () => {
+    const lycee = parcours.filter((m) => m.tranches.includes('lycee')).map((m) => [m.id, m] as const)
+    if (!lycee.length) it.skip('aucun parcours lycée pour l’instant', () => {})
+    const lieuxPropres = (m: Mission, route: string[]) =>
+      routesDe(m.etapes).length > 1 ? route.filter((id) => routesDe(m.etapes).some((r) => r !== route && !r.includes(id))) : []
+    const lieuxDe = (m: Mission) => m.etapes.filter((e) => e.type === 'lieu')
+    // Ordre des routes : « bon », « aide », puis la réparation.
+    const routeReparation = (m: Mission) => routesDe(m.etapes)[2] ?? []
+    const SEUIL_RECUP = (i: number) => (i === 2 ? 2 : 1)
+    const textesDuLieu = (e: Extract<Mission['etapes'][number], { type: 'lieu' }>) => [
+      e.guide,
+      e.guideSimple ?? '',
+      ...e.choix.flatMap((c) => [c.texte, c.reaction, c.reactionSimple ?? '']),
+      e.aRetenir,
+      e.aRetenirSimple ?? '',
+    ]
+
+    it.each(lycee)('%s : une bifurcation, trois routes, un choix de réparation', (_id, m) => {
+      const fourches = m.etapes.filter((e) => bifurcation(m.etapes, e.id))
+      expect(fourches).toHaveLength(1)
+      expect(routesDe(m.etapes)).toHaveLength(3)
+      expect(choixReparation(m.etapes, fourches[0]!.id)).not.toBeNull()
+    })
+
+    it.each(lycee)('%s : le mini-jeu « tri » est présent sur chacune des 3 routes', (_id, m) => {
+      const tris = m.etapes.filter((e) => e.type === 'minijeu' && e.jeu === 'tri').map((e) => e.id)
+      for (const route of routesDe(m.etapes)) {
+        expect(route.some((id) => tris.includes(id)), `route ${route.join(' > ')}`).toBe(true)
+      }
+    })
+
+    it.each(lycee)('%s : récupération sur chaque route, deux ou plus sur la route de réparation', (_id, m) => {
+      const recup = (route: string[]) => lieuxDe(m).filter((e) => route.includes(e.id) && e.recuperation).length
+      for (const [i, route] of routesDe(m.etapes).entries()) {
+        expect(recup(route), `route ${route.join(' > ')}`).toBeGreaterThanOrEqual(SEUIL_RECUP(i))
+      }
+    })
+
+    it.each(lycee)('%s : aucun texte de route ne compare les routes', (_id, m) => {
+      const COMPARE = /meilleur|aurais dû|l’autre (route|chemin)/i
+      const trouves = routesDe(m.etapes).flatMap((route) =>
+        lieuxDe(m).flatMap((e) => {
+          if (!lieuxPropres(m, route).includes(e.id)) return []
+          return textesDuLieu(e)
+            .filter((t) => COMPARE.test(t.replace(/'/g, '’')))
+            .map((t) => `${e.id} : « ${t} »`)
+        }),
+      )
+      expect(trouves).toEqual([])
+    })
+
+    it.each(lycee)('%s : aucune formule culpabilisante sur les lieux de la route de réparation', (_id, m) => {
+      const route = routeReparation(m)
+      const trouves = lieuxDe(m)
+        .filter((e) => route.includes(e.id))
+        .flatMap((e) => textesDuLieu(e).flatMap((t) => culpabilisant(t).map((re) => `${e.id} : ${re} dans « ${t} »`)))
+      expect(trouves).toEqual([])
+    })
+
+    it.each(lycee)('%s : étiquettes de route courtes sur les 3 choix de bifurcation, titre « L’île … : … »', (_id, m) => {
+      const fourche = choixDeBifurcation(m.etapes)
+      expect(fourche).not.toBeNull()
+      const etiquettes = [fourche!.bon, fourche!.aide, fourche!.reparation ?? '']
+      for (const e of etiquettes) {
+        expect(e).toMatch(/^[a-zéèêàâîôûç’j]/)
+        expect(e).not.toMatch(/[.!?]$/)
+        expect(e.split(' ').length).toBeLessThanOrEqual(8)
+      }
+      expect(new Set(etiquettes).size).toBe(3)
+      expect(m.titre).toMatch(/^L’île (aux|des) [^:]+ : \S/)
+    })
+
+    it.each(lycee)('%s : le choix « bon » de la bifurcation ne commence pas par « Je demande »', (_id, m) => {
+      const e = m.etapes.find((x) => bifurcation(m.etapes, x.id))
+      const bon = e?.type === 'lieu' ? e.choix.find((c) => c.qualite === 'bon') : undefined
+      expect(bon?.texte.startsWith('Je demande'), e?.id).toBe(false)
+    })
+
+    it.each(lycee)('%s : aucun choix « aide » ne contient « un adulte », aucun lieu au décor « classe »', (_id, m) => {
+      for (const e of lieuxDe(m)) {
+        for (const c of e.choix.filter((x) => x.qualite === 'aide')) expect(/\bun adulte\b/i.test(c.texte), `${e.id}.${c.id}`).toBe(false)
+        expect(e.decor, e.id).not.toBe('classe')
+      }
+    })
+
+    it.each(lycee)('%s : dispositifs nommés dans leur périmètre, ni remboursement garanti ni pourcentage', (_id, m) => {
+      const textes = m.etapes.flatMap((e): string[] => {
+        if (e.type === 'lieu') return textesDuLieu(e)
+        if (e.type === 'minijeu' && e.jeu === 'tri') return [e.config.consigne, ...e.config.cartes.flatMap((c) => [c.texte, c.explication])]
+        return []
+      })
+      for (const t of textes) {
+        const n = normaliser(t)
+        if (/pharos/i.test(n)) expect(n, t).not.toMatch(/injure|diffamation/i)
+        expect(n, t).not.toMatch(/rembours\w*\s+garanti/i)
+        expect(n, t).not.toMatch(/\d+\s?%/)
+      }
+    })
+
+    it.each(lycee)('%s : relecture « a-relire » pour vie-privee et appareils, les autres relus ou sans bloc', (_id, m) => {
+      if (m.theme === 'vie-privee' || m.theme === 'appareils') expect(m.relecture?.statut).toBe('a-relire')
+      else if (m.relecture) expect(m.relecture.statut).not.toBe('a-relire')
+    })
+  })
+
   it.each(parcours.filter((m) => m.tranches.includes('6e')).map((m) => [m.id, m] as const))(
     '%s (6e) : récit, réactions risquées et « À retenir » simplifiés',
     (_id, m) => {
@@ -453,25 +584,7 @@ describe('contenu réel', () => {
   describe('thèmes sensibles : règles éditoriales', () => {
     const SENSIBLES = ['harcelement', 'rencontres'] as const
     const missionsSensibles = missions.filter((m) => m.theme && (SENSIBLES as readonly string[]).includes(m.theme))
-    const CULPABILISANT = [
-      /\bta faute\b/i,
-      /tu (?:n’)?aurais (?:pas |jamais )?d(?:û(?!\p{L})|u(?=\s*(?:[.,;:!?…]|$)|\s+\p{L}+(?:er|ir|re|oir)(?!\p{L})))/iu,
-      /c’est bien fait|bien fait pour (?:toi|lui|elle)/i,
-      /\bna(?:i|ï)(?:f|fs|ve|ves|vement)\b/i,
-      /\bbête\b/i,
-      /\bidiot/i,
-      /tu l’as cherché/i,
-      /à cause de toi/i,
-      /tu aurais pu/i,
-      /si tu n’avais pas/i,
-    ]
     const EXPLICITE = [/\bnue?s?\b/i, /\bnudes?\b/i, /\bsexe\b/i, /\bsext/i, /\bsexy\b/i, /\bsexuel/i, /\bintime/i, /\bseins?\b/i, /\bporno/i]
-    // Apostrophe droite et espaces insécables (U+00A0, U+202F) ramenées à la forme des contrôles.
-    const normaliser = (t: string) => t.normalize('NFC').replace(/'/g, '’').replace(/[  ]/g, ' ')
-    const culpabilisant = (t: string) => {
-      const propre = normaliser(t).replace(/ce n’(?:est|était) (?:vraiment |du tout )?(?:pas|jamais)(?: du tout)?(?: de| à)? ta faute/gi, '')
-      return CULPABILISANT.filter((re) => re.test(propre))
-    }
     const explicite = (t: string) => EXPLICITE.filter((re) => re.test(normaliser(t)))
 
     it('règles : formules culpabilisantes détectées, formules bienveillantes épargnées', () => {

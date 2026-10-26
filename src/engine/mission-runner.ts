@@ -1,5 +1,5 @@
 import type { Etape, FilAction, LevierId, Mission, Qualite, ReponseLevier } from '@/content/schema'
-import { bifurcation, etapeSuivante } from './routes'
+import { bifurcation, choixReparation, etapeSuivante } from './routes'
 
 export type PhaseScenario = 'situation' | 'pourquoi' | 'consequence' | 'recuperation'
 export type SurpriseResultat = 'verifie' | 'ignore' | 'signale' | 'piege'
@@ -198,8 +198,9 @@ export function reduire(mission: Mission, etat: RunState, evenement: RunEvent): 
       if ((etape.type !== 'scenario' && etape.type !== 'lieu') || etat.phase !== 'consequence') return refuser()
       const resultat = etat.resultats[etape.id] as ChoixResultat
       const recupere = !!(etape.recuperation && etat.choixId && etape.recuperation.siChoix.includes(etat.choixId))
-      if (etape.type === 'lieu' && resultat.qualite === 'risque' && !recupere) return refuser()
-      if (recupere) {
+      const reparation = etape.type === 'lieu' && resultat.qualite === 'risque' && vaVersReparation(mission, etat)
+      if (etape.type === 'lieu' && resultat.qualite === 'risque' && !recupere && !reparation) return refuser()
+      if (recupere && !reparation) {
         return {
           ...etat,
           phase: 'recuperation',
@@ -304,4 +305,11 @@ export function leviersDeLaMission(mission: Mission, ids?: readonly string[]): L
     for (const p of e.pourquoi ?? []) if (!leviers.includes(p.levier)) leviers.push(p.levier)
   }
   return leviers
+}
+
+/** Vrai quand la conséquence affichée est celle du choix de réparation d’une bifurcation : « Continuer » mène alors à sa route. */
+export function vaVersReparation(mission: Mission, etat: RunState): boolean {
+  const etape = etapeCourante(mission, etat)
+  if (etape?.type !== 'lieu' || etat.phase !== 'consequence' || !etat.choixId) return false
+  return choixReparation(mission.etapes, etape.id) === etat.choixId
 }

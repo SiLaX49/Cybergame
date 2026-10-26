@@ -132,9 +132,9 @@ Règles d’écriture propres à cette progression :
 - le retour en arrière est présenté à l’élève comme un jeu : « Dans la vraie vie, on ne revient pas en arrière ; ici,
   tu peux rejouer ce moment. », puis « Retour au même moment : essaie un autre choix. ».
 
-### Parcours à deux routes (5e – 3e)
+### Parcours à routes (5e – 3e et lycée)
 
-Les six parcours 5e – 3e (un par île) proposent deux routes qui se rejoignent au dernier lieu. Le format reste
+Les six parcours 5e – 3e (un par île) proposent deux routes qui se rejoignent au dernier lieu ; les parcours lycée en proposent trois. Le format reste
 `format: parcours` ; l’enchaînement se décrit avec `suite`, un identifiant d’étape accepté sur un lieu ou sur l’un de ses
 choix. Une route est la suite d’étapes suivie de la première à la dernière étape du fichier, en suivant les `suite`.
 
@@ -146,10 +146,25 @@ Règles :
 - aucune route n’est présentée comme meilleure : les deux terminent la mission et gagnent l’objet de l’île. L’écran de
   fin indique la route prise et propose de rejouer l’autre.
 
+Route de réparation (lycée, numéro 3c) : la bifurcation a trois choix, `bon`, `aide` et un choix `risque` qui porte lui
+aussi un `suite`. Ce choix risqué ouvre une troisième route, celle de la réparation : après la réaction « Tu avances
+quand même. », l'élève peut « Réessayer » ou « Continuer » vers des lieux propres à cette route. Règles propres à cette
+route :
+- `suite` n'est autorisé sur un choix `risque` que sur le lieu de bifurcation ; ailleurs, un choix risqué fait toujours
+  rester sur place et réessayer ;
+- les trois routes ont la même longueur et se rejoignent au dernier lieu ; la route de réparation n'est ni punie ni
+  récompensée davantage : l'écran de fin dit « Tu as fait une erreur et tu l'as réparée : c'est aussi un réflexe. » et
+  propose « Rejouer pour découvrir les autres routes » ;
+- les lieux de réparation montrent les gestes dans l'ordre (les gestes de réparation propres à l'incident, dans l'ordre).
+
+Le contenu lycée s'appuie sur le dossier de recherche `docs/recherche/2026-10-24-dossier-lycee.md` : chaque fait,
+dispositif et formulation juridique y est sourcé. Les parcours lycée « vie privée » et « appareils » sont des brouillons
+en attente de relecture (non publiés, visibles avec `VITE_BROUILLONS=1`).
+
 Les routes sont calculées et vérifiées dans `src/engine/routes.ts` (longueur égale, bifurcation unique, cibles
 valides), puis par `tests/unit/node/content-real.test.ts` sur le vrai contenu. Parcours de bout en bout :
-`tests/e2e/parcours-routes.spec.ts`. Ces parcours correspondent aux numéros 3a et 3b du plan B.
-Exemple de référence : `content/missions/phishing/p-college-parcours.yaml`.
+`tests/e2e/parcours-routes.spec.ts`. Ces parcours correspondent aux numéros 3a, 3b et 3c du plan B.
+Exemples de référence : `content/missions/phishing/p-college-parcours.yaml` (deux routes) et `content/missions/phishing/p-lycee-parcours.yaml` (trois routes).
 
 ## Thèmes sensibles
 
@@ -157,7 +172,7 @@ Les thèmes marqués `sensible: true` dans `content/themes.yaml` (cyberharcèlem
 avertissement avant de commencer, un bandeau d’aide permanent (3018…) et un bouton « Passer ce scénario ». Le
 chronomètre du tri n’y tourne jamais.
 
-**Statut de relecture.** Chaque mission d’un thème sensible porte un bloc obligatoire dans son YAML :
+**Statut de relecture.** Chaque mission d’un thème sensible porte un bloc obligatoire dans son YAML ; toute autre mission peut aussi l’avoir (par exemple une mission lycée à faire relire) :
 
 ```yaml
 relecture:
@@ -166,13 +181,13 @@ relecture:
   date: 2026-10-20                                   # obligatoire sauf a-relire
 ```
 
-**Brouillons visibles en local, cachés en ligne.** Une mission au statut `a-relire` est incluse avec un bandeau
+**Brouillons visibles en local, cachés en ligne.** Toute mission au statut `a-relire`, sensible ou non, est incluse avec un bandeau
 « Brouillon » (en tête de mission, sur la fiche enseignant et sur la version papier) dans `npm run dev` et dans un build avec `VITE_BROUILLONS=1` (c’est celui des tests E2E). Elle est
 exclue de `npm run build`, donc du site publié : le thème reste « Bientôt disponible » tant qu’il n’a aucune mission
-publiable. Le contrôle de production n’est pas dans `npm run test:e2e` (qui tourne sur le build avec brouillons) : c’est
+publiable. Une mission sans bloc `relecture` (hors thème sensible) est publiée normalement. Le contrôle de production n’est pas dans `npm run test:e2e` (qui tourne sur le build avec brouillons) : c’est
 la CI qui exécute, après le build de production, `npx tsx scripts/verifier-publication.ts`. Ce script échoue si
 l’identifiant d’un brouillon se retrouve dans `dist/assets/*.js`, ou si la liste des brouillons à bloquer ne correspond
-pas aux missions sensibles `a-relire` relues directement dans les YAML. En local : `npm run build`, puis le même script.
+pas aux missions `a-relire` relues directement dans les YAML. En local : `npm run build`, puis le même script.
 Les tests de contenu chargent toujours tous les brouillons.
 
 **Les 3 verrous de la relecture interne** (une mission passe à `relue-interne` quand ils sont tous passés) :
@@ -181,7 +196,7 @@ Les tests de contenu chargent toujours tous les brouillons.
 3. une relecture humaine par Noa, si possible aussi par un enseignant, un ou une CPE ou un infirmier scolaire, à
    partir de la fiche enseignant imprimable et de l’export ci-dessous.
 
-**Exporter pour la relecture.** `npm run export:relecture` écrit un fichier Markdown par mission sensible dans
+**Exporter pour la relecture.** `npm run export:relecture` écrit un fichier Markdown par mission sensible ou `a-relire` dans
 `dist-relecture/` (option `--toutes` pour toutes les missions). Chaque fichier se termine par une annexe avec les textes
 affichés autour des étapes : avertissement, numéros d’aide du thème, texte complet des gestes de récupération utilisés,
 leviers avec leur parade (dont « Autre chose »), textes de fin de mission. Ces textes viennent de

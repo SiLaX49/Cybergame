@@ -22,19 +22,20 @@ const nomLieu = (id: string) => {
   const e = mission?.etapes.find((x) => x.id === id)
   return e?.type === 'lieu' ? e.lieu : id
 }
-// Parcours à deux routes : le schéma, et pour chaque route le choix de bifurcation et ses lieux propres.
+// Parcours à deux routes ou plus : le schéma, et pour chaque route le choix de bifurcation et ses lieux propres.
 const schema = schemaRoutes(mission?.etapes ?? [])
 const choixFourche = choixDeBifurcation(mission?.etapes ?? [])
 const routes = (() => {
   const toutes = routesDe(mission?.etapes ?? [])
   if (toutes.length < 2) return []
   // L’étiquette suit la cible du choix « bon » de la bifurcation, pas l’ordre des routes ni des choix dans le fichier.
-  const cibleBon = choixFourche ? bifurcation(mission?.etapes ?? [], choixFourche.id)?.bon : undefined
+  const cibles = choixFourche ? bifurcation(mission?.etapes ?? [], choixFourche.id) : null
   return toutes.map((r) => ({
-    choix: cibleBon && r.includes(cibleBon) ? choixFourche?.bon : choixFourche?.aide,
+    choix: cibles && r.includes(cibles.bon) ? choixFourche?.bon : cibles?.reparation && r.includes(cibles.reparation) ? choixFourche?.reparation : choixFourche?.aide,
     lieux: r.filter((id) => /[a-z]$/.test(numeros[id] ?? '')).map((id) => `${numeros[id]} ${nomLieu(id)}`),
   }))
 })()
+const nbRoutes = routesDe(mission?.etapes ?? []).length
 const longueurLieux = routesDe(mission?.etapes ?? [])[0]?.length ?? 0
 const imprimer = () => window.print()
 </script>
@@ -74,12 +75,14 @@ const imprimer = () => window.print()
         <ol><li v-for="o in mission.objectifs" :key="o">{{ o }}</li></ol>
       </section>
       <section v-if="schema" class="carte">
-        <h2>Les deux routes</h2>
+        <h2>{{ nbRoutes > 2 ? 'Les trois routes' : 'Les deux routes' }}</h2>
         <p>{{ schema }}</p>
         <ul>
           <li v-for="r in routes" :key="r.choix">Si les élèves choisissent « {{ r.choix }} » : {{ r.lieux.join(', ') }}</li>
         </ul>
-        <p>Les deux routes sont bonnes : toutes deux terminent la mission.</p>
+        <p v-if="nbRoutes > 2">Les trois routes terminent la mission.</p>
+        <p v-else>Les deux routes sont bonnes : toutes deux terminent la mission.</p>
+        <p v-if="nbRoutes > 2">Si l’élève clique « Réessayer » après le choix qui ouvre la route de réparation, ce choix reste grisé : rejouez la mission pour la découvrir.</p>
       </section>
       <section class="carte">
         <h2>Déroulé suggéré</h2>
@@ -89,7 +92,8 @@ const imprimer = () => window.print()
         <h2>Débrief</h2>
         <ol>
           <li v-for="q in mission.debrief.questions" :key="q">{{ q }}</li>
-          <li v-if="schema">Comparez les deux routes : les deux sont bonnes, qu’est-ce qui change ?</li>
+          <li v-if="nbRoutes > 2">Comparez les trois routes : qu’est-ce qu’on peut encore faire après une erreur ? Qui aide pour quoi ?</li>
+          <li v-else-if="schema">Comparez les deux routes : les deux sont bonnes, qu’est-ce qui change ?</li>
         </ol>
         <div class="encadre encadre-info">
           <h3>Éléments de réponse</h3>

@@ -14,6 +14,23 @@ export function etapeSuivante(etapes: Etape[], id: string, choixId: string | nul
   return c?.suite ?? suiteDe(e) ?? etapes[i + 1]?.id ?? null
 }
 
+/** Vrai si les choix « bon » et « aide » du lieu mènent chacun à une seule cible, et à deux cibles distinctes. */
+function brancheBonAide(etapes: Etape[], e: Etape): boolean {
+  if (e.type !== 'lieu') return false
+  const cibles = (q: 'bon' | 'aide') => new Set(choixDe(e).filter((c) => c.qualite === q).map((c) => etapeSuivante(etapes, e.id, c.id)))
+  const bon = cibles('bon')
+  const aide = cibles('aide')
+  return bon.size === 1 && aide.size === 1 && [...bon][0] !== [...aide][0]
+}
+
+/** Choix risqué à `suite` d’un lieu qui est une bifurcation « bon » / « aide » : il mène à la route de réparation. `null` sinon. */
+export function choixReparation(etapes: Etape[], id: string): string | null {
+  const e = etapes[index(etapes, id)]
+  if (!e || !brancheBonAide(etapes, e)) return null
+  const c = choixDe(e).find((x) => x.qualite === 'risque' && x.suite && etapes.some((y) => y.id === x.suite))
+  return c?.id ?? null
+}
+
 /** Étapes suivantes possibles après une bonne réponse (sans doublon). */
 export function successeurs(etapes: Etape[], id: string): string[] {
   const e = etapes[index(etapes, id)]
@@ -21,11 +38,13 @@ export function successeurs(etapes: Etape[], id: string): string[] {
   // Le choix « bon » d’abord : l’ordre des routes ne dépend pas de l’ordre des choix dans le fichier.
   const bons = choixDe(e).filter((c) => c.qualite !== 'risque').sort((x, y) => Number(y.qualite === 'bon') - Number(x.qualite === 'bon'))
   const ids = bons.length ? bons.map((c) => etapeSuivante(etapes, id, c.id)) : [etapeSuivante(etapes, id, null)]
+  const reparation = choixReparation(etapes, id)
+  if (reparation) ids.push(etapeSuivante(etapes, id, reparation))
   return [...new Set(ids.filter((x): x is string => x !== null))]
 }
 
-/** Si l’étape est une bifurcation : la cible de la route « bon » et celle de la route « aide ». */
-export function bifurcation(etapes: Etape[], id: string): { bon: string; aide: string } | null {
+/** Si l’étape est une bifurcation : la cible de la route « bon », celle de la route « aide » et, s’il y en a une, celle de la réparation. */
+export function bifurcation(etapes: Etape[], id: string): { bon: string; aide: string; reparation?: string } | null {
   if (successeurs(etapes, id).length < 2) return null
   const e = etapes[index(etapes, id)]!
   const cible = (q: 'bon' | 'aide') => {
@@ -34,7 +53,10 @@ export function bifurcation(etapes: Etape[], id: string): { bon: string; aide: s
   }
   const bon = cible('bon')
   const aide = cible('aide')
-  return bon && aide ? { bon, aide } : null
+  if (!bon || !aide) return null
+  const choixR = choixReparation(etapes, id)
+  const reparation = choixR ? etapeSuivante(etapes, id, choixR) : null
+  return reparation ? { bon, aide, reparation } : { bon, aide }
 }
 
 /** Toutes les routes depuis la première étape (route « bon » d’abord). S’arrête sur une boucle. */
@@ -80,10 +102,20 @@ export function verifierRoutes(etapes: Etape[]): { chemin: (string | number)[]; 
     const s = suiteDe(e)
     if (s && !ids.has(s)) erreurs.push({ chemin: ['etapes', i, 'suite'], message: `suite inconnue : ${s}` })
     if (s === e.id) erreurs.push({ chemin: ['etapes', i, 'suite'], message: 'une étape ne peut pas mener à elle-même' })
+    const reparation = choixReparation(etapes, e.id)
+    const recup = (e as { recuperation?: { siChoix: string[] } }).recuperation
+    if (reparation && recup?.siChoix.includes(reparation)) {
+      erreurs.push({ chemin: ['etapes', i, 'recuperation'], message: 'le choix qui mène à la route de réparation n’a pas de récupération : la route répare' })
+    }
     choixDe(e).forEach((c, j) => {
       if (!c.suite) return
       const chemin = ['etapes', i, 'choix', j, 'suite']
-      if (c.qualite === 'risque') erreurs.push({ chemin, message: 'un choix risqué fait rester sur place : pas de suite' })
+      if (c.qualite === 'risque') {
+        if (!brancheBonAide(etapes, e)) erreurs.push({ chemin, message: 'un choix risqué fait rester sur place : pas de suite' })
+        else if (choixDe(e).filter((x) => x.qualite === 'risque' && x.suite).length > 1) {
+          erreurs.push({ chemin, message: 'une bifurcation a au plus un choix risqué qui mène à une route de réparation' })
+        }
+      }
       if (!ids.has(c.suite)) erreurs.push({ chemin, message: `suite inconnue : ${c.suite}` })
       if (c.suite === e.id) erreurs.push({ chemin, message: 'une étape ne peut pas mener à elle-même' })
     })
@@ -117,6 +149,15 @@ export function verifierRoutes(etapes: Etape[]): { chemin: (string | number)[]; 
     if (n < 4 || n > 6) erreurs.push({ chemin: ['etapes'], message: `un parcours compte 4 à 6 lieux par route (trouvé : ${n})` })
   }
   etapes.forEach((e, i) => {
+    const reparation = choixReparation(etapes, e.id)
+    if (reparation) {
+      const cible = etapeSuivante(etapes, e.id, reparation)
+      const autres = choixDe(e).filter((x) => x.qualite !== 'risque').map((x) => etapeSuivante(etapes, e.id, x.id))
+      if (autres.includes(cible)) {
+        erreurs.push({ chemin: ['etapes', i], message: 'les routes d’une bifurcation mènent à des lieux différents' })
+        return
+      }
+    }
     const s = successeurs(etapes, e.id)
     if (s.length < 2) return
     const parQualite = new Map<string, Set<string>>()
@@ -126,12 +167,12 @@ export function verifierRoutes(etapes: Etape[]): { chemin: (string | number)[]; 
     }
     const bon = parQualite.get('bon')
     const aide = parQualite.get('aide')
-    if (s.length !== 2 || !bon || !aide || bon.size !== 1 || aide.size !== 1 || [...bon][0] === [...aide][0]) {
+    if (s.length !== (reparation ? 3 : 2) || !bon || !aide || bon.size !== 1 || aide.size !== 1 || [...bon][0] === [...aide][0]) {
       erreurs.push({ chemin: ['etapes', i], message: 'une bifurcation sépare exactement le choix « bon » et le choix « aide »' })
       return
     }
     choixDe(e).forEach((c, j) => {
-      if (c.qualite !== 'risque' && !c.route) {
+      if ((c.qualite !== 'risque' || c.id === reparation) && !c.route) {
         erreurs.push({ chemin: ['etapes', i, 'choix', j, 'route'], message: 'les choix « bon » et « aide » d’une bifurcation ont chacun une étiquette « route » courte' })
       }
     })
@@ -141,7 +182,7 @@ export function verifierRoutes(etapes: Etape[]): { chemin: (string | number)[]; 
 
 /**
  * Numéros affichés des lieux : tronc commun et jonction « rang + 1 », puis « 3a, 4a » sur la route « bon »
- * et « 3b, 4b » sur la route « aide » (un parcours linéaire donne 1 à n).
+ * et « 3b, 4b » sur la route « aide » (« 3c, 4c » sur la réparation ; un parcours linéaire donne 1 à n).
  */
 export function numerosLieux(etapes: Etape[]): Record<string, string> {
   const routes = routesDe(etapes)
@@ -181,15 +222,19 @@ export function schemaRoutes(etapes: Etape[]): string | null {
 export const etiquetteRoute = (c: { texte: string; route?: string }): string => c.route ?? c.texte.replace(/[.\s]+$/, '')
 
 /**
- * Choix de la bifurcation (route « bon » et route « aide »), `null` sans bifurcation :
- * `bon` et `aide` sont les étiquettes courtes (« route »), `texteBon` et `texteAide` les textes entiers des choix.
+ * Choix de la bifurcation (route « bon », route « aide » et, s’il y en a une, route de réparation), `null` sans bifurcation :
+ * `bon`, `aide` et `reparation` sont les étiquettes courtes (« route »), `texteBon`, `texteAide` et `texteReparation` les textes entiers des choix.
  */
-export function choixDeBifurcation(etapes: Etape[]): { id: string; bon: string; aide: string; texteBon: string; texteAide: string } | null {
+export function choixDeBifurcation(etapes: Etape[]): { id: string; bon: string; aide: string; texteBon: string; texteAide: string; reparation?: string; texteReparation?: string } | null {
   for (const e of etapes) {
     if (e.type !== 'lieu' || !bifurcation(etapes, e.id)) continue
     const bon = e.choix.find((c) => c.qualite === 'bon')
     const aide = e.choix.find((c) => c.qualite === 'aide')
-    if (bon && aide) return { id: e.id, bon: etiquetteRoute(bon), aide: etiquetteRoute(aide), texteBon: bon.texte, texteAide: aide.texte }
+    if (!bon || !aide) continue
+    const base = { id: e.id, bon: etiquetteRoute(bon), aide: etiquetteRoute(aide), texteBon: bon.texte, texteAide: aide.texte }
+    const idR = choixReparation(etapes, e.id)
+    const rep = idR ? e.choix.find((c) => c.id === idR) : undefined
+    return rep ? { ...base, reparation: etiquetteRoute(rep), texteReparation: rep.texte } : base
   }
   return null
 }

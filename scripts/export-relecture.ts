@@ -174,7 +174,7 @@ function annexeEnMarkdown(mission: Mission, leviers: Leviers, theme: Theme | und
   return l
 }
 
-/** Repères de chaque étape d’un parcours à deux routes (numéro, et route pour les lieux de bifurcation) ; vide sinon. */
+/** Repères de chaque étape d’un parcours à deux routes ou plus (numéro, et route pour les lieux de bifurcation) ; vide sinon. */
 function reperesDesRoutes(mission: Mission): Record<string, Repere> {
   if (routesDe(mission.etapes).length < 2) return {}
   const numeros = numerosLieux(mission.etapes)
@@ -182,7 +182,7 @@ function reperesDesRoutes(mission: Mission): Record<string, Repere> {
   const reperes: Record<string, Repere> = {}
   for (const [id, numero] of Object.entries(numeros)) {
     const lettre = numero.slice(-1)
-    reperes[id] = { numero, route: lettre === 'a' ? choix?.bon : lettre === 'b' ? choix?.aide : undefined }
+    reperes[id] = { numero, route: lettre === 'a' ? choix?.bon : lettre === 'b' ? choix?.aide : lettre === 'c' ? choix?.reparation : undefined }
   }
   return reperes
 }
@@ -236,7 +236,7 @@ function main() {
   const bundle = buildContent(join(racineProjet, 'content'), { brouillons: true })
   const sensibles = new Set(bundle.themes.filter((t) => t.sensible).map((t) => t.id))
   const toutes = process.argv.includes('--toutes')
-  const missions = bundle.missions.filter((m) => m.type === 'mission' && (toutes || (m.theme && sensibles.has(m.theme))))
+  const missions = bundle.missions.filter((m) => m.type === 'mission' && (toutes || m.relecture?.statut === 'a-relire' || (m.theme && sensibles.has(m.theme))))
   rmSync(sortie, { recursive: true, force: true })
   mkdirSync(sortie, { recursive: true })
   for (const m of missions) writeFileSync(join(sortie, `${m.id}.md`), missionEnMarkdown(m, bundle.leviers, bundle.themes.find((t) => t.id === m.theme)), 'utf-8')
