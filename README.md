@@ -132,9 +132,9 @@ Règles d’écriture propres à cette progression :
 - le retour en arrière est présenté à l’élève comme un jeu : « Dans la vraie vie, on ne revient pas en arrière ; ici,
   tu peux rejouer ce moment. », puis « Retour au même moment : essaie un autre choix. ».
 
-### Parcours à deux routes (5e – 3e)
+### Parcours à routes (5e – 3e et lycée)
 
-Les six parcours 5e – 3e (un par île) proposent deux routes qui se rejoignent au dernier lieu. Le format reste
+Les six parcours 5e – 3e (un par île) proposent deux routes qui se rejoignent au dernier lieu ; les parcours lycée en proposent trois. Le format reste
 `format: parcours` ; l’enchaînement se décrit avec `suite`, un identifiant d’étape accepté sur un lieu ou sur l’un de ses
 choix. Une route est la suite d’étapes suivie de la première à la dernière étape du fichier, en suivant les `suite`.
 
@@ -146,10 +146,25 @@ Règles :
 - aucune route n’est présentée comme meilleure : les deux terminent la mission et gagnent l’objet de l’île. L’écran de
   fin indique la route prise et propose de rejouer l’autre.
 
+Route de réparation (lycée, numéro 3c) : la bifurcation a trois choix, `bon`, `aide` et un choix `risque` qui porte lui
+aussi un `suite`. Ce choix risqué ouvre une troisième route, celle de la réparation : après la réaction « Tu avances
+quand même. », l'élève peut « Réessayer » ou « Continuer » vers des lieux propres à cette route. Règles propres à cette
+route :
+- `suite` n'est autorisé sur un choix `risque` que sur le lieu de bifurcation ; ailleurs, un choix risqué fait toujours
+  rester sur place et réessayer ;
+- les trois routes ont la même longueur et se rejoignent au dernier lieu ; la route de réparation n'est ni punie ni
+  récompensée davantage : l'écran de fin dit « Tu as fait une erreur et tu l'as réparée : c'est aussi un réflexe. » et
+  propose « Rejouer pour découvrir les autres routes » ;
+- les lieux de réparation montrent les gestes dans l'ordre (arrêter l'échange, garder les preuves, prévenir, 17Cyber).
+
+Le contenu lycée s'appuie sur le dossier de recherche `docs/recherche/2026-10-24-dossier-lycee.md` : chaque fait,
+dispositif et formulation juridique y est sourcé. Les parcours lycée « vie privée » et « appareils » sont des brouillons
+en attente de relecture (non publiés, visibles avec `VITE_BROUILLONS=1`).
+
 Les routes sont calculées et vérifiées dans `src/engine/routes.ts` (longueur égale, bifurcation unique, cibles
 valides), puis par `tests/unit/node/content-real.test.ts` sur le vrai contenu. Parcours de bout en bout :
-`tests/e2e/parcours-routes.spec.ts`. Ces parcours correspondent aux numéros 3a et 3b du plan B.
-Exemple de référence : `content/missions/phishing/p-college-parcours.yaml`.
+`tests/e2e/parcours-routes.spec.ts`. Ces parcours correspondent aux numéros 3a, 3b et 3c du plan B.
+Exemples de référence : `content/missions/phishing/p-college-parcours.yaml` (deux routes) et `content/missions/phishing/p-lycee-parcours.yaml` (trois routes).
 
 ## Thèmes sensibles
 

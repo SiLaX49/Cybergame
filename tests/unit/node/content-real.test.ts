@@ -427,7 +427,7 @@ describe('contenu réel', () => {
   })
 
 
-  it.skip('les 6 îles ont un parcours lycée', () => {
+  it('les 6 îles ont un parcours lycée', () => {
     for (const theme of THEMES_PARCOURS) {
       expect(parcours.filter((m) => m.theme === theme && m.tranches.includes('lycee')), theme).toHaveLength(1)
     }
