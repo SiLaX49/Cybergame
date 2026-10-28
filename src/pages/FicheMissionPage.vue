@@ -37,6 +37,7 @@ const routes = (() => {
   }))
 })()
 const nbRoutes = routesDe(mission?.etapes ?? []).length
+const nbFiables = (mission?.etapes ?? []).filter((e) => e.type === 'scenario' && e.fiable).length
 const longueurLieux = routesDe(mission?.etapes ?? [])[0]?.length ?? 0
 const imprimer = () => window.print()
 </script>
@@ -141,6 +142,10 @@ const imprimer = () => window.print()
               <div><dt>Compétences CRCN</dt><dd>{{ mission.competences.crcn.join(', ') }}</dd></div>
               <div v-if="mission.competences.programmes.length">
                 <dt>Programmes</dt><dd>{{ mission.competences.programmes.join(' ; ') }}</dd>
+              </div>
+              <div v-if="nbFiables">
+                <dt>Messages vrais</dt>
+                <dd>{{ nbFiables }} situation{{ nbFiables > 1 ? 's' : '' }} sans danger, mêlée{{ nbFiables > 1 ? 's' : '' }} aux autres sans être annoncée{{ nbFiables > 1 ? 's' : '' }}. L’erreur y est d’en faire trop (bloquer, accuser) ou de passer à côté ; vérifier n’est jamais une faute.</dd>
               </div>
               <div><dt>Programme pHARe</dt><dd>{{ mission.competences.phare ? 'Oui, utilisable comme séance pHARe' : 'Non' }}</dd></div>
             </dl>

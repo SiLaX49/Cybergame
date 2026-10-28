@@ -66,6 +66,7 @@ const scene = computed(() => ({
   indices: indices.value,
   indiceVisible: props.indiceVisible,
   entree: true,
+  fiable: props.scenario.fiable,
 }))
 
 // Après un choix, le panneau garde la question jusqu’à la fin de la séquence jouée dans le téléphone.

@@ -3,7 +3,7 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { buildContent } from '../../../scripts/build-content'
 import { bifurcation, choixDeBifurcation, choixReparation, routesDe } from '../../../src/engine/routes'
-import { TRANCHES, type Mission } from '../../../src/content/schema'
+import { TRANCHES, type Mission, type Scenario } from '../../../src/content/schema'
 import { atteint, evaluerRobustesse } from '../../../src/minigames/robustesse'
 import * as TEXTES_SENSIBLES from '../../../src/mission/textesSensibles'
 import { textesLus } from '../../../src/phone/ordreLecture'
@@ -149,8 +149,9 @@ describe('contenu réel', () => {
     expect(MARQUES_REELLES.filter((marque) => new RegExp(`\\b${marque}\\b`).test(texte))).toEqual([])
   })
 
-  it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : chaque scénario a son bloc « pourquoi »', (_id, m) => {
-    for (const e of etapesAChoix(m)) expect(e.pourquoi?.length ?? 0, e.id).toBeGreaterThanOrEqual(3)
+  it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : chaque scénario a son bloc « pourquoi » (sauf message vrai)', (_id, m) => {
+    // Sauf une situation fiable (message vrai) : les leviers d’arnaque n’y ont pas de sens.
+    for (const e of etapesAChoix(m)) if (!(e.type === 'scenario' && e.fiable)) expect(e.pourquoi?.length ?? 0, e.id).toBeGreaterThanOrEqual(3)
   })
 
   it.each(bundle.missions.map((m) => [m.id, m] as const))('%s : aucune marque réelle dans les réponses « pourquoi »', (_id, m) => {
@@ -303,6 +304,30 @@ describe('contenu réel', () => {
 
   it.each(TRANCHES)('jeux et achats : au moins une mission pour la tranche %s', (t) => {
     expect(missionsDuTheme('jeux-achats').some((m) => m.tranches.includes(t))).toBe(true)
+  })
+
+  describe('situations fiables (messages vrais)', () => {
+    const SANS_FIABLE = ['harcelement', 'rencontres']
+    // Première version : missions classiques 6e et 5e – 3e hors thèmes sensibles (docs/superpowers/specs/2026-10-28-messages-legitimes-design.md).
+    const ciblees = classiques.filter((m) => !m.tranches.includes('lycee') && !SANS_FIABLE.includes(m.theme ?? ''))
+    const fiables = (m: Mission) => m.etapes.filter((e): e is Scenario => e.type === 'scenario' && e.fiable)
+
+    it.each(ciblees.map((m) => [m.id, m] as const))('%s : exactement une situation fiable, jamais en premier', (_id, m) => {
+      expect(fiables(m)).toHaveLength(1)
+      expect((m.etapes.find((e) => e.type === 'scenario') as Scenario).fiable).toBe(false)
+    })
+
+    it('aucune situation fiable dans les thèmes sensibles', () => {
+      expect(missions.filter((m) => SANS_FIABLE.includes(m.theme ?? '')).flatMap(fiables).map((e) => e.id)).toEqual([])
+    })
+
+    it.each(bundle.missions.flatMap(fiables).map((e) => [e.id, e] as const))(
+      '%s : un choix risqué (en faire trop, passer à côté), et aucun bon choix qui paie ou se connecte',
+      (_id, e) => {
+        expect(e.choix.some((c) => c.qualite === 'risque')).toBe(true)
+        expect(e.choix.filter((c) => c.qualite !== 'risque' && (c.geste === 'payer' || c.geste === 'se-connecter'))).toEqual([])
+      },
+    )
   })
 
   it.each(TRANCHES)('rappel : exactement une mission rappel pour la tranche %s', (t) => {

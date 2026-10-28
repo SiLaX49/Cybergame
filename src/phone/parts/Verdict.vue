@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { Check, X } from '@lucide/vue'
+import { Check, Info, X } from '@lucide/vue'
 
-defineProps<{ verdict: 'piege' | 'bon' }>()
+/** `vrai` : choix risqué sur un message vrai (situation fiable) ; ce n’était pas un piège. */
+const props = defineProps<{ verdict: 'piege' | 'bon' | 'vrai' }>()
+const AFFICHAGE = { piege: { icone: X, texte: 'Piège' }, bon: { icone: Check, texte: 'Bon réflexe' }, vrai: { icone: Info, texte: 'Message vrai' } }
 </script>
 
 <template>
   <!-- Jamais la couleur seule : icône et texte. -->
-  <p class="verdict" :class="verdict">
-    <component :is="verdict === 'piege' ? X : Check" aria-hidden="true" :size="20" :stroke-width="3" />
-    {{ verdict === 'piege' ? 'Piège' : 'Bon réflexe' }}
+  <p class="verdict" :class="props.verdict">
+    <component :is="AFFICHAGE[props.verdict].icone" aria-hidden="true" :size="20" :stroke-width="3" />
+    {{ AFFICHAGE[props.verdict].texte }}
   </p>
 </template>
 
@@ -20,5 +22,6 @@ defineProps<{ verdict: 'piege' | 'bon' }>()
 }
 .verdict.piege { background: var(--tel-verdict-piege); }
 .verdict.bon { background: var(--tel-verdict-bon); }
+.verdict.vrai { background: var(--tel-verdict-vrai); }
 @keyframes apparaitre { from { opacity: 0; } to { opacity: 1; } }
 </style>

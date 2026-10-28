@@ -156,8 +156,20 @@ type AvecChoix = {
   pourquoi?: { levier: string }[]
 }
 
-/** Règles communes aux scénarios et aux lieux : choix « aide », récupération, bloc « pourquoi ». */
-function verifierChoix<T>(s: AvecChoix, ctx: z.RefinementCtx<T>) {
+/**
+ * Règles communes aux scénarios et aux lieux : choix « aide », récupération, bloc « pourquoi ».
+ * Situation fiable (message vrai) : ni « pourquoi » ni récupération, le choix risqué (en faire trop, passer à côté) s’en passe.
+ */
+function verifierChoix<T>(s: AvecChoix & { fiable?: boolean }, ctx: z.RefinementCtx<T>) {
+  if (s.fiable) {
+    if (s.pourquoi) ctx.addIssue({ code: 'custom', path: ['pourquoi'], message: 'une situation fiable n’a pas de bloc pourquoi' })
+    if (s.recuperation) ctx.addIssue({ code: 'custom', path: ['recuperation'], message: 'une situation fiable n’a pas de récupération' })
+    idsUniques(s.choix.map((c) => c.id), ctx, ['choix'], 'choix')
+    if (!s.choix.some((c) => c.qualite === 'aide')) {
+      ctx.addIssue({ code: 'custom', path: ['choix'], message: 'il faut un choix de qualité "aide" (Je demande de l’aide…)' })
+    }
+    return
+  }
   idsUniques(s.choix.map((c) => c.id), ctx, ['choix'], 'choix')
   if (!s.choix.some((c) => c.qualite === 'aide')) {
     ctx.addIssue({ code: 'custom', path: ['choix'], message: 'il faut un choix de qualité "aide" (Je demande de l’aide…)' })
@@ -194,6 +206,8 @@ export const scenarioSchema = z
     type: z.literal('scenario'),
     id: slug,
     role: z.enum(['victime', 'temoin', 'auteur']).nullable().default(null),
+    /** Message vrai, sans danger : l’erreur est d’en faire trop (bloquer, accuser) ou de passer à côté. */
+    fiable: z.boolean().default(false),
     ecran: ecranSchema,
     question: texte,
     choix: z.array(choixSchema).min(2).max(4),

@@ -70,3 +70,28 @@ describe('bloc pourquoi d’un scénario', () => {
     )
   })
 })
+
+describe('situation fiable (message vrai)', () => {
+  const fiable = () => {
+    const sc = rawScenario() as ReturnType<typeof rawScenario> & { fiable?: boolean }
+    delete (sc as { pourquoi?: unknown }).pourquoi
+    delete (sc as { recuperation?: unknown }).recuperation
+    sc.fiable = true
+    return sc
+  }
+  it('accepte un choix risqué sans bloc pourquoi', () => {
+    expect(chemins(rawMission({ etapes: [fiable()] }))).toEqual([])
+  })
+  it('refuse le bloc pourquoi : les leviers d’arnaque n’ont pas de sens sur un message vrai', () => {
+    const sc = { ...fiable(), pourquoi: rawScenario().pourquoi }
+    expect(chemins(rawMission({ etapes: [sc] }))).toContainEqual('etapes.0.pourquoi : une situation fiable n’a pas de bloc pourquoi')
+  })
+  it('refuse une récupération', () => {
+    const sc = { ...fiable(), recuperation: rawScenario().recuperation }
+    expect(chemins(rawMission({ etapes: [sc] }))).toContainEqual('etapes.0.recuperation : une situation fiable n’a pas de récupération')
+  })
+  it('n’est pas fiable par défaut', () => {
+    const res = missionSchema.parse(rawMission())
+    expect(res.etapes.every((e) => e.type !== 'scenario' || e.fiable === false)).toBe(true)
+  })
+})

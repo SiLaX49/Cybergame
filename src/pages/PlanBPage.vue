@@ -79,7 +79,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
           </div>
           <p class="question-papier">{{ e.question }}</p>
           <ul class="cases"><li v-for="c in ordreAffichage(e.choix, e.id)" :key="c.id">☐ {{ c.texte }}</li></ul>
-          <p>Souligne dans le message ce qui devait t’alerter.</p>
+          <p>{{ e.fiable ? 'Souligne dans le message ce qui montre qu’il est fiable.' : 'Souligne dans le message ce qui devait t’alerter.' }}</p>
           <template v-if="e.pourquoi">
             <p>{{ questionPourquoi }}</p>
             <ul class="cases">
@@ -185,7 +185,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
             <h3>Situation {{ i + 1 }}</h3>
             <p>Bons choix : {{ e.choix.filter((c) => c.qualite !== 'risque').map((c) => c.texte).join(' / ') }}</p>
             <p>
-              Vrais indices :
+              {{ e.fiable ? 'Message vrai. Indices de confiance :' : 'Vrais indices :' }}
               {{ e.indices.map((x) => (x.passage ? `${x.libelle} (« ${x.passage} »)` : x.libelle)).join(' / ') }}
             </p>
             <p>À retenir : {{ e.aRetenir }}</p>

@@ -6,8 +6,9 @@ import { VERDICTS } from './reponseLevier'
 /**
  * `indices` : la liste passée au téléphone ; le rang de chaque indice donne le numéro de son passage surligné.
  * `sensible` : le rouge vif d’un « risque » est remplacé par un encadré doux (l’icône et le texte du verdict restent).
+ * `fiable` : message vrai, les indices sont ceux qui montraient qu’on pouvait lui faire confiance.
  */
-defineProps<{ indices: { id: string; libelle: string; passage?: string }[]; explication: string; qualite?: Qualite; sensible?: boolean }>()
+defineProps<{ indices: { id: string; libelle: string; passage?: string }[]; explication: string; qualite?: Qualite; sensible?: boolean; fiable?: boolean }>()
 </script>
 
 <template>
@@ -15,7 +16,7 @@ defineProps<{ indices: { id: string; libelle: string; passage?: string }[]; expl
     <p v-if="qualite" class="verdict encadre" :class="[qualite, sensible && qualite === 'risque' ? 'encadre-doux' : `encadre-${qualite}`]">
       <span aria-hidden="true">{{ VERDICTS[qualite].icone }}</span> <strong>{{ VERDICTS[qualite].titre }}</strong>
     </p>
-    <h3>Ce qui devait t’alerter</h3>
+    <h3>{{ fiable ? 'Ce qui montrait que c’était fiable' : 'Ce qui devait t’alerter' }}</h3>
     <ol class="liste-indices">
       <li v-for="(i, rang) in indices" :key="i.id">
         <span class="numero" aria-hidden="true">{{ rang + 1 }}</span><span class="visually-hidden">indice {{ rang + 1 }} : </span>

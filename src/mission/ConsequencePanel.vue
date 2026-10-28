@@ -4,7 +4,7 @@ import type { Leviers, Qualite, Scenario } from '@/content/schema'
 import type { ScenarioResultat } from '@/engine/mission-runner'
 import { useTexte } from '@/ui/useTexte'
 import ExplicationPanel from './ExplicationPanel.vue'
-import { reponseLevier, titreReponse, VERDICTS } from './reponseLevier'
+import { reponseLevier, titreReponse, verdict } from './reponseLevier'
 
 /** `indices` : la liste passée au téléphone (même ordre, donc mêmes numéros). */
 const props = withDefaults(
@@ -14,8 +14,9 @@ const props = withDefaults(
 const emit = defineEmits<{ continuer: []; rejouer: [] }>()
 const t = useTexte()
 
-/** En thème sensible, le rouge vif d’un « risque » est remplacé par un encadré doux (l’icône et le texte du verdict restent). */
+/** En thème sensible, le rouge vif d’un « risque » est remplacé par un encadré doux ; sur un message vrai, par un encadré d’information. */
 function classeEncadre(qualite: Qualite): string {
+  if (qualite === 'risque' && props.scenario.fiable) return 'encadre-info'
   return props.sensible && qualite === 'risque' ? 'encadre-doux' : `encadre-${qualite}`
 }
 
@@ -29,7 +30,7 @@ const reponse = computed(() => reponseLevier(props.scenario.pourquoi, props.resu
 <template>
   <section v-if="choix" class="consequence">
     <p class="verdict encadre" :class="[choix.qualite, classeEncadre(choix.qualite)]">
-      <span aria-hidden="true">{{ VERDICTS[choix.qualite].icone }}</span> <strong>{{ VERDICTS[choix.qualite].titre }}</strong>
+      <span aria-hidden="true">{{ verdict(choix.qualite, scenario.fiable).icone }}</span> <strong>{{ verdict(choix.qualite, scenario.fiable).titre }}</strong>
     </p>
     <p><strong>Ton choix :</strong> {{ choix.texte }}</p>
     <p>{{ t(choix.consequence, choix.consequenceSimple) }}</p>
@@ -39,7 +40,7 @@ const reponse = computed(() => reponseLevier(props.scenario.pourquoi, props.resu
       <p>{{ reponse.truc }}</p>
       <p><strong>Ta parade :</strong> {{ reponse.parade }}</p>
     </div>
-    <ExplicationPanel v-if="!explicationVue" :indices="indices" :explication="scenario.explicationIndices" />
+    <ExplicationPanel v-if="!explicationVue" :indices="indices" :explication="scenario.explicationIndices" :fiable="scenario.fiable" />
     <div class="a-retenir encadre encadre-info" role="note">
       <h3>À retenir</h3>
       <p>{{ t(scenario.aRetenir, scenario.aRetenirSimple) }}</p>

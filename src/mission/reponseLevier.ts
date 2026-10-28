@@ -28,3 +28,7 @@ export const VERDICTS: Record<Qualite, { icone: string; titre: string }> = {
   aide: { icone: '🤝', titre: 'Demander de l’aide, c’est toujours une bonne idée.' },
   risque: { icone: '⚠️', titre: 'C’était risqué. Voyons ce qui se passe.' },
 }
+
+/** Verdict d’un choix ; sur un message vrai (situation fiable), le choix risqué n’est pas un piège : en faire trop ou passer à côté. */
+export const verdict = (qualite: Qualite, fiable = false) =>
+  fiable && qualite === 'risque' ? { icone: '💡', titre: 'Ce message était vrai. Regarde ce qui se passe.' } : VERDICTS[qualite]
