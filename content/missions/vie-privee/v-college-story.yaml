@@ -114,6 +114,42 @@ etapes:
         parade: 'Avant de publier quelqu’un d’autre, pose-lui une question simple : « Je peux la poster ? »'
 
   - type: scenario
+    id: position-papa
+    fiable: true
+    ecran:
+      app: sms
+      appNom: Messages
+      contact: 'Papa'
+      messages:
+        - de: contact
+          texte: 'Je t’envoie ma position pour que tu me trouves au marché de Noël. Je l’arrête dès qu’on se retrouve.'
+          heure: '18:20'
+    question: 'Tu dois retrouver ton père au marché de Noël, et il y a beaucoup de monde. Que fais-tu ?'
+    choix:
+      - id: rejoint
+        texte: 'J’ouvre sa position pour le rejoindre, puis on la coupe ensemble.'
+        qualite: bon
+        geste: repondre
+        reponse: 'J’arrive ! On coupe le partage après ?'
+        consequence: 'Tu retrouves ton père près du manège. Il arrête le partage, comme promis.'
+        reaction: 'Oui, promis. Je suis près du manège 🎠'
+      - id: aide
+        texte: 'Je demande à l’amie qui est avec moi de m’aider à le retrouver.'
+        qualite: aide
+        consequence: 'Vous regardez le message ensemble : c’est bien ton père, dans votre fil habituel. Vous le retrouvez près du manège.'
+      - id: bloque
+        texte: 'Je bloque son numéro : partager sa position, c’est toujours dangereux.'
+        qualite: risque
+        geste: bloquer
+        consequence: 'Ton père ne peut plus t’écrire, et tu le cherches longtemps dans la foule. Partager sa position avec un proche, pour un moment précis, n’est pas un danger.'
+    indices:
+      - { id: fil, libelle: 'C’est le fil habituel avec ton père', passage: 'Papa' }
+      - { id: but, libelle: 'Le partage a un but précis : vous retrouver', passage: 'pour que tu me trouves au marché de Noël' }
+      - { id: duree, libelle: 'Il est limité dans le temps', passage: 'Je l’arrête dès qu’on se retrouve' }
+    explicationIndices: 'Le message vient du fil habituel avec ton père, à un moment prévu. Le partage de position a un but et une fin.'
+    aRetenir: 'Partager sa position n’est pas toujours un danger : avec un proche, pour un moment précis, puis on l’arrête. Le danger, c’est de la montrer à tout le monde, tout le temps.'
+
+  - type: scenario
     id: quiz-securite
     ecran:
       app: social

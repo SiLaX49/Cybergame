@@ -68,6 +68,43 @@ etapes:
         parade: 'Une menace de désactivation se vérifie dans l’appli, pas dans la conversation. Et si tu as peur, parles-en à un adulte.'
 
   - type: scenario
+    id: alerte-connexion
+    fiable: true
+    ecran:
+      app: mail
+      appNom: Mail
+      contact: 'SnapTalk'
+      sujet: 'Nouvelle connexion à ton compte'
+      messages:
+        - de: contact
+          texte: 'Nouvelle connexion à ton compte samedi à 15 h 02, sur un ordinateur à Nantes. Si c’était toi, tu n’as rien à faire. Sinon, ouvre l’appli SnapTalk et change ton mot de passe dans les réglages.'
+          heure: '15:03'
+    question: 'Samedi à 15 h, tu t’es connecté·e à SnapTalk sur l’ordinateur de ta cousine, à Nantes. Que fais-tu ?'
+    choix:
+      - id: deconnecte
+        texte: 'C’était moi : depuis l’appli, je déconnecte l’ordinateur de ma cousine.'
+        qualite: bon
+        geste: deconnecter
+        consequence: 'Dans les réglages de l’appli, tu retrouves la connexion de samedi et tu la fermes. Le mail était vrai, et tu gardes la main sur ton compte.'
+        reaction: 'Appareil déconnecté. Ton compte est à jour.'
+      - id: aide
+        texte: 'Je montre le mail à un adulte avant de faire quoi que ce soit.'
+        qualite: aide
+        consequence: 'Ta mère compare : samedi, 15 h, Nantes, c’était bien toi chez ta cousine. Le mail est vrai, rien d’inquiétant.'
+      - id: supprime
+        texte: 'Je signale le mail comme arnaque et je supprime mon compte.'
+        qualite: risque
+        geste: signaler
+        consequence: 'Tu perds ta série et tes souvenirs. Pourtant, le mail était vrai : il décrivait ta propre connexion et ne demandait rien.'
+        reaction: 'Ton compte sera supprimé dans 30 jours.'
+    indices:
+      - { id: contexte, libelle: 'L’heure et la ville correspondent à ta connexion chez ta cousine', passage: 'samedi à 15 h 02, sur un ordinateur à Nantes' }
+      - { id: rien, libelle: 'Si c’était toi, on ne te demande rien', passage: 'tu n’as rien à faire' }
+      - { id: appli, libelle: 'Pas de lien : on te renvoie vers l’appli elle-même', passage: 'ouvre l’appli SnapTalk' }
+    explicationIndices: 'Le mail décrit une connexion que tu as vraiment faite. Il ne demande ni code ni mot de passe, et n’a pas de lien : il te renvoie vers l’appli.'
+    aRetenir: 'Les vraies alertes de connexion décrivent ce qui s’est passé et te renvoient vers l’appli, sans lien ni code à donner. Si ce n’était pas toi, change ton mot de passe dans l’appli.'
+
+  - type: scenario
     id: recuperateur
     ecran:
       app: chat

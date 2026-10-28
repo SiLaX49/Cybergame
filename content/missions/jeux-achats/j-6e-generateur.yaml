@@ -130,6 +130,45 @@ etapes:
         parade: 'Ouvre toi-même la fenêtre d’échange pour voir si elle marche. Si elle bugue, attends qu’elle soit réparée.'
 
   - type: scenario
+    id: evenement-hiver
+    fiable: true
+    ecran:
+      app: chat
+      appNom: GameBox Chat
+      contact: 'GameBox'
+      messages:
+        - de: contact
+          texte: 'Événement d’hiver : connecte-toi chaque jour de la semaine pour gagner le chapeau de neige. Rien à payer, rien à télécharger.'
+          texteSimple: 'Événement d’hiver : joue chaque jour cette semaine pour gagner le chapeau de neige. Rien à payer, rien à télécharger.'
+          heure: '16:45'
+    question: 'L’événement est aussi annoncé sur l’écran d’accueil du jeu. Que fais-tu ?'
+    choix:
+      - id: joue
+        texte: 'Je joue normalement et je récupère le chapeau dans le jeu.'
+        qualite: bon
+        geste: fermer
+        consequence: 'Chaque jour, une case se coche dans le jeu. Le dimanche, ton personnage porte le chapeau de neige.'
+        reaction: 'Jour 1 sur 7 : bravo !'
+      - id: aide
+        texte: 'Je demande à un adulte si cet événement est normal.'
+        qualite: aide
+        consequence: 'Ta grande sœur joue aussi : elle a reçu le même message dans le jeu. C’est un vrai événement.'
+      - id: signale
+        texte: 'Je signale GameBox : un cadeau gratuit, c’est forcément une arnaque.'
+        qualite: risque
+        geste: signaler
+        consequence: 'Ton signalement n’aboutit à rien : c’était un vrai événement du jeu. Tu rates le chapeau, que tes amis portent tous.'
+        consequenceSimple: 'C’était un vrai événement. Tu as raté le chapeau.'
+        reaction: 'Jour 2 sur 7 : connecte-toi pour continuer !'
+    indices:
+      - { id: jeu, libelle: 'L’annonce vient du jeu lui-même, pas d’un site', passage: 'GameBox' }
+      - { id: gratuit, libelle: 'Rien à payer, aucun lien, aucun mot de passe', passage: 'Rien à payer, rien à télécharger' }
+      - { id: gagner, libelle: 'Le cadeau se gagne en jouant, comme d’habitude', passage: 'chapeau de neige' }
+    explicationIndices: 'L’annonce est dans le jeu, là où les vrais cadeaux se gagnent. Elle ne demande ni argent, ni mot de passe, ni téléchargement.'
+    aRetenir: 'Un vrai cadeau de jeu se gagne dans le jeu, sans payer ni donner ton mot de passe. Le piège, c’est quand on te fait sortir du jeu.'
+    aRetenirSimple: 'Un vrai cadeau se gagne dans le jeu. Il ne demande rien à payer.'
+
+  - type: scenario
     id: copain-mdp
     ecran:
       app: chat

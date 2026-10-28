@@ -65,6 +65,43 @@ etapes:
         parade: 'Le vrai support ne t’écrit pas en message privé et ne demande jamais de code. Passe par l’aide intégrée à l’appli.'
 
   - type: scenario
+    id: maintenance
+    fiable: true
+    ecran:
+      app: chat
+      appNom: ChatCord
+      contact: 'Les Bâtisseurs · Modération'
+      messages:
+        - de: contact
+          texte: 'Ce soir, maintenance du serveur de 21 h à 22 h. Aucune action de votre part. Rappel : les modérateurs ne vous demanderont jamais de code ni de mot de passe.'
+          heure: '18:02'
+    question: 'Ce message est épinglé dans le salon des annonces de ton serveur, par la modération que tu connais. Que fais-tu ?'
+    choix:
+      - id: note
+        texte: 'Je prends note : ce soir, je ne joue pas entre 21 h et 22 h.'
+        qualite: bon
+        geste: fermer
+        consequence: 'À 22 h, le serveur revient. Rien à faire de ton côté : l’annonce était vraie.'
+        reaction: 'Maintenance terminée, merci de votre patience !'
+      - id: aide
+        texte: 'Je demande à un ami du serveur s’il a vu la même annonce.'
+        qualite: aide
+        consequence: 'Lucas a vu la même annonce, épinglée par la modération. Elle ne demande rien : vous attendez 22 h.'
+      - id: alarme
+        texte: 'J’écris dans le salon que c’est une arnaque, pour prévenir tout le monde.'
+        qualite: risque
+        geste: repondre
+        reponse: 'ATTENTION c’est une arnaque, ne faites rien !'
+        consequence: 'Plusieurs joueurs paniquent et quittent le serveur. L’annonce était vraie, et elle ne demandait rien. Prévenir, oui, mais après avoir vérifié.'
+        reaction: 'Pas d’inquiétude : c’est une vraie maintenance, rien à faire.'
+    indices:
+      - { id: moderation, libelle: 'L’annonce est publique, par la modération du serveur', passage: 'Les Bâtisseurs · Modération' }
+      - { id: rien, libelle: 'On ne te demande aucune action', passage: 'Aucune action de votre part' }
+      - { id: jamais, libelle: 'Elle rappelle même la règle : jamais de code à donner', passage: 'ne vous demanderont jamais de code ni de mot de passe' }
+    explicationIndices: 'L’annonce est publique, épinglée par la modération que tu connais. Elle ne demande rien, et rappelle même qu’on ne donne jamais de code.'
+    aRetenir: 'Un vrai modérateur fait ses annonces en public et ne demande jamais de code. Le faux modérateur, lui, écrit en privé et réclame quelque chose.'
+
+  - type: scenario
     id: teste-jeu
     ecran:
       app: chat

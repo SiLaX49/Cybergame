@@ -111,6 +111,42 @@ etapes:
         parade: 'Avant de taper ton mot de passe, regarde la barre d’adresse : est-ce bien celle de ton ENT ?'
 
   - type: scenario
+    id: vrai-ent
+    fiable: true
+    ecran:
+      app: chat
+      appNom: Mon Collège
+      contact: 'M. Diallo (histoire-géo)'
+      messages:
+        - de: contact
+          texte: 'Le devoir sur la Révolution est à rendre vendredi, et non jeudi. Déposez-le dans l’onglet Travail à faire, comme d’habitude.'
+          heure: '12:15'
+    question: 'Cette notification s’ouvre dans l’appli du collège, où tu es déjà connecté·e. Que fais-tu ?'
+    choix:
+      - id: note
+        texte: 'Je note la nouvelle date et je rends le devoir vendredi dans l’appli.'
+        qualite: bon
+        geste: fermer
+        consequence: 'Vendredi, tu déposes ton devoir dans l’onglet Travail à faire. Un jour de plus pour le finir !'
+        reaction: 'Rappel : devoir à rendre vendredi.'
+      - id: aide
+        texte: 'Je demande à un camarade s’il a reçu la même info.'
+        qualite: aide
+        consequence: 'Toute la classe a reçu le même message dans l’appli du collège. Le devoir est bien pour vendredi.'
+      - id: ignore
+        texte: 'Je l’ignore : je ne crois plus aucun message du collège.'
+        qualite: risque
+        geste: ignorer
+        consequence: 'Jeudi, tu te dépêches de finir pour rien, et tu risques de rater d’autres infos importantes. Ce message était vrai : il arrivait dans l’appli où tu étais déjà connecté·e.'
+        reaction: 'Rappel : devoir à rendre vendredi.'
+    indices:
+      - { id: appli, libelle: 'Tu le lis dans l’appli officielle, où tu es déjà connecté·e', passage: 'M. Diallo (histoire-géo)' }
+      - { id: habitude, libelle: 'On te renvoie à l’endroit habituel, pas vers un lien', passage: 'Déposez-le dans l’onglet Travail à faire' }
+      - { id: rien, libelle: 'Aucun mot de passe ni lien demandé', passage: 'comme d’habitude' }
+    explicationIndices: 'Le message s’ouvre dans l’appli du collège, où tu es déjà connecté·e. Il ne contient aucun lien et ne demande pas ton mot de passe.'
+    aRetenir: 'Le faux ENT arrive par mail et réclame ton mot de passe. Le vrai, tu le lis dans l’appli où tu es déjà connecté·e, sans rien donner.'
+
+  - type: scenario
     id: vote-concours
     ecran:
       app: chat

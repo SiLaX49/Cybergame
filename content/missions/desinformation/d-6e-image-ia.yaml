@@ -64,6 +64,45 @@ etapes:
         parade: 'Une fausse info fait rire une minute. Vérifier d’abord, c’est garder la confiance de tes amis.'
 
   - type: scenario
+    id: alerte-neige
+    fiable: true
+    ecran:
+      app: chat
+      appNom: Mon Collège
+      contact: 'Vie scolaire'
+      messages:
+        - de: contact
+          texte: 'Alerte neige demain : les bus scolaires ne circuleront pas. Le collège reste ouvert pour les élèves qui peuvent venir à pied.'
+          texteSimple: 'Alerte neige demain : les bus scolaires ne circuleront pas. Le collège reste ouvert.'
+          heure: '18:30'
+    question: 'À la météo d’hier soir, on annonçait de la neige. Que fais-tu ?'
+    choix:
+      - id: verifie
+        texte: 'Je regarde l’appli Météo : la neige est bien annoncée.'
+        qualite: bon
+        geste: verifier
+        consequence: 'L’appli Météo annonce bien la neige. Tu préviens tes parents, et tu restes au chaud.'
+        reaction: 'Rappel : pas de bus scolaire demain.'
+      - id: aide
+        texte: 'Je montre le message à mes parents pour savoir quoi faire.'
+        qualite: aide
+        consequence: 'Tes parents lisent le message de la vie scolaire. Ils décident que tu restes à la maison demain.'
+      - id: rumeur
+        texte: 'Je n’y crois pas : c’est sûrement une rumeur.'
+        qualite: risque
+        geste: ignorer
+        consequence: 'Le lendemain, tu attends le bus dans la neige pendant une heure. Le message était vrai, et il venait du collège.'
+        consequenceSimple: 'Tu attends un bus qui ne vient pas. Le message du collège était vrai.'
+        reaction: 'Les bus ne circulent pas aujourd’hui. Restez prudents !'
+    indices:
+      - { id: source, libelle: 'Le message vient de la vie scolaire, dans l’appli du collège', passage: 'Vie scolaire' }
+      - { id: meteo, libelle: 'La neige était annoncée à la météo', passage: 'Alerte neige demain' }
+      - { id: consigne, libelle: 'Une consigne précise, sans lien ni demande', passage: 'les bus scolaires ne circuleront pas' }
+    explicationIndices: 'Le message vient de la vie scolaire, dans l’appli officielle. La neige était annoncée. Une info vraie se confirme ailleurs, comme dans l’appli Météo.'
+    aRetenir: 'Toutes les infos ne sont pas des rumeurs. Une info vraie vient d’une source sérieuse et se confirme ailleurs. Vérifier, c’est aussi trouver ce qui est vrai.'
+    aRetenirSimple: 'Une info du collège, confirmée par la météo, tu peux la croire.'
+
+  - type: scenario
     id: rumeur-college
     ecran:
       app: chat
