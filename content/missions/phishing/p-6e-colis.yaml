@@ -3,7 +3,7 @@ theme: phishing
 tranches: ['6e']
 titre: Le colis mystère
 resume: Un SMS, un message privé et un mail te promettent un cadeau ou te menacent. Arnaque ou pas ?
-duree: 15
+duree: 18
 objectifs:
   - Reconnaître un message d’hameçonnage (faux colis, faux concours, fausse alerte)
   - Vérifier une information par un autre moyen avant d’agir
@@ -238,7 +238,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Qui a déjà reçu un SMS bizarre ? (sans obligation de raconter)
-    15 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    18 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (cartes « Je vérifie d’abord »).
     5 min : où trouver de l’aide (adulte de confiance, cybermalveillance.gouv.fr pour les parents).
     5 min : engagement. Ce soir, je montre à un adulte de ma famille comment repérer un faux SMS de colis.

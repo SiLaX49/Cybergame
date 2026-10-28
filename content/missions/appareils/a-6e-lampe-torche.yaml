@@ -3,7 +3,7 @@ theme: appareils
 tranches: ['6e']
 titre: La lampe trop curieuse
 resume: 'Une lampe torche qui veut tes contacts, une mise à jour qui attend depuis des semaines, un jeu « gratuit » à installer par un lien : ton téléphone mérite que tu ralentisses.'
-duree: 15
+duree: 18
 objectifs:
   - Vérifier ce qu’une appli demande avant de l’installer
   - Comprendre pourquoi on fait les mises à jour
@@ -245,7 +245,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Qui a déjà vu son téléphone demander « Autoriser l’accès à… » ? (sans obligation de raconter)
-    15 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    18 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (pourquoi la lampe n’a besoin que du flash).
     5 min : où trouver de l’aide (adulte de confiance, réglages du téléphone avec un parent, cybermalveillance.gouv.fr pour les parents).
     5 min : engagement. Ce soir, je regarde avec un adulte si mon téléphone a une mise à jour en attente.

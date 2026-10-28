@@ -3,7 +3,7 @@ theme: jeux-achats
 tranches: ['6e']
 titre: Coins gratuits ?
 resume: 'Un générateur de Coins, un échange d’objets, un copain qui veut ton mot de passe : qui cherche à te piéger ?'
-duree: 15
+duree: 18
 objectifs:
   - Reconnaître un faux générateur de monnaie de jeu et une arnaque à l’échange d’objets
   - Garder son mot de passe pour soi, même face à un ami
@@ -245,7 +245,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Qui a déjà vu une vidéo promettant des Coins ou des skins gratuits ? (sans obligation de raconter)
-    15 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    18 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (le mot de passe et l’appli à télécharger).
     5 min : où trouver de l’aide (adulte de confiance, signalement dans le jeu, cybermalveillance.gouv.fr pour les parents).
     5 min : engagement. Ce soir, si un copain connaît mon mot de passe de jeu, je le change avec un adulte.

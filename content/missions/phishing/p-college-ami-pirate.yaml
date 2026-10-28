@@ -3,7 +3,7 @@ theme: phishing
 tranches: ['5e-3e']
 titre: Mon ami a changé
 resume: 'Une amie qui te réclame un code, un mail de l’ENT, un camarade qui veut ton vote : et si quelqu’un cherchait à entrer dans ton compte ?'
-duree: 18
+duree: 21
 objectifs:
   - Reconnaître une demande de code ou de mot de passe venant d’un compte piraté
   - Vérifier l’adresse d’un site avant d’y taper son mot de passe
@@ -221,7 +221,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Un ami vous a-t-il déjà envoyé un message qui ne lui ressemblait pas ? (sans obligation de raconter)
-    18 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    21 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (le code reçu par SMS).
     5 min : où trouver de l’aide (adulte de confiance, référent numérique du collège, cybermalveillance.gouv.fr).
     5 min : engagement. Cette semaine, j’active la double authentification sur le compte auquel je tiens le plus.

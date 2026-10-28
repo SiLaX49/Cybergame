@@ -3,7 +3,7 @@ theme: comptes
 tranches: ['6e']
 titre: Mon mot de passe à moi
 resume: 'Une amie qui veut ton mot de passe, un site de jeu qui se fait voler, un code qui arrive sans raison : à qui sont tes comptes ?'
-duree: 15
+duree: 18
 objectifs:
   - Garder son mot de passe pour soi, même avec un ami proche
   - Utiliser un mot de passe différent pour chaque compte et réagir après une fuite
@@ -230,7 +230,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. À quoi sert un mot de passe ? Qui a le droit de le connaître ? (sans obligation de raconter)
-    15 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    18 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (pourquoi le prénom, l’année et le nom du chat sont interdits).
     5 min : où trouver de l’aide (adulte de confiance, aide officielle du jeu, cybermalveillance.gouv.fr pour les parents).
     5 min : engagement. Ce soir, avec un adulte, je vérifie que ma boîte mail a un mot de passe que je n’utilise nulle part ailleurs.

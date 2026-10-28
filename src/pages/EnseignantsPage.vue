@@ -28,7 +28,7 @@ const miseAJour = new Date(contenu.generatedAt).toLocaleDateString('fr-FR', {
 /** La séance type, étape par étape (durée affichée à part). */
 const SEANCE = [
   { duree: '5 min', quoi: 'Cadre. Personne n’est obligé de raconter une expérience personnelle.' },
-  { duree: '15 à 20 min', quoi: 'Jeu (solo, binôme ou classe entière vidéoprojetée).' },
+  { duree: '15 à 25 min', quoi: 'Jeu (solo, binôme ou classe entière vidéoprojetée).' },
   { duree: '20 min', quoi: 'Débrief à partir des trois questions de fin de mission.' },
   { duree: '5 min', quoi: 'Où trouver de l’aide (3018, adultes de l’établissement).' },
   { duree: '5 min', quoi: 'Un engagement concret (vérifier un réglage, parler à un adulte…).' },
@@ -42,12 +42,12 @@ const SEANCE = [
       <p class="surtitre">Pour les enseignant·es</p>
       <h1>Espace enseignants</h1>
       <p class="intro">
-        Cyber Réflexes est gratuit, sans compte ni installation. Chaque mission dure 15 à 20 minutes et se termine par
+        Cyber Réflexes est gratuit, sans compte ni installation. Chaque mission dure 15 à 25 minutes et se termine par
         trois questions de débrief. Le jeu seul ne suffit pas : <strong>c’est le débrief qui ancre les réflexes</strong>,
         et les missions Rappel (J+7, J+30) les entretiennent.
       </p>
       <ul class="chiffres" aria-label="En bref">
-        <li><Clock aria-hidden="true" :size="20" /><span><strong>15 à 20 min</strong> par mission</span></li>
+        <li><Clock aria-hidden="true" :size="20" /><span><strong>15 à 25 min</strong> par mission</span></li>
         <li><MessagesSquare aria-hidden="true" :size="20" /><span><strong>3 questions</strong> de débrief</span></li>
         <li><CalendarClock aria-hidden="true" :size="20" /><span><strong>Rappels</strong> à J+7 et J+30</span></li>
         <li><ShieldCheck aria-hidden="true" :size="20" /><span><strong>Aucune donnée</strong> ne quitte l’appareil</span></li>
@@ -56,7 +56,7 @@ const SEANCE = [
 
     <div class="grille-haut">
       <section class="carte" aria-labelledby="titre-seance">
-        <h2 id="titre-seance" class="carte-titre">Une séance type (55 min)</h2>
+        <h2 id="titre-seance" class="carte-titre">Une séance type (50 à 60 min)</h2>
         <ol class="seance">
           <li v-for="(e, i) in SEANCE" :key="i">
             <span class="seance-numero" aria-hidden="true">{{ i + 1 }}</span>

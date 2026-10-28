@@ -3,7 +3,7 @@ theme: desinformation
 tranches: ['6e']
 titre: Vrai ou faux ?
 resume: 'Un chat géant, une fermeture du collège, une astuce miracle : avant de partager, tu enquêtes ?'
-duree: 15
+duree: 18
 objectifs:
   - Repérer une image fabriquée par une IA et une rumeur qui circule en chaîne
   - Vérifier une information à la source avant de la partager
@@ -253,7 +253,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Avez-vous déjà vu une image ou une info qui s’est révélée fausse ? (sans obligation de raconter)
-    15 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    18 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (quelles pistes d’enquête ont été les plus utiles ?).
     5 min : où trouver de l’aide (adulte de confiance, professeur documentaliste, infirmière scolaire pour la santé).
     5 min : engagement. Cette semaine, avant de partager une image surprenante, je regarde ses détails et je cherche qui l’a publiée en premier.

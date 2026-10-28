@@ -22,7 +22,7 @@ de réparation et le débrief.
 
 | Niveau | Mission | Durée annoncée |
 |---|---|---|
-| 6e | La traversée de l'île aux hameçons (+ « Le colis mystère » s'il reste du temps) | 15 min (+ 15) |
+| 6e | La traversée de l'île aux hameçons (+ « Le colis mystère » s'il reste du temps) | 15 min (+ 18) |
 | 5e – 3e | L'île aux hameçons : le grand concours | 20 min |
 | Lycée | L'île aux hameçons : le stage de seconde | 25 min |
 

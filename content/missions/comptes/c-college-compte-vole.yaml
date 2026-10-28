@@ -3,7 +3,7 @@ theme: comptes
 tranches: ['5e-3e']
 titre: Compte volé
 resume: 'Un faux support qui veut ton code, un « expert » qui promet de récupérer ton compte, une session oubliée au CDI : garde la main sur tes comptes.'
-duree: 20
+duree: 23
 objectifs:
   - Comprendre que le code de double authentification ne se donne jamais, même à un « support »
   - Récupérer un compte volé par la procédure officielle, sans payer personne
@@ -231,7 +231,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Qui connaît la double authentification ? À quoi sert le code reçu par SMS ? (sans obligation de raconter)
-    20 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    23 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (pourquoi une phrase de passe est à la fois longue et facile à retenir).
     5 min : où trouver de l’aide (adulte de confiance, procédure officielle de récupération de chaque appli, cybermalveillance.gouv.fr).
     5 min : engagement. Cette semaine, j’active la double authentification sur mon compte le plus important et je vérifie la liste de mes appareils connectés.
