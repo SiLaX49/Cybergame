@@ -172,8 +172,8 @@ route :
 - les lieux de réparation montrent les gestes dans l'ordre (les gestes de réparation propres à l'incident, dans l'ordre).
 
 Le contenu lycée s'appuie sur le dossier de recherche `docs/recherche/2026-10-24-dossier-lycee.md` : chaque fait,
-dispositif et formulation juridique y est sourcé. Les parcours lycée « vie privée » et « appareils » sont des brouillons
-en attente de relecture (non publiés, visibles avec `VITE_BROUILLONS=1`).
+dispositif et formulation juridique y est sourcé. Les parcours lycée « vie privée » et « appareils » ont été
+relus par Noa le 2026-10-28 et sont publiés.
 
 Les routes sont calculées et vérifiées dans `src/engine/routes.ts` (longueur égale, bifurcation unique, cibles
 valides), puis par `tests/unit/node/content-real.test.ts` sur le vrai contenu. Parcours de bout en bout :

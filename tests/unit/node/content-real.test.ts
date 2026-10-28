@@ -532,8 +532,8 @@ describe('contenu réel', () => {
       }
     })
 
-    it.each(lycee)('%s : relecture « a-relire » pour vie-privee et appareils, les autres relus ou sans bloc', (_id, m) => {
-      if (m.theme === 'vie-privee' || m.theme === 'appareils') expect(m.relecture?.statut).toBe('a-relire')
+    it.each(lycee)('%s : relu (vie-privee et appareils relus par Noa le 2026-10-28), aucun brouillon', (_id, m) => {
+      if (m.theme === 'vie-privee' || m.theme === 'appareils') expect(m.relecture?.statut).toBe('relue-interne')
       else if (m.relecture) expect(m.relecture.statut).not.toBe('a-relire')
     })
   })

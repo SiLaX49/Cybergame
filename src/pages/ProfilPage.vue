@@ -8,7 +8,7 @@ import { getThemes, missionsPour } from '@/content'
 import { BADGES, type BadgeId } from '@/engine/badges'
 import { solde, totalGagne } from '@/engine/portefeuille'
 import ChoixPersonnage from '@/parcours/ChoixPersonnage.vue'
-import { BOUTIQUE, objetBoutique } from '@/profil/boutique'
+import { BOUTIQUE, objetBoutique, type ObjetBoutique } from '@/profil/boutique'
 import type { PersonnageId } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
 import AgenteCyber from '@/ui/AgenteCyber.vue'
@@ -38,6 +38,13 @@ const objets = computed(() => {
 })
 
 const possede = (id: string) => store.etat.achats.includes(id)
+const porte = (o: ObjetBoutique) => store.etat[o.type] === o.id
+/** Bascule : porter l’objet, ou le retirer s’il est déjà porté. */
+function porter(o: ObjetBoutique) {
+  const id = porte(o) ? null : o.id
+  if (o.type === 'titre') store.porterTitre(id)
+  else store.porterEcusson(id)
+}
 const choisirPersonnage = (id: PersonnageId) => store.choisirPersonnage(id)
 </script>
 
@@ -81,18 +88,12 @@ const choisirPersonnage = (id: PersonnageId) => store.choisirPersonnage(id)
             </button>
             <span v-if="reserve < o.prix" :id="`manque-${o.id}`" class="manque">Il te manque {{ o.prix - reserve }} octets</span>
           </template>
-          <template v-else-if="o.type === 'titre'">
+          <template v-else>
             <span class="badge badge-bon"><Check aria-hidden="true" :size="16" /> À toi</span>
-            <button
-              type="button"
-              class="btn"
-              :aria-pressed="store.etat.titre === o.id"
-              @click="store.porterTitre(store.etat.titre === o.id ? null : o.id)"
-            >
-              Porter ce titre<span class="visually-hidden"> : {{ o.nom }}</span>
+            <button type="button" class="btn" :aria-pressed="porte(o)" @click="porter(o)">
+              {{ o.type === 'titre' ? 'Porter ce titre' : 'Porter cet écusson' }}<span class="visually-hidden"> : {{ o.nom }}</span>
             </button>
           </template>
-          <span v-else class="badge badge-bon"><Check aria-hidden="true" :size="16" /> À toi</span>
         </li>
       </ul>
     </section>

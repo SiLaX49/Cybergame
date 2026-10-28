@@ -45,6 +45,8 @@ export const progressSchema = z.object({
   achats: z.array(z.string()).default([]),
   /** Titre de la boutique affiché sur le profil et dans l’en-tête. */
   titre: z.string().nullable().default(null),
+  /** Écusson de la boutique porté sur la poitrine du personnage. */
+  ecusson: z.string().nullable().default(null),
   /** Ce qui a été fait aujourd’hui, pour les objectifs du jour ; repart de zéro chaque jour. */
   journal: z
     .object({
