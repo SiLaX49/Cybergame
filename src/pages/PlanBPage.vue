@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Printer } from '@lucide/vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { getLeviers, getMission, getTheme } from '@/content'
 import { FIL_ACTIONS } from '@/content/schema'
@@ -54,23 +55,29 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
     </template>
     <template v-else>
       <BandeauBrouillon v-if="mission.relecture?.statut === 'a-relire'" />
-      <div class="actions no-print">
-        <button type="button" class="btn btn-primaire" @click="imprimer">Imprimer</button>
-        <RouterLink class="btn btn-secondaire" :to="`/enseignants/${mission.id}`">Retour à la fiche</RouterLink>
-      </div>
-      <h1>{{ mission.titre }} : version papier</h1>
-      <p>Nom : ______________________ Classe : ________</p>
+      <header class="carte entete-papier">
+        <p class="surtitre no-print">Version papier · plan B</p>
+        <h1>{{ mission.titre }} : version papier</h1>
+        <p class="consigne-papier no-print">
+          Pour jouer sans écran : une fiche élève à distribuer, puis le corrigé pour l’adulte, sur une nouvelle page.
+        </p>
+        <div class="actions no-print">
+          <button type="button" class="btn btn-primaire" @click="imprimer"><Printer aria-hidden="true" :size="18" /> Imprimer</button>
+          <RouterLink class="btn btn-secondaire" :to="`/enseignants/${mission.id}`">Retour à la fiche</RouterLink>
+        </div>
+        <p class="identite">Nom : ______________________ Classe : ________</p>
+      </header>
 
-      <section v-for="(e, i) in mission.etapes" :key="e.id" class="etape-papier">
+      <section v-for="(e, i) in mission.etapes" :key="e.id" class="etape-papier carte">
         <template v-if="e.type === 'scenario'">
           <h2>Situation {{ i + 1 }}</h2>
-          <div class="carte">
+          <div class="message-papier">
             <p v-for="(ligne, j) in lignesPapier(e.ecran)" :key="j">
               <strong v-if="j === 0">{{ ligne }}</strong>
               <template v-else>{{ ligne }}</template>
             </p>
           </div>
-          <p><strong>{{ e.question }}</strong></p>
+          <p class="question-papier">{{ e.question }}</p>
           <ul class="cases"><li v-for="c in ordreAffichage(e.choix, e.id)" :key="c.id">☐ {{ c.texte }}</li></ul>
           <p>Souligne dans le message ce qui devait t’alerter.</p>
           <template v-if="e.pourquoi">
@@ -85,8 +92,8 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
         </template>
         <template v-else-if="e.type === 'lieu'">
           <h2>Lieu {{ numero(e.id, i) }} : {{ e.lieu }}</h2>
-          <div class="carte"><p>{{ e.guide }}</p></div>
-          <p><strong>{{ e.question }}</strong></p>
+          <div class="message-papier"><p>{{ e.guide }}</p></div>
+          <p class="question-papier">{{ e.question }}</p>
           <ul class="cases"><li v-for="c in ordreAffichage(e.choix, e.id)" :key="c.id">☐ {{ c.texte }}</li></ul>
           <template v-if="e.pourquoi">
             <p>{{ questionPourquoi }}</p>
@@ -114,7 +121,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
         <template v-else-if="e.type === 'minijeu' && e.jeu === 'repere'">
           <h2>Mini-jeu {{ i + 1 }} : {{ e.config.consigne }}</h2>
           <p>Entoure les lignes suspectes.</p>
-          <div class="carte">
+          <div class="message-papier">
             <p><strong>{{ e.config.titre }}</strong></p>
             <p v-for="l in e.config.lignes" :key="l.id">{{ l.texte }}</p>
           </div>
@@ -135,7 +142,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
         </template>
         <template v-else-if="e.type === 'minijeu' && e.jeu === 'verification'">
           <h2>Mini-jeu {{ i + 1 }} : {{ e.config.consigne }}</h2>
-          <div class="carte">
+          <div class="message-papier">
             <p>
               <strong>{{ e.config.publication.auteur }}</strong>
               <span v-if="e.config.publication.date"> · {{ e.config.publication.date }}</span>
@@ -170,8 +177,9 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
 
       <BandeauAide v-if="sensible && theme" :aides="theme.aides" class="bandeau-imprimable" />
 
-      <section class="corrige saut-page carte">
-        <h2>Corrigé (pour l’adulte)</h2>
+      <section class="corrige saut-page carte" aria-labelledby="titre-corrige">
+        <p class="surtitre no-print">Ne pas distribuer aux élèves</p>
+        <h2 id="titre-corrige">Corrigé (pour l’adulte)</h2>
         <div v-for="(e, i) in mission.etapes" :key="e.id">
           <template v-if="e.type === 'scenario'">
             <h3>Situation {{ i + 1 }}</h3>
@@ -258,12 +266,49 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
 </template>
 
 <style scoped>
-table { width: 100%; border-collapse: collapse; margin: 0.5rem 0 1rem; }
-th, td { border: 1px solid var(--bord); padding: 0.4rem; text-align: left; }
-.cases { list-style: none; padding-left: 0.5rem; }
-.etape-papier { margin-bottom: 1.5rem; }
-.corrige { margin-top: 2rem; }
-.corrige h2 { margin-top: 0; }
+.plan-b { display: grid; gap: 1.5rem; padding-block: 2.5rem; max-width: 60rem; }
+.plan-b :deep(.bandeau-brouillon) { margin: 0; }
+
+.entete-papier { background: linear-gradient(to bottom right, var(--surface), var(--surface-2)); }
+.entete-papier h1 { margin: 0; }
+.consigne-papier { margin: 0.5rem 0 0; color: var(--texte-doux); }
+.identite { margin: 1.25rem 0 0; padding-top: 1rem; border-top: 1px solid var(--bord); font-weight: 600; }
+
+.etape-papier > :first-child, .corrige > :first-child { margin-top: 0; }
+.etape-papier > :last-child, .corrige > :last-child { margin-bottom: 0; }
+.etape-papier h2, .corrige h2 { font-size: 1.15em; }
+.message-papier {
+  margin: 0.75rem 0 1rem; padding: 0.9rem 1.1rem;
+  background: var(--surface-2); border: 1px solid var(--bord); border-radius: 14px;
+}
+.message-papier > :first-child { margin-top: 0; }
+.message-papier > :last-child { margin-bottom: 0; }
+.question-papier { font-weight: 600; }
+.cases { list-style: none; margin: 0.5rem 0 1rem; padding: 0; display: grid; gap: 0.35rem; }
+.cases li { padding: 0.45rem 0.75rem; border: 1px solid var(--bord); border-radius: 10px; }
+.renvoi { padding: 0.75rem 1rem; border-left: 4px solid var(--primaire); background: var(--surface-2); border-radius: 0 10px 10px 0; }
+
+table { width: 100%; border-collapse: collapse; margin: 0.75rem 0 0; font-size: 0.95em; }
+th, td { border-bottom: 1px solid var(--bord); padding: 0.55rem 0.6rem; text-align: left; }
+thead th {
+  background: var(--surface-2); color: var(--texte-doux);
+  font-size: 0.8em; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+}
+caption { text-align: left; font-weight: 600; padding-bottom: 0.4rem; }
+
+.corrige { border-top: 4px solid var(--primaire); }
+.corrige h3 { margin: 1.5rem 0 0.5rem; padding-top: 1rem; border-top: 1px solid var(--bord); font-size: 1em; }
+.corrige > div:first-of-type h3 { border-top: 0; padding-top: 0; }
+
+/* Papier : pas de cases encadrées ni de fonds (print.css passe les jetons en noir sur blanc). */
+@media print {
+  .plan-b { display: block; padding: 0; max-width: none; }
+  .etape-papier, .corrige, .entete-papier { margin-bottom: 1rem; padding: 0.75rem 1rem; }
+  .cases li { border: 0; padding: 0.15rem 0; }
+  .message-papier, .renvoi { background: var(--surface); }
+  thead th { background: var(--surface); color: var(--texte); }
+  th, td { border: 1px solid var(--bord); }
+}
 /* Les aides restent à leur place en fin de fiche élève, à l’écran comme à l’impression. */
 .bandeau-imprimable { position: static; }
 @media print { .bandeau-imprimable { display: block !important; } }
