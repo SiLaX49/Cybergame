@@ -88,6 +88,22 @@ describe('page Profil et boutique', () => {
     expect(store.etat.titre).toBeNull()
   })
 
+  it('un écusson acheté est porté par le personnage et l’agent·e, et se retire', async () => {
+    store.crediterMission('m-test', 120, false)
+    store.choisirPersonnage('p1')
+    const w = mount(ProfilPage, { global: { plugins: [await routerTest('/profil')] } })
+    expect(w.find('.personnage .ecusson').exists()).toBe(false)
+    const article = () => w.findAll('.article').find((a) => a.text().includes('Écusson cadenas'))!
+    await article().find('button').trigger('click')
+    expect(store.etat.ecusson).toBe('ecusson-cadenas')
+    expect(w.find('.personnage .ecusson').text()).toBe('🔒')
+    expect(w.find('svg.agente').text()).toContain('🔒')
+    expect(article().find('button').text()).toContain('Porter cet écusson')
+    await article().find('button').trigger('click')
+    expect(store.etat.ecusson).toBeNull()
+    expect(w.find('.personnage .ecusson').exists()).toBe(false)
+  })
+
   it('montre les badges gagnés et permet de changer de personnage', async () => {
     store.enregistrerMission('m-test', ['mission-accomplie', 'reparateur'], {})
     const w = mount(ProfilPage, { global: { plugins: [await routerTest('/profil')] } })

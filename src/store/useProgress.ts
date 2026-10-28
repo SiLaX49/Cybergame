@@ -85,16 +85,19 @@ export function creerStore(storage: Storage | null) {
       noterJournee(maintenant, { missions: 0, octets: GAINS.defiDuJour, reparations: 0 })
       return true
     },
-    /** Achète un objet de la boutique s’il reste assez d’octets ; un titre acheté est aussitôt porté. */
+    /** Achète un objet de la boutique s’il reste assez d’octets ; un titre ou un écusson acheté est aussitôt porté. */
     acheter(id: string): boolean {
       const objet = objetBoutique(id)
       if (!objet || etat.achats.includes(id) || solde(etat) < objet.prix) return false
       etat.achats.push(id)
-      if (objet.type === 'titre') etat.titre = id
+      etat[objet.type] = id
       return true
     },
     porterTitre(id: string | null) {
       if (id === null || etat.achats.includes(id)) etat.titre = id
+    },
+    porterEcusson(id: string | null) {
+      if (id === null || etat.achats.includes(id)) etat.ecusson = id
     },
     effacer() {
       Object.assign(etat, progressionVide())
