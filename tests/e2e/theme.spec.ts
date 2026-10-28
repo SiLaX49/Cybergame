@@ -8,8 +8,8 @@ async function verifierA11y(page: Page, ecran: string) {
   expect(graves.map((v) => `${ecran} — ${v.id} : ${v.help} (${v.nodes.length})`)).toEqual([])
 }
 
-const fondSombre = 'rgb(10, 20, 48)'
-const fondClair = 'rgb(238, 243, 252)'
+const fondSombre = 'rgb(11, 16, 32)'
+const fondClair = 'rgb(246, 247, 252)'
 const fondPage = (page: Page) => page.evaluate(() => getComputedStyle(document.body).backgroundColor)
 
 test.describe('mode sombre automatique', () => {

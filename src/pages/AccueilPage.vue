@@ -3,7 +3,7 @@ import { Check } from '@lucide/vue'
 import { computed, ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { TRANCHES, TRANCHE_LIBELLES } from '@/content/schema'
-import { dateDuJour } from '@/engine/portefeuille'
+import { dateDuJour, solde } from '@/engine/portefeuille'
 import ObjectifsJour from '@/profil/ObjectifsJour.vue'
 import { classementIles, defiPour, ileEnCours } from '@/profil/tableau'
 import { MODES, type Mode } from '@/store/progress'
@@ -48,6 +48,9 @@ const tuiles = computed(() => {
   return liste
 })
 const classement = computed(() => (store.etat.tranche ? classementIles(store.etat.tranche, store.etat.octets) : []))
+/** La prochaine mission à jouer sur l’île (la première pas encore terminée). */
+const prochaine = computed(() => ile.value?.missions.find((m) => !(m.id in store.etat.missions)) ?? ile.value?.missions[0])
+const reserve = computed(() => solde(store.etat))
 
 function commencer() {
   if (!pret.value) return
@@ -58,7 +61,7 @@ function commencer() {
 <template>
   <main v-if="formulaire || !pret" class="conteneur accueil-depart">
     <div class="depart-agente"><AgenteCyber :personnage="store.etat.personnage" :hauteur="300" /></div>
-    <div class="depart-contenu">
+    <div class="depart-contenu carte">
       <div class="heros">
         <h1>Cyber Réflexes</h1>
         <p class="accroche">
@@ -108,21 +111,41 @@ function commencer() {
   </main>
 
   <main v-else class="tableau">
-    <div class="tableau-agente"><AgenteCyber :personnage="store.etat.personnage" :hauteur="460" /></div>
-
-    <section class="tableau-centre" aria-labelledby="titre-module">
-      <p class="niveau">
-        {{ TRANCHE_LIBELLES[store.etat.tranche!] }} · {{ MODE_INFOS[store.etat.mode!].titre }} ·
-        <button type="button" class="btn btn-discret changer" @click="formulaire = true">Changer</button>
-      </p>
-      <template v-if="ile">
-        <h1 id="titre-module">{{ ile.nom }} : {{ ile.titre }}</h1>
-        <div class="progression">
-          <progress class="barre-degrade" :value="ile.terminees" :max="ile.total" aria-labelledby="titre-module" />
-          <span class="pourcentage">{{ pourcentage }} %</span>
+    <div class="tableau-principal">
+      <section class="carte parcours" aria-labelledby="titre-module">
+        <span class="parcours-numero" aria-hidden="true">{{ ile ? Math.min(ile.terminees + 1, ile.total) : 1 }}</span>
+        <div class="parcours-corps">
+          <p class="surtitre">Aujourd’hui sur ton parcours</p>
+          <template v-if="ile">
+            <h1 id="titre-module">{{ ile.nom }} : {{ ile.titre }}</h1>
+            <p class="parcours-sous-titre">{{ ile.terminees }} mission{{ ile.terminees > 1 ? 's' : '' }} terminée{{ ile.terminees > 1 ? 's' : '' }} sur {{ ile.total }}</p>
+            <div class="progression">
+              <progress class="barre-degrade" :value="ile.terminees" :max="ile.total" aria-labelledby="titre-module" />
+              <span class="pourcentage">{{ pourcentage }} %</span>
+            </div>
+            <p v-if="prochaine" class="parcours-suite">Prochaine mission : <strong>{{ prochaine.titre }}</strong></p>
+            <div class="actions">
+              <RouterLink v-if="prochaine" class="btn btn-primaire" :to="`/mission/${prochaine.id}`">Commencer la mission</RouterLink>
+              <RouterLink class="btn btn-secondaire" :to="{ name: 'ile', params: { theme: ile.theme } }">Toutes les missions de l’île</RouterLink>
+            </div>
+          </template>
+          <template v-else>
+            <h1 id="titre-module">Bienvenue, agent·e !</h1>
+            <p>Choisis une île pour commencer.</p>
+            <div class="actions"><RouterLink class="btn btn-primaire" to="/carte">Voir les îles</RouterLink></div>
+          </template>
+          <p class="parcours-pied">
+            <span>{{ TRANCHE_LIBELLES[store.etat.tranche!] }} · {{ MODE_INFOS[store.etat.mode!].titre }}</span>
+            <button type="button" class="btn btn-discret changer" @click="formulaire = true">Changer</button>
+          </p>
         </div>
+      </section>
+
+      <section v-if="ile" class="carte" aria-labelledby="titre-missions">
+        <h2 id="titre-missions" class="carte-titre">Les missions de l’île</h2>
+        <p class="carte-sous-titre">Choisis par où commencer : chaque mission rapporte des octets.</p>
         <ul class="grille-tuiles">
-          <li v-for="({ mission: m, defi: estDefi }, i) in tuiles" :key="m.id" :class="{ 'tuile-grande': i === 0 }">
+          <li v-for="({ mission: m, defi: estDefi }, i) in tuiles" :key="m.id">
             <RouterLink class="tuile-mission" :to="`/mission/${m.id}`">
               <span class="tuile-illustration" aria-hidden="true">{{ estDefi ? '🎯' : illustration(i) }}</span>
               <span><template v-if="estDefi">Défi du jour : </template>{{ m.titre }}</span>
@@ -130,19 +153,17 @@ function commencer() {
             </RouterLink>
           </li>
         </ul>
-        <RouterLink class="lien-ile" :to="{ name: 'ile', params: { theme: ile.theme } }">Toutes les missions de l’île</RouterLink>
-      </template>
-      <template v-else>
-        <h1 id="titre-module">Bienvenue, agent·e !</h1>
-        <p>Choisis une île pour commencer.</p>
-      </template>
-      <div class="appel">
-        <RouterLink v-if="defi" class="btn btn-appel" :to="`/mission/${defi.id}`">Lancer le défi du jour</RouterLink>
-        <RouterLink v-else class="btn btn-appel" to="/carte">Voir les îles</RouterLink>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <aside class="tableau-cote" aria-label="Ta journée">
+      <section class="carte agent" aria-labelledby="titre-agent">
+        <p class="surtitre">Ton agent·e</p>
+        <h2 id="titre-agent" class="carte-titre">Ta réserve : <Octets :valeur="reserve" /></h2>
+        <div class="agent-dessin"><AgenteCyber :personnage="store.etat.personnage" :hauteur="200" /></div>
+        <RouterLink v-if="defi" class="btn btn-appel" :to="`/mission/${defi.id}`">Lancer le défi du jour</RouterLink>
+        <RouterLink v-else class="btn btn-appel" to="/carte">Voir les îles</RouterLink>
+      </section>
       <ObjectifsJour />
       <section v-if="classement.length" class="panneau" aria-labelledby="titre-classement">
         <h2 id="titre-classement">Classement de tes îles</h2>
@@ -161,65 +182,86 @@ function commencer() {
 
 <style scoped>
 /* ----- Premier écran : choix du niveau et du mode ----- */
-.accueil-depart { display: flex; gap: 2rem; align-items: flex-start; }
-.depart-agente { flex: none; padding-top: 1rem; }
+.accueil-depart { display: flex; gap: 2rem; align-items: center; padding-block: 2.5rem; }
+.depart-agente { flex: none; }
 .depart-contenu { flex: 1 1 0; min-width: 0; }
-.heros h1 { margin: 1rem 0 0.25rem; text-transform: uppercase; letter-spacing: 0.03em; }
-.accroche { font-size: 1.1em; color: var(--texte-doux); margin: 0 0 1.25rem; }
+.heros h1 { margin: 0 0 0.5rem; }
+.accroche { color: var(--texte-doux); margin: 0 0 1.5rem; }
 .choix-grille {
   display: grid; gap: 0.75rem;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
 }
-.choix-grille .option { min-height: 64px; margin: 0; font-family: var(--police-titres); font-weight: 600; }
-.description { color: var(--texte-doux); font-family: var(--police-texte); font-weight: 400; }
+.choix-grille .option { min-height: 64px; margin: 0; }
+.description { color: var(--texte-doux); font-weight: 400; }
 
-/* ----- Tableau de bord : agent·e | module | objectifs et classement ----- */
+/* ----- Tableau de bord : colonne principale | colonne « Ta journée » ----- */
 .tableau {
   display: grid; gap: 1.5rem; align-items: start;
-  grid-template-columns: minmax(12rem, 18rem) minmax(0, 1fr) minmax(14rem, 17rem);
-  max-width: 78rem; margin: 0 auto; padding: 1.5rem 1rem;
+  grid-template-columns: minmax(0, 2fr) minmax(16rem, 1fr);
+  max-width: 90rem; margin: 0 auto; padding: 2.5rem 1.5rem;
 }
-.tableau-agente { align-self: end; }
-.niveau { margin: 0 0 0.5rem; color: var(--texte-doux); display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem; }
+.tableau-principal, .tableau-cote { display: grid; gap: 1.5rem; min-width: 0; }
+.carte-titre { margin: 0; font-size: 1.15em; }
+.carte-sous-titre { margin: 0.2rem 0 1.25rem; color: var(--texte-doux); font-size: 0.9em; }
+
+.parcours {
+  display: flex; gap: 1.5rem; align-items: flex-start;
+  background: linear-gradient(to bottom right, var(--surface), var(--surface-2));
+}
+.parcours-numero {
+  flex: none; display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: 50%;
+  border: 4px solid var(--primaire); background: var(--surface);
+  font-family: var(--police-titres); font-weight: 700; font-size: 1.5em; color: var(--texte);
+}
+.parcours-corps { flex: 1; min-width: 0; }
+.parcours h1 { margin: 0; font-size: clamp(1.25em, 1.1em + 0.6vw, 1.5em); }
+.parcours-sous-titre { margin: 0.2rem 0 0.75rem; color: var(--texte-doux); }
+.progression { display: flex; align-items: center; gap: 1rem; }
+.pourcentage { font-weight: 600; color: var(--texte-doux); white-space: nowrap; font-size: 0.9em; }
+.parcours-suite {
+  margin: 1rem 0 0; padding: 0.7rem 1rem; border-radius: 12px;
+  background: var(--surface-2); border: 1px solid var(--bord);
+}
+.parcours-pied {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem;
+  margin: 1.25rem 0 0; padding-top: 0.75rem; border-top: 1px solid var(--bord); color: var(--texte-doux);
+}
 .changer { min-height: 44px; padding-inline: 0.4rem; }
-.tableau-centre h1 { margin: 0 0 0.75rem; font-size: clamp(1.4em, 1.2em + 1vw, 1.9em); }
-.progression { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
-.progression progress { height: 0.9rem; }
-.pourcentage { font-family: var(--police-titres); font-weight: 700; color: var(--texte-doux); white-space: nowrap; }
+
 .grille-tuiles {
   list-style: none; padding: 0; margin: 0;
-  display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
 }
 .grille-tuiles li { display: grid; }
-.grille-tuiles li.tuile-grande { grid-row: span 2; }
-.tuile-grande .tuile-mission { min-height: 19rem; }
-.tuile-grande .tuile-illustration { font-size: 5rem; align-self: center; margin-block: auto; }
 .grille-tuiles li:nth-child(2) .tuile-mission { --tuile-fond: var(--tuile-b); }
 .grille-tuiles li:nth-child(3) .tuile-mission { --tuile-fond: var(--tuile-c); }
 .tuile-faite { display: inline-flex; align-items: center; gap: 0.3em; font-size: 0.85em; font-family: var(--police-texte); }
-.lien-ile { display: inline-flex; align-items: center; min-height: 44px; margin-top: 0.5rem; }
-.appel { display: flex; justify-content: center; margin-top: 1rem; }
-.tableau-cote { display: grid; gap: 1.25rem; }
-.classement { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; }
-.classement li { display: grid; grid-template-columns: 1.4rem 2.2rem minmax(0, 1fr); align-items: center; gap: 0.25rem 0.5rem; }
-.classement .octets { grid-column: 3; font-size: 0.9em; }
-.rang { font-family: var(--police-titres); font-weight: 700; }
+
+.agent { display: grid; gap: 0.5rem; justify-items: start; }
+.agent .surtitre { margin: 0; }
+.agent-dessin { justify-self: center; }
+.agent .btn-appel { justify-self: stretch; }
+
+.classement { list-style: none; padding: 0.25rem 0; margin: 0; display: grid; }
+.classement li {
+  display: grid; grid-template-columns: 1.6rem 2.2rem minmax(0, 1fr) auto; align-items: center; gap: 0.6rem;
+  padding: 0.55rem 0; border-bottom: 1px solid var(--bord);
+}
+.classement li:last-child { border-bottom: 0; }
+.classement .octets { font-size: 0.85em; white-space: nowrap; }
+.rang { font-weight: 700; color: var(--texte-doux); font-size: 0.9em; }
 .classement li:first-child .rang { color: var(--or); }
 .avatar {
   display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%;
-  background: var(--surface-2); border: 2px solid var(--bord-fort); font-size: 1.1rem;
+  background: var(--surface-2); border: 2px solid var(--bord); font-size: 1.1rem;
 }
-.nom { font-weight: 700; min-width: 0; overflow-wrap: anywhere; }
+.nom { font-weight: 600; min-width: 0; overflow-wrap: anywhere; font-size: 0.95em; }
 
 @media (max-width: 62rem) {
-  .tableau { grid-template-columns: minmax(0, 1fr) minmax(14rem, 17rem); }
-  .tableau-agente { display: none; }
+  .tableau { grid-template-columns: minmax(0, 1fr); padding: 1.5rem 1rem; }
 }
 @media (max-width: 44rem) {
-  .tableau { grid-template-columns: minmax(0, 1fr); }
-  .grille-tuiles { grid-template-columns: minmax(0, 1fr); }
-  .grille-tuiles li.tuile-grande { grid-row: auto; }
-  .tuile-grande .tuile-mission { min-height: 11rem; }
+  .parcours { flex-direction: column; gap: 1rem; }
   .depart-agente { display: none; }
 }
 </style>

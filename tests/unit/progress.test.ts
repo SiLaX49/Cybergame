@@ -16,7 +16,7 @@ describe('progression', () => {
       version: 1,
       tranche: null,
       mode: null,
-      reglages: { taille: 'normal', interligne: 'normal', lectureSimple: false, animations: true, chrono: false, theme: 'sombre', vueCarte: 'archipel' },
+      reglages: { taille: 'normal', interligne: 'normal', lectureSimple: false, animations: true, chrono: false, theme: 'auto', vueCarte: 'archipel' },
       missions: {},
       rappels: {},
       octets: {},
@@ -27,10 +27,10 @@ describe('progression', () => {
     })
   })
 
-  it('une sauvegarde sans réglage de thème passe en bleu nuit (sombre)', () => {
+  it('une sauvegarde sans réglage de thème suit l’appareil (automatique)', () => {
     const ancienne = { version: 1, reglages: { taille: 'grand', interligne: 'normal', lectureSimple: false, animations: true, chrono: false } }
     const etat = migrer(ancienne)
-    expect(etat?.reglages.theme).toBe('sombre')
+    expect(etat?.reglages.theme).toBe('auto')
     expect(etat?.reglages.taille).toBe('grand')
   })
 

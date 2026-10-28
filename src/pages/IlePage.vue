@@ -94,6 +94,6 @@ const terminee = (id: string) => id in store.etat.missions
 .avertissement-ile { display: flex; align-items: flex-start; gap: 1rem; width: 100%; box-sizing: border-box; }
 .avertissement-ile > :first-child { flex: none; }
 .missions-ile { list-style: none; padding: 0; display: grid; gap: 0.75rem; width: 100%; }
-.missions-ile li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; }
+.missions-ile li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; padding: 0.75rem 1.25rem; }
 .missions-ile li a { font-weight: 700; min-height: 44px; display: inline-flex; align-items: center; }
 </style>
