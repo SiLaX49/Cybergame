@@ -41,8 +41,8 @@ describe.each([
   it.each(scenarios.map((s) => [s.id, s] as const))('%s : chaque passage surligné à l’écran, numéros dans l’ordre de lecture', async (_id, s) => {
     store.modifierReglages({ animations: false, lectureSimple })
     const w = await monterApresChoix(s)
-    // Panneau : rang = numéro, passage cité entre guillemets.
-    const attendus = w.findAll('.liste-indices li').map((li) => `${li.find('.numero').text()} ${li.find('.cite').text().slice(2, -2)}`)
+    // Panneau : rang = numéro et passage de l’indice (cité, sauf s’il est déjà dans l’intitulé).
+    const attendus = w.findAll('.liste-indices li').map((li) => `${li.find('.numero').text()} ${li.attributes('data-passage')}`)
     expect(attendus).toHaveLength(s.indices.length)
     // Téléphone : passages numérotés, dans l’ordre du document (en-tête, puis corps).
     const marques = w.find('figure.telephone').findAll('mark.passage')
