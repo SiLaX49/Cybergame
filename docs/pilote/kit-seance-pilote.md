@@ -17,14 +17,15 @@ guide d'entretien.
 - [ ] Imprimer le questionnaire du niveau en deux exemplaires par élève (avant et après), et une grille d'observation.
 - [ ] Sur chaque poste : **Réglages › Effacer ma progression › Oui, tout effacer**, pour que chaque élève parte de zéro (cela remet aussi le thème et les octets à zéro).
 
-Missions conseillées : le parcours **« L'île aux hameçons »** du niveau. Il montre le parcours à routes, les gestes
-de réparation et le débrief.
+Missions conseillées : une mission **classique de l'île aux hameçons**. Elle mêle aux arnaques un **message vrai**,
+sans l'annoncer : c'est lui qui montre si les élèves apprennent à décider, ou seulement à se méfier de tout. Elle
+montre aussi les gestes de réparation et le débrief.
 
-| Niveau | Mission | Durée annoncée |
-|---|---|---|
-| 6e | La traversée de l'île aux hameçons (+ « Le colis mystère » s'il reste du temps) | 15 min (+ 15) |
-| 5e – 3e | L'île aux hameçons : le grand concours | 20 min |
-| Lycée | L'île aux hameçons : le stage de seconde | 25 min |
+| Niveau | Mission | Message vrai | Durée annoncée |
+|---|---|---|---|
+| 6e | Le colis mystère | 3e situation : ta mère vient te chercher plus tôt | 18 min |
+| 5e – 3e | Mon ami a changé | 3e situation : le vrai ENT décale un devoir | 21 min |
+| Lycée | L'île aux hameçons : le stage de seconde | aucun pour l'instant (pas encore de message vrai au lycée) | 25 min |
 
 ## 2. Déroulé (55 minutes)
 
@@ -35,7 +36,7 @@ de réparation et le débrief.
 | 10 – 35 min | Mission en **binôme** (ou en **classe entière** si un seul écran : la classe vote, l'adulte valide) | élèves |
 | 35 – 45 min | **Débrief** : les questions « On en parle ? » de fin de mission, affichées en grand | enseignant |
 | 45 – 50 min | Questionnaire **après** (mêmes questions) | élèves |
-| 50 – 55 min | Marge, ou deuxième mission (6e) | — |
+| 50 – 55 min | Marge | — |
 
 Pendant la séance, l'observateur (toi ou l'enseignant) remplit la grille de la partie 4 sans intervenir.
 
@@ -67,6 +68,8 @@ Chaque questionnaire se termine par les deux mêmes questions :
    ☐ J'installe vite ☐ **Je ferme la fenêtre et je n'installe rien** ☐ J'appelle le numéro affiché ☐ J'éteins et je n'en parle à personne
 6. Tu t'es fait avoir par un faux message. Que fais-tu ?
    ☐ Je n'en parle pas, j'ai honte ☐ J'attends que ça passe ☐ **J'en parle tout de suite à un adulte** ☐ Je supprime tout
+7. Ce matin, ta mère t'a dit qu'elle viendrait peut-être te chercher. À 15 h, elle t'écrit depuis son numéro habituel : « Je t'attends à 17 h devant le collège. »
+   ☐ Je bloque le numéro ☐ Je ne réponds pas, c'est sûrement un piège ☐ **Je lui réponds « OK » (ou je l'appelle si j'ai un doute)** ☐ Je le signale comme arnaque
 
 ### 5e – 3e
 
@@ -82,6 +85,8 @@ Chaque questionnaire se termine par les deux mêmes questions :
    ☐ Attendre de voir ☐ **Prévenir un adulte pour faire bloquer la carte tout de suite** ☐ Racheter sur le vrai site ☐ Ne rien dire
 6. Un QR code ouvre une page de connexion.
    ☐ Je me connecte ☐ **Je me demande qui l'a posé, et je passe moi-même par le site officiel** ☐ Je mets mon mot de passe pour voir ☐ Je le partage
+7. Dans l'appli de ton club de sport, où tu es déjà connecté·e : « Entraînement annulé ce soir, terrain inondé. »
+   ☐ Je l'ignore et j'y vais quand même ☐ J'écris dans le groupe que le club est piraté ☐ **Je note l'annulation (et je vérifie sur le calendrier du club si j'ai un doute)** ☐ Je le signale comme arnaque
 
 ### Lycée
 
@@ -97,8 +102,11 @@ Chaque questionnaire se termine par les deux mêmes questions :
    ☐ Je n'en parle pas ☐ **J'arrête l'échange, je garde les preuves, je préviens le lycée, puis je fais le diagnostic sur 17cyber.gouv.fr** ☐ J'envoie d'autres documents pour arranger ☐ J'attends
 6. Un mineur victime d'une arnaque peut-il porter plainte ?
    ☐ Non, seulement ses parents ☐ **Oui, au commissariat ou à la gendarmerie** ☐ Non, il est trop jeune ☐ Seulement en ligne
+7. Dans l'ENT du lycée, où tu es déjà connecté·e : « Le bac blanc de jeudi est décalé à vendredi, 8 h, même salle. »
+   ☐ Je l'ignore, c'est sûrement faux ☐ Je le signale comme arnaque ☐ **Je note la nouvelle date (et je vérifie dans l'emploi du temps si j'ai un doute)** ☐ J'attends qu'un ami me le confirme par SMS
 
-(Les réponses en **gras** sont les bonnes : imprimer une version sans gras pour les élèves.)
+(Les réponses en **gras** sont les bonnes : imprimer une version sans gras pour les élèves. La question 7 est un
+message **vrai** : elle mesure si les élèves se méfient de tout, y compris de ce qui est fiable.)
 
 ---
 
@@ -111,6 +119,7 @@ Chaque questionnaire se termine par les deux mêmes questions :
 | Lecture | Textes trop longs, sautés, ou relus à voix haute | |
 | Engagement | Moments où ça réagit ou discute (rires, désaccords en binôme) ; moments de décrochage | |
 | Erreurs | Les élèves osent-ils un mauvais choix ? Comprennent-ils la réparation ? | |
+| Message vrai | Combien bloquent, signalent ou ignorent le message vrai ? Réaction au retour « Ce message était vrai » : surprise, rire, frustration ? | |
 | Octets et badges | Remarqués ? Motivants ? Source de distraction ou de comparaison ? | |
 | Durée réelle | Fin de mission (comparer à la durée annoncée) | |
 | Enseignant | Utilise la fiche, le mode classe, le débrief en grand ? Où hésite-t-il ? | |
@@ -121,7 +130,7 @@ Chaque questionnaire se termine par les deux mêmes questions :
 ## 5. Entretien avec l'enseignant (15 minutes, après la séance)
 
 1. Qu'est-ce qui a le mieux marché ? Et le moins bien ?
-2. Les situations parlent-elles à vos élèves ? Lesquelles sonnent faux ?
+2. Les situations parlent-elles à vos élèves ? Lesquelles sonnent faux ? Le message vrai a-t-il surpris, et a-t-il fait discuter ?
 3. Le débrief vous a-t-il suffi pour animer la discussion ? Qu'aurait-il fallu en plus ?
 4. Referiez-vous cette séance ? Avec quelle autre classe, quel autre thème ?
 5. Aimeriez-vous suivre les résultats de votre classe (ce qui suppose des comptes élèves avec code de classe) ?
@@ -132,9 +141,13 @@ Chaque questionnaire se termine par les deux mêmes questions :
 ## 6. Après : le bilan
 
 - **Progrès** : pour chaque question, comparer la part de bonnes réponses avant et après. Comparer aussi la confiance déclarée.
+- **Méfiance excessive** : à la question 7 (message vrai), compter les élèves qui bloquent, signalent ou ignorent, avant et après. S'ils sont plus nombreux après, le jeu apprend à se méfier de tout plutôt qu'à décider.
+- **Durée réelle** : le temps de jeu mesuré, comparé à la durée annoncée.
 - **Ce qui reste** : les résultats à une semaine, si le questionnaire a été refait.
 - **Une page de conclusions** qui tranche la suite :
   - pas de progrès → retravailler le contenu ;
+  - méfiance excessive au message vrai → plus de messages vrais (vers 40 %) ;
+  - missions trop longues → raccourcir (voir la durée réelle) ;
   - l'enseignant veut suivre sa classe → comptes avec code de classe ;
   - les octets ne servent à rien en classe → les simplifier.
 

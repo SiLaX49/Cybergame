@@ -3,7 +3,7 @@ theme: jeux-achats
 tranches: ['5e-3e']
 titre: Le faux modérateur
 resume: 'Un faux support qui menace de bannir ton compte, un « jeu à tester », un mod gratuit : sur les serveurs de jeu, les pièges se déguisent en coups de main.'
-duree: 18
+duree: 21
 objectifs:
   - Reconnaître un faux support ou un faux modérateur qui réclame un code
   - Refuser d’ouvrir un programme envoyé par un inconnu ou de désactiver son antivirus
@@ -229,7 +229,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Avez-vous déjà reçu un message d’un « support » ou d’un « modo » sur un serveur de jeu ? (sans obligation de raconter)
-    18 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    21 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (le .exe envoyé par une amie).
     5 min : où trouver de l’aide (adulte de confiance, signaler aux modérateurs, support officiel joint depuis l’appli elle-même, cybermalveillance.gouv.fr pour se faire aider).
     5 min : engagement. Cette semaine, je vérifie que mon compte de jeu principal a un mot de passe que je n’utilise nulle part ailleurs.
