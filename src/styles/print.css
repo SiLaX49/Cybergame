@@ -10,7 +10,7 @@
     --fond: #ffffff; --surface: #ffffff; --surface-2: #ffffff;
     --texte: #000000; --texte-doux: #000000;
     --bord: #000000; --bord-fort: #000000;
-    --primaire: #000000; --primaire-ombre: #000000; --primaire-texte: #ffffff;
+    --primaire: #000000; --primaire-2: #000000; --primaire-ombre: #000000; --primaire-texte: #ffffff;
     --bon: #000000; --risque: #000000; --aide: #000000;
     --bon-fond: #ffffff; --risque-fond: #ffffff; --aide-fond: #ffffff;
     --mer: #ffffff; --mer-profonde: #ffffff; --ecume: #ffffff;
@@ -32,11 +32,12 @@
   }
   .pastille-theme { border: 0 !important; }
   .hulotte { display: none !important; }
-  .app-header, .lien-evitement, .alerte-stockage, .no-print, .bandeau-aide, .maj {
+  .app-header, .barre-laterale, .pied, .lien-evitement, .alerte-stockage, .no-print, .bandeau-aide, .maj {
     display: none !important;
   }
+  .coquille { display: block !important; }
   body {
-    background: #fff;
+    background: #fff none;
     font-size: 12pt;
   }
   .conteneur {

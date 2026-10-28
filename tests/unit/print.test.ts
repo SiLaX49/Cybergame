@@ -17,3 +17,10 @@ describe('print.css', () => {
     expect(corps).toContain('color-scheme: light')
   })
 })
+
+describe('print.css : coquille', () => {
+  it('n’imprime ni la barre latérale, ni l’en-tête, ni le pied de page', () => {
+    const masques = printCss.slice(printCss.indexOf('.app-header,'), printCss.indexOf('display: none', printCss.indexOf('.app-header,')))
+    for (const s of ['.app-header', '.barre-laterale', '.pied']) expect(masques).toContain(s)
+  })
+})
