@@ -10,3 +10,6 @@ test-results/
 .idea/
 .vscode/
 dist-relecture/
+
+# Cahier des charges (document de travail, jamais versionné)
+/*.docx
