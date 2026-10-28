@@ -2,7 +2,7 @@
 html { font-family: var(--police-texte); }
 body {
   margin: 0;
-  background: var(--fond);
+  background: var(--fond) radial-gradient(var(--bord) 1px, transparent 1px) 0 0 / 22px 22px;
   color: var(--texte);
   font-size: var(--taille-base);
   line-height: var(--interligne);
@@ -11,13 +11,13 @@ body {
 }
 h1, h2, h3 {
   font-family: var(--police-titres);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: 0.005em;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
 }
-h1 { font-size: clamp(1.7em, 1.4em + 1.2vw, 2.25em); }
-h2 { font-size: 1.35em; }
-h3 { font-size: 1.15em; }
+h1 { font-size: clamp(1.6em, 1.35em + 1vw, 2em); }
+h2 { font-size: 1.3em; }
+h3 { font-size: 1.1em; }
 a { color: var(--primaire); text-underline-offset: 0.18em; text-decoration-thickness: 0.08em; }
 a:hover { text-decoration-thickness: 0.14em; }
 input, select, textarea, button { font: inherit; color: inherit; }
@@ -32,7 +32,7 @@ input[type='radio'], input[type='checkbox'] { accent-color: var(--primaire); wid
 /* Blocs et titres qui reçoivent le focus par programme (changement d’étape) : pas de cadre, ils ne sont pas cliquables. */
 [tabindex='-1']:focus { outline: none; }
 
-.conteneur { max-width: 64rem; margin: 0 auto; padding: 1rem; }
+.conteneur { max-width: 72rem; margin: 0 auto; padding: 1rem; }
 .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; overflow: hidden;

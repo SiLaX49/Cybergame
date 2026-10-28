@@ -108,8 +108,13 @@ focusAuChangement(() => props.phase, titre)
 .lieu-grille { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); align-items: start; }
 @media (max-width: 48rem) { .lieu-grille { grid-template-columns: minmax(0, 1fr); } }
 .lieu-decor { margin: 0; }
+.lieu-panneau {
+  padding: 1.5rem; background: var(--surface); border: 1px solid var(--bord);
+  border-radius: var(--rayon-carte); box-shadow: var(--ombre-carte);
+}
+.lieu-panneau > h2 { margin-top: 1.25rem; }
 .lieu-decor figcaption { margin-top: 0.4rem; font-weight: 700; font-size: 1.1em; }
-.recit { display: flex; gap: 0.75rem; align-items: flex-start; border-radius: 20px 20px 20px 6px; }
+.recit { display: flex; gap: 0.75rem; align-items: flex-start; padding: 1rem; background: var(--surface-2); box-shadow: none; border-radius: 16px 16px 16px 4px; }
 .recit p { margin: 0; align-self: center; }
 .recit-icone { flex: none; }
 </style>

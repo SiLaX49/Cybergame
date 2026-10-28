@@ -60,6 +60,9 @@ const etat = ref<EtatTelephone>(etatDepart(props.scene))
   display: grid; gap: 1.5rem; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); align-items: start;
   height: 100%; container-type: var(--scene-conteneur, normal);
 }
-.scene-panneau { max-height: 100%; overflow-y: var(--scene-defilement, visible); padding: 0.375rem; }
+.scene-panneau {
+  max-height: 100%; overflow-y: var(--scene-defilement, visible); padding: 1.5rem;
+  background: var(--surface); border: 1px solid var(--bord); border-radius: var(--rayon-carte); box-shadow: var(--ombre-carte);
+}
 @media (max-width: 48em) { .scene-grille { grid-template-columns: minmax(0, 1fr); } }
 </style>

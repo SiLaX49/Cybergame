@@ -8,7 +8,7 @@ const PALETTES = { clair: CLAIR, sombre: SOMBRE } as const
 const TEXTE: Paire[] = [
   ['texte', 'fond'], ['texte', 'surface'], ['texte', 'surface-2'],
   ['texte-doux', 'fond'], ['texte-doux', 'surface'], ['texte-doux', 'surface-2'],
-  ['primaire-texte', 'primaire'],
+  ['primaire-texte', 'primaire'], ['primaire-texte', 'primaire-2'],
   ['primaire', 'fond'], ['primaire', 'surface'], ['primaire', 'surface-2'],
   ['bon', 'surface'], ['risque', 'surface'], ['aide', 'surface'],
   ['bon', 'bon-fond'], ['risque', 'risque-fond'], ['aide', 'aide-fond'],

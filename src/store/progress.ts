@@ -14,7 +14,7 @@ const reglagesSchema = z.object({
   animations: z.boolean().default(true),
   chrono: z.boolean().default(false),
   // Bleu nuit par défaut (refonte V2) ; « Automatique » suit le réglage de l’appareil.
-  theme: z.enum(['auto', 'clair', 'sombre']).default('sombre'),
+  theme: z.enum(['auto', 'clair', 'sombre']).default('auto'),
   vueCarte: z.enum(['archipel', 'liste']).default('archipel'),
 })
 
