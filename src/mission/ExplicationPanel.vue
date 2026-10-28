@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Qualite } from '@/content/schema'
 import '@/phone/theme.css'
+import { citationUtile } from './citation'
 import { VERDICTS } from './reponseLevier'
 
 /**
@@ -17,10 +18,10 @@ defineProps<{ indices: { id: string; libelle: string; passage?: string }[]; expl
     </p>
     <h3>Ce qui devait t’alerter</h3>
     <ol class="liste-indices">
-      <li v-for="(i, rang) in indices" :key="i.id">
+      <li v-for="(i, rang) in indices" :key="i.id" :data-passage="i.passage">
         <span class="numero" aria-hidden="true">{{ rang + 1 }}</span><span class="visually-hidden">indice {{ rang + 1 }} : </span>
         <span class="libelle">{{ i.libelle }}</span>
-        <span v-if="i.passage" class="cite">« {{ i.passage }} »</span>
+        <span v-if="citationUtile(i)" class="cite">« {{ citationUtile(i) }} »</span>
       </li>
     </ol>
     <p>{{ explication }}</p>

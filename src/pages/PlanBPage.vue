@@ -6,6 +6,7 @@ import { FIL_ACTIONS } from '@/content/schema'
 import { ordreAffichage } from '@/engine/ordre'
 import { bifurcation, choixDeBifurcation, numerosLieux, routesDe, successeurs } from '@/engine/routes'
 import { CONSEILS, EXEMPLE_PHRASE, LIBELLES_NIVEAU } from '@/minigames/robustesse'
+import { citationUtile } from '@/mission/citation'
 import { lignesPapier } from '@/phone/papier'
 import BandeauAide from '@/ui/BandeauAide.vue'
 import BandeauBrouillon from '@/ui/BandeauBrouillon.vue'
@@ -186,7 +187,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
             <p>Bons choix : {{ e.choix.filter((c) => c.qualite !== 'risque').map((c) => c.texte).join(' / ') }}</p>
             <p>
               Vrais indices :
-              {{ e.indices.map((x) => (x.passage ? `${x.libelle} (« ${x.passage} »)` : x.libelle)).join(' / ') }}
+              {{ e.indices.map((x) => (citationUtile(x) ? `${x.libelle} (« ${citationUtile(x)} »)` : x.libelle)).join(' / ') }}
             </p>
             <p>À retenir : {{ e.aRetenir }}</p>
             <template v-if="e.pourquoi">
