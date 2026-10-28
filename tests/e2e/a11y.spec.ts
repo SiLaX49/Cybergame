@@ -171,9 +171,9 @@ test('téléphone mail et choix joué', async ({ page }) => {
   await page.locator('[data-qualite="aide"]').click()
   await expect(page.locator('.choix-joue')).toContainText('demander de l’aide')
   await verifierA11y(page, 'choix joué')
-  // Le mail est le 3e scénario de p-6e-colis (sms, chat, puis mail).
+  // Le mail est le 4e scénario de p-6e-colis (sms, chat, message vrai de maman, puis mail).
   const mail = page.locator('figure[data-app="mail"]')
-  for (let i = 0; i < 3 && !(await mail.isVisible()); i++) {
+  for (let i = 0; i < 4 && !(await mail.isVisible()); i++) {
     if (i > 0) await page.locator('[data-qualite="aide"]').click()
     await page.getByRole('button', { name: 'Continuer', exact: true }).click()
     await ouvrirNotification(page)
@@ -181,6 +181,22 @@ test('téléphone mail et choix joué', async ({ page }) => {
   }
   await expect(mail).toBeVisible()
   await verifierA11y(page, 'téléphone mail')
+})
+
+test('situation fiable : « Message vrai » après un choix risqué, indices de confiance', async ({ page }) => {
+  await page.goto('/#/mission/p-6e-colis')
+  // Le message vrai de maman est le 3e scénario de p-6e-colis.
+  for (let i = 0; i < 2; i++) {
+    await ouvrirNotification(page)
+    await page.locator('[data-qualite="aide"]').click()
+    await page.getByRole('button', { name: 'Continuer', exact: true }).click()
+  }
+  await ouvrirNotification(page)
+  await page.locator('[data-choix="bloque"]').click()
+  await expect(page.locator('figure[data-verdict="vrai"]')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Ce qui montrait que c’était fiable' })).toBeVisible()
+  await expect(page.getByText('Ce message était vrai.')).toBeVisible()
+  await verifierA11y(page, 'situation fiable, message vrai')
 })
 
 test('écran verrouillé d’entrée et écran d’accueil', async ({ page }) => {

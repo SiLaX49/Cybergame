@@ -114,6 +114,47 @@ etapes:
         parade: 'Cherche le message d’origine. Une capture sans source se traite comme une rumeur.'
 
   - type: scenario
+    id: piscine-rouvre
+    fiable: true
+    ecran:
+      app: social
+      appNom: SnapTalk
+      contact: 'Ville de Valmont'
+      certifie: true
+      bio: 'Compte officiel de la mairie de Valmont'
+      messages:
+        - de: contact
+          texte: 'Bonne nouvelle : la piscine municipale rouvre samedi à 10 h, après six mois de travaux. Horaires sur le site de la ville.'
+      commentaires:
+        - { de: 'Yanis', texte: 'Trop bien, enfin !' }
+        - { de: 'Lou', texte: 'Fake, ils disent ça depuis des mois' }
+    question: 'Les travaux de la piscine sont annoncés depuis l’automne. Lou affirme que c’est un fake. Que fais-tu ?'
+    choix:
+      - id: verifie
+        texte: 'Je vérifie sur le site de la ville, puis je partage l’info au groupe.'
+        qualite: bon
+        geste: verifier
+        consequence: 'Le site de la mairie confirme : réouverture samedi à 10 h. Tu partages l’info avec sa source, et tes amis viennent nager.'
+        reaction: 'Merci à tous pour votre patience 💙'
+      - id: aide
+        texte: 'Je demande à un adulte de regarder ce compte avec moi.'
+        qualite: aide
+        consequence: 'Ton oncle reconnaît le compte officiel de la ville. Il te montre la même annonce sur le site de la mairie.'
+      - id: fake
+        texte: 'Je commente « fake » à mon tour, comme Lou.'
+        qualite: risque
+        geste: repondre
+        reponse: 'Fake, comme d’hab.'
+        consequence: 'D’autres élèves lisent ton commentaire et ne viennent pas samedi. L’info était vraie : tu as répandu une fausse rumeur sans le vouloir.'
+        reaction: 'Bonjour, l’information est confirmée sur le site de la ville.'
+    indices:
+      - { id: compte, libelle: 'C’est le compte officiel de la mairie', passage: 'Compte officiel de la mairie de Valmont' }
+      - { id: attendu, libelle: 'Les travaux étaient annoncés : l’info est attendue', passage: 'après six mois de travaux' }
+      - { id: source, libelle: 'L’info renvoie à une source que tu peux vérifier', passage: 'Horaires sur le site de la ville' }
+    explicationIndices: 'L’info vient du compte officiel de la mairie, et elle est attendue. Elle renvoie à une source que tu peux consulter toi-même. Un commentaire « fake » ne prouve rien.'
+    aRetenir: 'Crier au « fake » sans vérifier, c’est aussi désinformer. Une info sérieuse cite sa source : va la voir, puis décide.'
+
+  - type: scenario
     id: compte-parodie
     ecran:
       app: social

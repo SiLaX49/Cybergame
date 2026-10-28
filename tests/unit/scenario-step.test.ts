@@ -263,3 +263,26 @@ describe('ScenarioStep : le panneau attend la fin de la séquence', () => {
     expect(w.find('.consequence').text()).toContain('Ta mère confirme : arnaque.')
   })
 })
+
+describe('ScenarioStep : situation fiable (message vrai)', () => {
+  const fiable = (): Scenario => ({ ...scenario(), fiable: true, pourquoi: undefined, recuperation: undefined })
+  const risque: ScenarioResultat = { ...resultatClic, choixId: 'clic', qualite: 'risque' }
+
+  it('choix risqué : verdict doux, indices de confiance, « Message vrai » sur le téléphone', async () => {
+    const w = monter({ scenario: fiable(), phase: 'consequence', choixId: 'clic', resultat: risque })
+    await flushPromises()
+    expect(w.find('.consequence .verdict').text()).toContain('Ce message était vrai.')
+    expect(w.find('.consequence .verdict').classes()).not.toContain('encadre-risque')
+    expect(w.text()).toContain('Ce qui montrait que c’était fiable')
+    expect(w.text()).not.toContain('Ce qui devait t’alerter')
+    expect(w.find('figure.telephone').attributes('data-verdict')).toBe('vrai')
+    expect(w.find('.verdict-colle').text()).toContain('Message vrai')
+  })
+
+  it('bon choix : verdict habituel', async () => {
+    const w = monter({ scenario: fiable(), phase: 'consequence', choixId: 'verif', resultat: resultatClic })
+    await flushPromises()
+    expect(w.find('.consequence .verdict').text()).toContain('Bon réflexe !')
+    expect(w.find('figure.telephone').attributes('data-verdict')).toBe('bon')
+  })
+})

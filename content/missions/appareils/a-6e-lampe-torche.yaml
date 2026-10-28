@@ -118,6 +118,46 @@ etapes:
         parade: 'Les pirates visent justement les téléphones pas à jour. Que d’autres attendent ne te protège pas.'
 
   - type: scenario
+    id: info-techno
+    fiable: true
+    ecran:
+      app: chat
+      appNom: Mon Collège
+      contact: 'Mme Roux (technologie)'
+      messages:
+        - de: contact
+          texte: 'Bonjour à tous. Mardi, nous comparerons des applis de lampe sur les tablettes du collège. Rien à installer chez vous. Pensez juste à vos écouteurs.'
+          texteSimple: 'Bonjour à tous. Mardi, on compare des applis de lampe sur les tablettes du collège. Rien à installer chez vous.'
+          heure: '17:05'
+    question: 'Ce message est arrivé dans l’appli du collège, là où tu reçois tes devoirs. Que fais-tu ?'
+    choix:
+      - id: note
+        texte: 'Je réponds que c’est noté : mardi, on travaille sur les tablettes du collège.'
+        qualite: bon
+        geste: repondre
+        reponse: 'C’est noté, merci madame !'
+        consequence: 'Mardi, tu es prêt·e. En classe, vous comparez les autorisations demandées par chaque lampe.'
+        reaction: 'Parfait, à mardi !'
+      - id: aide
+        texte: 'Je montre le message à un adulte de la maison pour qu’il le lise avec moi.'
+        qualite: aide
+        consequence: 'Ta mère reconnaît le nom de ta prof de techno. Le message est bien dans l’appli du collège : tout va bien.'
+      - id: signale
+        texte: 'Je signale le message : on parle d’applis, c’est sûrement une arnaque.'
+        qualite: risque
+        geste: signaler
+        consequence: 'Le collège reçoit ton signalement. La CPE t’explique que le message venait bien de Mme Roux. Vérifier avant de signaler aurait suffi.'
+        consequenceSimple: 'Le message venait bien de ta prof. Avant de signaler, tu pouvais vérifier.'
+        reaction: 'Petit rappel : pensez à vos écouteurs mardi !'
+    indices:
+      - { id: appli, libelle: 'Le message arrive dans l’appli du collège, par ta prof', passage: 'Mme Roux (technologie)' }
+      - { id: rien, libelle: 'On ne te demande rien : ni lien, ni argent, ni code', passage: 'Rien à installer chez vous' }
+      - { id: contexte, libelle: 'L’activité se passe au collège, sur ses tablettes', passage: 'tablettes du collège' }
+    explicationIndices: 'Le message arrive dans l’appli officielle du collège. Il ne demande rien de risqué. Il annonce juste un cours.'
+    aRetenir: 'Un vrai message ne demande ni lien, ni argent, ni code. Dans l’appli du collège, tu peux lui faire confiance. En cas de doute, on vérifie avant de signaler.'
+    aRetenirSimple: 'Un message de ta prof dans l’appli du collège, sans rien à donner, tu peux le croire.'
+
+  - type: scenario
     id: jeu-hors-store
     ecran:
       app: chat

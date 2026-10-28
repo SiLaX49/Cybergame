@@ -63,6 +63,42 @@ etapes:
         parade: 'Si une installation te demande de changer un réglage de sécurité, arrête-toi : c’est le signal d’alarme.'
 
   - type: scenario
+    id: maj-officielle
+    fiable: true
+    ecran:
+      app: web
+      appNom: Magasin d’applis
+      contact: 'MélodiBox'
+      messages:
+        - de: contact
+          texte: 'Mise à jour 4.2 de MélodiBox : correction d’un bug qui coupait la musique. Éditeur : MélodiBox. Gratuite, comme toutes les mises à jour.'
+      boutons: ['Mettre à jour']
+    question: 'Tu as installé MélodiBox depuis le magasin d’applis officiel. Ton téléphone t’affiche cette page. Que fais-tu ?'
+    choix:
+      - id: maj
+        texte: 'Je lance la mise à jour depuis le magasin d’applis officiel.'
+        qualite: bon
+        geste: installer
+        consequence: 'La mise à jour s’installe. La musique ne se coupe plus, et une faille de sécurité est corrigée au passage.'
+        reaction: 'MélodiBox est à jour.'
+      - id: aide
+        texte: 'Je demande à un adulte de regarder avec moi avant d’installer.'
+        qualite: aide
+        consequence: 'Ton père vérifie : la page est dans le magasin d’applis, l’éditeur est le bon. Vous lancez la mise à jour ensemble.'
+      - id: ignore
+        texte: 'Je l’ignore : une mise à jour, c’est toujours louche.'
+        qualite: risque
+        geste: ignorer
+        consequence: 'Ton appli garde son bug, et surtout une faille de sécurité connue. Une mise à jour proposée par le magasin officiel, c’est justement ce qui te protège.'
+        reaction: 'Une mise à jour de MélodiBox est en attente.'
+    indices:
+      - { id: editeur, libelle: 'L’éditeur est celui de l’appli que tu as déjà', passage: 'Éditeur : MélodiBox' }
+      - { id: gratuite, libelle: 'Rien à payer, aucun lien vers un autre site', passage: 'Gratuite, comme toutes les mises à jour' }
+      - { id: raison, libelle: 'La mise à jour corrige un problème', passage: 'correction d’un bug' }
+    explicationIndices: 'La page vient du magasin d’applis officiel, pour une appli que tu as déjà. L’éditeur est le même, et rien n’est payant. Les mises à jour corrigent souvent des failles.'
+    aRetenir: 'Les mises à jour proposées par le magasin d’applis officiel te protègent : installe-les. Ce qui doit t’alerter, c’est une « mise à jour » qui arrive par un lien, un SMS ou un site inconnu.'
+
+  - type: scenario
     id: qr-wifi
     ecran:
       app: web

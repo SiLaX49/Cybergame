@@ -117,6 +117,45 @@ etapes:
         parade: 'Compare avec la chaîne que tu suis déjà : nombre d’abonnés, badge vérifié. Si ce n’est pas le même compte, signale-le.'
 
   - type: scenario
+    id: maman-sortie
+    fiable: true
+    ecran:
+      app: sms
+      appNom: Messages
+      contact: 'Maman'
+      messages:
+        - de: contact
+          texte: 'Je finis plus tôt ce soir ! Je t’attends à 17 h 30 devant l’entrée habituelle du collège. Bisous'
+          texteSimple: 'Je finis plus tôt ! Je t’attends à 17 h 30 devant l’entrée habituelle du collège.'
+          heure: '15:41'
+    question: 'Ce matin, ta mère t’avait dit qu’elle essaierait de venir te chercher. Que fais-tu ?'
+    choix:
+      - id: ok
+        texte: 'Je réponds « OK » et je la retrouve devant l’entrée.'
+        qualite: bon
+        geste: repondre
+        reponse: 'OK, à tout à l’heure !'
+        consequence: 'À 17 h 30, ta mère est là, devant l’entrée habituelle. Vous rentrez ensemble.'
+        reaction: 'À tout de suite ❤️'
+      - id: aide
+        texte: 'Je demande à la vie scolaire si ma mère a prévenu.'
+        qualite: aide
+        consequence: 'La CPE te sourit : ta mère a bien appelé ce matin. Elle t’attend devant l’entrée.'
+      - id: bloque
+        texte: 'Je bloque le numéro : on m’a dit de me méfier des SMS.'
+        qualite: risque
+        geste: bloquer
+        consequence: 'Ta mère t’attend devant l’entrée, mais ne peut plus te joindre. Elle s’inquiète. Son message était vrai : il venait du fil habituel et ne demandait rien.'
+        consequenceSimple: 'Ta mère t’attend et ne peut plus te joindre. Son message était vrai.'
+    indices:
+      - { id: fil, libelle: 'C’est le fil habituel avec ta mère', passage: 'Maman' }
+      - { id: attendu, libelle: 'Elle t’avait prévenu·e ce matin : c’était prévu', passage: 'Je finis plus tôt' }
+      - { id: lieu, libelle: 'Le rendez-vous est à l’endroit de d’habitude', passage: 'devant l’entrée habituelle du collège' }
+    explicationIndices: 'Le SMS arrive dans le fil habituel avec ta mère. Elle t’avait prévenu·e. Et il ne demande ni lien, ni argent, ni code.'
+    aRetenir: 'Tous les SMS ne sont pas des arnaques. Un message attendu, dans le fil habituel, qui ne demande rien de risqué, tu peux y répondre. En cas de doute, appelle la personne avec le numéro que tu connais.'
+    aRetenirSimple: 'Un SMS attendu de ta mère, qui ne demande rien de risqué : tu peux y répondre.'
+
+  - type: scenario
     id: mail-gamebox
     ecran:
       app: mail

@@ -13,6 +13,8 @@ export interface Scene {
   indices?: { libelle: string; passage?: string }[]
   /** Indice joué : passages surlignés sans numéros avant le choix. */
   indiceVisible?: boolean
+  /** Message vrai (situation fiable) : le téléphone n’affiche pas « Piège » après un choix risqué. */
+  fiable?: boolean
   /** Entrée par notification (scénarios). */
   entree?: boolean
   actionsNotif?: Record<string, FilAction>

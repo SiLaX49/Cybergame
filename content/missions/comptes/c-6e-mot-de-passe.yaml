@@ -118,6 +118,45 @@ etapes:
         parade: 'Un petit site oublié peut ouvrir tes comptes importants. Chaque compte mérite son propre mot de passe.'
 
   - type: scenario
+    id: compte-mediatheque
+    fiable: true
+    ecran:
+      app: sms
+      appNom: Messages
+      contact: 'Papa'
+      messages:
+        - de: contact
+          texte: 'J’ai créé ton compte pour la médiathèque. Tu vas recevoir un mail pour choisir ton mot de passe. Choisis-le toi-même, je ne veux pas le connaître !'
+          texteSimple: 'J’ai créé ton compte pour la médiathèque. Un mail va arriver. Choisis ton mot de passe toi-même, je ne veux pas le connaître !'
+          heure: '19:12'
+    question: 'Ton père t’avait parlé de la médiathèque hier soir. Que fais-tu ?'
+    choix:
+      - id: repond
+        texte: 'Je réponds à papa que c’est d’accord, et j’attends le mail.'
+        qualite: bon
+        geste: repondre
+        reponse: 'D’accord, merci papa ! Je le choisirai bien.'
+        consequence: 'Le mail arrive. Tu choisis une phrase de passe que toi seul·e connais. Tu peux emprunter des livres en ligne.'
+        reaction: 'Super ! Et garde-le pour toi 😉'
+      - id: aide
+        texte: 'J’en parle à papa ce soir, à la maison, pour être sûr·e.'
+        qualite: aide
+        consequence: 'Ton père confirme : c’est bien lui. Il te montre le mail quand il arrive.'
+      - id: bloque
+        texte: 'Je bloque le numéro : parler de mot de passe, c’est louche.'
+        qualite: risque
+        geste: bloquer
+        consequence: 'Ton père ne peut plus t’écrire, et il s’inquiète en rentrant. Son message ne demandait pas ton mot de passe : il te disait de le garder pour toi.'
+        consequenceSimple: 'Ton père ne peut plus t’écrire. Pourtant, son message te disait de garder ton mot de passe pour toi.'
+    indices:
+      - { id: fil, libelle: 'C’est le fil habituel avec ton père', passage: 'Papa' }
+      - { id: attendu, libelle: 'Ton père t’en avait parlé : c’était prévu', passage: 'J’ai créé ton compte pour la médiathèque' }
+      - { id: secret, libelle: 'On ne te demande pas ton mot de passe, au contraire', passage: 'je ne veux pas le connaître' }
+    explicationIndices: 'Le message vient du fil habituel avec ton père. Il t’en avait parlé. Et il ne demande pas ton mot de passe : il te dit de le garder.'
+    aRetenir: 'Un vrai message peut parler de mot de passe. Ce qui compte : on ne te demande jamais de le donner. Ici, c’est même l’inverse.'
+    aRetenirSimple: 'Un vrai message ne te demande jamais ton mot de passe. Celui-ci te dit de le garder.'
+
+  - type: scenario
     id: code-sms
     ecran:
       app: sms

@@ -66,6 +66,45 @@ etapes:
         parade: 'Avant de publier, regarde le fond de la photo pendant trois secondes.'
 
   - type: scenario
+    id: photo-journal
+    fiable: true
+    ecran:
+      app: chat
+      appNom: Mon Collège
+      contact: 'M. Petit (professeur principal)'
+      messages:
+        - de: contact
+          texte: 'Pour le journal du collège, nous aimerions publier une photo de la sortie au zoo. Une autorisation est dans ton carnet : tes parents choisissent oui ou non.'
+          texteSimple: 'Pour le journal du collège, on aimerait publier une photo de la sortie au zoo. Sur l’autorisation, tes parents choisissent oui ou non.'
+          heure: '13:20'
+    question: 'Ton professeur principal en a parlé en classe ce matin. Que fais-tu ?'
+    choix:
+      - id: carnet
+        texte: 'Je regarde l’autorisation dans mon carnet avec mes parents.'
+        qualite: bon
+        geste: fermer
+        consequence: 'Tes parents lisent l’autorisation et choisissent. Ta photo ne sera publiée que s’ils sont d’accord.'
+        reaction: 'Merci ! Les autorisations sont à rendre lundi.'
+      - id: aide
+        texte: 'Je demande à mon prof principal ce que deviendra la photo.'
+        qualite: aide
+        consequence: 'Il t’explique : la photo ira dans le journal papier du collège, seulement avec l’accord de tes parents.'
+      - id: signale
+        texte: 'Je signale le message : on veut publier ma photo, c’est dangereux.'
+        qualite: risque
+        geste: signaler
+        consequence: 'Ton signalement inquiète la vie scolaire pour rien. Le collège demandait justement l’accord de tes parents : c’est ce qui protège ta photo.'
+        consequenceSimple: 'Le collège demandait l’accord de tes parents. C’est ce qui protège ta photo.'
+        reaction: 'Les autorisations sont à rendre lundi. Merci !'
+    indices:
+      - { id: appli, libelle: 'Le message vient de ton prof, dans l’appli du collège', passage: 'M. Petit (professeur principal)' }
+      - { id: accord, libelle: 'On demande l’accord de tes parents avant de publier', passage: 'tes parents choisissent oui ou non' }
+      - { id: but, libelle: 'On te dit où la photo sera publiée', passage: 'journal du collège' }
+    explicationIndices: 'Le message vient de ton prof, dans l’appli du collège. Il dit où ira la photo. Et il demande d’abord l’accord de tes parents.'
+    aRetenir: 'Publier la photo de quelqu’un demande son accord. Un vrai message du collège demande l’autorisation de tes parents : il ne publie rien en douce.'
+    aRetenirSimple: 'Pour publier ta photo, le collège demande l’accord de tes parents. C’est normal et ça te protège.'
+
+  - type: scenario
     id: anniversaire
     ecran:
       app: chat

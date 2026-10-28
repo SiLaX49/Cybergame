@@ -33,6 +33,7 @@ const etat = ref<EtatTelephone>(etatDepart(props.scene))
       :indices="scene.indices"
       :indice-visible="scene.indiceVisible"
       :entree="scene.entree"
+      :fiable="scene.fiable"
       @agir="(id, a) => emit('agir', id, a)"
       @sequence-finie="emit('sequence-finie')"
       @etat="(e) => (etat = e)"

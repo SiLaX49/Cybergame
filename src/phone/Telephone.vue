@@ -34,8 +34,10 @@ const props = withDefaults(
     indiceVisible?: boolean
     /** Entrée par notification : démarre sur l'écran verrouillé, avec un écran d'accueil (scénarios). */
     entree?: boolean
+    /** Message vrai (situation fiable) : un choix risqué n’y est pas un piège. */
+    fiable?: boolean
   }>(),
-  { choix: undefined, choixJoue: null, actionsNotif: () => ({}), indices: () => [], indiceVisible: false, entree: false },
+  { choix: undefined, choixJoue: null, actionsNotif: () => ({}), indices: () => [], indiceVisible: false, entree: false, fiable: false },
 )
 const emit = defineEmits<{
   agir: [notificationId: string, action: FilAction]
@@ -69,7 +71,11 @@ const { etape } = useSequence(
   () => props.choixJoue,
   () => ({ reaction: Boolean(joue.value?.reaction), instantane: instantane() }),
 )
-const verdict = computed(() => (joue.value && atteinte(etape.value, 'verdict') ? (joue.value.qualite === 'risque' ? 'piege' : 'bon') : null))
+const verdict = computed(() => {
+  if (!joue.value || !atteinte(etape.value, 'verdict')) return null
+  if (joue.value.qualite !== 'risque') return 'bon'
+  return props.fiable ? 'vrai' : 'piege'
+})
 
 usePassages(props, etape)
 useDefilement(zone, etape, instantane)
