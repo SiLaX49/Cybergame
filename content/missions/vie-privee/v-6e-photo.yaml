@@ -3,7 +3,7 @@ theme: vie-privee
 tranches: ['6e']
 titre: Ce que dit ma photo
 resume: 'Une photo de rentrée, un message d’anniversaire, un concours : ce que tu publies en dit parfois plus que tu ne le crois.'
-duree: 18
+duree: 21
 objectifs:
   - Repérer les informations personnelles cachées dans une photo ou un profil (collège, date de naissance, adresse)
   - Choisir qui peut voir ce que je publie et qui peut m’écrire
@@ -206,6 +206,46 @@ etapes:
         truc: 'Remplir un formulaire, on le fait souvent. On tape son nom et son adresse sans y penser.'
         parade: 'Avant de taper ton adresse, demande-toi qui va la lire.'
 
+  - type: scenario
+    id: photo-mamie
+    fiable: true
+    ecran:
+      app: sms
+      appNom: Messages
+      contact: 'Mamie'
+      messages:
+        - de: contact
+          texte: 'J’ai une jolie photo de toi devant ton gâteau d’anniversaire. Je peux l’envoyer à tonton Marc ? Je ne la mets pas sur internet, promis.'
+          texteSimple: 'J’ai une photo de toi devant ton gâteau. Je peux l’envoyer à tonton Marc ? Je ne la mets pas sur internet.'
+          heure: '10:05'
+    question: 'Samedi, ta grand-mère a pris des photos à ton anniversaire. Que fais-tu ?'
+    choix:
+      - id: repond
+        texte: 'Je lui dis si je suis d’accord : elle me demande mon avis.'
+        qualite: bon
+        geste: repondre
+        reponse: 'Oui, tu peux ! Merci de m’avoir demandé 😊'
+        consequence: 'Ta grand-mère envoie la photo à tonton Marc, et à personne d’autre. Elle t’a demandé ton avis : c’est le bon réflexe.'
+        reaction: 'Merci mon trésor ❤️'
+      - id: aide
+        texte: 'Je demande à mes parents ce qu’ils en pensent avant de répondre à Mamie.'
+        qualite: aide
+        consequence: 'Ta mère trouve que c’est une bonne idée. Tu réponds à Mamie que tu es d’accord.'
+      - id: ignore
+        texte: 'Je ne réponds pas : les messages sur les photos sont des pièges.'
+        qualite: risque
+        geste: ignorer
+        consequence: 'Ta grand-mère attend ta réponse et n’envoie pas la photo. Son message était vrai : elle te demandait ton avis, comme il faut.'
+        consequenceSimple: 'Ta grand-mère attend ta réponse. Son message était vrai : elle te demandait ton avis.'
+        reaction: 'Tu es là ? 😊'
+    indices:
+      - { id: fil, libelle: 'C’est le fil habituel avec ta grand-mère', passage: 'Mamie' }
+      - { id: avis, libelle: 'Elle te demande ton accord avant de partager', passage: 'Je peux l’envoyer à tonton Marc ?' }
+      - { id: limite, libelle: 'Elle dit à qui ira la photo, et pas plus loin', passage: 'Je ne la mets pas sur internet' }
+    explicationIndices: 'Le SMS vient du fil habituel avec ta grand-mère. Elle te demande ton accord, et dit à qui ira la photo.'
+    aRetenir: 'Demander l’accord avant de partager une photo, c’est le bon réflexe. Quand quelqu’un te le demande, tu peux dire oui ou non : c’est ton image.'
+    aRetenirSimple: 'Mamie te demande ton accord : réponds-lui, oui ou non.'
+
   - type: minijeu
     id: mj-reglages-snaptalk
     jeu: confidentialite
@@ -259,7 +299,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Qu’est-ce qu’on peut apprendre sur quelqu’un avec une seule photo ? (sans montrer de vraie photo d’élève) Sans juger personne, rappeler que la plupart des réseaux sociaux fixent un âge minimum de 13 ans, et que ces réflexes valent aussi pour les comptes de jeux et de messagerie.
-    18 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    21 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (pourquoi chaque réglage conseillé protège).
     5 min : où trouver de l’aide (adulte de confiance, CPE, signalement dans l’appli).
     5 min : engagement. Ce soir, je vérifie avec un adulte qui peut voir mon profil et ma date d’anniversaire.

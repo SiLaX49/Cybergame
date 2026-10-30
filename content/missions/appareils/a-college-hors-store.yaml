@@ -3,7 +3,7 @@ theme: appareils
 tranches: ['5e-3e']
 titre: Gratuit, vraiment ?
 resume: 'Une appli « premium gratuite », un QR code de Wi-Fi au festival, une extension de mode sombre : quand c’est gratuit et pratique, regarde ce que tu donnes en échange.'
-duree: 21
+duree: 24
 objectifs:
   - Repérer les risques d’une appli installée hors du magasin d’applis
   - Reconnaître un faux portail Wi-Fi qui réclame le mot de passe d’un compte
@@ -197,6 +197,43 @@ etapes:
         truc: 'Elle est dans la « Boutique d’extensions » du navigateur, alors on la croit vérifiée. Les contrôles existent, mais ils ne voient pas tout.'
         parade: 'Même dans la boutique officielle, une extension qui peut tout lire doit venir d’un éditeur que tu connais.'
 
+  - type: scenario
+    id: wifi-mediatheque
+    fiable: true
+    ecran:
+      app: web
+      appNom: Navigateur
+      contact: 'Wi-Fi de la médiathèque de Valmont'
+      url: 'wifi.mediatheque-valmont.fr'
+      messages:
+        - de: contact
+          texte: 'Bienvenue sur le Wi-Fi de la médiathèque ! Accès gratuit, 2 h par jour. Aucun compte ni mot de passe : accepte simplement la charte d’utilisation.'
+      boutons: ['Accepter la charte']
+    question: 'À l’accueil de la médiathèque, une affiche de la mairie donne le nom de ce réseau. Tu as un exposé à préparer. Que fais-tu ?'
+    choix:
+      - id: accepte
+        texte: 'Je vérifie que le réseau est celui de l’affiche, puis j’accepte la charte.'
+        qualite: bon
+        geste: verifier
+        consequence: 'Le nom du réseau est le même que sur l’affiche. Tu acceptes la charte et tu prépares ton exposé.'
+        reaction: 'Connecté. Bonne visite à la médiathèque !'
+      - id: aide
+        texte: 'Je demande à l’accueil si c’est bien le Wi-Fi de la médiathèque avant de me connecter.'
+        qualite: aide
+        consequence: 'La bibliothécaire confirme : c’est leur réseau, et il demande seulement d’accepter la charte.'
+      - id: signale
+        texte: 'Je signale la page : un Wi-Fi gratuit, c’est toujours un piège.'
+        qualite: risque
+        geste: signaler
+        consequence: 'Sans Internet, ton exposé prend du retard. La page était celle de la médiathèque : elle ne demandait ni compte ni mot de passe.'
+        reaction: 'Accès gratuit : aucun compte n’est demandé.'
+    indices:
+      - { id: lieu, libelle: 'Le nom du réseau est celui du lieu et de l’affiche', passage: 'Wi-Fi de la médiathèque' }
+      - { id: rien, libelle: 'Aucun compte ni mot de passe demandé', passage: 'Aucun compte ni mot de passe' }
+      - { id: charte, libelle: 'On te demande seulement d’accepter les règles du lieu', passage: 'accepte simplement la charte d’utilisation' }
+    explicationIndices: 'Le réseau porte le nom affiché à l’accueil. La page ne demande ni compte ni mot de passe, seulement d’accepter la charte : c’est ce que fait un vrai Wi-Fi public.'
+    aRetenir: 'Un vrai Wi-Fi public te fait accepter une charte, jamais taper le mot de passe d’un de tes comptes (réseau social, jeu). Et même sur un vrai Wi-Fi public, évite de taper tes mots de passe importants.'
+
   - type: minijeu
     id: mj-permissions-college
     jeu: permissions
@@ -240,7 +277,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Qui a déjà trouvé une version « gratuite » d’une appli payante, ou scanné un QR code de Wi-Fi ? (sans obligation de raconter)
-    21 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    24 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (pourquoi les contacts ne sont pas indispensables à une messagerie).
     5 min : où trouver de l’aide (adulte de confiance, organisateurs d’un lieu public pour le vrai Wi-Fi, cybermalveillance.gouv.fr pour se faire aider).
     5 min : engagement. Cette semaine, je fais le tour des extensions de mon navigateur et des autorisations de mes applis, et je retire ce qui ne sert pas.

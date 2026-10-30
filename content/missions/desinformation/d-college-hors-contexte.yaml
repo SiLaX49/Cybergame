@@ -3,7 +3,7 @@ theme: desinformation
 tranches: ['5e-3e']
 titre: Coupé au montage
 resume: 'Une vidéo de prof coupée au mauvais moment, une capture « officielle » du collège, un compte qui imite un média : ce que tu vois n’est pas toujours ce qui s’est passé.'
-duree: 21
+duree: 24
 objectifs:
   - Repérer une vidéo sortie de son contexte, une capture trafiquée et un compte qui imite un média
   - Remonter à la source d’une information avant de la partager
@@ -155,6 +155,43 @@ etapes:
     aRetenir: 'Crier au « fake » sans vérifier, c’est aussi désinformer. Une info sérieuse cite sa source : va la voir, puis décide.'
 
   - type: scenario
+    id: vraie-capture
+    fiable: true
+    ecran:
+      app: chat
+      appNom: ChatCord
+      contact: 'Groupe des 4e · Emma'
+      messages:
+        - de: contact
+          texte: 'Le menu de la cantine change lundi, c’est sur l’appli du collège 👉 [Capture d’écran : « Mon Collège › Actualités : nouveaux menus à partir de lundi, avec un deuxième repas végétarien par semaine »]'
+          heure: '17:45'
+    question: 'La semaine dernière, une fausse capture du collège a circulé dans ce groupe. Que fais-tu ?'
+    choix:
+      - id: appli
+        texte: 'J’ouvre l’appli Mon Collège : l’actualité y est bien.'
+        qualite: bon
+        geste: verifier
+        consequence: 'L’actualité est bien dans l’appli, publiée par la direction. Tu le dis au groupe, avec la source.'
+        reaction: 'Merci de confirmer 😊'
+      - id: aide
+        texte: 'Je demande à la vie scolaire si les menus changent vraiment lundi.'
+        qualite: aide
+        consequence: 'La CPE confirme : les nouveaux menus commencent lundi. C’est annoncé dans l’appli du collège.'
+      - id: accuse
+        texte: 'J’écris au groupe que c’est encore une fausse capture.'
+        qualite: risque
+        geste: repondre
+        reponse: 'Encore une fausse capture, arrêtez 🙄'
+        consequence: 'Emma est vexée, et plusieurs élèves ne croient plus l’info. Pourtant, la capture était vraie : l’actualité est dans l’appli du collège.'
+        reaction: 'Elle est vraie, regarde dans l’appli 😕'
+    indices:
+      - { id: source, libelle: 'Emma dit où retrouver l’info', passage: 'c’est sur l’appli du collège' }
+      - { id: rubrique, libelle: 'La capture montre l’endroit précis de l’appli', passage: 'Mon Collège › Actualités' }
+      - { id: banal, libelle: 'Une info banale, qui ne cherche pas à choquer', passage: 'nouveaux menus à partir de lundi' }
+    explicationIndices: 'Emma donne la source, et la capture montre l’endroit précis de l’appli. L’info est banale, sans rien de choquant. Tu peux la vérifier en deux secondes.'
+    aRetenir: 'Une capture d’écran n’est ni vraie ni fausse d’office. Ce qui compte : peut-on retrouver l’info à sa source ? Quand elle se retrouve, tu peux la croire et la partager.'
+
+  - type: scenario
     id: compte-parodie
     ecran:
       app: social
@@ -240,7 +277,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Avez-vous déjà vu une vidéo ou une capture qui racontait autre chose que la réalité ? (sans obligation de raconter, et sans nommer personne)
-    21 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    24 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (quelle piste d’enquête a tout fait basculer ?).
     5 min : où trouver de l’aide (adulte de confiance, CPE si une personne est visée, professeur documentaliste pour vérifier une info).
     5 min : engagement. La prochaine fois qu’une capture ou une vidéo coupée circule dans mon groupe, je demande « d’où ça vient ? » avant de la faire tourner.

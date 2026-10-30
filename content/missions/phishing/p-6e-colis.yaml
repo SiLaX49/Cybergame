@@ -3,7 +3,7 @@ theme: phishing
 tranches: ['6e']
 titre: Le colis mystère
 resume: Un SMS, un message privé et un mail te promettent un cadeau ou te menacent. Arnaque ou pas ?
-duree: 18
+duree: 21
 objectifs:
   - Reconnaître un message d’hameçonnage (faux colis, faux concours, fausse alerte)
   - Vérifier une information par un autre moyen avant d’agir
@@ -209,6 +209,45 @@ etapes:
         truc: 'Le mail promet de sauver ton compte en un clic. On a envie de cliquer sans lire jusqu’au bout.'
         parade: 'Avant de taper ton mot de passe, rappelle-toi : aucun jeu ne le demande par mail.'
 
+  - type: scenario
+    id: colis-relais
+    fiable: true
+    ecran:
+      app: sms
+      appNom: Messages
+      contact: 'Relais du marché'
+      messages:
+        - de: contact
+          texte: 'Bonjour, votre colis est arrivé à la boulangerie du marché, votre point relais. Venez le chercher avec une pièce d’identité. Rien à payer.'
+          texteSimple: 'Votre colis est arrivé à la boulangerie du marché. Venez le chercher avec une pièce d’identité. Rien à payer.'
+          heure: '11:20'
+    question: 'Ta mère attend un livre pour toi, livré à la boulangerie du marché. Elle te demande de lire ses SMS pendant qu’elle conduit. Que fais-tu ?'
+    choix:
+      - id: previens
+        texte: 'Je lis le SMS à ma mère : le colis est arrivé au relais.'
+        qualite: bon
+        geste: fermer
+        consequence: 'Le soir, vous passez à la boulangerie. Ta mère montre sa pièce d’identité, et tu as ton livre.'
+        reaction: 'Votre colis vous attend pendant dix jours.'
+      - id: aide
+        texte: 'Je demande à ma mère si elle attend bien un colis à ce relais.'
+        qualite: aide
+        consequence: 'Ta mère confirme : c’est bien son relais. Vous irez chercher le livre ce soir.'
+      - id: supprime
+        texte: 'Je supprime le SMS : les SMS de colis sont des arnaques.'
+        qualite: risque
+        geste: supprimer
+        consequence: 'Ta mère ne sait pas que le colis est arrivé. Au bout de dix jours, il repart chez le vendeur. Ce SMS était vrai : ni lien, ni frais à payer.'
+        consequenceSimple: 'Le colis repart chez le vendeur. Ce SMS était vrai : pas de lien, rien à payer.'
+        reaction: 'Rappel : votre colis vous attend au relais.'
+    indices:
+      - { id: attendu, libelle: 'Ta mère attend un colis à ce relais', passage: 'boulangerie du marché' }
+      - { id: identite, libelle: 'On récupère le colis en vrai, au relais', passage: 'pièce d’identité' }
+      - { id: payer, libelle: 'Aucun lien, rien à payer', passage: 'Rien à payer' }
+    explicationIndices: 'Ta mère attend ce colis, à ce relais. Le SMS n’a pas de lien et ne demande pas d’argent. On récupère le colis en vrai, au relais.'
+    aRetenir: 'Tous les SMS de colis ne sont pas des arnaques. Un vrai SMS de relais ne réclame pas de frais par un lien. En cas de doute, demande à la personne qui attend le colis.'
+    aRetenirSimple: 'Un SMS de colis attendu, sans lien et sans argent à payer, peut être vrai.'
+
   - type: minijeu
     id: tri-messages
     jeu: tri
@@ -238,7 +277,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Qui a déjà reçu un SMS bizarre ? (sans obligation de raconter)
-    18 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    21 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (cartes « Je vérifie d’abord »).
     5 min : où trouver de l’aide (adulte de confiance, cybermalveillance.gouv.fr pour les parents).
     5 min : engagement. Ce soir, je montre à un adulte de ma famille comment repérer un faux SMS de colis.
