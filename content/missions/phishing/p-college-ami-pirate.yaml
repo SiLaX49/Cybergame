@@ -3,7 +3,7 @@ theme: phishing
 tranches: ['5e-3e']
 titre: Mon ami a changé
 resume: 'Une amie qui te réclame un code, un mail de l’ENT, un camarade qui veut ton vote : et si quelqu’un cherchait à entrer dans ton compte ?'
-duree: 21
+duree: 24
 objectifs:
   - Reconnaître une demande de code ou de mot de passe venant d’un compte piraté
   - Vérifier l’adresse d’un site avant d’y taper son mot de passe
@@ -147,6 +147,41 @@ etapes:
     aRetenir: 'Le faux ENT arrive par mail et réclame ton mot de passe. Le vrai, tu le lis dans l’appli où tu es déjà connecté·e, sans rien donner.'
 
   - type: scenario
+    id: nouveau-numero
+    fiable: true
+    ecran:
+      app: sms
+      appNom: Messages
+      contact: '+33 6 39 98 51 07'
+      messages:
+        - de: contact
+          texte: 'Salut, c’est Camille ! Voilà mon nouveau numéro, enregistre-le. Je te l’ai dit ce midi à la cantine : mon téléphone est tombé dans la piscine 😭'
+          heure: '18:15'
+    question: 'Ce midi, à la cantine, Camille t’a raconté que son téléphone était tombé dans la piscine. Que fais-tu ?'
+    choix:
+      - id: question
+        texte: 'Je lui pose une question que seule Camille connaît, puis j’enregistre le numéro.'
+        qualite: bon
+        geste: verifier
+        consequence: 'Elle répond tout de suite le nom de son chat. C’est bien elle : tu enregistres son nouveau numéro.'
+        reaction: 'Pistache, bien sûr 😹 Tu me crois maintenant ?'
+      - id: aide
+        texte: 'Je demande à une amie commune si elle a reçu le même message de Camille.'
+        qualite: aide
+        consequence: 'Clara a reçu le même message. Camille lui a aussi parlé de la piscine : c’est bien elle.'
+      - id: bloque
+        texte: 'Je bloque ce numéro : « nouveau numéro », c’est toujours une arnaque.'
+        qualite: risque
+        geste: bloquer
+        consequence: 'Camille ne peut plus t’écrire, et elle pense que tu l’ignores. Son message était vrai : il correspondait à ce qu’elle t’avait dit, et ne demandait ni code ni argent.'
+    indices:
+      - { id: demande, libelle: 'Elle demande seulement d’enregistrer le numéro', passage: 'enregistre-le' }
+      - { id: attendu, libelle: 'Elle t’en a parlé ce midi : tu le savais déjà', passage: 'Je te l’ai dit ce midi à la cantine' }
+      - { id: detail, libelle: 'Un détail vrai, que tu connais', passage: 'tombé dans la piscine' }
+    explicationIndices: 'Le message correspond à ce que Camille t’a dit ce midi. Il ne demande ni code, ni argent, ni lien : seulement d’enregistrer le numéro.'
+    aRetenir: 'Un vrai changement de numéro, ça arrive. Regarde ce que le message demande : ici, rien de risqué. S’il demande un jour un code ou de l’argent, vérifie en parlant à la personne en vrai.'
+
+  - type: scenario
     id: vote-concours
     ecran:
       app: chat
@@ -221,7 +256,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Un ami vous a-t-il déjà envoyé un message qui ne lui ressemblait pas ? (sans obligation de raconter)
-    21 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    24 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (le code reçu par SMS).
     5 min : où trouver de l’aide (adulte de confiance, référent numérique du collège, cybermalveillance.gouv.fr).
     5 min : engagement. Cette semaine, j’active la double authentification sur le compte auquel je tiens le plus.

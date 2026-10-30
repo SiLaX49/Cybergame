@@ -3,7 +3,7 @@ theme: vie-privee
 tranches: ['5e-3e']
 titre: Je suis où, là ?
 resume: 'Une story qui montre ta position en direct, la photo d’un ami qu’il veut voir disparaître, un quiz rigolo qui pose de drôles de questions : garde la main sur ce que tu partages.'
-duree: 23
+duree: 25
 objectifs:
   - Repérer ce qu’une publication révèle (position en direct, réponses aux questions secrètes)
   - Respecter le droit à l’image des autres et retirer une photo quand on me le demande
@@ -150,6 +150,42 @@ etapes:
     aRetenir: 'Partager sa position n’est pas toujours un danger : avec un proche, pour un moment précis, puis on l’arrête. Le danger, c’est de la montrer à tout le monde, tout le temps.'
 
   - type: scenario
+    id: nouveau-reglage
+    fiable: true
+    ecran:
+      app: chat
+      appNom: SnapTalk
+      contact: 'SnapTalk'
+      messages:
+        - de: contact
+          texte: 'Nouveau : choisis qui voit ta position sur la carte (personne, amis proches ou tous tes amis). Pour l’instant, tous tes amis la voient. Pas de lien à suivre : ouvre Réglages › Confidentialité.'
+          heure: '20:30'
+    question: 'L’appli SnapTalk vient de se mettre à jour. Ce message s’affiche dans l’appli, à son ouverture. Que fais-tu ?'
+    choix:
+      - id: regle
+        texte: 'J’ouvre moi-même les réglages et je choisis qui voit ma position.'
+        qualite: bon
+        geste: regler
+        consequence: 'Dans Réglages › Confidentialité, tu choisis « amis proches ». Le réglage existe bien : le message était vrai.'
+        reaction: 'Réglage enregistré : seuls tes amis proches voient ta position.'
+      - id: aide
+        texte: 'Je regarde les nouveaux réglages avec ma grande sœur avant de toucher à quoi que ce soit.'
+        qualite: aide
+        consequence: 'Ta sœur ouvre les réglages avec toi : le nouveau choix est bien là. Vous mettez « amis proches ».'
+      - id: ignore
+        texte: 'Je l’ignore : un message de l’appli, c’est sûrement de la pub.'
+        qualite: risque
+        geste: ignorer
+        consequence: 'Ta position reste visible par tous tes amis, même ceux que tu connais mal. Le message était vrai : il te montrait un réglage qui te protège.'
+        reaction: 'Rappel : tous tes amis voient ta position sur la carte.'
+    indices:
+      - { id: choix, libelle: 'Il ne demande ni code ni mot de passe, seulement un choix', passage: 'choisis qui voit ta position' }
+      - { id: sans-lien, libelle: 'Aucun lien : tu ouvres toi-même les réglages', passage: 'Pas de lien à suivre' }
+      - { id: chemin, libelle: 'Le chemin se vérifie dans l’appli', passage: 'Réglages › Confidentialité' }
+    explicationIndices: 'Le message ne contient aucun lien et ne demande rien de secret. Il t’envoie dans tes propres réglages, où tu peux tout vérifier.'
+    aRetenir: 'Un vrai message d’une appli te renvoie vers ses réglages, sans lien et sans mot de passe à donner. Celui-ci t’aidait même à protéger ta position : ne passe pas à côté.'
+
+  - type: scenario
     id: quiz-securite
     ecran:
       app: social
@@ -266,7 +302,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Qui sait où trouver le réglage de position de son appli préférée ? (sans obligation de montrer son téléphone)
-    23 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    25 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (le réglage de position et la validation des identifications).
     5 min : où trouver de l’aide (adulte de confiance, CPE, signalement dans l’appli, 3018 si une photo circule sans accord).
     5 min : engagement. Cette semaine, je vérifie le réglage de position de mes applis et je demande avant de publier la photo d’un ami.
