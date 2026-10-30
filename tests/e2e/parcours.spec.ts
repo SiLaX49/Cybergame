@@ -30,7 +30,7 @@ test('un choix risqué mène à un geste de récupération', async ({ page }) =>
   await expect(page.getByRole('heading', { name: 'À qui en parler ?' })).toBeVisible()
   await page.getByRole('button', { name: /Un parent/ }).click()
   await page.getByRole('button', { name: 'Continuer', exact: true }).click()
-  await expect(page.getByText('Étape 2 sur 5')).toBeVisible()
+  await expect(page.getByText('Étape 2 sur 6')).toBeVisible()
 })
 
 test('un scénario complet au clavier', async ({ page, browserName }) => {
@@ -52,7 +52,7 @@ test('un scénario complet au clavier', async ({ page, browserName }) => {
   // Le panneau s’affiche à la fin de la séquence jouée dans le téléphone.
   await expect(page.getByRole('heading', { name: 'Et alors, que se passe-t-il ?' })).toBeFocused()
   await activer('Continuer')
-  await expect(page.getByText('Étape 2 sur 5')).toBeVisible()
+  await expect(page.getByText('Étape 2 sur 6')).toBeVisible()
   await expect(page.locator('article.scenario')).toBeFocused()
   // Étape 2 : un choix risqué, puis le geste de récupération « bloquer et signaler ».
   await ouvrirAuClavier()
@@ -70,7 +70,7 @@ test('un scénario complet au clavier', async ({ page, browserName }) => {
   await activer('Arnaque ou fraude', 'Space')
   await activer('Envoyer le signalement')
   await activer('Continuer')
-  await expect(page.getByText('Étape 3 sur 5')).toBeVisible()
+  await expect(page.getByText('Étape 3 sur 6')).toBeVisible()
   await expect(page.locator('article.scenario')).toBeFocused()
 })
 
