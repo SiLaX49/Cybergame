@@ -1,7 +1,9 @@
 import { flushPromises, mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import App from '@/App.vue'
 import MissionPage from '@/pages/MissionPage.vue'
+import { dateDuJour } from '@/engine/portefeuille'
+import { defiPour } from '@/profil/tableau'
 import { creerStore, definirStore, type ProgressStore } from '@/store/useProgress'
 import { cliquer } from './helpers'
 import { MemoryStorage } from './memory-storage'
@@ -17,6 +19,10 @@ beforeEach(() => {
   // Séquence de retour instantanée : le panneau suit le choix sans minuterie.
   store.modifierReglages({ animations: false })
   erreurs = []
+})
+
+afterEach(() => {
+  vi.useRealTimers()
 })
 
 async function monter(id: string, attachTo?: HTMLElement) {
@@ -67,6 +73,10 @@ describe('MissionPage', () => {
 
   it('crédite les octets en fin de mission, une fois, et le défi du jour quand c’est lui', async () => {
     store.choisirTranche('6e')
+    // Le tirage dépend de la date et « m-a-relire » est aussi éligible : on se place un jour où le défi est « m-test ».
+    const jour = Array.from({ length: 31 }, (_, i) => new Date(2026, 9, i + 1)).find((d) => defiPour('6e', dateDuJour(d))?.id === 'm-test')!
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(jour)
     const jouer = async () => {
       const w = await monter('m-test')
       await choisir(w, 'aide')
@@ -78,7 +88,6 @@ describe('MissionPage', () => {
     const section = w.find('.gain-octets')
     expect(section.text()).toContain('Bon réflexe')
     expect(section.text()).toContain('ajoutés à ta réserve')
-    // Seule mission éligible de la tranche : c’est forcément le défi du jour.
     expect(section.text()).toContain('Défi du jour relevé')
     expect(store.etat.octets['m-test']).toBeGreaterThan(0)
     expect(store.etat.defis).toHaveLength(1)
