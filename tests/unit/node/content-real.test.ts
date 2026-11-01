@@ -276,8 +276,9 @@ describe('contenu réel', () => {
     },
   )
 
-  it.each(classiques.map((m) => [m.id, m] as const))('%s : 3 ou 4 scénarios et 1 mini-jeu', (_id, m) => {
-    const scenarios = m.etapes.filter((e) => e.type === 'scenario')
+  // Les situations fiables (messages vrais) s’ajoutent aux 3 ou 4 situations à déjouer.
+  it.each(classiques.map((m) => [m.id, m] as const))('%s : 3 ou 4 scénarios à déjouer et 1 mini-jeu', (_id, m) => {
+    const scenarios = m.etapes.filter((e) => e.type === 'scenario' && !e.fiable)
     expect(scenarios.length).toBeGreaterThanOrEqual(3)
     expect(scenarios.length).toBeLessThanOrEqual(4)
     expect(m.etapes.filter((e) => e.type === 'minijeu')).toHaveLength(1)
@@ -308,13 +309,16 @@ describe('contenu réel', () => {
 
   describe('situations fiables (messages vrais)', () => {
     const SANS_FIABLE = ['harcelement', 'rencontres']
-    // Première version : missions classiques 6e et 5e – 3e hors thèmes sensibles (docs/superpowers/specs/2026-10-28-messages-legitimes-design.md).
+    // Missions classiques 6e et 5e – 3e hors thèmes sensibles, 2 situations sur 5 (40 %) :
+    // docs/superpowers/specs/2026-10-30-messages-legitimes-40-design.md.
     const ciblees = classiques.filter((m) => !m.tranches.includes('lycee') && !SANS_FIABLE.includes(m.theme ?? ''))
     const fiables = (m: Mission) => m.etapes.filter((e): e is Scenario => e.type === 'scenario' && e.fiable)
 
-    it.each(ciblees.map((m) => [m.id, m] as const))('%s : exactement une situation fiable, jamais en premier', (_id, m) => {
-      expect(fiables(m)).toHaveLength(1)
-      expect((m.etapes.find((e) => e.type === 'scenario') as Scenario).fiable).toBe(false)
+    it.each(ciblees.map((m) => [m.id, m] as const))('%s : exactement deux situations fiables sur cinq, jamais en premier', (_id, m) => {
+      const scenarios = m.etapes.filter((e): e is Scenario => e.type === 'scenario')
+      expect(scenarios).toHaveLength(5)
+      expect(fiables(m)).toHaveLength(2)
+      expect(scenarios[0]!.fiable).toBe(false)
     })
 
     it('aucune situation fiable dans les thèmes sensibles', () => {

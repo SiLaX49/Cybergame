@@ -3,7 +3,7 @@ theme: comptes
 tranches: ['6e']
 titre: Mon mot de passe à moi
 resume: 'Une amie qui veut ton mot de passe, un site de jeu qui se fait voler, un code qui arrive sans raison : à qui sont tes comptes ?'
-duree: 18
+duree: 21
 objectifs:
   - Garder son mot de passe pour soi, même avec un ami proche
   - Utiliser un mot de passe différent pour chaque compte et réagir après une fuite
@@ -157,6 +157,45 @@ etapes:
     aRetenirSimple: 'Un vrai message ne te demande jamais ton mot de passe. Celui-ci te dit de le garder.'
 
   - type: scenario
+    id: mdp-change
+    fiable: true
+    ecran:
+      app: chat
+      appNom: GameBox
+      contact: 'GameBox'
+      messages:
+        - de: contact
+          texte: 'Ton mot de passe a bien été changé aujourd’hui à 16 h 12. Si c’est toi, tu n’as rien à faire. Sinon, ouvre Réglages, puis Sécurité.'
+          texteSimple: 'Ton mot de passe a bien été changé aujourd’hui à 16 h 12. Si c’est toi, tu n’as rien à faire.'
+          heure: '16:13'
+    question: 'À 16 h 10, avec ton père, tu as changé ton mot de passe GameBox. Cette notification arrive dans l’appli. Que fais-tu ?'
+    choix:
+      - id: cest-moi
+        texte: 'C’est bien moi : je ferme la notification.'
+        qualite: bon
+        geste: fermer
+        consequence: 'Rien d’autre à faire : c’était ton propre changement. Ton compte est protégé par ton nouveau mot de passe.'
+        reaction: 'Ton compte est protégé.'
+      - id: aide
+        texte: 'Je montre la notification à mon père pour vérifier que c’est bien notre changement.'
+        qualite: aide
+        consequence: 'Ton père regarde l’heure : 16 h 12, c’est bien vous. Vous fermez la notification.'
+      - id: supprime
+        texte: 'Je supprime mon compte GameBox : quelqu’un a touché à mon mot de passe !'
+        qualite: risque
+        geste: supprimer
+        consequence: 'Tu perds tes niveaux et tes objets. La notification était vraie : elle parlait du changement que tu venais de faire.'
+        consequenceSimple: 'Tu perds ton compte et tes objets. La notification parlait de ton propre changement.'
+        reaction: 'Ton compte GameBox a été supprimé.'
+    indices:
+      - { id: appli, libelle: 'Elle arrive dans l’appli GameBox elle-même', passage: 'GameBox' }
+      - { id: heure, libelle: 'L’heure correspond à ton changement', passage: '16 h 12' }
+      - { id: rien, libelle: 'Elle ne te demande rien', passage: 'tu n’as rien à faire' }
+    explicationIndices: 'La notification arrive dans l’appli, juste après ton changement. L’heure correspond. Elle ne demande rien : ni lien, ni code, ni mot de passe.'
+    aRetenir: 'Après un changement de mot de passe, l’appli te prévient : c’est normal. Si tu n’as rien changé, ouvre toi-même l’appli et préviens un adulte.'
+    aRetenirSimple: 'Tu viens de changer ton mot de passe ? Cette notification est normale.'
+
+  - type: scenario
     id: code-sms
     ecran:
       app: sms
@@ -230,7 +269,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. À quoi sert un mot de passe ? Qui a le droit de le connaître ? (sans obligation de raconter)
-    18 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    21 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (pourquoi le prénom, l’année et le nom du chat sont interdits).
     5 min : où trouver de l’aide (adulte de confiance, aide officielle du jeu, cybermalveillance.gouv.fr pour les parents).
     5 min : engagement. Ce soir, avec un adulte, je vérifie que ma boîte mail a un mot de passe que je n’utilise nulle part ailleurs.

@@ -3,7 +3,7 @@ theme: comptes
 tranches: ['5e-3e']
 titre: Compte volé
 resume: 'Un faux support qui veut ton code, un « expert » qui promet de récupérer ton compte, une session oubliée au CDI : garde la main sur tes comptes.'
-duree: 23
+duree: 25
 objectifs:
   - Comprendre que le code de double authentification ne se donne jamais, même à un « support »
   - Récupérer un compte volé par la procédure officielle, sans payer personne
@@ -103,6 +103,42 @@ etapes:
       - { id: appli, libelle: 'Pas de lien : on te renvoie vers l’appli elle-même', passage: 'ouvre l’appli SnapTalk' }
     explicationIndices: 'Le mail décrit une connexion que tu as vraiment faite. Il ne demande ni code ni mot de passe, et n’a pas de lien : il te renvoie vers l’appli.'
     aRetenir: 'Les vraies alertes de connexion décrivent ce qui s’est passé et te renvoient vers l’appli, sans lien ni code à donner. Si ce n’était pas toi, change ton mot de passe dans l’appli.'
+
+  - type: scenario
+    id: compte-recupere
+    fiable: true
+    ecran:
+      app: chat
+      appNom: ChatCord
+      contact: 'Lucas'
+      messages:
+        - de: contact
+          texte: 'C’est bon, j’ai récupéré mon compte ! J’ai changé mon mot de passe et activé la double authentification. Désolé pour les messages bizarres d’hier 😅'
+          heure: '19:20'
+    question: 'Hier, le compte de Lucas t’a envoyé des liens étranges. Ce matin au collège, il t’a raconté qu’il le récupérait. Que fais-tu ?'
+    choix:
+      - id: reponds
+        texte: 'Je lui réponds : trop bien que ce soit réglé.'
+        qualite: bon
+        geste: repondre
+        reponse: 'Trop bien que ce soit réglé !'
+        consequence: 'Lucas te remercie. Vous rejouez ensemble le soir même, sur un compte de nouveau protégé.'
+        reaction: 'Merci ! Cette fois, la double authentification reste activée 😄'
+      - id: aide
+        texte: 'Je demande à un ami commun s’il a reçu le même message de Lucas.'
+        qualite: aide
+        consequence: 'Inès a reçu le même message, et Lucas lui a tout raconté au collège. Le compte est bien revenu à Lucas.'
+      - id: bloque
+        texte: 'Je le bloque : un compte piraté une fois, c’est fichu.'
+        qualite: risque
+        geste: bloquer
+        consequence: 'Lucas ne peut plus t’écrire, et il ne comprend pas pourquoi. Son compte était récupéré : il avait changé son mot de passe et activé la double authentification.'
+    indices:
+      - { id: attendu, libelle: 'Il t’en a parlé ce matin : c’est ce que tu attendais', passage: 'j’ai récupéré mon compte' }
+      - { id: protege, libelle: 'Il a fait les bons gestes pour reprendre la main', passage: 'activé la double authentification' }
+      - { id: hier, libelle: 'Il parle des messages d’hier, qu’il connaît', passage: 'messages bizarres d’hier' }
+    explicationIndices: 'Le message correspond à ce que Lucas t’a dit en vrai ce matin. Il ne demande rien : ni lien, ni code, ni argent. Un compte récupéré et protégé redevient sûr.'
+    aRetenir: 'Un compte piraté se récupère : nouveau mot de passe et double authentification. Tu peux refaire confiance au compte d’un ami quand il te l’a confirmé en vrai. S’il te demande un jour un code ou de l’argent, vérifie à nouveau.'
 
   - type: scenario
     id: recuperateur
@@ -231,7 +267,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Qui connaît la double authentification ? À quoi sert le code reçu par SMS ? (sans obligation de raconter)
-    23 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    25 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (pourquoi une phrase de passe est à la fois longue et facile à retenir).
     5 min : où trouver de l’aide (adulte de confiance, procédure officielle de récupération de chaque appli, cybermalveillance.gouv.fr).
     5 min : engagement. Cette semaine, j’active la double authentification sur mon compte le plus important et je vérifie la liste de mes appareils connectés.

@@ -3,7 +3,7 @@ theme: desinformation
 tranches: ['6e']
 titre: Vrai ou faux ?
 resume: 'Un chat géant, une fermeture du collège, une astuce miracle : avant de partager, tu enquêtes ?'
-duree: 18
+duree: 21
 objectifs:
   - Repérer une image fabriquée par une IA et une rumeur qui circule en chaîne
   - Vérifier une information à la source avant de la partager
@@ -101,6 +101,51 @@ etapes:
     explicationIndices: 'Le message vient de la vie scolaire, dans l’appli officielle. La neige était annoncée. Une info vraie se confirme ailleurs, comme dans l’appli Météo.'
     aRetenir: 'Toutes les infos ne sont pas des rumeurs. Une info vraie vient d’une source sérieuse et se confirme ailleurs. Vérifier, c’est aussi trouver ce qui est vrai.'
     aRetenirSimple: 'Une info du collège, confirmée par la météo, tu peux la croire.'
+
+  - type: scenario
+    id: bebe-panda
+    fiable: true
+    ecran:
+      app: social
+      appNom: SnapTalk
+      contact: 'Parc animalier de Valmont'
+      certifie: true
+      bio: 'Compte officiel du parc animalier de Valmont'
+      messages:
+        - de: contact
+          texte: 'Bienvenue à Flocon ! Ce bébé panda roux est né cette nuit au parc. Photo prise ce matin par Julie, notre soigneuse.'
+          texteSimple: 'Bienvenue à Flocon ! Ce bébé panda roux est né cette nuit au parc. Photo prise par Julie, notre soigneuse.'
+      media:
+        description: 'Photo : un bébé panda roux endormi dans une couverture, tenu par une soigneuse en gants verts.'
+        descriptionSimple: 'Photo : un bébé panda roux endormi dans les mains d’une soigneuse.'
+      commentaires:
+        - { de: 'Hugo', texte: 'Trop mignon pour être vrai, c’est l’IA !' }
+    question: 'Hugo dit que la photo est faite par l’IA. Que fais-tu ?'
+    choix:
+      - id: site
+        texte: 'Je regarde le site du parc : la naissance y est annoncée.'
+        qualite: bon
+        geste: verifier
+        consequence: 'Le site du parc annonce aussi la naissance de Flocon, avec d’autres photos. L’info est vraie.'
+        reaction: 'Flocon va bien, merci pour vos messages 🐾'
+      - id: aide
+        texte: 'Je montre la photo à mes parents pour savoir si elle est vraie.'
+        qualite: aide
+        consequence: 'Ta mère reconnaît le compte officiel du parc. Sur le site, la naissance de Flocon est annoncée.'
+      - id: fausse
+        texte: 'Je signale la photo comme fausse : c’est sûrement l’IA.'
+        qualite: risque
+        geste: signaler
+        consequence: 'Ton signalement accuse le parc à tort. La photo était vraie : elle venait du compte officiel du parc, avec le nom de la soigneuse.'
+        consequenceSimple: 'Tu as accusé le parc à tort. La photo était vraie.'
+        reaction: 'Bonjour, cette photo a bien été prise au parc ce matin.'
+    indices:
+      - { id: compte, libelle: 'C’est le compte officiel du parc', passage: 'Compte officiel du parc animalier de Valmont' }
+      - { id: lieu, libelle: 'Le parc dit où et quand c’est arrivé', passage: 'né cette nuit au parc' }
+      - { id: auteur, libelle: 'On sait qui a pris la photo', passage: 'par Julie, notre soigneuse' }
+    explicationIndices: 'La photo vient du compte officiel du parc. On sait qui l’a prise, où et quand. Et le site du parc annonce la même naissance.'
+    aRetenir: 'Une image étonnante n’est pas forcément fausse. Regarde qui la publie, et cherche la même info ailleurs. Accuser trop vite, c’est aussi répandre une erreur.'
+    aRetenirSimple: 'Une image étonnante peut être vraie. Regarde qui la publie.'
 
   - type: scenario
     id: rumeur-college
@@ -253,7 +298,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Avez-vous déjà vu une image ou une info qui s’est révélée fausse ? (sans obligation de raconter)
-    18 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    21 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (quelles pistes d’enquête ont été les plus utiles ?).
     5 min : où trouver de l’aide (adulte de confiance, professeur documentaliste, infirmière scolaire pour la santé).
     5 min : engagement. Cette semaine, avant de partager une image surprenante, je regarde ses détails et je cherche qui l’a publiée en premier.

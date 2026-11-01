@@ -47,7 +47,7 @@ Une mission est un fichier YAML dans `content/missions/<thème>/<id>.yaml`. Le s
 Après avoir ajouté un fichier, relancer `npm run dev`.
 
 Règles principales :
-- 3 objectifs maximum ; 3 ou 4 scénarios et 1 mini-jeu par mission classique (parcours : voir plus bas).
+- 3 objectifs maximum ; 3 ou 4 scénarios à déjouer et 1 mini-jeu par mission classique (parcours : voir plus bas).
 - Mini-jeux disponibles : `tri`, `repere`, `motdepasse` (objectif `solide` ou `tres-solide`, mots `interdits`),
   `confidentialite` (3 à 8 réglages, au moins un à changer), `verification` (publication, 2 à 5 pistes d’enquête,
   verdict `fiable` / `douteux` / `faux`), `permissions` (1 à 3 applis, 2 à 5 permissions chacune). Le schéma de chacun est
@@ -61,6 +61,9 @@ Règles principales :
 - Chaque scénario avec un choix `risque` a un bloc `pourquoi` : 3 ou 4 leviers (`content/leviers.yaml`), chacun avec
   `truc` (comment l’arnaqueur a joué sur ce levier ici) et `parade` (le geste à faire la prochaine fois).
 - Le texte du choix `risque` est la vraie pensée d’un ado, qui tente vraiment : jamais une évidence.
+- Situation fiable (`fiable: true`) : un message vrai, sans danger, ni `pourquoi` ni `recuperation` ; le choix `risque` y
+  est d’en faire trop (bloquer, signaler, accuser) ou de passer à côté. Les missions classiques 6e et 5e – 3e hors thèmes
+  sensibles en ont 2 sur 5 scénarios (40 %), jamais en premier ; aucune ne demande d’argent, de code ni de mot de passe.
 - Actions de récupération (`recuperation.action`) : notamment `prevenir-contacts` et `corriger-partage`
   (« Préviens que c’était faux », pour une fausse info partagée) ; la liste complète est dans `src/content/schema.ts`.
 - `recuperation.siChoix` ne cite que des choix `risque` ou `bon`, jamais le choix `aide`.

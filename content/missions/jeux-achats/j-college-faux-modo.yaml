@@ -3,7 +3,7 @@ theme: jeux-achats
 tranches: ['5e-3e']
 titre: Le faux modérateur
 resume: 'Un faux support qui menace de bannir ton compte, un « jeu à tester », un mod gratuit : sur les serveurs de jeu, les pièges se déguisent en coups de main.'
-duree: 21
+duree: 24
 objectifs:
   - Reconnaître un faux support ou un faux modérateur qui réclame un code
   - Refuser d’ouvrir un programme envoyé par un inconnu ou de désactiver son antivirus
@@ -100,6 +100,43 @@ etapes:
       - { id: jamais, libelle: 'Elle rappelle même la règle : jamais de code à donner', passage: 'ne vous demanderont jamais de code ni de mot de passe' }
     explicationIndices: 'L’annonce est publique, épinglée par la modération que tu connais. Elle ne demande rien, et rappelle même qu’on ne donne jamais de code.'
     aRetenir: 'Un vrai modérateur fait ses annonces en public et ne demande jamais de code. Le faux modérateur, lui, écrit en privé et réclame quelque chose.'
+
+  - type: scenario
+    id: tournoi-cdi
+    fiable: true
+    ecran:
+      app: chat
+      appNom: ChatCord
+      contact: 'Nora (3e B)'
+      messages:
+        - de: contact
+          texte: 'Tu viens au tournoi du club jeux vidéo mercredi ? M. Garnier a mis l’affiche au CDI. Inscription sur place, pas en ligne 🎮'
+          heure: '12:40'
+    question: 'Nora est dans ta classe. Le club jeux vidéo du collège existe depuis l’an dernier. Que fais-tu ?'
+    choix:
+      - id: cdi
+        texte: 'Je passe au CDI voir l’affiche, et je m’inscris.'
+        qualite: bon
+        geste: verifier
+        consequence: 'L’affiche est bien au CDI. M. Garnier note ton nom : tu joues mercredi.'
+        reaction: 'Trop bien, à mercredi !'
+      - id: aide
+        texte: 'Je demande à M. Garnier si le tournoi existe et comment s’inscrire.'
+        qualite: aide
+        consequence: 'M. Garnier confirme : tournoi mercredi, inscription au CDI. Il n’y a rien à remplir en ligne.'
+      - id: accuse
+        texte: 'Je réponds à Nora que son tournoi, c’est sûrement une arnaque.'
+        qualite: risque
+        geste: repondre
+        reponse: 'Ton tournoi, c’est une arnaque, non ?'
+        consequence: 'Nora est vexée, et tu rates le tournoi. Il était vrai : l’affiche était au CDI, et rien n’était demandé en ligne.'
+        reaction: 'Euh non, l’affiche est au CDI 😅'
+    indices:
+      - { id: classe, libelle: 'Nora est dans ta classe', passage: 'Nora (3e B)' }
+      - { id: verifiable, libelle: 'Tu peux vérifier en vrai, au CDI', passage: 'M. Garnier a mis l’affiche au CDI' }
+      - { id: sur-place, libelle: 'Aucun lien, aucun compte à donner', passage: 'Inscription sur place, pas en ligne' }
+    explicationIndices: 'Nora est dans ta classe, et l’info se vérifie en vrai, au CDI. Il n’y a ni lien, ni compte, ni mot de passe à donner.'
+    aRetenir: 'Les invitations à jouer ne sont pas toutes des pièges. Quand l’info se vérifie en vrai et ne demande rien en ligne, tu peux y aller.'
 
   - type: scenario
     id: teste-jeu
@@ -229,7 +266,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Avez-vous déjà reçu un message d’un « support » ou d’un « modo » sur un serveur de jeu ? (sans obligation de raconter)
-    21 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    24 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (le .exe envoyé par une amie).
     5 min : où trouver de l’aide (adulte de confiance, signaler aux modérateurs, support officiel joint depuis l’appli elle-même, cybermalveillance.gouv.fr pour se faire aider).
     5 min : engagement. Cette semaine, je vérifie que mon compte de jeu principal a un mot de passe que je n’utilise nulle part ailleurs.

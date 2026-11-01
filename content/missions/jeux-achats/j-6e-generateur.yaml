@@ -3,7 +3,7 @@ theme: jeux-achats
 tranches: ['6e']
 titre: Coins gratuits ?
 resume: 'Un générateur de Coins, un échange d’objets, un copain qui veut ton mot de passe : qui cherche à te piéger ?'
-duree: 18
+duree: 21
 objectifs:
   - Reconnaître un faux générateur de monnaie de jeu et une arnaque à l’échange d’objets
   - Garder son mot de passe pour soi, même face à un ami
@@ -169,6 +169,46 @@ etapes:
     aRetenirSimple: 'Un vrai cadeau se gagne dans le jeu. Il ne demande rien à payer.'
 
   - type: scenario
+    id: cadeau-cousine
+    fiable: true
+    ecran:
+      app: chat
+      appNom: GameBox Chat
+      contact: 'Zoé (ta cousine)'
+      messages:
+        - de: contact
+          texte: 'Je t’ai envoyé un cadeau dans le jeu : la tenue de lapin ! J’en avais deux. Tu n’as rien à me donner 🐰'
+          texteSimple: 'Je t’ai envoyé un cadeau dans le jeu : la tenue de lapin ! J’en avais deux. Tu n’as rien à me donner 🐰'
+          heure: '18:05'
+    question: 'Zoé est ta cousine. Vous jouez ensemble depuis l’an dernier. Que fais-tu ?'
+    choix:
+      - id: merci
+        texte: 'Je la remercie et j’ouvre le cadeau dans mon coffre.'
+        qualite: bon
+        geste: repondre
+        reponse: 'Merci Zoé ! 🐰'
+        consequence: 'Dans ton coffre, la tenue de lapin t’attend. Zoé ne demande rien en échange : c’est un vrai cadeau.'
+        reaction: 'De rien ! On joue ensemble ce soir ?'
+      - id: aide
+        texte: 'Je demande à mes parents si je peux accepter le cadeau de Zoé.'
+        qualite: aide
+        consequence: 'Ta mère appelle sa sœur : Zoé avait bien deux tenues. Tu acceptes le cadeau.'
+      - id: signale
+        texte: 'Je signale Zoé : un cadeau gratuit, c’est toujours un piège.'
+        qualite: risque
+        geste: signaler
+        consequence: 'Le compte de Zoé est bloqué une journée, le temps de vérifier. Elle est triste. Son cadeau était vrai : elle ne demandait rien en échange.'
+        consequenceSimple: 'Le compte de Zoé est bloqué une journée. Son cadeau était vrai.'
+        reaction: 'Pourquoi tu m’as signalée ? 😢'
+    indices:
+      - { id: cousine, libelle: 'C’est ta cousine, avec qui tu joues souvent', passage: 'Zoé (ta cousine)' }
+      - { id: raison, libelle: 'Elle explique pourquoi elle te la donne', passage: 'J’en avais deux' }
+      - { id: rien, libelle: 'Elle ne demande rien en échange', passage: 'Tu n’as rien à me donner' }
+    explicationIndices: 'Le message vient de ta cousine, que tu connais vraiment. Elle explique pourquoi elle donne la tenue. Et elle ne demande rien : ni objet, ni code, ni mot de passe.'
+    aRetenir: 'Un vrai cadeau ne demande rien en retour. Le piège, c’est quand on te demande de donner d’abord, ou de donner ton mot de passe.'
+    aRetenirSimple: 'Un vrai cadeau ne demande rien en retour.'
+
+  - type: scenario
     id: copain-mdp
     ecran:
       app: chat
@@ -245,7 +285,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Qui a déjà vu une vidéo promettant des Coins ou des skins gratuits ? (sans obligation de raconter)
-    18 min : jeu, en binômes ou en classe entière vidéoprojetée.
+    21 min : jeu, en binômes ou en classe entière vidéoprojetée.
     20 min : débrief des 3 questions, puis retour sur le mini-jeu (le mot de passe et l’appli à télécharger).
     5 min : où trouver de l’aide (adulte de confiance, signalement dans le jeu, cybermalveillance.gouv.fr pour les parents).
     5 min : engagement. Ce soir, si un copain connaît mon mot de passe de jeu, je le change avec un adulte.

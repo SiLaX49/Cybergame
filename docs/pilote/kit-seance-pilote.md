@@ -17,14 +17,14 @@ guide d'entretien.
 - [ ] Imprimer le questionnaire du niveau en deux exemplaires par élève (avant et après), et une grille d'observation.
 - [ ] Sur chaque poste : **Réglages › Effacer ma progression › Oui, tout effacer**, pour que chaque élève parte de zéro (cela remet aussi le thème et les octets à zéro).
 
-Missions conseillées : une mission **classique de l'île aux hameçons**. Elle mêle aux arnaques un **message vrai**,
-sans l'annoncer : c'est lui qui montre si les élèves apprennent à décider, ou seulement à se méfier de tout. Elle
-montre aussi les gestes de réparation et le débrief.
+Missions conseillées : une mission **classique de l'île aux hameçons**. Elle mêle aux arnaques deux **messages vrais**
+(2 situations sur 5), sans l'annoncer : ce sont eux qui montrent si les élèves apprennent à décider, ou seulement à se
+méfier de tout. Elle montre aussi les gestes de réparation et le débrief.
 
-| Niveau | Mission | Message vrai | Durée annoncée |
+| Niveau | Mission | Messages vrais | Durée annoncée |
 |---|---|---|---|
-| 6e | Le colis mystère | 3e situation : ta mère vient te chercher plus tôt | 18 min |
-| 5e – 3e | Mon ami a changé | 3e situation : le vrai ENT décale un devoir | 21 min |
+| 6e | Le colis mystère | 3e situation : ta mère vient te chercher plus tôt ; 5e : le colis attendu au point relais | 21 min |
+| 5e – 3e | Mon ami a changé | 3e situation : le vrai ENT décale un devoir ; 4e : une amie a vraiment changé de numéro | 24 min |
 | Lycée | L'île aux hameçons : le stage de seconde | aucun pour l'instant (pas encore de message vrai au lycée) | 25 min |
 
 ## 2. Déroulé (55 minutes)
@@ -119,7 +119,7 @@ message **vrai** : elle mesure si les élèves se méfient de tout, y compris de
 | Lecture | Textes trop longs, sautés, ou relus à voix haute | |
 | Engagement | Moments où ça réagit ou discute (rires, désaccords en binôme) ; moments de décrochage | |
 | Erreurs | Les élèves osent-ils un mauvais choix ? Comprennent-ils la réparation ? | |
-| Message vrai | Combien bloquent, signalent ou ignorent le message vrai ? Réaction au retour « Ce message était vrai » : surprise, rire, frustration ? | |
+| Message vrai | Combien bloquent, signalent ou ignorent les messages vrais ? Réaction au retour « Ce message était vrai » : surprise, rire, frustration ? | |
 | Octets et badges | Remarqués ? Motivants ? Source de distraction ou de comparaison ? | |
 | Durée réelle | Fin de mission (comparer à la durée annoncée) | |
 | Enseignant | Utilise la fiche, le mode classe, le débrief en grand ? Où hésite-t-il ? | |
@@ -130,7 +130,7 @@ message **vrai** : elle mesure si les élèves se méfient de tout, y compris de
 ## 5. Entretien avec l'enseignant (15 minutes, après la séance)
 
 1. Qu'est-ce qui a le mieux marché ? Et le moins bien ?
-2. Les situations parlent-elles à vos élèves ? Lesquelles sonnent faux ? Le message vrai a-t-il surpris, et a-t-il fait discuter ?
+2. Les situations parlent-elles à vos élèves ? Lesquelles sonnent faux ? Les messages vrais ont-ils surpris, et ont-ils fait discuter ?
 3. Le débrief vous a-t-il suffi pour animer la discussion ? Qu'aurait-il fallu en plus ?
 4. Referiez-vous cette séance ? Avec quelle autre classe, quel autre thème ?
 5. Aimeriez-vous suivre les résultats de votre classe (ce qui suppose des comptes élèves avec code de classe) ?
@@ -146,7 +146,7 @@ message **vrai** : elle mesure si les élèves se méfient de tout, y compris de
 - **Ce qui reste** : les résultats à une semaine, si le questionnaire a été refait.
 - **Une page de conclusions** qui tranche la suite :
   - pas de progrès → retravailler le contenu ;
-  - méfiance excessive au message vrai → plus de messages vrais (vers 40 %) ;
+  - méfiance excessive au message vrai (le collège est déjà à 40 %) → en ajouter au lycée et dans les parcours ;
   - missions trop longues → raccourcir (voir la durée réelle) ;
   - l'enseignant veut suivre sa classe → comptes avec code de classe ;
   - les octets ne servent à rien en classe → les simplifier.
