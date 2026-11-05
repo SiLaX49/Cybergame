@@ -1,11 +1,14 @@
 <script setup lang="ts">
+import { useId } from 'vue'
 import type { DessinObjet } from './dessins'
+import FiltreRelief from './FiltreRelief.vue'
 
 /**
  * Dessin d’un objet à collectionner, décoratif : le nom de l’objet est toujours écrit à côté.
  * Les attributs (x, y, width, height, class) passent sur le <svg>, ce qui permet de l’imbriquer dans une scène SVG.
  */
 withDefaults(defineProps<{ dessin: DessinObjet; taille?: number | string; terne?: boolean }>(), { taille: 32, terne: false })
+const id = useId()
 </script>
 
 <template>
@@ -19,8 +22,20 @@ withDefaults(defineProps<{ dessin: DessinObjet; taille?: number | string; terne?
     aria-hidden="true"
     focusable="false"
   >
+    <defs>
+      <FiltreRelief :id="`${id}-relief`" :echelle="0.4" :ombre="0.22" />
+      <!-- Lumière d’en haut, découpée à la silhouette de l’objet -->
+      <linearGradient :id="`${id}-lumiere`" x1="0" y1="0" x2="0.35" y2="1">
+        <stop offset="0" stop-color="#ffffff" stop-opacity="0.7" />
+        <stop offset="0.42" stop-color="#ffffff" stop-opacity="0.08" />
+        <stop offset="0.6" stop-color="#0b1020" stop-opacity="0" />
+        <stop offset="1" stop-color="#0b1020" stop-opacity="0.32" />
+      </linearGradient>
+      <mask :id="`${id}-silhouette`" style="mask-type: alpha"><use :href="`#${id}-forme`" /></mask>
+    </defs>
     <ellipse cx="24" cy="44" rx="13" ry="2.5" fill="#000000" opacity="0.12" />
-    <g stroke="#1b1b2e" stroke-opacity="0.3" stroke-width="1" stroke-linejoin="round">
+    <g :filter="`url(#${id}-relief)`">
+    <g :id="`${id}-forme`" stroke="#1b1b2e" stroke-opacity="0.3" stroke-width="1" stroke-linejoin="round">
       <template v-if="dessin === 'bouclier'">
         <path d="M24 5 L38 10 V22 Q38 34 24 41 Q10 34 10 22 V10 Z" fill="#2f7de1" />
         <path d="M24 5 L38 10 V22 Q38 34 24 41 Z" fill="#1d4f9e" stroke="none" />
@@ -133,6 +148,8 @@ withDefaults(defineProps<{ dessin: DessinObjet; taille?: number | string; terne?
         <path d="M24 4 Q29 7.5 30.6 12 H17.4 Q19 7.5 24 4 Z" fill="#c9504a" />
         <circle cx="24" cy="19" r="4.5" fill="#4dabf7" stroke="#3a4366" stroke-opacity="1" stroke-width="2" />
       </template>
+    </g>
+    <rect width="48" height="48" :fill="`url(#${id}-lumiere)`" :mask="`url(#${id}-silhouette)`" />
     </g>
   </svg>
 </template>
