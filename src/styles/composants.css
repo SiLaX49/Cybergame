@@ -138,17 +138,28 @@ select {
 }
 
 /* ---------- Tuiles de mission ---------- */
-/* Même rôle, même allure : surface claire ; la couleur de l’île est portée par la pastille (`data-accent`). */
+/* Une carte illustrée : la scène du premier lieu (ou l’île sur son ciel), puis le titre et la durée. */
 .tuile-mission {
-  position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 1rem;
-  min-height: 9rem; padding: 1rem 1.1rem; border-radius: var(--rayon-carte);
+  display: flex; flex-direction: column; height: 100%;
+  border-radius: var(--rayon-carte); overflow: hidden;
   background: var(--surface); color: var(--texte); text-decoration: none;
-  border: 1px solid var(--bord-fort);
-  font-family: var(--police-titres); font-weight: 600; font-size: 1.05em; line-height: 1.3;
-  transition: background-color var(--duree) ease;
+  border: 1px solid var(--bord); box-shadow: var(--ombre-carte);
+  transition: border-color var(--duree) ease, background-color var(--duree) ease;
 }
-@media (hover: hover) { .tuile-mission:hover { background: var(--surface-2); } }
-.tuile-mission .pastille-theme { width: 2.25rem; height: 2.25rem; border-radius: 10px; }
+@media (hover: hover) { .tuile-mission:hover { border-color: var(--primaire); background: var(--surface-2); } }
+.tuile-scene { position: relative; display: block; aspect-ratio: 2 / 1; overflow: hidden; border-bottom: 1px solid var(--bord); }
+.tuile-scene > svg { display: block; width: 100%; height: 100%; }
+.tuile-ile { position: absolute; inset: 12% 20% 0; }
+.tuile-etiquette {
+  position: absolute; top: 0.6rem; left: 0.6rem;
+  display: inline-flex; align-items: center; gap: 0.3em; padding: 0.15em 0.6em; border-radius: 999px;
+  background: var(--surface); color: var(--texte); font-size: 0.8em; font-weight: 600; line-height: 1.4;
+  box-shadow: 0 1px 2px rgb(11 16 32 / 15%);
+}
+.tuile-etiquette.tuile-faite { left: auto; right: 0.6rem; background: var(--bon-fond); color: var(--bon); }
+.tuile-corps { display: flex; flex: 1; flex-direction: column; justify-content: space-between; gap: 0.6rem; padding: 0.85rem 1rem 1rem; }
+.tuile-titre { font-family: var(--police-titres); font-weight: 600; font-size: 1.05em; line-height: 1.3; }
+.tuile-meta { display: inline-flex; align-items: center; gap: 0.35em; color: var(--texte-doux); font-size: 0.85em; }
 
 /* Grand bouton d’appel (« Lancer le défi du jour ») */
 .btn.btn-appel {

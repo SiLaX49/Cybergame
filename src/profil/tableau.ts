@@ -1,7 +1,7 @@
 import { CHEMIN, infoIle } from '@/archipel/archipel'
 import { etatIle } from '@/archipel/progression'
 import { getTheme, missionsPour, toutesLesMissions } from '@/content'
-import type { Mission, Tranche } from '@/content/schema'
+import type { Decor, Mission, Tranche } from '@/content/schema'
 import type { DessinObjet } from '@/ui/dessins'
 import { defiDuJour } from '@/engine/portefeuille'
 
@@ -10,6 +10,12 @@ export function defiPour(tranche: Tranche, date: string): Mission | undefined {
   const missions = toutesLesMissions().filter((m) => m.tranches.includes(tranche))
   const id = defiDuJour(missions, (theme) => getTheme(theme)?.sensible ?? false, date)
   return missions.find((m) => m.id === id)
+}
+
+/** Décor du premier lieu d’une mission (pour illustrer sa tuile), ou `null` si elle n’en a pas. */
+export function decorMission(m: Pick<Mission, 'etapes'>): Decor | null {
+  for (const e of m.etapes) if (e.type === 'lieu') return e.decor
+  return null
 }
 
 export interface IleEnCours {

@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { Check, Play, Target } from '@lucide/vue'
+import { Check, Clock } from '@lucide/vue'
 import { computed, ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { TRANCHES, TRANCHE_LIBELLES } from '@/content/schema'
 import { dateDuJour, solde } from '@/engine/portefeuille'
 import ObjectifsJour from '@/profil/ObjectifsJour.vue'
-import { classementIles, defiPour, ileEnCours } from '@/profil/tableau'
+import IleDessin from '@/archipel/IleDessin.vue'
+import DecorScene from '@/mission/DecorScene.vue'
+import { infoIle } from '@/archipel/archipel'
+import { classementIles, decorMission, defiPour, ileEnCours } from '@/profil/tableau'
 import { MODES, type Mode } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
 import AgenteCyber from '@/ui/AgenteCyber.vue'
@@ -37,6 +40,8 @@ const tuiles = computed(() => {
   if (liste.length < 3 && d && !liste.some((t) => t.mission.id === d.id)) liste.push({ mission: d, defi: true })
   return liste
 })
+/** Ciel de l’île d’une mission sans lieu, derrière le dessin de l’île. */
+const cielIle = (theme?: string) => (theme ? infoIle(theme)?.ciel : undefined)
 const classement = computed(() => (store.etat.tranche ? classementIles(store.etat.tranche, store.etat.octets) : []))
 /** La prochaine mission à jouer sur l’île (la première pas encore terminée). */
 const prochaine = computed(() => ile.value?.missions.find((m) => !(m.id in store.etat.missions)) ?? ile.value?.missions[0])
@@ -136,9 +141,16 @@ function commencer() {
         <ul class="grille-tuiles" :data-accent="ile.theme">
           <li v-for="{ mission: m, defi: estDefi } in tuiles" :key="m.id">
             <RouterLink class="tuile-mission" :to="`/mission/${m.id}`">
-              <span class="pastille-theme" :data-accent="ile.theme" aria-hidden="true"><component :is="estDefi ? Target : Play" :size="20" /></span>
-              <span><template v-if="estDefi">Défi du jour : </template>{{ m.titre }}</span>
-              <span v-if="m.id in store.etat.missions" class="tuile-faite"><Check aria-hidden="true" :size="18" /> Terminée</span>
+              <span class="tuile-scene" :style="decorMission(m) ? undefined : { background: cielIle(m.theme) }">
+                <DecorScene v-if="decorMission(m)" :decor="decorMission(m)!" />
+                <span v-else-if="m.theme && cielIle(m.theme)" class="tuile-ile"><IleDessin :theme="m.theme" /></span>
+                <span v-if="estDefi" class="tuile-etiquette">Défi du jour<span class="visually-hidden"> : </span></span>
+                <span v-if="m.id in store.etat.missions" class="tuile-etiquette tuile-faite badge-bon"><Check aria-hidden="true" :size="16" /> Terminée</span>
+              </span>
+              <span class="tuile-corps">
+                <span class="tuile-titre">{{ m.titre }}</span>
+                <span class="tuile-meta"><Clock aria-hidden="true" :size="16" /> {{ m.duree }} min<template v-if="m.format === 'parcours'"> · parcours</template></span>
+              </span>
             </RouterLink>
           </li>
         </ul>
@@ -222,7 +234,6 @@ function commencer() {
   display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
 }
 .grille-tuiles li { display: grid; }
-.tuile-faite { display: inline-flex; align-items: center; gap: 0.3em; font-size: 0.85em; font-family: var(--police-texte); }
 
 .agent { display: grid; gap: 0.5rem; justify-items: start; }
 .agent .surtitre { margin: 0; }

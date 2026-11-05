@@ -27,7 +27,7 @@ describe('accueil : tableau de bord', () => {
     expect(w.find('progress').attributes()).toMatchObject({ value: '0', max: '1' })
     expect(w.find('.pourcentage').text()).toBe('0 %')
     const tuiles = w.findAll('.tuile-mission').map((t) => t.text())
-    expect(tuiles[0]).toBe('Mission test')
+    expect(tuiles[0]).toContain('Mission test')
     // Une seule mission sur l’île : le défi du jour complète la grille s’il est ailleurs.
     expect(tuiles.slice(1).every((t) => t.startsWith('Défi du jour : '))).toBe(true)
     expect(w.find('.btn-appel').text()).toBe('Lancer le défi du jour')
