@@ -12,6 +12,10 @@ Jeu web gratuit (6e → Terminale) sur les réflexes numériques. Vue 3 + TypeSc
 `npm run typecheck && npm run lint && npm test && npm run test:e2e`, puis
 `npm run build && npx tsx scripts/verifier-publication.ts` (aucun brouillon dans `dist/`).
 
+## Design
+- `unslop` (`.claude/skills/unslop`) pour retoucher un écran existant ; `hallmark` (plugin déclaré dans `.claude/settings.json`) pour un audit (`/hallmark audit`) ou une page neuve.
+- Leurs règles passent après celles de ce fichier : palette, contrastes, illustrations du jeu et simulateur de téléphone restent tels quels.
+
 ## Principes à ne pas casser
 - Aucune donnée ne quitte l’appareil : pas de serveur, pas d’analytics ; la sauvegarde est une clé `localStorage` (`cyber-reflexes:v1`), tout nouveau champ a une valeur par défaut (pas de migration).
 - Accessibilité : contrastes vérifiés (`palette.ts` et `tokens.css` à modifier ensemble), aucune couleur en dur dans les `<style>` des `.vue`, dessins décoratifs en `aria-hidden` et toujours doublés d’un texte, audit axe en clair et en sombre.
