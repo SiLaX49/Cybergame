@@ -28,7 +28,7 @@ const reponse = computed(() => reponseLevier(props.lieu.pourquoi, props.resultat
 <template>
   <section v-if="choix" class="reaction">
     <p class="verdict encadre" :class="[choix.qualite, classeEncadre(choix.qualite)]">
-      <span aria-hidden="true">{{ VERDICTS[choix.qualite].icone }}</span> <strong>{{ VERDICTS[choix.qualite].titre }}</strong>
+      <component :is="VERDICTS[choix.qualite].icone" aria-hidden="true" class="icone-texte" /> <strong>{{ VERDICTS[choix.qualite].titre }}</strong>
     </p>
     <p v-if="risque && versReparation" class="deplacement">
       <strong>Tu avances quand même.</strong> Dans la vraie vie, une erreur se répare : la suite te montre comment.

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { CircleCheck, CircleX } from '@lucide/vue'
 import { computed, nextTick, ref } from 'vue'
 import { VERDICTS, type Verdict, type VerificationConfig } from '@/content/schema'
 import { focusAuChangement } from '@/ui/focus'
@@ -72,8 +73,8 @@ function decider(v: Verdict) {
     </div>
     <!-- Reçoit le focus : pas de role="status", sinon le résultat serait annoncé deux fois. -->
     <div v-if="choisi !== null" ref="resultat" class="resultat-verdict encadre" :class="juste ? 'encadre-bon' : 'encadre-risque'" tabindex="-1">
-      <p v-if="juste"><span aria-hidden="true">✅</span> Bien vu : {{ LIBELLES[config.verdict].toLowerCase() }}.</p>
-      <p v-else><span aria-hidden="true">❌</span> La bonne réponse : {{ LIBELLES[config.verdict] }}.</p>
+      <p v-if="juste"><CircleCheck aria-hidden="true" class="icone-texte" /> Bien vu : {{ LIBELLES[config.verdict].toLowerCase() }}.</p>
+      <p v-else><CircleX aria-hidden="true" class="icone-texte" /> La bonne réponse : {{ LIBELLES[config.verdict] }}.</p>
       <p>{{ config.explication }}</p>
       <p v-if="revelees.length === 0">Astuce : enquête avant de décider, c’est comme ça qu’on repère les fausses infos.</p>
     </div>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Flag } from '@lucide/vue'
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import PersonnageG from '@/parcours/PersonnageG.vue'
@@ -7,6 +8,7 @@ import { estIleCalme, infoIle, nomIle } from './archipel'
 import IleDessin from './IleDessin.vue'
 import { compteurIle, nomAccessibleIle, parcoursBientot } from './libelles'
 import type { EtatIle } from './progression'
+import ObjetDessin from '@/ui/ObjetDessin.vue'
 
 const props = defineProps<{ theme: string; titreTheme: string; etat: EtatIle; ici: boolean; personnage: PersonnageId | null }>()
 const calme = computed(() => estIleCalme(props.theme))
@@ -21,7 +23,7 @@ const bientot = computed(() => parcoursBientot(infos.value))
   <RouterLink :to="{ name: 'ile', params: { theme } }" class="ile-lien" :class="{ calme }" :data-theme="theme" :aria-label="label">
     <span class="ile-visuel">
       <IleDessin :theme="theme" />
-      <span v-if="objet && etat.objetGagne" class="ile-objet" aria-hidden="true">{{ objet.emoji }}</span>
+      <span v-if="objet && etat.objetGagne" class="ile-objet" aria-hidden="true"><ObjetDessin :dessin="objet.dessin" :taille="22" /></span>
       <svg v-if="ici && personnage" class="ile-perso" viewBox="-20 -60 40 62" aria-hidden="true" focusable="false">
         <PersonnageG :id="personnage" />
       </svg>
@@ -30,7 +32,7 @@ const bientot = computed(() => parcoursBientot(infos.value))
       <strong>{{ nom }}</strong>
       <span>{{ compteurIle(etat) }}</span>
       <span v-if="bientot" class="ile-parcours">Parcours bientôt</span>
-      <span v-if="etat.complete && !calme" class="ile-drapeau">🚩 terminée</span>
+      <span v-if="etat.complete && !calme" class="ile-drapeau"><Flag aria-hidden="true" :size="14" /> terminée</span>
     </span>
   </RouterLink>
 </template>
@@ -45,7 +47,7 @@ const bientot = computed(() => parcoursBientot(infos.value))
 @keyframes flotte { 50% { transform: translateY(-4px); } }
 .ile-objet {
   position: absolute; top: 20%; right: 2%; width: 2rem; height: 2rem; display: grid; place-items: center;
-  background: var(--surface); border: 2px solid var(--bord-fort); border-radius: 50%; font-size: 1.1rem;
+  background: var(--surface); border: 2px solid var(--bord-fort); border-radius: 50%; 
 }
 .ile-perso { position: absolute; left: 30%; bottom: 30%; height: 45%; width: auto; transform: translateX(-50%); }
 .ile-etiquette {

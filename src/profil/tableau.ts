@@ -1,7 +1,8 @@
 import { CHEMIN, infoIle } from '@/archipel/archipel'
 import { etatIle } from '@/archipel/progression'
 import { getTheme, missionsPour, toutesLesMissions } from '@/content'
-import type { Mission, Tranche } from '@/content/schema'
+import type { Decor, Mission, Tranche } from '@/content/schema'
+import type { DessinObjet } from '@/ui/dessins'
 import { defiDuJour } from '@/engine/portefeuille'
 
 /** Mission du défi du jour pour la tranche, ou `undefined` s’il n’y a rien à proposer. */
@@ -9,6 +10,12 @@ export function defiPour(tranche: Tranche, date: string): Mission | undefined {
   const missions = toutesLesMissions().filter((m) => m.tranches.includes(tranche))
   const id = defiDuJour(missions, (theme) => getTheme(theme)?.sensible ?? false, date)
   return missions.find((m) => m.id === id)
+}
+
+/** Décor du premier lieu d’une mission (pour illustrer sa tuile), ou `null` si elle n’en a pas. */
+export function decorMission(m: Pick<Mission, 'etapes'>): Decor | null {
+  for (const e of m.etapes) if (e.type === 'lieu') return e.decor
+  return null
 }
 
 export interface IleEnCours {
@@ -41,7 +48,7 @@ export function ileEnCours(tranche: Tranche, faites: Record<string, { termineeLe
 export interface RangIle {
   theme: string
   nom: string
-  emoji: string
+  dessin: DessinObjet
   octets: number
 }
 
@@ -51,6 +58,6 @@ export function classementIles(tranche: Tranche, octets: Record<string, number>)
     const info = infoIle(theme)
     const missions = missionsPour(tranche, theme)
     if (!info || missions.length === 0) return []
-    return [{ theme, nom: info.nom, emoji: info.objet.emoji, octets: missions.reduce((s, m) => s + (octets[m.id] ?? 0), 0) }]
+    return [{ theme, nom: info.nom, dessin: info.objet.dessin, octets: missions.reduce((s, m) => s + (octets[m.id] ?? 0), 0) }]
   }).sort((a, b) => b.octets - a.octets)
 }

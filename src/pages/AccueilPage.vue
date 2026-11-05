@@ -1,14 +1,18 @@
 <script setup lang="ts">
-import { Check } from '@lucide/vue'
+import { Check, Clock } from '@lucide/vue'
 import { computed, ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { TRANCHES, TRANCHE_LIBELLES } from '@/content/schema'
 import { dateDuJour, solde } from '@/engine/portefeuille'
 import ObjectifsJour from '@/profil/ObjectifsJour.vue'
-import { classementIles, defiPour, ileEnCours } from '@/profil/tableau'
+import IleDessin from '@/archipel/IleDessin.vue'
+import DecorScene from '@/mission/DecorScene.vue'
+import { infoIle } from '@/archipel/archipel'
+import { classementIles, decorMission, defiPour, ileEnCours } from '@/profil/tableau'
 import { MODES, type Mode } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
 import AgenteCyber from '@/ui/AgenteCyber.vue'
+import ObjetDessin from '@/ui/ObjetDessin.vue'
 import Octets from '@/ui/Octets.vue'
 
 const store = useProgress()
@@ -20,16 +24,6 @@ const MODE_INFOS: Record<Mode, { titre: string; description: string }> = {
   classe: { titre: 'Classe entière', description: 'Le jeu est projeté, la classe vote, l’adulte valide.' },
 }
 
-/** Dessins des tuiles de mission, par île (décor seulement). */
-const ILLUSTRATIONS: Record<string, string[]> = {
-  phishing: ['📩', '🎣', '🔍'],
-  comptes: ['🔐', '🔑', '🛡️'],
-  'vie-privee': ['🕶️', '📸', '🙈'],
-  'jeux-achats': ['🎮', '🛒', '💳'],
-  desinformation: ['📰', '🔍', '🧐'],
-  appareils: ['📡', '📱', '🔧'],
-}
-
 const aDejaJoue = computed(() => Object.keys(store.etat.missions).length > 0)
 const pret = computed(() => store.etat.tranche !== null && store.etat.mode !== null)
 /** Le formulaire de départ : affiché tant que niveau et mode ne sont pas validés, rouvert par « Changer ». */
@@ -38,15 +32,21 @@ const formulaire = ref(!pret.value)
 const aujourdhui = dateDuJour()
 const ile = computed(() => (store.etat.tranche ? ileEnCours(store.etat.tranche, store.etat.missions) : null))
 const pourcentage = computed(() => (ile.value && ile.value.total ? Math.round((ile.value.terminees / ile.value.total) * 100) : 0))
-const illustration = (i: number) => ILLUSTRATIONS[ile.value?.theme ?? '']?.[i % 3] ?? '🛡️'
 const defi = computed(() => (store.etat.tranche ? defiPour(store.etat.tranche, aujourdhui) : undefined))
 /** Trois tuiles : les missions de l’île, complétées au besoin par le défi du jour. */
 const tuiles = computed(() => {
   const liste = (ile.value?.missions.slice(0, 3) ?? []).map((m) => ({ mission: m, defi: false }))
   const d = defi.value
   if (liste.length < 3 && d && !liste.some((t) => t.mission.id === d.id)) liste.push({ mission: d, defi: true })
+  // La prochaine mission à jouer passe en tête : c’est la grande tuile.
+  const i = liste.findIndex((t) => t.mission.id === prochaine.value?.id)
+  if (i > 0) liste.unshift(...liste.splice(i, 1))
   return liste
 })
+/** La grande tuile : la prochaine mission, dès qu’il y a au moins une autre tuile à côté. */
+const vedette = computed(() => (tuiles.value.length > 1 && tuiles.value[0]?.mission.id === prochaine.value?.id ? prochaine.value?.id : undefined))
+/** Ciel de l’île d’une mission sans lieu, derrière le dessin de l’île. */
+const cielIle = (theme?: string) => (theme ? infoIle(theme)?.ciel : undefined)
 const classement = computed(() => (store.etat.tranche ? classementIles(store.etat.tranche, store.etat.octets) : []))
 /** La prochaine mission à jouer sur l’île (la première pas encore terminée). */
 const prochaine = computed(() => ile.value?.missions.find((m) => !(m.id in store.etat.missions)) ?? ile.value?.missions[0])
@@ -66,7 +66,7 @@ function commencer() {
         <h1>Cyber Réflexes</h1>
         <p class="accroche">
           Des situations du quotidien pour apprendre les bons réflexes sur Internet. Pas de compte, rien à
-          installer. Gagne des octets à chaque bon réflexe… et à chaque erreur réparée !
+          installer. Gagne des octets à chaque bon réflexe… et à chaque erreur réparée.
         </p>
       </div>
       <form @submit.prevent="commencer">
@@ -130,8 +130,7 @@ function commencer() {
             </div>
           </template>
           <template v-else>
-            <h1 id="titre-module">Bienvenue, agent·e !</h1>
-            <p>Choisis une île pour commencer.</p>
+            <h1 id="titre-module">Choisis ta première île</h1>
             <div class="actions"><RouterLink class="btn btn-primaire" to="/carte">Voir les îles</RouterLink></div>
           </template>
           <p class="parcours-pied">
@@ -144,12 +143,21 @@ function commencer() {
       <section v-if="ile" class="carte" aria-labelledby="titre-missions">
         <h2 id="titre-missions" class="carte-titre">Les missions de l’île</h2>
         <p class="carte-sous-titre">Choisis par où commencer : chaque mission rapporte des octets.</p>
-        <ul class="grille-tuiles">
-          <li v-for="({ mission: m, defi: estDefi }, i) in tuiles" :key="m.id">
+        <ul class="grille-tuiles" :class="{ 'avec-vedette': vedette, 'trois': tuiles.length > 2 }" :data-accent="ile.theme">
+          <li v-for="{ mission: m, defi: estDefi } in tuiles" :key="m.id" :class="{ vedette: m.id === vedette }">
             <RouterLink class="tuile-mission" :to="`/mission/${m.id}`">
-              <span class="tuile-illustration" aria-hidden="true">{{ estDefi ? '🎯' : illustration(i) }}</span>
-              <span><template v-if="estDefi">Défi du jour : </template>{{ m.titre }}</span>
-              <span v-if="m.id in store.etat.missions" class="tuile-faite"><Check aria-hidden="true" :size="18" /> Terminée</span>
+              <span class="tuile-scene" :style="decorMission(m) ? undefined : { background: cielIle(m.theme) }">
+                <DecorScene v-if="decorMission(m)" :decor="decorMission(m)!" preserveAspectRatio="xMidYMid slice" />
+                <span v-else-if="m.theme && cielIle(m.theme)" class="tuile-ile"><IleDessin :theme="m.theme" /></span>
+                <span v-if="estDefi" class="tuile-etiquette">Défi du jour<span class="visually-hidden"> : </span></span>
+                <span v-else-if="m.id === vedette" class="tuile-etiquette tuile-suite">À suivre<span class="visually-hidden"> : </span></span>
+                <span v-if="m.id in store.etat.missions" class="tuile-etiquette tuile-faite badge-bon"><Check aria-hidden="true" :size="16" /> Terminée</span>
+              </span>
+              <span class="tuile-corps">
+                <span class="tuile-titre">{{ m.titre }}</span>
+                <span v-if="m.id === vedette" class="tuile-resume">{{ m.resume }}</span>
+                <span class="tuile-meta"><Clock aria-hidden="true" :size="16" /> {{ m.duree }} min<template v-if="m.format === 'parcours'"> · parcours</template></span>
+              </span>
             </RouterLink>
           </li>
         </ul>
@@ -170,7 +178,7 @@ function commencer() {
         <ol class="classement">
           <li v-for="(r, i) in classement.slice(0, 4)" :key="r.theme">
             <span class="rang" aria-hidden="true">{{ i + 1 }}</span>
-            <span class="avatar" aria-hidden="true">{{ r.emoji }}</span>
+            <span class="avatar" aria-hidden="true"><ObjetDessin :dessin="r.dessin" :taille="26" /></span>
             <span class="nom">{{ r.nom }}</span>
             <Octets :valeur="r.octets" />
           </li>
@@ -206,12 +214,12 @@ function commencer() {
 
 .parcours {
   display: flex; gap: 1.5rem; align-items: flex-start;
-  background: linear-gradient(to bottom right, var(--surface), var(--surface-2));
+  background: var(--surface);
 }
 .parcours-numero {
   flex: none; display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: 50%;
   border: 4px solid var(--primaire); background: var(--surface);
-  font-family: var(--police-titres); font-weight: 700; font-size: 1.5em; color: var(--texte);
+  font-family: var(--police-titres); font-weight: 600; font-size: 1.5em; color: var(--texte); font-variant-numeric: tabular-nums;
 }
 .parcours-corps { flex: 1; min-width: 0; }
 .parcours h1 { margin: 0; font-size: clamp(1.25em, 1.1em + 0.6vw, 1.5em); }
@@ -233,9 +241,18 @@ function commencer() {
   display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
 }
 .grille-tuiles li { display: grid; }
-.grille-tuiles li:nth-child(2) .tuile-mission { --tuile-fond: var(--tuile-b); }
-.grille-tuiles li:nth-child(3) .tuile-mission { --tuile-fond: var(--tuile-c); }
-.tuile-faite { display: inline-flex; align-items: center; gap: 0.3em; font-size: 0.85em; font-family: var(--police-texte); }
+/* La prochaine mission en grand à gauche, les autres empilées à droite. */
+.grille-tuiles.avec-vedette { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+.grille-tuiles.trois .vedette { grid-row: span 2; }
+.vedette .tuile-scene { aspect-ratio: auto; flex: 1 1 auto; min-height: 11rem; }
+.vedette .tuile-corps { flex: none; padding: 1rem 1.25rem 1.25rem; }
+.vedette .tuile-titre { font-size: 1.3em; }
+.tuile-resume { color: var(--texte-doux); font-size: 0.95em; line-height: 1.45; }
+@media (max-width: 44rem) {
+  .grille-tuiles.avec-vedette { grid-template-columns: minmax(0, 1fr); }
+  .grille-tuiles.trois .vedette { grid-row: auto; }
+  .vedette .tuile-scene { aspect-ratio: 2 / 1; min-height: 0; }
+}
 
 .agent { display: grid; gap: 0.5rem; justify-items: start; }
 .agent .surtitre { margin: 0; }
@@ -249,11 +266,11 @@ function commencer() {
 }
 .classement li:last-child { border-bottom: 0; }
 .classement .octets { font-size: 0.85em; white-space: nowrap; }
-.rang { font-weight: 700; color: var(--texte-doux); font-size: 0.9em; }
+.rang { font-weight: 600; color: var(--texte-doux); font-size: 0.9em; }
 .classement li:first-child .rang { color: var(--or); }
 .avatar {
   display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%;
-  background: var(--surface-2); border: 2px solid var(--bord); font-size: 1.1rem;
+  background: var(--surface-2); border: 1px solid var(--bord);
 }
 .nom { font-weight: 600; min-width: 0; overflow-wrap: anywhere; font-size: 0.95em; }
 

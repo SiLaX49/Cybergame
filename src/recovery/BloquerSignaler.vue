@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Ban, CircleCheck } from '@lucide/vue'
 import { computed, ref } from 'vue'
 import { focusAuChangement } from '@/ui/focus'
 import { BLOQUER_SIGNALER as T, motifsSignalement, type ContexteSensible } from './textes'
@@ -21,7 +22,7 @@ focusAuChangement(etape, titre)
     </template>
     <template v-else-if="etape === 'options'">
       <p>{{ T.bloquerConsigne }}</p>
-      <button type="button" class="btn" @click="etape = 'signaler'"><span aria-hidden="true">🚫</span> {{ T.boutonBloquer }}</button>
+      <button type="button" class="btn" @click="etape = 'signaler'"><Ban aria-hidden="true" class="icone-texte" /> {{ T.boutonBloquer }}</button>
     </template>
     <template v-else-if="etape === 'signaler'">
       <fieldset>
@@ -33,7 +34,7 @@ focusAuChangement(etape, titre)
       <button type="button" class="btn btn-primaire" :disabled="!motif" @click="etape = 'fini'">{{ T.envoyer }}</button>
     </template>
     <template v-else>
-      <p role="status" class="encadre encadre-doux"><span aria-hidden="true">✅</span> {{ T.rappel }}</p>
+      <p role="status" class="encadre encadre-doux"><CircleCheck aria-hidden="true" class="icone-texte" /> {{ T.rappel }}</p>
       <button type="button" class="btn btn-primaire" @click="emit('fait')">Continuer</button>
     </template>
   </section>

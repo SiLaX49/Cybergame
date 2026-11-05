@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { CircleCheck, TriangleAlert } from '@lucide/vue'
 import { computed, reactive, ref } from 'vue'
 import type { ConfidentialiteConfig } from '@/content/schema'
 import { focusAuChangement } from '@/ui/focus'
@@ -38,9 +39,9 @@ const phraseBilan = computed(() =>
           {{ o.libelle }}
         </label>
         <template v-if="verifie">
-          <p v-if="juste(r)" class="verdict encadre encadre-bon"><span aria-hidden="true">✅</span> Bon réglage. {{ r.explication }}</p>
+          <p v-if="juste(r)" class="verdict encadre encadre-bon"><CircleCheck aria-hidden="true" class="icone-texte" /> Bon réglage. {{ r.explication }}</p>
           <p v-else class="verdict encadre encadre-risque">
-            <span aria-hidden="true">⚠️</span> À revoir : choisis « {{ libelleConseille(r) }} ». {{ r.explication }}
+            <TriangleAlert aria-hidden="true" class="icone-texte" /> À revoir : choisis « {{ libelleConseille(r) }} ». {{ r.explication }}
           </p>
         </template>
       </fieldset>

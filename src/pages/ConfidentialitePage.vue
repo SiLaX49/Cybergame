@@ -55,8 +55,8 @@ import EffacerProgression from '@/ui/EffacerProgression.vue'
 </template>
 
 <style scoped>
-.confidentialite { display: grid; gap: 1.5rem; padding-block: 2.5rem; }
-.entete { display: flex; align-items: center; gap: 1.5rem; background: linear-gradient(to bottom right, var(--surface), var(--surface-2)); }
+.confidentialite { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding-block: 2.5rem; }
+.entete { display: flex; align-items: center; gap: 1.5rem; background: var(--surface); }
 .entete h1 { margin: 0; }
 .entete .surtitre { margin: 0; }
 .promesse { margin: 0.35rem 0 0; font-weight: 600; color: var(--bon); }

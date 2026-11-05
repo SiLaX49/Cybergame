@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { CircleCheck, CircleX, Timer } from '@lucide/vue'
 import { computed, nextTick, onUnmounted, ref } from 'vue'
 import type { TriConfig } from '@/content/schema'
 
@@ -63,7 +64,7 @@ onUnmounted(arreterChrono)
     <p class="consigne">{{ config.consigne }}</p>
     <p class="compteur badge">Carte {{ index + 1 }} sur {{ config.cartes.length }}</p>
     <p v-if="chrono && reponse === null" class="chrono badge badge-aide" role="timer" aria-live="off">
-      <span aria-hidden="true">⏱️</span> {{ restant }} s
+      <Timer aria-hidden="true" class="icone-texte" /> {{ restant }} s
     </p>
     <blockquote ref="carteTri" class="carte carte-tri" tabindex="-1">{{ carte.texte }}</blockquote>
     <div class="tri-categories actions" role="group" aria-label="Choisis une catégorie">
@@ -84,11 +85,11 @@ onUnmounted(arreterChrono)
       role="status"
     >
       <template v-if="reponse !== null">
-        <p v-if="reponse === carte.categorie"><span aria-hidden="true">✅</span> Bien vu !</p>
+        <p v-if="reponse === carte.categorie"><CircleCheck aria-hidden="true" class="icone-texte" /> Bien vu !</p>
         <p v-else-if="reponse === TEMPS_ECOULE">
-          <span aria-hidden="true">⏱️</span> Temps écoulé : c’était « {{ categorieJuste.libelle }} ».
+          <Timer aria-hidden="true" class="icone-texte" /> Temps écoulé : c’était « {{ categorieJuste.libelle }} ».
         </p>
-        <p v-else><span aria-hidden="true">❌</span> Pas tout à fait : c’était « {{ categorieJuste.libelle }} ».</p>
+        <p v-else><CircleX aria-hidden="true" class="icone-texte" /> Pas tout à fait : c’était « {{ categorieJuste.libelle }} ».</p>
         <p>{{ carte.explication }}</p>
       </template>
     </div>

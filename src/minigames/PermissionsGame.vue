@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { CircleCheck, TriangleAlert } from '@lucide/vue'
 import { computed, nextTick, reactive, ref, watch } from 'vue'
 import type { PermissionsConfig } from '@/content/schema'
 
@@ -65,7 +66,7 @@ function suivante() {
           Refuser
         </label>
         <p v-if="valide" class="verdict encadre" :class="juste(p) ? 'encadre-bon' : 'encadre-risque'">
-          <span aria-hidden="true">{{ juste(p) ? '✅' : '⚠️' }}</span>
+          <component :is="juste(p) ? CircleCheck : TriangleAlert" aria-hidden="true" class="icone-texte" />
           {{ juste(p) ? 'Bien décidé' : p.necessaire ? 'À autoriser' : 'À refuser' }} : {{ p.explication }}
         </p>
       </fieldset>

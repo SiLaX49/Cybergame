@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Circle, CircleCheck } from '@lucide/vue'
 import { computed, ref } from 'vue'
 import type { MotdepasseConfig } from '@/content/schema'
 import { focusAuChangement } from '@/ui/focus'
@@ -45,7 +46,7 @@ const couleurJauge = computed(() => (rang.value <= 1 ? 'var(--risque)' : rang.va
       </div>
       <ul id="conseils-mdp" class="conseils">
         <li v-for="c in evaluation.conseils" :key="c.id">
-          <span aria-hidden="true">{{ c.ok ? '✅' : '⬜' }}</span> {{ c.libelle }} ({{ c.ok ? 'fait' : 'à faire' }})
+          <component :is="c.ok ? CircleCheck : Circle" aria-hidden="true" class="icone-texte" /> {{ c.libelle }} ({{ c.ok ? 'fait' : 'à faire' }})
         </li>
       </ul>
       <div class="actions">

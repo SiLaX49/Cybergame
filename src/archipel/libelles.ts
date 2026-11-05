@@ -15,7 +15,7 @@ export function nomAccessibleIle(o: { nom: string; objet: string | null; calme: 
   if (!o.calme && o.objet && o.etat.aParcours) parties.push(o.etat.objetGagne ? `${o.objet} gagné` : `${o.objet} à gagner`)
   if (parcoursBientot(o)) parties.push('parcours bientôt')
   if (o.ici) parties.push('tu es ici')
-  return `${o.nom} — ${parties.join(', ')}`
+  return `${o.nom} : ${parties.join(', ')}`
 }
 
 /** Compteur visible sous l’île. */

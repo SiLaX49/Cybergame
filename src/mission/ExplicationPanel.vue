@@ -15,7 +15,7 @@ defineProps<{ indices: { id: string; libelle: string; passage?: string }[]; expl
 <template>
   <section class="explication">
     <p v-if="qualite" class="verdict encadre" :class="[qualite, sensible && qualite === 'risque' ? 'encadre-doux' : `encadre-${qualite}`]">
-      <span aria-hidden="true">{{ VERDICTS[qualite].icone }}</span> <strong>{{ VERDICTS[qualite].titre }}</strong>
+      <component :is="VERDICTS[qualite].icone" aria-hidden="true" class="icone-texte" /> <strong>{{ VERDICTS[qualite].titre }}</strong>
     </p>
     <h3>{{ fiable ? 'Ce qui montrait que c’était fiable' : 'Ce qui devait t’alerter' }}</h3>
     <ol class="liste-indices">

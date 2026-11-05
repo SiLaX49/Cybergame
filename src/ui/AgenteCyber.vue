@@ -4,6 +4,7 @@ import { PERSONNAGES_INFO } from '@/parcours/personnages'
 import { objetBoutique } from '@/profil/boutique'
 import type { PersonnageId } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
+import ObjetDessin from '@/ui/ObjetDessin.vue'
 
 /**
  * L’agent·e cyber du tableau de bord : le personnage choisi par l’élève, en uniforme, qui montre la mission.
@@ -15,7 +16,7 @@ const props = withDefaults(defineProps<{ personnage?: PersonnageId | null; haute
 })
 const p = computed(() => PERSONNAGES_INFO[props.personnage ?? 'p3'])
 const store = useProgress()
-const ecusson = computed(() => (store.etat.ecusson ? objetBoutique(store.etat.ecusson)?.emoji : undefined))
+const ecusson = computed(() => (store.etat.ecusson ? objetBoutique(store.etat.ecusson)?.dessin : undefined))
 </script>
 
 <template>
@@ -53,7 +54,7 @@ const ecusson = computed(() => (store.etat.ecusson ? objetBoutique(store.etat.ec
     <g transform="translate(116 165)">
       <circle class="ag-or ag-trait" r="15" />
       <circle class="ag-blanc" r="11.5" />
-      <text v-if="ecusson" y="6" font-size="16" text-anchor="middle">{{ ecusson }}</text>
+      <ObjetDessin v-if="ecusson" :dessin="ecusson" x="-10" y="-10" :taille="20" />
       <path v-else class="ag-uniforme" d="M0 -8 l7 2.5 v5 q0 6 -7 9 q-7 -3 -7 -9 v-5 z" />
     </g>
     <!-- cou, oreilles, tête -->

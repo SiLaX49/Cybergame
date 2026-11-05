@@ -54,10 +54,10 @@ const MODES_LIBELLES = { solo: 'Solo', binome: 'Binôme', classe: 'Classe entiè
 .barre-interieur { display: flex; flex-direction: column; gap: 1.25rem; padding: 1rem 0.9rem; }
 .logo {
   display: inline-flex; align-items: center; gap: 0.55rem; min-height: 44px; padding-inline: 0.4rem;
-  font-family: var(--police-titres); font-weight: 700; font-size: 1.1em; letter-spacing: -0.02em;
+  font-family: var(--police-titres); font-weight: 600; font-size: 1.1em; letter-spacing: -0.02em;
   color: var(--texte); text-decoration: none;
 }
-.logo b { color: var(--primaire); font-weight: 700; }
+.logo b { color: var(--primaire); font-weight: 600; }
 .niveau { padding: 0.75rem 0.9rem; background: var(--surface); border: 1px solid var(--bord); border-radius: 14px; }
 .niveau p { margin: 0; }
 .niveau-valeur { font-weight: 600; }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CircleCheck, Clock, RotateCcw } from '@lucide/vue'
+import { CircleCheck, Clock, RotateCcw, Target } from '@lucide/vue'
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { nomIle } from '@/archipel/archipel'
@@ -43,7 +43,7 @@ const BAREME = [
     <div class="defis-grille">
       <div class="defis-principal">
         <section class="carte defi-jour" aria-labelledby="titre-defi">
-          <span class="defi-pastille" aria-hidden="true">🎯</span>
+          <span class="defi-pastille" aria-hidden="true"><Target :size="28" /></span>
           <div class="defi-corps">
             <h2 id="titre-defi" class="surtitre">Défi du jour</h2>
             <template v-if="defi">
@@ -108,10 +108,10 @@ const BAREME = [
 .carte-titre { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: 1.15em; }
 .carte-sous-titre { margin: 0.2rem 0 1rem; color: var(--texte-doux); font-size: 0.9em; }
 
-.defi-jour { display: flex; gap: 1.5rem; align-items: flex-start; background: linear-gradient(to bottom right, var(--surface), var(--surface-2)); }
+.defi-jour { display: flex; gap: 1.5rem; align-items: flex-start; background: var(--surface); }
 .defi-pastille {
   flex: none; display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: 50%;
-  border: 4px solid var(--primaire); background: var(--surface); font-size: 1.8rem;
+  border: 4px solid var(--primaire); background: var(--surface); color: var(--primaire);
 }
 .defi-corps { flex: 1; min-width: 0; }
 .defi-titre { font-family: var(--police-titres); font-weight: 600; font-size: 1.4em; letter-spacing: -0.02em; margin: 0; }
@@ -124,7 +124,7 @@ const BAREME = [
 .bareme { width: 100%; border-collapse: collapse; }
 .bareme thead th {
   padding: 0 0 0.5rem; color: var(--texte-doux);
-  font-size: 0.75em; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  font-size: 0.85em; font-weight: 500;
 }
 .bareme th, .bareme td { text-align: left; padding: 0.65rem 0; border-bottom: 1px solid var(--bord); }
 .bareme tbody tr:last-child > * { border-bottom: 0; }

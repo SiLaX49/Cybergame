@@ -133,11 +133,11 @@ const SEANCE = [
 </template>
 
 <style scoped>
-.enseignants { display: grid; gap: 1.5rem; padding-block: 2.5rem; }
+.enseignants { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding-block: 2.5rem; }
 .carte-titre { margin: 0; font-size: 1.15em; }
 .carte-sous-titre { margin: 0.2rem 0 0; color: var(--texte-doux); font-size: 0.9em; }
 
-.entete { background: linear-gradient(to bottom right, var(--surface), var(--surface-2)); }
+.entete { background: var(--surface); }
 .entete h1 { margin: 0; }
 .intro { margin: 0.5rem 0 1.25rem; color: var(--texte-doux); max-width: 50rem; }
 .intro strong { color: var(--texte); }
@@ -175,7 +175,7 @@ const SEANCE = [
 .table-missions th, .table-missions td { border-bottom: 1px solid var(--bord); padding: 0.85rem 0.75rem; text-align: left; vertical-align: top; }
 .table-missions thead th {
   padding-top: 0.6rem; padding-bottom: 0.6rem; background: var(--surface-2); color: var(--texte-doux);
-  font-size: 0.75em; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  font-size: 0.85em; font-weight: 500;
 }
 .table-missions thead th:first-child { border-radius: 10px 0 0 10px; }
 .table-missions thead th:last-child { border-radius: 0 10px 10px 0; }

@@ -11,6 +11,7 @@ import type { Tranche } from '@/content/schema'
 import { AVERTISSEMENT } from '@/mission/textesSensibles'
 import { useProgress } from '@/store/useProgress'
 import Hulotte from '@/ui/Hulotte.vue'
+import ObjetDessin from '@/ui/ObjetDessin.vue'
 
 // La page est recréée à chaque changement d’URL (RouterView :key) ; la garde du routeur garantit un thème connu,
 // et la page le vérifie quand même (jamais d’île « par défaut »).
@@ -43,8 +44,8 @@ const terminee = (id: string) => id in store.etat.missions
         <p class="description">{{ theme.description }}</p>
         <p class="ile-badges">
           <template v-if="!calme && objet">
-            <span v-if="etat.aParcours && etat.objetGagne" class="badge badge-bon">{{ objet.emoji }} {{ objet.nom }} gagné</span>
-            <span v-else-if="etat.aParcours" class="badge">{{ objet.emoji }} {{ objet.nom }} : pas encore</span>
+            <span v-if="etat.aParcours && etat.objetGagne" class="badge badge-bon"><ObjetDessin :dessin="objet.dessin" taille="1.4em" /> {{ objet.nom }} gagné</span>
+            <span v-else-if="etat.aParcours" class="badge"><ObjetDessin :dessin="objet.dessin" taille="1.4em" terne /> {{ objet.nom }} : pas encore</span>
             <span v-else class="badge">Parcours bientôt</span>
           </template>
           <span v-if="missions.length > 0" class="meta">{{ compteurIle(etat) }}</span>
@@ -80,7 +81,7 @@ const terminee = (id: string) => id in store.etat.missions
 </template>
 
 <style scoped>
-.ile { display: grid; gap: 1rem; justify-items: start; }
+.ile { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; justify-items: start; }
 .ile > * { margin: 0; }
 .ile-entete { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; width: 100%; box-sizing: border-box; }
 .ile-grande { width: 10rem; max-width: 100%; height: auto; flex: none; }

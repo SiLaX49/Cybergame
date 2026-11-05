@@ -1,3 +1,4 @@
+import { CircleCheck, Handshake, Lightbulb, TriangleAlert, type LucideIcon } from '@lucide/vue'
 import type { Leviers, Qualite, ReponseLevier, Scenario } from '@/content/schema'
 import { TITRE_REPONSE_SENSIBLE } from './textesSensibles'
 
@@ -23,12 +24,12 @@ export function reponseLevier(
 /** Titre du bloc qui répond à la raison choisie : neutre en thème sensible, où l’élève n’est pas « piégé ». */
 export const titreReponse = (sensible: boolean) => (sensible ? TITRE_REPONSE_SENSIBLE : 'Ce qui a marché sur toi')
 
-export const VERDICTS: Record<Qualite, { icone: string; titre: string }> = {
-  bon: { icone: '✅', titre: 'Bon réflexe !' },
-  aide: { icone: '🤝', titre: 'Demander de l’aide, c’est toujours une bonne idée.' },
-  risque: { icone: '⚠️', titre: 'C’était risqué. Voyons ce qui se passe.' },
+export const VERDICTS: Record<Qualite, { icone: LucideIcon; titre: string }> = {
+  bon: { icone: CircleCheck, titre: 'Bon réflexe !' },
+  aide: { icone: Handshake, titre: 'Demander de l’aide, c’est toujours une bonne idée.' },
+  risque: { icone: TriangleAlert, titre: 'C’était risqué. Voyons ce qui se passe.' },
 }
 
 /** Verdict d’un choix ; sur un message vrai (situation fiable), le choix risqué n’est pas un piège : en faire trop ou passer à côté. */
 export const verdict = (qualite: Qualite, fiable = false) =>
-  fiable && qualite === 'risque' ? { icone: '💡', titre: 'Ce message était vrai. Regarde ce qui se passe.' } : VERDICTS[qualite]
+  fiable && qualite === 'risque' ? { icone: Lightbulb, titre: 'Ce message était vrai. Regarde ce qui se passe.' } : VERDICTS[qualite]
