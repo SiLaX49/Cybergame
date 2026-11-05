@@ -2,6 +2,7 @@ import { CHEMIN, infoIle } from '@/archipel/archipel'
 import { etatIle } from '@/archipel/progression'
 import { getTheme, missionsPour, toutesLesMissions } from '@/content'
 import type { Mission, Tranche } from '@/content/schema'
+import type { DessinObjet } from '@/ui/dessins'
 import { defiDuJour } from '@/engine/portefeuille'
 
 /** Mission du défi du jour pour la tranche, ou `undefined` s’il n’y a rien à proposer. */
@@ -41,7 +42,7 @@ export function ileEnCours(tranche: Tranche, faites: Record<string, { termineeLe
 export interface RangIle {
   theme: string
   nom: string
-  emoji: string
+  dessin: DessinObjet
   octets: number
 }
 
@@ -51,6 +52,6 @@ export function classementIles(tranche: Tranche, octets: Record<string, number>)
     const info = infoIle(theme)
     const missions = missionsPour(tranche, theme)
     if (!info || missions.length === 0) return []
-    return [{ theme, nom: info.nom, emoji: info.objet.emoji, octets: missions.reduce((s, m) => s + (octets[m.id] ?? 0), 0) }]
+    return [{ theme, nom: info.nom, dessin: info.objet.dessin, octets: missions.reduce((s, m) => s + (octets[m.id] ?? 0), 0) }]
   }).sort((a, b) => b.octets - a.octets)
 }

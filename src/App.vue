@@ -51,7 +51,8 @@ function allerAuContenu() {
 }
 .coquille { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 100vh; }
 .coquille-contenu { display: flex; flex-direction: column; min-width: 0; }
-.coquille-contenu > main { flex: 1 0 auto; align-content: start; }
+/* Centré par margin: auto dans une colonne flex, main prendrait la largeur de son contenu : on la fixe. */
+.coquille-contenu > main { flex: 1 0 auto; align-content: start; width: 100%; }
 @media (min-width: 64rem) {
   .coquille { grid-template-columns: 16rem minmax(0, 1fr); }
 }

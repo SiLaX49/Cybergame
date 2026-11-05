@@ -138,19 +138,17 @@ select {
 }
 
 /* ---------- Tuiles de mission ---------- */
-/* Texte blanc sur fond franc, contrastes vérifiés dans palette.test.ts. */
+/* Même rôle, même allure : surface claire, liseré à la couleur de l’île (`data-accent` sur la liste). */
 .tuile-mission {
-  --tuile-fond: var(--tuile-a);
-  position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 0.5rem;
-  min-height: 9rem; padding: 1.1rem 1.25rem; border-radius: var(--rayon-carte);
-  background: var(--tuile-fond); color: var(--tuile-texte); text-decoration: none;
-  border: 2px solid transparent; box-shadow: var(--ombre-flottante);
+  position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 1rem;
+  min-height: 9rem; padding: 1rem 1.1rem; border-radius: var(--rayon-carte);
+  background: var(--surface); color: var(--texte); text-decoration: none;
+  border: 1px solid var(--bord-fort); border-top: 4px solid var(--accent, var(--primaire));
   font-family: var(--police-titres); font-weight: 600; font-size: 1.05em; line-height: 1.3;
-  transition: transform var(--duree) ease;
+  transition: background-color var(--duree) ease;
 }
-@media (hover: hover) { .tuile-mission:hover { transform: translateY(-2px); } }
-.tuile-mission:focus-visible { border-color: var(--tuile-texte); }
-.tuile-illustration { font-size: 3rem; line-height: 1; }
+@media (hover: hover) { .tuile-mission:hover { background: var(--surface-2); } }
+.tuile-mission .pastille-theme { width: 2.25rem; height: 2.25rem; border-radius: 10px; }
 
 /* Grand bouton d’appel (« Lancer le défi du jour ») */
 .btn.btn-appel {

@@ -27,9 +27,9 @@ describe('accueil : tableau de bord', () => {
     expect(w.find('progress').attributes()).toMatchObject({ value: '0', max: '1' })
     expect(w.find('.pourcentage').text()).toBe('0 %')
     const tuiles = w.findAll('.tuile-mission').map((t) => t.text())
-    expect(tuiles[0]).toBe('📩Mission test')
+    expect(tuiles[0]).toBe('Mission test')
     // Une seule mission sur l’île : le défi du jour complète la grille s’il est ailleurs.
-    expect(tuiles.slice(1).every((t) => t.startsWith('🎯Défi du jour : '))).toBe(true)
+    expect(tuiles.slice(1).every((t) => t.startsWith('Défi du jour : '))).toBe(true)
     expect(w.find('.btn-appel').text()).toBe('Lancer le défi du jour')
     expect(w.find('.btn-appel').attributes('href')).toMatch(/\/mission\//)
     expect(w.findAll('.objectifs li')).toHaveLength(4)
@@ -96,8 +96,8 @@ describe('page Profil et boutique', () => {
     const article = () => w.findAll('.article').find((a) => a.text().includes('Écusson cadenas'))!
     await article().find('button').trigger('click')
     expect(store.etat.ecusson).toBe('ecusson-cadenas')
-    expect(w.find('.personnage .ecusson').text()).toBe('🔒')
-    expect(w.find('svg.agente').text()).toContain('🔒')
+    expect(w.find('.personnage .ecusson [data-dessin="cadenas"]').exists()).toBe(true)
+    expect(w.find('svg.agente [data-dessin="cadenas"]').exists()).toBe(true)
     expect(article().find('button').text()).toContain('Porter cet écusson')
     await article().find('button').trigger('click')
     expect(store.etat.ecusson).toBeNull()

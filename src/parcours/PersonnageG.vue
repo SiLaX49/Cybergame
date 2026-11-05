@@ -3,13 +3,14 @@ import { computed } from 'vue'
 import { objetBoutique } from '@/profil/boutique'
 import type { PersonnageId } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
+import ObjetDessin from '@/ui/ObjetDessin.vue'
 import { PERSONNAGES_INFO } from './personnages'
 
 /** Le personnage de l’élève, pieds en (0, 0), tête vers y = −62. Porte l’écusson choisi dans la boutique. */
 const props = defineProps<{ id: PersonnageId }>()
 const p = computed(() => PERSONNAGES_INFO[props.id])
 const store = useProgress()
-const ecusson = computed(() => (store.etat.ecusson ? objetBoutique(store.etat.ecusson)?.emoji : undefined))
+const ecusson = computed(() => (store.etat.ecusson ? objetBoutique(store.etat.ecusson)?.dessin : undefined))
 </script>
 
 <template>
@@ -42,7 +43,7 @@ const ecusson = computed(() => (store.etat.ecusson ? objetBoutique(store.etat.ec
     <g v-if="ecusson" class="ecusson" transform="translate(-4.5 -27)">
       <circle r="4.6" fill="#f5b72e" stroke="#8a5a00" stroke-width="0.8" />
       <circle r="3.5" fill="#fff6db" />
-      <text y="1.8" font-size="5" text-anchor="middle">{{ ecusson }}</text>
+      <ObjetDessin :dessin="ecusson" x="-3.2" y="-3.2" taille="6.4" />
     </g>
 
     <!-- cou, oreilles, tête -->

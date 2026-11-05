@@ -3,6 +3,7 @@ import { computed, useId } from 'vue'
 import type { PersonnageId } from '@/store/progress'
 import { ILES_INFO, type IleId } from './iles'
 import PersonnageG from './PersonnageG.vue'
+import ObjetDessin from '@/ui/ObjetDessin.vue'
 
 const props = defineProps<{
   ile: IleId
@@ -95,14 +96,14 @@ const texte = computed(() =>
         <text v-if="i < etapes.length" :x="p.x + 68" :y="p.y - 3" font-size="20" text-anchor="middle">{{ etapes[i]!.emoji }}</text>
         <g v-else>
           <path :d="`M${p.x + 40} ${p.y - 46} l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4 l10 -4 z`" fill="#fff4c2" />
-          <text :x="p.x + 40" :y="p.y - 8" font-size="26" text-anchor="middle">{{ info.objet.emoji }}</text>
+          <ObjetDessin :dessin="info.objet.dessin" :x="p.x + 25" :y="p.y - 36" :taille="30" />
         </g>
       </g>
       <g class="perso" :style="perso">
         <g :key="courante" class="saut"><PersonnageG :id="personnage" /></g>
       </g>
     </svg>
-    <p class="position" role="status">{{ texte }}<span v-if="arrivee" aria-hidden="true"> {{ info.objet.emoji }}</span></p>
+    <p class="position" role="status">{{ texte }}<ObjetDessin v-if="arrivee" :dessin="info.objet.dessin" taille="1.3em" /></p>
   </section>
 </template>
 

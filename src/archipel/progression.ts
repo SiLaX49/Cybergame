@@ -1,4 +1,5 @@
 import type { Mission } from '@/content/schema'
+import type { DessinObjet } from '@/ui/dessins'
 import { infoIle } from './archipel'
 
 type Faites = Record<string, { termineeLe: string }>
@@ -39,7 +40,7 @@ export function positionPersonnage(missions: Pick<Mission, 'id' | 'theme'>[], fa
 
 export interface ObjetSacoche {
   theme: string
-  emoji: string
+  dessin: DessinObjet
   nom: string
   gagne: boolean
 }
@@ -53,7 +54,7 @@ export function objetsSacoche(
   for (const { theme, missions } of iles) {
     const info = infoIle(theme)
     const etat = etatIle(missions, faites, false)
-    if (info && etat.aParcours) objets.push({ theme, emoji: info.objet.emoji, nom: info.objet.nom, gagne: etat.objetGagne })
+    if (info && etat.aParcours) objets.push({ theme, dessin: info.objet.dessin, nom: info.objet.nom, gagne: etat.objetGagne })
   }
   return objets
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Check } from '@lucide/vue'
+import { Check, Play, Target } from '@lucide/vue'
 import { computed, ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { TRANCHES, TRANCHE_LIBELLES } from '@/content/schema'
@@ -9,6 +9,7 @@ import { classementIles, defiPour, ileEnCours } from '@/profil/tableau'
 import { MODES, type Mode } from '@/store/progress'
 import { useProgress } from '@/store/useProgress'
 import AgenteCyber from '@/ui/AgenteCyber.vue'
+import ObjetDessin from '@/ui/ObjetDessin.vue'
 import Octets from '@/ui/Octets.vue'
 
 const store = useProgress()
@@ -20,16 +21,6 @@ const MODE_INFOS: Record<Mode, { titre: string; description: string }> = {
   classe: { titre: 'Classe entière', description: 'Le jeu est projeté, la classe vote, l’adulte valide.' },
 }
 
-/** Dessins des tuiles de mission, par île (décor seulement). */
-const ILLUSTRATIONS: Record<string, string[]> = {
-  phishing: ['📩', '🎣', '🔍'],
-  comptes: ['🔐', '🔑', '🛡️'],
-  'vie-privee': ['🕶️', '📸', '🙈'],
-  'jeux-achats': ['🎮', '🛒', '💳'],
-  desinformation: ['📰', '🔍', '🧐'],
-  appareils: ['📡', '📱', '🔧'],
-}
-
 const aDejaJoue = computed(() => Object.keys(store.etat.missions).length > 0)
 const pret = computed(() => store.etat.tranche !== null && store.etat.mode !== null)
 /** Le formulaire de départ : affiché tant que niveau et mode ne sont pas validés, rouvert par « Changer ». */
@@ -38,7 +29,6 @@ const formulaire = ref(!pret.value)
 const aujourdhui = dateDuJour()
 const ile = computed(() => (store.etat.tranche ? ileEnCours(store.etat.tranche, store.etat.missions) : null))
 const pourcentage = computed(() => (ile.value && ile.value.total ? Math.round((ile.value.terminees / ile.value.total) * 100) : 0))
-const illustration = (i: number) => ILLUSTRATIONS[ile.value?.theme ?? '']?.[i % 3] ?? '🛡️'
 const defi = computed(() => (store.etat.tranche ? defiPour(store.etat.tranche, aujourdhui) : undefined))
 /** Trois tuiles : les missions de l’île, complétées au besoin par le défi du jour. */
 const tuiles = computed(() => {
@@ -143,10 +133,10 @@ function commencer() {
       <section v-if="ile" class="carte" aria-labelledby="titre-missions">
         <h2 id="titre-missions" class="carte-titre">Les missions de l’île</h2>
         <p class="carte-sous-titre">Choisis par où commencer : chaque mission rapporte des octets.</p>
-        <ul class="grille-tuiles">
-          <li v-for="({ mission: m, defi: estDefi }, i) in tuiles" :key="m.id">
+        <ul class="grille-tuiles" :data-accent="ile.theme">
+          <li v-for="{ mission: m, defi: estDefi } in tuiles" :key="m.id">
             <RouterLink class="tuile-mission" :to="`/mission/${m.id}`">
-              <span class="tuile-illustration" aria-hidden="true">{{ estDefi ? '🎯' : illustration(i) }}</span>
+              <span class="pastille-theme" :data-accent="ile.theme" aria-hidden="true"><component :is="estDefi ? Target : Play" :size="20" /></span>
               <span><template v-if="estDefi">Défi du jour : </template>{{ m.titre }}</span>
               <span v-if="m.id in store.etat.missions" class="tuile-faite"><Check aria-hidden="true" :size="18" /> Terminée</span>
             </RouterLink>
@@ -169,7 +159,7 @@ function commencer() {
         <ol class="classement">
           <li v-for="(r, i) in classement.slice(0, 4)" :key="r.theme">
             <span class="rang" aria-hidden="true">{{ i + 1 }}</span>
-            <span class="avatar" aria-hidden="true">{{ r.emoji }}</span>
+            <span class="avatar" aria-hidden="true"><ObjetDessin :dessin="r.dessin" :taille="26" /></span>
             <span class="nom">{{ r.nom }}</span>
             <Octets :valeur="r.octets" />
           </li>
@@ -232,8 +222,6 @@ function commencer() {
   display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
 }
 .grille-tuiles li { display: grid; }
-.grille-tuiles li:nth-child(2) .tuile-mission { --tuile-fond: var(--tuile-b); }
-.grille-tuiles li:nth-child(3) .tuile-mission { --tuile-fond: var(--tuile-c); }
 .tuile-faite { display: inline-flex; align-items: center; gap: 0.3em; font-size: 0.85em; font-family: var(--police-texte); }
 
 .agent { display: grid; gap: 0.5rem; justify-items: start; }
@@ -252,7 +240,7 @@ function commencer() {
 .classement li:first-child .rang { color: var(--or); }
 .avatar {
   display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%;
-  background: var(--surface-2); border: 2px solid var(--bord); font-size: 1.1rem;
+  background: var(--surface-2); border: 1px solid var(--bord);
 }
 .nom { font-weight: 600; min-width: 0; overflow-wrap: anywhere; font-size: 0.95em; }
 

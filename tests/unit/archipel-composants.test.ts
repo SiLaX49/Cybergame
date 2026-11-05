@@ -101,8 +101,8 @@ describe('Sacoche', () => {
   })
   it('dit en texte gagné ou pas encore', () => {
     const w = mount(Sacoche, { props: { objets: [
-      { theme: 'phishing', emoji: '🛡️', nom: 'le bouclier', gagne: true },
-      { theme: 'comptes', emoji: '🔐', nom: 'le coffre-fort', gagne: false },
+      { theme: 'phishing', dessin: 'bouclier', nom: 'le bouclier', gagne: true },
+      { theme: 'comptes', dessin: 'coffre-fort', nom: 'le coffre-fort', gagne: false },
     ] } })
     const items = w.findAll('li').map((l) => l.text())
     expect(items[0]).toContain('gagné')
