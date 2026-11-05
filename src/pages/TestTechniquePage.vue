@@ -56,7 +56,7 @@ const resultat = ref(lancer())
 
 <style scoped>
 .test-technique { display: grid; gap: 1.5rem; padding-block: 2.5rem; max-width: 52rem; }
-.entete { background: linear-gradient(to bottom right, var(--surface), var(--surface-2)); }
+.entete { background: var(--surface); }
 .entete .surtitre { display: flex; align-items: center; gap: 0.35rem; }
 .entete h1 { margin: 0; }
 .intro { margin: 0.35rem 0 0; color: var(--texte-doux); }

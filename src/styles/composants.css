@@ -15,7 +15,7 @@
 .btn-secondaire { /* forme par défaut, nommée explicitement */ }
 .btn-primaire {
   --btn-texte: var(--primaire-texte); --btn-bord: transparent;
-  background: var(--degrade-primaire); box-shadow: var(--ombre-flottante);
+  background: var(--primaire); box-shadow: 0 1px 2px rgb(11 16 32 / 12%);
 }
 .btn-danger { --btn-texte: var(--risque); --btn-bord: var(--risque); }
 .btn-discret {
@@ -62,7 +62,7 @@
 /* Petite étiquette au-dessus d’un titre (« Aujourd’hui sur ton parcours »). */
 .surtitre {
   margin: 0 0 0.35rem; color: var(--texte-doux);
-  font-size: 0.75em; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  font-size: 0.85em; font-weight: 500;
 }
 .badge {
   display: inline-flex; align-items: center; gap: 0.3em;
@@ -91,8 +91,8 @@ progress {
 progress::-webkit-progress-bar { background: var(--surface-2); border-radius: 999px; }
 progress::-webkit-progress-value { background: var(--accent, var(--primaire)); border-radius: 999px; }
 progress::-moz-progress-bar { background: var(--accent, var(--primaire)); border-radius: 999px; }
-progress.barre-degrade::-webkit-progress-value { background: var(--degrade-primaire); }
-progress.barre-degrade::-moz-progress-bar { background: var(--degrade-primaire); }
+progress.barre-degrade::-webkit-progress-value { background: var(--primaire); }
+progress.barre-degrade::-moz-progress-bar { background: var(--primaire); }
 
 /* ---------- Encadrés ---------- */
 .encadre {
@@ -155,6 +155,6 @@ select {
 /* Grand bouton d’appel (« Lancer le défi du jour ») */
 .btn.btn-appel {
   --btn-texte: var(--primaire-texte); --btn-bord: transparent;
-  background: var(--degrade-primaire); box-shadow: var(--ombre-flottante);
+  background: var(--primaire); box-shadow: 0 1px 2px rgb(11 16 32 / 12%);
   padding: 0.8em 1.8em; font-size: 1.05em;
 }

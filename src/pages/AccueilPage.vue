@@ -66,7 +66,7 @@ function commencer() {
         <h1>Cyber Réflexes</h1>
         <p class="accroche">
           Des situations du quotidien pour apprendre les bons réflexes sur Internet. Pas de compte, rien à
-          installer. Gagne des octets à chaque bon réflexe… et à chaque erreur réparée !
+          installer. Gagne des octets à chaque bon réflexe… et à chaque erreur réparée.
         </p>
       </div>
       <form @submit.prevent="commencer">
@@ -130,8 +130,7 @@ function commencer() {
             </div>
           </template>
           <template v-else>
-            <h1 id="titre-module">Bienvenue, agent·e !</h1>
-            <p>Choisis une île pour commencer.</p>
+            <h1 id="titre-module">Choisis ta première île</h1>
             <div class="actions"><RouterLink class="btn btn-primaire" to="/carte">Voir les îles</RouterLink></div>
           </template>
           <p class="parcours-pied">
@@ -206,12 +205,12 @@ function commencer() {
 
 .parcours {
   display: flex; gap: 1.5rem; align-items: flex-start;
-  background: linear-gradient(to bottom right, var(--surface), var(--surface-2));
+  background: var(--surface);
 }
 .parcours-numero {
   flex: none; display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: 50%;
   border: 4px solid var(--primaire); background: var(--surface);
-  font-family: var(--police-titres); font-weight: 700; font-size: 1.5em; color: var(--texte);
+  font-family: var(--police-titres); font-weight: 600; font-size: 1.5em; color: var(--texte);
 }
 .parcours-corps { flex: 1; min-width: 0; }
 .parcours h1 { margin: 0; font-size: clamp(1.25em, 1.1em + 0.6vw, 1.5em); }
@@ -249,7 +248,7 @@ function commencer() {
 }
 .classement li:last-child { border-bottom: 0; }
 .classement .octets { font-size: 0.85em; white-space: nowrap; }
-.rang { font-weight: 700; color: var(--texte-doux); font-size: 0.9em; }
+.rang { font-weight: 600; color: var(--texte-doux); font-size: 0.9em; }
 .classement li:first-child .rang { color: var(--or); }
 .avatar {
   display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%;

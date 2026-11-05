@@ -123,12 +123,12 @@ const choisirPersonnage = (id: PersonnageId) => store.choisirPersonnage(id)
 .profil h2 { margin-top: 0; }
 .fiche { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
 .fiche-texte { flex: 1 1 16rem; min-width: 0; }
-.titre-porte { font-family: var(--police-titres); font-weight: 700; font-size: 1.5em; margin: 0 0 0.25rem; }
+.titre-porte { font-family: var(--police-titres); font-weight: 600; font-size: 1.5em; margin: 0 0 0.25rem; }
 .ecussons { font-size: 1.8rem; margin: 0 0 0.5rem; display: flex; flex-wrap: wrap; gap: 0.25rem; }
 .chiffres { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); margin: 0.5rem 0 0; }
 .chiffres div { background: var(--surface-2); border-radius: var(--rayon); padding: 0.6rem 0.8rem; }
 .chiffres dt { color: var(--texte-doux); font-size: 0.9em; }
-.chiffres dd { margin: 0; font-size: 1.2em; font-family: var(--police-titres); font-weight: 700; }
+.chiffres dd { margin: 0; font-size: 1.2em; font-family: var(--police-titres); font-weight: 600; }
 .boutique { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); }
 .article {
   display: grid; gap: 0.5rem; justify-items: start; align-content: start;
@@ -136,7 +136,7 @@ const choisirPersonnage = (id: PersonnageId) => store.choisirPersonnage(id)
 }
 .article.possede { border-color: var(--bon); }
 .article-emoji { font-size: 2rem; line-height: 1; }
-.article-nom { font-weight: 700; }
+.article-nom { font-weight: 600; }
 .article-type { font-weight: 400; color: var(--texte-doux); }
 .manque { color: var(--texte-doux); font-size: 0.9em; }
 .badges { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.6rem; }

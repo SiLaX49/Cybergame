@@ -159,7 +159,7 @@ const imprimer = () => window.print()
 <style scoped>
 .fiche { display: grid; gap: 1.5rem; padding-block: 2.5rem; }
 .fiche :deep(.bandeau-brouillon) { margin: 0; }
-.entete-fiche { background: linear-gradient(to bottom right, var(--surface), var(--surface-2)); }
+.entete-fiche { background: var(--surface); }
 .entete-fiche h1 { margin: 0; }
 .resume { margin: 0.5rem 0 0; color: var(--texte-doux); font-size: 1.05em; max-width: 50rem; }
 .etiquettes { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1rem 0 0; }
@@ -195,7 +195,7 @@ const imprimer = () => window.print()
 .meta > div { padding: 0.6rem 0; border-bottom: 1px solid var(--bord); }
 .meta > div:last-child { border-bottom: 0; padding-bottom: 0; }
 .meta > div:first-child { padding-top: 0; }
-.meta dt { color: var(--texte-doux); font-size: 0.75em; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.meta dt { color: var(--texte-doux); font-size: 0.85em; font-weight: 500; }
 .meta dd { margin: 0.15rem 0 0; }
 .theme-ligne { display: flex; align-items: center; gap: 0.5rem; }
 .pre { white-space: pre-line; }

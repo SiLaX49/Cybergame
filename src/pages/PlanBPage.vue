@@ -270,7 +270,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
 .plan-b { display: grid; gap: 1.5rem; padding-block: 2.5rem; max-width: 60rem; }
 .plan-b :deep(.bandeau-brouillon) { margin: 0; }
 
-.entete-papier { background: linear-gradient(to bottom right, var(--surface), var(--surface-2)); }
+.entete-papier { background: var(--surface); }
 .entete-papier h1 { margin: 0; }
 .consigne-papier { margin: 0.5rem 0 0; color: var(--texte-doux); }
 .identite { margin: 1.25rem 0 0; padding-top: 1rem; border-top: 1px solid var(--bord); font-weight: 600; }
@@ -293,7 +293,7 @@ table { width: 100%; border-collapse: collapse; margin: 0.75rem 0 0; font-size: 
 th, td { border-bottom: 1px solid var(--bord); padding: 0.55rem 0.6rem; text-align: left; }
 thead th {
   background: var(--surface-2); color: var(--texte-doux);
-  font-size: 0.8em; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+  font-size: 0.85em; font-weight: 500;
 }
 caption { text-align: left; font-weight: 600; padding-bottom: 0.4rem; }
 

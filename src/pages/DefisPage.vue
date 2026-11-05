@@ -108,7 +108,7 @@ const BAREME = [
 .carte-titre { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: 1.15em; }
 .carte-sous-titre { margin: 0.2rem 0 1rem; color: var(--texte-doux); font-size: 0.9em; }
 
-.defi-jour { display: flex; gap: 1.5rem; align-items: flex-start; background: linear-gradient(to bottom right, var(--surface), var(--surface-2)); }
+.defi-jour { display: flex; gap: 1.5rem; align-items: flex-start; background: var(--surface); }
 .defi-pastille {
   flex: none; display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: 50%;
   border: 4px solid var(--primaire); background: var(--surface); font-size: 1.8rem;
@@ -124,7 +124,7 @@ const BAREME = [
 .bareme { width: 100%; border-collapse: collapse; }
 .bareme thead th {
   padding: 0 0 0.5rem; color: var(--texte-doux);
-  font-size: 0.75em; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  font-size: 0.85em; font-weight: 500;
 }
 .bareme th, .bareme td { text-align: left; padding: 0.65rem 0; border-bottom: 1px solid var(--bord); }
 .bareme tbody tr:last-child > * { border-bottom: 0; }

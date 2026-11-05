@@ -12,6 +12,6 @@ const format = new Intl.NumberFormat('fr-FR')
 </template>
 
 <style scoped>
-.octets { display: inline-flex; align-items: center; gap: 0.35em; font-family: var(--police-titres); font-weight: 700; color: var(--or); white-space: nowrap; }
+.octets { display: inline-flex; align-items: center; gap: 0.35em; font-family: var(--police-titres); font-weight: 600; color: var(--or); white-space: nowrap; }
 .octets-icone { width: 1.1em; height: 1.1em; flex: none; }
 </style>

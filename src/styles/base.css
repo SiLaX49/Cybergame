@@ -2,7 +2,7 @@
 html { font-family: var(--police-texte); }
 body {
   margin: 0;
-  background: var(--fond) radial-gradient(var(--bord) 1px, transparent 1px) 0 0 / 22px 22px;
+  background: var(--fond);
   color: var(--texte);
   font-size: var(--taille-base);
   line-height: var(--interligne);
@@ -13,9 +13,9 @@ h1, h2, h3 {
   font-family: var(--police-titres);
   font-weight: 600;
   line-height: 1.25;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
-h1 { font-size: clamp(1.6em, 1.35em + 1vw, 2em); }
+h1 { font-size: clamp(1.6em, 1.35em + 1vw, 2em); letter-spacing: -0.02em; }
 h2 { font-size: 1.3em; }
 h3 { font-size: 1.1em; }
 a { color: var(--primaire); text-underline-offset: 0.18em; text-decoration-thickness: 0.08em; }
