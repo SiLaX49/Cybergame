@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { CircleCheck } from '@lucide/vue'
 import { ref } from 'vue'
 import { focusAuChangement } from '@/ui/focus'
 
@@ -48,7 +49,7 @@ function envoyer() {
       <button type="button" class="btn btn-primaire" :disabled="!choix" @click="envoyer">Envoyer</button>
     </template>
     <template v-else>
-      <p role="status" class="encadre encadre-bon"><span aria-hidden="true">✅</span> Message envoyé. Tu as arrêté la rumeur de ton côté.</p>
+      <p role="status" class="encadre encadre-bon"><CircleCheck aria-hidden="true" class="icone-texte" /> Message envoyé. Tu as arrêté la rumeur de ton côté.</p>
       <button type="button" class="btn btn-primaire" @click="emit('fait')">Continuer</button>
     </template>
   </section>

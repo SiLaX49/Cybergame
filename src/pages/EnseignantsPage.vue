@@ -133,7 +133,7 @@ const SEANCE = [
 </template>
 
 <style scoped>
-.enseignants { display: grid; gap: 1.5rem; padding-block: 2.5rem; }
+.enseignants { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding-block: 2.5rem; }
 .carte-titre { margin: 0; font-size: 1.15em; }
 .carte-sous-titre { margin: 0.2rem 0 0; color: var(--texte-doux); font-size: 0.9em; }
 

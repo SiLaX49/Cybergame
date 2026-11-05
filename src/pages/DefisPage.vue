@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CircleCheck, Clock, RotateCcw } from '@lucide/vue'
+import { CircleCheck, Clock, RotateCcw, Target } from '@lucide/vue'
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { nomIle } from '@/archipel/archipel'
@@ -43,7 +43,7 @@ const BAREME = [
     <div class="defis-grille">
       <div class="defis-principal">
         <section class="carte defi-jour" aria-labelledby="titre-defi">
-          <span class="defi-pastille" aria-hidden="true">🎯</span>
+          <span class="defi-pastille" aria-hidden="true"><Target :size="28" /></span>
           <div class="defi-corps">
             <h2 id="titre-defi" class="surtitre">Défi du jour</h2>
             <template v-if="defi">
@@ -111,7 +111,7 @@ const BAREME = [
 .defi-jour { display: flex; gap: 1.5rem; align-items: flex-start; background: var(--surface); }
 .defi-pastille {
   flex: none; display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: 50%;
-  border: 4px solid var(--primaire); background: var(--surface); font-size: 1.8rem;
+  border: 4px solid var(--primaire); background: var(--surface); color: var(--primaire);
 }
 .defi-corps { flex: 1; min-width: 0; }
 .defi-titre { font-family: var(--police-titres); font-weight: 600; font-size: 1.4em; letter-spacing: -0.02em; margin: 0; }

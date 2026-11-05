@@ -30,7 +30,7 @@ const reponse = computed(() => reponseLevier(props.scenario.pourquoi, props.resu
 <template>
   <section v-if="choix" class="consequence">
     <p class="verdict encadre" :class="[choix.qualite, classeEncadre(choix.qualite)]">
-      <span aria-hidden="true">{{ verdict(choix.qualite, scenario.fiable).icone }}</span> <strong>{{ verdict(choix.qualite, scenario.fiable).titre }}</strong>
+      <component :is="verdict(choix.qualite, scenario.fiable).icone" aria-hidden="true" class="icone-texte" /> <strong>{{ verdict(choix.qualite, scenario.fiable).titre }}</strong>
     </p>
     <p><strong>Ton choix :</strong> {{ choix.texte }}</p>
     <p>{{ t(choix.consequence, choix.consequenceSimple) }}</p>

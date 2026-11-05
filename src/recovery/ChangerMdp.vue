@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { CircleCheck, Lock, Settings } from '@lucide/vue'
 import { computed, ref } from 'vue'
 import { focusAuChangement } from '@/ui/focus'
 import { evaluerMotDePasse } from './motDePasse'
@@ -22,11 +23,11 @@ function enregistrer() {
     <h3 ref="titre" tabindex="-1">Change ton mot de passe</h3>
     <template v-if="etape === 'parametres'">
       <p>Ouvre les paramètres de ton compte.</p>
-      <button type="button" class="btn" @click="etape = 'securite'"><span aria-hidden="true">⚙️</span> Paramètres</button>
+      <button type="button" class="btn" @click="etape = 'securite'"><Settings aria-hidden="true" class="icone-texte" /> Paramètres</button>
     </template>
     <template v-else-if="etape === 'securite'">
       <p>Va dans la rubrique qui protège ton compte.</p>
-      <button type="button" class="btn" @click="etape = 'formulaire'"><span aria-hidden="true">🔒</span> Sécurité et connexion</button>
+      <button type="button" class="btn" @click="etape = 'formulaire'"><Lock aria-hidden="true" class="icone-texte" /> Sécurité et connexion</button>
     </template>
     <form v-else-if="etape === 'formulaire'" @submit.prevent="enregistrer">
       <p class="avertissement encadre encadre-aide">C’est un jeu : n’écris pas ton vrai mot de passe !</p>
@@ -34,7 +35,7 @@ function enregistrer() {
       <input id="nouveau-mdp" v-model="mdp" type="text" autocomplete="off" aria-describedby="conseils-mdp" />
       <ul id="conseils-mdp" aria-live="polite">
         <li v-for="p in problemes" :key="p">{{ p }}</li>
-        <li v-if="mdp && !problemes.length"><span aria-hidden="true">✅</span> Mot de passe solide.</li>
+        <li v-if="mdp && !problemes.length"><CircleCheck aria-hidden="true" class="icone-texte" /> Mot de passe solide.</li>
       </ul>
       <label class="option">
         <input v-model="deconnecter" type="checkbox" />
@@ -44,7 +45,7 @@ function enregistrer() {
     </form>
     <template v-else>
       <p role="status" class="encadre encadre-bon">
-        <span aria-hidden="true">✅</span> Mot de passe changé et autres appareils déconnectés. Si quelqu’un avait
+        <CircleCheck aria-hidden="true" class="icone-texte" /> Mot de passe changé et autres appareils déconnectés. Si quelqu’un avait
         ton ancien mot de passe, il est dehors.
       </p>
       <button type="button" class="btn btn-primaire" @click="emit('fait')">Continuer</button>

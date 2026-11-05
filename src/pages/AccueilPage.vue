@@ -219,7 +219,7 @@ function commencer() {
 .parcours-numero {
   flex: none; display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: 50%;
   border: 4px solid var(--primaire); background: var(--surface);
-  font-family: var(--police-titres); font-weight: 600; font-size: 1.5em; color: var(--texte);
+  font-family: var(--police-titres); font-weight: 600; font-size: 1.5em; color: var(--texte); font-variant-numeric: tabular-nums;
 }
 .parcours-corps { flex: 1; min-width: 0; }
 .parcours h1 { margin: 0; font-size: clamp(1.25em, 1.1em + 0.6vw, 1.5em); }

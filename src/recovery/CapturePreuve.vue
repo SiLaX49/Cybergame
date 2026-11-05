@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Ban, Camera, CircleCheck } from '@lucide/vue'
 import { ref } from 'vue'
 import { focusAuChangement } from '@/ui/focus'
 import { CAPTURE_PREUVE as T } from './textes'
@@ -20,16 +21,16 @@ focusAuChangement(bloque, titre)
     <template v-if="!bloque">
       <div class="actions">
         <button type="button" class="btn" :disabled="capture" @click="capture = true">
-          <span aria-hidden="true">📸</span> {{ T.capture }}
+          <Camera aria-hidden="true" class="icone-texte" /> {{ T.capture }}
         </button>
         <button ref="boutonBloquer" type="button" class="btn" :disabled="!capture" @click="bloque = true">
-          <span aria-hidden="true">🚫</span> {{ T.bloquer }}
+          <Ban aria-hidden="true" class="icone-texte" /> {{ T.bloquer }}
         </button>
       </div>
       <p v-if="capture" role="status" class="encadre encadre-doux">{{ T.captureFaite }}</p>
     </template>
     <template v-else>
-      <p role="status" class="encadre encadre-doux"><span aria-hidden="true">✅</span> {{ T.rappel }}</p>
+      <p role="status" class="encadre encadre-doux"><CircleCheck aria-hidden="true" class="icone-texte" /> {{ T.rappel }}</p>
       <button type="button" class="btn btn-primaire" @click="emit('fait')">Continuer</button>
     </template>
   </section>

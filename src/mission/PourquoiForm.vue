@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Hand, MessageCircle } from '@lucide/vue'
 import { computed, ref } from 'vue'
 import type { Leviers, ReponseLevier, Scenario } from '@/content/schema'
 import { ordreAffichage } from '@/engine/ordre'
@@ -29,10 +30,10 @@ function validerClasse() {
   <div class="pourquoi">
     <p class="accroche">Beaucoup de gens auraient fait pareil. Choisis ce qui te ressemble le plus.</p>
     <p v-if="mode === 'binome'" class="consigne-mode encadre encadre-info">
-      <span aria-hidden="true">💬</span> Discutez à deux : qu’est-ce qui vous a donné envie ?
+      <MessageCircle aria-hidden="true" class="icone-texte" /> Discutez à deux : qu’est-ce qui vous a donné envie ?
     </p>
     <p v-if="mode === 'classe'" class="consigne-mode encadre encadre-info">
-      <span aria-hidden="true">✋</span> Votez à main levée, puis l’adulte valide la raison de la classe.
+      <Hand aria-hidden="true" class="icone-texte" /> Votez à main levée, puis l’adulte valide la raison de la classe.
     </p>
     <ul class="liste-raisons">
       <li v-for="o in options" :key="o.id">

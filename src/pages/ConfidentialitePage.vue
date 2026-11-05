@@ -55,7 +55,7 @@ import EffacerProgression from '@/ui/EffacerProgression.vue'
 </template>
 
 <style scoped>
-.confidentialite { display: grid; gap: 1.5rem; padding-block: 2.5rem; }
+.confidentialite { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding-block: 2.5rem; }
 .entete { display: flex; align-items: center; gap: 1.5rem; background: var(--surface); }
 .entete h1 { margin: 0; }
 .entete .surtitre { margin: 0; }

@@ -158,7 +158,7 @@ const choisirPersonnage = (id: PersonnageId) => store.choisirPersonnage(id)
 </template>
 
 <style scoped>
-.profil { display: grid; gap: 1.25rem; }
+.profil { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
 .profil > h1 { margin-bottom: 0; }
 .profil h2 { margin-top: 0; }
 .fiche { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; }

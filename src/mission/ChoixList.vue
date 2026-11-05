@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Hand, MessageCircle } from '@lucide/vue'
 import { computed, ref } from 'vue'
 import type { Qualite } from '@/content/schema'
 import { ordreAffichage } from '@/engine/ordre'
@@ -24,9 +25,9 @@ function validerClasse() {
 
 <template>
   <div class="choix">
-    <p v-if="mode === 'binome'" class="consigne-mode encadre encadre-info"><span aria-hidden="true">💬</span> Discutez à deux avant de choisir.</p>
+    <p v-if="mode === 'binome'" class="consigne-mode encadre encadre-info"><MessageCircle aria-hidden="true" class="icone-texte" /> Discutez à deux avant de choisir.</p>
     <p v-if="mode === 'classe'" class="consigne-mode encadre encadre-info">
-      <span aria-hidden="true">✋</span> Votez à main levée, puis l’adulte valide le choix de la classe.
+      <Hand aria-hidden="true" class="icone-texte" /> Votez à main levée, puis l’adulte valide le choix de la classe.
     </p>
     <ol class="liste-choix">
       <li v-for="c in choixAffiches" :key="c.id">

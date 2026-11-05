@@ -8,14 +8,14 @@
   font-family: var(--police-texte); font-weight: 600; font-size: 0.95em; line-height: 1.2;
   color: var(--btn-texte); background: var(--btn-fond);
   border: 1px solid var(--btn-bord); border-radius: var(--rayon-btn);
-  box-shadow: 0 1px 2px rgb(11 16 32 / 6%);
+  box-shadow: var(--ombre-legere);
   cursor: pointer; text-decoration: none;
   transition: transform var(--duree) ease, background-color var(--duree) ease;
 }
 .btn-secondaire { /* forme par défaut, nommée explicitement */ }
 .btn-primaire {
   --btn-texte: var(--primaire-texte); --btn-bord: transparent;
-  background: var(--primaire); box-shadow: 0 1px 2px rgb(11 16 32 / 12%);
+  background: var(--primaire); box-shadow: var(--ombre-bouton);
 }
 .btn-danger { --btn-texte: var(--risque); --btn-bord: var(--risque); }
 .btn-discret {
@@ -154,7 +154,7 @@ select {
   position: absolute; top: 0.6rem; left: 0.6rem;
   display: inline-flex; align-items: center; gap: 0.3em; padding: 0.15em 0.6em; border-radius: 999px;
   background: var(--surface); color: var(--texte); font-size: 0.8em; font-weight: 600; line-height: 1.4;
-  box-shadow: 0 1px 2px rgb(11 16 32 / 15%);
+  box-shadow: var(--ombre-etiquette);
 }
 .tuile-etiquette.tuile-faite { left: auto; right: 0.6rem; background: var(--bon-fond); color: var(--bon); }
 .tuile-etiquette.tuile-suite { background: var(--primaire); color: var(--primaire-texte); }
@@ -165,6 +165,9 @@ select {
 /* Grand bouton d’appel (« Lancer le défi du jour ») */
 .btn.btn-appel {
   --btn-texte: var(--primaire-texte); --btn-bord: transparent;
-  background: var(--primaire); box-shadow: 0 1px 2px rgb(11 16 32 / 12%);
+  background: var(--primaire); box-shadow: var(--ombre-bouton);
   padding: 0.8em 1.8em; font-size: 1.05em;
 }
+
+/* Icône lucide posée dans une ligne de texte (à la place d’un emoji) : taille du texte, alignée sur la ligne. */
+.icone-texte { display: inline-block; flex: none; width: 1.15em; height: 1.15em; vertical-align: -0.2em; }

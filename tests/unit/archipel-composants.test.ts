@@ -20,31 +20,31 @@ describe('nomAccessibleIle', () => {
     expect(
       nomAccessibleIle({ nom: 'Île aux hameçons', objet: 'le bouclier', calme: false, ici: true,
         etat: { terminees: 3, total: 3, aParcours: true, objetGagne: true, complete: true } }),
-    ).toBe('Île aux hameçons — 3 missions sur 3 terminées, le bouclier gagné, tu es ici')
+    ).toBe('Île aux hameçons : 3 missions sur 3 terminées, le bouclier gagné, tu es ici')
   })
   it('île sans parcours et sans mission', () => {
     expect(
       nomAccessibleIle({ nom: 'Île des clés', objet: 'le coffre-fort', calme: false, ici: false,
         etat: { terminees: 0, total: 0, aParcours: false, objetGagne: false, complete: false } }),
-    ).toBe('Île des clés — bientôt disponible')
+    ).toBe('Île des clés : bientôt disponible')
   })
   it('île à parcours non terminé', () => {
     expect(
       nomAccessibleIle({ nom: 'Île des clés', objet: 'le coffre-fort', calme: false, ici: false,
         etat: { terminees: 1, total: 3, aParcours: true, objetGagne: false, complete: false } }),
-    ).toBe('Île des clés — 1 mission sur 3 terminée, le coffre-fort à gagner')
+    ).toBe('Île des clés : 1 mission sur 3 terminée, le coffre-fort à gagner')
   })
   it('île d’aventure avec missions mais sans parcours : « parcours bientôt »', () => {
     expect(
       nomAccessibleIle({ nom: 'Île des clés', objet: 'le coffre-fort', calme: false, ici: true,
         etat: { terminees: 1, total: 3, aParcours: false, objetGagne: false, complete: false } }),
-    ).toBe('Île des clés — 1 mission sur 3 terminée, parcours bientôt, tu es ici')
+    ).toBe('Île des clés : 1 mission sur 3 terminée, parcours bientôt, tu es ici')
   })
   it('île calme : jamais d’objet', () => {
     expect(
       nomAccessibleIle({ nom: 'Île du phare', objet: null, calme: true, ici: false,
         etat: { terminees: 0, total: 3, aParcours: false, objetGagne: false, complete: false } }),
-    ).toBe('Île du phare — 0 mission sur 3 terminée')
+    ).toBe('Île du phare : 0 mission sur 3 terminée')
   })
 })
 

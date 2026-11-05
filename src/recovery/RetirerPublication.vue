@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { CircleCheck } from '@lucide/vue'
 import { ref } from 'vue'
 import { focusAuChangement } from '@/ui/focus'
 import { RETIRER_PUBLICATION as T } from './textes'
@@ -25,7 +26,7 @@ function envoyer() {
       <button type="button" class="btn btn-primaire" @click="etape = 2">{{ T.supprimer }}</button>
     </template>
     <template v-else-if="etape === 2">
-      <p><span aria-hidden="true">✅</span> {{ T.supprimee }}</p>
+      <p><CircleCheck aria-hidden="true" class="icone-texte" /> {{ T.supprimee }}</p>
       <fieldset>
         <legend>{{ T.question }}</legend>
         <label v-for="e in T.excuses" :key="e.id" class="option">
@@ -40,7 +41,7 @@ function envoyer() {
       <button type="button" class="btn btn-primaire" @click="etape = 4">{{ T.repartager }}</button>
     </template>
     <template v-else>
-      <p role="status" class="encadre encadre-doux"><span aria-hidden="true">✅</span> {{ T.rappel }}</p>
+      <p role="status" class="encadre encadre-doux"><CircleCheck aria-hidden="true" class="icone-texte" /> {{ T.rappel }}</p>
       <button type="button" class="btn btn-primaire" @click="emit('fait')">Continuer</button>
     </template>
   </section>

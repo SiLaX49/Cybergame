@@ -267,7 +267,7 @@ const VERDICT_PAPIER = { fiable: 'Fiable', douteux: 'Douteux', faux: 'Faux' } as
 </template>
 
 <style scoped>
-.plan-b { display: grid; gap: 1.5rem; padding-block: 2.5rem; max-width: 60rem; }
+.plan-b { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding-block: 2.5rem; max-width: 60rem; }
 .plan-b :deep(.bandeau-brouillon) { margin: 0; }
 
 .entete-papier { background: var(--surface); }

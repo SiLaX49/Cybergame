@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { CircleCheck } from '@lucide/vue'
 import { computed, ref } from 'vue'
 import { focusAuChangement } from '@/ui/focus'
 import { SOUTENIR, type ContexteSensible } from './textes'
@@ -35,7 +36,7 @@ function envoyer() {
       <button type="button" class="btn btn-primaire" :disabled="!choix" @click="envoyer">Envoyer</button>
     </template>
     <template v-else>
-      <p role="status" class="encadre encadre-doux"><span aria-hidden="true">✅</span> {{ textes.envoye }}</p>
+      <p role="status" class="encadre encadre-doux"><CircleCheck aria-hidden="true" class="icone-texte" /> {{ textes.envoye }}</p>
       <p>{{ textes.rappel }}</p>
       <button type="button" class="btn btn-primaire" @click="emit('fait')">Continuer</button>
     </template>

@@ -157,7 +157,7 @@ const imprimer = () => window.print()
 </template>
 
 <style scoped>
-.fiche { display: grid; gap: 1.5rem; padding-block: 2.5rem; }
+.fiche { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding-block: 2.5rem; }
 .fiche :deep(.bandeau-brouillon) { margin: 0; }
 .entete-fiche { background: var(--surface); }
 .entete-fiche h1 { margin: 0; }

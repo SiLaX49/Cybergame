@@ -184,6 +184,9 @@
   --interligne: 1.5;
   --ombre-carte: 0 1px 0 rgb(11 16 32 / 4%), 0 8px 28px -16px rgb(11 16 32 / 22%);
   --ombre-flottante: 0 12px 32px -12px rgb(11 16 32 / 28%);
+  --ombre-legere: 0 1px 2px rgb(11 16 32 / 6%);
+  --ombre-bouton: 0 1px 2px rgb(11 16 32 / 12%);
+  --ombre-etiquette: 0 1px 2px rgb(11 16 32 / 15%);
 }
 :root[data-taille='grand'] { --taille-base: 1.3rem; }
 :root[data-taille='tres-grand'] { --taille-base: 1.5rem; }

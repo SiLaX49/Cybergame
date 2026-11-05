@@ -95,7 +95,7 @@ const trace = computed(() => {
           <rect x="10" y="20" width="4" height="8" fill="#6b4a2b" />
           <rect x="66" y="20" width="4" height="8" fill="#6b4a2b" />
         </svg>
-        <span class="port-nom">Port<span v-if="ici === 'port'" class="visually-hidden"> — tu es ici</span></span>
+        <span class="port-nom">Port<span v-if="ici === 'port'" class="visually-hidden">, tu es ici</span></span>
       </div>
 
       <ol class="iles-chemin">

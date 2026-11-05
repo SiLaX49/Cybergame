@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CircleCheck, CircleX, Gauge, RotateCw } from '@lucide/vue'
+import { CircleCheck, CircleX, Gauge, RotateCw, TriangleAlert } from '@lucide/vue'
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { toutesLesMissions } from '@/content'
@@ -26,8 +26,8 @@ const resultat = ref(lancer())
       <p role="status" class="verdict" :class="resultat.pret ? 'verdict-pret' : 'verdict-pas-pret'">
         <CircleCheck v-if="resultat.pret" aria-hidden="true" :size="28" class="verdict-icone" />
         <CircleX v-else aria-hidden="true" :size="28" class="verdict-icone" />
-        <span v-if="resultat.pret" class="badge badge-bon"><span aria-hidden="true">✅</span> Prêt</span>
-        <span v-else class="badge badge-risque"><span aria-hidden="true">❌</span> Pas prêt</span>
+        <span v-if="resultat.pret" class="badge badge-bon"><CircleCheck aria-hidden="true" class="icone-texte" /> Prêt</span>
+        <span v-else class="badge badge-risque"><CircleX aria-hidden="true" class="icone-texte" /> Pas prêt</span>
         <strong v-if="resultat.pret">Ce poste est prêt pour jouer.</strong>
         <strong v-else>Ce poste n’est pas prêt : voir ci-dessous.</strong>
       </p>
@@ -41,9 +41,9 @@ const resultat = ref(lancer())
             <strong>{{ v.libelle }}</strong>
             <span v-if="!v.ok" class="verif-detail">{{ v.conseil }}</span>
           </span>
-          <span v-if="v.ok" class="badge badge-bon"><span aria-hidden="true">✅</span> OK</span>
-          <span v-else-if="v.bloquant" class="badge badge-risque"><span aria-hidden="true">❌</span> À corriger</span>
-          <span v-else class="badge badge-aide"><span aria-hidden="true">⚠️</span> À surveiller</span>
+          <span v-if="v.ok" class="badge badge-bon"><CircleCheck aria-hidden="true" class="icone-texte" /> OK</span>
+          <span v-else-if="v.bloquant" class="badge badge-risque"><CircleX aria-hidden="true" class="icone-texte" /> À corriger</span>
+          <span v-else class="badge badge-aide"><TriangleAlert aria-hidden="true" class="icone-texte" /> À surveiller</span>
         </li>
       </ul>
       <div class="actions">
@@ -55,7 +55,7 @@ const resultat = ref(lancer())
 </template>
 
 <style scoped>
-.test-technique { display: grid; gap: 1.5rem; padding-block: 2.5rem; max-width: 52rem; }
+.test-technique { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding-block: 2.5rem; max-width: 52rem; }
 .entete { background: var(--surface); }
 .entete .surtitre { display: flex; align-items: center; gap: 0.35rem; }
 .entete h1 { margin: 0; }
