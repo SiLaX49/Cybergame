@@ -138,18 +138,14 @@ select {
 }
 
 /* ---------- Tuiles de mission ---------- */
-/* Même rôle, même allure : surface claire, liseré à la couleur de l’île (`data-accent` sur la liste). */
+/* Même rôle, même allure : surface claire ; la couleur de l’île est portée par la pastille (`data-accent`). */
 .tuile-mission {
   position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 1rem;
   min-height: 9rem; padding: 1rem 1.1rem; border-radius: var(--rayon-carte);
   background: var(--surface); color: var(--texte); text-decoration: none;
-  border: 1px solid var(--bord-fort); overflow: hidden;
+  border: 1px solid var(--bord-fort);
   font-family: var(--police-titres); font-weight: 600; font-size: 1.05em; line-height: 1.3;
   transition: background-color var(--duree) ease;
-}
-/* Barre plate à la couleur de l’île, découpée par l’arrondi (une bordure épaisse s’amincirait dans les coins). */
-.tuile-mission::before {
-  content: ''; position: absolute; inset: 0 0 auto; height: 4px; background: var(--accent, var(--primaire));
 }
 @media (hover: hover) { .tuile-mission:hover { background: var(--surface-2); } }
 .tuile-mission .pastille-theme { width: 2.25rem; height: 2.25rem; border-radius: 10px; }
