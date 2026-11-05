@@ -38,8 +38,13 @@ const tuiles = computed(() => {
   const liste = (ile.value?.missions.slice(0, 3) ?? []).map((m) => ({ mission: m, defi: false }))
   const d = defi.value
   if (liste.length < 3 && d && !liste.some((t) => t.mission.id === d.id)) liste.push({ mission: d, defi: true })
+  // La prochaine mission à jouer passe en tête : c’est la grande tuile.
+  const i = liste.findIndex((t) => t.mission.id === prochaine.value?.id)
+  if (i > 0) liste.unshift(...liste.splice(i, 1))
   return liste
 })
+/** La grande tuile : la prochaine mission, dès qu’il y a au moins une autre tuile à côté. */
+const vedette = computed(() => (tuiles.value.length > 1 && tuiles.value[0]?.mission.id === prochaine.value?.id ? prochaine.value?.id : undefined))
 /** Ciel de l’île d’une mission sans lieu, derrière le dessin de l’île. */
 const cielIle = (theme?: string) => (theme ? infoIle(theme)?.ciel : undefined)
 const classement = computed(() => (store.etat.tranche ? classementIles(store.etat.tranche, store.etat.octets) : []))
@@ -138,17 +143,19 @@ function commencer() {
       <section v-if="ile" class="carte" aria-labelledby="titre-missions">
         <h2 id="titre-missions" class="carte-titre">Les missions de l’île</h2>
         <p class="carte-sous-titre">Choisis par où commencer : chaque mission rapporte des octets.</p>
-        <ul class="grille-tuiles" :data-accent="ile.theme">
-          <li v-for="{ mission: m, defi: estDefi } in tuiles" :key="m.id">
+        <ul class="grille-tuiles" :class="{ 'avec-vedette': vedette, 'trois': tuiles.length > 2 }" :data-accent="ile.theme">
+          <li v-for="{ mission: m, defi: estDefi } in tuiles" :key="m.id" :class="{ vedette: m.id === vedette }">
             <RouterLink class="tuile-mission" :to="`/mission/${m.id}`">
               <span class="tuile-scene" :style="decorMission(m) ? undefined : { background: cielIle(m.theme) }">
-                <DecorScene v-if="decorMission(m)" :decor="decorMission(m)!" />
+                <DecorScene v-if="decorMission(m)" :decor="decorMission(m)!" preserveAspectRatio="xMidYMid slice" />
                 <span v-else-if="m.theme && cielIle(m.theme)" class="tuile-ile"><IleDessin :theme="m.theme" /></span>
                 <span v-if="estDefi" class="tuile-etiquette">Défi du jour<span class="visually-hidden"> : </span></span>
+                <span v-else-if="m.id === vedette" class="tuile-etiquette tuile-suite">À suivre<span class="visually-hidden"> : </span></span>
                 <span v-if="m.id in store.etat.missions" class="tuile-etiquette tuile-faite badge-bon"><Check aria-hidden="true" :size="16" /> Terminée</span>
               </span>
               <span class="tuile-corps">
                 <span class="tuile-titre">{{ m.titre }}</span>
+                <span v-if="m.id === vedette" class="tuile-resume">{{ m.resume }}</span>
                 <span class="tuile-meta"><Clock aria-hidden="true" :size="16" /> {{ m.duree }} min<template v-if="m.format === 'parcours'"> · parcours</template></span>
               </span>
             </RouterLink>
@@ -234,6 +241,18 @@ function commencer() {
   display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
 }
 .grille-tuiles li { display: grid; }
+/* La prochaine mission en grand à gauche, les autres empilées à droite. */
+.grille-tuiles.avec-vedette { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+.grille-tuiles.trois .vedette { grid-row: span 2; }
+.vedette .tuile-scene { aspect-ratio: auto; flex: 1 1 auto; min-height: 11rem; }
+.vedette .tuile-corps { flex: none; padding: 1rem 1.25rem 1.25rem; }
+.vedette .tuile-titre { font-size: 1.3em; }
+.tuile-resume { color: var(--texte-doux); font-size: 0.95em; line-height: 1.45; }
+@media (max-width: 44rem) {
+  .grille-tuiles.avec-vedette { grid-template-columns: minmax(0, 1fr); }
+  .grille-tuiles.trois .vedette { grid-row: auto; }
+  .vedette .tuile-scene { aspect-ratio: 2 / 1; min-height: 0; }
+}
 
 .agent { display: grid; gap: 0.5rem; justify-items: start; }
 .agent .surtitre { margin: 0; }
