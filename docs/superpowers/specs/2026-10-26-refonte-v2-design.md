@@ -32,10 +32,9 @@ La règle « aucun score chiffré affiché, aucun classement » est levée **pou
 - **Thèmes sensibles** : ils ne rapportent aucun octet et n’affichent aucun écran de gain. C’est la même logique que pour les îles calmes, « sans objet ni fête ».
 - **Défi du jour** : un tirage stable selon la date locale, parmi les missions de la tranche, hors rappels et thèmes sensibles. Le bonus se gagne une fois par jour.
 - **Objectifs du jour** : terminer une mission, relever le défi, réparer une erreur, gagner 100 octets. Un journal du jour est gardé dans la sauvegarde.
-- **Boutique** : des titres et des écussons (affichés sur le profil), sans effet sur le jeu. Rien n’est payant.
+- **Boutique** : des titres et des écussons (affichés sur le profil, et l’écusson porté sur le personnage dans les îles), sans effet sur le jeu. Rien n’est payant.
 - **Sauvegarde** : la version reste à 1. Les nouveaux champs (`octets`, `defis`, `achats`, `titre`, `journal`) ont des valeurs par défaut, donc les anciennes sauvegardes se chargent sans migration.
 
 ## Hors périmètre
 
 - Classement entre élèves, comptes, serveur.
-- Les écussons ne s’affichent pas encore sur le personnage dans les îles.
