@@ -54,6 +54,8 @@ etapes:
       - id: laisse
         texte: 'Je réponds « grave 😂 » pour ne pas casser l’ambiance de la fête.'
         qualite: risque
+        suite: dimanche
+        route: je laisse la photo
         reaction: 'La photo reste en public, avec ton nom dessus. Lundi, des élèves d’autres classes la repartagent et t’appellent « Gâteau ». Beaucoup se taisent pour ne pas passer pour le rabat-joie de la soirée. Il n’est pas trop tard pour en parler : une photo peut toujours être retirée.'
       - id: ecrit-malo
         texte: 'J’écris à Malo en privé pour qu’il retire la photo et mon nom.'
@@ -145,6 +147,71 @@ etapes:
         parade: 'Des vues ne valent pas un ami blessé. Une vidéo publiée échappe vite à ton contrôle.'
     aRetenir: 'Avant de publier une photo ou une vidéo, chaque personne qu’on y voit doit être d’accord. Ce qui fait rire sur le moment peut blesser une fois en ligne, devant tout le collège.'
     recuperation: { action: retirer-publication, siChoix: [poste] }
+
+  - type: lieu
+    id: dimanche
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Dimanche matin, dans ta chambre. La photo est toujours en public, avec ton nom : 140 likes, et des commentaires de gens que tu ne connais pas. Hier, tu as répondu « grave 😂 » pour ne pas gâcher la fête, comme beaucoup l’auraient fait. Ça se répare : une photo peut toujours être retirée.'
+    question: Par quoi commences-tu ?
+    choix:
+      - id: revanche
+        texte: 'Je publie à mon tour une photo gênante de Malo, pour qu’il voie ce que ça fait.'
+        qualite: risque
+        reaction: 'Malo se vexe, ses amis commentent, et il y a maintenant deux photos gênantes en ligne au lieu d’une. La tienne est toujours là. Avoir envie de se venger, c’est humain. Tu peux retirer ta publication, puis demander à Malo de retirer la sienne.'
+      - id: demande
+        texte: 'J’écris à Malo en privé : « Cette photo me gêne, tu peux la retirer avec mon nom ? »'
+        qualite: bon
+        reaction: 'Malo répond dans l’heure : « Ah, désolé, je pensais que ça te faisait rire, puisque tu as mis “grave”. » Il retire la photo et ton identification. Tu as dit simplement ce qui te gênait, même après coup, et ça a suffi.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère pour savoir comment le dire à Malo.'
+        qualite: aide
+        reaction: 'Ta mère t’écoute : « Tu as le droit de changer d’avis sur une photo de toi. » Elle t’aide à écrire un message simple à Malo. Il retire la photo et ton identification dans l’heure.'
+    pourquoi:
+      - levier: colere
+        truc: 'Malo t’a mis dans l’embarras : tu as envie qu’il ressente la même chose.'
+        parade: 'Une deuxième photo gênante ne fait pas disparaître la première. Demander le retrait, si.'
+      - levier: honte
+        truc: 'Tu as écrit « grave 😂 » : revenir dessus te paraît bizarre.'
+        parade: 'Tu as le droit de changer d’avis sur une photo de toi, même après avoir ri.'
+      - levier: peur
+        truc: 'Tu as peur de fâcher Malo en lui demandant de la retirer.'
+        parade: 'Un message simple et en privé ne casse pas une amitié. Un vrai ami comprend.'
+    aRetenir: 'On a le droit de changer d’avis sur une photo de soi, même après avoir dit « grave ». Demander le retrait en privé, seul·e ou avec un adulte, suffit souvent.'
+    recuperation: { action: retirer-publication, siChoix: [revanche] }
+
+  - type: lieu
+    id: repartages
+    lieu: Le salon
+    decor: salon
+    suite: album
+    guide: 'Dimanche soir, dans le salon. Malo a retiré la photo, mais deux élèves en avaient fait une capture et l’ont remise dans leur story. Et dans tes réglages SnapTalk, n’importe qui peut encore t’identifier sans te demander.'
+    question: Que fais-tu ?
+    choix:
+      - id: attendre
+        texte: 'Je laisse tomber : les stories disparaissent au bout de 24 heures, de toute façon.'
+        qualite: risque
+        reaction: 'Les stories disparaissent, mais d’autres captures ont été faites entre-temps, et n’importe qui peut encore t’identifier. Lundi, la photo circule toujours. Se dire que ça va s’effacer tout seul, c’est tentant. Tu peux encore signaler les captures dans l’appli et changer tes réglages.'
+      - id: signale
+        texte: 'Je signale les deux stories dans l’appli, puis je règle qui peut m’identifier sur « Mes amis ».'
+        qualite: bon
+        reaction: 'Bien vu. Tu signales les deux stories : une photo de toi publiée sans ton accord. Puis, dans les réglages, tu choisis « Mes amis » et la validation de chaque photo avant qu’elle arrive sur ton profil.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père pour signaler les stories et choisir mes réglages.'
+        qualite: aide
+        reaction: 'Ton père lit les réglages avec toi. Vous signalez les deux stories, puis vous choisissez « Mes amis » et la validation avant affichage. « Si ça continue lundi, on en parle au CPE. »'
+    pourquoi:
+      - levier: reflexe
+        truc: 'Une story s’efface en 24 heures : attendre paraît suffire.'
+        parade: 'Une capture, elle, ne s’efface pas. Le signalement et tes réglages agissent plus vite que le temps.'
+      - levier: groupe
+        truc: 'Beaucoup l’ont déjà vue : à quoi bon signaler ?'
+        parade: 'Chaque story retirée, c’est moins de personnes qui la voient encore. Et tes réglages évitent que ça recommence.'
+      - levier: honte
+        truc: 'Signaler des élèves de ton collège te met mal à l’aise.'
+        parade: 'Le signalement vise la photo publiée sans ton accord, pas les élèves. Et un adulte peut t’aider.'
+    aRetenir: 'Une photo retirée peut survivre en captures : on les signale dans l’appli. Puis, dans les réglages, on choisit qui peut t’identifier et on valide chaque photo.'
+    recuperation: { action: bloquer-signaler, siChoix: [attendre] }
 
   - type: lieu
     id: cuisine
@@ -252,7 +319,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Qui décide de ce qu’on publie de nous ? (sans obligation de raconter une situation vécue)
-    20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. Après la fête, deux routes : régler soi-même avec Malo, ou avec la mère de Jade. Si plusieurs binômes jouent, répartir les deux routes.
+    20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. Après la fête, trois routes : régler soi-même avec Malo, avec la mère de Jade, ou réparer après avoir laissé la photo en ligne. Si plusieurs binômes jouent, répartir les trois routes.
     20 min : débrief des questions. Faire raconter chaque route : ce qu’on règle soi-même (message à Malo, réglages d’identification, accord avant de publier), ce qu’un adulte rend possible (médiation, signalement, 3018).
     5 min : où trouver de l’aide (adulte de confiance, CPE, signalement dans l’appli, 3018, qui peut demander le retrait à la plateforme, ou plainte adressée à la CNIL si une photo reste en ligne).
     5 min : engagement. Cette semaine, je vérifie qui peut m’identifier sur mes applis, et je demande avant de publier la photo d’un ami.

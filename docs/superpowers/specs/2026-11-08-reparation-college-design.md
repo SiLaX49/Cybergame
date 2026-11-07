@@ -11,8 +11,9 @@ moteur, l’interface, la fiche enseignant et le plan B savent l’afficher pour
 
 ## Décisions
 
-- **Une île d’abord** : l’île aux hameçons (`p-college-parcours`, « le grand concours »). Les cinq autres parcours
-  5e – 3e gardent deux routes ; on les étend une par une, après relecture de celle-ci.
+- **Une île d’abord** : l’île aux hameçons (`p-college-parcours`, « le grand concours »), puis, à la demande de Noa
+  (7 novembre), les cinq autres îles 5e – 3e sur le même modèle. Chaque route de réparation part du choix risqué de la
+  bifurcation, montre deux gestes dans l’ordre et ne reprend que des faits déjà présents dans son parcours.
 - **Règles du lycée reprises telles quelles** : le choix risqué de la bifurcation (« je paie les 2,99 € ») porte `suite`
   et une étiquette `route` ; il n’a pas de récupération sur la bifurcation, la route répare. Trois routes de même
   longueur (5 lieux), un décor différent par lieu, qui se rejoignent au dernier lieu (le tournoi).
@@ -23,11 +24,22 @@ moteur, l’interface, la fiche enseignant et le plan B savent l’afficher pour
      (le groupe de classe, la CPE).
   Aucun dispositif nouveau : on ne reprend que ce que le parcours dit déjà (opposition, contestation auprès de la
   banque, signalement dans l’appli, CPE).
+- **Les cinq autres îles** (choix risqué de la bifurcation → deux lieux de réparation) :
+  - pièces d’or : « je donne mon Néon » → captures et signalement aux modérateurs et au support du jeu → refuser le
+    faux « récupérateur » payant ;
+  - clés : « j’envoie le code » → récupération par la page d’aide officielle, nouveau mot de passe, sessions fermées,
+    double authentification → alerte aux abonnés sur la fausse vente ;
+  - secrets : « je laisse la photo » → demander le retrait à Malo, même après avoir ri → signaler les captures
+    republiées et régler qui peut t’identifier ;
+  - rumeurs : « je confirme dans le groupe » → vérifier à la source (site du musée, ENT) → corriger dans le même groupe
+    sans republier le faux ;
+  - antennes : « j’accepte l’image » → l’effacer sans la transférer et fermer le partage sans fil → aider ses voisins à
+    régler le leur, ou prévenir l’accompagnateur.
 - **Ton** : jamais de reproche ; la route dit « ça se répare » et les tests de formules culpabilisantes s’appliquent.
-- **Tests de contenu** : un parcours 5e – 3e a deux routes, ou trois s’il a une route de réparation ; dans ce cas, mêmes
+- **Tests de contenu** : chaque parcours 5e – 3e a trois routes, dont une route de réparation, avec les mêmes
   contrôles qu’au lycée (étiquettes courtes et distinctes, deux récupérations ou plus sur la route de réparation, aucune
   formule culpabilisante).
 
 ## Hors périmètre
 
-Les cinq autres îles 5e – 3e, les parcours 6e, le mini-jeu « tri » sur la route (obligatoire au lycée seulement).
+Les parcours 6e, le mini-jeu « tri » sur la route (obligatoire au lycée seulement).

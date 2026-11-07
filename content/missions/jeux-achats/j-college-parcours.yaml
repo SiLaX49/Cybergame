@@ -55,6 +55,8 @@ etapes:
       - id: donne
         texte: 'Je donne mon Néon à Garant_Trade : avec 2 300 échanges, il est sérieux.'
         qualite: risque
+        suite: neon-perdu
+        route: je donne mon Néon
         reaction: 'Garant_Trade reçoit ton Néon… puis plus rien. Nyx_Trader et lui quittent le serveur : c’étaient deux comptes du même arnaqueur. Le badge « Trusted », il l’avait écrit lui-même dans son pseudo. Cette arnaque piège même des joueurs expérimentés. Tu peux encore les signaler aux modérateurs et au support du jeu.'
       - id: bloque
         texte: 'Je bloque Nyx_Trader et Garant_Trade, puis je les signale aux modérateurs.'
@@ -144,6 +146,71 @@ etapes:
         parade: 'Un vendeur pressé est un signal d’alerte. Les vrais achats se font dans la boutique du jeu.'
     aRetenir: 'Une carte bancaire, même enregistrée, appartient à l’adulte qui l’a : on ne l’utilise jamais sans lui. Si ses numéros sont partis, c’est lui qui fait opposition auprès de sa banque, le plus vite possible, et conteste les achats qu’il n’a pas faits.'
     recuperation: { action: bloquer-signaler, siChoix: [paie] }
+
+  - type: lieu
+    id: neon-perdu
+    lieu: Le chemin du retour
+    decor: parc
+    guide: 'En rentrant de la salle de jeux, tu ouvres ton inventaire : plus de Néon. Nyx_Trader et Garant_Trade ont quitté le serveur : c’étaient deux comptes du même arnaqueur. L’arnaque était bien montée, et ça se répare en partie : arrêter l’arnaqueur, et protéger les autres joueurs. Tu as encore toute la conversation.'
+    question: Par quoi commences-tu ?
+    choix:
+      - id: efface
+        texte: 'J’efface la conversation : je ne veux plus repenser à ce skin.'
+        qualite: risque
+        reaction: 'La conversation disparaît, et avec elle les pseudos et les messages. Sans preuve, les modérateurs ont du mal à agir, et les deux comptes recommencent le soir même avec d’autres joueurs. Avoir envie d’oublier, c’est normal. Il reste peut-être des messages dans le salon public du serveur : fais-en des captures.'
+      - id: signale
+        texte: 'Je fais des captures, puis je signale les deux comptes aux modérateurs et au support du jeu.'
+        qualite: bon
+        reaction: 'Les captures gardent les pseudos et les messages. Un modérateur bannit les deux comptes et épingle une alerte pour les autres joueurs. Tu écris aussi au support officiel depuis l’appli du jeu. Il ne rend pas toujours un objet perdu dans une arnaque, mais il peut bloquer les comptes des arnaqueurs.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon grand frère, qui joue à ce jeu depuis des années.'
+        qualite: aide
+        reaction: 'Ton frère ne se moque pas : « Ce coup de l’intermédiaire a piégé plein de monde. » Vous faites ensemble des captures, puis vous signalez les deux comptes aux modérateurs et au support du jeu, depuis son appli officielle.'
+    pourquoi:
+      - levier: honte
+        truc: 'Tu t’en veux d’avoir donné ton Néon, et tu préfères ne plus y penser.'
+        parade: 'Deux comptes complices, c’est un piège fait pour tromper. Tes captures peuvent éviter à d’autres joueurs de perdre leur skin.'
+      - levier: colere
+        truc: 'Tu as envie d’écrire à Nyx_Trader tout ce que tu penses de lui.'
+        parade: 'Lui répondre ne te rendra rien. Garde plutôt ses messages : ce sont les preuves du signalement.'
+      - levier: reflexe
+        truc: 'Effacer une conversation qui fait mal, on le fait souvent sans y penser.'
+        parade: 'Avant d’effacer, fais une capture : c’est elle qui permet aux modérateurs d’agir.'
+    aRetenir: 'Après une arnaque à l’échange, on garde des captures, puis on signale les comptes aux modérateurs et au support officiel du jeu. Ça ne rend pas toujours l’objet, mais ça arrête l’arnaqueur.'
+    recuperation: { action: bloquer-signaler, siChoix: [efface] }
+
+  - type: lieu
+    id: recup-pro
+    lieu: Le salon
+    decor: salon
+    suite: affiche
+    guide: 'Le soir, dans le salon, un certain Recup_Pro t’écrit : « J’ai vu ton message sur le serveur. Je récupère les skins volés. 20 € de frais en carte cadeau, résultat garanti. » Ta mère regarde un film à côté de toi. Tu as tellement envie de revoir ton Néon.'
+    question: Recup_Pro attend ta réponse. Que fais-tu ?
+    choix:
+      - id: paie
+        texte: 'J’achète une carte cadeau avec mon argent de poche et j’envoie le code à Recup_Pro.'
+        qualite: risque
+        reaction: 'Recup_Pro réclame ensuite « 30 € de frais de déblocage ». Le Néon ne revient jamais : c’est une deuxième arnaque, qui vise justement ceux qui viennent de perdre quelque chose. Vouloir récupérer son skin, c’est normal. Parles-en vite à un parent : avec le ticket, il peut contacter le service client de la carte.'
+      - id: bloque
+        texte: 'Le support officiel ne fait jamais payer : je bloque et je signale Recup_Pro.'
+        qualite: bon
+        reaction: 'Bien vu. Personne ne récupère un objet volé contre des frais. Les modérateurs bannissent Recup_Pro à son tour. Ton signalement au support du jeu suit son cours, sans rien payer.'
+      - id: aide
+        texte: 'Je demande de l’aide à ma mère avant de répondre quoi que ce soit.'
+        qualite: aide
+        reaction: 'Ta mère met le film en pause et lit le message : « Ceux qui promettent de récupérer contre de l’argent sont souvent les arnaqueurs eux-mêmes. » Vous bloquez et signalez Recup_Pro ensemble. Elle ajoute : « Tu as bien fait de m’en parler. »'
+    pourquoi:
+      - levier: gain
+        truc: '« Résultat garanti » : revoir ton Néon, c’est exactement ce que tu espères.'
+        parade: 'Personne ne peut garantir de rendre un objet volé. Une promesse trop belle après une arnaque, c’est souvent la suivante.'
+      - levier: autorite
+        truc: '« Recup_Pro » : le pseudo sonne comme un service sérieux.'
+        parade: 'Un pseudo se choisit en deux secondes. Le seul service qui peut agir, c’est le support officiel, joint depuis l’appli du jeu.'
+      - levier: secret
+        truc: 'Avec une carte cadeau, tes parents n’ont pas besoin de savoir.'
+        parade: 'Un parent peut t’aider sans te gronder. Et s’il y a un ticket, il peut encore contacter le service client de la carte.'
+    aRetenir: 'Après une arnaque, d’autres arnaqueurs promettent de tout récupérer contre des frais : c’est une deuxième arnaque. Seul le support officiel du jeu peut agir, et il ne fait jamais payer.'
+    recuperation: { action: demander-aide, siChoix: [paie] }
 
   - type: lieu
     id: preuves
@@ -251,7 +318,7 @@ debrief:
 fiche:
   deroulement: |
     5 min : cadre. Qu’échange-t-on dans les jeux, et comment ? (sans obligation de raconter)
-    20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. Après le faux intermédiaire, deux routes : bloquer et signaler soi-même, ou prévenir ses parents. Si plusieurs binômes jouent, répartir les deux routes.
+    20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. Après le faux intermédiaire, trois routes : bloquer et signaler soi-même, prévenir ses parents, ou réparer après avoir donné son skin. Si plusieurs binômes jouent, répartir les trois routes.
     20 min : débrief des questions. Faire raconter chaque route : ce qu’on règle soi-même (blocage, signalement, aider un ami), ce qu’un adulte rend possible (vérifier ses comptes, opposition bancaire, service client de la carte cadeau).
     5 min : où trouver de l’aide (adulte de confiance, modérateurs et support du jeu, cybermalveillance.gouv.fr pour les parents).
     5 min : engagement. Ce soir, je regarde avec un adulte si une carte est enregistrée sur nos consoles et navigateurs, et si un code protège les achats.

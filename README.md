@@ -151,8 +151,8 @@ Règles d’écriture propres à cette progression :
 
 ### Parcours à routes (5e – 3e et lycée)
 
-Les six parcours 5e – 3e (un par île) proposent deux routes qui se rejoignent au dernier lieu (trois pour l’île aux hameçons, qui a
-une route de réparation) ; les parcours lycée en proposent trois. Le format reste
+Les parcours 5e – 3e et lycée (un par île et par tranche) proposent trois routes qui se rejoignent au dernier lieu : deux
+bonnes routes et une route de réparation. Le format reste
 `format: parcours` ; l’enchaînement se décrit avec `suite`, un identifiant d’étape accepté sur un lieu ou sur l’un de ses
 choix. Une route est la suite d’étapes suivie de la première à la dernière étape du fichier, en suivant les `suite`.
 
@@ -164,7 +164,7 @@ Règles :
 - aucune route n’est présentée comme meilleure : les deux terminent la mission et gagnent l’objet de l’île. L’écran de
   fin indique la route prise et propose de rejouer l’autre.
 
-Route de réparation (tous les parcours lycée et l’île aux hameçons en 5e – 3e, numéro 3c) : la bifurcation a trois choix, `bon`, `aide` et un choix `risque` qui porte lui
+Route de réparation (parcours 5e – 3e et lycée, numéro 3c) : la bifurcation a trois choix, `bon`, `aide` et un choix `risque` qui porte lui
 aussi un `suite`. Ce choix risqué ouvre une troisième route, celle de la réparation : après la réaction « Tu avances
 quand même. », l'élève peut « Réessayer » ou « Continuer » vers des lieux propres à cette route. Règles propres à cette
 route :

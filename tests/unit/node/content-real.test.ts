@@ -405,30 +405,25 @@ describe('contenu réel', () => {
     expect(parcours.filter((m) => m.theme === theme && m.tranches.includes('5e-3e'))).toHaveLength(1)
   })
 
-  describe('parcours 5e – 3e : deux routes, ou trois avec une route de réparation', () => {
+  describe('parcours 5e – 3e : trois routes, dont une route de réparation', () => {
     const college = parcours.filter((m) => m.tranches.includes('5e-3e')).map((m) => [m.id, m] as const)
     if (!college.length) it.skip('aucun parcours 5e – 3e pour l’instant', () => {})
     const lieuxPropres = (m: Mission, route: string[]) =>
       routesDe(m.etapes).filter((r) => r !== route).length ? route.filter((id) => routesDe(m.etapes).some((r) => r !== route && !r.includes(id))) : []
 
-    const avecReparation = college.filter(([, m]) => routesDe(m.etapes).length === 3)
     const lieuxDeLaReparation = (m: Mission) => {
       const route = routesDe(m.etapes)[2] ?? []
       return m.etapes.flatMap((e) => (e.type === 'lieu' && route.includes(e.id) ? [e] : []))
     }
 
-    it.each(college)('%s : une bifurcation, deux routes ou trois avec un choix de réparation', (_id, m) => {
+    it.each(college)('%s : une bifurcation, trois routes, un choix de réparation', (_id, m) => {
       const fourches = m.etapes.filter((e) => bifurcation(m.etapes, e.id))
       expect(fourches).toHaveLength(1)
-      const reparation = choixReparation(m.etapes, fourches[0]!.id)
-      expect(routesDe(m.etapes)).toHaveLength(reparation ? 3 : 2)
+      expect(routesDe(m.etapes)).toHaveLength(3)
+      expect(choixReparation(m.etapes, fourches[0]!.id)).not.toBeNull()
     })
 
-    it('l’île aux hameçons a une route de réparation', () => {
-      expect(avecReparation.map(([id]) => id)).toContain('p-college-parcours')
-    })
-
-    it.each(avecReparation)('%s : deux récupérations ou plus sur la route de réparation, aucune formule culpabilisante', (_id, m) => {
+    it.each(college)('%s : deux récupérations ou plus sur la route de réparation, aucune formule culpabilisante', (_id, m) => {
       const lieux = lieuxDeLaReparation(m)
       expect(lieux.filter((e) => e.recuperation).length).toBeGreaterThanOrEqual(2)
       const trouves = lieux.flatMap((e) =>
@@ -461,13 +456,13 @@ describe('contenu réel', () => {
     it.each(college)('%s : étiquettes de route courtes sur la bifurcation, titre « L’île … : … »', (_id, m) => {
       const fourche = choixDeBifurcation(m.etapes)
       expect(fourche).not.toBeNull()
-      const etiquettes = [fourche!.bon, fourche!.aide, ...(fourche!.reparation ? [fourche!.reparation] : [])]
+      const etiquettes = [fourche!.bon, fourche!.aide, fourche!.reparation ?? '']
       for (const e of etiquettes) {
         expect(e).toMatch(/^[a-zéèêàâîôûç’j]/)
         expect(e).not.toMatch(/[.!?]$/)
         expect(e.split(' ').length).toBeLessThanOrEqual(8)
       }
-      expect(new Set(etiquettes).size).toBe(etiquettes.length)
+      expect(new Set(etiquettes).size).toBe(3)
       expect(m.titre).toMatch(/^L’île (aux|des) [^:]+ : \S/)
     })
 

@@ -55,6 +55,8 @@ etapes:
       - id: accepte
         texte: 'J’accepte pour voir ce que c’est : je pourrai l’effacer après.'
         qualite: risque
+        suite: aire
+        route: j’accepte l’image
         reaction: 'L’image est un montage moqueur d’un élève de 3e, et elle est maintenant dans ta galerie. D’autres l’ont acceptée et la font déjà tourner. La curiosité, tout le monde connaît. Tu peux encore l’effacer sans la transférer, prévenir M. Lambert, puis changer ton réglage. Ce montage vise quelqu’un : il n’a pas à circuler.'
       - id: regle
         texte: 'Ça ne s’arrêtera pas tout seul : je règle moi-même le partage sur « Contacts uniquement ».'
@@ -143,6 +145,71 @@ etapes:
         parade: 'Un code dit à voix haute ou tapé devant les autres peut être retenu. Tape-le à l’abri des regards.'
     aRetenir: 'Ton code de verrouillage ouvre tes messages, tes photos et tes comptes : il ne se prête pas, même à un ami. Si quelqu’un l’a vu ou entendu, change-le. Et règle le verrouillage automatique pour un téléphone posé sans surveillance.'
     recuperation: { action: prevenir-contacts, siChoix: [donne] }
+
+  - type: lieu
+    id: aire
+    lieu: L’aire d’autoroute
+    decor: parc
+    guide: 'Pause sur l’aire d’autoroute. Le montage moqueur de l’élève de 3e est dans ta galerie. Au fond du car, on te lance : « Envoie-le au groupe de la 4e B ! » Et le partage sans fil de ton téléphone est toujours ouvert à « Tout le monde ». La curiosité a eu beaucoup d’élèves du car, et ça se répare.'
+    question: Par quoi commences-tu ?
+    choix:
+      - id: transfere
+        texte: 'Je l’envoie au groupe, puis je l’efface de ma galerie.'
+        qualite: risque
+        reaction: 'Le montage arrive chez 28 élèves de plus, et l’élève de 3e le voit passer dans un groupe où il a des amis. L’effacer de ta galerie ne le retire pas des leurs. Faire comme le fond du car, c’est tentant. Tu peux demander au groupe de ne pas le faire tourner, et prévenir M. Lambert.'
+      - id: efface
+        texte: 'Je l’efface sans l’envoyer à personne, puis je règle le partage sur « Contacts uniquement ».'
+        qualite: bon
+        reaction: 'Le montage disparaît de ton téléphone sans aller plus loin. Dans les réglages, tu passes le partage sans fil sur « Contacts uniquement », et tu renommes ton téléphone avec ton prénom seulement. Plus rien n’arrive.'
+      - id: aide
+        texte: 'Je demande de l’aide à M. Lambert avant de remonter dans le car.'
+        qualite: aide
+        reaction: 'M. Lambert regarde ton écran sans se fâcher : « On l’efface, et on ne le fait pas tourner. » Il t’aide à régler le partage sans fil sur « Contacts uniquement », puis il part parler à ceux du fond.'
+    pourquoi:
+      - levier: groupe
+        truc: 'Le fond du car te réclame l’image : tout le monde a l’air de trouver ça drôle.'
+        parade: 'Ce montage vise quelqu’un. Tu peux faire partie du groupe sans le faire tourner.'
+      - levier: reflexe
+        truc: 'Transférer puis effacer, ça paraît sans conséquence.'
+        parade: 'Une fois envoyée, l’image est chez les autres. L’effacer chez toi ne la retire pas de leurs téléphones.'
+      - levier: humour
+        truc: 'C’est juste une blague, disent ceux du fond.'
+        parade: 'Une blague qui se moque de quelqu’un ne le fait pas rire, lui. Elle s’arrête chez toi.'
+    aRetenir: 'Une image moqueuse reçue s’arrête chez toi : on l’efface sans la transférer. Puis on ferme le partage sans fil aux inconnus.'
+    recuperation: { action: corriger-partage, siChoix: [transfere] }
+
+  - type: lieu
+    id: parking
+    lieu: Le parking du musée
+    decor: rue
+    suite: borne
+    guide: 'Au parking du musée, en descendant du car. Ton téléphone est réglé, mais Lou et Sacha, tes voisins de car, reçoivent encore des demandes de Le_Boss_du_fond : leur partage sans fil est resté sur « Tout le monde ». Lou soupire : « Ça n’arrête pas, je vais finir par accepter. »'
+    question: Que fais-tu ?
+    choix:
+      - id: rien
+        texte: 'Je ne dis rien : mon téléphone est réglé, le reste ne me regarde pas.'
+        qualite: risque
+        reaction: 'Lou finit par accepter, et le montage repart de son téléphone vers d’autres groupes. Penser que c’est réglé dès qu’on est protégé, beaucoup le font. Tu peux encore lui montrer le réglage, et prévenir M. Lambert.'
+      - id: montre
+        texte: 'Je montre à Lou et Sacha comment passer le partage sur « Contacts uniquement ».'
+        qualite: bon
+        reaction: 'En trente secondes, leurs deux téléphones sont réglés, et ils les renomment aussi sans leur nom de famille. Les demandes s’arrêtent. Sacha fait passer l’astuce au rang de devant.'
+      - id: aide
+        texte: 'Je demande de l’aide à M. Lambert pour que les envois s’arrêtent dans toute la classe.'
+        qualite: aide
+        reaction: 'M. Lambert rassemble la classe sur le parking : « Réglez votre partage sans fil sur Contacts uniquement, tout de suite. » Puis il va parler à l’élève qui envoyait les images. Le montage ne circule plus.'
+    pourquoi:
+      - levier: reflexe
+        truc: 'Ton téléphone est protégé : le problème paraît réglé.'
+        parade: 'Tant que d’autres téléphones restent ouverts, le montage peut encore circuler. Un réglage se montre en trente secondes.'
+      - levier: honte
+        truc: 'Montrer le réglage, c’est avouer que tu as accepté l’image tout à l’heure.'
+        parade: 'Tu n’as pas besoin de raconter ce qui s’est passé. Montrer le réglage suffit à protéger Lou et Sacha.'
+      - levier: groupe
+        truc: 'Personne d’autre ne dit rien sur le parking.'
+        parade: 'Il suffit d’une personne qui montre le réglage pour que tout le rang le fasse.'
+    aRetenir: 'Réparer, c’est aussi aider les autres à se protéger : montrer le bon réglage, ou prévenir un adulte quand des images moqueuses circulent.'
+    recuperation: { action: demander-aide, siChoix: [rien] }
 
   - type: lieu
     id: profil
