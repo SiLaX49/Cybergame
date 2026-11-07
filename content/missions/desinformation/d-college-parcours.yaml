@@ -55,6 +55,8 @@ etapes:
       - id: confirme
         texte: 'Cette fois, il y a une preuve : j’écris « confirmé ✅ » dans le groupe.'
         qualite: risque
+        suite: source
+        route: je confirme dans le groupe
         reaction: 'Ton « confirmé » fait le tour du groupe, et quelques élèves annoncent déjà à leurs parents qu’ils n’iront pas. Pourtant, une capture d’écran se modifie en deux minutes avec une appli photo. Tu peux encore vérifier à la source avant que ça aille plus loin.'
       - id: verifie
         texte: 'Je vérifie moi-même sur le site du musée et sur l’ENT.'
@@ -143,6 +145,71 @@ etapes:
         parade: 'Ce qui compte, c’est que la vraie info circule. Un message calme convainc plus de monde.'
     aRetenir: 'Pour corriger une fausse info, partage des preuves claires : un lien, une source officielle. Sans moquerie : celui qui s’est trompé doit pouvoir changer d’avis sans perdre la face.'
     recuperation: { action: retirer-publication, siChoix: [moque] }
+
+  - type: lieu
+    id: source
+    lieu: La cantine
+    decor: cantine
+    guide: 'Mardi midi, à la cantine. Ton « confirmé ✅ » a fait le tour, et trois élèves ont déjà dit à leurs parents qu’ils n’iraient pas jeudi. Mais un doute te vient : une capture d’écran, ça se retouche. Tu as relayé vite, comme beaucoup, et ça se répare : d’abord, savoir ce qui est vrai.'
+    question: Par quoi commences-tu ?
+    choix:
+      - id: efface
+        texte: 'Je supprime discrètement mon message, et je ne dis rien de plus.'
+        qualite: risque
+        reaction: 'Ton message disparaît, mais ceux qui l’ont lu croient toujours que la sortie est annulée, et l’un d’eux l’a déjà transféré à la 4e A. Effacer sans rien dire, c’est tentant quand on s’est trompé. Vérifie, puis dis-le dans le groupe.'
+      - id: verifie
+        texte: 'Je vérifie moi-même sur le site du musée et sur l’ENT.'
+        qualite: bon
+        reaction: 'Sur le site du musée, aucun bandeau : il est ouvert toute la semaine. Sur l’ENT, Mme Roussel a publié : « La sortie au musée de jeudi est maintenue. Départ du car à 8 h 15. » Tu sais maintenant ce qui est vrai.'
+      - id: aide
+        texte: 'Je demande de l’aide à Mme Roussel pour savoir si la sortie est maintenue.'
+        qualite: aide
+        reaction: 'Mme Roussel ouvre l’ENT devant toi : « La sortie est maintenue, je viens de l’écrire. Merci de venir vérifier : ça arrive à tout le monde de relayer trop vite. »'
+    pourquoi:
+      - levier: honte
+        truc: 'Tu as écrit « confirmé » devant toute la classe : revenir dessus est gênant.'
+        parade: 'Vérifier après coup, c’est déjà réparer. Et corriger montre aux autres qu’on peut changer d’avis.'
+      - levier: reflexe
+        truc: 'Effacer son message paraît suffire à tout arrêter.'
+        parade: 'Un message effacé ne prévient pas ceux qui l’ont déjà lu ou transféré.'
+      - levier: groupe
+        truc: 'Tout le monde parle de jeudi comme si c’était sûr.'
+        parade: 'Que tout le monde le répète ne prouve rien. La source, c’est le site du musée et l’ENT.'
+    aRetenir: 'Quand on a relayé une fausse info, on commence par vérifier à la source (le site officiel, l’ENT) au lieu d’effacer en silence.'
+    recuperation: { action: corriger-partage, siChoix: [efface] }
+
+  - type: lieu
+    id: rectifier
+    lieu: Le bus
+    decor: bus
+    suite: sortie
+    guide: 'Mardi après les cours, dans le bus. Tu sais que la sortie est maintenue. Dans « 4e B 🔥 », ton « confirmé ✅ » est toujours là, et Inès vient de reposter la capture du musée avec la photo de la salle inondée.'
+    question: Tu veux corriger ton message. Que fais-tu ?
+    choix:
+      - id: fake
+        texte: 'Je reposte la capture et la photo avec un gros « FAKE ❌ » dessus.'
+        qualite: risque
+        reaction: 'Ton « FAKE » fait circuler la photo encore plus loin, et certains ne regardent que l’image, sans lire ton texte. Republier le faux pour le corriger le montre à de nouvelles personnes. C’est un réflexe très courant. Tu peux retirer ta publication et écrire un message avec seulement la bonne info.'
+      - id: rectifie
+        texte: 'Je réponds sous mon « confirmé » : la sortie est maintenue, avec le message de l’ENT.'
+        qualite: bon
+        reaction: 'Ton message est court, avec le lien de l’ENT et sans la fausse capture. Les trois élèves préviennent leurs parents que la sortie a bien lieu. Inès répond : « Ah… je l’avais reçue d’une autre classe, désolée. »'
+      - id: aide
+        texte: 'Je demande de l’aide à ma grande sœur pour écrire une correction qui ne lance pas de dispute.'
+        qualite: aide
+        reaction: 'Ta sœur t’aide à écrire : « J’ai relayé trop vite. La sortie est maintenue, voici le message de l’ENT. » Pas de capture, pas de moquerie. Les élèves qui n’y allaient plus préviennent leurs parents.'
+    pourquoi:
+      - levier: reflexe
+        truc: 'Reposter le faux barré d’un gros mot rouge paraît la façon la plus claire de corriger.'
+        parade: 'Republier le faux le fait voir à de nouvelles personnes. Partage seulement la bonne source.'
+      - levier: honte
+        truc: 'Avouer devant toute la classe que tu as relayé trop vite, ça coûte.'
+        parade: 'Reconnaître une erreur en public montre l’exemple. Les autres oseront corriger à leur tour.'
+      - levier: colere
+        truc: 'Inès reposte la fausse capture : tu as envie de lui répondre sèchement.'
+        parade: 'Elle l’a reçue d’une autre classe, comme toi. Des preuves calmes la convainquent mieux qu’un reproche.'
+    aRetenir: 'Pour réparer un relais trop rapide, on corrige dans le même groupe, avec la bonne source et sans republier le faux. Dire « j’ai relayé trop vite » montre l’exemple.'
+    recuperation: { action: retirer-publication, siChoix: [fake] }
 
   - type: lieu
     id: doute

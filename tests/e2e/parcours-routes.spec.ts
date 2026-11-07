@@ -3,7 +3,8 @@ import { expect, test, type Page } from '@playwright/test'
 import { choisirPersonnageSiDemande, commencer, ouvrirMission } from './helpers'
 
 const MISSION = 'L’île aux hameçons : le grand concours'
-// Le lieu 2 (« Ta chambre ») est la bifurcation ; « Le CDI » est propre à la route « bon », « Le salon » à la route « aide ».
+// Le lieu 2 (« Ta chambre ») est la bifurcation ; « Le CDI » est propre à la route « bon », « Le salon » à la route « aide »,
+// « La cuisine » à la route de réparation.
 
 async function verifierA11y(page: Page, ecran: string) {
   const resultat = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
@@ -39,8 +40,9 @@ for (const route of ['bon', 'aide'] as const) {
     }
     await expect(page.getByRole('heading', { name: 'Mission terminée !' })).toBeVisible()
     await expect(page.getByText(route === 'bon' ? 'Tu as pris la route « je vérifie moi-même ».' : 'Tu as pris la route « je demande à ma mère ».')).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Rejouer pour découvrir l’autre route' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Rejouer pour découvrir les autres routes' })).toBeVisible()
     const lieux = lieuxVus.join(' | ')
+    expect(lieux).not.toContain('La cuisine')
     if (route === 'bon') {
       expect(lieux).toContain('Le CDI')
       expect(lieux).not.toContain('Le salon')
@@ -50,6 +52,22 @@ for (const route of ['bon', 'aide'] as const) {
     }
   })
 }
+
+test('parcours collège : route de réparation, « Tu avances quand même » puis fin', async ({ page }) => {
+  await ouvrirParcours(page)
+  await jouerLieu(page, 'bon')
+  await expect(page.getByRole('status').filter({ hasText: /Étape 2 sur 5/ })).toBeVisible()
+  await page.getByRole('button', { name: 'Un casque à 150 € pour 2,99 € de frais : je paie vite avec ma carte ado.' }).click()
+  await page.locator('[data-levier="autre"]').click()
+  await expect(page.getByText('Tu avances quand même.')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Réessayer' })).toBeVisible()
+  await page.getByRole('button', { name: 'Continuer', exact: true }).click()
+  await expect(page.locator('[aria-current="step"]')).toContainText('La cuisine')
+  for (let i = 0; i < 3; i++) await jouerLieu(page, 'bon')
+  await expect(page.getByRole('heading', { name: 'Mission terminée !' })).toBeVisible()
+  await expect(page.getByText('Tu as fait une erreur et tu l’as réparée : c’est aussi un réflexe.')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Rejouer pour découvrir les autres routes' })).toBeVisible()
+})
 
 test('compteur : la scène annonce « Étape 1 sur 5 »', async ({ page }) => {
   await ouvrirParcours(page)

@@ -151,19 +151,20 @@ Règles d’écriture propres à cette progression :
 
 ### Parcours à routes (5e – 3e et lycée)
 
-Les six parcours 5e – 3e (un par île) proposent deux routes qui se rejoignent au dernier lieu ; les parcours lycée en proposent trois. Le format reste
+Les parcours 5e – 3e et lycée (un par île et par tranche) proposent trois routes qui se rejoignent au dernier lieu : deux
+bonnes routes et une route de réparation. Le format reste
 `format: parcours` ; l’enchaînement se décrit avec `suite`, un identifiant d’étape accepté sur un lieu ou sur l’un de ses
 choix. Une route est la suite d’étapes suivie de la première à la dernière étape du fichier, en suivant les `suite`.
 
 Règles :
-- une seule bifurcation : le choix `bon` et le choix `aide` d’un même lieu ont chacun un `suite` différent ; `suite` est
-  interdit sur un choix `risque`, qui fait toujours rester sur place et réessayer ;
+- une seule bifurcation : le choix `bon` et le choix `aide` d’un même lieu ont chacun un `suite` différent ; un choix
+  `risque` fait rester sur place et réessayer, sauf le choix qui ouvre une route de réparation (ci-dessous) ;
 - `suite` n’existe pas sur un mini-jeu, qui enchaîne toujours sur l’étape suivante du fichier ;
 - toutes les routes ont la même longueur (4 à 6 lieux, 5 en pratique), avec un décor différent par lieu ;
 - aucune route n’est présentée comme meilleure : les deux terminent la mission et gagnent l’objet de l’île. L’écran de
   fin indique la route prise et propose de rejouer l’autre.
 
-Route de réparation (lycée, numéro 3c) : la bifurcation a trois choix, `bon`, `aide` et un choix `risque` qui porte lui
+Route de réparation (parcours 5e – 3e et lycée, numéro 3c) : la bifurcation a trois choix, `bon`, `aide` et un choix `risque` qui porte lui
 aussi un `suite`. Ce choix risqué ouvre une troisième route, celle de la réparation : après la réaction « Tu avances
 quand même. », l'élève peut « Réessayer » ou « Continuer » vers des lieux propres à cette route. Règles propres à cette
 route :

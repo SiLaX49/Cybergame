@@ -55,6 +55,8 @@ etapes:
       - id: envoie
         texte: 'Il connaît Karine et Jules le confirme : j’envoie le code à Ilyes.'
         qualite: risque
+        suite: reprendre-compte
+        route: j’envoie le code
         reaction: 'Une minute plus tard, le mot de passe du compte change, et tu ne peux plus y entrer. Le soir, le compte publie une fausse vente de maillots avec un lien de paiement. Personne au club ne connaît Ilyes : il est entré dans le groupe par un lien d’invitation qui traînait. Quand un coéquipier confirme, tout le monde peut s’y laisser prendre. Préviens vite tes contacts et les abonnés.'
       - id: garde
         texte: Je garde le code pour moi et je change tout de suite le mot de passe.
@@ -79,7 +81,6 @@ etapes:
         truc: 'Jules confirme dans le groupe. Quand un coéquipier y croit, on a moins de doutes.'
         parade: 'Jules n’a rien vérifié : il a juste réagi vite. Un « oui » dans le groupe n’est pas une preuve.'
     aRetenir: 'Un code de sécurité ne se donne à personne, même à quelqu’un qui dit venir du club. S’il arrive sans que tu l’aies demandé, quelqu’un essaie d’entrer : change le mot de passe.'
-    recuperation: { action: prevenir-contacts, siChoix: [envoie] }
 
   - type: lieu
     id: appareils
@@ -145,6 +146,71 @@ etapes:
         parade: 'En privé ou en public, un mot de passe partagé circule. La seule façon de le garder secret, c’est de ne pas le donner.'
     aRetenir: 'Un mot de passe partagé, même en privé, finit par circuler. Pour un compte d’équipe, quelques admins publient, et les autres leur envoient leurs photos.'
     recuperation: { action: changer-mdp, siChoix: [prive] }
+
+  - type: lieu
+    id: reprendre-compte
+    lieu: Ta chambre
+    decor: chambre
+    guide: 'Le soir, dans ta chambre. Tu ne peux plus entrer dans albatros.u15 : Ilyes a changé le mot de passe, et le compte publie une fausse vente de maillots avec un lien de paiement. Ilyes avait bien préparé son mensonge, et ça se répare. Le compte est relié au mail du club, que Karine consulte.'
+    question: Par quoi commences-tu ?
+    choix:
+      - id: attend
+        texte: 'J’attends demain : Ilyes va peut-être se lasser et rendre le compte tout seul.'
+        qualite: risque
+        reaction: 'Ilyes ne se lasse pas. Dans la nuit, il publie deux autres fausses ventes. Plus un pirate garde un compte longtemps, plus il est difficile à récupérer. Espérer que ça s’arrange tout seul, ça arrive à tout le monde. Préviens Karine ce soir.'
+      - id: recupere
+        texte: 'Je lance la récupération sur la page d’aide de SnapTalk, et je préviens Karine pour le mail du club.'
+        qualite: bon
+        reaction: 'Sur la page d’aide de SnapTalk, tu choisis « Mon compte a été piraté ». Le lien de récupération arrive sur le mail du club : Karine l’ouvre et choisit un nouveau mot de passe. Puis elle ferme toutes les sessions ouvertes, celle d’Ilyes comprise, et active la double authentification.'
+      - id: aide
+        texte: 'Je demande de l’aide à mon père pour appeler Karine et tout lui expliquer.'
+        qualite: aide
+        reaction: 'Ton père t’aide à tout raconter. Karine ne te reproche rien : « Ilyes a trompé Jules aussi. » Avec le lien de récupération reçu sur le mail du club, elle choisit un nouveau mot de passe, ferme toutes les sessions, puis active la double authentification.'
+    pourquoi:
+      - levier: honte
+        truc: 'Tu as donné le code, et tu n’as pas envie de l’avouer à Karine.'
+        parade: 'Ilyes a trompé plusieurs personnes du club. Le dire vite, c’est ce qui permet de reprendre le compte.'
+      - levier: reflexe
+        truc: 'Attendre de voir paraît plus simple que de tout raconter ce soir.'
+        parade: 'Un pirate profite de chaque heure pour publier ou changer les réglages. On agit le soir même.'
+      - levier: peur
+        truc: 'Tu as peur que Karine te retire la gestion du compte.'
+        parade: 'Prévenir le responsable du compte, c’est justement ce qu’on attend d’un bon admin.'
+    aRetenir: 'Si un pirate a pris un compte, on agit tout de suite : récupération par la page d’aide officielle de l’appli, nouveau mot de passe, fermeture de toutes les sessions, double authentification. Et on prévient le responsable du compte.'
+    recuperation: { action: demander-aide, siChoix: [attend] }
+
+  - type: lieu
+    id: alerte-abonnes
+    lieu: La cantine
+    decor: cantine
+    suite: fete-club
+    guide: 'Lundi midi, à la cantine. Le compte est de nouveau au club, mais la fausse vente de maillots a tourné tout le week-end. Deux parents demandent dans le groupe si le lien était le bon, et un abonné écrit qu’il a déjà payé.'
+    question: Les fausses publications sont encore en ligne. Que fais-tu ?
+    choix:
+      - id: supprime
+        texte: 'Je supprime juste les fausses publications, sans rien dire : moins on en parle, mieux c’est.'
+        qualite: risque
+        reaction: 'Les fausses ventes disparaissent du compte, mais des captures et le lien circulent encore. Le soir, un autre parent paie, sans savoir qu’il y a eu un piratage. Vouloir tourner la page vite, c’est compréhensible. Préviens les abonnés et le groupe que cette vente était fausse.'
+      - id: alerte
+        texte: 'J’écris dans le groupe et en story : le compte a été piraté, la vente est fausse, ne payez rien.'
+        qualite: bon
+        reaction: 'Bien vu. Ton message est court et clair. Les deux parents remercient. L’abonné qui a payé contacte sa banque pour contester le paiement, et Karine signale le lien de paiement à SnapTalk.'
+      - id: aide
+        texte: 'Je demande de l’aide à Karine pour écrire ensemble l’alerte aux abonnés et aux parents.'
+        qualite: aide
+        reaction: 'Karine et toi écrivez : « Le compte a été piraté ce week-end. La vente de maillots était fausse : ne payez rien. Si vous avez payé, contactez votre banque. » Les parents remercient le club d’avoir prévenu.'
+    pourquoi:
+      - levier: honte
+        truc: 'Dire à tout le monde que le compte a été piraté, c’est gênant.'
+        parade: 'Tu n’as pas besoin de dire comment. L’important, c’est que personne ne paie.'
+      - levier: reflexe
+        truc: 'Supprimer les fausses publications paraît suffire.'
+        parade: 'Les captures et le lien circulent encore. Seul un message d’alerte prévient ceux qui les ont vus.'
+      - levier: groupe
+        truc: 'Personne d’autre n’en parle dans le groupe : alors à quoi bon ?'
+        parade: 'Si personne ne prévient, chacun croit que la vente est vraie. Un seul message suffit à protéger tout le groupe.'
+    aRetenir: 'Après un piratage, on prévient les abonnés et les contacts que les messages publiés pendant ce temps étaient faux. Ceux qui ont payé contactent leur banque.'
+    recuperation: { action: prevenir-contacts, siChoix: [supprime] }
 
   - type: lieu
     id: appel-karine
@@ -246,7 +312,7 @@ debrief:
     - Pourquoi un mot de passe partagé « entre nous » finit-il presque toujours par circuler ?
     - 'Tu reçois un code de sécurité sans l’avoir demandé : qu’est-ce que ça veut dire, et que fais-tu ?'
     - 'Pour reprendre la main sur un compte, quelles sont les étapes, et qui peut t’aider ?'
-  reponses: 'Un mot de passe partagé passe de main en main : groupe, privé, captures, anciens membres. Pour un compte d’équipe, quelques admins le connaissent et les autres leur envoient leurs photos. Un code de sécurité reçu sans l’avoir demandé veut dire que quelqu’un essaie d’entrer : on ne le donne à personne, même à quelqu’un qui dit venir du club, et on change le mot de passe. Pour reprendre la main : nouveau mot de passe, fermer les appareils inconnus (même une tablette vendue), activer la double authentification, prévenir le groupe. On peut le faire soi-même ou avec un adulte responsable du compte : les deux routes protègent. Enfin, un mot de passe différent pour chaque compte, pour qu’une fuite reste limitée à un site.'
+  reponses: 'Un mot de passe partagé passe de main en main : groupe, privé, captures, anciens membres. Pour un compte d’équipe, quelques admins le connaissent et les autres leur envoient leurs photos. Un code de sécurité reçu sans l’avoir demandé veut dire que quelqu’un essaie d’entrer : on ne le donne à personne, même à quelqu’un qui dit venir du club, et on change le mot de passe. Pour reprendre la main : nouveau mot de passe, fermer les appareils inconnus (même une tablette vendue), activer la double authentification, prévenir le groupe. On peut le faire soi-même ou avec un adulte responsable du compte : les deux routes protègent. La troisième montre qu’un compte volé se récupère : page d’aide officielle, nouveau mot de passe, sessions fermées, double authentification, puis alerte aux abonnés. Enfin, un mot de passe différent pour chaque compte, pour qu’une fuite reste limitée à un site.'
   erreursFrequentes:
     - 'Croire qu’un mot de passe donné en privé, entre coéquipiers, reste secret.'
     - 'Penser que changer le mot de passe déconnecte toujours les autres appareils.'
@@ -255,6 +321,6 @@ fiche:
   deroulement: |
     5 min : cadre. Qui gère un compte à plusieurs (club, classe, chaîne de jeu) ? Qui connaît le mot de passe ?
     20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. À la bifurcation, la classe choisit sa route.
-    15 min : débrief des questions, en comparant les deux routes : sécuriser soi-même ou prévenir l’entraîneuse, qu’est-ce qui change ?
+    15 min : débrief des questions, en comparant les trois routes : sécuriser soi-même, prévenir l’entraîneuse ou reprendre un compte déjà volé, qu’est-ce qui change ?
     5 min : où trouver de l’aide (adulte responsable du compte, aide officielle de l’appli, cybermalveillance.gouv.fr pour les parents).
     5 min : engagement. Ce soir, je regarde la liste des appareils connectés à l’un de mes comptes.

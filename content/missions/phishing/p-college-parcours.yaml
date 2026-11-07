@@ -58,6 +58,8 @@ etapes:
       - id: paie
         texte: 'Un casque à 150 € pour 2,99 € de frais : je paie vite avec ma carte ado.'
         qualite: risque
+        suite: carte-ado
+        route: je paie les frais
         reaction: 'La « boutique » garde les numéros de ta carte. Le lendemain, trois achats que tu n’as pas faits apparaissent, et aucun casque n’arrive. Ce piège vise ceux qui ont vraiment participé au concours : il trompe beaucoup de monde. Préviens vite tes parents pour faire bloquer la carte.'
       - id: verifie
         texte: Je vérifie moi-même sur le vrai compte de Zélie qui sont les gagnants.
@@ -85,7 +87,6 @@ etapes:
         truc: 'Tu as vraiment commenté sous le post : alors gagner paraît possible, et ça fait plaisir.'
         parade: 'Les faux comptes écrivent justement à ceux qui ont commenté un concours. Avoir participé ne prouve pas que tu as gagné.'
     aRetenir: 'Les faux comptes de personnalités écrivent à ceux qui commentent leurs concours. Un vrai gagnant ne paie jamais de frais. Vérifie sur le vrai compte, en le cherchant toi-même.'
-    recuperation: { action: demander-aide, siChoix: [paie] }
 
   - type: lieu
     id: fausse-boutique
@@ -151,6 +152,71 @@ etapes:
         parade: 'L’assurance d’un copain ne prouve rien. Montre-lui ce que tu as vérifié.'
     aRetenir: 'Quand tu as repéré une arnaque, préviens ton groupe, en public avec des captures ou d’abord en privé. Signale aussi le faux compte, pour protéger ceux qui ne sont pas dans le groupe. Si quelqu’un a déjà payé, il prévient tout de suite un adulte pour faire bloquer sa carte.'
     recuperation: { action: prevenir-contacts, siChoix: [silence] }
+
+  - type: lieu
+    id: carte-ado
+    lieu: La cuisine
+    decor: cuisine
+    guide: 'Dix minutes après avoir payé, tu retournes sur le compte qui t’a écrit : il a disparu. Sur le vrai compte de Zélie, une story épinglée prévient : « Je n’écris jamais aux gagnants en DM. » Tu as donné les numéros de ta carte ado à un faux compte. Le piège était très bien fait, et ça se répare. Tes parents sont dans la cuisine.'
+    question: Il est 21 h 55. Par quoi commences-tu ?
+    choix:
+      - id: attendre
+        texte: 'Je ne dis rien ce soir : demain, je regarderai si d’autres achats sont passés.'
+        qualite: risque
+        reaction: 'Pendant la nuit, trois achats que tu n’as pas faits passent sur ta carte. Attendre de voir, beaucoup de gens le font, surtout quand ils ont un peu honte. Mais une carte se bloque en quelques minutes : il est encore temps d’aller voir tes parents.'
+      - id: parents
+        texte: 'Je vais tout de suite dans la cuisine montrer le DM à mes parents, pour faire bloquer la carte ce soir.'
+        qualite: bon
+        reaction: 'C’est le premier geste : bloquer la carte, tout de suite. Ton père fait opposition depuis l’appli de la banque pendant que tu lui montres le DM. Ta mère te dit : « Tu as bien fait de venir. Demain, on regarde les achats ensemble et on conteste ceux que tu n’as pas faits. »'
+      - id: aide
+        texte: 'Je demande de l’aide à ma grande sœur pour savoir comment l’annoncer à mes parents.'
+        qualite: aide
+        reaction: 'Ta sœur te dit : « Ce piège trompe aussi des adultes. Viens, on y va ensemble, tout de suite. » Dans la cuisine, ta mère fait opposition sur la carte depuis l’appli de la banque. Demain, elle contestera les achats que tu n’as pas faits.'
+    pourquoi:
+      - levier: honte
+        truc: 'Tu t’en veux d’avoir payé, et tu n’as pas envie de le dire à tes parents ce soir.'
+        parade: 'Se faire avoir par un faux compte n’est pas une faute : il est fait pour tromper. Le dire vite, c’est ce qui protège ta carte.'
+      - levier: petit-montant
+        truc: '2,99 €, ce n’est pas grand-chose : ça paraît pouvoir attendre demain.'
+        parade: 'Le faux compte ne voulait pas tes 2,99 €, mais les numéros de ta carte. Le risque, ce sont les achats suivants.'
+      - levier: reflexe
+        truc: 'Attendre de voir paraît prudent : peut-être qu’il ne se passera rien.'
+        parade: 'Une carte se bloque en quelques minutes. Plus on attend, plus les arnaqueurs ont le temps de s’en servir.'
+    aRetenir: 'Après avoir payé sur un faux compte, le premier geste est de faire bloquer la carte tout de suite (faire opposition) avec un parent, même la nuit, puis de contester les achats qu’on n’a pas faits.'
+    recuperation: { action: demander-aide, siChoix: [attendre] }
+
+  - type: lieu
+    id: bus-preuves
+    lieu: Le bus
+    decor: bus
+    suite: tournoi
+    guide: 'Le lendemain matin, dans le bus, ta carte est bloquée et tes parents ont contesté l’achat avec la banque. Dans le groupe « 3eA 🔥 », Enzo écrit : « Le compte de Zélie m’a écrit aussi, je paie les frais ce soir 😎 » Tu as encore la conversation avec le faux compte zelie.nova.officiel, et tu as un peu honte d’en parler.'
+    question: Le bus arrive au collège dans dix minutes. Que fais-tu ?
+    choix:
+      - id: efface
+        texte: 'J’efface la conversation et je ne dis rien au groupe : personne n’a besoin de savoir.'
+        qualite: risque
+        reaction: 'La conversation disparaît, mais le faux compte reste en ligne. Le soir, Enzo paie les frais à son tour. Avoir honte est normal, et les arnaqueurs comptent sur ce silence. Tu peux encore prévenir Enzo, et signaler le compte depuis son profil.'
+      - id: signale
+        texte: 'Je fais des captures, je signale le faux compte dans SnapTalk et je préviens Enzo que c’est un piège.'
+        qualite: bon
+        reaction: 'Bien vu. Tu gardes les captures du DM et du profil, puis tu signales le compte pour usurpation. À Enzo, tu écris : « Moi, j’ai payé hier, et j’ai dû faire bloquer ma carte. Ne paie pas. » Enzo répond : « Merci de l’avoir dit. » Deux autres signalent le compte à leur tour.'
+      - id: aide
+        texte: 'Je demande de l’aide à la CPE en arrivant, avec mes captures, pour qu’elle prévienne les élèves.'
+        qualite: aide
+        reaction: 'La CPE regarde tes captures : « Merci de me l’avoir dit, ça va protéger les autres. » Elle t’aide à signaler le compte, puis passe dans les classes : « Ne payez rien. Si vous avez payé, venez me voir : vous ne serez pas punis. » Enzo ne paie pas.'
+    pourquoi:
+      - levier: honte
+        truc: 'Raconter qu’on s’est fait avoir, devant toute la classe, c’est gênant.'
+        parade: 'Tu n’as pas à tout raconter. Signaler le compte et prévenir en privé suffit à protéger les autres.'
+      - levier: reflexe
+        truc: 'Effacer une conversation gênante, on le fait souvent sans y penser.'
+        parade: 'Avant d’effacer, fais une capture : c’est la preuve qui permet de signaler, et qui aide tes parents avec la banque.'
+      - levier: groupe
+        truc: 'Enzo a l’air sûr de lui, et personne d’autre ne dit rien dans le groupe.'
+        parade: 'Toi, tu sais que c’est un piège. Le dire, même en privé, peut éviter à Enzo de payer.'
+    aRetenir: 'Une fois la carte bloquée, on garde les captures, on signale le faux compte dans l’appli et on prévient ceux qu’il risque de tromper. Ce qui t’est arrivé rend ton avertissement encore plus utile.'
+    recuperation: { action: bloquer-signaler, siChoix: [efface] }
 
   - type: lieu
     id: avec-maman
@@ -255,7 +321,7 @@ debrief:
     - 'Quel hameçon t’a paru le plus crédible : la chaîne, le DM du faux compte, la fausse page ou le QR code ?'
     - Comment vérifier qu’un compte ou un site est vraiment celui d’une personnalité ou d’une marque ?
     - Que faire si quelqu’un a déjà payé, rempli le formulaire ou tapé son mot de passe ?
-  reponses: 'Les hameçons de l’île : la pression du groupe (chaîne, « moi aussi ! »), le gain (casque, tirage au sort), le petit montant (2,99 €), l’urgence (ce soir minuit, avant 22 h) et l’air officiel (photo copiée, « Boutique officielle », résultat sponsorisé, autocollant sur une affiche). Pour vérifier : chercher soi-même le compte ou le site officiel, comparer le nom exact et l’adresse, lire le règlement chez l’organisateur. Une route règle la situation par soi-même, l’autre avec un adulte : les deux protègent. Si c’est déjà fait : faire bloquer la carte (opposition) et contester les achats, changer son mot de passe, prévenir ceux à qui on a transféré le message, garder des captures et signaler le faux compte. Se faire avoir n’est pas une faute : ces pièges sont faits pour tromper tout le monde.'
+  reponses: 'Les hameçons de l’île : la pression du groupe (chaîne, « moi aussi ! »), le gain (casque, tirage au sort), le petit montant (2,99 €), l’urgence (ce soir minuit, avant 22 h) et l’air officiel (photo copiée, « Boutique officielle », résultat sponsorisé, autocollant sur une affiche). Pour vérifier : chercher soi-même le compte ou le site officiel, comparer le nom exact et l’adresse, lire le règlement chez l’organisateur. Une route règle la situation par soi-même, une autre avec un adulte : les deux protègent. La troisième montre qu’après avoir payé, on peut encore réparer : faire bloquer la carte tout de suite, garder les preuves, signaler et prévenir. Si c’est déjà fait : faire bloquer la carte (opposition) et contester les achats, changer son mot de passe, prévenir ceux à qui on a transféré le message, garder des captures et signaler le faux compte. Se faire avoir n’est pas une faute : ces pièges sont faits pour tromper tout le monde.'
   erreursFrequentes:
     - 'Croire qu’un compte avec la photo et les vidéos d’une personnalité est forcément le sien.'
     - 'Penser que le premier résultat d’une recherche, ou un résultat « Sponsorisé », est forcément le site officiel.'
@@ -264,6 +330,6 @@ fiche:
   deroulement: |
     5 min : cadre. Qui a déjà participé à un concours sur les réseaux ? Comment savoir qu’il est vrai ?
     20 min : traversée de l’île, en binômes ou en classe entière vidéoprojetée. À la bifurcation, la classe choisit sa route.
-    15 min : débrief des questions, en comparant les deux routes : qu’est-ce qu’on règle soi-même, qu’est-ce qu’un adulte rend possible ?
+    15 min : débrief des questions, en comparant les trois routes : qu’est-ce qu’on règle soi-même, qu’est-ce qu’un adulte rend possible, et que fait-on quand on a déjà payé ?
     5 min : où trouver de l’aide (adulte de confiance, CPE, signalement dans l’appli, internet-signalement.gouv.fr (Pharos) pour signaler une arnaque en ligne, cybermalveillance.gouv.fr pour les parents).
     5 min : engagement. Cette semaine, avant de participer à un concours, je lis son règlement sur le compte officiel de l’organisateur.
