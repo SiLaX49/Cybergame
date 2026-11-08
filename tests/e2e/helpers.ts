@@ -1,3 +1,4 @@
+import AxeBuilder from '@axe-core/playwright'
 import { expect, type Page } from '@playwright/test'
 
 export async function commencer(page: Page, tranche: '6e' | '5e – 3e' | 'Lycée', mode: 'Solo' | 'Binôme' | 'Classe entière') {
@@ -164,4 +165,27 @@ export async function ouvrirIle(page: Page, nom: string) {
 export async function ouvrirMission(page: Page, ile: string, titre: string) {
   await ouvrirIle(page, ile)
   await page.getByRole('link', { name: titre }).click()
+}
+
+/**
+ * Attend la fin des transitions et animations CSS en cours (sauf les boucles infinies), au plus 2 s.
+ * Sans cette attente, axe peut mesurer une couleur intermédiaire, par exemple un bouton qui passe de « désactivé » à
+ * « primaire » juste après un clic : le contraste mesuré n’est alors ni celui d’avant, ni celui d’après.
+ */
+export async function attendreFinDesTransitions(page: Page) {
+  await page.evaluate(async () => {
+    const finies = document
+      .getAnimations()
+      .filter((a) => a.playState === 'running' && a.effect?.getComputedTiming().endTime !== Infinity)
+      .map((a) => a.finished.catch(() => undefined))
+    await Promise.race([Promise.all(finies), new Promise((r) => setTimeout(r, 2000))])
+  })
+}
+
+/** Audit axe (WCAG 2.1 A et AA) de l’écran affiché, une fois les transitions terminées : aucune violation grave. */
+export async function verifierA11y(page: Page, ecran: string) {
+  await attendreFinDesTransitions(page)
+  const resultat = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
+  const graves = resultat.violations.filter((v) => v.impact === 'critical' || v.impact === 'serious')
+  expect(graves.map((v) => `${ecran} — ${v.id} : ${v.help} (${v.nodes.length})`)).toEqual([])
 }

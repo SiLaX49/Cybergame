@@ -1,16 +1,9 @@
-import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
-import { choisirPersonnageSiDemande, commencer, ouvrirMission } from './helpers'
+import { choisirPersonnageSiDemande, commencer, ouvrirMission, verifierA11y } from './helpers'
 
 const MISSION = 'L’île aux hameçons : le grand concours'
 // Le lieu 2 (« Ta chambre ») est la bifurcation ; « Le CDI » est propre à la route « bon », « Le salon » à la route « aide »,
 // « La cuisine » à la route de réparation.
-
-async function verifierA11y(page: Page, ecran: string) {
-  const resultat = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
-  const graves = resultat.violations.filter((v) => v.impact === 'critical' || v.impact === 'serious')
-  expect(graves.map((v) => `${ecran} — ${v.id} : ${v.help} (${v.nodes.length})`)).toEqual([])
-}
 
 async function ouvrirParcours(page: Page) {
   await commencer(page, '5e – 3e', 'Solo')

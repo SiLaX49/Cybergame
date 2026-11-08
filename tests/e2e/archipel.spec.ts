@@ -1,12 +1,5 @@
-import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
-import { commencer, ouvrirIle } from './helpers'
-
-async function verifierA11y(page: Page, ecran: string) {
-  const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
-  const graves = r.violations.filter((v) => v.impact === 'critical' || v.impact === 'serious')
-  expect(graves.map((v) => `${ecran} — ${v.id} : ${v.help} (${v.nodes.length})`)).toEqual([])
-}
+import { commencer, ouvrirIle, verifierA11y } from './helpers'
 
 for (const schema of ['light', 'dark'] as const) {
   test.describe(`archipel en ${schema}`, () => {
