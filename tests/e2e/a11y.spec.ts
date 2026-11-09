@@ -1,5 +1,4 @@
-import AxeBuilder from '@axe-core/playwright'
-import { expect, test, type Page } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import {
   allerALaMarque,
   choisirPersonnageSiDemande,
@@ -9,13 +8,8 @@ import {
   ouvrirMission,
   ouvrirNotification,
   tabJusquaSelecteur,
+  verifierA11y,
 } from './helpers'
-
-async function verifierA11y(page: Page, ecran: string) {
-  const resultat = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
-  const graves = resultat.violations.filter((v) => v.impact === 'critical' || v.impact === 'serious')
-  expect(graves.map((v) => `${ecran} — ${v.id} : ${v.help} (${v.nodes.length})`)).toEqual([])
-}
 
 test.beforeEach(({ browserName }) => {
   test.skip(browserName !== 'chromium', 'audit axe exécuté une fois, sous Chromium')
