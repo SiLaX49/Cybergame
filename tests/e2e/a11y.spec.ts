@@ -52,6 +52,8 @@ for (const [nom, chemin] of [
   ['plan B', '/#/enseignants/p-6e-colis/plan-b'],
   ['fiche parcours', '/#/enseignants/c-6e-parcours'],
   ['plan B parcours', '/#/enseignants/c-6e-parcours/plan-b'],
+  ['fiche parcours à trois routes', '/#/enseignants/p-college-parcours'],
+  ['plan B parcours à trois routes', '/#/enseignants/p-college-parcours/plan-b'],
   ['confidentialité', '/#/confidentialite'],
   ['test technique', '/#/test'],
   ['introuvable', '/#/nimporte-quoi'],
@@ -61,6 +63,14 @@ for (const [nom, chemin] of [
     await verifierA11y(page, nom)
   })
 }
+
+test('parcours à trois routes : la fiche et la version papier montrent la route de réparation', async ({ page }) => {
+  await page.goto('/#/enseignants/p-college-parcours')
+  await expect(page.getByRole('heading', { name: 'Les trois routes' })).toBeVisible()
+  await page.goto('/#/enseignants/p-college-parcours/plan-b')
+  await expect(page.getByRole('heading', { name: /^Lieu 3c : / }).first()).toBeVisible()
+  await expect(page.getByText(/va au lieu 3c\./).first()).toBeVisible()
+})
 
 test('étape « pourquoi » et réponse personnalisée', async ({ page }) => {
   await page.goto('/#/mission/p-6e-colis')

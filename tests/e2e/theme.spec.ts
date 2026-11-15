@@ -33,6 +33,8 @@ test.describe('mode sombre automatique', () => {
     ['enseignants', '/#/enseignants'],
     ['fiche', '/#/enseignants/p-6e-colis'],
     ['plan B parcours', '/#/enseignants/c-6e-parcours/plan-b'],
+    ['fiche parcours à trois routes', '/#/enseignants/p-college-parcours'],
+    ['plan B parcours à trois routes', '/#/enseignants/p-college-parcours/plan-b'],
     ['fil', '/#/mission/r-6e'],
     ['introuvable', '/#/nimporte-quoi'],
   ] as const) {
