@@ -161,8 +161,8 @@ Règles :
   `risque` fait rester sur place et réessayer, sauf le choix qui ouvre une route de réparation (ci-dessous) ;
 - `suite` n’existe pas sur un mini-jeu, qui enchaîne toujours sur l’étape suivante du fichier ;
 - toutes les routes ont la même longueur (4 à 6 lieux, 5 en pratique), avec un décor différent par lieu ;
-- aucune route n’est présentée comme meilleure : les deux terminent la mission et gagnent l’objet de l’île. L’écran de
-  fin indique la route prise et propose de rejouer l’autre.
+- aucune route n’est présentée comme meilleure : toutes terminent la mission et gagnent l’objet de l’île. L’écran de
+  fin indique la route prise et propose de rejouer pour découvrir les autres.
 
 Route de réparation (parcours 5e – 3e et lycée, numéro 3c) : la bifurcation a trois choix, `bon`, `aide` et un choix `risque` qui porte lui
 aussi un `suite`. Ce choix risqué ouvre une troisième route, celle de la réparation : après la réaction « Tu avances
@@ -182,7 +182,7 @@ relus par Noa le 2026-10-28 et sont publiés.
 Les routes sont calculées et vérifiées dans `src/engine/routes.ts` (longueur égale, bifurcation unique, cibles
 valides), puis par `tests/unit/node/content-real.test.ts` sur le vrai contenu. Parcours de bout en bout :
 `tests/e2e/parcours-routes.spec.ts`. Ces parcours correspondent aux numéros 3a, 3b et 3c du plan B.
-Exemples de référence : `content/missions/phishing/p-college-parcours.yaml` (deux routes) et `content/missions/phishing/p-lycee-parcours.yaml` (trois routes).
+Exemples de référence : `content/missions/phishing/p-college-parcours.yaml` (5e – 3e) et `content/missions/phishing/p-lycee-parcours.yaml` (lycée, avec le mini-jeu « tri » sur chaque route).
 
 ## Thèmes sensibles
 
